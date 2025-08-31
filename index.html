@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to My GitHub Pages Site</title>
+    <title>Vipin Kumar - IT Consultant Portfolio</title>
     <style>
         * {
             margin: 0;
@@ -17,19 +17,21 @@
             color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
             background: white;
             border-radius: 20px;
             padding: 3rem;
+            margin-bottom: 2rem;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 600px;
-            width: 90%;
         }
 
         .profile-img {
@@ -48,7 +50,7 @@
 
         h1 {
             color: #2c3e50;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             font-size: 2.5rem;
             background: linear-gradient(45deg, #667eea, #764ba2);
             -webkit-background-clip: text;
@@ -56,74 +58,204 @@
             background-clip: text;
         }
 
-        .subtitle {
+        .title {
             color: #7f8c8d;
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
         }
 
-        .description {
-            color: #555;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .social-links {
+        .contact-info {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
         }
 
-        .social-link {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #555;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transform: translateY(-2px);
         }
 
-        .social-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .features {
-            margin-top: 3rem;
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(45deg, #667eea, #764ba2) 1;
+            padding-bottom: 0.5rem;
+        }
+
+        .career-profile {
+            font-size: 1.1rem;
+            color: #555;
+            text-align: justify;
+        }
+
+        .certifications {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
         }
 
-        .feature {
-            padding: 1.5rem;
-            background: #f8f9fa;
+        .cert-item {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 1.5rem;
             border-radius: 15px;
+            text-align: center;
+            font-weight: 500;
             transition: transform 0.3s ease;
         }
 
-        .feature:hover {
-            transform: translateY(-5px);
+        .cert-item:hover {
+            transform: translateY(-3px);
         }
 
-        .feature-icon {
-            font-size: 2rem;
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category h3 {
+            color: #2c3e50;
             margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
 
-        .footer {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #eee;
-            color: #888;
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: #f8f9fa;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
             font-size: 0.9rem;
+            color: #555;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .experience-item {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .experience-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .job-title {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .company {
+            color: #667eea;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .duration {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .project {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .project-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-description {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        .responsibilities {
+            color: #555;
+        }
+
+        .education-item {
+            background: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #764ba2;
+        }
+
+        .degree {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .institution {
+            color: #667eea;
+            margin-top: 0.25rem;
         }
 
         @media (max-width: 768px) {
             .container {
-                margin: 1rem;
+                padding: 1rem;
+            }
+            
+            .header {
                 padding: 2rem;
             }
             
@@ -131,56 +263,293 @@
                 font-size: 2rem;
             }
             
-            .social-links {
+            .contact-info {
                 flex-direction: column;
                 align-items: center;
+                gap: 1rem;
+            }
+            
+            .job-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="profile-img">
-            V
-        </div>
-        
-        <h1>Welcome to My Site!</h1>
-        <p class="subtitle">Your Personal GitHub Pages Website</p>
-        
-        <p class="description">
-            Hello! This is my first GitHub Pages website. I'm excited to share my projects, 
-            thoughts, and journey in web development with you. Stay tuned for more amazing content!
-        </p>
-        
-        <div class="social-links">
-            <a href="https://github.com/Viipiin" class="social-link" target="_blank">
-                GitHub Profile
-            </a>
-            <a href="mailto:your-email@example.com" class="social-link">
-                Contact Me
-            </a>
-        </div>
-        
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">🚀</div>
-                <h3>Projects</h3>
-                <p>Showcase of my latest work</p>
+        <!-- Header Section -->
+        <div class="header">
+            <div class="profile-img">
+                VK
             </div>
-            <div class="feature">
-                <div class="feature-icon">📝</div>
-                <h3>Blog</h3>
-                <p>Thoughts and tutorials</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">👤</div>
-                <h3>About</h3>
-                <p>Learn more about me</p>
+            
+            <h1>Vipin Kumar</h1>
+            <p class="title">Senior IT Consultant | SharePoint & Power Platform Expert</p>
+            
+            <div class="contact-info">
+                <a href="mailto:vipintyagi00@gmail.com" class="contact-item">
+                    📧 vipintyagi00@gmail.com
+                </a>
+                <a href="tel:+918860283720" class="contact-item">
+                    📱 +91 8860283720
+                </a>
+                <a href="https://in.linkedin.com/in/viipiintyagi" class="contact-item" target="_blank">
+                    🔗 LinkedIn Profile
+                </a>
+                <a href="https://github.com/Viipiin" class="contact-item" target="_blank">
+                    💻 GitHub Profile
+                </a>
             </div>
         </div>
-        
-        <div class="footer">
-            <p>&copy; 2025 Viipiin. Built with ❤️ using GitHub Pages.</p>
+
+        <!-- Career Profile Section -->
+        <div class="section">
+            <h2>Career Profile</h2>
+            <p class="career-profile">
+                A seasoned IT Consultant with over 10 years of experience specializing in SharePoint Online, 
+                Power Apps, Power Automate, and SharePoint Server 2013. Demonstrated ability in solution 
+                architecture, enterprise-level project development, cloud migration strategies, and 
+                automation using Azure Automation and PnP PowerShell. Proven ability in project 
+                management, leading cross-functional teams to successful project completions, and 
+                implementing innovative, scalable solutions. Adept at collaborating with stakeholders, owning 
+                effective communication skills, and committed to continuous learning. Known for strong 
+                leadership qualities, strategic vision, and the ability to drive architectural excellence and 
+                guide teams towards achieving organizational goals.
+            </p>
+        </div>
+
+        <!-- Certifications Section -->
+        <div class="section">
+            <h2>Certifications</h2>
+            <div class="certifications">
+                <div class="cert-item">AZ-900: Microsoft Azure Fundamentals</div>
+                <div class="cert-item">PL-900: Microsoft Power Platform Fundamentals</div>
+                <div class="cert-item">PL-100: Microsoft Power Platform App Maker</div>
+                <div class="cert-item">PL-400: Microsoft Power Platform Developer</div>
+            </div>
+        </div>
+
+        <!-- Technical Skills Section -->
+        <div class="section">
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Primary Skills</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">SharePoint Online</span>
+                        <span class="skill-tag">SharePoint 2013</span>
+                        <span class="skill-tag">SharePoint Designer</span>
+                        <span class="skill-tag">Power Apps</span>
+                        <span class="skill-tag">Power Automate</span>
+                        <span class="skill-tag">Azure Automation</span>
+                        <span class="skill-tag">PnP PowerShell</span>
+                        <span class="skill-tag">C#</span>
+                        <span class="skill-tag">HTML</span>
+                        <span class="skill-tag">CSS</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">jQuery</span>
+                        <span class="skill-tag">CSOM</span>
+                        <span class="skill-tag">JSOM</span>
+                        <span class="skill-tag">REST API</span>
+                        <span class="skill-tag">SSOM</span>
+                        <span class="skill-tag">PnP</span>
+                        <span class="skill-tag">CAML</span>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>Secondary Skills</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">Azure SQL DB</span>
+                        <span class="skill-tag">SQL Server</span>
+                        <span class="skill-tag">ASP.NET</span>
+                        <span class="skill-tag">SharePoint Administration</span>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>Tools & Technologies</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">Visual Studio</span>
+                        <span class="skill-tag">Sharegate</span>
+                        <span class="skill-tag">VS Code</span>
+                        <span class="skill-tag">SharePoint Migration Tool</span>
+                        <span class="skill-tag">CAML Builder</span>
+                        <span class="skill-tag">MS SQL Server 2012</span>
+                        <span class="skill-tag">PowerShell</span>
+                        <span class="skill-tag">SharePoint Online Management Shell</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Professional Experience Section -->
+        <div class="section">
+            <h2>Professional Experience</h2>
+            
+            <div class="experience-item">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Senior Consultant / Manager (SharePoint and Power Apps)</div>
+                        <div class="company">Capgemini India</div>
+                    </div>
+                    <div class="duration">November 2020 - Present</div>
+                </div>
+                
+                <div class="project">
+                    <div class="project-title">Project: H1 Migration</div>
+                    <div class="project-description">Migrated on-premises applications/data to the cloud.</div>
+                    <div class="responsibilities">
+                        <strong>Responsibilities:</strong> Architected and analyzed environments, led end-to-end cloud migration using 
+                        Sharegate and PowerShell, designed and developed Microsoft Flows, redesigned forms in Power 
+                        Apps, and implemented customized solutions in SharePoint Online ensuring seamless integration 
+                        and performance optimization.
+                    </div>
+                </div>
+                
+                <div class="project">
+                    <div class="project-title">Project: CIM Application</div>
+                    <div class="project-description">Enhanced field data collection application.</div>
+                    <div class="responsibilities">
+                        <strong>Responsibilities:</strong> Architected and designed innovative solutions with Power Apps, developed 
+                        highly responsive and user-friendly canvas apps, created advanced approval and notification flows, 
+                        and ensured robust data integrity and security.
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Application Development Senior Analyst</div>
+                        <div class="company">Accenture</div>
+                    </div>
+                    <div class="duration">November 2019 - October 2020</div>
+                </div>
+                
+                <div class="project">
+                    <div class="project-title">Project: TOS (Team to Onboard)</div>
+                    <div class="project-description">Onboarding progress tracking application.</div>
+                    <div class="responsibilities">
+                        <strong>Responsibilities:</strong> Designed and developed a comprehensive canvas app, kept, and perfected 
+                        Azure SQL Database, created custom connectors for seamless data integration, developed role-based 
+                        authorization mechanisms, and ensured compliance with enterprise security standards.
+                    </div>
+                </div>
+                
+                <div class="project">
+                    <div class="project-title">Project: IM Legacy SharePoint Migration</div>
+                    <div class="project-description">Migrated SharePoint 2010 environment to SharePoint Online.</div>
+                    <div class="responsibilities">
+                        <strong>Responsibilities:</strong> Conducted detailed pre-migration analysis, led migration strategy and execution 
+                        using Sharegate, automated migration processes with PowerShell, and performed rigorous post-migration 
+                        testing to ensure data integrity and system functionality.
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Software Engineer</div>
+                        <div class="company">HCL Technologies</div>
+                    </div>
+                    <div class="duration">December 2016 - November 2019</div>
+                </div>
+                
+                <div class="project">
+                    <div class="project-title">Project: NextGen App</div>
+                    <div class="project-description">CRM solution for customer data management.</div>
+                    <div class="responsibilities">
+                        <strong>Responsibilities:</strong> Architected the CRM solution, designed and developed a robust canvas app, 
+                        kept, and perfected Azure SQL Database, and executed data migration ensuring minimal downtime 
+                        and data loss.
+                    </div>
+                </div>
+                
+                <div class="project">
+                    <div class="project-title">Project: GPC (Good Practices)</div>
+                    <div class="project-description">Collected organizational good practices.</div>
+                    <div class="responsibilities">
+                        <strong>Responsibilities:</strong> Developed batch processing jobs and user controls, implemented an efficient 
+                        reviewer process, and ensured data accuracy and availability.
+                    </div>
+                </div>
+                
+                <div class="project">
+                    <div class="project-title">Project: AnR (Automation and Robotics)</div>
+                    <div class="project-description">Flow-based internal approval process application.</div>
+                    <div class="responsibilities">
+                        <strong>Responsibilities:</strong> Designed the Common Data Service (CDS) architecture, developed dynamic 
+                        canvas apps, and automated document approval workflows, enhancing operational efficiency and 
+                        compliance.
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Jr. Software Engineer</div>
+                        <div class="company">Velocis Systems Pvt Ltd</div>
+                    </div>
+                    <div class="duration">October 2014 - November 2016</div>
+                </div>
+                
+                <div class="project">
+                    <div class="project-title">Project: OptiBolt</div>
+                    <div class="project-description">Standalone product for IT needs.</div>
+                    <div class="responsibilities">
+                        <strong>Responsibilities:</strong> Developed and optimized Wi-Fi access management solutions, designed approval 
+                        workflows and ensured system performance and reliability.
+                    </div>
+                </div>
+                
+                <div class="project">
+                    <div class="project-title">Project: FMS (File Management System)</div>
+                    <div class="project-description">Traced document history and location.</div>
+                    <div class="responsibilities">
+                        <strong>Responsibilities:</strong> Developed advanced forms and approval workflows, designed, and implemented 
+                        a custom Master Page and performed thorough manual testing to ensure functionality and user 
+                        experience.
+                    </div>
+                </div>
+                
+                <div class="project">
+                    <div class="project-title">Project: Digital Workplace</div>
+                    <div class="project-description">Employee Self-Service application.</div>
+                    <div class="responsibilities">
+                        <strong>Responsibilities:</strong> Used Out-of-Box features, developed task management solutions, created 
+                        reusable workflows, and ensured system scalability and maintainability.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Education Section -->
+        <div class="section">
+            <h2>Education</h2>
+            <div class="education-item">
+                <div class="degree">MCA (Master of Computer Applications)</div>
+                <div class="institution">UTU - July 2014</div>
+            </div>
+            <div class="education-item">
+                <div class="degree">BCA (Bachelor of Computer Applications)</div>
+                <div class="institution">HNB University - June 2010</div>
+            </div>
+            <div class="education-item">
+                <div class="degree">Intermediate</div>
+                <div class="institution">Allahabad Board - June 2007</div>
+            </div>
+            <div class="education-item">
+                <div class="degree">High School</div>
+                <div class="institution">Allahabad Board - June 2005</div>
+            </div>
         </div>
     </div>
 </body>
