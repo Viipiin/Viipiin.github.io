@@ -157,10 +157,20 @@ class Popup {
 
     show(type, title, message, buttonText = 'OK') {
         const popup = document.getElementById('customPopup');
+        if (!popup) {
+            console.error('Popup element not found!');
+            return;
+        }
+        
         const icon = document.getElementById('popupIcon');
         const titleEl = document.getElementById('popupTitle');
         const messageEl = document.getElementById('popupMessage');
         const btnEl = document.getElementById('popupBtn');
+
+        if (!icon || !titleEl || !messageEl || !btnEl) {
+            console.error('Popup child elements not found!');
+            return;
+        }
 
         // Set icon based on type
         const icons = {
@@ -201,10 +211,10 @@ function showPopup(type, title, message, buttonText = 'OK') {
         popupInstance = new Popup();
     }
     
-    // Ensure popup is visible
+    // Ensure popup is visible with a small delay
     setTimeout(() => {
         popupInstance.show(type, title, message, buttonText);
-    }, 100);
+    }, 50);
 }
 
 // Global function to hide popup
@@ -319,22 +329,25 @@ function initializeNewsletterSignup() {
 
 // Blog card click handler
 function initializeBlogCards() {
-    document.querySelectorAll('.blog-card').forEach(card => {
+    const blogCards = document.querySelectorAll('.blog-card');
+    const readMoreLinks = document.querySelectorAll('.read-more');
+    
+    // Handle card clicks
+    blogCards.forEach(card => {
         card.addEventListener('click', function(e) {
-            // Prevent popup if clicking on a read-more link
+            // Don't show popup if clicking on read-more link (it has its own handler)
             if (e.target.classList.contains('read-more') || e.target.closest('.read-more')) {
-                e.preventDefault();
-                showPopup('info', 'Coming Soon!', 'Blog post details will be available shortly. Full articles are in development.');
-                return;
+                return; // Let the read-more handler take care of it
             }
             
-            // Show popup for card clicks
+            // Show popup for general card clicks
+            e.preventDefault();
             showPopup('info', 'Coming Soon!', 'Blog post details will be available shortly. Full articles are in development.');
         });
     });
     
-    // Also handle read-more links specifically
-    document.querySelectorAll('.read-more').forEach(link => {
+    // Handle read-more links specifically
+    readMoreLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             showPopup('info', 'Coming Soon!', 'Blog post details will be available shortly. Full articles are in development.');
