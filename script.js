@@ -1,3 +1,132 @@
+// Live Clock Functionality
+let is24HourFormat = true; // Default to 24-hour format
+
+function updateClock() {
+    const now = new Date();
+    
+    // Format time based on current format preference
+    const timeOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: !is24HourFormat
+    };
+    
+    // Format date
+    const dateOptions = {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+    };
+    
+    const timeString = now.toLocaleTimeString('en-US', timeOptions);
+    const dateString = now.toLocaleDateString('en-US', dateOptions);
+    
+    const clockTimeElement = document.getElementById('clock-time');
+    const clockDateElement = document.getElementById('clock-date');
+    
+    if (clockTimeElement && clockDateElement) {
+        clockTimeElement.textContent = timeString;
+        clockDateElement.textContent = dateString;
+    }
+}
+
+function toggleTimeFormat() {
+    is24HourFormat = !is24HourFormat;
+    const toggleBtn = document.getElementById('timeFormatToggle');
+    const toggleTrack = toggleBtn.querySelector('.toggle-track');
+    
+    if (toggleTrack) {
+        // Add button press animation
+        toggleTrack.classList.add('button-pressed');
+        
+        // Update the format class and display
+        if (is24HourFormat) {
+            toggleTrack.classList.remove('format-12h');
+            toggleTrack.classList.add('format-24h');
+        } else {
+            toggleTrack.classList.remove('format-24h');
+            toggleTrack.classList.add('format-12h');
+        }
+        
+        // Remove animation class after animation completes
+        setTimeout(() => {
+            toggleTrack.classList.remove('button-pressed');
+        }, 300);
+    }
+    
+    // Update clock immediately
+    updateClock();
+    
+    // Store preference in localStorage
+    localStorage.setItem('timeFormat', is24HourFormat ? '24' : '12');
+}
+
+function loadTimeFormatPreference() {
+    const savedFormat = localStorage.getItem('timeFormat');
+    if (savedFormat) {
+        is24HourFormat = savedFormat === '24';
+        const toggleBtn = document.getElementById('timeFormatToggle');
+        const toggleTrack = toggleBtn?.querySelector('.toggle-track');
+        
+        if (toggleTrack) {
+            if (is24HourFormat) {
+                toggleTrack.classList.remove('format-12h');
+                toggleTrack.classList.add('format-24h');
+            } else {
+                toggleTrack.classList.remove('format-24h');
+                toggleTrack.classList.add('format-12h');
+            }
+        }
+    }
+}
+
+// Add press and release visual feedback
+function addButtonFeedback() {
+    const toggleBtn = document.getElementById('timeFormatToggle');
+    const toggleTrack = toggleBtn?.querySelector('.toggle-track');
+    
+    if (toggleBtn && toggleTrack) {
+        // Mouse/touch press
+        toggleBtn.addEventListener('mousedown', () => {
+            toggleTrack.classList.add('pressed');
+        });
+        
+        toggleBtn.addEventListener('touchstart', () => {
+            toggleTrack.classList.add('pressed');
+        });
+        
+        // Mouse/touch release
+        toggleBtn.addEventListener('mouseup', () => {
+            toggleTrack.classList.remove('pressed');
+        });
+        
+        toggleBtn.addEventListener('touchend', () => {
+            toggleTrack.classList.remove('pressed');
+        });
+        
+        // Handle mouse leave to remove pressed state
+        toggleBtn.addEventListener('mouseleave', () => {
+            toggleTrack.classList.remove('pressed');
+        });
+    }
+}
+
+// Initialize clock when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    loadTimeFormatPreference(); // Load saved preference
+    updateClock(); // Update immediately
+    setInterval(updateClock, 1000); // Update every second
+    
+    // Add event listener to toggle button
+    const toggleBtn = document.getElementById('timeFormatToggle');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', toggleTimeFormat);
+        addButtonFeedback(); // Add press/release feedback
+    }
+});
+
 // Popup functionality
 class Popup {
     constructor() {
@@ -534,68 +663,150 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Enhanced Blog Page Functionality
-function initializeBlogPageEnhancements() {
-    // Add reading time estimation to blog cards
-    document.querySelectorAll('.blog-card').forEach((card, index) => {
-        const excerpt = card.querySelector('.blog-excerpt');
-        if (excerpt) {
-            const wordCount = excerpt.textContent.split(' ').length;
-            const readingTime = Math.ceil(wordCount / 200); // Average reading speed
-            
-            // Create reading time element
-            const readingTimeEl = document.createElement('div');
-            readingTimeEl.className = 'reading-time';
-            readingTimeEl.innerHTML = `⏱️ ${readingTime} min read`;
-            
-            // Insert after blog date
-            const blogDate = card.querySelector('.blog-date');
-            if (blogDate) {
-                blogDate.insertAdjacentElement('afterend', readingTimeEl);
-            }
+// ================================================
+// BACK TO TOP BUTTON FUNCTIONALITY
+// ================================================
+
+class BackToTop {
+    constructor() {
+        this.button = document.getElementById('backToTop');
+        this.progressCircle = document.querySelector('.progress-ring-circle');
+        this.isVisible = false;
+        this.circumference = 2 * Math.PI * 20; // radius = 20
+        
+        if (this.button && this.progressCircle) {
+            this.init();
         }
-    });
+    }
 
-    // Add scroll-triggered animations for blog cards
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+    init() {
+        // Set initial state
+        this.progressCircle.style.strokeDasharray = `0 ${this.circumference}`;
+        
+        // Bind events
+        this.bindEvents();
+        
+        // Initial check
+        this.updateVisibility();
+    }
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
+    bindEvents() {
+        // Scroll event with throttling
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    this.updateVisibility();
+                    this.updateProgress();
+                    ticking = false;
+                });
+                ticking = true;
             }
         });
-    }, observerOptions);
 
-    document.querySelectorAll('.blog-card').forEach(card => {
-        observer.observe(card);
-    });
+        // Click event
+        this.button.addEventListener('click', () => {
+            this.scrollToTop();
+        });
 
-    // Enhanced newsletter validation
-    const newsletterInput = document.querySelector('.newsletter-input');
-    const newsletterBtn = document.querySelector('.newsletter-btn');
-    
-    if (newsletterInput && newsletterBtn) {
-        newsletterInput.addEventListener('input', function() {
-            const email = this.value.trim();
-            const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-            
-            if (isValid) {
-                this.style.borderColor = '#4CAF50';
-                newsletterBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
-            } else if (email.length > 0) {
-                this.style.borderColor = '#f44336';
-                newsletterBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-            } else {
-                this.style.borderColor = 'rgba(102, 126, 234, 0.2)';
-                newsletterBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+        // Add pulse effect on scroll direction change
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop < lastScrollTop && this.isVisible) {
+                this.addPulseEffect();
             }
+            lastScrollTop = scrollTop;
         });
     }
+
+    updateVisibility() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const shouldShow = scrollTop > 300;
+
+        if (shouldShow && !this.isVisible) {
+            this.show();
+        } else if (!shouldShow && this.isVisible) {
+            this.hide();
+        }
+    }
+
+    updateProgress() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        
+        const offset = this.circumference - (scrollPercent / 100) * this.circumference;
+        this.progressCircle.style.strokeDasharray = `${this.circumference - offset} ${this.circumference}`;
+    }
+
+    show() {
+        this.isVisible = true;
+        this.button.classList.add('show');
+        
+        // Add entrance animation
+        setTimeout(() => {
+            this.button.style.animation = 'float 3s ease-in-out infinite';
+        }, 300);
+    }
+
+    hide() {
+        this.isVisible = false;
+        this.button.classList.remove('show');
+        this.button.style.animation = '';
+    }
+
+    addPulseEffect() {
+        this.button.classList.add('pulse');
+        setTimeout(() => {
+            this.button.classList.remove('pulse');
+        }, 600);
+    }
+
+    scrollToTop() {
+        const start = window.pageYOffset;
+        const startTime = Date.now();
+        const duration = 800;
+
+        const easeInOutCubic = (t) => {
+            return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+        };
+
+        const animateScroll = () => {
+            const now = Date.now();
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            const ease = easeInOutCubic(progress);
+            window.scrollTo(0, start * (1 - ease));
+
+            if (progress < 1) {
+                requestAnimationFrame(animateScroll);
+            }
+        };
+
+        // Add click animation
+        this.button.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            this.button.style.transform = '';
+        }, 150);
+
+        requestAnimationFrame(animateScroll);
+    }
 }
+
+// Initialize Back to Top when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new BackToTop();
+});
+
+// Re-initialize on page load (for cached pages)
+window.addEventListener('load', () => {
+    if (!window.backToTopInitialized) {
+        new BackToTop();
+        window.backToTopInitialized = true;
+    }
+});
 
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -611,7 +822,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeSkillsInteraction();
     initializeCertificationInteraction();
     initializeContactEnhancements();
-    initializeBlogPageEnhancements();
     
     console.log('Website functionality initialized successfully!');
 });

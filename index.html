@@ -26,6 +26,19 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
+            <div class="nav-right">
+                <div class="time-toggle">
+                    <button id="timeFormatToggle" class="toggle-btn" title="Click to switch between 12H/24H format">
+                        <div class="toggle-track format-24h">
+                            <div class="toggle-display"></div>
+                        </div>
+                    </button>
+                </div>
+                <div class="live-clock">
+                    <div class="clock-time" id="clock-time"></div>
+                    <div class="clock-date" id="clock-date"></div>
+                </div>
+            </div>
         </nav>
 
         <!-- Header Section -->
@@ -53,9 +66,66 @@
             </div>
         </div>
 
+        <!-- Portfolio Stats Section -->
+        <div class="section portfolio-stats">
+            <div class="stats-header">
+                <h2 class="stats-title">Professional Journey</h2>
+                <p class="stats-subtitle">Key achievements and milestones in my career</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item experience-stat">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                            <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                    </div>
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Years of Experience</div>
+                    <div class="stat-description">Enterprise solutions & cloud architecture</div>
+                </div>
+                <div class="stat-item projects-stat">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="stat-number">7+</div>
+                    <div class="stat-label">Major Projects</div>
+                    <div class="stat-description">End-to-end delivery & implementation</div>
+                </div>
+                <div class="stat-item migrations-stat">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+                            <line x1="12" y1="22.08" x2="12" y2="12"/>
+                        </svg>
+                    </div>
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Apps Migrated</div>
+                    <div class="stat-description">Legacy to modern cloud platforms</div>
+                </div>
+                <div class="stat-item certs-stat">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                            <line x1="4" y1="22" x2="4" y2="15"/>
+                        </svg>
+                    </div>
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Microsoft Certifications</div>
+                    <div class="stat-description">Azure & cloud technology expertise</div>
+                </div>
+            </div>
+        </div>
+
         <!-- Career Profile Section -->
         <div class="section">
-            <h2>Career Profile</h2>
+            <div class="section-header">
+                <h2 class="section-title">Career Profile</h2>
+                <p class="section-subtitle">Experienced Software Engineer specializing in enterprise solutions and cloud technologies</p>
+            </div>
             <p class="career-profile">
                 A distinguished Solution Architect and Digital Transformation Leader with over 10 years of enterprise-level experience specializing in SharePoint Online, Power Platform, and Azure cloud technologies. Currently architecting large-scale legacy modernization initiatives, leading cross-functional teams in migrating complex SharePoint 2010 environments to modern cloud solutions. Expert in transforming InfoPath forms to Model-Driven Power Apps and Nintex workflows to Power Automate, ensuring seamless business continuity during digital transformation. 
                 
@@ -65,7 +135,10 @@
 
         <!-- Certifications Section -->
         <div class="section">
-            <h2>Certifications</h2>
+            <div class="section-header">
+                <h2 class="section-title">Certifications</h2>
+                <p class="section-subtitle">Microsoft Azure and Power Platform certifications</p>
+            </div>
             <div class="certifications">
                 <div class="cert-item">AZ-900: Microsoft Azure Fundamentals</div>
                 <div class="cert-item">PL-900: Microsoft Power Platform Fundamentals</div>
@@ -76,7 +149,10 @@
 
         <!-- Technical Skills Section -->
         <div class="section">
-            <h2>Technical Skills</h2>
+            <div class="section-header">
+                <h2 class="section-title">Technical Skills</h2>
+                <p class="section-subtitle">Comprehensive expertise across Microsoft technologies and cloud platforms</p>
+            </div>
             <div class="skills-grid">
                 <div class="skill-category">
                     <h3>Primary Skills</h3>
@@ -144,7 +220,10 @@
 
         <!-- Professional Experience Section -->
         <div class="section">
-            <h2>Professional Experience</h2>
+            <div class="section-header">
+                <h2 class="section-title">Professional Experience</h2>
+                <p class="section-subtitle">10+ years of enterprise solution architecture and digital transformation</p>
+            </div>
             
             <div class="experience-item">
                 <div class="job-header">
@@ -310,7 +389,10 @@
 
         <!-- Education Section -->
         <div class="section">
-            <h2>Education</h2>
+            <div class="section-header">
+                <h2 class="section-title">Education</h2>
+                <p class="section-subtitle">Academic foundation in computer applications and technology</p>
+            </div>
             <div class="education-item">
                 <div class="degree">MCA (Master of Computer Applications)</div>
                 <div class="institution">UTU - July 2014</div>
@@ -327,6 +409,21 @@
                 <div class="degree">High School</div>
                 <div class="institution">Allahabad Board - June 2005</div>
             </div>
+        </div>
+    </div>
+    
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <div class="back-to-top-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 14l5-5 5 5"/>
+                <path d="M7 20l5-5 5 5"/>
+            </svg>
+        </div>
+        <div class="back-to-top-progress">
+            <svg class="progress-ring" width="50" height="50">
+                <circle class="progress-ring-circle" cx="25" cy="25" r="20" fill="transparent" stroke="currentColor" stroke-width="2"/>
+            </svg>
         </div>
     </div>
     

@@ -20,6 +20,19 @@
                 <li><a href="blog.html" class="active">Blog</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
+            <div class="nav-right">
+                <div class="time-toggle">
+                    <button id="timeFormatToggle" class="toggle-btn" title="Click to switch between 12H/24H format">
+                        <div class="toggle-track format-24h">
+                            <div class="toggle-display"></div>
+                        </div>
+                    </button>
+                </div>
+                <div class="live-clock">
+                    <div class="clock-time" id="clock-time"></div>
+                    <div class="clock-date" id="clock-date"></div>
+                </div>
+            </div>
         </nav>
 
         <!-- Header Section -->
@@ -191,6 +204,21 @@
             </div>
         </div>
     </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <div class="back-to-top-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 14l5-5 5 5"/>
+                <path d="M7 20l5-5 5 5"/>
+            </svg>
+        </div>
+        <div class="back-to-top-progress">
+            <svg class="progress-ring" width="50" height="50">
+                <circle class="progress-ring-circle" cx="25" cy="25" r="20" fill="transparent" stroke="currentColor" stroke-width="2"/>
+            </svg>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
