@@ -71,7 +71,11 @@ function showPopup(type, title, message, buttonText = 'OK') {
     if (!popupInstance) {
         popupInstance = new Popup();
     }
-    popupInstance.show(type, title, message, buttonText);
+    
+    // Ensure popup is visible
+    setTimeout(() => {
+        popupInstance.show(type, title, message, buttonText);
+    }, 100);
 }
 
 // Global function to hide popup
@@ -187,7 +191,23 @@ function initializeNewsletterSignup() {
 // Blog card click handler
 function initializeBlogCards() {
     document.querySelectorAll('.blog-card').forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function(e) {
+            // Prevent popup if clicking on a read-more link
+            if (e.target.classList.contains('read-more') || e.target.closest('.read-more')) {
+                e.preventDefault();
+                showPopup('info', 'Coming Soon!', 'Blog post details will be available shortly. Full articles are in development.');
+                return;
+            }
+            
+            // Show popup for card clicks
+            showPopup('info', 'Coming Soon!', 'Blog post details will be available shortly. Full articles are in development.');
+        });
+    });
+    
+    // Also handle read-more links specifically
+    document.querySelectorAll('.read-more').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
             showPopup('info', 'Coming Soon!', 'Blog post details will be available shortly. Full articles are in development.');
         });
     });
@@ -255,6 +275,328 @@ function initializeCertificationInteraction() {
     });
 }
 
+// Enhanced Contact Page Interactions
+function initializeContactEnhancements() {
+    // Animate tech stats on page load
+    animateTechStats();
+    
+    // Add particle animation to contact info
+    createParticleEffect();
+    
+    // Add typing effect to contact section title
+    addTypingEffect();
+    
+    // Add progressive enhancement for contact items
+    enhanceContactItems();
+}
+
+// Animate tech stats with counting effect
+function animateTechStats() {
+    const statNumbers = document.querySelectorAll('.stat-number');
+    
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const statNumber = entry.target;
+                const finalValue = statNumber.textContent.trim();
+                
+                // Extract number from text (e.g., "24h" -> 24, "100+" -> 100)
+                const numMatch = finalValue.match(/(\d+)/);
+                if (numMatch) {
+                    const targetNumber = parseInt(numMatch[1]);
+                    const suffix = finalValue.replace(/\d+/, '');
+                    
+                    animateCounter(statNumber, 0, targetNumber, suffix, 2000);
+                }
+                
+                observer.unobserve(statNumber);
+            }
+        });
+    }, observerOptions);
+    
+    statNumbers.forEach(stat => observer.observe(stat));
+}
+
+// Counter animation function
+function animateCounter(element, start, end, suffix, duration) {
+    const range = end - start;
+    const minTimer = 50;
+    const stepTime = Math.abs(Math.floor(duration / range));
+    const timer = Math.max(stepTime, minTimer);
+    
+    let current = start;
+    const increment = end > start ? 1 : -1;
+    
+    const counter = setInterval(() => {
+        current += increment;
+        element.textContent = current + suffix;
+        
+        if (current === end) {
+            clearInterval(counter);
+            // Add a subtle glow effect when animation completes
+            element.style.textShadow = '0 0 10px rgba(102, 126, 234, 0.5)';
+            setTimeout(() => {
+                element.style.textShadow = '';
+            }, 1000);
+        }
+    }, timer);
+}
+
+// Create dynamic particle effect
+function createParticleEffect() {
+    const contactInfo = document.querySelector('.contact-info');
+    if (!contactInfo) return;
+    
+    // Create additional floating particles
+    for (let i = 0; i < 5; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'floating-particle';
+        particle.style.cssText = `
+            position: absolute;
+            width: ${Math.random() * 6 + 2}px;
+            height: ${Math.random() * 6 + 2}px;
+            background: ${i % 2 === 0 ? '#667eea' : '#764ba2'};
+            border-radius: 50%;
+            opacity: 0.4;
+            pointer-events: none;
+            left: ${Math.random() * 100}%;
+            top: ${Math.random() * 100}%;
+            animation: floatRandom ${Math.random() * 10 + 8}s ease-in-out infinite;
+            animation-delay: ${Math.random() * 5}s;
+        `;
+        
+        contactInfo.appendChild(particle);
+    }
+    
+    // Add CSS animation for floating particles
+    if (!document.getElementById('particleAnimations')) {
+        const style = document.createElement('style');
+        style.id = 'particleAnimations';
+        style.textContent = `
+            @keyframes floatRandom {
+                0%, 100% {
+                    transform: translate(0, 0) rotate(0deg);
+                    opacity: 0.2;
+                }
+                25% {
+                    transform: translate(20px, -30px) rotate(90deg);
+                    opacity: 0.6;
+                }
+                50% {
+                    transform: translate(-15px, -50px) rotate(180deg);
+                    opacity: 0.8;
+                }
+                75% {
+                    transform: translate(-30px, -20px) rotate(270deg);
+                    opacity: 0.4;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// Add typing effect to section title
+function addTypingEffect() {
+    const title = document.querySelector('.contact-info h2');
+    if (!title) return;
+    
+    const originalText = title.textContent;
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    cursor.textContent = '|';
+    cursor.style.cssText = `
+        animation: blink 1s infinite;
+        color: #667eea;
+        font-weight: normal;
+    `;
+    
+    title.textContent = '';
+    title.appendChild(cursor);
+    
+    let i = 0;
+    const typeInterval = setInterval(() => {
+        if (i < originalText.length) {
+            title.insertBefore(document.createTextNode(originalText.charAt(i)), cursor);
+            i++;
+        } else {
+            clearInterval(typeInterval);
+            setTimeout(() => {
+                cursor.style.display = 'none';
+            }, 2000);
+        }
+    }, 100);
+}
+
+// Enhance contact items with progressive disclosure
+function enhanceContactItems() {
+    const contactItems = document.querySelectorAll('.contact-item');
+    
+    contactItems.forEach((item, index) => {
+        // Add data attribute for enhanced styling
+        item.setAttribute('data-index', index);
+        
+        // Add click effect
+        item.addEventListener('click', function(e) {
+            // Create ripple effect
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: rippleEffect 0.6s ease-out;
+                pointer-events: none;
+                z-index: 10;
+            `;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+        
+        // Add hover effect simulation (visual feedback)
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px) scale(1.02)';
+            this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+        });
+    });
+    
+    // Add ripple effect animation CSS
+    if (!document.getElementById('rippleEffect')) {
+        const style = document.createElement('style');
+        style.id = 'rippleEffect';
+        style.textContent = `
+            @keyframes rippleEffect {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// Gallery Scroll Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const scrollLeftBtn = document.getElementById('scrollLeft');
+    const scrollRightBtn = document.getElementById('scrollRight');
+    const gallery = document.getElementById('scrollableGallery');
+
+    if (scrollLeftBtn && scrollRightBtn && gallery) {
+        scrollLeftBtn.addEventListener('click', function() {
+            gallery.scrollBy({
+                left: -320, // Scroll by width of one item plus gap
+                behavior: 'smooth'
+            });
+        });
+
+        scrollRightBtn.addEventListener('click', function() {
+            gallery.scrollBy({
+                left: 320, // Scroll by width of one item plus gap
+                behavior: 'smooth'
+            });
+        });
+
+        // Show/hide buttons based on scroll position
+        function updateButtonVisibility() {
+            const scrollLeft = gallery.scrollLeft;
+            const maxScroll = gallery.scrollWidth - gallery.clientWidth;
+
+            scrollLeftBtn.style.opacity = scrollLeft > 10 ? '1' : '0.3';
+            scrollRightBtn.style.opacity = scrollLeft < maxScroll - 10 ? '1' : '0.3';
+        }
+
+        gallery.addEventListener('scroll', updateButtonVisibility);
+        updateButtonVisibility(); // Initial check
+    }
+});
+
+// Enhanced Blog Page Functionality
+function initializeBlogPageEnhancements() {
+    // Add reading time estimation to blog cards
+    document.querySelectorAll('.blog-card').forEach((card, index) => {
+        const excerpt = card.querySelector('.blog-excerpt');
+        if (excerpt) {
+            const wordCount = excerpt.textContent.split(' ').length;
+            const readingTime = Math.ceil(wordCount / 200); // Average reading speed
+            
+            // Create reading time element
+            const readingTimeEl = document.createElement('div');
+            readingTimeEl.className = 'reading-time';
+            readingTimeEl.innerHTML = `⏱️ ${readingTime} min read`;
+            
+            // Insert after blog date
+            const blogDate = card.querySelector('.blog-date');
+            if (blogDate) {
+                blogDate.insertAdjacentElement('afterend', readingTimeEl);
+            }
+        }
+    });
+
+    // Add scroll-triggered animations for blog cards
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.blog-card').forEach(card => {
+        observer.observe(card);
+    });
+
+    // Enhanced newsletter validation
+    const newsletterInput = document.querySelector('.newsletter-input');
+    const newsletterBtn = document.querySelector('.newsletter-btn');
+    
+    if (newsletterInput && newsletterBtn) {
+        newsletterInput.addEventListener('input', function() {
+            const email = this.value.trim();
+            const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            
+            if (isValid) {
+                this.style.borderColor = '#4CAF50';
+                newsletterBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+            } else if (email.length > 0) {
+                this.style.borderColor = '#f44336';
+                newsletterBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+            } else {
+                this.style.borderColor = 'rgba(102, 126, 234, 0.2)';
+                newsletterBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+            }
+        });
+    }
+}
+
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Initializing website functionality...');
@@ -268,6 +610,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeLoadingAnimations();
     initializeSkillsInteraction();
     initializeCertificationInteraction();
+    initializeContactEnhancements();
+    initializeBlogPageEnhancements();
     
     console.log('Website functionality initialized successfully!');
 });

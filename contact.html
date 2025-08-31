@@ -33,7 +33,23 @@
         <div class="contact-content">
             <!-- Contact Information -->
             <div class="contact-info">
+                <div class="particles"></div>
                 <h2>Get in Touch</h2>
+                
+                <div class="tech-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">24h</span>
+                        <span class="stat-label">Response Time</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">Projects Delivered</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">10+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                </div>
                 
                 <div class="contact-item">
                     <div class="contact-icon">📧</div>
@@ -162,15 +178,119 @@
 
         <!-- Contact Gallery -->
         <div class="section">
-            <h2>Our Workspace & Collaboration</h2>
-            <div class="contact-gallery">
-                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=200&fit=crop" alt="Modern Office" class="gallery-image">
-                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=200&fit=crop" alt="Team Collaboration" class="gallery-image">
-                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400&h=200&fit=crop" alt="Technology Solutions" class="gallery-image">
-                <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&h=200&fit=crop" alt="Remote Work" class="gallery-image">
+            <h2>Our Workspace & Microsoft Technology Development</h2>
+            <p class="gallery-subtitle">Experience cutting-edge Microsoft technologies and collaborative development environments</p>
+            
+            <!-- Gallery Container with Scroll Buttons -->
+            <div class="gallery-container">
+                <button class="scroll-btn scroll-left" id="scrollLeft">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                
+                <div class="contact-gallery scrollable-gallery" id="scrollableGallery">
+                    <!-- Microsoft Development Images -->
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=250&fit=crop" alt="Azure Cloud Development" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h3>Azure Cloud Platform</h3>
+                            <p>Scalable cloud solutions</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop" alt="Data Analytics Dashboard" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h3>Power BI Analytics</h3>
+                            <p>Advanced data visualization</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop" alt="Business Intelligence" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h3>SharePoint Solutions</h3>
+                            <p>Collaborative workspaces</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400&h=250&fit=crop" alt="Modern Development" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h3>Power Platform</h3>
+                            <p>Low-code automation</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=400&h=250&fit=crop" alt="Microsoft Office 365" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h3>Microsoft 365</h3>
+                            <p>Productivity solutions</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&h=250&fit=crop" alt="Teams Collaboration" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h3>Microsoft Teams</h3>
+                            <p>Remote collaboration</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=250&fit=crop" alt="AI and Machine Learning" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h3>AI & Machine Learning</h3>
+                            <p>Cognitive services</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=250&fit=crop" alt="DevOps Pipeline" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h3>Azure DevOps</h3>
+                            <p>CI/CD pipelines</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="scroll-btn scroll-right" id="scrollRight">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Scroll indicators -->
+            <div class="scroll-indicators">
+                <div class="scroll-hint">← Use buttons or scroll to explore technologies →</div>
             </div>
         </div>
     </div>
+
+    <!-- Creative Footer -->
+    <footer class="creative-footer">
+        <div class="footer-content">
+            <div class="quote-container">
+                <div class="motivational-quote">
+                    "Great things are never done by one person; they're done by a team of people working together with passion, purpose, and unwavering determination."
+                </div>
+                <div class="quote-author">Steve Jobs (Adapted)</div>
+            </div>
+            
+            <div class="footer-info">
+                <div class="footer-tagline">
+                    Let's connect, collaborate, and create something extraordinary together
+                </div>
+                
+                <div class="footer-copyright">
+                    © <span class="footer-year">2025</span> Vipin Kumar. Ready to turn your vision into reality.
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
