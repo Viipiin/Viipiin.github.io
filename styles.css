@@ -41,6 +41,13 @@ body {
     gap: 1rem;
 }
 
+/* Hide clock on mobile and tablet devices */
+@media (max-width: 768px) {
+    .nav-right {
+        display: none !important;
+    }
+}
+
 /* Innovative Press Button Toggle Styles */
 .time-toggle {
     display: flex;
@@ -2418,64 +2425,68 @@ h1 {
 }
 
 /* ================================================
-   BACK TO TOP BUTTON
+   BACK TO TOP BUTTON - REDESIGNED
    ================================================ */
 
 .back-to-top {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    bottom: 2rem;
+    right: 2rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border: none;
     border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
     cursor: pointer;
     opacity: 0;
     visibility: hidden;
-    transform: scale(0.5);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0) rotate(180deg);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 1000;
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+    box-shadow: 
+        0 4px 20px rgba(102, 126, 234, 0.25),
+        0 2px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     user-select: none;
+    outline: none;
+    overflow: hidden;
 }
 
-.back-to-top.show {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1);
-}
-
-.back-to-top:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
-}
-
-.back-to-top:active {
-    transform: scale(0.95);
-}
-
-.back-to-top-icon {
+/* Button container for better structure */
+.back-to-top-inner {
     position: relative;
-    z-index: 2;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 50%;
+}
+
+/* Icon styling */
+.back-to-top-icon {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    pointer-events: none;
 }
 
 .back-to-top-icon svg {
-    width: 24px;
-    height: 24px;
+    width: 1.25rem;
+    height: 1.25rem;
     color: white;
-    transition: transform 0.3s ease;
+    stroke-width: 2.5;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
 }
 
-.back-to-top:hover .back-to-top-icon svg {
-    transform: translateY(-2px);
-}
-
+/* Progress ring redesigned */
 .back-to-top-progress {
     position: absolute;
     top: 0;
@@ -2483,55 +2494,64 @@ h1 {
     width: 100%;
     height: 100%;
     pointer-events: none;
+    z-index: 1;
 }
 
 .progress-ring {
-    transform: rotate(-90deg);
     width: 100%;
     height: 100%;
+    transform: rotate(-90deg);
 }
 
 .progress-ring-circle {
+    fill: none;
     stroke: rgba(255, 255, 255, 0.3);
+    stroke-width: 2;
     stroke-linecap: round;
-    transition: stroke-dasharray 0.1s ease;
-    stroke-dasharray: 0 126;
+    cx: 50%;
+    cy: 50%;
+    r: calc(50% - 4px);
+    stroke-dasharray: 0 157; /* 2π × (50% - 4px) ≈ 157 */
     stroke-dashoffset: 0;
+    transition: stroke-dasharray 0.2s ease;
 }
 
-/* Floating animation */
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-3px);
-    }
-}
-
+/* Show state */
 .back-to-top.show {
-    animation: float 3s ease-in-out infinite;
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) rotate(0deg);
+    animation: gentleFloat 4s ease-in-out infinite;
 }
 
-/* Pulse effect on scroll */
+/* Hover effects */
+.back-to-top:hover {
+    transform: scale(1.1) rotate(0deg);
+    box-shadow: 
+        0 8px 30px rgba(102, 126, 234, 0.4),
+        0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.back-to-top:hover .back-to-top-icon {
+    transform: translateY(-2px);
+}
+
+.back-to-top:hover .back-to-top-icon svg {
+    transform: scale(1.1);
+}
+
+/* Active state */
+.back-to-top:active {
+    transform: scale(0.95) rotate(0deg);
+    transition: transform 0.1s ease;
+}
+
+/* Pulse animation for scroll events */
 .back-to-top.pulse {
-    animation: pulse 0.6s ease-in-out;
+    animation: smoothPulse 0.6s ease-out;
 }
 
-@keyframes pulse {
-    0% {
-        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
-    }
-    50% {
-        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
-        transform: scale(1.05);
-    }
-    100% {
-        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
-    }
-}
-
-/* Gradient border effect */
+/* Background glow effect */
 .back-to-top::before {
     content: '';
     position: absolute;
@@ -2539,62 +2559,145 @@ h1 {
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(45deg, #667eea, #764ba2, #667eea, #764ba2);
-    background-size: 400% 400%;
+    background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+    background-size: 300% 300%;
     border-radius: 50%;
     z-index: -1;
-    animation: gradientBorder 4s ease infinite;
     opacity: 0;
     transition: opacity 0.3s ease;
+    animation: gradientShift 3s ease infinite;
 }
 
 .back-to-top:hover::before {
-    opacity: 1;
+    opacity: 0.8;
 }
 
-@keyframes gradientBorder {
-    0%, 100% {
-        background-position: 0% 50%;
+/* Percentage text overlay for mobile */
+.back-to-top-percentage {
+    position: absolute;
+    bottom: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.2rem 0.5rem;
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* Animations */
+@keyframes gentleFloat {
+    0%, 100% { 
+        transform: scale(1) rotate(0deg) translateY(0px); 
+    }
+    50% { 
+        transform: scale(1) rotate(0deg) translateY(-3px); 
+    }
+}
+
+@keyframes smoothPulse {
+    0% {
+        transform: scale(1) rotate(0deg);
+        box-shadow: 
+            0 4px 20px rgba(102, 126, 234, 0.25),
+            0 2px 10px rgba(0, 0, 0, 0.1);
     }
     50% {
-        background-position: 100% 50%;
+        transform: scale(1.15) rotate(0deg);
+        box-shadow: 
+            0 8px 35px rgba(102, 126, 234, 0.5),
+            0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        box-shadow: 
+            0 4px 20px rgba(102, 126, 234, 0.25),
+            0 2px 10px rgba(0, 0, 0, 0.1);
     }
 }
 
-/* Mobile responsiveness */
+@keyframes gradientShift {
+    0%, 100% { 
+        background-position: 0% 50%; 
+    }
+    50% { 
+        background-position: 100% 50%; 
+    }
+}
+
+/* Percentage text overlay for mobile */
+.back-to-top-percentage {
+    position: absolute;
+    bottom: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.2rem 0.5rem;
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .back-to-top {
-        bottom: 20px;
-        right: 20px;
-        width: 45px;
-        height: 45px;
+        width: 3.25rem;
+        height: 3.25rem;
+        bottom: 1.5rem;
+        right: 1.5rem;
     }
     
     .back-to-top-icon svg {
-        width: 20px;
-        height: 20px;
+        width: 1.125rem;
+        height: 1.125rem;
     }
     
     .progress-ring-circle {
-        stroke-dasharray: 0 113;
+        stroke-dasharray: 0 145;
+    }
+    
+    .back-to-top-percentage {
+        opacity: 1;
+        bottom: -1.25rem;
+        font-size: 0.65rem;
     }
 }
 
 @media (max-width: 480px) {
     .back-to-top {
-        bottom: 15px;
-        right: 15px;
-        width: 40px;
-        height: 40px;
+        width: 3rem;
+        height: 3rem;
+        bottom: 1rem;
+        right: 1rem;
     }
     
     .back-to-top-icon svg {
-        width: 18px;
-        height: 18px;
+        width: 1rem;
+        height: 1rem;
+        stroke-width: 3;
     }
     
     .progress-ring-circle {
-        stroke-dasharray: 0 100;
+        stroke-dasharray: 0 132;
+        stroke-width: 2.5;
+    }
+    
+    .back-to-top-percentage {
+        bottom: -1rem;
+        font-size: 0.6rem;
+        padding: 0.15rem 0.4rem;
     }
 }
 
