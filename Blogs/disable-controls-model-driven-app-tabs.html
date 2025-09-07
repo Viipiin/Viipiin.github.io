@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disable Controls/Fields in Model Driven App Tabs | Vipin Kumar</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <meta name="description" content="Learn how to programmatically disable all controls and fields within specific tab sections using JavaScript with practical examples and best practices.">
+    <meta name="author" content="Vipin Kumar">
+    <meta name="keywords" content="Model Driven Apps, JavaScript, Dynamics 365, Power Platform, Controls, Fields, Tab Sections">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/blog-template.css">
+    <link rel="stylesheet" href="assets/css/blog-components.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">Vipin Kumar</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../blog.html" class="active">Blog</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="article-meta">
+                    <span class="category-badge development">Development</span>
+                    <span class="difficulty-badge intermediate">Intermediate</span>
+                    <span class="read-time">8 min read</span>
+                </div>
+                
+                <h1 class="article-title">Disable Controls/Fields in Model Driven App Tabs</h1>
+                <p class="article-description">Learn how to programmatically disable all controls and fields within specific tab sections using JavaScript with practical examples and best practices.</p>
+                
+                <div class="hero-meta">
+                    <div class="author-info">
+                        <span class="author-name">By Vipin Kumar</span>
+                        <span class="publish-date">September 7, 2025</span>
+                    </div>
+                    <div class="article-tags">
+                        <span class="tag">#ModelDrivenApps</span>
+                        <span class="tag">#JavaScript</span>
+                        <span class="tag">#PowerPlatform</span>
+                        <span class="tag">#Dynamics365</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="article-container">
+            <div class="article-content" id="article-content">
+                
+                <!-- Introduction -->
+                <div class="intro-section">
+                    <h3 class="intro-title">🎯 What You'll Learn</h3>
+                    <div class="intro-content">
+                        <p>In Model Driven Apps, there are scenarios where you need to programmatically disable all controls and fields within specific tab sections based on business logic, user roles, or data conditions. This tutorial will guide you through different approaches to achieve this functionality effectively.</p>
+                        
+                        <div class="feature-list">
+                            <h4 class="feature-list-title">Topics Covered:</h4>
+                            <ul class="feature-items">
+                                <li class="feature-item">Understanding tab and section structure in Model Driven Apps</li>
+                                <li class="feature-item">Basic control disabling using forEach loops</li>
+                                <li class="feature-item">Advanced error handling and validation</li>
+                                <li class="feature-item">Performance optimization techniques</li>
+                                <li class="feature-item">Real-world implementation scenarios</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Understanding the Structure -->
+                <section class="article-section">
+                    <h2 class="section-title">📋 Understanding Tab and Section Structure</h2>
+                    <div class="section-content">
+                        <p>Before diving into the code, it's essential to understand how Model Driven Apps organize forms into tabs, sections, and controls:</p>
+                        
+                        <div class="method-card info">
+                            <div class="method-header">
+                                <span class="method-badge info">Structure</span>
+                                <h3 class="method-title">Form Hierarchy</h3>
+                            </div>
+                            <div class="method-content">
+                                <ul>
+                                    <li><strong>Form Context:</strong> The main form object containing all elements</li>
+                                    <li><strong>Tabs:</strong> Top-level containers that group related sections</li>
+                                    <li><strong>Sections:</strong> Sub-containers within tabs that hold controls</li>
+                                    <li><strong>Controls:</strong> Individual form elements (fields, lookups, etc.)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <p>Each control in a Model Driven App form has properties and methods that allow you to manipulate its behavior, including the <code>setDisabled()</code> method we'll be using.</p>
+                    </div>
+                </section>
+
+                <!-- Basic Implementation -->
+                <section class="article-section">
+                    <h2 class="section-title">🔧 Basic Implementation</h2>
+                    <div class="section-content">
+                        <p>Let's start with the fundamental approach to disable all controls within a tab's sections:</p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-title">Basic Control Disabling</span>
+                                <div class="code-actions">
+                                    <span class="code-language">javascript</span>
+                                    <button class="copy-button" onclick="BlogComponents.copyCode(this)">
+                                        <span class="copy-icon">📋</span>
+                                        <span class="copy-text">Copy Code</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="code-content">
+                                <pre><code class="language-javascript">// Basic implementation - disable all controls in a tab
+function disableTabControls(executionContext, tabName) {
+    // Get the form context
+    const formContext = executionContext.getFormContext();
+    
+    // Get the specific tab
+    const tab = formContext.ui.tabs.get(tabName);
+    
+    if (tab) {
+        // Iterate through all sections in the tab
+        tab.sections.forEach((section) => {
+            section.controls.forEach((control) => {
+                if (control && control.setDisabled) {
+                    control.setDisabled(true);
+                }
+            });
+        });
+    }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="alert-box tip">
+                            <div class="alert-header">
+                                <span class="alert-icon">💡</span>
+                                <h4 class="alert-title">Pro Tip</h4>
+                            </div>
+                            <div class="alert-content">
+                                <p>Always check if the control and its <code>setDisabled</code> method exist before calling it to avoid runtime errors.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Enhanced Implementation -->
+                <section class="article-section">
+                    <h2 class="section-title">⚡ Enhanced Implementation with Error Handling</h2>
+                    <div class="section-content">
+                        <p>For production environments, you need robust error handling and more flexibility:</p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-title">Enhanced Control Management</span>
+                                <div class="code-actions">
+                                    <span class="code-language">javascript</span>
+                                    <button class="copy-button" onclick="BlogComponents.copyCode(this)">
+                                        <span class="copy-icon">📋</span>
+                                        <span class="copy-text">Copy Code</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="code-content">
+                                <pre><code class="language-javascript">/**
+ * Enhanced function to manage control states in Model Driven Apps
+ * @param {Object} executionContext - The execution context from the form event
+ * @param {string} tabName - Name of the tab to target
+ * @param {boolean} disabled - Whether to disable (true) or enable (false) controls
+ * @param {Array} excludeControls - Array of control names to exclude from the operation
+ */
+function manageTabControlStates(executionContext, tabName, disabled = true, excludeControls = []) {
+    try {
+        // Validate input parameters
+        if (!executionContext) {
+            console.error('Execution context is required');
+            return { success: false, error: 'Invalid execution context' };
+        }
+
+        if (!tabName) {
+            console.error('Tab name is required');
+            return { success: false, error: 'Tab name is required' };
+        }
+
+        // Get the form context
+        const formContext = executionContext.getFormContext();
+        
+        if (!formContext) {
+            console.error('Form context not available');
+            return { success: false, error: 'Form context not available' };
+        }
+
+        // Get the specific tab
+        const tab = formContext.ui.tabs.get(tabName);
+        
+        if (!tab) {
+            console.warn(`Tab '${tabName}' not found`);
+            return { success: false, error: `Tab '${tabName}' not found` };
+        }
+
+        let processedControls = 0;
+        let errors = [];
+
+        // Iterate through all sections in the tab
+        tab.sections.forEach((section, sectionIndex) => {
+            if (!section || !section.controls) {
+                console.warn(`Section ${sectionIndex} has no controls`);
+                return;
+            }
+
+            section.controls.forEach((control) => {
+                try {
+                    // Check if control exists and has the setDisabled method
+                    if (!control || typeof control.setDisabled !== 'function') {
+                        return;
+                    }
+
+                    // Get control name for exclusion check
+                    const controlName = control.getName && control.getName();
+                    
+                    // Skip if control is in exclude list
+                    if (excludeControls.includes(controlName)) {
+                        console.log(`Skipping excluded control: ${controlName}`);
+                        return;
+                    }
+
+                    // Apply the disabled state
+                    control.setDisabled(disabled);
+                    processedControls++;
+                    
+                    console.log(`Control '${controlName}' ${disabled ? 'disabled' : 'enabled'}`);
+                    
+                } catch (controlError) {
+                    const errorMsg = `Error processing control: ${controlError.message}`;
+                    console.error(errorMsg);
+                    errors.push(errorMsg);
+                }
+            });
+        });
+
+        const result = {
+            success: true,
+            processedControls,
+            tabName,
+            action: disabled ? 'disabled' : 'enabled',
+            errors: errors.length > 0 ? errors : null
+        };
+
+        console.log(`Successfully ${disabled ? 'disabled' : 'enabled'} ${processedControls} controls in tab '${tabName}'`);
+        return result;
+
+    } catch (error) {
+        const errorMsg = `Error in manageTabControlStates: ${error.message}`;
+        console.error(errorMsg);
+        return { success: false, error: errorMsg };
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Usage Examples -->
+                <section class="article-section">
+                    <h2 class="section-title">📖 Usage Examples</h2>
+                    <div class="section-content">
+                        <p>Here are practical examples of how to use the function in different scenarios:</p>
+
+                        <div class="method-card default">
+                            <div class="method-header">
+                                <span class="method-badge default">Example 1</span>
+                                <h3 class="method-title">Disable All Controls in a Tab</h3>
+                            </div>
+                            <div class="method-content">
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span class="code-title">Form OnLoad Event</span>
+                                        <div class="code-actions">
+                                            <span class="code-language">javascript</span>
+                                            <button class="copy-button" onclick="BlogComponents.copyCode(this)">
+                                                <span class="copy-icon">📋</span>
+                                                <span class="copy-text">Copy Code</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="code-content">
+                                        <pre><code class="language-javascript">// Call from Form OnLoad event
+function onFormLoad(executionContext) {
+    // Disable all controls in the "Details" tab
+    const result = manageTabControlStates(executionContext, "Details", true);
+    
+    if (!result.success) {
+        console.error("Failed to disable controls:", result.error);
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="method-card default">
+                            <div class="method-header">
+                                <span class="method-badge default">Example 2</span>
+                                <h3 class="method-title">Conditional Control Management</h3>
+                            </div>
+                            <div class="method-content">
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span class="code-title">Field OnChange Event</span>
+                                        <div class="code-actions">
+                                            <span class="code-language">javascript</span>
+                                            <button class="copy-button" onclick="BlogComponents.copyCode(this)">
+                                                <span class="copy-icon">📋</span>
+                                                <span class="copy-text">Copy Code</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="code-content">
+                                        <pre><code class="language-javascript">// Call from a field's OnChange event
+function onStatusChange(executionContext) {
+    const formContext = executionContext.getFormContext();
+    const statusValue = formContext.getAttribute("statuscode").getValue();
+    
+    // Disable "Additional Information" tab if status is "Completed"
+    if (statusValue === 100000001) { // Completed status
+        manageTabControlStates(
+            executionContext, 
+            "AdditionalInfo", 
+            true, 
+            ["createdon", "modifiedon"] // Exclude system fields
+        );
+    } else {
+        // Enable controls if status is not completed
+        manageTabControlStates(executionContext, "AdditionalInfo", false);
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="method-card default">
+                            <div class="method-header">
+                                <span class="method-badge default">Example 3</span>
+                                <h3 class="method-title">Role-Based Control Management</h3>
+                            </div>
+                            <div class="method-content">
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span class="code-title">User Role Check</span>
+                                        <div class="code-actions">
+                                            <span class="code-language">javascript</span>
+                                            <button class="copy-button" onclick="BlogComponents.copyCode(this)">
+                                                <span class="copy-icon">📋</span>
+                                                <span class="copy-text">Copy Code</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="code-content">
+                                        <pre><code class="language-javascript">// Role-based control management
+function applyRoleBasedSecurity(executionContext) {
+    const userSettings = Xrm.Utility.getGlobalContext().userSettings;
+    const userRoles = userSettings.roles;
+    
+    // Define role GUIDs (replace with your actual role GUIDs)
+    const ADMIN_ROLE_ID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+    const MANAGER_ROLE_ID = "yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy";
+    
+    // Check if user has admin or manager role
+    const hasAdminAccess = userRoles.some(role => 
+        role.id === ADMIN_ROLE_ID || role.id === MANAGER_ROLE_ID
+    );
+    
+    if (!hasAdminAccess) {
+        // Disable sensitive tabs for non-admin users
+        manageTabControlStates(executionContext, "FinancialInfo", true);
+        manageTabControlStates(executionContext, "AdminSettings", true);
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Performance Optimization -->
+                <section class="article-section">
+                    <h2 class="section-title">🚀 Performance Optimization</h2>
+                    <div class="section-content">
+                        <p>For forms with many controls, consider these optimization techniques:</p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-title">Optimized Batch Processing</span>
+                                <div class="code-actions">
+                                    <span class="code-language">javascript</span>
+                                    <button class="copy-button" onclick="BlogComponents.copyCode(this)">
+                                        <span class="copy-icon">📋</span>
+                                        <span class="copy-text">Copy Code</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="code-content">
+                                <pre><code class="language-javascript">/**
+ * Optimized function for processing large forms
+ */
+function optimizedControlManagement(executionContext, tabName, disabled = true) {
+    return new Promise((resolve, reject) => {
+        try {
+            const formContext = executionContext.getFormContext();
+            const tab = formContext.ui.tabs.get(tabName);
+            
+            if (!tab) {
+                reject(new Error(`Tab '${tabName}' not found`));
+                return;
+            }
+
+            // Collect all controls first
+            const allControls = [];
+            tab.sections.forEach(section => {
+                if (section && section.controls) {
+                    section.controls.forEach(control => {
+                        if (control && typeof control.setDisabled === 'function') {
+                            allControls.push(control);
+                        }
+                    });
+                }
+            });
+
+            // Process controls in batches to avoid blocking UI
+            const batchSize = 10;
+            let currentIndex = 0;
+
+            function processBatch() {
+                const endIndex = Math.min(currentIndex + batchSize, allControls.length);
+                
+                for (let i = currentIndex; i < endIndex; i++) {
+                    allControls[i].setDisabled(disabled);
+                }
+                
+                currentIndex = endIndex;
+                
+                if (currentIndex < allControls.length) {
+                    // Schedule next batch
+                    setTimeout(processBatch, 0);
+                } else {
+                    // All controls processed
+                    resolve({
+                        success: true,
+                        processedControls: allControls.length,
+                        tabName
+                    });
+                }
+            }
+
+            // Start processing
+            processBatch();
+
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+// Usage with async/await
+async function handleLargeForm(executionContext) {
+    try {
+        const result = await optimizedControlManagement(executionContext, "LargeTab", true);
+        console.log(`Processed ${result.processedControls} controls successfully`);
+    } catch (error) {
+        console.error("Error processing form:", error.message);
+    }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="alert-box info">
+                            <div class="alert-header">
+                                <span class="alert-icon">ℹ️</span>
+                                <h4 class="alert-title">Performance Tips</h4>
+                            </div>
+                            <div class="alert-content">
+                                <ul>
+                                    <li>Process controls in batches for large forms</li>
+                                    <li>Cache form context references when possible</li>
+                                    <li>Use setTimeout(0) to yield control back to the browser</li>
+                                    <li>Consider using web workers for very heavy operations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Best Practices -->
+                <section class="article-section">
+                    <h2 class="section-title">✅ Best Practices</h2>
+                    <div class="section-content">
+                        <div class="takeaways">
+                            <h3 class="takeaways-title">🎯 Key Best Practices</h3>
+                            <div class="takeaway-grid">
+                                <div class="takeaway-item">
+                                    <div class="takeaway-icon">🛡️</div>
+                                    <h4 class="takeaway-heading">Error Handling</h4>
+                                    <p class="takeaway-description">Always validate existence of controls and methods before calling them to prevent runtime errors.</p>
+                                </div>
+                                <div class="takeaway-item">
+                                    <div class="takeaway-icon">📝</div>
+                                    <h4 class="takeaway-heading">Logging</h4>
+                                    <p class="takeaway-description">Implement comprehensive logging to track what controls are being modified for debugging purposes.</p>
+                                </div>
+                                <div class="takeaway-item">
+                                    <div class="takeaway-icon">⚡</div>
+                                    <h4 class="takeaway-heading">Performance</h4>
+                                    <p class="takeaway-description">For forms with many controls, use batch processing to avoid blocking the user interface.</p>
+                                </div>
+                                <div class="takeaway-item">
+                                    <div class="takeaway-icon">🔄</div>
+                                    <h4 class="takeaway-heading">Reversibility</h4>
+                                    <p class="takeaway-description">Always provide a way to enable controls back when business logic conditions change.</p>
+                                </div>
+                                <div class="takeaway-item">
+                                    <div class="takeaway-icon">🎯</div>
+                                    <h4 class="takeaway-heading">Selective Targeting</h4>
+                                    <p class="takeaway-description">Use exclusion lists to skip system fields or critical controls that should remain functional.</p>
+                                </div>
+                                <div class="takeaway-item">
+                                    <div class="takeaway-icon">🧪</div>
+                                    <h4 class="takeaway-heading">Testing</h4>
+                                    <p class="takeaway-description">Test thoroughly across different user roles, browsers, and form configurations.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Common Issues -->
+                <section class="article-section">
+                    <h2 class="section-title">⚠️ Common Issues and Solutions</h2>
+                    <div class="section-content">
+                        <div class="method-card error">
+                            <div class="method-header">
+                                <span class="method-badge error">Issue 1</span>
+                                <h3 class="method-title">Control Not Found Error</h3>
+                            </div>
+                            <div class="method-content">
+                                <p><strong>Problem:</strong> JavaScript error when trying to access controls that don't exist.</p>
+                                <p><strong>Solution:</strong> Always check if the control exists before calling methods:</p>
+                                <pre><code>if (control && typeof control.setDisabled === 'function') {
+    control.setDisabled(true);
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="method-card error">
+                            <div class="method-header">
+                                <span class="method-badge error">Issue 2</span>
+                                <h3 class="method-title">Tab Not Loading Properly</h3>
+                            </div>
+                            <div class="method-content">
+                                <p><strong>Problem:</strong> Tab sections are not accessible immediately on form load.</p>
+                                <p><strong>Solution:</strong> Use setTimeout or form ready events:</p>
+                                <pre><code>setTimeout(() => {
+    manageTabControlStates(executionContext, "TabName", true);
+}, 100);</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="method-card error">
+                            <div class="method-header">
+                                <span class="method-badge error">Issue 3</span>
+                                <h3 class="method-title">Performance Issues on Large Forms</h3>
+                            </div>
+                            <div class="method-content">
+                                <p><strong>Problem:</strong> Browser becomes unresponsive when processing many controls.</p>
+                                <p><strong>Solution:</strong> Use the optimized batch processing approach shown earlier in this article.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Conclusion -->
+                <section class="article-section">
+                    <h2 class="section-title">🎉 Conclusion</h2>
+                    <div class="section-content">
+                        <p>Programmatically managing control states in Model Driven Apps is a powerful technique for implementing dynamic forms based on business logic. The key to success is:</p>
+                        
+                        <div class="alert-box success">
+                            <div class="alert-header">
+                                <span class="alert-icon">✅</span>
+                                <h4 class="alert-title">Summary</h4>
+                            </div>
+                            <div class="alert-content">
+                                <ul>
+                                    <li>Start with the basic <code>tab.sections.forEach()</code> approach</li>
+                                    <li>Enhance with proper error handling and validation</li>
+                                    <li>Optimize for performance when dealing with large forms</li>
+                                    <li>Test thoroughly across different scenarios and user roles</li>
+                                    <li>Always provide ways to reverse the changes when needed</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <p>This approach gives you fine-grained control over your Model Driven App forms, enabling you to create sophisticated, user-friendly applications that adapt to your business requirements.</p>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/blog-components.js"></script>
+    <script src="assets/js/blog-interactions.js"></script>
+    
+    <!-- Initialize Related Articles and Share Section -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Define related articles for this page
+            const relatedArticles = [
+                {
+                    url: 'getting-current-user-email-model-driven-apps.html',
+                    title: 'Getting Current User Email in Model-Driven Apps',
+                    description: 'Learn multiple approaches to retrieve user information',
+                    disabled: false
+                },
+                {
+                    url: '#',
+                    title: 'Advanced Form Scripting Techniques',
+                    description: 'Coming soon - Advanced JavaScript patterns for Model Driven Apps',
+                    disabled: true
+                }
+            ];
+            
+            // Add components to the page
+            if (window.BlogComponents) {
+                BlogComponents.addRelatedArticles(relatedArticles);
+                BlogComponents.addShareSection();
+            }
+        });
+    </script>
+</body>
+</html>

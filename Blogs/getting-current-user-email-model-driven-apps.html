@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Current User Email in Model-Driven Apps | Vipin Kumar</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <meta name="description" content="Complete guide to getting current user email in Model-Driven Apps with JavaScript, error handling, and best practices.">
+    <meta name="author" content="Vipin Kumar">
+    <meta name="keywords" content="Model-Driven Apps, JavaScript, Xrm.WebApi, Power Platform, Dynamics 365">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/blog-template.css">
+    <link rel="stylesheet" href="assets/css/blog-components.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">Vipin Kumar</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../blog.html" class="active">Blog</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="article-meta">
+                    <span class="category-badge development">Development</span>
+                    <span class="difficulty-badge beginner">Beginner</span>
+                    <span class="read-time">5 min read</span>
+                </div>
+                
+                <h1 class="article-title">Getting Current User Email in Model-Driven Apps</h1>
+                <p class="article-description">Complete beginner's guide with JavaScript code examples, error handling, and multiple implementation approaches for enterprise environments.</p>
+                
+                <div class="hero-meta">
+                    <div class="author-info">
+                        <span class="author-name">By Vipin Kumar</span>
+                        <span class="publish-date">September 7, 2025</span>
+                    </div>
+                    <div class="article-tags">
+                        <span class="tag">#ModelDrivenApps</span>
+                        <span class="tag">#JavaScript</span>
+                        <span class="tag">#PowerPlatform</span>
+                        <span class="tag">#XrmWebApi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="article-container">
+            <div class="article-content">
+                
+                <!-- Introduction -->
+                <div class="intro-section">
+                    <h3 class="intro-title">🎯 The Challenge</h3>
+                    <div class="intro-content">
+                        <p><strong>You need to get the current user's email in a Model-Driven App.</strong> Sounds simple? There are multiple approaches, each with gotchas. Some work in dev but fail in production. Others return user IDs that break your API calls.</p>
+                        <p><strong>This guide shows you the reliable approach that works in enterprise environments.</strong></p>
+                    </div>
+                </div>
+
+                <!-- Table of Contents -->
+                <div class="table-of-contents">
+                    <h3>📚 Table of Contents</h3>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#production-solution" class="toc-link">The Production-Ready Solution</a></li>
+                        <li class="toc-item"><a href="#why-it-works" class="toc-link">Why This Approach Works</a></li>
+                        <li class="toc-item"><a href="#practical-example" class="toc-link">Practical Example: Auto-Fill Forms</a></li>
+                        <li class="toc-item"><a href="#quick-method" class="toc-link">Quick Method (With Limitations)</a></li>
+                        <li class="toc-item"><a href="#bulletproof" class="toc-link">Bulletproof Implementation</a></li>
+                        <li class="toc-item"><a href="#takeaways" class="toc-link">Key Takeaways</a></li>
+                    </ul>
+                </div>
+
+                <!-- Production Solution -->
+                <section class="article-section" id="production-solution">
+                    <h2>🚀 The Production-Ready Solution</h2>
+                    <p>Here's the complete, battle-tested code that handles all edge cases and works in enterprise environments:</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">Complete Working Solution</span>
+                            <div class="code-actions">
+                                <span class="code-language">javascript</span>
+                                <button class="copy-button" onclick="BlogComponents.copyCode(this)">
+                                    <span class="copy-icon">📋</span>
+                                    <span class="copy-text">Copy Code</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-javascript">async function getCurrentUserEmail() {
+    try {
+        // Get current user ID from global context
+        const userId = Xrm.Utility.getGlobalContext().userSettings.userId;
+        
+        // Clean user ID (remove curly braces if present)
+        const cleanUserId = userId.replace(/[{}]/g, "");
+        
+        // Retrieve user email from systemuser table
+        const result = await Xrm.WebApi.retrieveRecord(
+            "systemuser",
+            cleanUserId,
+            "?$select=internalemailaddress,fullname"
+        );
+        
+        return {
+            email: result.internalemailaddress,
+            name: result.fullname,
+            success: true
+        };
+    } catch (error) {
+        console.error('Error getting user email:', error);
+        
+        // Fallback to basic user context
+        return { 
+            success: false, 
+            error: error.message,
+            fallback: Xrm.Utility.getGlobalContext().userSettings.userName
+        };
+    }
+}
+
+// Usage example
+const userInfo = await getCurrentUserEmail();
+if (userInfo.success) {
+    console.log('Email:', userInfo.email);
+    console.log('Name:', userInfo.name);
+} else {
+    console.log('Fallback:', userInfo.fallback);
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Why This Works -->
+                <div class="method-card recommended" id="why-it-works">
+                    <div class="method-header">
+                        <span class="method-badge recommended">🌟 Recommended</span>
+                        <h3 class="method-title">Why This Approach Works</h3>
+                    </div>
+                    <div class="method-content">
+                        <p>This method uses <code>Xrm.WebApi.retrieveRecord</code> to get the actual email address from the user profile. It's reliable because:</p>
+                        
+                        <div class="feature-list">
+                            <h4 class="feature-list-title">✅ Key Advantages</h4>
+                            <ul class="feature-items">
+                                <li class="feature-item">Returns real email addresses (not "DOMAIN\user")</li>
+                                <li class="feature-item">Works with enterprise security policies</li>
+                                <li class="feature-item">Handles permission errors gracefully</li>
+                                <li class="feature-item">Provides additional user details like full name</li>
+                                <li class="feature-item">Works consistently in development and production</li>
+                                <li class="feature-item">Includes proper error handling and fallbacks</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practical Example -->
+                <section class="article-section" id="practical-example">
+                    <h2>📝 Practical Example: Auto-Fill Forms</h2>
+                    <p>Here's how to use it in real scenarios to auto-populate form fields with user information:</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">Smart Form Auto-Fill</span>
+                            <div class="code-actions">
+                                <span class="code-language">javascript</span>
+                                <button class="copy-button" onclick="BlogComponents.copyCode(this)">
+                                    <span class="copy-icon">📋</span>
+                                    <span class="copy-text">Copy Code</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-javascript">async function autoFillUserEmail(formContext) {
+    try {
+        // Show loading message
+        formContext.ui.setFormNotification(
+            'Loading your information...', 
+            'INFO', 
+            'loading'
+        );
+        
+        // Get user information
+        const userInfo = await getCurrentUserEmail();
+        
+        if (userInfo.success && userInfo.email) {
+            // Set email field
+            const emailField = formContext.getAttribute("emailaddress1");
+            if (emailField) {
+                emailField.setValue(userInfo.email);
+            }
+            
+            // Set name field if available
+            const nameField = formContext.getAttribute("fullname");
+            if (nameField && userInfo.name) {
+                nameField.setValue(userInfo.name);
+            }
+            
+            // Clear loading and show success
+            formContext.ui.clearFormNotification('loading');
+            formContext.ui.setFormNotification(
+                'Information loaded successfully!', 
+                'INFO', 
+                'success'
+            );
+            
+            // Auto-clear success message
+            setTimeout(() => {
+                formContext.ui.clearFormNotification('success');
+            }, 3000);
+        }
+    } catch (error) {
+        formContext.ui.clearFormNotification('loading');
+        formContext.ui.setFormNotification(
+            'Could not load user information', 
+            'WARNING', 
+            'error'
+        );
+        console.error('Auto-fill error:', error);
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quick Method -->
+                <div class="method-card alternative" id="quick-method">
+                    <div class="method-header">
+                        <span class="method-badge alternative">⚡ Alternative</span>
+                        <h3 class="method-title">Quick Method (With Limitations)</h3>
+                    </div>
+                    <div class="method-content">
+                        <p>For simple cases, you can use the global context directly, but be aware of the limitations:</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-title">Simple but Limited Approach</span>
+                                <div class="code-actions">
+                                    <span class="code-language">javascript</span>
+                                    <button class="copy-button" onclick="BlogComponents.copyCode(this)">
+                                        <span class="copy-icon">📋</span>
+                                        <span class="copy-text">Copy Code</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="code-content">
+                                <pre><code class="language-javascript">function getBasicUserInfo() {
+    const userSettings = Xrm.Utility.getGlobalContext().userSettings;
+    
+    return {
+        userName: userSettings.userName,  // Might be "domain\user"
+        userId: userSettings.userId,
+        // WARNING: userName might not be in email format!
+        potentialEmail: userSettings.userName
+    };
+}
+
+// Always validate the format
+const info = getBasicUserInfo();
+const isEmailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(info.userName);
+
+if (isEmailFormat) {
+    console.log('Email:', info.userName);
+} else {
+    console.log('Not email format:', info.userName);
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="alert-box warning">
+                            <div class="alert-header">
+                                <span class="alert-icon">⚠️</span>
+                                <h4 class="alert-title">Important Limitation</h4>
+                            </div>
+                            <div class="alert-content">
+                                <p>In corporate environments, <code>userName</code> might return "COMPANY\johnsmith" instead of "john.smith@company.com". Always validate the format before using it as an email address.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bulletproof Implementation -->
+                <section class="article-section" id="bulletproof">
+                    <h2>🛡️ Bulletproof Implementation</h2>
+                    <p>For production applications, use this enhanced version that handles all edge cases and provides comprehensive fallbacks:</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">Production-Ready with Fallbacks</span>
+                            <div class="code-actions">
+                                <span class="code-language">javascript</span>
+                                <button class="copy-button" onclick="BlogComponents.copyCode(this)">
+                                    <span class="copy-icon">📋</span>
+                                    <span class="copy-text">Copy Code</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-javascript">async function getReliableUserEmail() {
+    // Fallback data that always works
+    const fallbackData = {
+        source: 'global-context',
+        name: Xrm.Utility.getGlobalContext().userSettings.userName,
+        userId: Xrm.Utility.getGlobalContext().userSettings.userId,
+        email: null,
+        warning: 'Email not available - check permissions'
+    };
+    
+    try {
+        // Try the API method first
+        const userInfo = await getCurrentUserEmail();
+        
+        if (userInfo.success && userInfo.email) {
+            return {
+                source: 'api',
+                email: userInfo.email,
+                name: userInfo.name,
+                userId: fallbackData.userId,
+                success: true
+            };
+        }
+        
+        // API worked but no email found
+        return {
+            ...fallbackData,
+            warning: 'Email not set in user profile'
+        };
+        
+    } catch (error) {
+        console.warn('API failed, using fallback:', error.message);
+        return fallbackData;
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Takeaways -->
+                <div class="takeaways" id="takeaways">
+                    <h3 class="takeaways-title">🎯 Key Takeaways</h3>
+                    <div class="takeaway-grid">
+                        <div class="takeaway-item">
+                            <div class="takeaway-icon">🏆</div>
+                            <h4 class="takeaway-heading">For Production Apps</h4>
+                            <p class="takeaway-description">Use <code>Xrm.WebApi.retrieveRecord</code> - it's reliable, secure, and returns real email addresses.</p>
+                        </div>
+                        
+                        <div class="takeaway-item">
+                            <div class="takeaway-icon">⚡</div>
+                            <h4 class="takeaway-heading">For Quick Prototypes</h4>
+                            <p class="takeaway-description">Global context is fine for testing, but always validate the format before using as email.</p>
+                        </div>
+                        
+                        <div class="takeaway-item">
+                            <div class="takeaway-icon">🛡️</div>
+                            <h4 class="takeaway-heading">Always Have a Plan B</h4>
+                            <p class="takeaway-description">API calls can fail. Implement fallbacks so your app doesn't crash in production.</p>
+                        </div>
+                        
+                        <div class="takeaway-item">
+                            <div class="takeaway-icon">🔧</div>
+                            <h4 class="takeaway-heading">Clean Your Data</h4>
+                            <p class="takeaway-description">Remove curly braces from user IDs before making API calls to avoid errors.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/blog-components.js"></script>
+    <script src="assets/js/blog-interactions.js"></script>
+    
+    <!-- Initialize Related Articles and Share Section -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Define related articles for this page
+            const relatedArticles = [
+                {
+                    url: 'disable-controls-model-driven-app-tabs.html',
+                    title: 'Disable Controls/Fields in Model Driven App Tabs',
+                    description: 'Learn how to programmatically disable controls and fields using JavaScript',
+                    disabled: false
+                },
+                {
+                    url: '#',
+                    title: 'Advanced Form Scripting Techniques',
+                    description: 'Coming soon - Advanced JavaScript patterns for Model Driven Apps',
+                    disabled: true
+                }
+            ];
+            
+            // Add components to the page
+            if (window.BlogComponents) {
+                BlogComponents.addRelatedArticles(relatedArticles);
+                BlogComponents.addShareSection('📤 Share This Guide', 'Help your team learn these user email techniques!');
+            }
+        });
+    </script>
+</body>
+</html>

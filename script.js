@@ -2515,6 +2515,92 @@ window.ResponsiveUtils = {
     closeNotification: () => notificationManager.notifications.forEach(n => notificationManager.removeNotification(n))
 };
 
+// ================================================
+// BLOG FUNCTIONALITY
+// ================================================
+
+// Blog Content Manager
+class BlogManager {
+    constructor() {
+        this.init();
+    }
+    
+    init() {
+        this.bindEvents();
+    }
+    
+    bindEvents() {
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('toggle-content')) {
+                e.preventDefault();
+                this.toggleBlogContent(e.target);
+            }
+        });
+    }
+    
+    toggleBlogContent(button) {
+        const blogCard = button.closest('.blog-card');
+        const blogContent = blogCard.querySelector('.blog-content');
+        const isExpanded = button.getAttribute('data-expanded') === 'true';
+        
+        if (isExpanded) {
+            // Collapse content
+            blogContent.classList.remove('expanded');
+            button.setAttribute('data-expanded', 'false');
+            button.textContent = 'Read Full Article →';
+            button.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            
+            // Scroll to top of card smoothly
+            setTimeout(() => {
+                blogCard.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start',
+                    inline: 'nearest'
+                });
+            }, 100);
+            
+            // Show collapse notification
+            if (typeof notificationManager !== 'undefined' && notificationManager) {
+                notificationManager.show(
+                    'Article Collapsed 📄',
+                    'Article has been minimized. Click "Read Full Article" to expand again.',
+                    'info'
+                );
+            }
+        } else {
+            // Expand content
+            blogContent.classList.add('expanded');
+            button.setAttribute('data-expanded', 'true');
+            button.textContent = 'Collapse Article ←';
+            button.style.background = '#ef4444';
+            
+            // Show expand notification
+            if (typeof notificationManager !== 'undefined' && notificationManager) {
+                notificationManager.show(
+                    'Article Expanded! 📖',
+                    'Scroll down to read the full technical guide with code examples and best practices.',
+                    'success'
+                );
+            }
+            
+            // Smooth scroll to content after a brief delay
+            setTimeout(() => {
+                const contentTop = blogContent.offsetTop + blogCard.offsetTop;
+                window.scrollTo({
+                    top: contentTop - 100,
+                    behavior: 'smooth'
+                });
+            }, 300);
+        }
+    }
+}
+
+// Initialize blog manager on blog pages
+if (document.querySelector('.blog-card')) {
+    const blogManager = new BlogManager();
+    console.log('📝 Blog functionality initialized');
+}
+
 console.log('📱 Responsive website script loaded successfully!');
 console.log('🎨 Available utilities:', Object.keys(window.ResponsiveUtils));
 

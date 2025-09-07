@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component Demo - Related Articles & Share | Vipin Kumar</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <meta name="description" content="Demonstration of the component-based Related Articles and Share Section components.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/blog-template.css">
+    <link rel="stylesheet" href="assets/css/blog-components.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">Vipin Kumar</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../blog.html" class="active">Blog</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="article-meta">
+                    <span class="category-badge development">Development</span>
+                    <span class="difficulty-badge beginner">Beginner</span>
+                    <span class="read-time">3 min read</span>
+                </div>
+                
+                <h1 class="article-title">Component Demo: Related Articles & Share</h1>
+                <p class="article-description">Demonstration of the reusable Related Articles and Share Section components in our blog architecture.</p>
+                
+                <div class="hero-meta">
+                    <div class="author-info">
+                        <span class="author-name">By Vipin Kumar</span>
+                        <span class="publish-date">September 7, 2025</span>
+                    </div>
+                    <div class="article-tags">
+                        <span class="tag">#Components</span>
+                        <span class="tag">#Architecture</span>
+                        <span class="tag">#Demo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="article-container">
+            <div class="article-content" id="article-content">
+                
+                <!-- Introduction -->
+                <div class="intro-section">
+                    <h3 class="intro-title">🎯 Component Demonstration</h3>
+                    <div class="intro-content">
+                        <p>This page demonstrates how to use the new component-based Related Articles and Share Section features in our blog architecture.</p>
+                    </div>
+                </div>
+
+                <!-- Method 1: Using JavaScript Functions -->
+                <section class="article-section">
+                    <h2 class="section-title">📝 Method 1: JavaScript Functions</h2>
+                    <div class="section-content">
+                        <p>Add components dynamically using JavaScript functions:</p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-title">JavaScript Component Usage</span>
+                                <div class="code-actions">
+                                    <span class="code-language">javascript</span>
+                                    <button class="copy-button" onclick="BlogComponents.copyCode(this)">
+                                        <span class="copy-icon">📋</span>
+                                        <span class="copy-text">Copy Code</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="code-content">
+                                <pre><code class="language-javascript">// Define related articles
+const relatedArticles = [
+    {
+        url: 'article1.html',
+        title: 'First Related Article',
+        description: 'Description of the first article',
+        disabled: false
+    },
+    {
+        url: '#',
+        title: 'Coming Soon Article',
+        description: 'This article is not ready yet',
+        disabled: true
+    }
+];
+
+// Add related articles to page
+BlogComponents.addRelatedArticles(relatedArticles);
+
+// Add share section with custom text
+BlogComponents.addShareSection(
+    '🚀 Share This Demo', 
+    'Show your team how components work!'
+);</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Method 2: Template Functions -->
+                <section class="article-section">
+                    <h2 class="section-title">🛠️ Method 2: Template Functions</h2>
+                    <div class="section-content">
+                        <p>Generate HTML using template functions:</p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-title">Template Function Usage</span>
+                                <div class="code-actions">
+                                    <span class="code-language">javascript</span>
+                                    <button class="copy-button" onclick="BlogComponents.copyCode(this)">
+                                        <span class="copy-icon">📋</span>
+                                        <span class="copy-text">Copy Code</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="code-content">
+                                <pre><code class="language-javascript">// Generate HTML for related articles
+const relatedHTML = BlogComponents.createRelatedArticles(articles);
+document.getElementById('target').innerHTML = relatedHTML;
+
+// Generate HTML for share section
+const shareHTML = BlogComponents.createShareSection(
+    'Custom Title', 
+    'Custom description'
+);
+document.getElementById('share-target').innerHTML = shareHTML;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Configuration Options -->
+                <section class="article-section">
+                    <h2 class="section-title">⚙️ Configuration Options</h2>
+                    <div class="section-content">
+                        <div class="method-card info">
+                            <div class="method-header">
+                                <span class="method-badge info">Article Object</span>
+                                <h3 class="method-title">Related Article Structure</h3>
+                            </div>
+                            <div class="method-content">
+                                <ul>
+                                    <li><strong>url:</strong> Link to the article (use '#' for disabled)</li>
+                                    <li><strong>title:</strong> Article title displayed on card</li>
+                                    <li><strong>description:</strong> Brief description of the article</li>
+                                    <li><strong>disabled:</strong> Boolean to show as "coming soon"</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="alert-box tip">
+                            <div class="alert-header">
+                                <span class="alert-icon">💡</span>
+                                <h4 class="alert-title">Best Practices</h4>
+                            </div>
+                            <div class="alert-content">
+                                <ul>
+                                    <li>Limit related articles to 2-4 items for better readability</li>
+                                    <li>Use descriptive titles and concise descriptions</li>
+                                    <li>Set disabled: true for articles that aren't ready yet</li>
+                                    <li>Customize share section text to match your content</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Live Demo Section -->
+                <section class="article-section">
+                    <h2 class="section-title">🎬 Live Demo</h2>
+                    <div class="section-content">
+                        <p>The Related Articles and Share Section will appear below this content, generated automatically by the component system!</p>
+                        
+                        <div class="alert-box success">
+                            <div class="alert-header">
+                                <span class="alert-icon">✅</span>
+                                <h4 class="alert-title">Components Ready</h4>
+                            </div>
+                            <div class="alert-content">
+                                <p>Scroll down to see the components in action. They will be automatically added when the page loads.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/blog-components.js"></script>
+    <script src="assets/js/blog-interactions.js"></script>
+    
+    <!-- Initialize Components Demo -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Demo related articles
+            const demoArticles = [
+                {
+                    url: 'disable-controls-model-driven-app-tabs.html',
+                    title: 'Disable Controls in Model Driven Apps',
+                    description: 'Learn how to programmatically disable form controls and fields',
+                    disabled: false
+                },
+                {
+                    url: 'getting-current-user-email-model-driven-apps.html',
+                    title: 'Getting Current User Email',
+                    description: 'Multiple approaches to retrieve user information in Model Driven Apps',
+                    disabled: false
+                },
+                {
+                    url: '#',
+                    title: 'Advanced Form Scripting Techniques',
+                    description: 'Coming soon - Deep dive into advanced JavaScript patterns',
+                    disabled: true
+                }
+            ];
+            
+            // Add components with demo-specific text
+            if (window.BlogComponents) {
+                BlogComponents.addRelatedArticles(demoArticles);
+                BlogComponents.addShareSection(
+                    '🚀 Share This Component Demo',
+                    'Show your team how our component system works!'
+                );
+            }
+        });
+    </script>
+</body>
+</html>

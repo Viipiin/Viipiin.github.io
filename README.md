@@ -168,6 +168,26 @@ http://localhost:8000
 The website is automatically deployed via GitHub Pages at:
 **https://viipiin.github.io**
 
+### **Creating New Blog Articles**
+
+To create a new blog article with the component-based architecture:
+
+1. **Start with the template**: Copy `/Blogs/assets/article-template.html` as your starting point
+2. **Update metadata**: Change title, description, author, tags, and other meta information
+3. **Add your content**: Replace the placeholder content with your article
+4. **Configure components**: Update the related articles array and customize share section text
+5. **Add to blog listing**: Include your article in the main blog page
+6. **Test**: Verify responsiveness across devices and component functionality
+
+The template includes:
+- ✅ Fixed back button (automatically positioned)
+- ✅ Related Articles component (with disabled/coming soon support)
+- ✅ Share Section component (with customizable text)
+- ✅ Responsive design and proper CSS/JS imports
+- ✅ SEO-optimized meta tags and structure
+
+For detailed blog component usage, see the [Blogs README](./Blogs/README.md).
+
 ## 🎉 **Features in Action**
 
 1. **Responsive Navigation**: Try resizing your browser to see the navigation adapt

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Title | Vipin Kumar</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <meta name="description" content="Article description for SEO">
+    <meta name="author" content="Vipin Kumar">
+    <meta name="keywords" content="tag1, tag2, tag3">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/blog-template.css">
+    <link rel="stylesheet" href="assets/css/blog-components.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">Vipin Kumar</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../blog.html" class="active">Blog</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="article-meta">
+                    <span class="category-badge development">Development</span>
+                    <span class="difficulty-badge intermediate">Intermediate</span>
+                    <span class="read-time">5 min read</span>
+                </div>
+                
+                <h1 class="article-title">Your Article Title Here</h1>
+                <p class="article-description">Brief description of what this article covers and what readers will learn.</p>
+                
+                <div class="hero-meta">
+                    <div class="author-info">
+                        <span class="author-name">By Vipin Kumar</span>
+                        <span class="publish-date">Date</span>
+                    </div>
+                    <div class="article-tags">
+                        <span class="tag">#Tag1</span>
+                        <span class="tag">#Tag2</span>
+                        <span class="tag">#Tag3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="article-container">
+            <div class="article-content" id="article-content">
+                
+                <!-- Your article content goes here -->
+                <section class="article-section">
+                    <h2 class="section-title">Section Title</h2>
+                    <div class="section-content">
+                        <p>Your content...</p>
+                    </div>
+                </section>
+
+                <!-- More sections as needed -->
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/blog-components.js"></script>
+    <script src="assets/js/blog-interactions.js"></script>
+    
+    <!-- Initialize Related Articles and Share Section -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Define related articles for this page
+            const relatedArticles = [
+                {
+                    url: 'other-article.html',
+                    title: 'Related Article Title',
+                    description: 'Brief description of the related article',
+                    disabled: false
+                },
+                {
+                    url: '#',
+                    title: 'Coming Soon Article',
+                    description: 'This article is not ready yet',
+                    disabled: true
+                }
+            ];
+            
+            // Add components to the page
+            if (window.BlogComponents) {
+                // Add related articles
+                BlogComponents.addRelatedArticles(relatedArticles);
+                
+                // Add share section (customize the text as needed)
+                BlogComponents.addShareSection(
+                    '📤 Share This Article',  // Custom title (optional)
+                    'Found this helpful? Share it with your team!'  // Custom description (optional)
+                );
+            }
+        });
+    </script>
+</body>
+</html>
