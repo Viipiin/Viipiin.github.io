@@ -291,7 +291,103 @@ Adjust spacing scale:
 - **Largest Contentful Paint**: < 2.5s
 - **Cumulative Layout Shift**: < 0.1
 
-## 🚀 Future Enhancements
+## � Component Reference
+
+### **Back to Top Component**
+
+The Back to Top component provides smooth scrolling to the top of the page with a progress indicator.
+
+#### Methods:
+
+**`BlogComponents.createBackToTop()`**
+- **Purpose**: Creates HTML for back to top button with progress indicator
+- **Returns**: HTML string for the back to top component
+- **Usage**: Automatic in blog articles, or manual in custom implementations
+
+**`BlogComponents.addBackToTop()`**
+- **Purpose**: Adds back to top button to the page and initializes functionality
+- **Parameters**: None
+- **Usage**: Call this to add the component to any page
+
+**`BlogComponents.initBackToTop()`**
+- **Purpose**: Initializes the scroll progress tracking and click functionality
+- **Parameters**: None
+- **Usage**: Automatically called by `addBackToTop()`
+
+#### Standalone Usage (Non-Blog Pages):
+
+```html
+<!-- Include the standalone component -->
+<script src="back-to-top-component.js"></script>
+
+<!-- The component auto-initializes, or manually call: -->
+<script>
+BackToTopComponent.addBackToTop();
+</script>
+```
+
+#### Features:
+- ✅ Smooth scroll to top functionality
+- ✅ Circular progress indicator showing scroll progress
+- ✅ Auto-hide/show based on scroll position
+- ✅ Responsive design across all devices
+- ✅ SVG-based icons for crisp display
+
+### **Related Articles & Share Section Components**
+
+#### Methods Available:
+
+**`BlogComponents.createRelatedArticles(articles)`**
+- **Purpose**: Creates HTML for related articles section
+- **Parameters**: 
+  - `articles` (Array): Array of article objects with `url`, `title`, `description`, `disabled` properties
+- **Returns**: HTML string for related articles section
+
+**`BlogComponents.addRelatedArticles(articles)`**
+- **Purpose**: Adds related articles section to the page
+- **Parameters**: Same as `createRelatedArticles`
+- **Usage**: Automatically appends to `.article-content`
+
+**`BlogComponents.createShareSection(title, description)`**
+- **Purpose**: Creates HTML for share section with social buttons
+- **Parameters**:
+  - `title` (String, optional): Custom title for share section
+  - `description` (String, optional): Custom description text
+- **Returns**: HTML string for share section
+
+**`BlogComponents.addShareSection(title, description)`**
+- **Purpose**: Adds share section to the page
+- **Parameters**: Same as `createShareSection`
+- **Usage**: Automatically appends to `.article-content`
+
+#### Component Usage Examples:
+
+```javascript
+// Related Articles
+const relatedArticles = [
+    {
+        url: 'other-article.html',
+        title: 'Related Article Title',
+        description: 'Brief description',
+        disabled: false
+    },
+    {
+        url: '#',
+        title: 'Coming Soon Article',
+        description: 'This article is not ready yet',
+        disabled: true
+    }
+];
+
+// Add all components
+if (window.BlogComponents) {
+    BlogComponents.addRelatedArticles(relatedArticles);
+    BlogComponents.addShareSection('Custom Title', 'Custom description');
+    BlogComponents.addBackToTop();
+}
+```
+
+## �🚀 Future Enhancements
 
 - [ ] Dark mode support
 - [ ] Syntax highlighting for more languages

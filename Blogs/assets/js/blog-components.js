@@ -52,8 +52,8 @@ class BlogTemplate {
                     <a href="../index.html" class="logo">Vipin Kumar</a>
                     <ul class="nav-links">
                         <li><a href="../index.html">Home</a></li>
-                        <li><a href="../blog.html" class="active">Blog</a></li>
-                        <li><a href="../contact.html">Contact</a></li>
+                        <li><a href="../pages/blog.html" class="active">Blog</a></li>
+                        <li><a href="../pages/contact.html">Contact</a></li>
                     </ul>
                 </div>
             </nav>
@@ -222,7 +222,7 @@ class BlogTemplate {
         return `
             <!-- Fixed Back to Blog Button -->
             <div class="fixed-back-button">
-                <a href="../blog.html" class="back-link">
+                <a href="../pages/blog.html" class="back-link">
                     <span class="back-icon">←</span>
                     <span class="back-text">Back to Blog</span>
                 </a>
@@ -234,7 +234,7 @@ class BlogTemplate {
     createInlineBackButton() {
         return `
             <div class="inline-back-button">
-                <a href="../blog.html" class="back-link">
+                <a href="../pages/blog.html" class="back-link">
                     <span class="back-icon">←</span>
                     <span class="back-text">Back to Blog</span>
                 </a>
@@ -370,7 +370,7 @@ window.BlogComponents = {
         return `
             <!-- Fixed Back to Blog Button -->
             <div class="fixed-back-button">
-                <a href="../blog.html" class="back-link">
+                <a href="../pages/blog.html" class="back-link">
                     <span class="back-icon">←</span>
                     <span class="back-text">Back to Blog</span>
                 </a>
@@ -382,7 +382,7 @@ window.BlogComponents = {
     createInlineBackButton: function() {
         return `
             <div class="inline-back-button">
-                <a href="../blog.html" class="back-link">
+                <a href="../pages/blog.html" class="back-link">
                     <span class="back-icon">←</span>
                     <span class="back-text">Back to Blog</span>
                 </a>

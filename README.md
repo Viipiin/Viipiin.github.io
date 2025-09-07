@@ -183,6 +183,7 @@ The template includes:
 - ✅ Fixed back button (automatically positioned)
 - ✅ Related Articles component (with disabled/coming soon support)
 - ✅ Share Section component (with customizable text)
+- ✅ Back to Top component (with scroll progress indicator)
 - ✅ Responsive design and proper CSS/JS imports
 - ✅ SEO-optimized meta tags and structure
 

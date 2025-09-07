@@ -13,24 +13,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/css/header-component.css">
     <link rel="stylesheet" href="assets/css/blog-template.css">
     <link rel="stylesheet" href="assets/css/blog-components.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
+    <!-- Header Component -->
+    <div id="headerContainer"></div>
+    
+    <!-- Navigation (Hidden, kept for compatibility) -->
+    <nav class="navbar" id="navbar" style="display: none;">
         <div class="nav-container">
             <a href="../index.html" class="logo">Vipin Kumar</a>
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="../blog.html" class="active">Blog</a></li>
-                <li><a href="../contact.html">Contact</a></li>
+                <li><a href="../pages/blog.html" class="active">Blog</a></li>
+                <li><a href="../pages/contact.html">Contact</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <div class="hero">
+    <div class="hero" style="margin-top: 100px;">
         <div class="hero-container">
             <div class="hero-content">
                 <div class="article-meta">
@@ -244,8 +248,50 @@ document.getElementById('share-target').innerHTML = shareHTML;</code></pre>
                     '🚀 Share This Component Demo',
                     'Show your team how our component system works!'
                 );
+                BlogComponents.addBackToTop();
             }
         });
+    </script>
+    
+    <script src="../assets/js/header-component.js"></script>
+    <script>
+        // Initialize the header component for blog articles
+        try {
+            if (typeof window.HeaderComponent !== 'undefined') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    const headerConfig = {
+                        logo: {
+                            text: "Viipiin",
+                            url: "../index.html",
+                            showIcon: true
+                        },
+                        navigation: [
+                            { text: "Portfolio", url: "../index.html", active: false },
+                            { text: "Blog", url: "../pages/blog.html", active: true },
+                            { text: "Contact", url: "../pages/contact.html", active: false }
+                        ],
+                        cta: {
+                            text: "Get in Touch",
+                            url: "../pages/contact.html",
+                            style: "primary"
+                        },
+                        showSearch: true,
+                        showThemeToggle: true,
+                        showSocialLinks: true,
+                        socialLinks: [
+                            { platform: "linkedin", url: "https://www.linkedin.com/in/viipiintyagi/", icon: "linkedin" },
+                            { platform: "github", url: "https://github.com/viipiin", icon: "github" },
+                            { platform: "twitter", url: "https://twitter.com/theo365dev", icon: "twitter" }
+                        ]
+                    };
+
+                    document.getElementById('headerContainer').innerHTML = HeaderComponent.createHeader(headerConfig);
+                    HeaderComponent.init();
+                });
+            }
+        } catch (error) {
+            console.log('Header component initialization error:', error);
+        }
     </script>
 </body>
 </html>

@@ -1935,11 +1935,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Mark as loaded
         document.body.classList.add('loaded');
         
-        // Test notification to verify it's working
-        setTimeout(() => {
-            showPopup('success', 'Welcome! 🎉', 'Your portfolio is now fully loaded and ready to explore. All features are working perfectly!', 4000);
-        }, 1500);
-        
     } catch (error) {
         console.error('❌ Error initializing website functionality:', error);
         // Use basic alert if notification system fails

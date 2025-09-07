@@ -4,39 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - Vipin Kumar | Solution Architect</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="alternate icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+    <link rel="alternate icon" href="../favicon.ico">
     <meta name="description" content="Get in touch with Solution Architect Vipin Kumar. Available for consulting, collaboration, and SharePoint & Power Platform projects.">
     <meta name="keywords" content="Contact Vipin Kumar, SharePoint Consultant, Power Platform Expert, Solution Architect">
     <meta name="author" content="Vipin Kumar">
-    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/css/header-component.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
+    <!-- Header Component -->
+    <div id="headerContainer"></div>
+    
     <div class="container">
-        <!-- Navigation -->
-        <nav class="navigation">
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html" class="active">Contact</a></li>
-            </ul>
-            <div class="nav-right">
-                <div class="time-toggle">
-                    <button id="timeFormatToggle" class="toggle-btn" title="Click to switch between 12H/24H format">
-                        <div class="toggle-track format-24h">
-                            <div class="toggle-display"></div>
-                        </div>
-                    </button>
-                </div>
-                <div class="live-clock">
-                    <div class="clock-time" id="clock-time"></div>
-                    <div class="clock-date" id="clock-date"></div>
-                </div>
-            </div>
-        </nav>
-
+        
         <!-- Header Section -->
-        <div class="header">
+        <div class="header" style="margin-top: 120px;">
             <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=300&fit=crop&crop=center" alt="Contact Us" class="contact-hero">
             <h1>Let's Connect</h1>
             <p class="subtitle">Ready to transform your business with modern cloud solutions? Let's discuss your project!</p>
@@ -305,21 +295,47 @@
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <div class="back-to-top" id="backToTop">
-        <div class="back-to-top-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 14l5-5 5 5"/>
-                <path d="M7 20l5-5 5 5"/>
-            </svg>
-        </div>
-        <div class="back-to-top-progress">
-            <svg class="progress-ring" width="50" height="50">
-                <circle class="progress-ring-circle" cx="25" cy="25" r="20" fill="transparent" stroke="currentColor" stroke-width="2"/>
-            </svg>
-        </div>
-    </div>
+    <script src="../assets/js/header-component.js"></script>
+    <script>
+        // Disable problematic script functions for header component pages
+        try {
+            // Only load essential functions from script.js
+            if (typeof window.HeaderComponent !== 'undefined') {
+                // Initialize header component safely
+                document.addEventListener('DOMContentLoaded', function() {
+                    const headerConfig = {
+                        logo: {
+                            text: "Viipiin",
+                            url: "../index.html",
+                            showIcon: true
+                        },
+                        navigation: [
+                            { text: "Portfolio", url: "../index.html", active: false },
+                            { text: "Blog", url: "blog.html", active: false },
+                            { text: "Contact", url: "contact.html", active: true }
+                        ],
+                        cta: {
+                            text: "Let's Talk",
+                            url: "#contact-form",
+                            style: "primary"
+                        },
+                        showSearch: true,
+                        showThemeToggle: true,
+                        showSocialLinks: true,
+                        socialLinks: [
+                            { platform: "linkedin", url: "https://www.linkedin.com/in/viipiintyagi/", icon: "linkedin" },
+                            { platform: "github", url: "https://github.com/viipiin", icon: "github" },
+                            { platform: "twitter", url: "https://twitter.com/theo365dev", icon: "twitter" }
+                        ]
+                    };
 
-    <script src="script.js"></script>
+                    document.getElementById('headerContainer').innerHTML = HeaderComponent.createHeader(headerConfig);
+                    HeaderComponent.init();
+                });
+            }
+        } catch (error) {
+            console.log('Header component initialization error:', error);
+        }
+    </script>
 </body>
 </html>

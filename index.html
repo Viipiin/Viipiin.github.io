@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vipin Kumar - Solution Architect | SharePoint & Power Platform Expert</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <link rel="alternate icon" href="favicon.ico">
     <meta name="description" content="Solution Architect specializing in SharePoint, Power Platform, and Digital Transformation. Expert in legacy modernization and enterprise cloud solutions.">
     <meta name="keywords" content="Solution Architect, SharePoint, Power Platform, Digital Transformation, Microsoft 365, Azure, Power Apps, Power Automate">
@@ -15,34 +15,24 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Vipin Kumar - Solution Architect">
     <meta name="twitter:description" content="Expert Solution Architect specializing in SharePoint, Power Platform, and Digital Transformation solutions.">
-    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/header-component.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+    <!-- Header Component -->
+    <div id="headerContainer"></div>
+    
     <div class="container">
-        <!-- Navigation -->
-        <nav class="navigation">
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Portfolio</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <div class="nav-right">
-                <div class="time-toggle">
-                    <button id="timeFormatToggle" class="toggle-btn" title="Click to switch between 12H/24H format">
-                        <div class="toggle-track format-24h">
-                            <div class="toggle-display"></div>
-                        </div>
-                    </button>
-                </div>
-                <div class="live-clock">
-                    <div class="clock-time" id="clock-time"></div>
-                    <div class="clock-date" id="clock-date"></div>
-                </div>
-            </div>
-        </nav>
 
         <!-- Header Section -->
-        <div class="header">
+        <div class="header" style="margin-top: 120px;">
             <div class="profile-img">
                 VK
             </div>
@@ -412,21 +402,6 @@
         </div>
     </div>
     
-    <!-- Back to Top Button -->
-    <div class="back-to-top" id="backToTop">
-        <div class="back-to-top-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 14l5-5 5 5"/>
-                <path d="M7 20l5-5 5 5"/>
-            </svg>
-        </div>
-        <div class="back-to-top-progress">
-            <svg class="progress-ring" width="50" height="50">
-                <circle class="progress-ring-circle" cx="25" cy="25" r="20" fill="transparent" stroke="currentColor" stroke-width="2"/>
-            </svg>
-        </div>
-    </div>
-    
     <!-- Creative Footer -->
     <footer class="creative-footer">
         <div class="footer-content">
@@ -449,6 +424,68 @@
         </div>
     </footer>
     
-    <script src="script.js"></script>
+    <script src="assets/js/header-component.js"></script>
+    <script>
+        // Disable problematic script functions for header component pages
+        try {
+            // Only load essential functions for header component pages
+            if (typeof window.HeaderComponent !== 'undefined') {
+                // Initialize header component safely
+                document.addEventListener('DOMContentLoaded', function() {
+                    const headerConfig = {
+                        logo: {
+                            text: "Viipiin",
+                            url: "index.html",
+                            showIcon: true
+                        },
+                        navigation: [
+                            { text: "Portfolio", url: "index.html", active: true },
+                            { text: "Blog", url: "pages/blog.html", active: false },
+                            { text: "Contact", url: "pages/contact.html", active: false }
+                        ],
+                        cta: {
+                            text: "Get in Touch",
+                            url: "pages/contact.html",
+                            style: "primary"
+                        },
+                        showSearch: true,
+                        showThemeToggle: true,
+                        showSocialLinks: true,
+                        socialLinks: [
+                            { platform: "linkedin", url: "https://www.linkedin.com/in/viipiintyagi/", icon: "linkedin" },
+                            { platform: "github", url: "https://github.com/viipiin", icon: "github" },
+                            { platform: "twitter", url: "https://twitter.com/theo365dev", icon: "twitter" }
+                        ]
+                    };
+
+                    document.getElementById('headerContainer').innerHTML = HeaderComponent.createHeader(headerConfig);
+                    HeaderComponent.init();
+                });
+            }
+        } catch (error) {
+            console.log('Header component initialization error:', error);
+        }
+        
+        // Add minimal functionality that doesn't depend on old navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update footer year
+            const yearElements = document.querySelectorAll('.footer-year');
+            const currentYear = new Date().getFullYear();
+            yearElements.forEach(el => el.textContent = currentYear);
+            
+            // Add smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
