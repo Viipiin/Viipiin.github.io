@@ -3547,8 +3547,8 @@ h1 {
     transform: none;
 }
 
-/* Download Section - positioned after contact info */
-.header .download-section {
+/* Profile Download Section - positioned after contact info in main header */
+.header .profile-download-section {
     display: flex;
     justify-content: center;
     margin-top: 1.5rem;
@@ -3592,9 +3592,9 @@ h1 {
     transform: translateY(1px);
 }
 
-/* Mobile Responsive for Download Section */
+/* Mobile Responsive for Profile Download Section */
 @media (max-width: 768px) {
-    .header .download-section {
+    .header .profile-download-section {
         margin-top: 1rem;
     }
     
