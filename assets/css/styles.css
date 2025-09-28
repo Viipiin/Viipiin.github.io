@@ -3547,6 +3547,117 @@ h1 {
     transform: none;
 }
 
+/* Download Profile Section Styles */
+.download-profile-section {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.download-profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.download-profile-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.download-profile-btn:active {
+    transform: translateY(-1px);
+}
+
+.download-profile-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.download-profile-btn:hover::before {
+    left: 100%;
+}
+
+.download-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+}
+
+.download-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+}
+
+.download-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.download-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.download-subtitle {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+/* Mobile Responsive for Download Button */
+@media (max-width: 768px) {
+    .download-profile-btn {
+        padding: 0.875rem 1.5rem;
+        gap: 0.75rem;
+    }
+    
+    .download-icon {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .download-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .download-title {
+        font-size: 1rem;
+    }
+    
+    .download-subtitle {
+        font-size: 0.8rem;
+    }
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .blog-posts-container {
