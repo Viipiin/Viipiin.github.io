@@ -3547,8 +3547,6 @@ h1 {
     transform: none;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 /* Header Actions Container */
 .header-actions {
     display: flex;
@@ -3623,11 +3621,6 @@ h1 {
         height: 14px;
     }
 }
-
-=======
->>>>>>> parent of e056ff8 (added profile download code)
-=======
->>>>>>> parent of e056ff8 (added profile download code)
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .blog-posts-container {
