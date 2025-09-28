@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Contact - Vipin Kumar | Solution Architect</title>
     <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
     <link rel="alternate icon" href="../favicon.ico">
@@ -18,6 +18,8 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="../assets/css/header-component.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/contact.css">
+    <link rel="stylesheet" href="../assets/css/back-to-top.css">
 </head>
 <body>
     <!-- Header Component -->
@@ -195,7 +197,7 @@
                 <div class="contact-gallery scrollable-gallery" id="scrollableGallery">
                     <!-- Microsoft Development Images -->
                     <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=250&fit=crop" alt="Azure Cloud Development" class="gallery-image">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=250&fit=crop" alt="Azure Cloud Development" class="gallery-image">
                         <div class="gallery-overlay">
                             <h3>Azure Cloud Platform</h3>
                             <p>Scalable cloud solutions</p>
@@ -211,7 +213,7 @@
                     </div>
                     
                     <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop" alt="Business Intelligence" class="gallery-image">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=250&fit=crop" alt="Business Intelligence" class="gallery-image">
                         <div class="gallery-overlay">
                             <h3>SharePoint Solutions</h3>
                             <p>Collaborative workspaces</p>
@@ -219,7 +221,7 @@
                     </div>
                     
                     <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400&h=250&fit=crop" alt="Modern Development" class="gallery-image">
+                        <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=250&fit=crop" alt="Modern Development" class="gallery-image">
                         <div class="gallery-overlay">
                             <h3>Power Platform</h3>
                             <p>Low-code automation</p>
@@ -227,7 +229,7 @@
                     </div>
                     
                     <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=400&h=250&fit=crop" alt="Microsoft Office 365" class="gallery-image">
+                        <img src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=250&fit=crop" alt="Microsoft Office 365" class="gallery-image">
                         <div class="gallery-overlay">
                             <h3>Microsoft 365</h3>
                             <p>Productivity solutions</p>
@@ -235,7 +237,7 @@
                     </div>
                     
                     <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&h=250&fit=crop" alt="Teams Collaboration" class="gallery-image">
+                        <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=250&fit=crop" alt="Teams Collaboration" class="gallery-image">
                         <div class="gallery-overlay">
                             <h3>Microsoft Teams</h3>
                             <p>Remote collaboration</p>
@@ -243,7 +245,7 @@
                     </div>
                     
                     <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=250&fit=crop" alt="AI and Machine Learning" class="gallery-image">
+                        <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=250&fit=crop" alt="AI and Machine Learning" class="gallery-image">
                         <div class="gallery-overlay">
                             <h3>AI & Machine Learning</h3>
                             <p>Cognitive services</p>
@@ -251,7 +253,7 @@
                     </div>
                     
                     <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=250&fit=crop" alt="DevOps Pipeline" class="gallery-image">
+                        <img src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=400&h=250&fit=crop" alt="DevOps Pipeline" class="gallery-image">
                         <div class="gallery-overlay">
                             <h3>Azure DevOps</h3>
                             <p>CI/CD pipelines</p>
@@ -296,6 +298,8 @@
     </footer>
 
     <script src="../assets/js/header-component.js"></script>
+    <script src="../assets/js/back-to-top.js"></script>
+    <script src="../assets/js/contact-responsive.js"></script>
     <script>
         // Disable problematic script functions for header component pages
         try {
@@ -331,10 +335,65 @@
 
                     document.getElementById('headerContainer').innerHTML = HeaderComponent.createHeader(headerConfig);
                     HeaderComponent.init();
+                    
+                    // Initialize gallery scroll functionality
+                    initializeGalleryScroll();
                 });
             }
         } catch (error) {
             console.log('Header component initialization error:', error);
+        }
+        
+        // Gallery scroll functionality
+        function initializeGalleryScroll() {
+            const scrollLeftBtn = document.getElementById('scrollLeft');
+            const scrollRightBtn = document.getElementById('scrollRight');
+            const gallery = document.getElementById('scrollableGallery');
+            
+            if (!scrollLeftBtn || !scrollRightBtn || !gallery) {
+                console.log('Gallery scroll elements not found');
+                return;
+            }
+            
+            // Scroll amount (adjust as needed)
+            const scrollAmount = 300;
+            
+            // Left scroll button
+            scrollLeftBtn.addEventListener('click', function() {
+                gallery.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Right scroll button
+            scrollRightBtn.addEventListener('click', function() {
+                gallery.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Optional: Update button states based on scroll position
+            function updateScrollButtons() {
+                const maxScrollLeft = gallery.scrollWidth - gallery.clientWidth;
+                
+                // Disable/enable buttons based on scroll position
+                scrollLeftBtn.style.opacity = gallery.scrollLeft <= 0 ? '0.5' : '1';
+                scrollLeftBtn.disabled = gallery.scrollLeft <= 0;
+                
+                scrollRightBtn.style.opacity = gallery.scrollLeft >= maxScrollLeft ? '0.5' : '1';
+                scrollRightBtn.disabled = gallery.scrollLeft >= maxScrollLeft;
+            }
+            
+            // Update button states on scroll
+            gallery.addEventListener('scroll', updateScrollButtons);
+            
+            // Initial button state update
+            updateScrollButtons();
+            
+            // Also update on window resize
+            window.addEventListener('resize', updateScrollButtons);
         }
     </script>
 </body>

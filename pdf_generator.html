@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio PDF Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .method {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #4CAF50;
+        }
+        .method h3 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .btn-secondary {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+        }
+        .btn-warning {
+            background: linear-gradient(45deg, #FF9800, #F57C00);
+        }
+        .steps {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .steps li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        .icon {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+        .success {
+            background: rgba(76, 175, 80, 0.2);
+            border-left-color: #4CAF50;
+        }
+        .info {
+            background: rgba(33, 150, 243, 0.2);
+            border-left-color: #2196F3;
+        }
+        .warning {
+            background: rgba(255, 152, 0, 0.2);
+            border-left-color: #FF9800;
+        }
+        .preview-frame {
+            width: 100%;
+            height: 400px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            margin: 15px 0;
+            background: white;
+        }
+        .download-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 10px;
+            border: 2px dashed rgba(76, 175, 80, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Portfolio PDF Generator</h1>
+        
+        <div class="download-section">
+            <h2>📄 Quick PDF Generation</h2>
+            <p>Generate a professional PDF of your portfolio instantly!</p>
+            <button class="btn" onclick="generatePDF()">
+                <span class="icon">📥</span>Generate PDF Now
+            </button>
+            <button class="btn btn-secondary" onclick="previewPortfolio()">
+                <span class="icon">👁️</span>Preview Portfolio
+            </button>
+        </div>
+
+        <div class="method success">
+            <h3><span class="icon">⚡</span>Method 1: Browser Built-in (Recommended)</h3>
+            <p>Use your browser's built-in PDF generation feature for the best results.</p>
+            <div class="steps">
+                <ol>
+                    <li>Open your portfolio in Chrome, Edge, or Firefox</li>
+                    <li>Press <strong>Ctrl+P</strong> (or Cmd+P on Mac)</li>
+                    <li>Select "Save as PDF" as destination</li>
+                    <li>Choose these settings:
+                        <ul>
+                            <li>Paper size: A4</li>
+                            <li>Margins: Default</li>
+                            <li>Options: ✅ Background graphics</li>
+                        </ul>
+                    </li>
+                    <li>Click "Save" and choose your location</li>
+                </ol>
+            </div>
+            <button class="btn" onclick="openPortfolioForPrint()">
+                <span class="icon">🖨️</span>Open Portfolio for Printing
+            </button>
+        </div>
+
+        <div class="method info">
+            <h3><span class="icon">🐍</span>Method 2: Python Script (Advanced)</h3>
+            <p>Use the Python scripts I created for automated PDF generation.</p>
+            <div class="steps">
+                <ol>
+                    <li>Install Python and required packages</li>
+                    <li>Run one of these scripts:
+                        <ul>
+                            <li><code>create_portfolio_pdf_playwright.py</code> (Recommended)</li>
+                            <li><code>create_portfolio_pdf.py</code> (Alternative)</li>
+                        </ul>
+                    </li>
+                    <li>The PDF will be generated automatically</li>
+                </ol>
+            </div>
+            <button class="btn btn-secondary" onclick="runPythonScript()">
+                <span class="icon">▶️</span>Run Python Script
+            </button>
+        </div>
+
+        <div class="method warning">
+            <h3><span class="icon">🌐</span>Method 3: Online Converters</h3>
+            <p>Use online HTML to PDF conversion services (use with caution for sensitive data).</p>
+            <div class="steps">
+                <ol>
+                    <li>Upload your portfolio HTML file to an online converter</li>
+                    <li>Popular services: HTML to PDF API, PDFShift, etc.</li>
+                    <li>Download the generated PDF</li>
+                </ol>
+            </div>
+            <button class="btn btn-warning" onclick="showOnlineOptions()">
+                <span class="icon">🔗</span>View Online Options
+            </button>
+        </div>
+
+        <div id="preview-section" style="display: none;">
+            <h3>📱 Portfolio Preview</h3>
+            <iframe id="portfolio-frame" class="preview-frame" src="index.html"></iframe>
+        </div>
+
+        <div class="method">
+            <h3><span class="icon">💡</span>Pro Tips for Best PDF Results</h3>
+            <ul>
+                <li>Use "Print Background Graphics" option in browser settings</li>
+                <li>Choose A4 paper size for standard format</li>
+                <li>Use "More Settings" to adjust margins if needed</li>
+                <li>Preview before saving to ensure proper formatting</li>
+                <li>Consider landscape orientation for wide content</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function generatePDF() {
+            // Open the portfolio in a new window optimized for printing
+            const printWindow = window.open('index.html', '_blank', 'width=1200,height=800');
+            
+            printWindow.onload = function() {
+                setTimeout(() => {
+                    printWindow.print();
+                }, 1000);
+            };
+        }
+
+        function previewPortfolio() {
+            const previewSection = document.getElementById('preview-section');
+            const frame = document.getElementById('portfolio-frame');
+            
+            if (previewSection.style.display === 'none') {
+                previewSection.style.display = 'block';
+                frame.src = 'index.html?' + Date.now(); // Force reload
+            } else {
+                previewSection.style.display = 'none';
+            }
+        }
+
+        function openPortfolioForPrint() {
+            // Open portfolio in new tab and trigger print dialog
+            const newWindow = window.open('index.html', '_blank');
+            newWindow.onload = function() {
+                setTimeout(() => {
+                    newWindow.focus();
+                    alert('Portfolio opened! Press Ctrl+P to print/save as PDF');
+                }, 500);
+            };
+        }
+
+        function runPythonScript() {
+            alert(`To run the Python script:
+
+1. Open terminal/command prompt
+2. Navigate to your portfolio folder
+3. Run one of these commands:
+
+   python create_portfolio_pdf_playwright.py
+   
+   OR
+   
+   python create_portfolio_pdf.py
+
+Make sure Python and required packages are installed!`);
+        }
+
+        function showOnlineOptions() {
+            alert(`Online HTML to PDF converters:
+
+⚠️ Note: Be cautious with sensitive information
+
+Popular options:
+• HTML/CSS to PDF API
+• PDFShift
+• wkhtmltopdf online
+• Print Friendly & PDF
+
+For best results, use the browser method instead!`);
+        }
+
+        // Auto-detect if we can run the preview
+        window.onload = function() {
+            try {
+                const frame = document.getElementById('portfolio-frame');
+                frame.onerror = function() {
+                    console.log('Portfolio preview not available - run from a web server');
+                };
+            } catch (e) {
+                console.log('Preview setup error:', e);
+            }
+        };
+    </script>
+</body>
+</html>
