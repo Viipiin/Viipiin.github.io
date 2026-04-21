@@ -10,6 +10,7 @@ body {
     color: #333;
     background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     min-height: 100vh;
+    transition: background 0.35s ease, color 0.35s ease;
 }
 
 .container {
@@ -948,4 +949,55 @@ h1 {
     .contact-details p {
         color: #cbd5e1;
     }
+}
+
+/* ============================================================
+   DARK THEME – Contact page overrides
+   ============================================================ */
+:root.dark-theme body {
+    background: linear-gradient(135deg, #1e1b4b 0%, #2d1657 35%, #0c3d5c 70%, #0a3344 100%);
+    color: #e2e8f0;
+}
+:root.dark-theme .contact-info,
+:root.dark-theme .contact-form,
+:root.dark-theme .availability {
+    background: #1e293b;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #e2e8f0;
+}
+:root.dark-theme .contact-info h2,
+:root.dark-theme .contact-form h2,
+:root.dark-theme .availability h2 { color: #e2e8f0; }
+:root.dark-theme .contact-details h3 { color: #e2e8f0; }
+:root.dark-theme .contact-details p  { color: #94a3b8; }
+:root.dark-theme .contact-details a  { color: #818cf8; }
+:root.dark-theme .contact-item {
+    background: #0f172a;
+    border-color: rgba(255, 255, 255, 0.06);
+}
+:root.dark-theme .form-group label { color: #cbd5e1; }
+:root.dark-theme .form-group input,
+:root.dark-theme .form-group textarea,
+:root.dark-theme .form-group select {
+    background: #0f172a;
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
+}
+:root.dark-theme .form-group input:focus,
+:root.dark-theme .form-group textarea:focus,
+:root.dark-theme .form-group select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+:root.dark-theme .form-group input::placeholder,
+:root.dark-theme .form-group textarea::placeholder { color: #475569; }
+:root.dark-theme .form-group select option {
+    background: #0f172a;
+    color: #e2e8f0;
+}
+:root.dark-theme .availability p { color: #94a3b8; }
+:root.dark-theme .nav-links a     { color: #cbd5e1; }
+:root.dark-theme .navigation {
+    background: rgba(15, 23, 42, 0.92);
+    border-color: rgba(255, 255, 255, 0.08);
 }
