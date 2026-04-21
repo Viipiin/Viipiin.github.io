@@ -3850,14 +3850,16 @@ h1 {
     border: 1px solid rgba(99,102,241,0.12);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
-    overflow: hidden;
+    /* no overflow:hidden — arrows and glow must not be clipped */
 }
+/* gradient top-bar via inset box-shadow trick so overflow:visible still works */
 .tl-card::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 3px;
     background: var(--gradient-main);
+    border-radius: 16px 16px 0 0;
 }
 .tl-dot--current ~ .tl-card::before { background: var(--gradient-emerald); }
 .tl-dot--acc     ~ .tl-card::before { background: var(--gradient-cyber); }
