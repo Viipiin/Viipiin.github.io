@@ -8,7 +8,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     min-height: 100vh;
 }
 
@@ -52,7 +52,7 @@ body {
 
 .nav-links a:hover,
 .nav-links a.active {
-    background: linear-gradient(45deg, #667eea, #764ba2);
+    background: linear-gradient(45deg, #6366f1, #8b5cf6);
     color: white;
     transform: translateY(-2px);
 }
@@ -70,7 +70,7 @@ h1 {
     color: #2c3e50;
     margin-bottom: 1rem;
     font-size: 2.5rem;
-    background: linear-gradient(45deg, #667eea, #764ba2);
+    background: linear-gradient(45deg, #6366f1, #8b5cf6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -109,7 +109,7 @@ h1 {
     margin-bottom: 1.5rem;
     font-size: 1.8rem;
     border-bottom: 3px solid;
-    border-image: linear-gradient(45deg, #667eea, #764ba2) 1;
+    border-image: linear-gradient(45deg, #6366f1, #8b5cf6) 1;
     padding-bottom: 0.5rem;
 }
 
@@ -131,7 +131,7 @@ h1 {
 .contact-icon {
     width: 50px;
     height: 50px;
-    background: linear-gradient(45deg, #667eea, #764ba2);
+    background: linear-gradient(45deg, #6366f1, #8b5cf6);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -152,13 +152,13 @@ h1 {
 }
 
 .contact-details a {
-    color: #667eea;
+    color: #6366f1;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .contact-details a:hover {
-    color: #764ba2;
+    color: #8b5cf6;
 }
 
 .form-group {
@@ -189,7 +189,7 @@ h1 {
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #6366f1;
 }
 
 .form-group textarea {
@@ -204,7 +204,7 @@ h1 {
 }
 
 .submit-btn {
-    background: linear-gradient(45deg, #667eea, #764ba2);
+    background: linear-gradient(45deg, #6366f1, #8b5cf6);
     color: white;
     border: none;
     padding: 1rem 3rem;
@@ -344,7 +344,7 @@ h1 {
 }
 
 .popup-btn {
-    background: linear-gradient(45deg, #667eea, #764ba2);
+    background: linear-gradient(45deg, #6366f1, #8b5cf6);
     color: white;
     border: none;
     padding: 0.8rem 2rem;
@@ -899,7 +899,7 @@ h1 {
 }
 
 .contact-content .contact-item:focus-within {
-    outline: 2px solid #667eea;
+    outline: 2px solid #6366f1;
     outline-offset: 2px;
 }
 
@@ -938,7 +938,7 @@ h1 {
     .form-group textarea {
         background: #4a5568;
         color: white;
-        border-color: #667eea;
+        border-color: #6366f1;
     }
     
     .contact-details h3 {
