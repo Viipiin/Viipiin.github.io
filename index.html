@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Theme: apply saved/system preference BEFORE first paint to avoid flash -->
+    <script>
+      (function(){
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && prefersDark)) {
+          document.documentElement.classList.add('dark-theme');
+        }
+      })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vipin Kumar – Power Platform Solution Architect | Copilot Studio | ALM | Dataverse</title>
@@ -220,9 +230,14 @@
                     <div class="skill-row-chips">
                         <span class="skill-chip hi">Microsoft Copilot Studio</span>
                         <span class="skill-chip hi">AI Builder</span>
+                        <span class="skill-chip hi">Copilot Agents</span>
+                        <span class="skill-chip hi">Autonomous Agents</span>
                         <span class="skill-chip">Topics &amp; Generative Answers</span>
                         <span class="skill-chip">Copilot Actions &amp; Plugins</span>
                         <span class="skill-chip">Azure OpenAI</span>
+                        <span class="skill-chip">Azure AI Foundry</span>
+                        <span class="skill-chip">GitHub Copilot</span>
+                        <span class="skill-chip">GitHub Copilot CLI</span>
                     </div>
                 </div>
 
@@ -253,6 +268,17 @@
                         <span class="skill-chip">SharePoint Online</span>
                         <span class="skill-chip">C#</span>
                         <span class="skill-chip">Git</span>
+                    </div>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-label">Tools</div>
+                    <div class="skill-row-chips">
+                        <span class="skill-chip hi">VS Code</span>
+                        <span class="skill-chip hi">XRM Toolbox</span>
+                        <span class="skill-chip">Sharegate</span>
+                        <span class="skill-chip">Power Platform CLI</span>
+                        <span class="skill-chip">Azure DevOps</span>
                     </div>
                 </div>
 
@@ -666,6 +692,57 @@
                     }
                 });
             });
+
+            // ── Stats count-up animation ──────────────────────────────────
+            const statsSection = document.querySelector('#stats');
+            if (statsSection && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                const statNumbers = statsSection.querySelectorAll('.stat-number');
+                const counterObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (!entry.isIntersecting) return;
+                        statNumbers.forEach(el => {
+                            const text = el.textContent.trim();
+                            const suffix = text.includes('+') ? '+' : '';
+                            const target = parseInt(text, 10);
+                            if (isNaN(target)) return;
+                            let count = 0;
+                            const duration = 900;
+                            const steps = 40;
+                            const stepVal = target / steps;
+                            const interval = duration / steps;
+                            el.classList.add('counting');
+                            const timer = setInterval(() => {
+                                count = Math.min(count + stepVal, target);
+                                el.textContent = Math.floor(count) + suffix;
+                                if (count >= target) {
+                                    el.textContent = target + suffix;
+                                    el.classList.remove('counting');
+                                    clearInterval(timer);
+                                }
+                            }, interval);
+                        });
+                        counterObserver.unobserve(entry.target);
+                    });
+                }, { threshold: 0.4 });
+                counterObserver.observe(statsSection);
+            }
+
+            // ── Section underline slide-in ────────────────────────────────
+            const sectionHeaders = document.querySelectorAll('.section-header');
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                const underlineObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('underline-in');
+                            underlineObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.4 });
+                sectionHeaders.forEach(h => underlineObserver.observe(h));
+            } else {
+                // reduced motion: show underlines immediately
+                sectionHeaders.forEach(h => h.classList.add('underline-in'));
+            }
         });
     </script>
     <!-- Typing animation removed — replaced with static subtitle for ATS compatibility -->

@@ -307,20 +307,39 @@ window.HeaderComponent = {
     // Theme toggle functionality
     initThemeToggle: function() {
         const themeToggle = document.querySelector('.theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                document.documentElement.classList.toggle('dark-theme');
-                localStorage.setItem('theme', 
-                    document.documentElement.classList.contains('dark-theme') ? 'dark' : 'light'
-                );
-            });
+        if (!themeToggle) return;
 
-            // Load saved theme
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
+        // Helper: apply theme and persist
+        const applyTheme = (isDark) => {
+            if (isDark) {
                 document.documentElement.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.setAttribute('aria-label', 'Switch to light mode');
+            } else {
+                document.documentElement.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light');
+                themeToggle.setAttribute('aria-label', 'Switch to dark mode');
             }
-        }
+        };
+
+        // Determine initial state (FOUC script already set the class; just sync aria-label)
+        const isDarkOnLoad = document.documentElement.classList.contains('dark-theme');
+        themeToggle.setAttribute('aria-label', isDarkOnLoad ? 'Switch to light mode' : 'Switch to dark mode');
+
+        // Toggle on click
+        themeToggle.addEventListener('click', () => {
+            const currentlyDark = document.documentElement.classList.contains('dark-theme');
+            applyTheme(!currentlyDark);
+        });
+
+        // Respond to OS-level preference changes (e.g. user switches system theme)
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        mq.addEventListener('change', (e) => {
+            // Only follow system if user has not explicitly saved a preference
+            if (!localStorage.getItem('theme')) {
+                applyTheme(e.matches);
+            }
+        });
     },
 
     // Scroll effects
