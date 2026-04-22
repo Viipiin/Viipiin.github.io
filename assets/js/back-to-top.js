@@ -23,13 +23,9 @@ class BackToTop {
         this.button.setAttribute('title', 'Back to top (Ctrl + ↑)');
         
         this.button.innerHTML = `
-            <svg class="back-to-top-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 14L12 9L17 14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 20V9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <svg class="back-to-top-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"/>
             </svg>
-            <div class="back-to-top-tooltip">
-                Back to top <span class="keyboard-shortcut">Ctrl+↑</span>
-            </div>
         `;
         
         document.body.appendChild(this.button);
