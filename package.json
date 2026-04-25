@@ -1,0 +1,19 @@
+{
+  "name": "viipiin-portfolio",
+  "version": "2.0.0",
+  "description": "Personal portfolio website - Power Platform Solution Architect",
+  "author": "Vipin Kumar",
+  "license": "MIT",
+  "scripts": {
+    "serve": "python -m http.server 8000",
+    "serve:node": "npx http-server -p 8000",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}
