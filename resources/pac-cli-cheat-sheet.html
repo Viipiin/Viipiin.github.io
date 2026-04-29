@@ -186,6 +186,7 @@
       .card-header {
         padding: 8px 12px;
         font-size: 0.8rem;
+        line-height: 1.3;
       }
       .card-header .cmd-label { font-size: 0.75rem; }
       td {
@@ -217,11 +218,54 @@
       .card.span2 { grid-column: span 1; }
       .page-header h1 { font-size: 1.25rem; letter-spacing: 0; }
       .page-header p  { font-size: 0.78rem; }
-      /* Make tables scroll horizontally instead of overflowing */
+      .page-header code {
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+      .card-header {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 6px 8px;
+        font-size: 0.92rem;
+      }
+      .card-header .cmd-label {
+        flex: 0 0 auto;
+        font-size: 0.74rem;
+        line-height: 1.25;
+      }
+      /* Convert dense tables into stacked mobile rows */
       .card { overflow: hidden; }
-      table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      td:first-child { width: auto; min-width: 130px; }
-      td { white-space: normal; }
+      table,
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100%;
+      }
+      table { overflow: visible; }
+      tr {
+        border-bottom: 1px solid #e8ecf4;
+      }
+      tr:last-child {
+        border-bottom: none;
+      }
+      td {
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+      td:first-child {
+        width: auto;
+        min-width: 0;
+        white-space: normal;
+        padding-bottom: 2px;
+        border-bottom: none;
+        font-size: 0.86rem;
+      }
+      td:last-child {
+        padding-top: 0;
+        padding-bottom: 10px;
+        font-size: 0.92rem;
+      }
     }
 
     /* ── Small mobile (≤ 400px) ── */
@@ -229,7 +273,15 @@
       body { padding: 8px; }
       .page-header { padding: 12px 10px 10px; }
       .page-header h1 { font-size: 1.05rem; }
-      td { padding: 4px 7px; font-size: 0.78rem; }
+      .page-header p { font-size: 0.72rem; }
+      .card-header {
+        padding: 7px 9px;
+        font-size: 0.84rem;
+      }
+      .card-header .cmd-label { font-size: 0.68rem; }
+      td { padding: 4px 7px; }
+      td:first-child { font-size: 0.8rem; }
+      td:last-child { font-size: 0.84rem; }
     }
 </style>
 </head>
