@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAC CLI Cheat Sheet – Latest</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #1a1a2e;
+    background: #fff;
+    padding: 6mm;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    text-align: center;
+    background: linear-gradient(135deg, #0f3460 0%, #16213e 60%, #533483 100%);
+    color: #fff;
+    padding: 8px 12px 6px;
+    border-radius: 6px;
+    margin-bottom: 7px;
+  }
+  .page-header h1 { font-size: 15pt; letter-spacing: 1px; font-weight: 700; }
+  .page-header p  { font-size: 7.5pt; opacity: .85; margin-top: 2px; }
+
+  /* ── 3-column grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+  }
+
+  /* ── Each command-group card ── */
+  .card {
+    border: 1px solid #d0d7e8;
+    border-radius: 5px;
+    overflow: hidden;
+    break-inside: avoid;
+  }
+  .card.span2 { grid-column: span 2; }
+
+  .card-header {
+    padding: 4px 7px;
+    font-weight: 700;
+    font-size: 8pt;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .card-header .cmd-label {
+    background: rgba(255,255,255,.22);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 7pt;
+  }
+
+  /* colour palette per group */
+  .c-admin    { background: #0f3460; }
+  .c-auth     { background: #16213e; }
+  .c-canvas   { background: #1a6b3c; }
+  .c-catalog  { background: #7b2d8b; }
+  .c-conn     { background: #c0392b; }
+  .c-connector{ background: #922b21; }
+  .c-copilot  { background: #1565c0; }
+  .c-data     { background: #00838f; }
+  .c-env      { background: #2e7d32; }
+  .c-model    { background: #4a235a; }
+  .c-modelb   { background: #283593; }
+  .c-pkg      { background: #6d4c41; }
+  .c-pages    { background: #00695c; }
+  .c-pcf      { background: #e65100; }
+  .c-pipeline { background: #558b2f; }
+  .c-plugin   { background: #4527a0; }
+  .c-pfx      { background: #0277bd; }
+  .c-solution { background: #d84315; }
+  .c-telem    { background: #37474f; }
+  .c-test     { background: #880e4f; }
+  .c-tool     { background: #4e342e; }
+  .c-app      { background: #1b5e20; }
+  .c-code     { background: #bf360c; }
+  .c-mi       { background: #311b92; }
+
+  table { width: 100%; border-collapse: collapse; }
+  tr:nth-child(even) td { background: #f5f7fc; }
+  tr:hover td { background: #eef2ff; }
+
+  td {
+    padding: 2.5px 6px;
+    border-bottom: 1px solid #e8ecf4;
+    vertical-align: top;
+    line-height: 1.35;
+  }
+  td:first-child {
+    font-family: 'Courier New', monospace;
+    font-size: 7pt;
+    font-weight: 600;
+    color: #0f3460;
+    white-space: nowrap;
+    width: 38%;
+  }
+  td.preview { color: #7b2d8b; }
+  td.new     { color: #1a6b3c; }
+
+  /* ── MS Learn links ── */
+  td:first-child a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dotted #8899bb;
+  }
+  td:first-child a:hover { border-bottom: 1px solid #0f3460; color: #0f3460; }
+  @media print {
+    td:first-child a { border-bottom: none; }
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 5.5pt;
+    font-weight: 700;
+    padding: 0px 3px;
+    border-radius: 2px;
+    margin-left: 3px;
+    vertical-align: middle;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+  }
+  .badge-preview { background: #ede7f6; color: #4527a0; }
+  .badge-new     { background: #e8f5e9; color: #1b5e20; }
+  .badge-dep     { background: #fff3e0; color: #e65100; }
+
+  /* ── Notes box ── */
+  .note {
+    font-size: 6.5pt;
+    color: #555;
+    background: #f9f9f9;
+    padding: 2px 6px 3px;
+    border-top: 1px dashed #ccc;
+    font-style: italic;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 6px;
+    text-align: center;
+    font-size: 6.5pt;
+    color: #888;
+    border-top: 1px solid #ddd;
+    padding-top: 4px;
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { padding: 5mm; font-size: 7pt; }
+    .page-header h1 { font-size: 13pt; }
+    @page { size: A3 landscape; margin: 8mm; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ HEADER ═══════════════════════ -->
+<div class="page-header">
+  <h1>PAC CLI — Power Platform CLI Cheat Sheet</h1>
+  <p>Latest Version (post v1.34) &nbsp;|&nbsp; pac &lt;group&gt; &lt;command&gt; [options] &nbsp;|&nbsp; Use <code style="background:rgba(255,255,255,.2);padding:0 4px;border-radius:3px;">pac &lt;command&gt; --help</code> for full options</p>
+</div>
+
+<!-- ═══════════════════════ GRID ═══════════════════════ -->
+<div class="grid">
+
+  <!-- ══ ADMIN ══ -->
+  <div class="card span2">
+    <div class="card-header c-admin">
+      <span class="cmd-label">pac admin</span> Administration &amp; Environments
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-list" target="_blank">list</a></td><td>List all environments from your tenant</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-create" target="_blank">create</a></td><td>Create a new Dataverse instance in your tenant</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-delete" target="_blank">delete</a></td><td>Delete the environment from your tenant</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-copy" target="_blank">copy</a></td><td>Copy source environment to a destination environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-backup" target="_blank">backup</a></td><td>Take a manual backup of the environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-restore" target="_blank">restore</a></td><td>Restore an environment to a given backup</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-list-backups" target="_blank">list-backups</a></td><td>List all backups of the environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-reset" target="_blank">reset</a></td><td>Reset the environment from your tenant</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-status" target="_blank">status</a></td><td>List the status of all operations in progress</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-set-backup-retention-period" target="_blank">set-backup-retention-period</a></td><td>Set backup retention in days (valid: 7, 14, 21, 28)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-assign-user" target="_blank">assign-user</a></td><td>Assign a user to an environment with a specified security role</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-assign-group" target="_blank">assign-group</a></td><td>Assign a group to an environment with a specified security role</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-list-app-templates" target="_blank">list-app-templates</a></td><td>List all supported Dataverse templates of model-driven apps in D365</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-create-service-principal" target="_blank">create-service-principal</a></td><td>Add Entra ID application &amp; application user to the environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-list-service-principal" target="_blank">list-service-principal</a></td><td>List Entra ID applications which have access to Dataverse</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-set-governance-config" target="_blank">set-governance-config</a></td><td>Enable, disable, and edit managed environments</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-set-runtime-state" target="_blank">set-runtime-state</a></td><td>Update environment administration mode</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-list-tenant-settings" target="_blank">list-tenant-settings</a></td><td>List tenant-level settings</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-update-tenant-settings" target="_blank">update-tenant-settings</a></td><td>Update tenant-level settings</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-list-groups" target="_blank">list-groups</a></td><td>List environment groups from tenant <span class="badge badge-new">NEW</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-add-group" target="_blank">add-group</a></td><td>Add an environment to a group <span class="badge badge-new">NEW</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-list-roles" target="_blank">list-roles</a></td><td>List security roles from environment <span class="badge badge-new">NEW</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-self-elevate" target="_blank">self-elevate</a></td><td>Self-elevate to System Administrator role <span class="badge badge-new">NEW</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-application-list" target="_blank">application list</a></td><td>List Entra ID applications registered under the tenant</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-application-register" target="_blank">application register</a></td><td>Register Entra ID application with the tenant</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-application-unregister" target="_blank">application unregister</a></td><td>Unregister Entra ID application from the tenant</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-dlp-policy-list" target="_blank">dlp-policy list</a></td><td>List DLP policies in the tenant <span class="badge badge-new">NEW</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin#pac-admin-dlp-policy-show" target="_blank">dlp-policy show</a></td><td>Show details of a specific DLP policy <span class="badge badge-new">NEW</span></td></tr>
+    </table>
+  </div>
+
+  <!-- ══ AUTH ══ -->
+  <div class="card">
+    <div class="card-header c-auth">
+      <span class="cmd-label">pac auth</span> Authentication Profiles
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/auth#pac-auth-create" target="_blank">create</a></td><td>Create and store an authentication profile on this computer</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/auth#pac-auth-list" target="_blank">list</a></td><td>List the authentication profiles stored on this computer</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/auth#pac-auth-select" target="_blank">select</a></td><td>Select which authentication profile should be active</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/auth#pac-auth-delete" target="_blank">delete</a></td><td>Delete a particular authentication profile</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/auth#pac-auth-update" target="_blank">update</a></td><td>Update name or target environment of an existing profile</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/auth#pac-auth-name" target="_blank">name</a></td><td>Name or rename an existing authentication profile</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/auth#pac-auth-clear" target="_blank">clear</a></td><td>Clear all authentication profiles stored on this computer</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/auth#pac-auth-who" target="_blank">who</a></td><td>Display information about the currently selected auth profile</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ ENV ══ -->
+  <div class="card">
+    <div class="card-header c-env">
+      <span class="cmd-label">pac env</span> Dataverse Organization  <span style="font-size:6pt;opacity:.8;">(replaces pac org)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/env#pac-env-list" target="_blank">list</a></td><td>List all Dataverse environments the user has access to</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/env#pac-env-who" target="_blank">who</a></td><td>Display information about the current Dataverse organization</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/env#pac-env-select" target="_blank">select</a></td><td>Select default org for current authentication profile</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/env#pac-env-fetch" target="_blank">fetch</a></td><td>Perform FetchXML query against Dataverse</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/env#pac-env-list-settings" target="_blank">list-settings</a></td><td>List environment settings</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/env#pac-env-update-settings" target="_blank">update-settings</a></td><td>Update environment settings</td></tr>
+    </table>
+    <div class="note">💡 pac org is still supported as an alias</div>
+  </div>
+
+  <!-- ══ SOLUTION ══ -->
+  <div class="card span2">
+    <div class="card-header c-solution">
+      <span class="cmd-label">pac solution</span> Solution Project Management
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-init" target="_blank">init</a></td><td>Initialize a directory with a new Dataverse solution project</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-add-reference" target="_blank">add-reference</a></td><td>Add a reference from the project in the current directory to the project at 'path'</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-list" target="_blank">list</a></td><td>List all solutions from the current Dataverse organization</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-delete" target="_blank">delete</a></td><td>Delete a solution from Dataverse in the current environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-export" target="_blank">export</a></td><td>Export a solution from Dataverse</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-import" target="_blank">import</a></td><td>Import the solution into Dataverse</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-clone" target="_blank">clone</a></td><td>Create a solution project based on an existing solution in your org</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-publish" target="_blank">publish</a></td><td>Publish all customizations</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-upgrade" target="_blank">upgrade</a></td><td>Apply solution upgrade</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-version" target="_blank">version</a></td><td>Update build or revision version for the solution</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-online-version" target="_blank">online-version</a></td><td>Set version for solution loaded in Dataverse</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-pack" target="_blank">pack</a></td><td>Package solution components on local filesystem into solution.zip (SolutionPackager)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-unpack" target="_blank">unpack</a></td><td>Extract solution components from solution.zip onto local filesystem (SolutionPackager)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-check" target="_blank">check</a></td><td>Upload a Dataverse solution project to run against the Power Apps Checker service</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-create-settings" target="_blank">create-settings</a></td><td>Create a settings file from solution zip or solution folder</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-add-solution-component" target="_blank">add-solution-component</a></td><td>Add one or more solution components to the target unmanaged solution</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-add-license" target="_blank">add-license</a></td><td>Add license and plan info to the solution</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/solution#pac-solution-sync" target="_blank">sync</a></td><td>Sync the current solution project to the current state of the solution in your org</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ CANVAS ══ -->
+  <div class="card">
+    <div class="card-header c-canvas">
+      <span class="cmd-label">pac canvas</span> Canvas Apps (.msapp)
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/canvas#pac-canvas-list" target="_blank">list</a></td><td>List canvas apps in the environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/canvas#pac-canvas-download" target="_blank">download</a></td><td>Download canvas app as .msapp file</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/canvas#pac-canvas-create" target="_blank">create</a></td><td>Generate a canvas app from a custom connector</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/canvas#pac-canvas-pack" target="_blank">pack</a></td><td>Pack sources into an msapp file <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/canvas#pac-canvas-unpack" target="_blank">unpack</a></td><td>Extract an msapp file into YAML sources <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/canvas#pac-canvas-validate" target="_blank">validate</a></td><td>Validate the .pa.yaml source for an unzipped msapp file <span class="badge badge-preview">Preview</span></td></tr>
+    </table>
+  </div>
+
+  <!-- ══ PCF ══ -->
+  <div class="card">
+    <div class="card-header c-pcf">
+      <span class="cmd-label">pac pcf</span> Power Apps Component Framework
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pcf#pac-pcf-init" target="_blank">init</a></td><td>Initialize a directory with a new PCF project</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pcf#pac-pcf-push" target="_blank">push</a></td><td>Import the PCF project into the current Dataverse organization</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pcf#pac-pcf-version" target="_blank">version</a></td><td>Patch version for controls</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ PLUGIN ══ -->
+  <div class="card">
+    <div class="card-header c-plugin">
+      <span class="cmd-label">pac plugin</span> Dataverse Plug-ins
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/plugin#pac-plugin-init" target="_blank">init</a></td><td>Initialize a directory with a new Dataverse plug-in class library</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/plugin#pac-plugin-push" target="_blank">push</a></td><td>Import plug-in into Dataverse</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ CONNECTION ══ -->
+  <div class="card">
+    <div class="card-header c-conn">
+      <span class="cmd-label">pac connection</span> Dataverse Connections
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/connection#pac-connection-create" target="_blank">create</a></td><td>Create a new Dataverse connection</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/connection#pac-connection-delete" target="_blank">delete</a></td><td>Delete a Dataverse connection by connection-id</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/connection#pac-connection-list" target="_blank">list</a></td><td>List all connections (shows Id, Name, API Id, Status)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/connection#pac-connection-update" target="_blank">update</a></td><td>Update a Dataverse connection</td></tr>
+    </table>
+    <div class="note">💡 --json not supported on list; parse Status column with PowerShell</div>
+  </div>
+
+  <!-- ══ CONNECTOR ══ -->
+  <div class="card">
+    <div class="card-header c-connector">
+      <span class="cmd-label">pac connector</span> Custom Connectors
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/connector#pac-connector-list" target="_blank">list</a></td><td>List the connectors registered in Dataverse</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/connector#pac-connector-init" target="_blank">init</a></td><td>Initialize a new API Properties file for a connector</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/connector#pac-connector-create" target="_blank">create</a></td><td>Create a new row in the Connector table in Dataverse</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/connector#pac-connector-download" target="_blank">download</a></td><td>Download a Connector's OpenAPI definition &amp; API Properties file</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/connector#pac-connector-update" target="_blank">update</a></td><td>Update a Connector entity in Dataverse</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ COPILOT ══ -->
+  <div class="card">
+    <div class="card-header c-copilot">
+      <span class="cmd-label">pac copilot</span> Copilot / Bot Management
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-list" target="_blank">list</a></td><td>List copilots in the current or target environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-status" target="_blank">status</a></td><td>Poll deployment status of a specified copilot</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-create" target="_blank">create</a></td><td>Create a new copilot using an existing template file</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-publish" target="_blank">publish</a></td><td>Publish a custom copilot</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-extract-template" target="_blank">extract-template</a></td><td>Extract a template file from an existing copilot</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-extract-translation" target="_blank">extract-translation</a></td><td>Extract file containing localized content for bots</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-merge-translation" target="_blank">merge-translation</a></td><td>Merge files containing localized content for bots</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-init-skills" target="_blank">init-skills</a></td><td>Extract copilot skill definition files to current directory <span class="badge badge-new">NEW</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-mcp" target="_blank">mcp</a></td><td>Info about local MCP (Model Context Protocol) server <span class="badge badge-new">NEW</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-model-list" target="_blank">model list</a></td><td>List AI Builder models in current environment <span class="badge badge-new">NEW</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-model-predict" target="_blank">model predict</a></td><td>Send text/prompt to an AI Model <span class="badge badge-new">NEW</span></td></tr>
+    </table>
+  </div>
+
+  <!-- ══ PIPELINE ══ -->
+  <div class="card">
+    <div class="card-header c-pipeline">
+      <span class="cmd-label">pac pipeline</span> Deployment Pipelines
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pipeline#pac-pipeline-list" target="_blank">list</a></td><td>List all pipelines in the environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pipeline#pac-pipeline-deploy" target="_blank">deploy</a></td><td>Start a pipeline deployment</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ DATA ══ -->
+  <div class="card">
+    <div class="card-header c-data">
+      <span class="cmd-label">pac data</span> Import / Export Data
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/data#pac-data-export" target="_blank">export</a></td><td>Export data (uses Configuration Migration tool)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/data#pac-data-import" target="_blank">import</a></td><td>Import data (uses Configuration Migration tool)</td></tr>
+    </table>
+    <div class="note">⚠ .NET Full Framework version only</div>
+  </div>
+
+  <!-- ══ PACKAGE ══ -->
+  <div class="card">
+    <div class="card-header c-pkg">
+      <span class="cmd-label">pac package</span> Package Deployer
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/package#pac-package-init" target="_blank">init</a></td><td>Initialize a directory with a new Dataverse package project</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/package#pac-package-add-external-package" target="_blank">add-external-package</a></td><td>Add package external to Dataverse solution system to a Package Deployer project</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/package#pac-package-add-solution" target="_blank">add-solution</a></td><td>Add prebuilt Dataverse solution file to a Package Deployer project</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/package#pac-package-add-reference" target="_blank">add-reference</a></td><td>Add reference to Dataverse solution project</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/package#pac-package-deploy" target="_blank">deploy</a></td><td>Deploy package to Dataverse (.NET Full Framework only)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/package#pac-package-show" target="_blank">show</a></td><td>Show details of Dataverse package (.NET Full Framework only)</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ PAGES ══ -->
+  <div class="card">
+    <div class="card-header c-pages">
+      <span class="cmd-label">pac pages</span> Power Pages  <span style="font-size:6pt;opacity:.8;">(replaces pac powerpages)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pages#pac-pages-list" target="_blank">list</a></td><td>List all Power Pages websites from the current environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pages#pac-pages-download" target="_blank">download</a></td><td>Download Power Pages website content from the environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pages#pac-pages-upload" target="_blank">upload</a></td><td>Upload Power Pages website content to the current environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pages#pac-pages-migrate-datamodel" target="_blank">migrate-datamodel</a></td><td>Manage data model migration for your Power Pages website</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pages#pac-pages-bootstrap-migrate" target="_blank">bootstrap-migrate</a></td><td>Migrate HTML code from Bootstrap V3 to V5</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pages#pac-pages-clone" target="_blank">clone</a></td><td>Create website content from existing content <span class="badge badge-new">NEW</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pages#pac-pages-download-code-site" target="_blank">download-code-site</a></td><td>Download Power Pages website content from environment <span class="badge badge-new">NEW</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pages#pac-pages-upload-code-site" target="_blank">upload-code-site</a></td><td>Upload compiled code to Power Pages site <span class="badge badge-new">NEW</span></td></tr>
+    </table>
+    <div class="note">💡 pac paportal and pac powerpages still work as aliases</div>
+  </div>
+
+  <!-- ══ CATALOG ══ -->
+  <div class="card">
+    <div class="card-header c-catalog">
+      <span class="cmd-label">pac catalog</span> Catalog Management
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/catalog#pac-catalog-list" target="_blank">list</a></td><td>List all published catalog items from the current environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/catalog#pac-catalog-install" target="_blank">install</a></td><td>Install a catalog item to the target environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/catalog#pac-catalog-submit" target="_blank">submit</a></td><td>Submit catalog approval request</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/catalog#pac-catalog-status" target="_blank">status</a></td><td>Get status of the catalog install/submit request</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/catalog#pac-catalog-update" target="_blank">update</a></td><td>Update settings for the catalog</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/catalog#pac-catalog-create-submission" target="_blank">create-submission</a></td><td>Create catalog submission document <span class="badge badge-dep">Deprecated</span></td></tr>
+    </table>
+  </div>
+
+  <!-- ══ APPLICATION ══ -->
+  <div class="card">
+    <div class="card-header c-app">
+      <span class="cmd-label">pac application</span> Marketplace Apps <span class="badge badge-new">NEW</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/application#pac-application-list" target="_blank">list</a></td><td>List available Dataverse applications from Microsoft Marketplace/AppSource</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/application#pac-application-install" target="_blank">install</a></td><td>Install or update a Dataverse application to a target environment</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ MODELBUILDER ══ -->
+  <div class="card">
+    <div class="card-header c-modelb">
+      <span class="cmd-label">pac modelbuilder</span> Code Generator
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/modelbuilder#pac-modelbuilder-build" target="_blank">build</a></td><td>Build a code model for Dataverse APIs and Tables (early-bound class generation)</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ POWER-FX ══ -->
+  <div class="card">
+    <div class="card-header c-pfx">
+      <span class="cmd-label">pac power-fx</span> Power Fx  <span class="badge badge-preview">Preview</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-fx#pac-power-fx-repl" target="_blank">repl</a></td><td>Launch interactive Power Fx Read-Eval-Print Loop <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-fx#pac-power-fx-run" target="_blank">run</a></td><td>Run a file of Power Fx instructions <span class="badge badge-preview">Preview</span></td></tr>
+    </table>
+  </div>
+
+  <!-- ══ TEST ══ -->
+  <div class="card">
+    <div class="card-header c-test">
+      <span class="cmd-label">pac test</span> Automated Testing  <span class="badge badge-preview">Preview</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/test#pac-test-run" target="_blank">run</a></td><td>Execute tests defined in a Test Plan file <span class="badge badge-preview">Preview</span></td></tr>
+    </table>
+  </div>
+
+  <!-- ══ TELEMETRY ══ -->
+  <div class="card">
+    <div class="card-header c-telem">
+      <span class="cmd-label">pac telemetry</span> Telemetry Settings
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/telemetry#pac-telemetry-enable" target="_blank">enable</a></td><td>Opt-in to sending usage information to Microsoft</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/telemetry#pac-telemetry-disable" target="_blank">disable</a></td><td>Opt-out of sending usage information to Microsoft</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/telemetry#pac-telemetry-status" target="_blank">status</a></td><td>Show the current status of telemetry</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ TOOL ══ -->
+  <div class="card">
+    <div class="card-header c-tool">
+      <span class="cmd-label">pac tool</span> Power Platform Tools  <span style="font-size:6pt;opacity:.8;">(.NET Full Framework only)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/tool#pac-tool-list" target="_blank">list</a></td><td>List the launchable tools and their local install state and version</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/tool#pac-tool-admin" target="_blank">admin</a></td><td>Launch Power Platform Admin Center for the current environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/tool#pac-tool-maker" target="_blank">maker</a></td><td>Launch Power Apps Maker Portal for the current environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/tool#pac-tool-prt" target="_blank">prt</a></td><td>Launch Plug-in Registration Tool (PRT)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/tool#pac-tool-cmt" target="_blank">cmt</a></td><td>Launch Configuration Migration Tool (CMT)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/tool#pac-tool-pd" target="_blank">pd</a></td><td>Launch Package Deployer (PD)</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ MODEL ══ -->
+  <div class="card">
+    <div class="card-header c-model">
+      <span class="cmd-label">pac model</span> Model-driven Apps <span class="badge badge-new">NEW</span> <span class="badge badge-preview">Preview</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/model#pac-model-list" target="_blank">list</a></td><td>List all model-driven apps in the environment <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/model#pac-model-create" target="_blank">create</a></td><td>Create a new model-driven app <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/model#pac-model-list-languages" target="_blank">list-languages</a></td><td>List enabled languages in the environment <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/model#pac-model-genpage-list" target="_blank">genpage list</a></td><td>List all generated pages in an app <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/model#pac-model-genpage-download" target="_blank">genpage download</a></td><td>Pull generated pages from a model-driven app <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/model#pac-model-genpage-upload" target="_blank">genpage upload</a></td><td>Upload and publish generated page to an app <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/model#pac-model-genpage-generate-types" target="_blank">genpage generate-types</a></td><td>Generate TypeScript schema definitions <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/model#pac-model-genpage-transpile" target="_blank">genpage transpile</a></td><td>Transpile TypeScript file for testing/debugging <span class="badge badge-preview">Preview</span></td></tr>
+    </table>
+  </div>
+
+  <!-- ══ CODE ══ -->
+  <div class="card">
+    <div class="card-header c-code">
+      <span class="cmd-label">pac code</span> Code Apps <span class="badge badge-new">NEW</span> <span class="badge badge-preview">Preview</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-init" target="_blank">init</a></td><td>Initialize a Code app in current directory</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list" target="_blank">list</a></td><td>List code apps available in current environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-push" target="_blank">push</a></td><td>Publish a new version of the Code app</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-run" target="_blank">run</a></td><td>Run local server for connections loading locally</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-add-data-source" target="_blank">add-data-source</a></td><td>Add a new datasource to the app</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-delete-data-source" target="_blank">delete-data-source</a></td><td>Delete a data source from current app</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-connection-references" target="_blank">list-connection-references</a></td><td>List connection references in environment/solution</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-datasets" target="_blank">list-datasets</a></td><td>List datasets accessible by provided connector</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-tables" target="_blank">list-tables</a></td><td>List tables accessible by connector/dataset</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-sql-stored-procedures" target="_blank">list-sql-stored-procedures</a></td><td>List stored procedures for SQL connection/dataset</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ MANAGED IDENTITY ══ -->
+  <div class="card">
+    <div class="card-header c-mi">
+      <span class="cmd-label">pac managed-identity</span> Managed Identity <span class="badge badge-new">NEW</span> <span class="badge badge-preview">Preview</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/managed-identity#pac-managed-identity-create" target="_blank">create</a></td><td>Create and link managed identity to a Dataverse component <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/managed-identity#pac-managed-identity-get" target="_blank">get</a></td><td>Show managed identity linked to a component <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/managed-identity#pac-managed-identity-update" target="_blank">update</a></td><td>Update tenant or application identifiers <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/managed-identity#pac-managed-identity-delete" target="_blank">delete</a></td><td>Remove managed identity linked to a component <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/managed-identity#pac-managed-identity-configure-fic" target="_blank">configure-fic</a></td><td>Create federated identity credential on managed identity <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/managed-identity#pac-managed-identity-show-fic" target="_blank">show-fic</a></td><td>Show computed federated identity credential <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/managed-identity#pac-managed-identity-verify-fic" target="_blank">verify-fic</a></td><td>Verify whether federated identity credential exists <span class="badge badge-preview">Preview</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/managed-identity#pac-managed-identity-upgrade-version" target="_blank">upgrade-version</a></td><td>Upgrade managed identity to latest version <span class="badge badge-preview">Preview</span></td></tr>
+    </table>
+  </div>
+
+</div><!-- /grid -->
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<div class="footer">
+  <strong>PAC CLI</strong> &nbsp;|&nbsp;
+  Install: <code>winget install Microsoft.PowerAppsCLI</code> &nbsp;|&nbsp;
+  Update: <code>pac install latest</code> &nbsp;|&nbsp;
+  Version check: <code>pac --version</code> &nbsp;|&nbsp;
+  Help: <code>pac &lt;group&gt; --help</code> &nbsp;|&nbsp;
+  Docs: learn.microsoft.com/power-platform/developer/cli/reference &nbsp;|&nbsp;
+  <span class="badge badge-new">NEW</span> = Added after v1.34 &nbsp;
+  <span class="badge badge-preview">Preview</span> = Preview feature &nbsp;
+  <span class="badge badge-dep">Deprecated</span> = Will be removed
+</div>
+
+</body>
+</html>

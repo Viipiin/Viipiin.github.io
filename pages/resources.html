@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <script>
+            (function(){
+                var saved = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (saved === 'dark' || (!saved && prefersDark)) {
+                    document.documentElement.classList.add('dark-theme');
+                }
+            })();
+        </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - Vipin Kumar | Power Platform Architect</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+    <link rel="alternate icon" href="../favicon.ico">
+    <meta name="description" content="Curated Power Platform and architecture resources, templates, and references by Vipin Kumar.">
+    <meta name="keywords" content="Power Platform resources, PAC CLI cheat sheet, Dataverse references, ALM templates, Copilot Studio resources">
+    <meta name="author" content="Vipin Kumar">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../assets/css/header-component.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/back-to-top.css">
+    <link rel="stylesheet" href="../assets/css/resources.css">
+</head>
+<body>
+    <div id="headerContainer"></div>
+
+    <main class="resources-main">
+        <section class="resources-hero" aria-label="Resources intro">
+            <div class="hero-bg-shape hero-bg-shape-1" aria-hidden="true"></div>
+            <div class="hero-bg-shape hero-bg-shape-2" aria-hidden="true"></div>
+            <div class="resources-hero-content">
+                <p class="eyebrow">Toolkit Hub</p>
+                <h1>Useful Resources</h1>
+                <p class="hero-copy">A practical collection of references, cheat sheets, and official documentation that I use regularly while designing Power Platform solutions.</p>
+            </div>
+        </section>
+
+        <section class="featured-resource" aria-label="Featured resource">
+            <div class="featured-card">
+                <div class="featured-label">Featured</div>
+                <h2>PAC CLI Cheat Sheet</h2>
+                <p>Quickly navigate major Power Platform CLI command groups and shortcuts from one printable reference page.</p>
+                <div class="featured-actions">
+                    <a class="btn-primary" href="../resources/pac-cli-cheat-sheet.html" target="_blank" rel="noopener noreferrer">Open Cheat Sheet</a>
+                    <a class="btn-secondary" href="../resources/pac-cli-cheat-sheet.html" download>Download HTML</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="resource-grid-wrap" aria-label="Reference links">
+            <h2>Official References</h2>
+            <div class="resource-grid">
+                <article class="resource-card">
+                    <h3>Power Platform CLI Docs</h3>
+                    <p>Complete command reference and syntax for all pac groups.</p>
+                    <a href="https://learn.microsoft.com/power-platform/developer/cli/reference" target="_blank" rel="noopener noreferrer">Visit Microsoft Learn</a>
+                </article>
+
+                <article class="resource-card">
+                    <h3>ALM Guidance</h3>
+                    <p>Recommended practices for managed solutions, pipelines, and release governance.</p>
+                    <a href="https://learn.microsoft.com/power-platform/alm/" target="_blank" rel="noopener noreferrer">Read ALM Docs</a>
+                </article>
+
+                <article class="resource-card">
+                    <h3>Dataverse Architecture</h3>
+                    <p>Data model design, table strategy, and performance fundamentals for enterprise apps.</p>
+                    <a href="https://learn.microsoft.com/power-apps/maker/data-platform/data-platform-intro" target="_blank" rel="noopener noreferrer">Explore Dataverse</a>
+                </article>
+
+                <article class="resource-card">
+                    <h3>Copilot Studio</h3>
+                    <p>Build and manage copilots, topics, actions, and enterprise orchestration patterns.</p>
+                    <a href="https://learn.microsoft.com/microsoft-copilot-studio/" target="_blank" rel="noopener noreferrer">Open Copilot Studio Docs</a>
+                </article>
+
+                <article class="resource-card">
+                    <h3>Power Automate Patterns</h3>
+                    <p>Cloud flow design guidance for robust approvals, retries, and error handling.</p>
+                    <a href="https://learn.microsoft.com/power-automate/guidance/coding-guidelines/overview" target="_blank" rel="noopener noreferrer">See Flow Guidance</a>
+                </article>
+
+                <article class="resource-card">
+                    <h3>Azure Integration</h3>
+                    <p>Reference patterns for extending Power Platform with Azure services.</p>
+                    <a href="https://learn.microsoft.com/power-platform/guidance/architecture/" target="_blank" rel="noopener noreferrer">View Architecture Center</a>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="resources-footer">
+        <p>Updated continuously with practical references for delivery teams and architects.</p>
+    </footer>
+
+    <script src="../assets/js/header-component.js"></script>
+    <script src="../assets/js/back-to-top.js"></script>
+    <script>
+        try {
+            if (typeof window.HeaderComponent !== 'undefined') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    const headerConfig = {
+                        logo: {
+                            text: 'Viipiin',
+                            url: '../index.html',
+                            showIcon: true
+                        },
+                        navigation: [
+                            { text: 'Portfolio', url: '../index.html', active: false },
+                            { text: 'Resources', url: 'resources.html', active: true },
+                        ],
+                        cta: {
+                            text: 'Get in Touch',
+                            url: 'contact.html',
+                            style: 'primary'
+                        },
+                        showSearch: false,
+                        showThemeToggle: true,
+                        showSocialLinks: true,
+                        socialLinks: [
+                            { platform: 'linkedin', url: 'https://www.linkedin.com/in/viipiintyagi/', icon: 'linkedin' },
+                            { platform: 'github', url: 'https://github.com/viipiin', icon: 'github' },
+                            { platform: 'twitter', url: 'https://twitter.com/theo365dev', icon: 'twitter' }
+                        ]
+                    };
+
+                    document.getElementById('headerContainer').innerHTML = HeaderComponent.createHeader(headerConfig);
+                    HeaderComponent.init();
+                });
+            }
+        } catch (error) {
+            console.log('Header component initialization error:', error);
+        }
+    </script>
+</body>
+</html>
