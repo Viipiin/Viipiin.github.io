@@ -161,6 +161,34 @@
   .footer a:hover {
     color: #533483;
   }
+  .footer-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 7px;
+  }
+  .stat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid #d9e1f2;
+    border-radius: 999px;
+    padding: 2px 8px;
+    background: #f8faff;
+    color: #334155;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .stat-value {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: #0f3460;
+  }
+  .stat-highlight {
+    border-color: #bfd2ff;
+    background: linear-gradient(135deg, #eef4ff 0%, #f6f9ff 100%);
+  }
 
   /* ── Print ── */
   @media print {
@@ -206,6 +234,8 @@
       }
       .note { font-size: 0.75rem; padding: 5px 10px; }
       .footer { font-size: 0.78rem; margin-top: 16px; padding-top: 10px; }
+      .footer-stats { margin-bottom: 10px; }
+      .stat-pill { padding: 4px 10px; }
       .badge { font-size: 0.6rem; padding: 1px 5px; }
     }
 
@@ -683,6 +713,13 @@
 
 <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 <div class="footer">
+  <div class="footer-stats" aria-label="PAC CLI command statistics">
+    <span class="stat-pill stat-highlight">Command Pulse <span class="stat-value" id="stat-total-commands">0</span></span>
+    <span class="stat-pill">Groups <span class="stat-value" id="stat-total-groups">0</span></span>
+    <span class="stat-pill">Preview <span class="stat-value" id="stat-preview-commands">0</span></span>
+    <span class="stat-pill">Deprecated <span class="stat-value" id="stat-deprecated-commands">0</span></span>
+  </div>
+
   <strong>PAC CLI</strong> &nbsp;|&nbsp;
   Install: <code>winget install Microsoft.PowerAppsCLI</code> &nbsp;|&nbsp;
   Update: <code>pac install latest</code> &nbsp;|&nbsp;
@@ -693,6 +730,25 @@
   <span class="badge badge-dep">Deprecated</span> = Will be removed &nbsp;|&nbsp;
   Status badges shown only where Microsoft Learn explicitly marks them
 </div>
+
+<script>
+  (function renderFooterStats() {
+    var totalCommands = document.querySelectorAll('.grid table tr').length;
+    var totalGroups = document.querySelectorAll('.grid .card').length;
+    var previewCommands = document.querySelectorAll('.grid table tr .badge-preview').length;
+    var deprecatedCommands = document.querySelectorAll('.grid table tr .badge-dep').length;
+
+    var totalCommandsEl = document.getElementById('stat-total-commands');
+    var totalGroupsEl = document.getElementById('stat-total-groups');
+    var previewCommandsEl = document.getElementById('stat-preview-commands');
+    var deprecatedCommandsEl = document.getElementById('stat-deprecated-commands');
+
+    if (totalCommandsEl) { totalCommandsEl.textContent = String(totalCommands); }
+    if (totalGroupsEl) { totalGroupsEl.textContent = String(totalGroups); }
+    if (previewCommandsEl) { previewCommandsEl.textContent = String(previewCommands); }
+    if (deprecatedCommandsEl) { deprecatedCommandsEl.textContent = String(deprecatedCommands); }
+  })();
+</script>
 
 </body>
 </html>
