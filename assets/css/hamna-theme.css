@@ -1544,3 +1544,421 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
     height: 18px;
     transition: opacity 0.2s ease;
 }
+
+/* ══════════════════════════════════════════════════════
+   COMMUNITY BADGES — 3D FLIP CARD
+   Issued by: https://globalai.community/about
+   Via: https://microsoft.github.io/agent-academy/
+   ══════════════════════════════════════════════════════ */
+
+.badge-source-link {
+    color: #6366f1;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.badge-source-link:hover {
+    color: #312E81;
+    border-bottom-color: #312E81;
+}
+
+/* ── Grid ── */
+.community-badges-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+/* ── Outer card — sets perspective for 3D ── */
+.community-badge-card {
+    height: 270px;
+    perspective: 1000px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    cursor: default;
+}
+
+/* ── Inner wrapper — flips on hover ── */
+.badge-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 16px;
+}
+
+.community-badge-card:hover .badge-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* ── Shared face styles ── */
+.badge-card-front,
+.badge-card-back {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1.25rem 1.25rem;
+    gap: 0.75rem;
+    text-align: center;
+}
+
+/* ── FRONT: white card ── */
+.badge-card-front {
+    background: #ffffff;
+    border: 1.5px solid rgba(99, 102, 241, 0.18);
+    box-shadow: 0 2px 12px rgba(99, 102, 241, 0.07);
+}
+
+/* ── BACK: deep indigo gradient ── */
+.badge-card-back {
+    background: linear-gradient(145deg, #1e1b4b 0%, #312E81 55%, #3730a3 100%);
+    border: 1.5px solid rgba(129, 140, 248, 0.3);
+    box-shadow: 0 8px 32px rgba(49, 46, 129, 0.35);
+    transform: rotateY(180deg);
+    justify-content: flex-start;
+    padding-top: 1.5rem;
+}
+
+/* ── Badge image ── */
+.community-badge-img-wrap {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #eef2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem;
+    flex-shrink: 0;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.badge-card-inner:hover .community-badge-img-wrap {
+    background: #e0e7ff;
+}
+
+.community-badge-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    display: block;
+}
+
+/* ── Front text ── */
+.community-badge-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.community-badge-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.3;
+}
+
+.community-badge-issuer {
+    font-size: 0.72rem;
+    color: #64748b;
+    font-weight: 400;
+}
+
+/* ── Subtle "hover to flip" hint on front ── */
+.badge-flip-hint {
+    font-size: 0.62rem;
+    color: #c7d2fe;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-top: auto;
+}
+
+/* ── BACK: header row ── */
+.bcb-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    margin-bottom: 0.25rem;
+}
+
+.bcb-emoji {
+    font-size: 1.75rem;
+    line-height: 1;
+}
+
+.bcb-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #e0e7ff;
+    line-height: 1.3;
+}
+
+/* ── BACK: skills label ── */
+.bcb-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(165, 180, 252, 0.6);
+    margin: 0;
+    line-height: 1;
+}
+
+/* ── BACK: skill chips ── */
+.bcb-skills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem;
+    flex: 1;
+    align-content: flex-start;
+}
+
+.bcb-skill {
+    font-size: 0.67rem;
+    font-weight: 500;
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+}
+
+/* Skill colour variants — work on dark indigo back */
+.s-indigo { background: rgba(99, 102, 241, 0.3);  color: #c7d2fe; border: 1px solid rgba(99, 102, 241, 0.4); }
+.s-violet { background: rgba(167, 139, 250, 0.25); color: #ddd6fe; border: 1px solid rgba(167, 139, 250, 0.35); }
+.s-sky    { background: rgba(56, 189, 248, 0.2);   color: #bae6fd; border: 1px solid rgba(56, 189, 248, 0.3); }
+.s-teal   { background: rgba(45, 212, 191, 0.2);   color: #99f6e4; border: 1px solid rgba(45, 212, 191, 0.3); }
+.s-amber  { background: rgba(251, 191, 36, 0.18);  color: #fde68a; border: 1px solid rgba(251, 191, 36, 0.28); }
+
+/* ── Verify link (on the back) ── */
+.badge-card-back .community-badge-verify {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #a5b4fc;
+    text-decoration: none;
+    padding: 0.3rem 0.9rem;
+    border: 1px solid rgba(165, 180, 252, 0.4);
+    border-radius: 20px;
+    transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    letter-spacing: 0.02em;
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.badge-card-back .community-badge-verify:hover {
+    background: rgba(165, 180, 252, 0.2);
+    color: #e0e7ff;
+    border-color: rgba(165, 180, 252, 0.7);
+}
+
+/* ── Reduced motion: cross-fade instead of flip ── */
+@media (prefers-reduced-motion: reduce) {
+    .badge-card-inner {
+        transition: none;
+    }
+    .community-badge-card:hover .badge-card-inner {
+        transform: none;
+    }
+    .badge-card-back {
+        transform: none;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+    .community-badge-card:hover .badge-card-back {
+        opacity: 1;
+    }
+    .community-badge-card:hover .badge-card-front {
+        opacity: 0;
+    }
+}
+
+/* ── Responsive: tablet (≤ 900px) ── */
+@media (max-width: 900px) {
+    .community-badges-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+/* ── Responsive: mobile (≤ 600px) ── */
+@media (max-width: 600px) {
+    .community-badges-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.875rem;
+    }
+    .community-badge-card {
+        height: 240px;
+    }
+    .community-badge-img-wrap {
+        width: 80px;
+        height: 80px;
+    }
+    .community-badge-name {
+        font-size: 0.78rem;
+    }
+    .bcb-title {
+        font-size: 0.72rem;
+    }
+    .bcb-skill {
+        font-size: 0.62rem;
+    }
+}
+
+/* ── Dark theme ── */
+html.dark-theme .badge-card-front {
+    background: #1e293b !important;
+    border-color: rgba(99, 102, 241, 0.25) !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark-theme .community-badge-img-wrap {
+    background: #312e5a !important;
+}
+
+html.dark-theme .community-badge-name {
+    color: #f1f5f9 !important;
+}
+
+html.dark-theme .community-badge-issuer {
+    color: #94a3b8 !important;
+}
+
+html.dark-theme .badge-source-link {
+    color: #818cf8 !important;
+    border-bottom-color: rgba(129, 140, 248, 0.3) !important;
+}
+
+html.dark-theme .badge-source-link:hover {
+    color: #c7d2fe !important;
+    border-bottom-color: #c7d2fe !important;
+}
+
+.badge-source-link {
+    color: #6366f1;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.badge-source-link:hover {
+    color: #312E81;
+    border-bottom-color: #312E81;
+}
+
+.community-badges-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+    overflow: visible;
+}
+
+/* ── Badge card ── */
+.community-badge-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #ffffff;
+    border: 1.5px solid rgba(99, 102, 241, 0.18);
+    border-radius: 16px;
+    padding: 1.75rem 1.25rem 1.25rem;
+    text-align: center;
+    gap: 0.875rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    cursor: default;
+    overflow: visible;
+}
+
+.community-badge-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(99, 102, 241, 0.55);
+    box-shadow: 0 16px 40px rgba(99, 102, 241, 0.18);
+    z-index: 10;
+}
+
+/* ── Badge image container ── */
+.community-badge-img-wrap {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: #eef2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    flex-shrink: 0;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.community-badge-card:hover .community-badge-img-wrap {
+    background: #e0e7ff;
+    box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.1);
+}
+
+.community-badge-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    display: block;
+}
+
+/* ── Badge text info ── */
+.community-badge-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    flex: 1;
+}
+
+.community-badge-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.3;
+}
+
+.community-badge-issuer {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 400;
+}
+
+/* ── Verify link (now active with real URLs) ── */
+.community-badge-verify {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #6366f1;
+    text-decoration: none;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    border-radius: 20px;
+    transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    letter-spacing: 0.02em;
+}
+
+.community-badge-verify:hover {
+    background: #6366f1;
+    color: #ffffff;
+    border-color: #6366f1;
+}
+
+/* (old popup CSS removed — flip card CSS is above) */
