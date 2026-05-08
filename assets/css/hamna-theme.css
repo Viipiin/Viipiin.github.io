@@ -1575,10 +1575,11 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
 .community-badge-card {
     height: 270px;
     perspective: 1000px;
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    padding: 0;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;       /* override base .card padding so height: 100% works */
+    box-shadow: none !important;
     cursor: default;
 }
 
@@ -1702,42 +1703,39 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
 }
 
 /* ── BACK: skill chips ── */
+/* ── BACK: skill list — full-width stacked rows ── */
 .bcb-skills {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.28rem;
     width: 100%;
     flex: 1;
     align-content: flex-start;
 }
 
-/* Odd last chip spans both columns so it stays centred */
-.bcb-skills > .bcb-skill:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-    justify-self: center;
-    min-width: 50%;
-}
-
 .bcb-skill {
-    font-size: 0.67rem;
+    width: 100%;
+    padding: 0.3rem 0.65rem;
+    border-radius: 5px;
+    font-size: 0.7rem;
     font-weight: 500;
-    padding: 0.2rem 0.5rem;
-    border-radius: 20px;
-    line-height: 1.5;
+    line-height: 1.4;
     letter-spacing: 0.01em;
-    white-space: normal;
-    word-break: break-word;
-    text-align: center;
-    min-width: 0;         /* prevent grid blowout */
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
+    background: rgba(255, 255, 255, 0.07);
+    color: #e0e7ff;
+    border: none;
+    border-left: 2.5px solid;   /* colour set per variant below */
 }
 
-/* Skill colour variants — work on dark indigo back */
-.s-indigo { background: rgba(99, 102, 241, 0.3);  color: #c7d2fe; border: 1px solid rgba(99, 102, 241, 0.4); }
-.s-violet { background: rgba(167, 139, 250, 0.25); color: #ddd6fe; border: 1px solid rgba(167, 139, 250, 0.35); }
-.s-sky    { background: rgba(56, 189, 248, 0.2);   color: #bae6fd; border: 1px solid rgba(56, 189, 248, 0.3); }
-.s-teal   { background: rgba(45, 212, 191, 0.2);   color: #99f6e4; border: 1px solid rgba(45, 212, 191, 0.3); }
-.s-amber  { background: rgba(251, 191, 36, 0.18);  color: #fde68a; border: 1px solid rgba(251, 191, 36, 0.28); }
+/* Colour accent via left border — variants */
+.s-indigo { border-left-color: #818cf8; }
+.s-violet { border-left-color: #a78bfa; }
+.s-sky    { border-left-color: #38bdf8; }
+.s-teal   { border-left-color: #2dd4bf; }
+.s-amber  { border-left-color: #fbbf24; }
 
 /* ── Verify link (on the back) ── */
 .badge-card-back .community-badge-verify {
