@@ -1573,7 +1573,7 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
 
 /* ── Outer card — sets perspective for 3D ── */
 .community-badge-card {
-    height: 270px;
+    height: 310px;
     perspective: 1000px;
     background: transparent;
     border: none;
@@ -1630,6 +1630,7 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
     transform: rotateY(180deg);
     justify-content: flex-start;
     padding-top: 1.5rem;
+    overflow: hidden;
 }
 
 /* ── Badge image ── */
@@ -1722,12 +1723,19 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
 
 /* ── BACK: skill chips ── */
 .bcb-skills {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.3rem;
+    width: 100%;
     flex: 1;
     align-content: flex-start;
+}
+
+/* Odd last chip spans both columns so it stays centred */
+.bcb-skills > .bcb-skill:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    min-width: 50%;
 }
 
 .bcb-skill {
@@ -1737,7 +1745,11 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
     border-radius: 20px;
     line-height: 1.5;
     letter-spacing: 0.01em;
-    white-space: nowrap;
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+    min-width: 0;         /* prevent grid blowout */
+    overflow: hidden;
 }
 
 /* Skill colour variants — work on dark indigo back */
@@ -1804,7 +1816,7 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
         gap: 0.875rem;
     }
     .community-badge-card {
-        height: 240px;
+        height: 260px;
     }
     .community-badge-img-wrap {
         width: 80px;
