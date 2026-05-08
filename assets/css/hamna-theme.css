@@ -1573,7 +1573,7 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
 
 /* ── Outer card — sets perspective for 3D ── */
 .community-badge-card {
-    height: 310px;
+    height: 270px;
     perspective: 1000px;
     background: transparent;
     border: none;
@@ -1690,26 +1690,6 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
 }
 
 /* ── BACK: header row ── */
-.bcb-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.3rem;
-    margin-bottom: 0.25rem;
-}
-
-.bcb-emoji {
-    font-size: 1.75rem;
-    line-height: 1;
-}
-
-.bcb-title {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #e0e7ff;
-    line-height: 1.3;
-}
-
 /* ── BACK: skills label ── */
 .bcb-label {
     font-size: 0.62rem;
@@ -1816,7 +1796,7 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
         gap: 0.875rem;
     }
     .community-badge-card {
-        height: 260px;
+        height: 240px;
     }
     .community-badge-img-wrap {
         width: 80px;
@@ -1824,9 +1804,6 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
     }
     .community-badge-name {
         font-size: 0.78rem;
-    }
-    .bcb-title {
-        font-size: 0.72rem;
     }
     .bcb-skill {
         font-size: 0.62rem;
