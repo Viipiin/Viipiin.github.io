@@ -162,7 +162,7 @@
                 <p class="section-subtitle">Senior Power Platform professional acting as solution architect — Dataverse, ALM governance, Copilot Studio, and enterprise integration</p>
             </div>
             <p class="career-profile">
-                Senior Power Platform professional with over 11 years of experience, currently acting as solution architect for enterprise Power Platform delivery at Capgemini. Leading architecture design for <strong>Microsoft Dataverse</strong>, <strong>Model-Driven Power Apps</strong>, <strong>Copilot Studio</strong> intelligent agents, and <strong>Power Platform ALM governance</strong> — defining environment strategy, managed solution packaging, deployment pipelines, DLP policies, and connection references across multi-environment setups.
+                Senior Power Platform professional with <span class="exp-badge-wrap"><button class="exp-badge" id="expBadge" aria-label="Years of experience" tabindex="0">11+ years</button><span class="exp-tooltip" id="expTooltip" role="tooltip"></span></span> of experience, currently acting as solution architect for enterprise Power Platform delivery at Capgemini. Leading architecture design for <strong>Microsoft Dataverse</strong>, <strong>Model-Driven Power Apps</strong>, <strong>Copilot Studio</strong> intelligent agents, and <strong>Power Platform ALM governance</strong> — defining environment strategy, managed solution packaging, deployment pipelines, DLP policies, and connection references across multi-environment setups.
             </p>
             <p class="career-profile" style="margin-top: 1rem;">
                 Hands-on experience designing and delivering Power Automate enterprise patterns including approval orchestration, error handling, and retry logic at scale. Proficient in <strong>Dataverse data modelling</strong>, security role design, and business rule implementation for Model-Driven Apps. Experienced in ALM tooling (Azure DevOps, Power Platform Build Tools, Power Platform CLI) and legacy modernisation — InfoPath to Model-Driven Power Apps, Nintex to Power Automate, and SharePoint 2010 to Microsoft 365.
@@ -918,7 +918,48 @@
             }
         });
     </script>
-    <!-- Typing animation removed — replaced with static subtitle for ATS compatibility -->
+    <!-- Experience badge: daily-calculated tooltip -->
+    <script>
+    (function() {
+        var start = new Date(2014, 9, 5); // Oct 5 2014 (month is 0-indexed)
+
+        function calcExp() {
+            var now = new Date();
+            var y = now.getFullYear() - start.getFullYear();
+            var m = now.getMonth() - start.getMonth();
+            var d = now.getDate() - start.getDate();
+            if (d < 0) {
+                m--;
+                var prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                d += prevMonth.getDate();
+            }
+            if (m < 0) { y--; m += 12; }
+            return { y: y, m: m, d: d };
+        }
+
+        function pluralise(n, word) {
+            return n + ' ' + word + (n !== 1 ? 's' : '');
+        }
+
+        var badge   = document.getElementById('expBadge');
+        var tooltip = document.getElementById('expTooltip');
+        if (!badge || !tooltip) return;
+
+        // Update badge label & tooltip text
+        var e = calcExp();
+        badge.textContent = e.y + '+ years';
+        var detail = pluralise(e.y, 'year') + ', ' + pluralise(e.m, 'month') + ' & ' + pluralise(e.d, 'day');
+        tooltip.textContent = '🗓 ' + detail;
+
+        // Show / hide tooltip
+        function show() { tooltip.classList.add('exp-tooltip--visible'); }
+        function hide() { tooltip.classList.remove('exp-tooltip--visible'); }
+        badge.addEventListener('mouseenter', show);
+        badge.addEventListener('mouseleave', hide);
+        badge.addEventListener('focus',      show);
+        badge.addEventListener('blur',       hide);
+    })();
+    </script>
 
 </body>
 </html>
