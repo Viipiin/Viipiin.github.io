@@ -1934,7 +1934,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Mark as loaded
         document.body.classList.add('loaded');
-        
+
+        // Badge flip — tap (touch) and keyboard (Enter/Space) support
+        initBadgeFlip();
+
     } catch (error) {
         console.error('❌ Error initializing website functionality:', error);
         // Use basic alert if notification system fails
@@ -1944,10 +1947,40 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Badge flip — tap (touch) & keyboard (Enter / Space) toggle
+function initBadgeFlip() {
+    const cards = document.querySelectorAll('.community-badge-card');
+    if (!cards.length) return;
+
+    cards.forEach(card => {
+        // Click / tap: toggle flip state
+        card.addEventListener('click', () => {
+            card.classList.toggle('is-flipped');
+        });
+
+        // Keyboard: Enter or Space triggers flip; Escape un-flips
+        card.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                card.classList.toggle('is-flipped');
+            }
+            if (e.key === 'Escape') {
+                card.classList.remove('is-flipped');
+            }
+        });
+
+        // Un-flip when focus leaves the card entirely
+        card.addEventListener('focusout', e => {
+            if (!card.contains(e.relatedTarget)) {
+                card.classList.remove('is-flipped');
+            }
+        });
+    });
+}
+
 // Add responsive CSS dynamically
 function addResponsiveCSS() {
     if (document.getElementById('responsiveCSS')) return;
-    
     const style = document.createElement('style');
     style.id = 'responsiveCSS';
     style.textContent = `

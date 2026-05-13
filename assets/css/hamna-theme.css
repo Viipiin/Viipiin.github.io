@@ -1621,11 +1621,11 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
 }
 
 /* ══════════════════════════════════════════════════════
-   COMMUNITY BADGES — 3D FLIP CARD
-   Issued by: https://globalai.community/about
-   Via: https://microsoft.github.io/agent-academy/
+   COMMUNITY BADGES — 3-D FLIP CARD
+   Mobile-first · fluid · touch & keyboard aware
    ══════════════════════════════════════════════════════ */
 
+/* ── Source links in section subtitle ── */
 .badge-source-link {
     color: #6366f1;
     text-decoration: none;
@@ -1638,37 +1638,46 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
     border-bottom-color: #312E81;
 }
 
-/* ── Grid ── */
+/* ── Fluid grid: auto 1 → 2 → 3 cols, zero explicit breakpoints ── */
 .community-badges-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+    gap: clamp(0.75rem, 2vw, 1.5rem);
     margin-top: 0.5rem;
 }
 
-/* ── Outer card — sets perspective for 3D ── */
+/* ── Outer card — sets 3-D perspective ── */
 .community-badge-card {
-    height: 270px;
+    height: clamp(240px, 32vw, 290px);
     perspective: 1000px;
     background: transparent !important;
     border: none !important;
     border-radius: 0 !important;
-    padding: 0 !important;       /* override base .card padding so height: 100% works */
+    padding: 0 !important;
     box-shadow: none !important;
     cursor: default;
 }
 
-/* ── Inner wrapper — flips on hover ── */
+/* Keyboard focus ring */
+.community-badge-card:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 4px;
+    border-radius: 18px !important;
+}
+
+/* ── Inner wrapper — flips on hover / focus / tap (.is-flipped) ── */
 .badge-card-inner {
     position: relative;
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 16px;
 }
 
-.community-badge-card:hover .badge-card-inner {
+.community-badge-card:hover .badge-card-inner,
+.community-badge-card:focus-visible .badge-card-inner,
+.community-badge-card.is-flipped .badge-card-inner {
     transform: rotateY(180deg);
 }
 
@@ -1686,12 +1695,12 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem 1.25rem 1.25rem;
-    gap: 0.75rem;
+    padding: clamp(1rem, 4%, 1.5rem) clamp(0.875rem, 4%, 1.25rem);
+    gap: 0.6rem;
     text-align: center;
 }
 
-/* ── FRONT: white card ── */
+/* ── FRONT ── */
 .badge-card-front {
     background: #ffffff;
     border: 1.5px solid rgba(99, 102, 241, 0.18);
@@ -1705,25 +1714,26 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
     box-shadow: 0 8px 32px rgba(49, 46, 129, 0.35);
     transform: rotateY(180deg);
     justify-content: flex-start;
-    padding-top: 1.5rem;
+    padding-top: clamp(1rem, 4%, 1.5rem);
     overflow: hidden;
 }
 
-/* ── Badge image ── */
+/* ── Badge image — fluid circle ── */
 .community-badge-img-wrap {
-    width: 100px;
-    height: 100px;
+    width: clamp(72px, 9vw, 100px);
+    height: clamp(72px, 9vw, 100px);
     border-radius: 50%;
     background: #eef2ff;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.65rem;
+    padding: 0.6rem;
     flex-shrink: 0;
-    transition: background 0.25s ease, box-shadow 0.25s ease;
+    transition: background 0.25s ease;
 }
 
-.badge-card-inner:hover .community-badge-img-wrap {
+.community-badge-card:hover .community-badge-img-wrap,
+.community-badge-card:focus-visible .community-badge-img-wrap {
     background: #e0e7ff;
 }
 
@@ -1743,79 +1753,76 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
 }
 
 .community-badge-name {
-    font-size: 0.875rem;
+    font-size: clamp(0.78rem, 1.8vw, 0.9rem);
     font-weight: 600;
     color: #111827;
     line-height: 1.3;
 }
 
 .community-badge-issuer {
-    font-size: 0.72rem;
+    font-size: clamp(0.65rem, 1.5vw, 0.75rem);
     color: #64748b;
     font-weight: 400;
 }
 
-/* ── Subtle "hover to flip" hint on front ── */
+/* ── Interaction hint ── */
 .badge-flip-hint {
-    font-size: 0.62rem;
-    color: #c7d2fe;
+    font-size: 0.6rem;
+    color: #a5b4fc;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     opacity: 0.7;
     margin-top: auto;
 }
 
-/* ── BACK: header row ── */
 /* ── BACK: skills label ── */
 .bcb-label {
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: rgba(165, 180, 252, 0.6);
     margin: 0;
     line-height: 1;
+    flex-shrink: 0;
 }
 
-/* ── BACK: skill chips ── */
-/* ── BACK: skill list — full-width stacked rows ── */
+/* ── BACK: skill list ── */
 .bcb-skills {
     display: flex;
     flex-direction: column;
-    gap: 0.28rem;
+    gap: 0.25rem;
     width: 100%;
     flex: 1;
-    align-content: flex-start;
+    overflow: hidden;
 }
 
 .bcb-skill {
     width: 100%;
-    padding: 0.3rem 0.65rem;
+    padding: 0.28rem 0.6rem;
     border-radius: 5px;
-    font-size: 0.7rem;
+    font-size: clamp(0.62rem, 1.4vw, 0.7rem);
     font-weight: 500;
-    line-height: 1.4;
-    letter-spacing: 0.01em;
-    white-space: normal;
-    word-break: break-word;
+    line-height: 1.35;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     background: rgba(255, 255, 255, 0.07);
     color: #e0e7ff;
     border: none;
-    border-left: 2.5px solid;   /* colour set per variant below */
+    border-left: 2.5px solid;
 }
 
-/* Colour accent via left border — variants */
+/* Colour accent variants */
 .s-indigo { border-left-color: #818cf8; }
 .s-violet { border-left-color: #a78bfa; }
 .s-sky    { border-left-color: #38bdf8; }
 .s-teal   { border-left-color: #2dd4bf; }
 .s-amber  { border-left-color: #fbbf24; }
 
-/* ── Verify link (on the back) ── */
+/* ── Verify link ── */
 .badge-card-back .community-badge-verify {
-    font-size: 0.72rem;
+    font-size: clamp(0.65rem, 1.4vw, 0.72rem);
     font-weight: 600;
     color: #a5b4fc;
     text-decoration: none;
@@ -1828,96 +1835,31 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
     flex-shrink: 0;
 }
 
-.badge-card-back .community-badge-verify:hover {
+.badge-card-back .community-badge-verify:hover,
+.badge-card-back .community-badge-verify:focus-visible {
     background: rgba(165, 180, 252, 0.2);
     color: #e0e7ff;
     border-color: rgba(165, 180, 252, 0.7);
+    outline: none;
 }
 
 /* ── Reduced motion: cross-fade instead of flip ── */
 @media (prefers-reduced-motion: reduce) {
-    .badge-card-inner {
-        transition: none;
-    }
-    .community-badge-card:hover .badge-card-inner {
-        transform: none;
-    }
+    .badge-card-inner { transition: none; }
+    .community-badge-card:hover .badge-card-inner,
+    .community-badge-card:focus-visible .badge-card-inner,
+    .community-badge-card.is-flipped .badge-card-inner { transform: none; }
     .badge-card-back {
         transform: none;
         opacity: 0;
         transition: opacity 0.2s ease;
     }
-    .community-badge-card:hover .badge-card-back {
-        opacity: 1;
-    }
-    .community-badge-card:hover .badge-card-front {
-        opacity: 0;
-    }
-}
-
-/* ── Responsive: tablet (≤ 900px) ── */
-@media (max-width: 900px) {
-    .community-badges-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.25rem;
-    }
-}
-
-/* ── Responsive: mobile (≤ 600px) ── */
-@media (max-width: 600px) {
-    .community-badges-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.875rem;
-    }
-    .community-badge-card {
-        height: 240px;
-    }
-    .community-badge-img-wrap {
-        width: 80px;
-        height: 80px;
-    }
-    .community-badge-name {
-        font-size: 0.78rem;
-    }
-    .bcb-skill {
-        font-size: 0.62rem;
-        white-space: normal;
-        word-break: break-word;
-    }
-}
-
-/* ── Responsive: small mobile (≤ 480px) ── */
-@media (max-width: 480px) {
-    .community-badges-grid {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
-        max-width: 340px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .community-badge-card {
-        height: 260px;
-    }
-    .community-badge-img-wrap {
-        width: 90px;
-        height: 90px;
-    }
-    .community-badge-name {
-        font-size: 0.85rem;
-    }
-    .badge-card-front,
-    .badge-card-back {
-        padding: 1.25rem 1rem 1rem;
-        gap: 0.6rem;
-    }
-    .bcb-skill {
-        font-size: 0.68rem;
-        white-space: normal;
-        word-break: break-word;
-    }
-    .bcb-skills {
-        gap: 0.22rem;
-    }
+    .community-badge-card:hover .badge-card-back,
+    .community-badge-card:focus-visible .badge-card-back,
+    .community-badge-card.is-flipped .badge-card-back { opacity: 1; }
+    .community-badge-card:hover .badge-card-front,
+    .community-badge-card:focus-visible .badge-card-front,
+    .community-badge-card.is-flipped .badge-card-front { opacity: 0; }
 }
 
 /* ── Dark theme ── */
@@ -1926,138 +1868,15 @@ html.dark-theme .badge-card-front {
     border-color: rgba(99, 102, 241, 0.25) !important;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3) !important;
 }
-
-html.dark-theme .community-badge-img-wrap {
-    background: #312e5a !important;
-}
-
-html.dark-theme .community-badge-name {
-    color: #f1f5f9 !important;
-}
-
-html.dark-theme .community-badge-issuer {
-    color: #94a3b8 !important;
-}
-
+html.dark-theme .community-badge-img-wrap { background: #312e5a !important; }
+html.dark-theme .community-badge-name { color: #f1f5f9 !important; }
+html.dark-theme .community-badge-issuer { color: #94a3b8 !important; }
 html.dark-theme .badge-source-link {
     color: #818cf8 !important;
     border-bottom-color: rgba(129, 140, 248, 0.3) !important;
 }
-
 html.dark-theme .badge-source-link:hover {
     color: #c7d2fe !important;
     border-bottom-color: #c7d2fe !important;
 }
 
-.badge-source-link {
-    color: #6366f1;
-    text-decoration: none;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(99, 102, 241, 0.3);
-    transition: color 0.2s ease, border-color 0.2s ease;
-}
-.badge-source-link:hover {
-    color: #312E81;
-    border-bottom-color: #312E81;
-}
-
-.community-badges-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 0.5rem;
-    overflow: visible;
-}
-
-/* ── Badge card ── */
-.community-badge-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: #ffffff;
-    border: 1.5px solid rgba(99, 102, 241, 0.18);
-    border-radius: 16px;
-    padding: 1.75rem 1.25rem 1.25rem;
-    text-align: center;
-    gap: 0.875rem;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-    cursor: default;
-    overflow: visible;
-}
-
-.community-badge-card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(99, 102, 241, 0.55);
-    box-shadow: 0 16px 40px rgba(99, 102, 241, 0.18);
-    z-index: 10;
-}
-
-/* ── Badge image container ── */
-.community-badge-img-wrap {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    background: #eef2ff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem;
-    flex-shrink: 0;
-    transition: background 0.25s ease, box-shadow 0.25s ease;
-}
-
-.community-badge-card:hover .community-badge-img-wrap {
-    background: #e0e7ff;
-    box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.1);
-}
-
-.community-badge-img-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 50%;
-    display: block;
-}
-
-/* ── Badge text info ── */
-.community-badge-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    flex: 1;
-}
-
-.community-badge-name {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #111827;
-    line-height: 1.3;
-}
-
-.community-badge-issuer {
-    font-size: 0.75rem;
-    color: #64748b;
-    font-weight: 400;
-}
-
-/* ── Verify link (now active with real URLs) ── */
-.community-badge-verify {
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: #6366f1;
-    text-decoration: none;
-    padding: 0.3rem 0.75rem;
-    border: 1px solid rgba(99, 102, 241, 0.35);
-    border-radius: 20px;
-    transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
-    letter-spacing: 0.02em;
-}
-
-.community-badge-verify:hover {
-    background: #6366f1;
-    color: #ffffff;
-    border-color: #6366f1;
-}
-
-/* (old popup CSS removed — flip card CSS is above) */
