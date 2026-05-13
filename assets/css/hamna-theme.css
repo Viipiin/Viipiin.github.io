@@ -378,6 +378,65 @@ h1, h2, h3, h4, h5, h6,
     gap: 1rem;
 }
 
+/* ════════════════════════════════════
+   AVATAR FRAME — spinning aurora ring
+   ════════════════════════════════════ */
+.avatar-frame {
+    position: relative;
+    display: inline-flex;
+    border-radius: 50%;
+    padding: 4px;       /* visible ring gap between gradient and photo */
+    isolation: isolate;
+}
+
+/* Spinning conic-gradient aurora ring */
+.avatar-frame::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        #818cf8 0deg,
+        #6366f1 60deg,
+        #a78bfa 130deg,
+        #38bdf8 200deg,
+        #2dd4bf 270deg,
+        #6366f1 330deg,
+        #818cf8 360deg
+    );
+    animation: avatarRingSpin 5s linear infinite;
+    z-index: -1;
+    filter: blur(0.5px);
+}
+
+/* Outer ambient glow bloom */
+.avatar-frame::after {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.22) 0%, transparent 65%);
+    z-index: -2;
+    animation: avatarGlowBloom 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes avatarRingSpin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes avatarGlowBloom {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50%       { opacity: 1;    transform: scale(1.1); }
+}
+
+/* Pause ring on hover — reveal full rainbow stopped */
+.avatar-frame:hover::before {
+    animation-play-state: paused;
+}
+
+/* ── Photo circle inside the frame ── */
 .hero-avatar-circle {
     width: 210px;
     height: 210px;
@@ -389,12 +448,12 @@ h1, h2, h3, h4, h5, h6,
     font-size: 4rem;
     color: white;
     font-weight: 800;
-    border: 5px solid rgba(99, 102, 241, 0.25);
-    box-shadow:
-        0 0 0 12px rgba(99, 102, 241, 0.08),
-        0 20px 40px rgba(99, 102, 241, 0.25);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    box-shadow: 0 8px 30px rgba(49, 46, 129, 0.3);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     overflow: hidden;
+    position: relative;
+    z-index: 1;
 }
 
 .hero-avatar-circle img {
@@ -407,10 +466,10 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .hero-avatar-circle:hover {
-    transform: scale(1.04);
+    transform: scale(1.05);
     box-shadow:
-        0 0 0 12px rgba(99, 102, 241, 0.12),
-        0 25px 50px rgba(99, 102, 241, 0.35);
+        0 0 0 2px rgba(99, 102, 241, 0.12),
+        0 16px 40px rgba(99, 102, 241, 0.35);
 }
 
 /* ── Hero contact chips (below avatar) ── */
@@ -683,6 +742,9 @@ h1 {
         width: 160px;
         height: 160px;
         font-size: 3rem;
+    }
+    .avatar-frame {
+        padding: 3px;
     }
 
     .hero-contact-chips {
@@ -1150,7 +1212,7 @@ h1 {
     animation: heroFadeUp 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.15s both;
 }
 
-/* ── Avatar slow ambient glow ── */
+/* ── Avatar slow ambient glow — replaced by .avatar-frame ring ── */
 @keyframes avatarGlow {
     0%, 100% {
         box-shadow:
@@ -1164,8 +1226,8 @@ h1 {
     }
 }
 
-.hero-avatar-circle {
-    animation: avatarGlow 5s ease-in-out infinite;
+.hero-avatar-wrap {
+    animation: heroFadeUp 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.15s both;
 }
 
 .hero-avatar-circle:hover {
@@ -1247,6 +1309,10 @@ h1 {
     .exp-badge-current {
         animation: none !important;
     }
+    .avatar-frame::before,
+    .avatar-frame::after {
+        animation: none !important;
+    }
 
     .section-header::after {
         transform: scaleX(1) !important;
@@ -1314,7 +1380,10 @@ html.dark-theme .hero-bio {
 
 html.dark-theme .hero-avatar-circle {
     background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
-    box-shadow: 0 0 0 4px #312e81, 0 0 0 8px rgba(99, 102, 241, 0.2) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45) !important;
+}
+html.dark-theme .avatar-frame::after {
+    background: radial-gradient(circle, rgba(129, 140, 248, 0.28) 0%, transparent 65%) !important;
 }
 
 html.dark-theme .hero-contact-chip {
