@@ -394,6 +394,16 @@ h1, h2, h3, h4, h5, h6,
         0 0 0 12px rgba(99, 102, 241, 0.08),
         0 20px 40px rgba(99, 102, 241, 0.25);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.hero-avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 50%;
+    display: block;
 }
 
 .hero-avatar-circle:hover {
