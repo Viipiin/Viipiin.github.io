@@ -329,7 +329,7 @@
 <!-- ═══════════════════════ HEADER ═══════════════════════ -->
 <div class="page-header">
   <h1>PAC CLI — Power Platform CLI Cheat Sheet</h1>
-  <p>Latest Version (post v1.34) &nbsp;|&nbsp; pac &lt;group&gt; &lt;command&gt; [options] &nbsp;|&nbsp; Use <code style="background:rgba(255,255,255,.2);padding:0 4px;border-radius:3px;">pac &lt;command&gt; --help</code> for full options</p>
+  <p>v2.7.4 (May 2026) &nbsp;|&nbsp; pac &lt;group&gt; &lt;command&gt; [options] &nbsp;|&nbsp; Use <code style="background:rgba(255,255,255,.2);padding:0 4px;border-radius:3px;">pac &lt;command&gt; --help</code> for full options</p>
 </div>
 
 <!-- ═══════════════════════ GRID ═══════════════════════ -->
@@ -603,7 +603,7 @@
   <!-- ══ MODELBUILDER ══ -->
   <div class="card">
     <div class="card-header c-modelb">
-      <span class="cmd-label">pac modelbuilder</span> Code Generator
+      <span class="cmd-label">pac modelbuilder</span> Code Generator <span class="badge badge-dep">Deprecated</span>
     </div>
     <table>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/modelbuilder#pac-modelbuilder-build" target="_blank">build</a></td><td>Build a code model for Dataverse APIs and Tables (early-bound class generation)</td></tr>
@@ -624,7 +624,7 @@
   <!-- ══ TEST ══ -->
   <div class="card">
     <div class="card-header c-test">
-      <span class="cmd-label">pac test</span> Automated Testing  <span class="badge badge-preview">Preview</span>
+      <span class="cmd-label">pac test</span> Automated Testing  <span class="badge badge-dep">Deprecated</span>
     </div>
     <table>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/test#pac-test-run" target="_blank">run</a></td><td>Execute tests defined in a Test Plan file <span class="badge badge-preview">Preview</span></td></tr>
@@ -692,6 +692,7 @@
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-tables" target="_blank">list-tables</a></td><td>List tables accessible by connector/dataset <span class="badge badge-preview">Preview</span></td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-sql-stored-procedures" target="_blank">list-sql-stored-procedures</a></td><td>List stored procedures for SQL connection/dataset <span class="badge badge-preview">Preview</span></td></tr>
     </table>
+    <div class="note">⚠ Will be deprecated — npm CLI (<code>@microsoft/power-apps</code> SDK v1.0.4+) is the replacement. See <a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/npm-quickstart" target="_blank">npm quickstart</a></div>
   </div>
 
   <!-- ══ MANAGED IDENTITY ══ -->
