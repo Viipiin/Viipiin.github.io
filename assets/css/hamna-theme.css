@@ -1432,6 +1432,19 @@ html.dark-theme .stat-label {
 }
 
 /* ── Certifications section ── */
+html.dark-theme .cert-item {
+    background: #1e293b !important;
+    color: #e2e8f0 !important;
+    border-color: rgba(99, 102, 241, 0.35) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+}
+
+html.dark-theme .cert-item:hover {
+    background: #6366f1 !important;
+    color: #ffffff !important;
+    border-color: #6366f1 !important;
+}
+
 html.dark-theme .cert-badge-name {
     color: #f1f5f9 !important;
 }
