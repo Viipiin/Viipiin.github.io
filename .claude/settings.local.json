@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-Content \"c:\\\\Users\\\\vkumar32\\\\OneDrive - Capgemini\\\\Personal Files\\\\ViipiinGithubIO\\\\Viipiin.github.io\\\\assets\\\\css\\\\hamna-theme.css\")",
+      "Bash(Measure-Object -Line)"
+    ]
+  }
+}
