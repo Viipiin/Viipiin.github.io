@@ -51,26 +51,56 @@ window.HeaderComponent = {
                         <a href="${settings.logo.url}" class="logo-link">
                             ${settings.logo.showIcon ? `
                                 <div class="logo-icon">
-                                    <svg viewBox="0 0 40 40" fill="none">
-                                        <!-- Clean rounded square background -->
-                                        <rect width="40" height="40" rx="10" fill="url(#logoGradient)"/>
-                                        
-                                        <!-- Innovative V design with negative space -->
-                                        <path d="M14 15L20 25L26 15H23L20 21L17 15H14Z" fill="white"/>
-                                        
-                                        <!-- Simple but clever: Two dots that form eyes/personality -->
-                                        <circle cx="17" cy="12" r="1.5" fill="white"/>
-                                        <circle cx="23" cy="12" r="1.5" fill="white"/>
-                                        
-                                        <!-- Minimal accent line - like a smile -->
-                                        <path d="M16 28C18 30 22 30 24 28" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-opacity="0.8"/>
-                                        
+                                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <defs>
-                                            <linearGradient id="logoGradient" x1="0" y1="0" x2="40" y2="40">
-                                                <stop offset="0%" stop-color="#6366f1"/>
-                                                <stop offset="100%" stop-color="#8b5cf6"/>
+                                            <linearGradient id="hLgBg" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                                                <stop offset="0%" stop-color="#1e1b4b"/>
+                                                <stop offset="100%" stop-color="#312E81"/>
                                             </linearGradient>
+                                            <radialGradient id="hLgShine" cx="30%" cy="22%" r="52%">
+                                                <stop offset="0%" stop-color="#4338ca" stop-opacity="0.55"/>
+                                                <stop offset="100%" stop-color="#4338ca" stop-opacity="0"/>
+                                            </radialGradient>
+                                            <linearGradient id="hLgArm" x1="50" y1="16" x2="50" y2="80" gradientUnits="userSpaceOnUse">
+                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                <stop offset="55%" stop-color="#c7d2fe"/>
+                                                <stop offset="100%" stop-color="#818cf8"/>
+                                            </linearGradient>
+                                            <filter id="hLgGlow" x="-80%" y="-80%" width="260%" height="260%">
+                                                <feGaussianBlur stdDeviation="2.5" result="b"/>
+                                                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                            </filter>
+                                            <filter id="hLgDotGlow" x="-80%" y="-80%" width="260%" height="260%">
+                                                <feGaussianBlur stdDeviation="1.2" result="b"/>
+                                                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                            </filter>
                                         </defs>
+                                        <rect width="100" height="100" rx="22" fill="url(#hLgBg)"/>
+                                        <rect width="100" height="100" rx="22" fill="url(#hLgShine)"/>
+                                        <g stroke="#5b58db" stroke-width="0.5" opacity="0.14">
+                                            <line x1="0" y1="20" x2="20" y2="0"/>
+                                            <line x1="0" y1="50" x2="50" y2="0"/>
+                                            <line x1="0" y1="80" x2="80" y2="0"/>
+                                            <line x1="20" y1="100" x2="100" y2="20"/>
+                                            <line x1="50" y1="100" x2="100" y2="50"/>
+                                            <line x1="80" y1="100" x2="100" y2="80"/>
+                                        </g>
+                                        <line x1="16" y1="18" x2="50" y2="78" stroke="url(#hLgArm)" stroke-width="8.5" stroke-linecap="round"/>
+                                        <line x1="84" y1="18" x2="50" y2="78" stroke="url(#hLgArm)" stroke-width="8.5" stroke-linecap="round"/>
+                                        <line x1="24.3" y1="39.7" x2="30.3" y2="36.3" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" opacity="0.72"/>
+                                        <line x1="35.7" y1="59.7" x2="41.7" y2="56.3" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" opacity="0.72"/>
+                                        <line x1="69.7" y1="36.3" x2="75.7" y2="39.7" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" opacity="0.72"/>
+                                        <line x1="58.3" y1="56.3" x2="64.3" y2="59.7" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" opacity="0.72"/>
+                                        <line x1="7" y1="18" x2="16" y2="18" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+                                        <circle cx="16" cy="18" r="5.5" fill="#1a1848" stroke="#6366f1" stroke-width="2"/>
+                                        <circle cx="16" cy="18" r="2.5" fill="#e0e7ff" filter="url(#hLgDotGlow)"/>
+                                        <line x1="84" y1="18" x2="93" y2="18" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+                                        <circle cx="84" cy="18" r="5.5" fill="#1a1848" stroke="#6366f1" stroke-width="2"/>
+                                        <circle cx="84" cy="18" r="2.5" fill="#e0e7ff" filter="url(#hLgDotGlow)"/>
+                                        <circle cx="50" cy="78" r="10"  fill="none" stroke="#4f46e5" stroke-width="0.8" opacity="0.35"/>
+                                        <circle cx="50" cy="78" r="6.5" fill="none" stroke="#6366f1" stroke-width="1.5" opacity="0.65"/>
+                                        <circle cx="50" cy="78" r="4"   fill="#1e1b4b" stroke="#a5b4fc" stroke-width="1.5"/>
+                                        <circle cx="50" cy="78" r="2.2" fill="white" filter="url(#hLgGlow)"/>
                                     </svg>
                                 </div>
                             ` : ''}
