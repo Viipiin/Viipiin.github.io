@@ -54,7 +54,7 @@
 
                 <!-- Left: Text content -->
                 <div class="hero-content">
-                    <h1>Hi, I'm Vipin</h1>
+                    <h1 id="hero-h1" aria-label="Hi, I'm Vipin">Hi, I'm Vipin</h1>
                     <p class="hero-subtitle">Power Platform Solution Architect &nbsp;·&nbsp; Copilot Studio &nbsp;·&nbsp; AI-Augmented ALM &nbsp;·&nbsp; Dataverse Architecture</p>
 
                     <p class="hero-bio">
@@ -1092,6 +1092,58 @@
         badge.addEventListener('focus',      show);
         badge.addEventListener('blur',       hide);
     })();
+    </script>
+
+    <!-- ── H1 Scramble-Decode Animation ── -->
+    <script>
+    (function () {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        var el = document.getElementById('hero-h1');
+        if (!el) return;
+
+        var target  = el.getAttribute('aria-label');
+        var charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#&';
+        var frames  = 28;
+        var delay   = 80;    // ms before first frame (lets hero fade-in start first)
+        var step    = 32;    // ms per frame (~30 fps)
+        var frame   = 0;
+
+        el.setAttribute('aria-live', 'off');
+        el.classList.add('h1-scrambling');
+
+        function rand() {
+            return charset[Math.floor(Math.random() * charset.length)];
+        }
+
+        setTimeout(function () {
+            var timer = setInterval(function () {
+                var resolved = Math.floor((frame / frames) * target.length);
+                var out = '';
+                for (var i = 0; i < target.length; i++) {
+                    var ch = target[i];
+                    if (ch === ' ' || ch === "'" || ch === ',') {
+                        out += ch;
+                    } else if (i < resolved) {
+                        out += ch;
+                    } else {
+                        out += rand();
+                    }
+                }
+                el.textContent = out;
+                frame++;
+
+                if (frame > frames) {
+                    clearInterval(timer);
+                    el.textContent = target;
+                    el.removeAttribute('aria-live');
+                    el.classList.remove('h1-scrambling');
+                    el.classList.add('h1-decoded');
+                    setTimeout(function () { el.classList.remove('h1-decoded'); }, 1200);
+                }
+            }, step);
+        }, delay);
+    }());
     </script>
 
 </body>
