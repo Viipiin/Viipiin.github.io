@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Power Platform + AI Solution Architect — Career Roadmap (India 35–50 LPA Target)</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --card2: #20243a;
+      --border: #2e3250;
+      --accent: #cc785c;
+      --accent2: #7c6af7;
+      --accent3: #3ecf8e;
+      --accent4: #f5a623;
+      --accent5: #4a9eff;
+      --accent6: #ff4e9d;
+      --text: #e8e9f0;
+      --muted: #8b8fa8;
+      --tag-yt: #ff4e45;
+      --tag-gh: #6e5494;
+      --tag-lab: #3ecf8e;
+      --tag-doc: #4a9eff;
+      --tag-art: #f5a623;
+      --tag-ms: #00a4ef;
+      --rec-good: #3ecf8e;
+      --rec-opt: #f5a623;
+      --rec-bad: #ef4444;
+      --rec-retire: #a855f7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+      scroll-behavior: smooth;
+    }
+    header {
+      background: linear-gradient(135deg, #1a1040 0%, #2d1b5e 50%, #1a2040 100%);
+      border-bottom: 2px solid var(--accent2);
+      padding: 56px 40px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(124,106,247,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 50%, rgba(204,120,92,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    header h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #a78bfa, #cc785c, #3ecf8e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    header p.subtitle { font-size: 1.1rem; color: var(--muted); max-width: 760px; margin: 0 auto 22px; position: relative; }
+    header p.author { font-size: 0.85rem; color: var(--accent); margin-bottom: 22px; position: relative; }
+    .header-badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; }
+    .badge { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 6px 16px; font-size: 0.82rem; font-weight: 600; color: var(--text); }
+    .badge.salary { background: rgba(62,207,142,0.15); border-color: var(--accent3); color: var(--accent3); }
+    .badge.role { background: rgba(124,106,247,0.15); border-color: var(--accent2); color: #a78bfa; }
+    .badge.region { background: rgba(245,166,35,0.15); border-color: var(--accent4); color: var(--accent4); }
+    nav.toc { background: var(--card); border-bottom: 1px solid var(--border); padding: 18px 40px; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+    nav.toc ul { display: flex; gap: 8px; list-style: none; flex-wrap: wrap; justify-content: center; }
+    nav.toc a { color: var(--muted); text-decoration: none; padding: 6px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; transition: all 0.2s; border: 1px solid transparent; }
+    nav.toc a:hover { color: var(--text); background: var(--card2); border-color: var(--border); }
+    main { max-width: 1280px; margin: 0 auto; padding: 40px 32px; }
+    section { margin-bottom: 56px; scroll-margin-top: 80px; }
+    .section-head { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; padding-bottom: 14px; border-bottom: 2px solid var(--border); }
+    .section-num { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; flex-shrink: 0; }
+    .section-head h2 { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.3px; }
+    .section-intro { color: var(--muted); margin-bottom: 28px; font-size: 0.95rem; max-width: 900px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; margin-bottom: 18px; transition: border-color 0.2s, transform 0.2s; }
+    .card:hover { border-color: var(--accent2); }
+    .card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+    .card h4 { font-size: 0.95rem; font-weight: 700; color: var(--accent); margin: 14px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .month-card { border-left: 4px solid var(--accent2); background: linear-gradient(135deg, var(--card) 0%, var(--card2) 100%); }
+    .month-card.m1 { border-left-color: var(--accent5); }
+    .month-card.m2 { border-left-color: var(--accent3); }
+    .month-card.m3 { border-left-color: var(--accent6); }
+    .month-card.m4 { border-left-color: var(--accent4); }
+    .month-card.m5 { border-left-color: var(--accent); }
+    .month-card.m6 { border-left-color: var(--accent2); }
+    .month-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+    .month-header h3 { font-size: 1.25rem; font-weight: 800; }
+    .month-tag { background: rgba(124,106,247,0.15); color: #a78bfa; padding: 4px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.4px; }
+    .week-block { background: rgba(255,255,255,0.025); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-top: 12px; }
+    .week-block h4 { color: var(--accent4); font-size: 0.88rem; margin: 0 0 8px; }
+    .week-block ul { margin-left: 20px; }
+    .week-block li { margin-bottom: 4px; color: var(--text); font-size: 0.88rem; }
+    .week-block li strong { color: var(--accent3); }
+    .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); margin: 14px 0 20px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 600px; }
+    thead { background: var(--card2); }
+    th { text-align: left; padding: 12px 14px; font-weight: 700; color: var(--accent4); border-bottom: 2px solid var(--border); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
+    td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text); }
+    tbody tr:hover { background: rgba(124,106,247,0.05); }
+    tbody tr:last-child td { border-bottom: none; }
+    td.cert-name { font-weight: 700; color: var(--accent5); }
+    .pill { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.3px; white-space: nowrap; }
+    .pill.rec { background: rgba(62,207,142,0.18); color: var(--rec-good); border: 1px solid var(--rec-good); }
+    .pill.opt { background: rgba(245,166,35,0.18); color: var(--rec-opt); border: 1px solid var(--rec-opt); }
+    .pill.bad { background: rgba(239,68,68,0.18); color: var(--rec-bad); border: 1px solid var(--rec-bad); }
+    .pill.retire { background: rgba(168,85,247,0.18); color: var(--rec-retire); border: 1px solid var(--rec-retire); }
+    .pill.diff-easy { background: rgba(62,207,142,0.18); color: var(--rec-good); }
+    .pill.diff-med { background: rgba(245,166,35,0.18); color: var(--rec-opt); }
+    .pill.diff-hard { background: rgba(239,68,68,0.18); color: var(--rec-bad); }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3px; margin-right: 6px; color: #fff; text-transform: uppercase; }
+    .tag.yt { background: var(--tag-yt); }
+    .tag.gh { background: var(--tag-gh); }
+    .tag.lab { background: var(--tag-lab); }
+    .tag.doc { background: var(--tag-doc); }
+    .tag.art { background: var(--tag-art); }
+    .tag.ms { background: var(--tag-ms); }
+    .resource-list { list-style: none; }
+    .resource-list li { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+    .resource-list li:last-child { border-bottom: none; }
+    .resource-list a { color: var(--accent5); text-decoration: none; font-weight: 600; }
+    .resource-list a:hover { color: var(--accent); text-decoration: underline; }
+    .resource-list .reason { display: block; color: var(--muted); font-size: 0.8rem; margin-top: 2px; }
+    .project-card { background: linear-gradient(135deg, var(--card) 0%, var(--card2) 100%); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 22px; position: relative; }
+    .project-card::before { content: attr(data-num); position: absolute; top: -14px; left: 22px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; padding: 4px 14px; border-radius: 14px; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.5px; }
+    .project-card h3 { margin-top: 6px; font-size: 1.2rem; color: var(--accent3); }
+    .project-card .meta { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 14px; }
+    .project-card .meta .badge { font-size: 0.7rem; padding: 3px 10px; background: rgba(74,158,255,0.12); color: var(--accent5); border-color: var(--accent5); }
+    .project-card pre { background: #0a0c12; border: 1px solid var(--border); border-radius: 8px; padding: 14px; font-family: 'Consolas', 'Cascadia Code', monospace; font-size: 0.78rem; line-height: 1.5; overflow-x: auto; color: #b8c0d8; margin: 10px 0; }
+    .feature-list { list-style: none; margin: 8px 0; }
+    .feature-list li { padding: 6px 0 6px 22px; position: relative; font-size: 0.88rem; }
+    .feature-list li::before { content: '▸'; position: absolute; left: 4px; color: var(--accent); font-weight: 700; }
+    .check-list li::before { content: '✓'; color: var(--accent3); }
+    .warn-list li::before { content: '⚠'; color: var(--accent4); }
+    .x-list li::before { content: '✗'; color: var(--rec-bad); }
+    .qa-block { background: var(--card2); border-left: 3px solid var(--accent); padding: 12px 16px; border-radius: 6px; margin-bottom: 12px; font-size: 0.88rem; }
+    .qa-block .q { font-weight: 700; color: var(--accent4); margin-bottom: 6px; }
+    .qa-block .a { color: var(--text); }
+    .framework-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 14px 0; }
+    .framework-cell { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+    .framework-cell h4 { color: var(--accent2); font-size: 0.92rem; margin-bottom: 8px; text-transform: none; letter-spacing: 0; }
+    .framework-cell p { font-size: 0.83rem; color: var(--text); }
+    .callout { background: linear-gradient(135deg, rgba(124,106,247,0.1), rgba(204,120,92,0.08)); border: 1px solid var(--accent2); border-radius: 10px; padding: 16px 18px; margin: 14px 0; font-size: 0.88rem; }
+    .callout strong { color: var(--accent4); }
+    .callout.warn { border-color: var(--accent4); background: linear-gradient(135deg, rgba(245,166,35,0.1), rgba(245,166,35,0.04)); }
+    .callout.danger { border-color: var(--rec-bad); background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(239,68,68,0.04)); }
+    .callout.success { border-color: var(--accent3); background: linear-gradient(135deg, rgba(62,207,142,0.1), rgba(62,207,142,0.04)); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    @media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } nav.toc ul { font-size: 0.75rem; } header h1 { font-size: 2rem; } main { padding: 24px 18px; } }
+    footer { background: var(--card); border-top: 2px solid var(--accent2); padding: 30px 40px; text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 40px; }
+    footer .author-tag { color: var(--accent); font-weight: 700; }
+    code { background: var(--card2); color: var(--accent3); padding: 1px 6px; border-radius: 4px; font-family: 'Consolas', 'Cascadia Code', monospace; font-size: 0.85em; }
+    .decision-matrix td:first-child { font-weight: 700; color: var(--accent4); }
+    .decision-matrix td.yes { color: var(--accent3); font-weight: 700; }
+    .decision-matrix td.no { color: var(--rec-bad); font-weight: 700; }
+    .decision-matrix td.maybe { color: var(--accent4); font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<!-- Private Access Overlay -->
+<div id="vk-auth-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#0f1117;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',sans-serif;">
+  <div style="background:#1a1d27;border:1px solid #2e3250;border-radius:12px;padding:2.5rem 2rem;max-width:360px;width:90%;text-align:center;">
+    <div style="font-size:2rem;margin-bottom:1rem;">🔒</div>
+    <h2 style="color:#e8e9f0;font-size:1.2rem;margin-bottom:0.5rem;font-weight:600;">Private Resource</h2>
+    <p style="color:#8b8fa8;font-size:0.85rem;margin-bottom:1.5rem;">Enter password to continue</p>
+    <input id="vk-pwd-input" type="password" placeholder="Password" autocomplete="off" style="width:100%;padding:0.75rem 1rem;background:#20243a;border:1px solid #2e3250;border-radius:8px;color:#e8e9f0;font-size:1rem;outline:none;margin-bottom:0.75rem;box-sizing:border-box;" />
+    <div id="vk-pwd-error" style="color:#ef4444;font-size:0.8rem;height:1.2rem;margin-bottom:0.5rem;"></div>
+    <button id="vk-pwd-btn" style="width:100%;padding:0.75rem;background:#7c6af7;border:none;border-radius:8px;color:#fff;font-size:1rem;cursor:pointer;font-weight:600;">Unlock</button>
+  </div>
+</div>
+<script>
+(function(){
+  var H='4547f7673a8d3bc555b4c406b71fe3636ce9ed5ee5ed9f8c44f37de8e69648d5';
+  var K='vk_priv_auth';
+  if(sessionStorage.getItem(K)==='1'){document.getElementById('vk-auth-overlay').style.display='none';return;}
+  document.body.style.overflow='hidden';
+  async function check(p){var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(p));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0');}).join('')===H;}
+  async function attempt(){var v=document.getElementById('vk-pwd-input').value;if(!v)return;if(await check(v)){sessionStorage.setItem(K,'1');document.getElementById('vk-auth-overlay').style.display='none';document.body.style.overflow='';}else{document.getElementById('vk-pwd-error').textContent='Incorrect password.';document.getElementById('vk-pwd-input').value='';document.getElementById('vk-pwd-input').focus();}}
+  document.getElementById('vk-pwd-btn').addEventListener('click',attempt);
+  document.getElementById('vk-pwd-input').addEventListener('keydown',function(e){if(e.key==='Enter')attempt();});
+  document.getElementById('vk-pwd-input').focus();
+}());
+</script>
+
+<header>
+  <h1>Power Platform + AI Solution Architect</h1>
+  <p class="subtitle">A complete, India-focused career roadmap to break into <strong>35–50 LPA</strong> Architect roles. Hands-on 180-day plan, certifications (Microsoft + AI ecosystem), enterprise projects, agent-building tooling, interview playbook, top 70+ employer career pages, and architect thinking frameworks.</p>
+  <p class="author">Designed for: Power Platform Architect &amp; Developer moving into Senior / Principal Architect roles · India market</p>
+  <div class="header-badges">
+    <span class="badge role">Solution Architect</span>
+    <span class="badge salary">35–50 LPA target</span>
+    <span class="badge region">India Market</span>
+    <span class="badge">Power Platform + Azure AI</span>
+    <span class="badge">Copilot Studio + Agents</span>
+    <span class="badge">MCP &amp; Agent Frameworks</span>
+    <span class="badge">180-Day Plan</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <ul>
+    <li><a href="#study">1 · Study Plan</a></li>
+    <li><a href="#deep">2 · Architect Learning</a></li>
+    <li><a href="#certs">3 · Certifications</a></li>
+    <li><a href="#resources">4 · Free Resources</a></li>
+    <li><a href="#agents">5 · AI Agents &amp; Tooling</a></li>
+    <li><a href="#projects">6 · Project Portfolio</a></li>
+    <li><a href="#jobs">7 · India Job Strategy</a></li>
+    <li><a href="#employers">8 · Top Employers (India)</a></li>
+    <li><a href="#thinking">9 · Architect Thinking</a></li>
+    <li><a href="#bonus">10 · Resume / LinkedIn / Brand</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section id="study">
+  <div class="section-head"><div class="section-num">1</div><h2>📅 Study Plan — 90-Day Sprint &amp; 180-Day Roadmap</h2></div>
+  <p class="section-intro">Two-phase plan. The first 90 days close the architect-skill gap (design patterns, integration, AI). The next 90 days build a portfolio, drive certifications, and start positioning for senior roles. Plan assumes ~2 hrs/weekday + 5 hrs/weekend = ~15 hrs/week.</p>
+
+  <div class="callout">
+    <strong>How to use this plan:</strong> Pick the next uncompleted week, block the time on your calendar, and treat the "Build" task as non-negotiable. Theory without code does not land architect interviews — every week ends with a deployable artifact you can put in your portfolio.
+  </div>
+
+  <h3 style="margin: 30px 0 16px; font-size: 1.3rem; color: var(--accent5);">▶ Phase 1: First 90 Days — Architect Gap Closure</h3>
+
+  <div class="card month-card m1">
+    <div class="month-header"><h3>Month 1 — Architect Foundations &amp; Dataverse Deep Dive</h3><span class="month-tag">Days 1–30</span></div>
+    <p style="font-size: 0.88rem; color: var(--muted);">Goal: Move from "advanced developer" to "thinks in architectures." Master Dataverse internals, security at enterprise scale, and ALM.</p>
+    <div class="week-block">
+      <h4>Week 1 — Dataverse Internals &amp; Storage Model</h4>
+      <ul>
+        <li><strong>Topics:</strong> Dataverse architecture, storage allocation (database/file/log), elastic tables, table relationships, alternate keys, plugin execution pipeline (Pre/Post, sync/async, stages 10/20/40)</li>
+        <li><strong>Build:</strong> Document a Dataverse capacity-planning sheet for a 50k-user CRM — calculate DB/file/log growth, identify what to move to Azure Blob via file columns</li>
+        <li><strong>Real-world:</strong> A BFSI customer hit 4TB storage cost; design how to offload attachments to Azure Storage with SAS tokens</li>
+        <li><strong>Deliverable:</strong> Markdown doc — "Dataverse Capacity Planning Playbook"</li>
+      </ul>
+    </div>
+    <div class="week-block">
+      <h4>Week 2 — Security Model at Enterprise Scale</h4>
+      <ul>
+        <li><strong>Topics:</strong> Business units (BU restructuring nightmares), security roles, teams (Owner/Access/AAD/AAD-Group), hierarchical security (manager vs position), field-level security, column-level encryption, row ownership</li>
+        <li><strong>Build:</strong> Design security for a multi-country sales org: 5 BUs, regional sales managers, shared global pipeline, restricted commission data. Use Owner teams for shared records, Access teams for ad-hoc sharing</li>
+        <li><strong>Real-world:</strong> India-EMEA sales org needs GDPR-compliant data residency on a single tenant</li>
+        <li><strong>Deliverable:</strong> Security matrix (Excel) + ER diagram of BU hierarchy</li>
+      </ul>
+    </div>
+    <div class="week-block">
+      <h4>Week 3 — Solution Architecture &amp; ALM (DevOps Pipelines)</h4>
+      <ul>
+        <li><strong>Topics:</strong> Managed vs unmanaged solutions, segmented solutions, dependency hell, solution layering, Power Platform Build Tools, Azure DevOps pipelines, GitHub Actions for PP, Pipelines in Power Platform (native), environment variables, connection references</li>
+        <li><strong>Build:</strong> Set up Dev → Test → UAT → Prod pipeline using Azure DevOps with automatic solution export, pack, unpack, and import. Add a YAML pipeline that runs PAC CLI checker for code quality</li>
+        <li><strong>Real-world:</strong> A consulting firm broke production because someone exported "Default Solution" — design guardrails</li>
+        <li><strong>Deliverable:</strong> GitHub repo with working YAML pipeline + README on ALM strategy</li>
+      </ul>
+    </div>
+    <div class="week-block">
+      <h4>Week 4 — Model-Driven Design Patterns + Canvas Decision Matrix</h4>
+      <ul>
+        <li><strong>Topics:</strong> Form scripting (Xrm.WebApi vs OData), command bar customization, modern command bar, business rules vs JS, business process flows, custom pages embedded in MDA, when to use Canvas vs MDA vs Power Pages</li>
+        <li><strong>Build:</strong> Build a "Loan Origination" MDA with a Custom Page for guided wizard + BPF for stages. Wire up a Power Fx command to call Dataverse via connector</li>
+        <li><strong>Real-world:</strong> When does a Canvas embedded page beat a quick-create form?</li>
+        <li><strong>Deliverable:</strong> Demo recording (Loom) + design rationale document</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card month-card m2">
+    <div class="month-header"><h3>Month 2 — Integration, Azure, &amp; Event-Driven Architecture</h3><span class="month-tag">Days 31–60</span></div>
+    <p style="font-size: 0.88rem; color: var(--muted);">Goal: Stop being a "Power Platform person" and become an "enterprise integration architect" who happens to specialize in PP.</p>
+    <div class="week-block">
+      <h4>Week 5 — Azure Functions, Service Bus, Event Grid</h4>
+      <ul>
+        <li><strong>Topics:</strong> Function triggers (HTTP, Service Bus, Event Grid, Timer), durable functions for orchestration, isolation modes (in-process vs isolated worker), Service Bus topics/subscriptions/dead-letter, Event Grid vs Event Hubs vs Service Bus</li>
+        <li><strong>Build:</strong> Async export of 1M Dataverse records → Service Bus → Function → Azure Blob, with retry + DLQ handling. Use durable functions for chunking</li>
+        <li><strong>Real-world:</strong> Plugin times out on bulk import — how do you re-architect with async messaging?</li>
+        <li><strong>Deliverable:</strong> Diagram (draw.io) + working Function code on GitHub</li>
+      </ul>
+    </div>
+    <div class="week-block">
+      <h4>Week 6 — API Management &amp; Custom Connectors</h4>
+      <ul>
+        <li><strong>Topics:</strong> APIM products/subscriptions/policies, rate-limiting, JWT validation, custom connectors with OAuth 2.0 / API key / certificate, swagger/OpenAPI 2.0 import, on-behalf-of flow, connector certification</li>
+        <li><strong>Build:</strong> Wrap a legacy SOAP service behind APIM REST facade → expose as custom connector → consume in Power Automate. Add caching + transformation policies</li>
+        <li><strong>Real-world:</strong> SAP ERP exposes only SOAP — design the integration layer</li>
+        <li><strong>Deliverable:</strong> APIM policy XML + custom connector JSON + flow screenshots</li>
+      </ul>
+    </div>
+    <div class="week-block">
+      <h4>Week 7 — Plugin vs Flow vs Function — The Decision Framework</h4>
+      <ul>
+        <li><strong>Topics:</strong> Plugin execution context, sandbox limits (2-min timeout, no out-of-process calls), when Power Automate is wrong (latency, throttling, licensing), when Azure Function wins (long-running, secrets, libraries), webhooks vs plugins vs Service Bus from Dataverse</li>
+        <li><strong>Build:</strong> Same business logic implemented 3 ways (plugin, flow, function). Benchmark latency, cost, observability. Write up the trade-offs</li>
+        <li><strong>Real-world:</strong> Quote-to-cash needs to enrich data from 4 external APIs in &lt;3s — which option wins?</li>
+        <li><strong>Deliverable:</strong> Comparison table + benchmark numbers + recommendation framework</li>
+      </ul>
+    </div>
+    <div class="week-block">
+      <h4>Week 8 — Event-Driven Architecture &amp; Dataverse Webhooks</h4>
+      <ul>
+        <li><strong>Topics:</strong> Dataverse → Service Bus / Event Grid / Webhook destinations, plugin registration tool for service endpoints, idempotency, ordering, transactional outbox pattern, CDC-style change feeds</li>
+        <li><strong>Build:</strong> Dataverse Account creation → Event Grid → Function → CRM sync to Salesforce sandbox. Handle duplicates and failed deliveries</li>
+        <li><strong>Real-world:</strong> Two-way sync between Dataverse and an external system without infinite loops</li>
+        <li><strong>Deliverable:</strong> Architecture diagram with sequence flow + working PoC</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card month-card m3">
+    <div class="month-header"><h3>Month 3 — AI, Copilot Studio, &amp; Azure OpenAI</h3><span class="month-tag">Days 61–90</span></div>
+    <p style="font-size: 0.88rem; color: var(--muted);">Goal: AI is the architect-level differentiator in 2026. Master Copilot Studio, Azure OpenAI grounding, and AI Builder for production scenarios.</p>
+    <div class="week-block">
+      <h4>Week 9 — Copilot Studio (Topics, Generative Actions, Agents)</h4>
+      <ul>
+        <li><strong>Topics:</strong> Topic authoring, trigger phrases, entities, generative answers from knowledge sources (SharePoint, websites, Dataverse), generative actions, Copilot Studio agents vs Microsoft 365 Copilot agents, channel publishing (Teams, web, Power Apps embedded), authentication setup</li>
+        <li><strong>Build:</strong> Internal HR bot: leave balance lookup (Dataverse plugin action), policy Q&amp;A (SharePoint grounding), escalation handoff to Teams</li>
+        <li><strong>Real-world:</strong> Stop writing 200 topics — use generative orchestration with grounded knowledge</li>
+        <li><strong>Deliverable:</strong> Working bot in your tenant + demo video</li>
+      </ul>
+    </div>
+    <div class="week-block">
+      <h4>Week 10 — Azure OpenAI: Models, Grounding, RAG</h4>
+      <ul>
+        <li><strong>Topics:</strong> GPT-4o vs GPT-4.1 vs o-series, embeddings (text-embedding-3-large), Azure AI Search as vector store, RAG patterns (basic, hybrid, agentic), prompt engineering for enterprise, content safety, PTU vs PAYGO, network isolation (private endpoints)</li>
+        <li><strong>Build:</strong> RAG over 500 policy PDFs: ingestion pipeline → AI Search index with vectors → chat API (Function) → consumed by Power App. Add citations</li>
+        <li><strong>Real-world:</strong> Why "ChatGPT clone" demos fail in production — hallucinations, no source attribution, no governance</li>
+        <li><strong>Deliverable:</strong> End-to-end RAG solution + cost-per-query analysis</li>
+      </ul>
+    </div>
+    <div class="week-block">
+      <h4>Week 11 — AI Builder &amp; Document Intelligence</h4>
+      <ul>
+        <li><strong>Topics:</strong> Prebuilt vs custom AI models, document processing (invoices, receipts, custom forms), prediction models, GPT prompt actions in Power Automate, AI Builder credits and capacity, Document Intelligence (formerly Form Recognizer) for complex layouts</li>
+        <li><strong>Build:</strong> Invoice automation — email arrives → Power Automate → AI Builder/DI extracts fields → Dataverse → approval flow → SAP posting via APIM</li>
+        <li><strong>Real-world:</strong> When to choose AI Builder vs raw Document Intelligence (cost, customizability, governance)</li>
+        <li><strong>Deliverable:</strong> Solution package + accuracy benchmark on sample dataset</li>
+      </ul>
+    </div>
+    <div class="week-block">
+      <h4>Week 12 — Enterprise AI Patterns &amp; Governance</h4>
+      <ul>
+        <li><strong>Topics:</strong> Responsible AI checklist, prompt injection mitigation, PII redaction (Azure AI Language), audit logging for AI calls, model versioning, A/B testing prompts, FinOps for OpenAI, data residency (India — Central India region), Microsoft Purview for AI</li>
+        <li><strong>Build:</strong> Add governance layer to your Month 3 RAG solution: PII redaction → prompt logging → cost dashboard in Power BI</li>
+        <li><strong>Real-world:</strong> Legal/CISO sign-off requirements for any GenAI in regulated industries</li>
+        <li><strong>Deliverable:</strong> Governance checklist + working PII redaction layer</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin: 36px 0 16px; font-size: 1.3rem; color: var(--accent3);">▶ Phase 2: Days 91–180 — Portfolio, Certs &amp; Positioning</h3>
+
+  <div class="card month-card m4">
+    <div class="month-header"><h3>Month 4 — PL-600 Sprint &amp; First Architect Project</h3><span class="month-tag">Days 91–120</span></div>
+    <div class="week-block">
+      <h4>Weeks 13–14: PL-600 Solution Architect prep</h4>
+      <ul>
+        <li><strong>Topics:</strong> Envisioning, requirements, solution architecture, data modeling, integration, security, ALM, going-live readiness</li>
+        <li><strong>Build:</strong> Take 4 official practice tests; design a fictional "AdventureWorks" architecture end-to-end (envision → blueprint → ALM → cutover)</li>
+        <li><strong>Real-world:</strong> Practice the case-study format — PL-600 tests architect <em>judgment</em>, not feature knowledge</li>
+      </ul>
+    </div>
+    <div class="week-block">
+      <h4>Weeks 15–16: Take PL-600 + Start Portfolio Project #1</h4>
+      <ul>
+        <li><strong>Book PL-600 exam.</strong> Even if you fail, you learn the gaps. Most architects fail once — it's normal.</li>
+        <li><strong>Start Project #1</strong> (Enterprise CRM, see Section 5). Document architecture in a public GitHub repo with diagrams</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card month-card m5">
+    <div class="month-header"><h3>Month 5 — AZ-305 + AI-102 + AI Chatbot Project</h3><span class="month-tag">Days 121–150</span></div>
+    <div class="week-block">
+      <h4>Weeks 17–18: AZ-305 prep (Azure Solutions Architect)</h4>
+      <ul>
+        <li><strong>Topics:</strong> Identity (AAD/Entra), storage strategy, business continuity, infra design, monitoring/governance</li>
+        <li><strong>Build:</strong> Design "well-architected" landing zone diagrams. Read Microsoft's Cloud Adoption Framework end-to-end</li>
+      </ul>
+    </div>
+    <div class="week-block">
+      <h4>Weeks 19–20: AI-102 prep + Portfolio Project #2 (AI Chatbot)</h4>
+      <ul>
+        <li>AI-102 covers Azure AI services (Vision, Speech, Language, Search, OpenAI). Highly practical exam.</li>
+        <li>Project #2: Production-grade RAG chatbot for an enterprise use case</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card month-card m6">
+    <div class="month-header"><h3>Month 6 — Job Search, Branding &amp; Closing Projects</h3><span class="month-tag">Days 151–180</span></div>
+    <div class="week-block">
+      <h4>Weeks 21–22: Polish portfolio + LinkedIn rebrand</h4>
+      <ul>
+        <li>Three projects on GitHub with READMEs, diagrams, demo videos</li>
+        <li>Rewrite LinkedIn headline + About + Featured (see Section 8)</li>
+        <li>Publish 2 LinkedIn articles or blog posts on PP+AI architecture decisions you made</li>
+      </ul>
+    </div>
+    <div class="week-block">
+      <h4>Weeks 23–26: Interview prep, applications, negotiation</h4>
+      <ul>
+        <li>Mock interviews (find 2 architect peers, swap mock interviews)</li>
+        <li>Apply to 5 roles/week (Naukri, LinkedIn, referrals — referrals win)</li>
+        <li>Speak at one community event (D365 UG, Power Platform User Group India)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="deep">
+  <div class="section-head"><div class="section-num">2</div><h2>🧠 Architect-Level Learning (Deep Topics)</h2></div>
+  <p class="section-intro">These are the topic clusters where senior architects are tested in interviews and on real engagements. Surface knowledge here is the #1 reason developers don't get promoted to architect.</p>
+
+  <h3 style="font-size: 1.25rem; margin: 18px 0 12px; color: var(--accent5);">▸ Power Platform Core</h3>
+
+  <div class="card">
+    <h3>Dataverse Internals</h3>
+    <ul class="feature-list">
+      <li>Storage tiers: Database (relational), File (binary), Log (audit) — costs, quotas, what counts where</li>
+      <li>Elastic tables (NoSQL) vs standard tables — when and why (high-volume IoT, telemetry, 100M+ rows)</li>
+      <li>Plugin execution pipeline: pre-validation (10) → pre-op (20) → main → post-op (40) → post-async</li>
+      <li>Plugin sandbox limits: 2-minute timeout, 16 MB heap, no file I/O, no Thread.Sleep</li>
+      <li>Server-side sync vs Outlook plugin (the latter is dead — don't recommend it)</li>
+      <li>Auditing: per-table, per-column, retention strategy, performance impact</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Enterprise Security Model</h3>
+    <ul class="feature-list">
+      <li>Business Units — flat is better than hierarchical (restructuring is painful, plan for it)</li>
+      <li>Security roles: privileges × access levels (None/User/BU/Parent:Child BU/Org)</li>
+      <li>Teams: Owner (acts as record owner), Access (sharing only), AAD security group teams, AAD office group teams</li>
+      <li>Hierarchical security: Manager hierarchy vs Position hierarchy — when each wins</li>
+      <li>Field-Level Security (FLS) profiles + column encryption for PII/PCI</li>
+      <li>Bring-Your-Own-Key (BYOK), Customer Lockbox, data residency (India = Central + South India regions)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Decision Matrix — Canvas vs Model-Driven vs Power Pages</h3>
+    <div class="table-wrap">
+      <table class="decision-matrix">
+        <thead><tr><th>Need</th><th>Canvas</th><th>Model-Driven</th><th>Power Pages</th></tr></thead>
+        <tbody>
+          <tr><td>Heavy data CRUD on Dataverse</td><td class="maybe">OK</td><td class="yes">Best</td><td class="no">No</td></tr>
+          <tr><td>Pixel-perfect UX / branded</td><td class="yes">Best</td><td class="maybe">Limited</td><td class="yes">Best</td></tr>
+          <tr><td>External (anonymous/B2C) users</td><td class="no">No</td><td class="no">No</td><td class="yes">Best</td></tr>
+          <tr><td>Mobile-first task workflows</td><td class="yes">Best</td><td class="maybe">OK</td><td class="no">No</td></tr>
+          <tr><td>Complex security on Dataverse</td><td class="maybe">Limited</td><td class="yes">Best</td><td class="maybe">Web roles</td></tr>
+          <tr><td>Embedded inside Teams</td><td class="yes">Native</td><td class="yes">Native</td><td class="no">No</td></tr>
+          <tr><td>1000s of forms/views auto-generated</td><td class="no">No</td><td class="yes">Best</td><td class="no">No</td></tr>
+          <tr><td>SEO / public web presence</td><td class="no">No</td><td class="no">No</td><td class="yes">Best</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Plugin vs Power Automate vs Azure Function</h3>
+    <div class="table-wrap">
+      <table class="decision-matrix">
+        <thead><tr><th>Criterion</th><th>Plugin (C#)</th><th>Power Automate</th><th>Azure Function</th></tr></thead>
+        <tbody>
+          <tr><td>Latency target &lt;500ms</td><td class="yes">Yes (sync)</td><td class="no">No (1–5s)</td><td class="yes">Yes</td></tr>
+          <tr><td>Long-running &gt;2 min</td><td class="no">No (sandbox limit)</td><td class="maybe">Sometimes</td><td class="yes">Yes (Durable)</td></tr>
+          <tr><td>External library / SDK calls</td><td class="no">Limited (sandbox)</td><td class="maybe">Via connector</td><td class="yes">Full freedom</td></tr>
+          <tr><td>Citizen developer maintainability</td><td class="no">No</td><td class="yes">Yes</td><td class="no">No</td></tr>
+          <tr><td>License/cost</td><td class="yes">Included</td><td class="maybe">Premium connectors $$$</td><td class="yes">Cheap at scale</td></tr>
+          <tr><td>Versioning / DevOps</td><td class="yes">Solid (NuGet, ILMerge)</td><td class="maybe">Painful</td><td class="yes">Best (CI/CD)</td></tr>
+          <tr><td>Observability / logs</td><td class="maybe">Trace logs</td><td class="maybe">Run history</td><td class="yes">App Insights</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <strong>Architect rule of thumb:</strong> Use <em>plugins</em> for transactional integrity inside Dataverse. Use <em>Power Automate</em> for low-volume cross-system orchestration business users may need to read/maintain. Use <em>Functions</em> for everything high-volume, latency-sensitive, or needing real libraries.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>ALM &amp; Solution Strategy</h3>
+    <ul class="feature-list">
+      <li>Healthy solution layering: 1 base/common solution + N feature solutions per release train</li>
+      <li>Source of truth = Git repo of unpacked solution XMLs (not the Dev environment)</li>
+      <li>Power Platform Build Tools (Azure DevOps) OR GitHub Actions (preferred for new projects)</li>
+      <li>Pipeline stages: Validate → Build → Pack → Import to Test → Test → Promote to UAT → Approval → Prod</li>
+      <li>Environment variables for config (URLs, IDs), connection references for connections</li>
+      <li>PAC CLI <code>solution checker</code> in CI to block bad code from merging</li>
+      <li>Backup strategy: Dataverse automatic backups (7 days), manual backups before major releases</li>
+    </ul>
+  </div>
+
+  <h3 style="font-size: 1.25rem; margin: 28px 0 12px; color: var(--accent3);">▸ Integration</h3>
+
+  <div class="card">
+    <h3>Messaging &amp; Eventing — Choose Your Spine</h3>
+    <div class="table-wrap">
+      <table class="decision-matrix">
+        <thead><tr><th>Use case</th><th>Service Bus</th><th>Event Grid</th><th>Event Hubs</th></tr></thead>
+        <tbody>
+          <tr><td>Transactional command (order placed)</td><td class="yes">Best (FIFO, sessions)</td><td class="no">No</td><td class="no">No</td></tr>
+          <tr><td>System event broadcast (file uploaded)</td><td class="maybe">OK</td><td class="yes">Best (push, fan-out)</td><td class="no">No</td></tr>
+          <tr><td>High-volume telemetry / IoT</td><td class="no">No (cost)</td><td class="no">No</td><td class="yes">Best (millions/sec)</td></tr>
+          <tr><td>Dataverse change → 3 subscribers</td><td class="maybe">Sessions/topics</td><td class="yes">Best</td><td class="no">No</td></tr>
+          <tr><td>Replay / time travel</td><td class="no">No</td><td class="no">No</td><td class="yes">Best</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>API Management Patterns</h3>
+    <ul class="feature-list">
+      <li>APIM as the single front-door: auth, throttling, transformation, caching, mocking</li>
+      <li>Policies: <code>validate-jwt</code>, <code>rate-limit-by-key</code>, <code>cache-lookup</code>, <code>set-backend-service</code></li>
+      <li>Products + subscriptions for partner onboarding</li>
+      <li>Self-hosted gateway for on-prem backends (no need for VPN tunnels to APIM)</li>
+      <li>Use Premium tier for VNet integration; Standard v2 for cost-conscious deployments</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>External System Integration Patterns</h3>
+    <ul class="feature-list">
+      <li><strong>Sync with SAP / Oracle EBS / D365 F&amp;O:</strong> APIM → custom connector → Dataverse virtual table (no replication) OR async ETL via Service Bus + Function</li>
+      <li><strong>Two-way sync without infinite loops:</strong> Source-of-change attribute + correlation IDs + idempotency keys</li>
+      <li><strong>Bulk inbound (10M records):</strong> Azure Data Factory → Dataverse via Synapse Link reverse pattern, OR Azure Function batched <code>ExecuteMultiple</code> with throttling backoff</li>
+      <li><strong>Real-time outbound webhooks:</strong> Plugin → Service Bus → consumer at their pace</li>
+      <li><strong>Federated query:</strong> Virtual tables backed by OData provider (no copy, but careful with perf)</li>
+    </ul>
+  </div>
+
+  <h3 style="font-size: 1.25rem; margin: 28px 0 12px; color: var(--accent4);">▸ AI &amp; Copilot</h3>
+
+  <div class="card">
+    <h3>Azure OpenAI — Architect-Level Decisions</h3>
+    <ul class="feature-list">
+      <li>Model choice: GPT-4o for general, GPT-4.1 for long-context (1M tokens), o-series for reasoning/code, GPT-4o-mini for cost-sensitive</li>
+      <li>PTU (Provisioned Throughput Units) vs PAYGO: PTU only makes sense above ~$5k/month spend</li>
+      <li>Embeddings: text-embedding-3-large (3072 dims) — downsize to 1536 for cost via API parameter</li>
+      <li>Vector DB choice: Azure AI Search (managed, hybrid), Cosmos DB (multi-purpose), Postgres pgvector (lift-shift from OSS)</li>
+      <li>Grounding patterns: simple RAG → hybrid (vector + keyword) → agentic (multi-step retrieval) → graph RAG (entities + relationships)</li>
+      <li>Network: deploy with Private Endpoints, disable public network access, route through APIM for auditing</li>
+      <li>India data residency: Azure OpenAI in <em>South India</em> region (added 2024); fall back to Sweden Central / East US 2 for newest models</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Copilot Studio — When to Choose Over Custom GPT App</h3>
+    <ul class="feature-list">
+      <li>Choose Copilot Studio when: rapid build, citizen-developer extensibility, deep Microsoft 365/Teams integration, governed publishing</li>
+      <li>Build custom GPT app when: fine-grained UX, non-MSFT channels, complex multi-agent orchestration, very low cost-per-message at scale</li>
+      <li>Hybrid: Copilot Studio for the conversation UI, calling Azure Function tools that wrap your custom OpenAI orchestration</li>
+      <li>Pricing trap: Copilot Studio messages (~$0.01/msg with prepaid packs) add up — model your TCO</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>AI Builder vs Document Intelligence vs Custom Vision</h3>
+    <ul class="feature-list">
+      <li><strong>AI Builder</strong> — fastest, citizen-dev friendly, but capacity-billed and limited customization</li>
+      <li><strong>Document Intelligence (Azure)</strong> — better accuracy, custom neural models, lower per-page cost at volume, dev-friendly SDK</li>
+      <li><strong>Custom Vision</strong> — image classification/object detection, exportable to edge (ONNX)</li>
+      <li><strong>Decision driver:</strong> Volume + team capability. AI Builder under 10k docs/month and PP-only team. DI above that or when you need pro-dev SDLC.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Enterprise AI Patterns</h3>
+    <ul class="feature-list">
+      <li><strong>RAG architecture (production):</strong> Ingestion pipeline (chunking, metadata, vector embeddings) → vector store → query rewriter → retriever (hybrid) → reranker → generator with citations</li>
+      <li><strong>Agentic pattern:</strong> Planner agent → tool-using agents → critic/verifier — but: every extra hop adds latency &amp; cost</li>
+      <li><strong>Guardrails:</strong> Azure AI Content Safety (input + output), PII detection via AI Language, prompt injection filter</li>
+      <li><strong>Observability:</strong> Log every prompt + response (hashed for PII), token counts, cost; build a Power BI dashboard</li>
+      <li><strong>Evals:</strong> Golden Q&amp;A set, automated regression tests using LLM-as-judge + human-in-the-loop sampling</li>
+      <li><strong>FinOps:</strong> Per-tenant chargeback, alerts on cost spikes, prompt-compression strategies</li>
+    </ul>
+  </div>
+</section>
+
+<section id="certs">
+  <div class="section-head"><div class="section-num">3</div><h2>🎓 Certifications — Active &amp; High-Value Only</h2></div>
+  <p class="section-intro">Only certifications that move the needle for Architect-level roles in India. Foundational exams (PL-900, MB-910, AZ-900, AI-900) are skipped — they don't pay you and recruiters don't care once you have one architect-level cert.</p>
+
+  <div class="callout warn">
+    <strong>Watch for:</strong> Microsoft retired MB-200, MB-400, MB-600 long ago. PL-100 was retired in 2024. Always confirm exam status on the Microsoft Learn catalog before booking.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Cert</th><th>Name</th><th>Status</th><th>Difficulty</th><th>ROI for ₹</th><th>Architect Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="cert-name">PL-600</td><td>Power Platform Solution Architect</td><td><span class="pill rec">RECOMMENDED</span></td><td><span class="pill diff-hard">Hard</span></td><td>★★★★★</td><td>#1 — non-negotiable</td></tr>
+        <tr><td class="cert-name">PL-400</td><td>Power Platform Developer</td><td><span class="pill rec">RECOMMENDED</span></td><td><span class="pill diff-med">Medium</span></td><td>★★★★☆</td><td>Stepping stone if no prior PL-200/PL-100</td></tr>
+        <tr><td class="cert-name">AZ-204</td><td>Azure Developer Associate</td><td><span class="pill rec">RECOMMENDED</span></td><td><span class="pill diff-med">Medium</span></td><td>★★★★☆</td><td>Proves Azure integration skill</td></tr>
+        <tr><td class="cert-name">AZ-305</td><td>Azure Solutions Architect Expert</td><td><span class="pill rec">RECOMMENDED</span></td><td><span class="pill diff-hard">Hard</span></td><td>★★★★★</td><td>#2 — opens hybrid cloud architect roles</td></tr>
+        <tr><td class="cert-name">AI-102</td><td>Azure AI Engineer Associate</td><td><span class="pill rec">RECOMMENDED</span></td><td><span class="pill diff-med">Medium</span></td><td>★★★★★</td><td>#3 — AI is now table-stakes</td></tr>
+        <tr><td class="cert-name">SC-300</td><td>Identity &amp; Access Administrator</td><td><span class="pill opt">OPTIONAL</span></td><td><span class="pill diff-med">Medium</span></td><td>★★★☆☆</td><td>Useful for security-heavy enterprises</td></tr>
+        <tr><td class="cert-name">DP-600</td><td>Fabric Analytics Engineer</td><td><span class="pill opt">OPTIONAL</span></td><td><span class="pill diff-med">Medium</span></td><td>★★★☆☆</td><td>If your roles touch Power BI / Fabric heavily</td></tr>
+        <tr><td class="cert-name">MB-910 / MB-920</td><td>Dynamics 365 Fundamentals (CRM/ERP)</td><td><span class="pill bad">AVOID</span></td><td><span class="pill diff-easy">Easy</span></td><td>★☆☆☆☆</td><td>Beginner — doesn't help architects</td></tr>
+        <tr><td class="cert-name">PL-900</td><td>Power Platform Fundamentals</td><td><span class="pill bad">AVOID</span></td><td><span class="pill diff-easy">Easy</span></td><td>★☆☆☆☆</td><td>Beginner — skip</td></tr>
+        <tr><td class="cert-name">MB-230 / MB-240</td><td>D365 Customer Service / Field Service</td><td><span class="pill opt">OPTIONAL</span></td><td><span class="pill diff-med">Medium</span></td><td>★★☆☆☆</td><td>Only if you specialize in those modules</td></tr>
+        <tr><td class="cert-name">PL-500</td><td>Power Automate RPA Developer</td><td><span class="pill opt">OPTIONAL</span></td><td><span class="pill diff-med">Medium</span></td><td>★★☆☆☆</td><td>Only if RPA is a big part of your work</td></tr>
+        <tr><td class="cert-name">PL-200</td><td>Power Platform Functional Consultant</td><td><span class="pill retire">VERIFY STATUS</span></td><td><span class="pill diff-med">Medium</span></td><td>★★☆☆☆</td><td>Historically volatile — confirm before booking</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Recommended Architect Cert Path</h3>
+    <ol style="margin-left: 22px;">
+      <li><strong>PL-600</strong> — book within Month 4. The single biggest signal.</li>
+      <li><strong>AI-102</strong> — Month 5. AI fluency is now expected on every JD.</li>
+      <li><strong>AZ-305</strong> — Month 5–6. Architects need cloud-architect credibility.</li>
+      <li><strong>AZ-204</strong> (if you didn't already) — gives Azure dev fluency for the above.</li>
+      <li><strong>SC-300</strong> or <strong>DP-600</strong> — choose based on your project mix.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3>Preparation Strategy (works for all)</h3>
+    <ul class="feature-list">
+      <li>Read official MS Learn path once (don't deep-read — skim, mark gaps)</li>
+      <li>Watch one good YouTube course at 1.5× (Nick Doelman for PL-600, Scott Duffy for AZ-305, John Savill for AI-102 / AZ-305)</li>
+      <li>Take MeasureUp or Whizlabs practice tests until you hit 80%+ consistently</li>
+      <li>For PL-600 specifically: practice case studies aloud — write architecture decisions on paper, defend them</li>
+      <li>Book the exam <em>before</em> you feel "ready" — the deadline forces focus</li>
+      <li>The day before: review your weak-area cheat sheet only; don't cram new material</li>
+    </ul>
+  </div>
+
+  <div class="callout success">
+    <strong>Salary impact (India, observed):</strong> PL-600 alone rarely changes salary, but PL-600 + AZ-305 + AI-102 + 2 portfolio projects typically unlocks 35–50 LPA offers from product/services companies. Without certs you'll still land roles via referrals, but recruiter outreach drops sharply.
+  </div>
+
+  <h3 style="font-size: 1.25rem; margin: 28px 0 12px; color: var(--accent3);">▸ Microsoft Applied Skills (short, hands-on, high-signal)</h3>
+  <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 14px;">Applied Skills are ~45-minute, lab-based assessments — they prove you can <em>do</em> the thing, not just memorize it. Take 2–3 alongside your big certs; they show up nicely on LinkedIn and recruiters increasingly look for them.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Applied Skill</th><th>What It Proves</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="cert-name"><a href="https://learn.microsoft.com/en-us/credentials/applied-skills/create-agents-in-microsoft-copilot-studio/" target="_blank" style="color: var(--accent5); text-decoration: none;">Create agents in Microsoft Copilot Studio</a></td><td>Topic authoring, generative answers, channel publishing, real business scenarios</td><td><span class="pill rec">DO THIS</span></td></tr>
+        <tr><td class="cert-name">Enhance agents with autonomous capabilities</td><td>Design self-governing agents with Copilot Studio (the new agentic frontier)</td><td><span class="pill rec">DO THIS</span></td></tr>
+        <tr><td class="cert-name">Build a generative AI chat app</td><td>Interactive apps using Microsoft Foundry (Azure AI Foundry)</td><td><span class="pill rec">DO THIS</span></td></tr>
+        <tr><td class="cert-name">Secure AI solutions in the cloud</td><td>Safeguard AI applications in Azure — security &amp; compliance for AI workloads</td><td><span class="pill rec">RECOMMENDED</span></td></tr>
+        <tr><td class="cert-name">Build an agent-first app</td><td>App surfacing a Copilot Studio agent (rollout June 2026)</td><td><span class="pill opt">WATCH</span></td></tr>
+        <tr><td class="cert-name">Generate reports with AI research agents</td><td>Use Researcher in Copilot for data-driven reports</td><td><span class="pill opt">OPTIONAL</span></td></tr>
+        <tr><td class="cert-name">Streamline business workflows with AI chat</td><td>Use Copilot automation in daily work</td><td><span class="pill opt">OPTIONAL</span></td></tr>
+        <tr><td class="cert-name">Develop generative AI apps with Azure OpenAI</td><td>Build, deploy, secure GenAI apps using Azure OpenAI Service</td><td><span class="pill rec">RECOMMENDED</span></td></tr>
+        <tr><td class="cert-name">Implement RAG with Azure OpenAI on your own data</td><td>Production RAG with grounding (highest-signal for architect roles)</td><td><span class="pill rec">DO THIS</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    Browse the full live catalog: <a href="https://learn.microsoft.com/en-us/credentials/browse/" target="_blank" style="color: var(--accent5);">learn.microsoft.com/credentials/browse</a>. Microsoft also runs the <a href="https://learn.microsoft.com/en-us/credentials/microsoft-credentials-ai-challenge" target="_blank" style="color: var(--accent5);">AI Skills Challenge</a> — free training + sweepstakes for completing AI badges.
+  </div>
+
+  <h3 style="font-size: 1.25rem; margin: 28px 0 12px; color: var(--accent4);">▸ Non-Microsoft AI Certifications (add 1–2 for premium positioning)</h3>
+  <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 14px;">Top-tier architect resumes in 2026 mix Microsoft credentials with at least one ecosystem cert. Agentic AI specialists command 15–25% salary premium over generalists — these credentials prove that specialization.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Certification</th><th>Provider</th><th>Why It Matters</th><th>Architect Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="cert-name"><a href="https://www.databricks.com/learn/certification/genai-engineer-associate" target="_blank" style="color: var(--accent5); text-decoration: none;">Databricks Certified Generative AI Engineer Associate</a></td><td>Databricks</td><td>LLM-enabled solutions design, model selection, RAG, vector stores. Highly respected outside MSFT.</td><td><span class="pill rec">★★★★★</span></td></tr>
+        <tr><td class="cert-name"><a href="https://www.nvidia.com/en-us/training/" target="_blank" style="color: var(--accent5); text-decoration: none;">NVIDIA Generative AI LLMs Certification</a></td><td>NVIDIA DLI</td><td>How LLMs work + production deployment. Strong technical credibility.</td><td><span class="pill rec">★★★★☆</span></td></tr>
+        <tr><td class="cert-name"><a href="https://www.deeplearning.ai/short-courses/" target="_blank" style="color: var(--accent5); text-decoration: none;">DeepLearning.AI — Agentic AI / LangChain / MCP courses</a></td><td>DeepLearning.AI</td><td>Free/low-cost short courses on building agents with LangGraph, CrewAI, AutoGen, MCP. Andrew Ng's brand carries weight.</td><td><span class="pill rec">★★★★★</span></td></tr>
+        <tr><td class="cert-name">AWS Certified AI Practitioner (AIF-C01)</td><td>AWS</td><td>Multi-cloud credibility. Useful for hybrid customers.</td><td><span class="pill opt">★★★☆☆</span></td></tr>
+        <tr><td class="cert-name">AWS Certified Machine Learning Engineer – Associate</td><td>AWS</td><td>Production ML on AWS. Skip if Azure-only customers.</td><td><span class="pill opt">★★☆☆☆</span></td></tr>
+        <tr><td class="cert-name">Google Cloud — Generative AI Leader</td><td>Google Cloud</td><td>For multi-cloud architects; not core to MSFT roles but adds breadth.</td><td><span class="pill opt">★★☆☆☆</span></td></tr>
+        <tr><td class="cert-name">Snowflake SnowPro AI/ML Specialty</td><td>Snowflake</td><td>If your customers run Snowflake; adds data-platform credibility.</td><td><span class="pill opt">★★☆☆☆</span></td></tr>
+        <tr><td class="cert-name">Anthropic Claude API skill paths (free)</td><td>Anthropic</td><td>Free Anthropic Academy short courses on prompt engineering, agent SDKs, MCP. No formal exam yet but signals current.</td><td><span class="pill opt">★★★☆☆</span></td></tr>
+        <tr><td class="cert-name">OpenAI Academy — Agents &amp; Apps</td><td>OpenAI</td><td>Free short courses on Agents SDK and apps. Useful for cross-platform credibility.</td><td><span class="pill opt">★★★☆☆</span></td></tr>
+        <tr><td class="cert-name">HuggingFace Agents Course (free)</td><td>HuggingFace</td><td>Open-source perspective on agent design. Free certificate.</td><td><span class="pill opt">★★★☆☆</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout success">
+    <strong>Optimal stack for 35–50 LPA target:</strong> PL-600 (must) + AI-102 (must) + AZ-305 (must) + 2–3 Applied Skills (Copilot Studio agents + RAG + agentic) + 1 ecosystem cert (Databricks GenAI Engineer is the highest ROI). Total: ~6 credentials, ~₹50–60k in exam fees, 4–6 months realistic.
+  </div>
+</section>
+
+<section id="resources">
+  <div class="section-head"><div class="section-num">4</div><h2>🌍 Free Global Resources</h2></div>
+  <p class="section-intro">Curated list of only the resources I'd put in front of a future architect. Skip everything else — the noise is real in this space.</p>
+
+  <div class="card">
+    <h3><span class="tag yt">YouTube</span> Channels &amp; Playlists</h3>
+    <ul class="resource-list">
+      <li><a href="https://www.youtube.com/@RezaDorrani" target="_blank">Reza Dorrani</a><span class="reason">Canvas apps and Power Automate deep dives. Best free Power Fx content.</span></li>
+      <li><a href="https://www.youtube.com/@ShaneYoungCloud" target="_blank">Shane Young</a><span class="reason">Practical Power Platform tutorials — strong on Dataverse, SharePoint, governance.</span></li>
+      <li><a href="https://www.youtube.com/@LisaCrosbie" target="_blank">Lisa Crosbie (LC Powerplatform)</a><span class="reason">Model-driven, Dynamics 365, AI Builder — clean architect-style explanations.</span></li>
+      <li><a href="https://www.youtube.com/@aprildunnam" target="_blank">April Dunnam</a><span class="reason">PCF controls, ALM, governance — closest to "architect mindset" content.</span></li>
+      <li><a href="https://www.youtube.com/@NickDoelman" target="_blank">Nick Doelman</a><span class="reason">PL-600 study guide series — the most useful free PL-600 prep on YouTube.</span></li>
+      <li><a href="https://www.youtube.com/@MicrosoftMechanics" target="_blank">Microsoft Mechanics</a><span class="reason">Official product deep dives by the PG teams. Best for "what just launched."</span></li>
+      <li><a href="https://www.youtube.com/@JohnSavillsTechnicalTraining" target="_blank">John Savill's Technical Training</a><span class="reason">Best free AZ-305 / AI-102 prep, plus enterprise Azure architecture series.</span></li>
+      <li><a href="https://www.youtube.com/@PowerPlatformDevelopers" target="_blank">Microsoft Power Platform Developers</a><span class="reason">Official dev channel — plugin patterns, ALM, PCF.</span></li>
+      <li><a href="https://www.youtube.com/@MarkBrummel" target="_blank">Mark Brummel — D365 channel</a><span class="reason">D365 F&amp;O + CE integration patterns — useful when you cross the F&amp;O line.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="tag ms">MS Learn</span> Critical Learning Paths</h3>
+    <ul class="resource-list">
+      <li><a href="https://learn.microsoft.com/en-us/training/courses/pl-600t00" target="_blank">PL-600 Solution Architect Path (Microsoft Learn)</a><span class="reason">Official curriculum. Cross-reference every objective.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/training/courses/pl-400t00" target="_blank">PL-400 Developer Path</a><span class="reason">Plugin, PCF, custom connector content.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/azure/architecture/" target="_blank">Azure Architecture Center</a><span class="reason">Reference architectures, design patterns (CQRS, Saga, retry, bulkhead).</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/azure/well-architected/" target="_blank">Azure Well-Architected Framework</a><span class="reason">Five pillars (Reliability, Security, Cost, Operational Excellence, Performance) — quote in interviews.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/" target="_blank">Cloud Adoption Framework (CAF)</a><span class="reason">Landing zones, governance, migration — required reading for AZ-305.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/wp-security" target="_blank">Power Platform Security Whitepaper</a><span class="reason">Security model end-to-end — directly tested in PL-600.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/power-platform/alm/" target="_blank">Power Platform ALM Guide</a><span class="reason">Solution layering, pipelines, the canonical strategy doc.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/use-your-data" target="_blank">Azure OpenAI: Use Your Data (RAG)</a><span class="reason">RAG with AI Search — production-grade reference.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/" target="_blank">Copilot Studio docs</a><span class="reason">Latest features change fast — read this, not blog posts.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="tag gh">GitHub</span> Real Reference Repos</h3>
+    <ul class="resource-list">
+      <li><a href="https://github.com/microsoft/PowerApps-Samples" target="_blank">microsoft/PowerApps-Samples</a><span class="reason">Official sample plugins, PCF, custom connector, ALM scripts. Read the C# plugin samples in full.</span></li>
+      <li><a href="https://github.com/microsoft/PowerPlatform-DataverseServiceClient" target="_blank">microsoft/PowerPlatform-DataverseServiceClient</a><span class="reason">The modern .NET SDK for Dataverse. Source code teaches the right patterns.</span></li>
+      <li><a href="https://github.com/microsoft/coe-starter-kit" target="_blank">microsoft/coe-starter-kit (Center of Excellence)</a><span class="reason">The reference governance kit — every architect should know this.</span></li>
+      <li><a href="https://github.com/microsoft/PowerPlatform-Build-Tools" target="_blank">microsoft/PowerPlatform-Build-Tools</a><span class="reason">Azure DevOps tasks source — use the YAML samples directly.</span></li>
+      <li><a href="https://github.com/microsoft/PowerApps-Tooling" target="_blank">microsoft/PowerApps-Tooling</a><span class="reason">PAC CLI &amp; tooling — useful for advanced ALM scripts.</span></li>
+      <li><a href="https://github.com/Azure-Samples/azure-search-openai-demo" target="_blank">Azure-Samples/azure-search-openai-demo</a><span class="reason">The reference RAG implementation — clone, deploy, study.</span></li>
+      <li><a href="https://github.com/microsoft/semantic-kernel" target="_blank">microsoft/semantic-kernel</a><span class="reason">Microsoft's agent/orchestration framework — appears in enterprise GenAI projects.</span></li>
+      <li><a href="https://github.com/Azure/azure-functions-dotnet-worker" target="_blank">Azure/azure-functions-dotnet-worker</a><span class="reason">Isolated worker model (the future of Functions in .NET).</span></li>
+      <li><a href="https://github.com/scottdurow/RibbonWorkbench" target="_blank">scottdurow/RibbonWorkbench (and SparkleXrm)</a><span class="reason">Legacy ribbon edits and command bar — still relevant in customer projects.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="tag art">Blogs</span> Architect-Grade Writing</h3>
+    <ul class="resource-list">
+      <li><a href="https://www.develop1.net/public/" target="_blank">Scott Durow — Develop1.net</a><span class="reason">Deep technical Dataverse / plugin / ALM articles. Gold for PL-400 / PL-600.</span></li>
+      <li><a href="https://markcarrington.dev/" target="_blank">Mark Carrington (FetchXML Builder, SQL4CDS author)</a><span class="reason">Power Platform tooling and querying internals.</span></li>
+      <li><a href="https://debajmecrm.com/" target="_blank">Debajit Dutta — Debajmecrm</a><span class="reason">Long-running Dynamics/Power Platform architecture blog. Very practical.</span></li>
+      <li><a href="https://nishantrana.me/" target="_blank">Nishant Rana</a><span class="reason">India-based blog — covers customer-style scenarios you'll see in interviews.</span></li>
+      <li><a href="https://benediktbergmann.eu/" target="_blank">Benedikt Bergmann</a><span class="reason">ALM, DevOps, advanced Dataverse — strong content.</span></li>
+      <li><a href="https://rajeevpentyala.com/" target="_blank">Rajeev Pentyala</a><span class="reason">India-based, prolific on Power Platform + AI integration topics.</span></li>
+      <li><a href="https://devblogs.microsoft.com/powerplatform/" target="_blank">Microsoft Power Platform Dev Blog</a><span class="reason">Official roadmap signals — feature previews + GA announcements.</span></li>
+      <li><a href="https://techcommunity.microsoft.com/category/azure" target="_blank">Microsoft Tech Community — Azure</a><span class="reason">Engineering team posts on Functions, APIM, OpenAI.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="tag lab">Labs</span> Free Hands-On Environments</h3>
+    <ul class="resource-list">
+      <li><a href="https://make.powerapps.com/" target="_blank">Power Platform Developer Plan (free)</a><span class="reason">Free Dataverse environment for your own tenant — sign up with personal/work email.</span></li>
+      <li><a href="https://azure.microsoft.com/en-us/free/" target="_blank">Azure Free Tier ($200 credit + always-free services)</a><span class="reason">Stand up Functions, Service Bus, APIM, OpenAI (when approved).</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/training/" target="_blank">Microsoft Learn Sandboxes</a><span class="reason">Time-limited Azure sandboxes embedded in MS Learn modules. No credit card needed.</span></li>
+      <li><a href="https://ai.azure.com/" target="_blank">Azure AI Foundry (free tier)</a><span class="reason">Build, deploy, and evaluate AI apps and agents. Replace older Azure OpenAI Studio.</span></li>
+      <li><a href="https://github.com/features/copilot" target="_blank">GitHub Copilot for Students/OSS (free)</a><span class="reason">Free if you're a student or maintain OSS — use Copilot agents in VS Code.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="tag ms">Career &amp; Skills</span> Microsoft Skills Hub Articles &amp; Programs (must-read)</h3>
+    <ul class="resource-list">
+      <li><a href="https://techcommunity.microsoft.com/blog/skills-hub-blog/the-ai-job-boom-is-here-are-you-ready-to-showcase-your-skills/4494128" target="_blank">The AI Job Boom Is Here — Are You Ready to Showcase Your Skills?</a><span class="reason">Microsoft's framing of the skills employers actually want. Treat this as your "what to display on LinkedIn" checklist.</span></li>
+      <li><a href="https://techcommunity.microsoft.com/blog/skills-hub-blog/the-ai-job-boom-continues-build-the-skills-that-move-business-forward/4494139" target="_blank">The AI Job Boom Continues — Build the Skills That Move Business Forward</a><span class="reason">Follow-up article with the latest Applied Skills launch list and recommended badges.</span></li>
+      <li><a href="https://techcommunity.microsoft.com/category/skillshub" target="_blank">Microsoft Skills Hub Blog (full feed)</a><span class="reason">Monthly credentials roundup, new exam launches, retirements. Subscribe.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/credentials/browse/" target="_blank">Microsoft Credentials Catalog (browse all)</a><span class="reason">Authoritative list of every active Microsoft credential — bookmark and re-check quarterly.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/credentials/microsoft-credentials-ai-challenge" target="_blank">Microsoft Credentials AI Challenge</a><span class="reason">Free guided AI learning + sweepstakes. Take the badges that map to your roadmap.</span></li>
+      <li><a href="https://aka.ms/AIShow" target="_blank">The AI Show (Microsoft channel)</a><span class="reason">Weekly architecture-grade conversations with PG teams — Copilot Studio, Foundry, OpenAI.</span></li>
+      <li><a href="https://news.microsoft.com/source/" target="_blank">Microsoft Source (real customer rollouts)</a><span class="reason">"Accenture rolled out Copilot to 740k employees" type stories — use these as conversation anchors in interviews.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="tag gh">GitHub</span> Agent-Building &amp; Copilot Resource Hubs (2026 essentials)</h3>
+    <ul class="resource-list">
+      <li><a href="https://awesome-copilot.github.com/" target="_blank">awesome-copilot.github.com</a><span class="reason">Curated agents, skills, hooks, MCP servers, prompts, and learning guides for GitHub Copilot. The fastest way to see what "good" looks like in 2026.</span></li>
+      <li><a href="https://github.com/microsoft/ai-agents-for-beginners" target="_blank">microsoft/ai-agents-for-beginners</a><span class="reason">Microsoft's official 11-lesson agent-building course (Semantic Kernel, AutoGen). Free, self-paced, with code.</span></li>
+      <li><a href="https://github.com/microsoft/generative-ai-for-beginners" target="_blank">microsoft/generative-ai-for-beginners</a><span class="reason">21-lesson GenAI fundamentals course. Take this if you skipped the AI-102 path.</span></li>
+      <li><a href="https://github.com/modelcontextprotocol/servers" target="_blank">modelcontextprotocol/servers</a><span class="reason">Reference MCP servers (filesystem, GitHub, Slack, Postgres, etc.). Read 3, write 1, you'll deeply understand MCP.</span></li>
+      <li><a href="https://github.com/microsoft/autogen" target="_blank">microsoft/autogen</a><span class="reason">Microsoft's multi-agent conversation framework. Strong in enterprise/Azure scenarios.</span></li>
+      <li><a href="https://github.com/Azure-Samples/aoai-realtime-audio-sdk" target="_blank">Azure-Samples/aoai-realtime-audio-sdk</a><span class="reason">Real-time voice agent reference for Azure OpenAI.</span></li>
+      <li><a href="https://github.com/microsoft/PowerPlatform-Samples" target="_blank">microsoft/PowerPlatform-Samples</a><span class="reason">Companion to PowerApps-Samples — covers Pipelines, AI Builder, Copilot Studio scenarios.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="tag art">Deep Reads</span> Architect-Grade Articles &amp; Newsletters</h3>
+    <ul class="resource-list">
+      <li><a href="https://www.anthropic.com/research/building-effective-agents" target="_blank">Anthropic — Building Effective Agents</a><span class="reason">The single most-cited essay on agent design patterns (workflows vs agents, when each wins). Required reading.</span></li>
+      <li><a href="https://huyenchip.com/2025/01/07/agents.html" target="_blank">Chip Huyen — Agents</a><span class="reason">Crisp taxonomy of agent patterns, tools, planning, reflection. Bookmark for interview prep.</span></li>
+      <li><a href="https://lilianweng.github.io/posts/2023-06-23-agent/" target="_blank">Lilian Weng — LLM Powered Autonomous Agents</a><span class="reason">Foundational essay on agent memory, planning, tool use. Cited in every serious agent paper.</span></li>
+      <li><a href="https://eugeneyan.com/writing/llm-patterns/" target="_blank">Eugene Yan — Patterns for Building LLM-based Systems</a><span class="reason">Production LLM design patterns (evals, RAG, guardrails). Engineering-grade.</span></li>
+      <li><a href="https://www.latent.space/" target="_blank">Latent Space (Newsletter + Podcast)</a><span class="reason">Best signal on what's actually shipping in AI engineering. Subscribe.</span></li>
+      <li><a href="https://www.deeplearning.ai/the-batch/" target="_blank">DeepLearning.AI — The Batch</a><span class="reason">Andrew Ng's weekly AI digest. Architect-level signal, not hype.</span></li>
+      <li><a href="https://devblogs.microsoft.com/semantic-kernel/" target="_blank">Microsoft Semantic Kernel Blog</a><span class="reason">Official engineering posts on SK, agents, planners.</span></li>
+      <li><a href="https://openai.com/index/practices-for-governing-agentic-ai-systems/" target="_blank">OpenAI — Practices for Governing Agentic AI Systems</a><span class="reason">Use directly in your "AI Governance" interview answers.</span></li>
+      <li><a href="https://martinfowler.com/articles/gen-ai-patterns/" target="_blank">Martin Fowler — GenAI Patterns</a><span class="reason">Architecture-pattern series for GenAI apps from Thoughtworks' chief scientist.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/azure/architecture/ai-ml/" target="_blank">Azure Architecture Center — AI &amp; ML reference architectures</a><span class="reason">Reference diagrams for ChatOps, RAG, MLOps. Steal liberally.</span></li>
+      <li><a href="https://www.microsoft.com/en-us/research/blog/" target="_blank">Microsoft Research Blog</a><span class="reason">Source-of-truth for AutoGen, Phi, MCP-style research before it's productized.</span></li>
+      <li><a href="https://simonwillison.net/" target="_blank">Simon Willison's Weblog</a><span class="reason">Best running commentary on LLM developments. Daily-checkable.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="tag doc">India-specific</span> Power Platform &amp; AI Communities</h3>
+    <ul class="resource-list">
+      <li><a href="https://www.meetup.com/power-platform-user-group-india/" target="_blank">Power Platform User Group India (PPUGI)</a><span class="reason">Largest India PP community. Monthly virtual meetups; speak at one within 6 months.</span></li>
+      <li><a href="https://dynamicscommunities.com/groups/india-dynamics-365-user-group/" target="_blank">India Dynamics 365 User Group</a><span class="reason">D365 + Power Platform focused; great networking for CE/F&amp;O architect roles.</span></li>
+      <li><a href="https://twitter.com/MSFT4Devs" target="_blank">Microsoft for Developers (X/Twitter)</a><span class="reason">India-relevant launches + events.</span></li>
+      <li><a href="https://aka.ms/MSReactorBlr" target="_blank">Microsoft Reactor Bengaluru</a><span class="reason">In-person + online events; lightning talk submissions accepted.</span></li>
+      <li><a href="https://mvp.microsoft.com/en-us/MvpSearch?lo=India&amp;ex=AI%20Platform" target="_blank">India Microsoft MVPs — directory</a><span class="reason">Find India MVPs to follow/connect; many actively mentor.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="agents">
+  <div class="section-head"><div class="section-num">5</div><h2>🤖 AI Agents &amp; Modern AI Tooling — The New Architect Stack</h2></div>
+  <p class="section-intro">Agents are the defining frontier for AI engineers in 2026. As of early 2026, specialized engineers with RAG + Agentic AI skills command 15–25% premium over generalists. Architects who can confidently pick between Copilot Studio, LangGraph, Semantic Kernel, AutoGen, CrewAI, OpenAI Agents SDK, and MCP-based stacks are the ones closing 35–50 LPA offers.</p>
+
+  <div class="callout success">
+    <strong>The 2026 fundamental shift:</strong> Model Context Protocol (MCP) — donated to the Linux Foundation in Dec 2025 — has become the de-facto agent-to-tool standard. OpenAI, Microsoft, Google, Anthropic, AWS all support it. There are 6,400+ MCP servers in the official registry. Master MCP and you skip the vendor wars.
+  </div>
+
+  <h3 style="font-size: 1.25rem; margin: 24px 0 12px; color: var(--accent2);">▸ Agent Framework Landscape</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Framework</th><th>Owner</th><th>Best For</th><th>When To Choose</th></tr></thead>
+      <tbody>
+        <tr><td class="cert-name">Copilot Studio</td><td>Microsoft</td><td>Citizen-dev agents inside MS 365 / Teams</td><td>Customer is M365-first, governance matters, citizen makers extend</td></tr>
+        <tr><td class="cert-name">Semantic Kernel</td><td>Microsoft</td><td>Embedding AI in existing .NET / Python / Java apps</td><td>You have an existing app you want to "Copilot-ize," not greenfield</td></tr>
+        <tr><td class="cert-name">AutoGen</td><td>Microsoft Research</td><td>Multi-agent conversations, enterprise Azure</td><td>Complex multi-agent orchestration, research-grade scenarios</td></tr>
+        <tr><td class="cert-name">Microsoft Foundry / Azure AI Foundry</td><td>Microsoft</td><td>End-to-end Azure-native agent + evaluation platform</td><td>Production agents on Azure with full eval/observability/governance</td></tr>
+        <tr><td class="cert-name">LangChain + LangGraph</td><td>LangChain Inc</td><td>Maximum flexibility, largest ecosystem (700+ integrations)</td><td>Cross-cloud, fast experimentation, OSS-friendly customers</td></tr>
+        <tr><td class="cert-name">CrewAI</td><td>CrewAI Inc</td><td>Role-based multi-agent ("crew") collaboration</td><td>Multi-agent is the primary requirement; want intuitive API</td></tr>
+        <tr><td class="cert-name">OpenAI Agents SDK</td><td>OpenAI</td><td>Lightweight, native OpenAI + MCP</td><td>OpenAI-first stack, simple production agents</td></tr>
+        <tr><td class="cert-name">Google ADK (Agent Dev Kit)</td><td>Google</td><td>Gemini-first agents with MCP support</td><td>Customers on Google Cloud / Workspace</td></tr>
+        <tr><td class="cert-name">Anthropic Agent SDK (Claude)</td><td>Anthropic</td><td>Long-context, tool-use, MCP-native</td><td>Knowledge-heavy or coding-heavy agents</td></tr>
+        <tr><td class="cert-name">GitHub Copilot Agents</td><td>GitHub/Microsoft</td><td>Code-context agents in IDE</td><td>Developer productivity, autonomous coding</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size: 1.25rem; margin: 24px 0 12px; color: var(--accent3);">▸ MCP — What Architects Must Know</h3>
+
+  <div class="card">
+    <h3>Model Context Protocol — In One Page</h3>
+    <ul class="feature-list">
+      <li><strong>What it is:</strong> Open standard for connecting LLMs/agents to external tools, data, and prompts. Think "USB-C for AI."</li>
+      <li><strong>Why it matters:</strong> Without MCP, every agent framework reinvents tool-calling. With MCP, your agent can use any of 6,400+ existing servers and your own.</li>
+      <li><strong>Server types:</strong> stdio (local subprocess), Streamable HTTP (network), with capabilities for tools / resources / prompts.</li>
+      <li><strong>Build one in a day:</strong> Node/TypeScript or Python SDK. Wrap your Dataverse Web API, your APIM, your SAP connector as MCP servers — any agent can then use them.</li>
+      <li><strong>Security:</strong> Treat MCP servers as untrusted code. Use principle of least privilege, audit tool calls, never auto-approve destructive operations.</li>
+      <li><strong>Architect interview question incoming:</strong> "How would you let Copilot Studio agents call your enterprise's APIs safely?" Answer: MCP servers fronted by APIM with per-tool RBAC.</li>
+    </ul>
+  </div>
+
+  <h3 style="font-size: 1.25rem; margin: 24px 0 12px; color: var(--accent4);">▸ Curated Agent &amp; Tooling Resources</h3>
+
+  <div class="card">
+    <h3><span class="tag doc">Docs</span> Official Specifications &amp; Reference Implementations</h3>
+    <ul class="resource-list">
+      <li><a href="https://modelcontextprotocol.io/" target="_blank">modelcontextprotocol.io — Official MCP spec &amp; docs</a><span class="reason">Architecture, server/client SDKs, transport options. The source of truth.</span></li>
+      <li><a href="https://github.com/modelcontextprotocol" target="_blank">modelcontextprotocol (GitHub org)</a><span class="reason">Official SDKs (TypeScript, Python, C#, Java, Kotlin), reference servers, registry.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agent-overview" target="_blank">Microsoft Copilot Studio — Agent Authoring Overview</a><span class="reason">Generative orchestration, topics, actions, channels. Read end-to-end.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/" target="_blank">Microsoft 365 Copilot Extensibility</a><span class="reason">Declarative vs custom-engine agents, packaging, publishing.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/semantic-kernel/" target="_blank">Semantic Kernel docs</a><span class="reason">Skills, planners, agents framework, function calling.</span></li>
+      <li><a href="https://microsoft.github.io/autogen/" target="_blank">AutoGen docs</a><span class="reason">Multi-agent conversation patterns, GroupChat, code execution.</span></li>
+      <li><a href="https://python.langchain.com/" target="_blank">LangChain docs</a><span class="reason">Chains, agents, RAG. Massive ecosystem.</span></li>
+      <li><a href="https://langchain-ai.github.io/langgraph/" target="_blank">LangGraph docs</a><span class="reason">Stateful, controllable agent workflows on top of LangChain.</span></li>
+      <li><a href="https://docs.crewai.com/" target="_blank">CrewAI docs</a><span class="reason">Role-based multi-agent orchestration.</span></li>
+      <li><a href="https://platform.openai.com/docs/guides/agents" target="_blank">OpenAI Agents SDK</a><span class="reason">Lightweight Python SDK with native MCP + tracing.</span></li>
+      <li><a href="https://docs.claude.com/en/api/agent-sdk" target="_blank">Claude Agent SDK (Anthropic)</a><span class="reason">Build agents that use Claude as the engine; MCP-first.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/" target="_blank">Azure AI Foundry docs</a><span class="reason">Azure's unified AI platform — models, agents, evals, deployments.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="tag yt">YouTube</span> Agent-Building Channels &amp; Talks</h3>
+    <ul class="resource-list">
+      <li><a href="https://www.youtube.com/@MattWilliamsOllama" target="_blank">Matt Williams (Ollama) — local agents</a><span class="reason">Run agents locally for cost-sensitive use cases. Great for PoCs.</span></li>
+      <li><a href="https://www.youtube.com/@AIJasonZ" target="_blank">AI Jason</a><span class="reason">Agent walkthroughs with LangGraph, CrewAI, MCP. Implementation-focused.</span></li>
+      <li><a href="https://www.youtube.com/@JamesBriggs" target="_blank">James Briggs — Pinecone</a><span class="reason">Vector DB + RAG + agent patterns. Production-realistic.</span></li>
+      <li><a href="https://www.youtube.com/@DataIndependent" target="_blank">Greg Kamradt</a><span class="reason">Practical LangChain and agent tutorials.</span></li>
+      <li><a href="https://www.youtube.com/@aiDotEngineer" target="_blank">AI Engineer (conference channel)</a><span class="reason">Latent Space's AI Engineer conference talks — production-grade architecture.</span></li>
+      <li><a href="https://www.youtube.com/@AnthropicAI" target="_blank">Anthropic — official channel</a><span class="reason">Claude API + MCP + agent design talks from the source.</span></li>
+      <li><a href="https://www.youtube.com/@MicrosoftCopilot" target="_blank">Microsoft Copilot — official channel</a><span class="reason">Copilot Studio + M365 Copilot product updates.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="tag gh">GitHub</span> Production-Grade Agent Reference Repos</h3>
+    <ul class="resource-list">
+      <li><a href="https://github.com/microsoft/ai-agents-for-beginners" target="_blank">microsoft/ai-agents-for-beginners</a><span class="reason">11 lessons, multiple frameworks (SK, AutoGen). Most comprehensive free agent course.</span></li>
+      <li><a href="https://github.com/microsoft/semantic-kernel" target="_blank">microsoft/semantic-kernel</a><span class="reason">Source + samples for SK in .NET / Python / Java.</span></li>
+      <li><a href="https://github.com/microsoft/autogen" target="_blank">microsoft/autogen</a><span class="reason">Multi-agent reference + notebooks.</span></li>
+      <li><a href="https://github.com/Azure-Samples/get-started-with-ai-agents" target="_blank">Azure-Samples/get-started-with-ai-agents</a><span class="reason">Azure AI Foundry agent quickstart with end-to-end code.</span></li>
+      <li><a href="https://github.com/langchain-ai/langgraph" target="_blank">langchain-ai/langgraph</a><span class="reason">Stateful agent graphs. Examples folder is gold.</span></li>
+      <li><a href="https://github.com/crewAIInc/crewAI-examples" target="_blank">crewAIInc/crewAI-examples</a><span class="reason">Role-based agent example repo.</span></li>
+      <li><a href="https://github.com/openai/openai-agents-python" target="_blank">openai/openai-agents-python</a><span class="reason">Official OpenAI Agents SDK with MCP examples.</span></li>
+      <li><a href="https://github.com/anthropics/claude-cookbooks" target="_blank">anthropics/claude-cookbooks</a><span class="reason">Anthropic's recipe collection — tool use, MCP, agentic patterns.</span></li>
+      <li><a href="https://github.com/huggingface/smolagents" target="_blank">huggingface/smolagents</a><span class="reason">Tiny agent framework — perfect for understanding what's "under the hood."</span></li>
+      <li><a href="https://github.com/microsoft/mcp-for-beginners" target="_blank">microsoft/mcp-for-beginners</a><span class="reason">Microsoft's MCP learning course.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="tag art">Deep Reads</span> Must-Read Agent Articles &amp; Papers</h3>
+    <ul class="resource-list">
+      <li><a href="https://www.anthropic.com/research/building-effective-agents" target="_blank">Anthropic — Building Effective Agents</a><span class="reason">Workflow vs Agent distinction; prompt chaining, routing, parallelization, orchestrator-worker, evaluator-optimizer. Cite this in interviews.</span></li>
+      <li><a href="https://huggingface.co/blog/smolagents" target="_blank">HuggingFace — Introducing smolagents</a><span class="reason">Why code agents > tool-calling agents (ReAct critique).</span></li>
+      <li><a href="https://arxiv.org/abs/2210.03629" target="_blank">ReAct paper (Yao et al.)</a><span class="reason">Foundational agent reasoning pattern. Read once.</span></li>
+      <li><a href="https://arxiv.org/abs/2305.10601" target="_blank">Tree of Thoughts (Yao et al.)</a><span class="reason">Planning pattern beyond chain-of-thought.</span></li>
+      <li><a href="https://arxiv.org/abs/2303.17760" target="_blank">CAMEL — Role-playing multi-agent</a><span class="reason">Theoretical basis for CrewAI-style frameworks.</span></li>
+      <li><a href="https://openai.com/index/practices-for-governing-agentic-ai-systems/" target="_blank">OpenAI — Practices for Governing Agentic AI Systems</a><span class="reason">Use in "AI governance" interview answers.</span></li>
+      <li><a href="https://eugeneyan.com/writing/llm-patterns/" target="_blank">Eugene Yan — LLM Patterns</a><span class="reason">Production patterns: evals, RAG, guardrails, deployment.</span></li>
+      <li><a href="https://hamel.dev/blog/posts/evals/" target="_blank">Hamel Husain — Evals Are Underrated</a><span class="reason">If you can't evaluate, you can't ship. Critical skill.</span></li>
+      <li><a href="https://applied-llms.org/" target="_blank">Applied LLMs — A field guide to lessons learned</a><span class="reason">12-month production wisdom collected by senior practitioners.</span></li>
+    </ul>
+  </div>
+
+  <div class="callout warn">
+    <strong>Architect framework-pick heuristic:</strong> When customer is M365/Azure-heavy → Copilot Studio + Semantic Kernel + Azure AI Foundry. When customer is multi-cloud or OSS-friendly → LangGraph + MCP. When the requirement is multi-agent collaboration → CrewAI or AutoGen. <em>Never</em> lead with the framework — start with the requirement and pick last.
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-head"><div class="section-num">6</div><h2>🛠️ Project Portfolio — 5 Enterprise Builds</h2></div>
+  <p class="section-intro">These are the projects that actually convert to job offers. Each is buildable in 2–3 weekends. Document every decision in your repo's README — interviewers read READMEs more than they run code.</p>
+
+  <div class="project-card" data-num="PROJECT 1">
+    <h3>Enterprise CRM with Hierarchical Security &amp; ALM</h3>
+    <div class="meta"><span class="badge">Dataverse</span><span class="badge">Model-Driven</span><span class="badge">Azure DevOps</span><span class="badge">Security Roles</span></div>
+    <h4>Problem</h4>
+    <p>A multi-country pharma company needs a sales CRM where India sales reps cannot see EMEA pipeline, regional managers see only their territory, and global head sees everything. Commission data must be visible only to HR + Finance. Solution must deploy through Dev/Test/UAT/Prod via pipeline with zero manual steps.</p>
+    <h4>Architecture</h4>
+    <pre>
+[Devs/Makers] ──→ [Dev Environment]
+                        │ (export managed solution via PAC CLI)
+                        ▼
+                  [Git Repo: solution/ unpacked XMLs]
+                        │
+                ┌───────┴───────┐
+                ▼               ▼
+       [PR validation CI]   [Main branch merge]
+       (solution checker)         │
+                                  ▼
+                           [Build Pipeline]
+                           pack → managed .zip
+                                  │
+                ┌─────────┬───────┼───────┬──────────┐
+                ▼         ▼       ▼       ▼          ▼
+              [Test] → [UAT] → (manual approval) → [Prod]
+                        │
+                  Connection Refs + Env Variables per stage
+    </pre>
+    <h4>Tech Stack</h4>
+    <ul class="feature-list">
+      <li>Dataverse (Accounts, Contacts, Opportunities, custom Commissions table)</li>
+      <li>5 Business Units (India, EMEA, APAC, Americas, Global), Owner Teams, Access Teams</li>
+      <li>Field-Level Security profiles for commission columns</li>
+      <li>Azure DevOps YAML pipeline using Power Platform Build Tools</li>
+      <li>Power BI dashboard embedded in model-driven app</li>
+    </ul>
+    <h4>Implementation Steps</h4>
+    <ol style="margin-left: 22px; font-size: 0.88rem;">
+      <li>Design BU hierarchy + security role matrix (whiteboard first)</li>
+      <li>Build Dataverse tables + relationships in Dev</li>
+      <li>Configure 3 security roles (Sales Rep, Regional Manager, Global Admin) + FLS profile</li>
+      <li>Set up environment variables &amp; connection references</li>
+      <li>Wire up Azure DevOps pipeline using PP Build Tools</li>
+      <li>Demo: log in as 3 different users, prove data isolation</li>
+    </ol>
+    <h4>AI Bonus</h4>
+    <p>Add AI Builder GPT prompt: "Summarize this account's last 6 months of activity" inside the form.</p>
+  </div>
+
+  <div class="project-card" data-num="PROJECT 2">
+    <h3>AI Chatbot Grounded on Dataverse + SharePoint (Copilot Studio + Azure OpenAI)</h3>
+    <div class="meta"><span class="badge">Copilot Studio</span><span class="badge">Azure OpenAI</span><span class="badge">RAG</span><span class="badge">AI Search</span></div>
+    <h4>Problem</h4>
+    <p>An internal IT helpdesk gets 4,000 tickets/month. 65% are repetitive (password resets, software requests, leave queries). Build a bot that answers from HR/IT policies (SharePoint) and can look up live data (open tickets, leave balance) from Dataverse, with citations and audit logging.</p>
+    <h4>Architecture</h4>
+    <pre>
+[Teams / Web channel]
+        │
+        ▼
+[Copilot Studio Bot]
+   ├──→ Generative Answers (SharePoint knowledge)
+   ├──→ Topic: "Open Tickets" → Power Automate flow → Dataverse query
+   ├──→ Topic: "Leave Balance" → Custom connector → HRMS REST API
+   └──→ Fallback: Azure OpenAI via custom action
+                       │
+                       ▼
+              [APIM] → [Azure Function]
+                            │
+                ┌───────────┼────────────┐
+                ▼           ▼            ▼
+         [Azure AI    [PII redaction]  [Cost logger
+          Search +       (AI Lang)      → App Insights]
+          vectors]
+    </pre>
+    <h4>Tech Stack</h4>
+    <ul class="feature-list">
+      <li>Copilot Studio (topics + generative orchestration)</li>
+      <li>Azure OpenAI (GPT-4o for chat, text-embedding-3-large for vectors)</li>
+      <li>Azure AI Search (hybrid index: vector + BM25)</li>
+      <li>APIM + Function (Python or .NET) for orchestration</li>
+      <li>Application Insights for token + latency telemetry</li>
+    </ul>
+    <h4>Key Design Decisions to Document</h4>
+    <ul class="feature-list">
+      <li>Why RAG and not fine-tuning (cost, freshness, citation, governance)</li>
+      <li>Chunking strategy (page-aware, 800 tokens with 100 overlap)</li>
+      <li>Hybrid search weights (0.5/0.5 then tuned by eval set)</li>
+      <li>PII redaction at input (never at output — too late)</li>
+      <li>Cost per resolved ticket vs human agent</li>
+    </ul>
+  </div>
+
+  <div class="project-card" data-num="PROJECT 3">
+    <h3>Document Processing Automation (Invoice → ERP)</h3>
+    <div class="meta"><span class="badge">AI Builder / Doc Intelligence</span><span class="badge">Power Automate</span><span class="badge">SAP/APIM</span><span class="badge">Approvals</span></div>
+    <h4>Problem</h4>
+    <p>AP team processes 8,000 vendor invoices/month manually. Each takes ~6 minutes. Auto-extract invoice fields, validate against PO in SAP, route for approval if mismatch, and post to SAP when approved. SLA: 24-hour turnaround.</p>
+    <h4>Architecture</h4>
+    <pre>
+[Vendor Email Inbox]
+        │
+        ▼
+[Power Automate trigger]
+        │
+        ▼
+[Doc Intelligence — Custom Invoice Model]
+        │ (fields: invoice#, date, line items, total)
+        ▼
+[Dataverse: Invoice Staging table]
+        │
+        ▼
+[Function: PO match via APIM → SAP]
+        │
+   ┌────┴─────┐
+   ▼          ▼
+ Match     Mismatch
+   │          │
+   ▼          ▼
+[Auto-post] [Teams Approval (Manager)]
+                │
+                ▼
+        Approved → [Auto-post]
+        Rejected → [Vendor Reject email]
+    </pre>
+    <h4>Tech Stack</h4>
+    <ul class="feature-list">
+      <li>Power Automate + Outlook trigger</li>
+      <li>Azure Document Intelligence (custom neural model — train on 50 sample invoices)</li>
+      <li>Dataverse (staging table with status enum)</li>
+      <li>APIM facade over SAP OData/RFC</li>
+      <li>Teams Adaptive Card approvals</li>
+      <li>Power BI dashboard for AP team (cycle time, accuracy, exceptions)</li>
+    </ul>
+    <h4>Architect-Level Decisions</h4>
+    <ul class="feature-list">
+      <li>Why Doc Intelligence over AI Builder (volume + cost + custom layout flexibility)</li>
+      <li>Idempotency — invoice# as natural key prevents double posting</li>
+      <li>Retry strategy when SAP is down (Service Bus queue + DLQ)</li>
+      <li>Observability — every step writes to App Insights with correlation ID</li>
+    </ul>
+  </div>
+
+  <div class="project-card" data-num="PROJECT 4">
+    <h3>Event-Driven Integration Platform (Dataverse ↔ External CRM)</h3>
+    <div class="meta"><span class="badge">Service Bus</span><span class="badge">Functions</span><span class="badge">Event Grid</span><span class="badge">Idempotency</span></div>
+    <h4>Problem</h4>
+    <p>Marketing uses Salesforce; sales uses D365 Sales (Dataverse). Leads created in Salesforce should appear in D365 within 30 seconds, and contacts updated in D365 should sync back. Without infinite loops. Without losing events when one side is down for an hour.</p>
+    <h4>Architecture</h4>
+    <pre>
+[D365 Plugin] ──register-on→ [Service Endpoint: Service Bus Topic]
+                                     │
+                                     ▼
+                          [Sub: D365→SF Subscription]
+                                     │
+                                     ▼
+                      [Azure Function: Translate &amp; Push to SF]
+                                     │       │
+                                     │       ▼
+                                     │   [SF REST API via APIM]
+                                     ▼
+                              [DLQ on failure]
+
+[Salesforce Outbound Msg] ──→ [Service Bus Topic: SF→D365]
+                                     │
+                                     ▼
+                          [Function: Push to Dataverse Web API]
+                                     │
+                              correlation_id tags applied
+                              loops prevented by source-of-change flag
+    </pre>
+    <h4>Tech Stack</h4>
+    <ul class="feature-list">
+      <li>Dataverse plugin registered to Service Bus endpoint</li>
+      <li>Service Bus topics with subscriptions per direction</li>
+      <li>Azure Functions (.NET 8 isolated worker) with managed identity</li>
+      <li>APIM as the egress gateway to Salesforce</li>
+      <li>Cosmos DB (or Table Storage) for correlation/idempotency keys</li>
+    </ul>
+    <h4>Architect Conversations</h4>
+    <ul class="feature-list">
+      <li>Why Service Bus and not Event Grid (need session ordering + DLQ)</li>
+      <li>How you stop loops (source-of-change flag + correlation IDs)</li>
+      <li>What "exactly-once" actually means (it doesn't — design for at-least-once + idempotency)</li>
+      <li>Monitoring SLOs: 99th-percentile latency, DLQ depth, error budget</li>
+    </ul>
+  </div>
+
+  <div class="project-card" data-num="PROJECT 5">
+    <h3>Agentic Loan Origination — Copilot Studio Agent + Plugin Actions</h3>
+    <div class="meta"><span class="badge">Copilot Studio</span><span class="badge">Dataverse Plugins</span><span class="badge">AI Agents</span><span class="badge">BPF</span></div>
+    <h4>Problem</h4>
+    <p>A regional NBFC wants prospects to start a loan application via WhatsApp/Web chat. The agent should collect KYC details, run pre-eligibility (income vs EMI rules), check credit bureau via API, and create a Dataverse Lead with a Business Process Flow stage set to the right step. Human RM picks up from there.</p>
+    <h4>Architecture</h4>
+    <pre>
+[WhatsApp / Web Chat]
+        │
+        ▼
+[Copilot Studio Agent — Generative Orchestration]
+   ├──→ Action: collectKyc (slot-filling)
+   ├──→ Action: checkEligibility → Dataverse plugin (rules engine)
+   ├──→ Action: bureauCheck → Custom connector → CIBIL sandbox API
+   └──→ Action: createLead → Dataverse Web API
+                       │
+                       ▼
+            [Dataverse Lead with BPF]
+                       │
+                       ▼
+            [Assigned to RM via auto-routing rule]
+    </pre>
+    <h4>Tech Stack</h4>
+    <ul class="feature-list">
+      <li>Copilot Studio with generative orchestration mode</li>
+      <li>4 custom actions (mix of Power Automate cloud flows + Dataverse plugin)</li>
+      <li>Custom connector wrapping bureau sandbox</li>
+      <li>Dataverse Lead table with BPF and 5 stages</li>
+      <li>WhatsApp via Azure Communication Services channel</li>
+    </ul>
+    <h4>What Makes This Architect-Level</h4>
+    <ul class="feature-list">
+      <li>Real lending compliance (RBI guidelines for digital lending) discussion</li>
+      <li>PII handling — encrypt KYC at rest, mask in logs</li>
+      <li>Bureau quota management — circuit breaker if quota exhausted</li>
+      <li>Fallback to human if confidence &lt; threshold</li>
+    </ul>
+  </div>
+
+  <div class="callout success">
+    <strong>Pro tip:</strong> Pick <em>two</em> of these to build end-to-end (CRM + AI Chatbot are the highest-signal pair). Add a third as a "case study writeup" in your portfolio even if not fully built. Quality &gt; quantity.
+  </div>
+</section>
+
+<section id="jobs">
+  <div class="section-head"><div class="section-num">7</div><h2>💼 India Job Strategy — 35–50 LPA Roles</h2></div>
+  <p class="section-intro">India market specifics: who pays, what they ask, what to skip.</p>
+
+  <div class="card">
+    <h3>Skills That Pay Highest (India, 2026)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Skill Cluster</th><th>Salary Lift</th><th>Why It Pays</th></tr></thead>
+        <tbody>
+          <tr><td>Power Platform + Azure OpenAI / Copilot Studio</td><td>★★★★★</td><td>Every CTO is being asked about GenAI roadmap; PP teams own delivery</td></tr>
+          <tr><td>D365 CE/Sales/Customer Service Architect</td><td>★★★★☆</td><td>Large System Integrator (SI) practice demand</td></tr>
+          <tr><td>Dataverse + Synapse Link + Fabric</td><td>★★★★☆</td><td>Analytics-heavy customers</td></tr>
+          <tr><td>Power Platform + Dynamics F&amp;O integration</td><td>★★★★☆</td><td>Rare skillset; bridges CE and ERP teams</td></tr>
+          <tr><td>Copilot Studio + Microsoft 365 Copilot extensibility</td><td>★★★★☆</td><td>Brand-new — premium for early experts</td></tr>
+          <tr><td>Power Pages + B2C / external portals</td><td>★★★☆☆</td><td>Regulated industries (banking, insurance)</td></tr>
+          <tr><td>RPA-only (Power Automate Desktop)</td><td>★★☆☆☆</td><td>Commoditized — don't lead with this</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Where the Money Is (Employer Tiers)</h3>
+    <ul class="feature-list">
+      <li><strong>Tier 1 — Product/Captives (40–80 LPA):</strong> Microsoft India, ZS Associates, Avanade, EY GDS captive teams. Highest bar; strong system-design rounds.</li>
+      <li><strong>Tier 1 — Consulting (35–60 LPA):</strong> Accenture (Senior Manager), Deloitte (Manager/Sr Manager), KPMG, PwC, Capgemini Global PP Practice. Architect grade is "Manager" level.</li>
+      <li><strong>Tier 2 — IT Services (25–45 LPA):</strong> TCS, Infosys, Wipro, HCLTech, LTIMindtree, Cognizant. Title varies (Solution Architect, Technical Architect).</li>
+      <li><strong>Tier 2 — Boutique MSFT Partners (28–55 LPA):</strong> Quisitive, Argano, Hitachi Solutions, Hexaware MSFT BU, Sonata. Premium for niche skills.</li>
+      <li><strong>Tier 3 — Product companies hiring PP (25–50 LPA):</strong> Banks, insurance, manufacturing leaders building internal CoE. Comfortable WLB.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>What Hiring Managers Actually Expect</h3>
+    <ul class="check-list feature-list">
+      <li><strong>System design fluency</strong> — sketch architectures on a whiteboard for 45 minutes, defending every trade-off</li>
+      <li><strong>"What would you do if..."</strong> — ambiguous, real customer scenarios with no perfect answer</li>
+      <li><strong>Influence without authority</strong> — examples of leading without being the boss</li>
+      <li><strong>Cost awareness</strong> — every architect at 30 LPA+ is expected to talk in $ and ₹, not just features</li>
+      <li><strong>Pre-sales support</strong> — many architect roles double as pre-sales; comfort with RFPs/SoWs</li>
+      <li><strong>Mentorship</strong> — what have you taught? Spoken about? Written about?</li>
+      <li><strong>Cross-stack credibility</strong> — Azure + AI + Power Platform; pure PP is now a junior-architect ceiling</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Interview Questions — Architect Level (Real Ones)</h3>
+
+    <div class="qa-block"><div class="q">Q1. We have 80 million records in a Dataverse table and queries are slow. What's your plan?</div><div class="a">Talk about: query patterns, indexes, alternate keys, partition strategy (is it an elastic table candidate?), archiving cold data to Synapse Link / Blob, virtual tables for read-only history, optimizing FetchXML/OData filters, table-level audit impact. Always end with "I'd want to see a query plan first."</div></div>
+
+    <div class="qa-block"><div class="q">Q2. A plugin keeps timing out. Walk me through how you'd fix it.</div><div class="a">Sandbox is 2 min. Options: convert to async plugin step, move heavy work to Azure Function via Service Bus, batch the calls, optimize SDK queries (avoid <code>RetrieveAllEntities</code>), avoid loops, paginate. Talk about observability — App Insights, plugin trace logs.</div></div>
+
+    <div class="qa-block"><div class="q">Q3. Should this be a Canvas app or Model-driven?</div><div class="a">Don't pick blindly. Ask: who's the user? What's the data shape? What's the device? Is offline needed? Is security row/column complex? Then use the decision matrix to defend your call.</div></div>
+
+    <div class="qa-block"><div class="q">Q4. Tell me about an architect decision you regretted.</div><div class="a">Have one ready. Pick a real case: "I chose Power Automate over a Function for X — it worked initially but throughput hit a wall at 50k/day. Refactored to Function + Service Bus. Lesson: model the load <em>before</em> picking the tool."</div></div>
+
+    <div class="qa-block"><div class="q">Q5. How would you design a Copilot bot answering from 10,000 policy documents with PII?</div><div class="a">RAG architecture (chunking, embeddings, vector store), AI Search hybrid, citations enforced, PII redaction at input via AI Language, content safety on output, audit logging of every prompt+response, FinOps with per-team chargeback, governance approval through Purview. Don't say "I'd use ChatGPT."</div></div>
+
+    <div class="qa-block"><div class="q">Q6. The customer wants us to skip ALM "to save time." How do you respond?</div><div class="a">Acknowledge pressure → quantify future cost (lost hours per hotfix, audit risk) → propose a minimal viable ALM (Git + 2 environments + automated solution import) → never say "no, we must" — say "let me show you a 2-day setup that pays back in week 2."</div></div>
+
+    <div class="qa-block"><div class="q">Q7. How do you decide between Service Bus, Event Grid, and Event Hubs?</div><div class="a">Commands &amp; ordered messages → Service Bus. Reactive events / fan-out to many handlers → Event Grid. Telemetry / massive throughput / replay → Event Hubs. Have one real story for each.</div></div>
+
+    <div class="qa-block"><div class="q">Q8. We have a $40k/month Azure OpenAI bill. Reduce it.</div><div class="a">Switch eligible workloads to GPT-4o-mini, enable prompt caching, shorten system prompts, downsize embedding dimensions, batch where possible, evaluate PTU, set hard budgets, dedupe similar queries via cache. Track $/answered query.</div></div>
+
+    <div class="qa-block"><div class="q">Q9. Multi-environment strategy for 4 business lines on one tenant?</div><div class="a">Default + 1 dev per BL + shared sandbox + UAT + Prod per BL OR shared Prod with environment groups. Discuss capacity, DLP policies per env, environment routing, ALM pipeline reuse via templates.</div></div>
+
+    <div class="qa-block"><div class="q">Q10. How would you embed an agent inside Microsoft 365 Copilot?</div><div class="a">Build with Copilot Studio (declarative or custom-engine agent), package as Teams app, publish via admin center, govern via Purview, monitor via Microsoft 365 Copilot Analytics. Discuss declarative (no-code, hosted by MS) vs custom-engine (your own LLM).</div></div>
+  </div>
+
+  <div class="card">
+    <h3>Mistakes to Avoid</h3>
+    <ul class="x-list feature-list">
+      <li>Listing "Power BI" as a top skill when you only built 2 reports — gets challenged hard</li>
+      <li>Saying "I use Copilot for everything" — architects must articulate <em>boundaries</em> of AI</li>
+      <li>Going into PL-600 cold without case-study practice</li>
+      <li>Padding your resume with 12 certs (it triggers "cert collector" red flag)</li>
+      <li>Quoting outdated patterns (Outlook plugin, MB-200, classic workflows) — signals you stopped learning</li>
+      <li>Not having GitHub presence — at 30+ LPA, recruiters look</li>
+      <li>Pretending to know F&amp;O when you don't — be honest about the line between CE and ERP</li>
+      <li>Lowballing yourself in screening calls — anchor with "I'm targeting 35–45 LPA depending on role scope"</li>
+    </ul>
+  </div>
+</section>
+
+<section id="employers">
+  <div class="section-head"><div class="section-num">8</div><h2>🏢 Top High-Paying Employers in India (Architect-Level)</h2></div>
+  <p class="section-intro">~75 employers actively hiring Power Platform + AI architects in India at 25–60+ LPA bands. Tiered by typical pay range, with direct career pages. Use LinkedIn outreach (see "How to Apply" callout below) — that's what works at architect level, not cold HR emails.</p>
+
+  <div class="callout danger">
+    <strong>Why no individual HR email addresses?</strong> At architect level (35–50 LPA), cold-emailing a random HR address has near-zero success rate, hurts your brand, and many of the addresses circulating online are stale or fake. The high-conversion channels are: (1) <strong>employee referrals</strong> (40–60% of hires at this band), (2) <strong>LinkedIn outreach to hiring managers / practice leads</strong> (find them via title filters), (3) <strong>Microsoft partner ecosystem warm intros</strong>, (4) <strong>career-page applications</strong> when a specific JD matches. The career-page URLs below are the official entry points; the LinkedIn search strings let you find the right humans.
+  </div>
+
+  <div class="callout success">
+    <strong>How to apply effectively (90 seconds per company):</strong>
+    <ol style="margin-left: 22px; margin-top: 6px;">
+      <li>Open the career page link → search "Power Platform" or "Solution Architect" or "Copilot" → save matching JDs</li>
+      <li>On LinkedIn search: <code>"Power Platform Practice Lead" OR "D365 Architect" OR "Talent Acquisition Manager" {Company Name} India</code></li>
+      <li>Send a personalized connect request (≤200 chars): mention the specific JD ID + one specific reason you fit + ask if they can refer you internally</li>
+      <li>Same day: apply via career page so your name lands in their ATS for the referrer to point at</li>
+    </ol>
+  </div>
+
+  <h3 style="font-size: 1.25rem; margin: 28px 0 12px; color: var(--accent3);">▸ Tier S — Microsoft Captives, FAANG-equivalents, Product (40–80 LPA)</h3>
+  <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 12px;">Highest pay, highest bar. Strong system design + leadership rounds. Best fit for senior architects with portfolio + speaking.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Company</th><th>Why It Pays</th><th>Career Page</th></tr></thead>
+      <tbody>
+        <tr><td class="cert-name">Microsoft India (IDC)</td><td>Engineering captive — Power Platform, Dynamics, AI teams in Bangalore/Hyderabad/Noida</td><td><a href="https://careers.microsoft.com/v2/global/en/locations/india" target="_blank">careers.microsoft.com</a></td></tr>
+        <tr><td class="cert-name">Avanade (Accenture × Microsoft JV)</td><td>The flagship MSFT consulting brand globally; deepest PP+Copilot work</td><td><a href="https://www.avanade.com/en-in/career" target="_blank">avanade.com/en-in/career</a></td></tr>
+        <tr><td class="cert-name">EY GDS (Global Delivery Services)</td><td>Power Platform CoE in Bangalore/Trivandrum/Kochi/Gurugram</td><td><a href="https://www.ey.com/en_in/careers" target="_blank">ey.com/en_in/careers</a></td></tr>
+        <tr><td class="cert-name">PwC India (Acceleration Centers)</td><td>Microsoft Partner of the Year; large PP+AI practice</td><td><a href="https://www.pwc.in/careers.html" target="_blank">pwc.in/careers</a></td></tr>
+        <tr><td class="cert-name">KPMG India (Lighthouse / Digital)</td><td>D365 + PP practice growing fast</td><td><a href="https://home.kpmg/in/en/home/careers.html" target="_blank">kpmg.com/in/careers</a></td></tr>
+        <tr><td class="cert-name">Deloitte India (USI &amp; Consulting)</td><td>Solution Architect bands at 25–40+ LPA; Sr Mgr/Director 50+ LPA</td><td><a href="https://www2.deloitte.com/in/en/careers.html" target="_blank">deloitte.com/in/careers</a></td></tr>
+        <tr><td class="cert-name">Accenture (Strategy &amp; Consulting + Operations)</td><td>Largest MSFT partner globally; Manager/Sr Mgr = architect grade</td><td><a href="https://www.accenture.com/in-en/careers" target="_blank">accenture.com/in-en/careers</a></td></tr>
+        <tr><td class="cert-name">Capgemini (Microsoft Business Group)</td><td>Global PP practice; strong India delivery</td><td><a href="https://www.capgemini.com/in-en/careers/" target="_blank">capgemini.com/in-en/careers</a></td></tr>
+        <tr><td class="cert-name">Cognizant (Microsoft Business Group)</td><td>Strong D365 + PP practice expanding into Copilot</td><td><a href="https://careers.cognizant.com/global-en" target="_blank">careers.cognizant.com</a></td></tr>
+        <tr><td class="cert-name">ZS Associates</td><td>Pharma/Life-Sciences analytics with growing PP/AI architect roles</td><td><a href="https://careers.zs.com/" target="_blank">careers.zs.com</a></td></tr>
+        <tr><td class="cert-name">Tiger Analytics</td><td>AI/data product architect roles</td><td><a href="https://www.tigeranalytics.com/careers/" target="_blank">tigeranalytics.com/careers</a></td></tr>
+        <tr><td class="cert-name">EPAM Systems India</td><td>2025 MSFT Azure AI Partner of the Year — strong AI architect demand</td><td><a href="https://www.epam.com/careers" target="_blank">epam.com/careers</a></td></tr>
+        <tr><td class="cert-name">Thoughtworks India</td><td>Senior engineering; growing GenAI architect roles</td><td><a href="https://www.thoughtworks.com/en-in/careers" target="_blank">thoughtworks.com/en-in/careers</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size: 1.25rem; margin: 28px 0 12px; color: var(--accent2);">▸ Tier A — Premium MSFT Partners &amp; Boutique Consultancies (30–55 LPA)</h3>
+  <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 12px;">Niche MSFT specialists — usually best WLB-to-pay ratio for architects. Many India-headquartered.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Company</th><th>Specialty</th><th>Career Page</th></tr></thead>
+      <tbody>
+        <tr><td class="cert-name">Quisitive</td><td>Pure-play MSFT partner; strong Copilot + PP work; India presence</td><td><a href="https://quisitive.com/careers/" target="_blank">quisitive.com/careers</a></td></tr>
+        <tr><td class="cert-name">Argano (formerly Sa.global / others)</td><td>D365 / PP / supply chain</td><td><a href="https://argano.com/careers/" target="_blank">argano.com/careers</a></td></tr>
+        <tr><td class="cert-name">Hitachi Solutions India</td><td>Top-tier MSFT partner; D365 + PP</td><td><a href="https://global.hitachi-solutions.com/careers/" target="_blank">hitachi-solutions.com/careers</a></td></tr>
+        <tr><td class="cert-name">Hexaware Microsoft Business Unit</td><td>Modern apps + Copilot</td><td><a href="https://hexaware.com/careers/" target="_blank">hexaware.com/careers</a></td></tr>
+        <tr><td class="cert-name">Sonata Software</td><td>Indian MSFT partner; expanding PP+AI</td><td><a href="https://www.sonata-software.com/careers" target="_blank">sonata-software.com/careers</a></td></tr>
+        <tr><td class="cert-name">Celebal Technologies</td><td>2022 MSFT India Partner of the Year; 2,700+ engineers, strong PP/AI</td><td><a href="https://celebaltech.com/careers" target="_blank">celebaltech.com/careers</a></td></tr>
+        <tr><td class="cert-name">Crayon Software India</td><td>MSFT licensing + cloud advisory; growing PP/AI</td><td><a href="https://www.crayon.com/en/careers/" target="_blank">crayon.com/careers</a></td></tr>
+        <tr><td class="cert-name">Synoptek India</td><td>MSFT Solutions Partner</td><td><a href="https://synoptek.com/about/careers/" target="_blank">synoptek.com/about/careers</a></td></tr>
+        <tr><td class="cert-name">Saxon AI</td><td>PP + analytics + GenAI focus</td><td><a href="https://saxon.ai/careers/" target="_blank">saxon.ai/careers</a></td></tr>
+        <tr><td class="cert-name">Alpha BOLD</td><td>Pure-play MSFT partner; PP + D365</td><td><a href="https://alphabold.com/careers/" target="_blank">alphabold.com/careers</a></td></tr>
+        <tr><td class="cert-name">Inogic Tech</td><td>Microsoft Gold Partner India (Mumbai); MVP-rich team</td><td><a href="https://www.inogic.com/careers" target="_blank">inogic.com/careers</a></td></tr>
+        <tr><td class="cert-name">Rishabh Software</td><td>Long-time MSFT partner; multi-vertical</td><td><a href="https://www.rishabhsoft.com/careers" target="_blank">rishabhsoft.com/careers</a></td></tr>
+        <tr><td class="cert-name">Beyondsoft International (India)</td><td>Azure + PP services</td><td><a href="https://www.beyondsoft.com/careers/" target="_blank">beyondsoft.com/careers</a></td></tr>
+        <tr><td class="cert-name">Velrada (Insight Enterprises)</td><td>D365/PP architect roles globally + India</td><td><a href="https://velrada.com/careers/" target="_blank">velrada.com/careers</a></td></tr>
+        <tr><td class="cert-name">DXC Technology India</td><td>Large MSFT delivery; many architect bands</td><td><a href="https://careers.dxc.com/" target="_blank">careers.dxc.com</a></td></tr>
+        <tr><td class="cert-name">Atos / Eviden India</td><td>D365 + PP practice</td><td><a href="https://atos.net/en/careers" target="_blank">atos.net/careers</a></td></tr>
+        <tr><td class="cert-name">NTT DATA India</td><td>Large MSFT alliance</td><td><a href="https://in.nttdata.com/careers" target="_blank">in.nttdata.com/careers</a></td></tr>
+        <tr><td class="cert-name">Mastek (Evosys for D365)</td><td>D365 ERP + PP integration</td><td><a href="https://careers.mastek.com/" target="_blank">careers.mastek.com</a></td></tr>
+        <tr><td class="cert-name">Cynoteck</td><td>PP + Salesforce + AI India boutique</td><td><a href="https://cynoteck.com/careers/" target="_blank">cynoteck.com/careers</a></td></tr>
+        <tr><td class="cert-name">VidiCorp</td><td>Indian boutique with strong PP credentials</td><td><a href="https://vidi.us/careers/" target="_blank">vidi.us/careers</a></td></tr>
+        <tr><td class="cert-name">DevBay Technologies</td><td>Next-gen MSFT partner; AI-driven cloud</td><td><a href="https://devbay.com/careers/" target="_blank">devbay.com/careers</a></td></tr>
+        <tr><td class="cert-name">Atqor</td><td>PP + Azure services India</td><td><a href="https://www.atqor.com/careers" target="_blank">atqor.com/careers</a></td></tr>
+        <tr><td class="cert-name">Beyondkey Systems</td><td>D365 + PP architect roles</td><td><a href="https://www.beyondkey.com/career" target="_blank">beyondkey.com/career</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size: 1.25rem; margin: 28px 0 12px; color: var(--accent5);">▸ Tier B — Large IT Services with PP/AI Practice (25–45 LPA)</h3>
+  <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 12px;">Massive scale, structured architect ladders. Internal mobility is strong if you join with the right cert stack.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Company</th><th>Notes</th><th>Career Page</th></tr></thead>
+      <tbody>
+        <tr><td class="cert-name">TCS (Microsoft Business Unit)</td><td>Largest India IT services; well-defined architect levels</td><td><a href="https://www.tcs.com/careers" target="_blank">tcs.com/careers</a></td></tr>
+        <tr><td class="cert-name">Infosys (Microsoft Practice)</td><td>D365 + PP + GenAI growing; Topaz AI offering</td><td><a href="https://www.infosys.com/careers/" target="_blank">infosys.com/careers</a></td></tr>
+        <tr><td class="cert-name">Wipro (Microsoft Business Unit)</td><td>Strong AI Practice; lab.AI initiative</td><td><a href="https://careers.wipro.com/" target="_blank">careers.wipro.com</a></td></tr>
+        <tr><td class="cert-name">HCLTech (Microsoft &amp; AI Business Service)</td><td>Big-bet Copilot + agents practice in 2026</td><td><a href="https://www.hcltech.com/careers" target="_blank">hcltech.com/careers</a></td></tr>
+        <tr><td class="cert-name">Tech Mahindra (Microsoft Practice)</td><td>Communications + telco-heavy PP work</td><td><a href="https://careers.techmahindra.com/" target="_blank">careers.techmahindra.com</a></td></tr>
+        <tr><td class="cert-name">LTIMindtree (Microsoft Business Group)</td><td>BFSI-strong PP + Azure</td><td><a href="https://www.ltimindtree.com/careers/" target="_blank">ltimindtree.com/careers</a></td></tr>
+        <tr><td class="cert-name">Mphasis</td><td>BFSI + healthcare PP architect roles</td><td><a href="https://www.mphasis.com/home/careers.html" target="_blank">mphasis.com/careers</a></td></tr>
+        <tr><td class="cert-name">Birlasoft</td><td>D365 + PP strong; mid-size</td><td><a href="https://www.birlasoft.com/careers" target="_blank">birlasoft.com/careers</a></td></tr>
+        <tr><td class="cert-name">Coforge</td><td>BFSI/travel D365 + PP</td><td><a href="https://www.coforge.com/careers" target="_blank">coforge.com/careers</a></td></tr>
+        <tr><td class="cert-name">Persistent Systems</td><td>Engineering services + AI; growing MSFT practice</td><td><a href="https://www.persistent.com/careers/" target="_blank">persistent.com/careers</a></td></tr>
+        <tr><td class="cert-name">Cyient</td><td>Engineering + MSFT services</td><td><a href="https://www.cyient.com/careers" target="_blank">cyient.com/careers</a></td></tr>
+        <tr><td class="cert-name">KPIT Technologies</td><td>Auto + manufacturing MSFT services</td><td><a href="https://www.kpit.com/careers/" target="_blank">kpit.com/careers</a></td></tr>
+        <tr><td class="cert-name">Zensar Technologies</td><td>RPG group; MSFT practice growing</td><td><a href="https://www.zensar.com/careers/" target="_blank">zensar.com/careers</a></td></tr>
+        <tr><td class="cert-name">Genpact</td><td>BPO + analytics with growing PP architect roles</td><td><a href="https://www.genpact.com/careers" target="_blank">genpact.com/careers</a></td></tr>
+        <tr><td class="cert-name">Wissen Technology</td><td>Mid-size; aggressive on senior tech roles</td><td><a href="https://www.wissen.com/careers" target="_blank">wissen.com/careers</a></td></tr>
+        <tr><td class="cert-name">Brillio</td><td>Digital + AI; growing</td><td><a href="https://www.brillio.com/careers/" target="_blank">brillio.com/careers</a></td></tr>
+        <tr><td class="cert-name">Nagarro</td><td>Strong engineering culture; MSFT practice</td><td><a href="https://www.nagarro.com/en/careers" target="_blank">nagarro.com/careers</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size: 1.25rem; margin: 28px 0 12px; color: var(--accent4);">▸ Tier C — Enterprise In-House CoEs (25–50 LPA, best WLB)</h3>
+  <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 12px;">Often the calmest culture + best WLB. Pay sometimes matches Big 4 once you negotiate. Banks/insurance/manufacturing/healthcare building internal Power Platform CoEs.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Company</th><th>Sector</th><th>Career Page</th></tr></thead>
+      <tbody>
+        <tr><td class="cert-name">HDFC Bank</td><td>BFSI — heavy MSFT shop</td><td><a href="https://www.hdfcbank.com/personal/about-us/careers" target="_blank">hdfcbank.com/careers</a></td></tr>
+        <tr><td class="cert-name">ICICI Bank</td><td>BFSI — large PP rollout</td><td><a href="https://www.icicicareers.com/" target="_blank">icicicareers.com</a></td></tr>
+        <tr><td class="cert-name">Axis Bank</td><td>BFSI</td><td><a href="https://www.axisbank.com/careers" target="_blank">axisbank.com/careers</a></td></tr>
+        <tr><td class="cert-name">Kotak Mahindra Bank</td><td>BFSI</td><td><a href="https://www.kotak.com/en/about-us/careers.html" target="_blank">kotak.com/careers</a></td></tr>
+        <tr><td class="cert-name">DBS Bank India</td><td>BFSI — strong tech</td><td><a href="https://www.dbs.com/careers/in/default.page" target="_blank">dbs.com/careers/in</a></td></tr>
+        <tr><td class="cert-name">Standard Chartered GBS</td><td>BFSI — tech captive</td><td><a href="https://www.sc.com/en/careers/" target="_blank">sc.com/careers</a></td></tr>
+        <tr><td class="cert-name">HSBC Technology India</td><td>BFSI captive</td><td><a href="https://www.hsbc.com/careers" target="_blank">hsbc.com/careers</a></td></tr>
+        <tr><td class="cert-name">Citi India</td><td>BFSI captive</td><td><a href="https://jobs.citi.com/" target="_blank">jobs.citi.com</a></td></tr>
+        <tr><td class="cert-name">JPMorgan Chase India</td><td>BFSI captive — heavy AI investment</td><td><a href="https://careers.jpmorgan.com/" target="_blank">careers.jpmorgan.com</a></td></tr>
+        <tr><td class="cert-name">Goldman Sachs India</td><td>BFSI captive</td><td><a href="https://www.goldmansachs.com/careers/" target="_blank">goldmansachs.com/careers</a></td></tr>
+        <tr><td class="cert-name">Wells Fargo India</td><td>BFSI captive</td><td><a href="https://www.wellsfargojobs.com/" target="_blank">wellsfargojobs.com</a></td></tr>
+        <tr><td class="cert-name">Bajaj Finserv / Allianz</td><td>BFSI / insurance</td><td><a href="https://www.bajajfinserv.in/career" target="_blank">bajajfinserv.in/career</a></td></tr>
+        <tr><td class="cert-name">Reliance Industries (JIO)</td><td>Conglomerate; large MSFT footprint</td><td><a href="https://careers.ril.com/" target="_blank">careers.ril.com</a></td></tr>
+        <tr><td class="cert-name">Tata Group (TCS-adjacent companies)</td><td>Multiple verticals</td><td><a href="https://www.tata.com/careers" target="_blank">tata.com/careers</a></td></tr>
+        <tr><td class="cert-name">Mahindra Group (Tech Mahindra adjacent)</td><td>Auto + IT</td><td><a href="https://www.mahindra.com/careers" target="_blank">mahindra.com/careers</a></td></tr>
+        <tr><td class="cert-name">L&amp;T Group</td><td>Construction + tech</td><td><a href="https://www.larsentoubro.com/careers/" target="_blank">larsentoubro.com/careers</a></td></tr>
+        <tr><td class="cert-name">ITC Limited (Digital)</td><td>FMCG digital transformation</td><td><a href="https://www.itcportal.com/careers/careers.aspx" target="_blank">itcportal.com/careers</a></td></tr>
+        <tr><td class="cert-name">Asian Paints (Digital)</td><td>FMCG MSFT shop</td><td><a href="https://www.asianpaints.com/careers.html" target="_blank">asianpaints.com/careers</a></td></tr>
+        <tr><td class="cert-name">Hindustan Unilever</td><td>FMCG digital</td><td><a href="https://careers.unilever.com/india" target="_blank">careers.unilever.com/india</a></td></tr>
+        <tr><td class="cert-name">Maruti Suzuki Digital</td><td>Auto — heavy PP adoption</td><td><a href="https://www.marutisuzuki.com/corporate/careers" target="_blank">marutisuzuki.com/careers</a></td></tr>
+        <tr><td class="cert-name">Tata Steel (Digital)</td><td>Manufacturing CoE</td><td><a href="https://www.tatasteel.com/careers/" target="_blank">tatasteel.com/careers</a></td></tr>
+        <tr><td class="cert-name">JSW Group (Digital)</td><td>Manufacturing</td><td><a href="https://www.jsw.in/careers" target="_blank">jsw.in/careers</a></td></tr>
+        <tr><td class="cert-name">Apollo Hospitals (Health-IT)</td><td>Healthcare PP rollout</td><td><a href="https://www.apollohospitals.com/careers/" target="_blank">apollohospitals.com/careers</a></td></tr>
+        <tr><td class="cert-name">Max Healthcare</td><td>Healthcare</td><td><a href="https://www.maxhealthcare.in/careers" target="_blank">maxhealthcare.in/careers</a></td></tr>
+        <tr><td class="cert-name">Practo</td><td>Healthcare tech</td><td><a href="https://www.practo.com/company/jobs/" target="_blank">practo.com/jobs</a></td></tr>
+        <tr><td class="cert-name">PhonePe / Walmart Global Tech India</td><td>Fintech captives</td><td><a href="https://careers.walmart.com/india" target="_blank">careers.walmart.com/india</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size: 1.25rem; margin: 28px 0 12px; color: var(--accent6);">▸ Tier D — Global Captives in India (GCC) — Often Overlooked High Pay</h3>
+  <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 12px;">India captives of global product/non-tech companies. Usually competitive with Tier S on pay; underrated.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Company</th><th>Notes</th><th>Career Page</th></tr></thead>
+      <tbody>
+        <tr><td class="cert-name">Walmart Global Tech India</td><td>Heavy MSFT shop; PP + AI architects</td><td><a href="https://careers.walmart.com/india" target="_blank">careers.walmart.com/india</a></td></tr>
+        <tr><td class="cert-name">Target India</td><td>Strong tech captive Bangalore</td><td><a href="https://corporate.target.com/careers" target="_blank">corporate.target.com/careers</a></td></tr>
+        <tr><td class="cert-name">Lowe's India</td><td>Bangalore captive</td><td><a href="https://talent.lowes.com/" target="_blank">talent.lowes.com</a></td></tr>
+        <tr><td class="cert-name">Tesco Bengaluru</td><td>Retail tech</td><td><a href="https://www.tescobengaluru.com/careers" target="_blank">tescobengaluru.com/careers</a></td></tr>
+        <tr><td class="cert-name">Shell India (Tech Centre)</td><td>Energy captive</td><td><a href="https://www.shell.com/careers.html" target="_blank">shell.com/careers</a></td></tr>
+        <tr><td class="cert-name">BP India IST</td><td>Energy captive</td><td><a href="https://www.bp.com/en/global/corporate/careers.html" target="_blank">bp.com/careers</a></td></tr>
+        <tr><td class="cert-name">Schneider Electric India</td><td>Industrial automation + MSFT</td><td><a href="https://careers.se.com/" target="_blank">careers.se.com</a></td></tr>
+        <tr><td class="cert-name">Siemens India</td><td>Industrial — large MSFT footprint</td><td><a href="https://jobs.siemens.com/en_US/careers" target="_blank">jobs.siemens.com</a></td></tr>
+        <tr><td class="cert-name">SAP Labs India</td><td>Not MSFT, but PP integration roles exist</td><td><a href="https://jobs.sap.com/" target="_blank">jobs.sap.com</a></td></tr>
+        <tr><td class="cert-name">Microsoft Research India</td><td>Research arm</td><td><a href="https://www.microsoft.com/en-us/research/lab/microsoft-research-india/" target="_blank">microsoft.com/research/india</a></td></tr>
+        <tr><td class="cert-name">Dell Technologies India</td><td>Tech captive</td><td><a href="https://jobs.dell.com/india" target="_blank">jobs.dell.com/india</a></td></tr>
+        <tr><td class="cert-name">Cisco India</td><td>Network + tech captive</td><td><a href="https://jobs.cisco.com/jobs/SearchJobs/?locationsearch=India" target="_blank">jobs.cisco.com</a></td></tr>
+        <tr><td class="cert-name">VMware (by Broadcom) India</td><td>Tech captive</td><td><a href="https://careers.broadcom.com/" target="_blank">careers.broadcom.com</a></td></tr>
+        <tr><td class="cert-name">SAP Concur India</td><td>Tech captive</td><td><a href="https://jobs.sap.com/" target="_blank">jobs.sap.com</a></td></tr>
+        <tr><td class="cert-name">Salesforce India</td><td>Cross-CRM architect roles</td><td><a href="https://salesforce.wd1.myworkdayjobs.com/External_Career_Site" target="_blank">salesforce.com/careers</a></td></tr>
+        <tr><td class="cert-name">Adobe India</td><td>Tech captive — adjacent skills</td><td><a href="https://www.adobe.com/careers.html" target="_blank">adobe.com/careers</a></td></tr>
+        <tr><td class="cert-name">ServiceNow India</td><td>Workflow platform; growing MSFT integration roles</td><td><a href="https://careers.servicenow.com/" target="_blank">careers.servicenow.com</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>Three job boards to monitor weekly</strong> (set alerts):
+    <ol style="margin-left: 22px; margin-top: 6px;">
+      <li><a href="https://www.linkedin.com/jobs/search/?keywords=Power%20Platform%20Architect&amp;location=India" target="_blank" style="color: var(--accent5);">LinkedIn — "Power Platform Architect" India</a> + variations ("D365 Architect", "Copilot Architect", "AI Solution Architect Microsoft")</li>
+      <li><a href="https://www.naukri.com/power-platform-architect-jobs" target="_blank" style="color: var(--accent5);">Naukri — Power Platform Architect</a> (India's largest job board)</li>
+      <li><a href="https://www.instahyre.com/" target="_blank" style="color: var(--accent5);">Instahyre + Hirist</a> (premium-band tech roles)</li>
+    </ol>
+  </div>
+
+  <div class="callout warn">
+    <strong>Realism check:</strong> ~75 companies is more than you can run in parallel. Pick 12–15 from this list (mix of Tier S/A/B/C), make those your top targets, build a Notion/Excel tracker (Company · JD · Hiring Manager LinkedIn · Date applied · Status · Next step). Working 12 companies deeply &gt; spraying 75 shallow applications.
+  </div>
+</section>
+
+<section id="thinking">
+  <div class="section-head"><div class="section-num">9</div><h2>🧩 Architect Thinking Framework</h2></div>
+  <p class="section-intro">The transition from senior developer to architect is mostly a thinking change. These are the mental models that separate the two.</p>
+
+  <div class="card">
+    <h3>The Architect's Default Loop</h3>
+    <ol style="margin-left: 22px;">
+      <li><strong>Clarify constraints</strong> before picking solutions. (Budget? Users? SLA? Compliance? Skill in the team?)</li>
+      <li><strong>Generate 2–3 options</strong>, not one. If you only see one option, you're a developer; an architect sees a space.</li>
+      <li><strong>Make trade-offs explicit.</strong> "Option A is cheapest, B is fastest to build, C scales best — I recommend B because we have a 4-week deadline and can refactor in Q3."</li>
+      <li><strong>Document the decision</strong> (ADR — Architecture Decision Record). Future you will thank present you.</li>
+      <li><strong>Plan for change.</strong> What if the assumptions break in 6 months?</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3>Decision-Making Frameworks</h3>
+    <div class="framework-grid">
+      <div class="framework-cell"><h4>1. Well-Architected (5 pillars)</h4><p>Reliability, Security, Cost, Operational Excellence, Performance. Map every design choice against these.</p></div>
+      <div class="framework-cell"><h4>2. RACI for stakeholders</h4><p>Who's Responsible / Accountable / Consulted / Informed for each architecture domain (security, data, integration, AI). Stops the "everyone in every meeting" failure.</p></div>
+      <div class="framework-cell"><h4>3. Build vs Buy vs SaaS</h4><p>Always evaluate the third option. SaaS often beats both for non-differentiating features.</p></div>
+      <div class="framework-cell"><h4>4. Cost / Effort / Value matrix</h4><p>2×2 grid: high-value / low-effort first, low-value / high-effort never. Use to prioritize a backlog of architectural improvements.</p></div>
+      <div class="framework-cell"><h4>5. CAP &amp; PACELC</h4><p>For data design — what consistency are you giving up for availability? PACELC adds latency vs consistency for the non-partitioned case.</p></div>
+      <div class="framework-cell"><h4>6. ATAM (Architecture Tradeoff Analysis)</h4><p>Lightweight: list quality attributes (perf, sec, mod) → rank → identify scenarios that stress each → see where current arch breaks.</p></div>
+      <div class="framework-cell"><h4>7. STRIDE (security threats)</h4><p>Spoofing, Tampering, Repudiation, Info disclosure, DoS, Elevation. Walk through these for any integration design.</p></div>
+      <div class="framework-cell"><h4>8. C4 Model for diagrams</h4><p>Context → Container → Component → Code. Most architects only draw the first two; that's correct — go deeper only when needed.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Common Trade-Offs (Memorize These)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Trade-Off</th><th>What You Gain</th><th>What You Lose</th></tr></thead>
+        <tbody>
+          <tr><td>Sync ↔ Async</td><td>Throughput, resilience</td><td>Simpler debugging, immediate response</td></tr>
+          <tr><td>Plugin ↔ Function</td><td>Flexibility, libraries, observability</td><td>Transactional simplicity</td></tr>
+          <tr><td>Canvas ↔ Model-Driven</td><td>UX freedom</td><td>Auto-generated forms/views, scale</td></tr>
+          <tr><td>Vertical scale ↔ Horizontal scale</td><td>Stateless scale, fault tolerance</td><td>Complexity, consistency challenges</td></tr>
+          <tr><td>Monolith ↔ Microservices</td><td>Independent deploys, team autonomy</td><td>Operational overhead, distributed-system pain</td></tr>
+          <tr><td>SQL ↔ Document/NoSQL (Elastic tables)</td><td>Schema flexibility, scale</td><td>Joins, ad-hoc queries</td></tr>
+          <tr><td>PAYGO ↔ PTU (OpenAI)</td><td>Predictable cost, reserved capacity</td><td>Upfront commitment, less flexibility</td></tr>
+          <tr><td>Fine-tune ↔ RAG</td><td>Style consistency, model owns knowledge</td><td>Cost, freshness, hard to update</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>How Architects Communicate Differently</h3>
+    <ul class="feature-list">
+      <li>Lead with the <em>decision</em>, then the <em>reasoning</em>. Don't bury the headline.</li>
+      <li>Use <em>numbers</em> where you can: "This will cost ~$1,200/month" beats "this is cheap."</li>
+      <li>Always state the assumption: "Assuming &lt;100k events/day, Service Bus Standard is enough."</li>
+      <li>Pre-mortem habit: "If this fails in production, the most likely cause will be X. Here's how we'll detect it."</li>
+      <li>Talk in roadmaps (now → next → later), not just sprints.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="bonus">
+  <div class="section-head"><div class="section-num">10</div><h2>📄 Bonus — Resume, LinkedIn, Personal Brand</h2></div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>Resume — Architect Edition</h3>
+      <ul class="feature-list">
+        <li><strong>2-page max.</strong> Senior architects can earn the right to 3 pages, you cannot.</li>
+        <li><strong>Top of page 1:</strong> Headline + 3-line summary + key skills band + most impressive metric ("Delivered AI-powered CRM for 12,000 users, ₹3.2 Cr/year benefit")</li>
+        <li><strong>Reframe bullets as outcomes</strong>: "Architected Dataverse + Azure Functions pipeline handling 4M events/day, reducing manual reconciliation by 86%"</li>
+        <li>Include a <strong>"Selected Architecture Decisions"</strong> section — 3–4 short paragraphs on real calls you made and why</li>
+        <li>Skills section: group by domain (Power Platform / Azure / AI / Integration / Leadership), not flat list</li>
+        <li>Certifications: only active + Microsoft-aligned. Hide expired.</li>
+        <li>Replace "responsible for" with action verbs: <em>architected, governed, scaled, mentored, owned</em></li>
+        <li>Use one consistent format for dates &amp; tense. Sloppy formatting screams junior.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>LinkedIn Optimization</h3>
+      <ul class="feature-list">
+        <li><strong>Headline:</strong> "Power Platform &amp; AI Solution Architect | Dataverse · Copilot Studio · Azure OpenAI | Helping enterprises ship GenAI-grounded business apps"</li>
+        <li><strong>About section:</strong> 4 short paragraphs — who I help, what I deliver, signature project, what I'm exploring</li>
+        <li><strong>Featured:</strong> Pin 3 items — strongest GitHub repo, published blog post, talk recording</li>
+        <li><strong>Experience bullets:</strong> Same outcomes-first style as resume. Use metric numbers.</li>
+        <li><strong>Skills:</strong> Endorse only top 10. More dilutes signal.</li>
+        <li><strong>Activity:</strong> Comment thoughtfully on 3 architect-level posts per week — beats posting your own content if you're new</li>
+        <li><strong>Recommendations:</strong> Aim for 5+ — ask managers, peers, customers (give one to get one)</li>
+        <li><strong>Banner image:</strong> Custom — not the default. Even a clean text banner with your value prop works.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Personal Brand &amp; Visibility</h3>
+    <ul class="feature-list">
+      <li><strong>GitHub:</strong> Pin 4 repos — two big portfolio projects, one tooling/utility, one fork-with-contributions</li>
+      <li><strong>Blog:</strong> Personal blog on Hashnode/dev.to OR LinkedIn Articles. 1 post every 3 weeks beats irregular bursts. Topic: real architecture decisions, not tutorials.</li>
+      <li><strong>Speaking:</strong> Power Platform User Group India (PPUGI), D365 User Group, Microsoft Reactor Bengaluru/Pune. Start with a 15-min lightning talk.</li>
+      <li><strong>Community:</strong> Answer 1 question/week on the Power Platform Community forum. Quietly compounds reputation.</li>
+      <li><strong>Newsletter:</strong> Optional — start one only if you'll commit for 6 months. Bi-weekly works.</li>
+      <li><strong>Open source:</strong> 3–5 meaningful PRs to a Microsoft sample repo signals seriousness</li>
+      <li><strong>Microsoft MVP track:</strong> 12-month commitment to community contribution → apply for MVP. Title meaningfully boosts pay band.</li>
+    </ul>
+  </div>
+
+  <div class="callout">
+    <strong>30-day quick-win brand plan:</strong>
+    <ol style="margin-left: 22px; margin-top: 8px;">
+      <li>Week 1: rewrite LinkedIn headline + About. Set custom URL.</li>
+      <li>Week 2: publish first project to GitHub with great README.</li>
+      <li>Week 3: write LinkedIn article on the architecture decisions from that project.</li>
+      <li>Week 4: comment thoughtfully on 12 architect posts; connect with 20 hiring managers/SI partners with a 1-line personalized note.</li>
+    </ol>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  <p>Power Platform + AI Solution Architect — Career Roadmap</p>
+  <p style="margin-top: 6px;">Built for the <span class="author-tag">India market, 25–50 LPA architect roles</span>. Bookmark this page and revisit weekly.</p>
+  <p style="margin-top: 12px; font-size: 0.78rem;">Treat this as a living document — Microsoft retires exams and ships products fast; always cross-check with <a href="https://learn.microsoft.com/" style="color: var(--accent5); text-decoration: none;">Microsoft Learn</a> before booking exams.</p>
+</footer>
+
+</body>
+</html>

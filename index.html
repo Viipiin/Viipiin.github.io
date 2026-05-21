@@ -1146,5 +1146,38 @@
     }());
     </script>
 
+<!-- Secret Vault (triggered by typing 'vkpv' anywhere on the page) -->
+<div id="vk-vault" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:99999;align-items:center;justify-content:center;font-family:'Segoe UI',sans-serif;">
+  <div style="background:#1a1d27;border:1px solid #2e3250;border-radius:14px;padding:2rem 2.5rem;max-width:400px;width:90%;text-align:center;position:relative;">
+    <button id="vk-vault-close" style="position:absolute;top:0.75rem;right:1rem;background:none;border:none;color:#8b8fa8;font-size:1.25rem;cursor:pointer;line-height:1;" title="Close">&times;</button>
+    <div style="font-size:1.75rem;margin-bottom:0.75rem;">🗂️</div>
+    <h2 style="color:#e8e9f0;font-size:1.1rem;font-weight:600;margin-bottom:0.4rem;">Private Vault</h2>
+    <p style="color:#8b8fa8;font-size:0.8rem;margin-bottom:1.5rem;">Your private resources</p>
+    <a href="pages/Claude_AI_Architect_30Day_Plan.html" style="display:block;padding:0.75rem 1rem;background:#20243a;border:1px solid #2e3250;border-radius:8px;color:#cc785c;text-decoration:none;font-size:0.9rem;margin-bottom:0.75rem;transition:background 0.2s;">Claude AI Architect — 30-Day Plan</a>
+    <a href="pages/PowerPlatform_AI_Architect_Roadmap.html" style="display:block;padding:0.75rem 1rem;background:#20243a;border:1px solid #2e3250;border-radius:8px;color:#7c6af7;text-decoration:none;font-size:0.9rem;transition:background 0.2s;">Power Platform AI Architect Roadmap</a>
+  </div>
+</div>
+<script>
+(function(){
+  var seq='vkpv',buf='';
+  document.addEventListener('keydown',function(e){
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+    buf+=e.key.toLowerCase();
+    if(buf.length>seq.length)buf=buf.slice(-seq.length);
+    if(buf===seq){
+      var v=document.getElementById('vk-vault');
+      v.style.display='flex';
+      buf='';
+    }
+  });
+  document.getElementById('vk-vault-close').addEventListener('click',function(){
+    document.getElementById('vk-vault').style.display='none';
+  });
+  document.getElementById('vk-vault').addEventListener('click',function(e){
+    if(e.target===this)this.style.display='none';
+  });
+}());
+</script>
+
 </body>
 </html>

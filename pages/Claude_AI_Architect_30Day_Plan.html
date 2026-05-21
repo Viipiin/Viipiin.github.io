@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude AI Architect — 30-Day Certification Study Plan</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --card2: #20243a;
+      --border: #2e3250;
+      --accent: #cc785c;
+      --accent2: #7c6af7;
+      --accent3: #3ecf8e;
+      --accent4: #f5a623;
+      --text: #e8e9f0;
+      --muted: #8b8fa8;
+      --week1: #1e2b3a;
+      --week2: #1e2a2a;
+      --week3: #2a1e2e;
+      --week4: #2a2a1e;
+      --tag-yt: #ff4e45;
+      --tag-gh: #6e5494;
+      --tag-lab: #3ecf8e;
+      --tag-doc: #4a9eff;
+      --tag-art: #f5a623;
+      --tag-wiki: #cc785c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #1a1040 0%, #2d1b5e 50%, #1a2040 100%);
+      border-bottom: 2px solid var(--accent2);
+      padding: 48px 40px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(124,106,247,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 50%, rgba(204,120,92,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    header h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #a78bfa, #cc785c, #3ecf8e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+    header p.subtitle {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0 auto 24px;
+    }
+    .header-badges {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .badge {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── Legend ── */
+    .legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 16px 40px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .tag-yt   { background: rgba(255,78,69,0.18);  color: var(--tag-yt);  }
+    .tag-gh   { background: rgba(110,84,148,0.25); color: #b39ddb; }
+    .tag-lab  { background: rgba(62,207,142,0.15); color: var(--tag-lab); }
+    .tag-doc  { background: rgba(74,158,255,0.15); color: var(--tag-doc); }
+    .tag-art  { background: rgba(245,166,35,0.15); color: var(--tag-art); }
+    .tag-wiki { background: rgba(204,120,92,0.2);  color: var(--tag-wiki);}
+
+    /* ── Progress Overview ── */
+    .overview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 24px 40px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-card {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+    }
+    .stat-card .num {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-card .label { color: var(--muted); font-size: 0.8rem; margin-top: 4px; }
+
+    /* ── Main Content ── */
+    main { padding: 32px 40px; max-width: 1400px; margin: 0 auto; }
+
+    /* ── Week Headers ── */
+    .week-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 40px 0 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+    .week-badge {
+      padding: 6px 20px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .w1 .week-badge { background: rgba(74,158,255,0.2);  color: #4a9eff; border: 1px solid rgba(74,158,255,0.3); }
+    .w2 .week-badge { background: rgba(62,207,142,0.2);  color: #3ecf8e; border: 1px solid rgba(62,207,142,0.3); }
+    .w3 .week-badge { background: rgba(124,106,247,0.2); color: #a78bfa; border: 1px solid rgba(124,106,247,0.3); }
+    .w4 .week-badge { background: rgba(245,166,35,0.2);  color: #f5a623; border: 1px solid rgba(245,166,35,0.3); }
+    .week-title { font-size: 1.4rem; font-weight: 700; }
+    .week-desc  { color: var(--muted); font-size: 0.85rem; margin-left: auto; }
+
+    /* ── Day Cards ── */
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 16px;
+    }
+    .day-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .day-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .day-card-header {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .w1 .day-card-header { background: linear-gradient(135deg, #0e1e2e, #142135); }
+    .w2 .day-card-header { background: linear-gradient(135deg, #0e1e1e, #14251e); }
+    .w3 .day-card-header { background: linear-gradient(135deg, #160e2e, #1e1435); }
+    .w4 .day-card-header { background: linear-gradient(135deg, #1e1e0e, #252014); }
+    .day-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .w1 .day-num { background: rgba(74,158,255,0.2);  color: #4a9eff;  border: 1.5px solid rgba(74,158,255,0.5);  }
+    .w2 .day-num { background: rgba(62,207,142,0.2);  color: #3ecf8e;  border: 1.5px solid rgba(62,207,142,0.5);  }
+    .w3 .day-num { background: rgba(124,106,247,0.2); color: #a78bfa;  border: 1.5px solid rgba(124,106,247,0.5); }
+    .w4 .day-num { background: rgba(245,166,35,0.2);  color: #f5a623;  border: 1.5px solid rgba(245,166,35,0.5);  }
+    .day-meta { flex: 1; }
+    .day-title { font-weight: 700; font-size: 0.95rem; line-height: 1.3; }
+    .day-duration { color: var(--muted); font-size: 0.75rem; margin-top: 2px; }
+    .day-body { padding: 14px 18px; }
+    .day-topics { margin-bottom: 12px; }
+    .day-topics p { color: var(--muted); font-size: 0.8rem; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .topic-list { list-style: none; }
+    .topic-list li {
+      font-size: 0.82rem;
+      color: #b8bcd0;
+      padding: 2px 0 2px 14px;
+      position: relative;
+    }
+    .topic-list li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--muted);
+    }
+    .resources-label {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin: 10px 0 6px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .resource-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .resource-item a {
+      color: #9bb4d8;
+      text-decoration: none;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      flex: 1;
+      transition: color 0.15s;
+    }
+    .resource-item a:hover { color: #c8d8f0; text-decoration: underline; }
+
+    /* ── Milestone Cards ── */
+    .milestone {
+      background: linear-gradient(135deg, rgba(124,106,247,0.12), rgba(204,120,92,0.08));
+      border: 1px solid rgba(124,106,247,0.3);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .milestone-icon { font-size: 2rem; }
+    .milestone-text h3 { font-size: 1rem; font-weight: 700; color: #a78bfa; }
+    .milestone-text p  { font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
+
+    /* ── Tools Section ── */
+    .tools-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 40px 0 20px;
+    }
+    .tools-section h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; color: var(--accent2); }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .tool-chip {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tool-chip .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 32px 40px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+    footer a { color: #7c6af7; text-decoration: none; }
+
+    @media (max-width: 600px) {
+      header { padding: 32px 20px 28px; }
+      header h1 { font-size: 1.8rem; }
+      main { padding: 20px 16px; }
+      .days-grid { grid-template-columns: 1fr; }
+      .overview { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Private Access Overlay -->
+<div id="vk-auth-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#0f1117;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI',sans-serif;">
+  <div style="background:#1a1d27;border:1px solid #2e3250;border-radius:12px;padding:2.5rem 2rem;max-width:360px;width:90%;text-align:center;">
+    <div style="font-size:2rem;margin-bottom:1rem;">🔒</div>
+    <h2 style="color:#e8e9f0;font-size:1.2rem;margin-bottom:0.5rem;font-weight:600;">Private Resource</h2>
+    <p style="color:#8b8fa8;font-size:0.85rem;margin-bottom:1.5rem;">Enter password to continue</p>
+    <input id="vk-pwd-input" type="password" placeholder="Password" autocomplete="off" style="width:100%;padding:0.75rem 1rem;background:#20243a;border:1px solid #2e3250;border-radius:8px;color:#e8e9f0;font-size:1rem;outline:none;margin-bottom:0.75rem;box-sizing:border-box;" />
+    <div id="vk-pwd-error" style="color:#ef4444;font-size:0.8rem;height:1.2rem;margin-bottom:0.5rem;"></div>
+    <button id="vk-pwd-btn" style="width:100%;padding:0.75rem;background:#7c6af7;border:none;border-radius:8px;color:#fff;font-size:1rem;cursor:pointer;font-weight:600;">Unlock</button>
+  </div>
+</div>
+<script>
+(function(){
+  var H='4547f7673a8d3bc555b4c406b71fe3636ce9ed5ee5ed9f8c44f37de8e69648d5';
+  var K='vk_priv_auth';
+  if(sessionStorage.getItem(K)==='1'){document.getElementById('vk-auth-overlay').style.display='none';return;}
+  document.body.style.overflow='hidden';
+  async function check(p){var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(p));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0');}).join('')===H;}
+  async function attempt(){var v=document.getElementById('vk-pwd-input').value;if(!v)return;if(await check(v)){sessionStorage.setItem(K,'1');document.getElementById('vk-auth-overlay').style.display='none';document.body.style.overflow='';}else{document.getElementById('vk-pwd-error').textContent='Incorrect password.';document.getElementById('vk-pwd-input').value='';document.getElementById('vk-pwd-input').focus();}}
+  document.getElementById('vk-pwd-btn').addEventListener('click',attempt);
+  document.getElementById('vk-pwd-input').addEventListener('keydown',function(e){if(e.key==='Enter')attempt();});
+  document.getElementById('vk-pwd-input').focus();
+}());
+</script>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header>
+  <h1>🤖 Claude AI Architect</h1>
+  <p class="subtitle">30-Day Certification Study Plan — Free Resources: YouTube, GitHub, Labs, Articles & Wikis</p>
+  <div class="header-badges">
+    <span class="badge">📅 30 Days</span>
+    <span class="badge">🆓 100% Free Resources</span>
+    <span class="badge">⏱ ~2–3 hrs/day</span>
+    <span class="badge">🏗 Anthropic Claude</span>
+    <span class="badge">🎓 Architect Level</span>
+  </div>
+</header>
+
+<!-- ═══════════════ LEGEND ═══════════════ -->
+<div class="legend">
+  <div class="legend-item"><span class="tag tag-yt">YT</span> YouTube Video</div>
+  <div class="legend-item"><span class="tag tag-gh">GH</span> GitHub Repo</div>
+  <div class="legend-item"><span class="tag tag-lab">LAB</span> Hands-on Lab</div>
+  <div class="legend-item"><span class="tag tag-doc">DOC</span> Official Docs</div>
+  <div class="legend-item"><span class="tag tag-art">ART</span> Article / Blog</div>
+  <div class="legend-item"><span class="tag tag-wiki">WIKI</span> Wiki / Guide</div>
+</div>
+
+<!-- ═══════════════ STATS ═══════════════ -->
+<div class="overview">
+  <div class="stat-card"><div class="num">30</div><div class="label">Study Days</div></div>
+  <div class="stat-card"><div class="num">4</div><div class="label">Learning Phases</div></div>
+  <div class="stat-card"><div class="num">120+</div><div class="label">Free Resources</div></div>
+  <div class="stat-card"><div class="num">25+</div><div class="label">Hands-on Labs</div></div>
+  <div class="stat-card"><div class="num">60+</div><div class="label">Hours Content</div></div>
+  <div class="stat-card"><div class="num">0$</div><div class="label">Cost</div></div>
+</div>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main>
+
+  <!-- ════════════ WEEK 1 ════════════ -->
+  <div class="week-header w1">
+    <span class="week-badge">Week 1</span>
+    <span class="week-title">Foundations & Claude Ecosystem</span>
+    <span class="week-desc">Days 1–7 · API Basics · Prompt Engineering</span>
+  </div>
+
+  <div class="days-grid w1">
+
+    <!-- Day 1 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">1</div>
+        <div class="day-meta">
+          <div class="day-title">Intro to Claude & Anthropic Ecosystem</div>
+          <div class="day-duration">⏱ 2 hrs · Foundation</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>What is Claude? Model families (Haiku, Sonnet, Opus)</li>
+            <li>Anthropic's mission & Constitutional AI overview</li>
+            <li>Claude vs GPT-4 vs Gemini — when to choose Claude</li>
+            <li>Anthropic API overview & free tier setup</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=UOvoU_qE3Gs" target="_blank">Anthropic Claude 3 — Full Model Overview (Anthropic Official)</a></div>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/intro-to-claude" target="_blank">docs.anthropic.com — Intro to Claude</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/research/claude-character" target="_blank">Anthropic Blog — Claude's Character</a></div>
+        <div class="resource-item"><span class="tag tag-wiki">WIKI</span><a href="https://en.wikipedia.org/wiki/Claude_(language_model)" target="_blank">Wikipedia — Claude Language Model</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-sdk-python" target="_blank">anthropics/anthropic-sdk-python — Official Python SDK</a></div>
+      </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">2</div>
+        <div class="day-meta">
+          <div class="day-title">Claude API Deep Dive & Setup</div>
+          <div class="day-duration">⏱ 2.5 hrs · Hands-on</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>API authentication, rate limits, pricing tiers</li>
+            <li>Messages API structure (system, user, assistant)</li>
+            <li>Streaming responses & async patterns</li>
+            <li>Python & Node.js SDK first program</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/api/messages" target="_blank">Messages API Reference — docs.anthropic.com</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=QdDoFfkVkcw" target="_blank">Claude API Tutorial for Beginners (Python) — freeCodeCamp</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook" target="_blank">anthropics/anthropic-cookbook — Official Recipes & Examples</a></div>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/misc/how_to_enable_json_mode.ipynb" target="_blank">Cookbook Lab: JSON Mode & Structured Output</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://docs.anthropic.com/en/docs/quickstart" target="_blank">Official Quickstart Guide — 5-minute first app</a></div>
+      </div>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">3</div>
+        <div class="day-meta">
+          <div class="day-title">Prompt Engineering Fundamentals</div>
+          <div class="day-duration">⏱ 3 hrs · Core Skill</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Anatomy of a great prompt (clarity, context, constraints)</li>
+            <li>Zero-shot, few-shot & chain-of-thought prompting</li>
+            <li>Role prompting & persona assignment</li>
+            <li>Output formatting: JSON, XML, Markdown</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank">Prompt Engineering Overview — Anthropic Docs</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=_ZvnD73m40o" target="_blank">Prompt Engineering Full Course — DeepLearning.AI (Andrew Ng)</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/courses/tree/master/prompt_engineering_interactive_tutorial" target="_blank">anthropics/courses — Interactive Prompt Engineering Tutorial</a></div>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/misc/how_to_use_system_prompts.ipynb" target="_blank">Cookbook Lab: System Prompts Best Practices</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.promptingguide.ai/models/claude" target="_blank">PromptingGuide.ai — Claude-specific techniques</a></div>
+      </div>
+    </div>
+
+    <!-- Day 4 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">4</div>
+        <div class="day-meta">
+          <div class="day-title">Advanced Prompting Techniques</div>
+          <div class="day-duration">⏱ 2.5 hrs · Advanced</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Chain-of-thought & Tree-of-thought prompting</li>
+            <li>ReAct prompting pattern</li>
+            <li>Prompt chaining & decomposition</li>
+            <li>Avoiding hallucinations & grounding techniques</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought" target="_blank">Chain-of-Thought Guide — Anthropic Docs</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=Lei-GBFGrZI" target="_blank">Advanced Prompting Techniques — AI Explained Channel</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/misc/prompt_chaining.ipynb" target="_blank">Cookbook: Prompt Chaining Notebook</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/research/ask-me-anything-about-prompt-engineering" target="_blank">Anthropic Research: Ask Me Anything — Prompt Engineering</a></div>
+        <div class="resource-item"><span class="tag tag-wiki">WIKI</span><a href="https://learnprompting.org/docs/intermediate/chain_of_thought" target="_blank">LearnPrompting.org — CoT & Advanced Methods</a></div>
+      </div>
+    </div>
+
+    <!-- Day 5 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">5</div>
+        <div class="day-meta">
+          <div class="day-title">System Prompts & Context Management</div>
+          <div class="day-duration">⏱ 2 hrs · Architecture</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>System prompt design patterns & best practices</li>
+            <li>Context window management (200K tokens in Claude)</li>
+            <li>Conversation history handling strategies</li>
+            <li>Memory patterns: in-context vs external</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/build-with-claude/context-windows" target="_blank">Context Windows Guide — Anthropic Docs</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=sal78ACtGTc" target="_blank">Managing Long Context with Claude — Matt Wolfe</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/misc/long_context_window.ipynb" target="_blank">Cookbook: Long Context Window Best Practices</a></div>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/anthropics/courses/tree/master/rag_and_retrieval" target="_blank">anthropics/courses — RAG & Context Retrieval</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/long-context-tips" target="_blank">Long Context Tips — Official Guide</a></div>
+      </div>
+    </div>
+
+    <!-- Day 6 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">6</div>
+        <div class="day-meta">
+          <div class="day-title">Token Optimization & Cost Engineering</div>
+          <div class="day-duration">⏱ 2 hrs · Production</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Token counting & pricing models</li>
+            <li>Prompt caching (Anthropic's prompt caching feature)</li>
+            <li>Model selection strategy for cost/quality</li>
+            <li>Batch processing API for bulk inference</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching" target="_blank">Prompt Caching — Anthropic Docs</a></div>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/build-with-claude/message-batches" target="_blank">Message Batches API — Anthropic Docs</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/misc/prompt_caching.ipynb" target="_blank">Cookbook: Prompt Caching Lab Notebook</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=Bw6_aKpQnVg" target="_blank">Reduce Claude API Costs with Prompt Caching (Fireship)</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/news/prompt-caching" target="_blank">Anthropic Blog: Introducing Prompt Caching</a></div>
+      </div>
+    </div>
+
+    <!-- Day 7 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">7</div>
+        <div class="day-meta">
+          <div class="day-title">Week 1 Review + Mini-Project</div>
+          <div class="day-duration">⏱ 3 hrs · Project Day</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Project</p>
+          <ul class="topic-list">
+            <li>Build a CLI-based Q&A assistant with system prompt</li>
+            <li>Implement conversation history management</li>
+            <li>Add prompt caching for repeated context</li>
+            <li>Test with 200K context window document</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/patterns/claude_as_an_agent/building_effective_agents.ipynb" target="_blank">Cookbook: Building Effective Agents Pattern</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/courses/tree/master/claude_api_fundamentals" target="_blank">anthropics/courses — Claude API Fundamentals</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=T_qmSzYJJW4" target="_blank">Build a Claude Chatbot from Scratch — Python Tutorial</a></div>
+        <div class="resource-item"><span class="tag tag-wiki">WIKI</span><a href="https://docs.anthropic.com/en/docs/about-claude/models" target="_blank">Claude Models Overview — All Available Models</a></div>
+      </div>
+    </div>
+
+  </div><!-- /days-grid w1 -->
+
+  <div class="milestone">
+    <span class="milestone-icon">🎯</span>
+    <div class="milestone-text">
+      <h3>Week 1 Milestone — Foundation Complete</h3>
+      <p>You can set up the API, write effective prompts, manage context, and build a basic Claude app. Ready for core capabilities.</p>
+    </div>
+  </div>
+
+  <!-- ════════════ WEEK 2 ════════════ -->
+  <div class="week-header w2">
+    <span class="week-badge">Week 2</span>
+    <span class="week-title">Core Capabilities & Integrations</span>
+    <span class="week-desc">Days 8–14 · Tool Use · Vision · RAG · Embeddings</span>
+  </div>
+
+  <div class="days-grid w2">
+
+    <!-- Day 8 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">8</div>
+        <div class="day-meta">
+          <div class="day-title">Tool Use & Function Calling</div>
+          <div class="day-duration">⏱ 3 hrs · Key Feature</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Tool use architecture in Claude (JSON schema definition)</li>
+            <li>Parallel tool use & multi-tool orchestration</li>
+            <li>Error handling in tool execution loops</li>
+            <li>Building a calculator / weather tool example</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/build-with-claude/tool-use" target="_blank">Tool Use Overview — Anthropic Docs</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=YnNqMYl4IB0" target="_blank">Claude Tool Use / Function Calling — Full Tutorial</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/tool_use/calculator_tool.ipynb" target="_blank">Cookbook: Calculator Tool Use Notebook</a></div>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/tool_use/multiple_tools.ipynb" target="_blank">Lab: Multiple Tools in a Single Turn</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://docs.anthropic.com/en/docs/build-with-claude/tool-use/implement-tool-use" target="_blank">Implementing Tool Use — Step-by-step Guide</a></div>
+      </div>
+    </div>
+
+    <!-- Day 9 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">9</div>
+        <div class="day-meta">
+          <div class="day-title">Vision & Multimodal Capabilities</div>
+          <div class="day-duration">⏱ 2.5 hrs · Multimodal</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Image input formats (base64, URL)</li>
+            <li>Document analysis (PDF, charts, diagrams)</li>
+            <li>Vision use cases: OCR, data extraction, UI analysis</li>
+            <li>Multiple image handling strategies</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/build-with-claude/vision" target="_blank">Vision Guide — Anthropic Docs</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/multimodal/best_practices_for_vision.ipynb" target="_blank">Cookbook: Vision Best Practices Notebook</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=Ks-_Mh1QhMc" target="_blank">Multimodal AI with Claude — Build Vision Apps</a></div>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/multimodal/reading_charts_graphs_powerpoints.ipynb" target="_blank">Lab: Reading Charts, Graphs & PowerPoints</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://docs.anthropic.com/en/docs/build-with-claude/files" target="_blank">Files API — Working with Documents</a></div>
+      </div>
+    </div>
+
+    <!-- Day 10 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">10</div>
+        <div class="day-meta">
+          <div class="day-title">Document Processing & Data Extraction</div>
+          <div class="day-duration">⏱ 2.5 hrs · Practical</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>PDF & document analysis pipelines</li>
+            <li>Structured data extraction (tables, forms, invoices)</li>
+            <li>Entity extraction & named entity recognition</li>
+            <li>Document summarization at scale</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/multimodal/pdf_extraction_structured_outputs.ipynb" target="_blank">Cookbook: PDF Extraction & Structured Outputs</a></div>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/build-with-claude/pdf-support" target="_blank">PDF Support — Anthropic Docs</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=5BLRX9bNKHk" target="_blank">Document Intelligence with Claude — Data Extraction Tutorial</a></div>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/misc/extract_structured_json.ipynb" target="_blank">Lab: Extract Structured JSON from Documents</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/research/extracting-structured-data-from-pdfs" target="_blank">Anthropic: Extracting Structured Data from PDFs</a></div>
+      </div>
+    </div>
+
+    <!-- Day 11 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">11</div>
+        <div class="day-meta">
+          <div class="day-title">Code Generation, Review & Debugging</div>
+          <div class="day-duration">⏱ 3 hrs · Developer</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Code generation patterns & best practices</li>
+            <li>Automated code review & security analysis</li>
+            <li>Test generation strategies</li>
+            <li>Building a code assistant application</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/misc/code_execution_in_claude.ipynb" target="_blank">Cookbook: Code Execution with Claude</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=PI8jGKt5A0I" target="_blank">Build an AI Code Reviewer with Claude API</a></div>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/about-claude/models/model-deprecations" target="_blank">Model Selection for Coding Tasks</a></div>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/tool_use/computer_use_demo/" target="_blank">Cookbook: Computer Use Demo (Advanced)</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/news/claude-computer-use" target="_blank">Anthropic Blog: Claude Computer Use Announcement</a></div>
+      </div>
+    </div>
+
+    <!-- Day 12 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">12</div>
+        <div class="day-meta">
+          <div class="day-title">RAG — Retrieval Augmented Generation</div>
+          <div class="day-duration">⏱ 3 hrs · Architecture</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>RAG fundamentals & architecture patterns</li>
+            <li>Chunking strategies for optimal retrieval</li>
+            <li>Reranking & hybrid search</li>
+            <li>Building a RAG pipeline with Claude</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/third_party/Amazon_Bedrock/Claude_with_Amazon_Bedrock_Knowledge_Bases.ipynb" target="_blank">Cookbook: RAG with Amazon Bedrock Knowledge Bases</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=T-D1OfcDW1M" target="_blank">RAG from Scratch — Full Tutorial (LangChain)</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/courses/tree/master/rag_and_retrieval" target="_blank">anthropics/courses — RAG and Retrieval Course</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/research/long-context-rag" target="_blank">Anthropic Research: Long Context RAG Patterns</a></div>
+        <div class="resource-item"><span class="tag tag-wiki">WIKI</span><a href="https://learnprompting.org/docs/advanced/rag" target="_blank">LearnPrompting.org — RAG Complete Guide</a></div>
+      </div>
+    </div>
+
+    <!-- Day 13 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">13</div>
+        <div class="day-meta">
+          <div class="day-title">Embeddings & Vector Databases</div>
+          <div class="day-duration">⏱ 2.5 hrs · Data Layer</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Embedding models: Voyage AI (Anthropic's choice)</li>
+            <li>Vector database selection: Pinecone, Chroma, pgvector</li>
+            <li>Semantic search implementation</li>
+            <li>Hybrid search: BM25 + semantic</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/build-with-claude/embeddings" target="_blank">Embeddings Guide — Anthropic Docs (Voyage AI)</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/third_party/Chroma/chroma_and_claude.ipynb" target="_blank">Cookbook: Chroma Vector DB with Claude</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=ySus5ZS0b94" target="_blank">Vector Databases Explained — Pinecone</a></div>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/third_party/Pinecone/rag_using_pinecone.ipynb" target="_blank">Lab: RAG using Pinecone + Claude</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/news/voyage-embeddings" target="_blank">Voyage AI Embeddings — Anthropic Partnership</a></div>
+      </div>
+    </div>
+
+    <!-- Day 14 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">14</div>
+        <div class="day-meta">
+          <div class="day-title">Week 2 Project — Intelligent Document Q&A</div>
+          <div class="day-duration">⏱ 3 hrs · Project Day</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Project</p>
+          <ul class="topic-list">
+            <li>End-to-end RAG system with Chroma + Claude</li>
+            <li>PDF ingestion, chunking & embedding pipeline</li>
+            <li>Semantic search interface with tool use</li>
+            <li>Multi-document comparison feature</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/third_party/Weaviate/qa-with-weaviate-and-claude.ipynb" target="_blank">Lab: Complete Q&A with Weaviate + Claude</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/misc/summarization.ipynb" target="_blank">Cookbook: Multi-Document Summarization</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=tcqEUSNCn8I" target="_blank">Build a Full RAG App with Claude — Step by Step</a></div>
+      </div>
+    </div>
+
+  </div><!-- /days-grid w2 -->
+
+  <div class="milestone">
+    <span class="milestone-icon">🚀</span>
+    <div class="milestone-text">
+      <h3>Week 2 Milestone — Core Capabilities Mastered</h3>
+      <p>You can build multimodal apps, implement tool use, create RAG pipelines, and work with vector databases. Ready for agent architecture.</p>
+    </div>
+  </div>
+
+  <!-- ════════════ WEEK 3 ════════════ -->
+  <div class="week-header w3">
+    <span class="week-badge">Week 3</span>
+    <span class="week-title">Agentic Systems & Cloud Deployment</span>
+    <span class="week-desc">Days 15–21 · Agents · LangChain · AWS · GCP</span>
+  </div>
+
+  <div class="days-grid w3">
+
+    <!-- Day 15 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">15</div>
+        <div class="day-meta">
+          <div class="day-title">Agent Architecture Fundamentals</div>
+          <div class="day-duration">⏱ 3 hrs · Core Concept</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>What makes an AI Agent? Perception-Reasoning-Action loop</li>
+            <li>Anthropic's agentic patterns: Workflows vs Agents</li>
+            <li>Orchestrator vs Subagent patterns</li>
+            <li>Human-in-the-loop checkpoints</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/research/building-effective-agents" target="_blank">Anthropic: Building Effective Agents (Must Read)</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/tree/main/patterns/claude_as_an_agent" target="_blank">Cookbook: Claude as an Agent Patterns</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=aHCDrAbH_go" target="_blank">AI Agents Explained — Anthropic Architecture Talk</a></div>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/build-with-claude/agents-and-tools/agents-overview" target="_blank">Agents Overview — Anthropic Docs</a></div>
+        <div class="resource-item"><span class="tag tag-wiki">WIKI</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/patterns/claude_as_an_agent/building_effective_agents.ipynb" target="_blank">Cookbook Wiki: Effective Agent Patterns Notebook</a></div>
+      </div>
+    </div>
+
+    <!-- Day 16 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">16</div>
+        <div class="day-meta">
+          <div class="day-title">Multi-Agent Systems & MCP</div>
+          <div class="day-duration">⏱ 3 hrs · Advanced</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Model Context Protocol (MCP) — architecture & design</li>
+            <li>MCP servers: tools, resources, prompts</li>
+            <li>Multi-agent coordination patterns</li>
+            <li>Building a custom MCP server</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://modelcontextprotocol.io/introduction" target="_blank">Model Context Protocol — Official Docs</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/modelcontextprotocol/servers" target="_blank">modelcontextprotocol/servers — Official MCP Servers</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=5K6WpJJUk0s" target="_blank">MCP Explained — Build Your Own MCP Server (Fireship)</a></div>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/modelcontextprotocol/python-sdk" target="_blank">MCP Python SDK — Build Custom Server Lab</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/news/model-context-protocol" target="_blank">Anthropic Blog: Introducing MCP</a></div>
+      </div>
+    </div>
+
+    <!-- Day 17 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">17</div>
+        <div class="day-meta">
+          <div class="day-title">Agentic Workflows — Practical Patterns</div>
+          <div class="day-duration">⏱ 3 hrs · Patterns</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Prompt chaining workflow pattern</li>
+            <li>Parallelization & fan-out/fan-in</li>
+            <li>Routing & dispatcher patterns</li>
+            <li>Evaluator-optimizer loops</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/patterns/claude_as_an_agent/claude_orchestrator_subagent.ipynb" target="_blank">Cookbook: Orchestrator-Subagent Pattern</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/patterns/claude_as_an_agent/parallelization_agent.ipynb" target="_blank">Cookbook: Parallelization Agent Pattern</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=aqTlFSCLTgA" target="_blank">Agentic AI Workflows — Andrew Ng (DeepLearning.AI)</a></div>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/patterns/claude_as_an_agent/routing_classifier.ipynb" target="_blank">Lab: Routing Classifier Agent</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.deeplearning.ai/the-batch/how-agents-can-improve-llm-performance/" target="_blank">DeepLearning.AI: How Agents Improve LLM Performance</a></div>
+      </div>
+    </div>
+
+    <!-- Day 18 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">18</div>
+        <div class="day-meta">
+          <div class="day-title">LangChain, LangGraph & Claude</div>
+          <div class="day-duration">⏱ 3 hrs · Framework</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>LangChain with Claude (ChatAnthropic)</li>
+            <li>LangGraph for stateful multi-actor agents</li>
+            <li>LangSmith for tracing & evaluation</li>
+            <li>LCEL — LangChain Expression Language</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://python.langchain.com/docs/integrations/chat/anthropic/" target="_blank">LangChain + Anthropic Integration Docs</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/langchain-ai/langgraph" target="_blank">langchain-ai/langgraph — Official LangGraph Repo</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=jGg5JMpHquo" target="_blank">LangGraph Full Course — Build Stateful Agents</a></div>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/langchain-ai/langgraph/tree/main/examples" target="_blank">LangGraph Examples — Multi-Agent Labs</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://blog.langchain.dev/langgraph/" target="_blank">LangChain Blog: Introducing LangGraph</a></div>
+      </div>
+    </div>
+
+    <!-- Day 19 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">19</div>
+        <div class="day-meta">
+          <div class="day-title">Claude on AWS Bedrock</div>
+          <div class="day-duration">⏱ 2.5 hrs · Cloud</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Amazon Bedrock setup & Claude models available</li>
+            <li>Bedrock Agents & Knowledge Bases</li>
+            <li>Guardrails for responsible AI</li>
+            <li>Cross-region inference & latency optimization</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html" target="_blank">AWS Bedrock Official Docs — What is Bedrock</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/tree/main/third_party/Amazon_Bedrock" target="_blank">Cookbook: Claude on Amazon Bedrock Examples</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=ab1mbj0acDo" target="_blank">Amazon Bedrock with Claude — AWS Tutorial</a></div>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/aws-samples/amazon-bedrock-samples" target="_blank">aws-samples/amazon-bedrock-samples — Official Labs</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://aws.amazon.com/blogs/machine-learning/build-agents-using-anthropic-claude-on-amazon-bedrock/" target="_blank">AWS Blog: Build Agents with Claude on Bedrock</a></div>
+      </div>
+    </div>
+
+    <!-- Day 20 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">20</div>
+        <div class="day-meta">
+          <div class="day-title">Claude on Google Cloud Vertex AI</div>
+          <div class="day-duration">⏱ 2.5 hrs · Cloud</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Vertex AI Model Garden — Claude setup</li>
+            <li>Vertex AI Pipelines for batch inference</li>
+            <li>grounding with Google Search integration</li>
+            <li>Comparing Bedrock vs Vertex AI for Claude</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-claude" target="_blank">Vertex AI — Use Claude Models (Google Docs)</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/tree/main/third_party/Google_Vertex_AI_Model_Garden" target="_blank">Cookbook: Claude on Vertex AI Examples</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=6aYd2EYqkpU" target="_blank">Deploy Claude on Google Cloud Vertex AI Tutorial</a></div>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/GoogleCloudPlatform/generative-ai/tree/main/language/use-cases" target="_blank">GoogleCloudPlatform/generative-ai — Claude Labs</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://cloud.google.com/blog/products/ai-machine-learning/anthropic-claude-3-models-on-vertex-ai" target="_blank">Google Blog: Claude 3 on Vertex AI</a></div>
+      </div>
+    </div>
+
+    <!-- Day 21 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">21</div>
+        <div class="day-meta">
+          <div class="day-title">Week 3 Project — Autonomous Research Agent</div>
+          <div class="day-duration">⏱ 4 hrs · Capstone</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Project</p>
+          <ul class="topic-list">
+            <li>Multi-agent research system using LangGraph</li>
+            <li>Web search tool + document retrieval + synthesis</li>
+            <li>Deploy to AWS Lambda / Google Cloud Run</li>
+            <li>Add guardrails & human approval checkpoints</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/patterns/claude_as_an_agent/research_assistant.ipynb" target="_blank">Cookbook: Research Assistant Agent Lab</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/langchain-ai/langgraph/blob/main/examples/multi_agent/multi-agent-collaboration.ipynb" target="_blank">LangGraph: Multi-Agent Collaboration Example</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=hvAPnpSfSGo" target="_blank">Deploy LLM App on AWS Lambda — Full Guide</a></div>
+      </div>
+    </div>
+
+  </div><!-- /days-grid w3 -->
+
+  <div class="milestone">
+    <span class="milestone-icon">🏗</span>
+    <div class="milestone-text">
+      <h3>Week 3 Milestone — Architect-Level Skills Developing</h3>
+      <p>You can design and deploy multi-agent systems, work with MCP, and run Claude on AWS Bedrock and Google Vertex AI.</p>
+    </div>
+  </div>
+
+  <!-- ════════════ WEEK 4 ════════════ -->
+  <div class="week-header w4">
+    <span class="week-badge">Week 4</span>
+    <span class="week-title">Production, Safety & Certification Prep</span>
+    <span class="week-desc">Days 22–30 · Security · Optimization · Mock Exams</span>
+  </div>
+
+  <div class="days-grid w4">
+
+    <!-- Day 22 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">22</div>
+        <div class="day-meta">
+          <div class="day-title">AI Safety, Ethics & Constitutional AI</div>
+          <div class="day-duration">⏱ 2.5 hrs · Responsible AI</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Constitutional AI (CAI) — how Claude is trained</li>
+            <li>Harmlessness, helpfulness, honesty (HHH framework)</li>
+            <li>Jailbreak prevention & prompt injection defense</li>
+            <li>Content moderation pipelines</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback" target="_blank">Anthropic Research: Constitutional AI Paper</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=0gNauGdOkro" target="_blank">Constitutional AI Explained — Anthropic Researchers</a></div>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/about-claude/claude-code-of-conduct" target="_blank">Claude Code of Conduct & Usage Policy</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/misc/guardrails.ipynb" target="_blank">Cookbook: Guardrails Implementation Patterns</a></div>
+        <div class="resource-item"><span class="tag tag-wiki">WIKI</span><a href="https://www.anthropic.com/responsible-scaling-policy" target="_blank">Anthropic Responsible Scaling Policy (RSP)</a></div>
+      </div>
+    </div>
+
+    <!-- Day 23 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">23</div>
+        <div class="day-meta">
+          <div class="day-title">Security, Prompt Injection & Red Teaming</div>
+          <div class="day-duration">⏱ 2.5 hrs · Security</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Prompt injection attacks & mitigation strategies</li>
+            <li>LLM OWASP Top 10 vulnerabilities</li>
+            <li>Red teaming AI applications</li>
+            <li>Input/output validation & content filtering</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-wiki">WIKI</span><a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank">OWASP Top 10 for LLM Applications</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/misc/prompt_injection_defense.ipynb" target="_blank">Cookbook: Prompt Injection Defense</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=janL_aN9Hbk" target="_blank">LLM Security — Prompt Injection & Defense Strategies</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/research/red-teaming-language-models-to-reduce-harms" target="_blank">Anthropic: Red Teaming Language Models</a></div>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/test-and-evaluate/red-teaming" target="_blank">Red Teaming Guide — Anthropic Docs</a></div>
+      </div>
+    </div>
+
+    <!-- Day 24 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">24</div>
+        <div class="day-meta">
+          <div class="day-title">Production Deployment & MLOps</div>
+          <div class="day-duration">⏱ 3 hrs · Production</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Production architecture: load balancing, caching, fallback</li>
+            <li>Observability: logging, tracing (LangSmith, Helicone)</li>
+            <li>CI/CD for LLM applications</li>
+            <li>Containerizing Claude apps (Docker + K8s)</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.smith.langchain.com/" target="_blank">LangSmith Docs — LLM Observability Platform</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/Helicone/helicone" target="_blank">Helicone/helicone — Open-Source LLM Observability</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=nP2Oby4QEKY" target="_blank">LLM Production Deployment Best Practices</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://docs.anthropic.com/en/api/rate-limits" target="_blank">API Rate Limits & Production Scaling Guide</a></div>
+        <div class="resource-item"><span class="tag tag-wiki">WIKI</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/patterns/claude_as_an_agent/production_considerations.md" target="_blank">Cookbook: Production Considerations Wiki</a></div>
+      </div>
+    </div>
+
+    <!-- Day 25 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">25</div>
+        <div class="day-meta">
+          <div class="day-title">Evaluation, Testing & Quality Assurance</div>
+          <div class="day-duration">⏱ 2.5 hrs · Quality</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>LLM evaluation frameworks (RAGAS, DeepEval)</li>
+            <li>Anthropic's model grading approach</li>
+            <li>A/B testing prompts & model versions</li>
+            <li>Automated regression testing for LLM apps</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/test-and-evaluate/eval-tool" target="_blank">Claude Evaluation Tool — Anthropic Docs</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/explodinggradients/ragas" target="_blank">explodinggradients/ragas — RAG Evaluation Framework</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/confident-ai/deepeval" target="_blank">confident-ai/deepeval — LLM Evaluation Framework</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=PCkGFPCgQZY" target="_blank">How to Evaluate LLM Applications — Full Guide</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/research/scaling-guidelines-for-evaluation" target="_blank">Anthropic: Scaling Guidelines for Evaluation</a></div>
+      </div>
+    </div>
+
+    <!-- Day 26 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">26</div>
+        <div class="day-meta">
+          <div class="day-title">Enterprise Integration Patterns</div>
+          <div class="day-duration">⏱ 3 hrs · Enterprise</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Claude for Enterprise — admin console, SSO</li>
+            <li>Data privacy, GDPR compliance & PII handling</li>
+            <li>Integration with SharePoint, Salesforce, ServiceNow</li>
+            <li>Custom model deployment patterns</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/claude-for-enterprise" target="_blank">Claude for Enterprise — Anthropic Docs</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=Q0a84SfNl5M" target="_blank">Enterprise AI Integration — Architecture Deep Dive</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/news/claude-for-enterprise" target="_blank">Anthropic Blog: Claude for Enterprise Launch</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/misc/pii_handling.ipynb" target="_blank">Cookbook: PII Handling & Data Privacy</a></div>
+        <div class="resource-item"><span class="tag tag-wiki">WIKI</span><a href="https://www.anthropic.com/privacy" target="_blank">Anthropic Privacy & Data Processing Policy</a></div>
+      </div>
+    </div>
+
+    <!-- Day 27 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">27</div>
+        <div class="day-meta">
+          <div class="day-title">Real-World Case Studies & Architecture Review</div>
+          <div class="day-duration">⏱ 3 hrs · Case Studies</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Claude in production: Notion, Slack, GitHub Copilot</li>
+            <li>Architecture diagrams: 5 common Claude app patterns</li>
+            <li>Cost analysis & ROI frameworks</li>
+            <li>Lessons from failed AI deployments</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/customers" target="_blank">Anthropic Customer Stories & Case Studies</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=5C_HPTJg5ek" target="_blank">Real-World AI Architecture Case Studies Panel</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/research/efficient-training" target="_blank">Anthropic Research: Efficient Training & Deployment</a></div>
+        <div class="resource-item"><span class="tag tag-wiki">WIKI</span><a href="https://aws.amazon.com/architecture/ai-ml/" target="_blank">AWS AI/ML Architecture Center — Reference Architectures</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/tree/main/patterns" target="_blank">Cookbook: All Production Patterns</a></div>
+      </div>
+    </div>
+
+    <!-- Day 28 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">28</div>
+        <div class="day-meta">
+          <div class="day-title">Capstone Project — End-to-End AI System</div>
+          <div class="day-duration">⏱ 4 hrs · Capstone</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Project</p>
+          <ul class="topic-list">
+            <li>Enterprise-grade multi-agent workflow system</li>
+            <li>RAG + Tool Use + Vision + MCP integration</li>
+            <li>Full observability with LangSmith</li>
+            <li>Deploy to cloud with CI/CD pipeline</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/anthropics/anthropic-cookbook/blob/main/patterns/claude_as_an_agent/enterprise_agent.ipynb" target="_blank">Cookbook: Enterprise Agent Architecture Lab</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/langchain-ai/langgraph/tree/main/examples/customer-support" target="_blank">LangGraph: Customer Support Agent (Complete Example)</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=oCem1RCTrEE" target="_blank">Build a Production-Ready AI App — Full Stack Tutorial</a></div>
+      </div>
+    </div>
+
+    <!-- Day 29 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">29</div>
+        <div class="day-meta">
+          <div class="day-title">Mock Exam & Knowledge Gaps Review</div>
+          <div class="day-duration">⏱ 3 hrs · Exam Prep</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Anthropic Academy exam-style questions</li>
+            <li>Architecture scenario walkthroughs</li>
+            <li>API & SDK deep-dive Q&A</li>
+            <li>Identify & close knowledge gaps</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/overview" target="_blank">Full Anthropic Docs — Comprehensive Review</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/courses" target="_blank">anthropics/courses — All Official Courses Review</a></div>
+        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/c/Anthropic" target="_blank">Anthropic Official YouTube Channel — All Talks</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/research" target="_blank">Anthropic Research Hub — All Papers</a></div>
+        <div class="resource-item"><span class="tag tag-wiki">WIKI</span><a href="https://docs.anthropic.com/en/docs/resources/glossary" target="_blank">Anthropic Glossary — Key Terms Reference</a></div>
+      </div>
+    </div>
+
+    <!-- Day 30 -->
+    <div class="day-card">
+      <div class="day-card-header">
+        <div class="day-num">30</div>
+        <div class="day-meta">
+          <div class="day-title">Final Review & Certification Readiness</div>
+          <div class="day-duration">⏱ 2 hrs · Certification Day</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-topics">
+          <p>Topics</p>
+          <ul class="topic-list">
+            <li>Anthropic Academy — Claude certification exam</li>
+            <li>Portfolio: publish projects to GitHub</li>
+            <li>LinkedIn badge & professional profile update</li>
+            <li>Community: join Anthropic Discord & forums</li>
+          </ul>
+        </div>
+        <p class="resources-label">Resources</p>
+        <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://anthropic.com/academy" target="_blank">Anthropic Academy — Official Certification Portal</a></div>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/resources/claude-in-the-wild" target="_blank">Claude in the Wild — Community Showcases</a></div>
+        <div class="resource-item"><span class="tag tag-wiki">WIKI</span><a href="https://github.com/anthropics" target="_blank">Anthropic GitHub Organization — All Public Repos</a></div>
+        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/news" target="_blank">Anthropic News — Stay Current Post-Certification</a></div>
+        <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook" target="_blank">Bookmark: Anthropic Cookbook for Future Reference</a></div>
+      </div>
+    </div>
+
+  </div><!-- /days-grid w4 -->
+
+  <div class="milestone">
+    <span class="milestone-icon">🏆</span>
+    <div class="milestone-text">
+      <h3>Day 30 — Claude AI Architect Certified!</h3>
+      <p>You have completed the 30-day plan covering foundations, core capabilities, agent architecture, cloud deployment, security, and production engineering.</p>
+    </div>
+  </div>
+
+  <!-- ════════════ TOOLS & ECOSYSTEM ════════════ -->
+  <div class="tools-section">
+    <h2>🛠 Essential Tools & Ecosystem</h2>
+    <div class="tools-grid">
+      <div class="tool-chip"><div class="dot" style="background:#4a9eff"></div>Anthropic Python SDK</div>
+      <div class="tool-chip"><div class="dot" style="background:#3ecf8e"></div>Anthropic Node.js SDK</div>
+      <div class="tool-chip"><div class="dot" style="background:#a78bfa"></div>LangChain + LangGraph</div>
+      <div class="tool-chip"><div class="dot" style="background:#f5a623"></div>Model Context Protocol</div>
+      <div class="tool-chip"><div class="dot" style="background:#cc785c"></div>Amazon Bedrock</div>
+      <div class="tool-chip"><div class="dot" style="background:#4a9eff"></div>Google Vertex AI</div>
+      <div class="tool-chip"><div class="dot" style="background:#3ecf8e"></div>Voyage AI Embeddings</div>
+      <div class="tool-chip"><div class="dot" style="background:#ff4e45"></div>Chroma / Pinecone</div>
+      <div class="tool-chip"><div class="dot" style="background:#a78bfa"></div>LangSmith Tracing</div>
+      <div class="tool-chip"><div class="dot" style="background:#f5a623"></div>Helicone Observability</div>
+      <div class="tool-chip"><div class="dot" style="background:#cc785c"></div>RAGAS Evaluation</div>
+      <div class="tool-chip"><div class="dot" style="background:#4a9eff"></div>DeepEval Testing</div>
+      <div class="tool-chip"><div class="dot" style="background:#3ecf8e"></div>Docker + Kubernetes</div>
+      <div class="tool-chip"><div class="dot" style="background:#a78bfa"></div>GitHub Actions CI/CD</div>
+      <div class="tool-chip"><div class="dot" style="background:#f5a623"></div>Jupyter Notebooks</div>
+      <div class="tool-chip"><div class="dot" style="background:#ff4e45"></div>Anthropic Workbench</div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <p>📚 <strong>Claude AI Architect — 30-Day Study Plan</strong> &nbsp;|&nbsp; All resources are free & publicly available</p>
+  <p style="margin-top:8px">
+    <a href="https://docs.anthropic.com" target="_blank">Anthropic Docs</a> &nbsp;·&nbsp;
+    <a href="https://github.com/anthropics/anthropic-cookbook" target="_blank">Cookbook</a> &nbsp;·&nbsp;
+    <a href="https://github.com/anthropics/courses" target="_blank">Official Courses</a> &nbsp;·&nbsp;
+    <a href="https://modelcontextprotocol.io" target="_blank">MCP Docs</a> &nbsp;·&nbsp;
+    <a href="https://anthropic.com/academy" target="_blank">Anthropic Academy</a>
+  </p>
+  <p style="margin-top:8px; color:#555">Generated · May 2026 · GitHub Copilot</p>
+</footer>
+
+</body>
+</html>
