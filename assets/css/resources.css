@@ -188,6 +188,93 @@ body {
     border: 1px solid var(--resources-secondary-btn-border);
 }
 
+/* ── Architect Perspectives (writings) section ── */
+.writings-section {
+    margin-top: 1.4rem;
+}
+
+.writings-section h2 {
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.6rem;
+    margin-bottom: 0.4rem;
+    color: var(--resources-text-strong);
+}
+
+.writings-subtitle {
+    color: var(--resources-muted);
+    font-size: 0.97rem;
+    margin-bottom: 1rem;
+}
+
+.writings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.writing-card {
+    border-radius: 18px;
+    padding: 1.6rem;
+}
+
+/* Orange variant — Two Doors */
+.writing-card-orange {
+    background: linear-gradient(160deg, #ffffff 0%, #fff7f0 100%);
+    border-color: #fdd0ae;
+    box-shadow: 0 10px 28px rgba(194, 65, 12, 0.08);
+}
+
+:root.dark-theme .writing-card-orange {
+    background: linear-gradient(160deg, #1e1208 0%, #271608 100%);
+    border-color: #7c3310;
+}
+
+.writing-label-orange {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+:root.dark-theme .writing-label-orange {
+    background: rgba(194, 65, 12, 0.25);
+    color: #fb923c;
+}
+
+.btn-orange {
+    background: linear-gradient(130deg, #c2410c, #ea580c) !important;
+}
+
+/* Purple variant — Where the Gravity Lives */
+.writing-card-purple {
+    background: linear-gradient(160deg, #ffffff 0%, #f9f5ff 100%);
+    border-color: #ddd0ff;
+    box-shadow: 0 10px 28px rgba(110, 46, 232, 0.08);
+}
+
+:root.dark-theme .writing-card-purple {
+    background: linear-gradient(160deg, #120d22 0%, #16102a 100%);
+    border-color: #4a2e8a;
+}
+
+.writing-label-purple {
+    background: #f1ebfe;
+    color: #6e2ee8;
+}
+
+:root.dark-theme .writing-label-purple {
+    background: rgba(110, 46, 232, 0.25);
+    color: #c4b5fd;
+}
+
+.btn-purple {
+    background: linear-gradient(130deg, #6e2ee8, #9b6cf2) !important;
+}
+
+@media (max-width: 640px) {
+    .writings-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .resource-grid-wrap {
     margin-top: 1.8rem;
 }

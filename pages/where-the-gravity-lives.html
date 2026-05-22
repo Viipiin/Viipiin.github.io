@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where the Gravity Lives — An Architect's Guide to Canvas vs Model-Driven Power Apps</title>
+<meta name="description" content="An architect's field guide to choosing between Canvas and Model-Driven Power Apps. Decision framework, scenarios, trade-offs, and hybrid patterns.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3;
+    --paper-2:#FFFFFF;
+    --ink:#14131F;
+    --ink-soft:#2A2838;
+    --muted:#6B6779;
+    --rule:#E5E1D6;
+    --accent:#6E2EE8;
+    --accent-2:#9B6CF2;
+    --accent-soft:#F1EBFE;
+    --warm:#B45309;
+    --warm-soft:#FEF3C7;
+    --canvas:#2563EB;
+    --canvas-soft:#E0EBFF;
+    --model:#059669;
+    --model-soft:#D6F5E6;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,system-ui,Segoe UI,Roboto,sans-serif;
+    font-size:18px;
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:64px 28px 120px}
+
+  /* ---------- HERO ---------- */
+  header.hero{padding:32px 0 56px;border-bottom:1px solid var(--rule);margin-bottom:56px}
+  .eyebrow{
+    font-size:12px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:28px;display:flex;align-items:center;gap:12px;
+  }
+  .eyebrow .line{flex:0 0 36px;height:1px;background:var(--accent);opacity:0.6}
+  h1.title{
+    font-family:'Fraunces',Georgia,serif;
+    font-weight:500;
+    font-size:clamp(40px,7vw,72px);
+    line-height:1.02;
+    letter-spacing:-0.025em;
+    margin:0 0 28px;
+    font-variation-settings:"opsz" 144;
+  }
+  h1.title em{
+    font-style:italic;font-weight:400;
+    color:var(--accent);
+    font-variation-settings:"opsz" 144;
+  }
+  .subtitle{
+    font-family:'Fraunces',serif;
+    font-style:italic;font-weight:400;
+    font-size:clamp(20px,2.4vw,24px);
+    line-height:1.45;
+    color:var(--muted);
+    margin:0 0 36px;
+    max-width:620px;
+  }
+  .byline{
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    font-size:13px;color:var(--muted);
+    padding-top:8px;
+  }
+  .byline strong{color:var(--ink);font-weight:600}
+  .byline .dot{width:3px;height:3px;background:var(--muted);border-radius:50%}
+
+  /* ---------- LEDE ---------- */
+  .lede{
+    font-family:'Fraunces',serif;
+    font-size:clamp(21px,2.4vw,26px);
+    line-height:1.5;
+    color:var(--ink);
+    font-weight:400;
+    margin:0 0 56px;
+  }
+  .lede::first-letter{
+    font-family:'Fraunces',serif;
+    font-size:84px;
+    float:left;
+    line-height:0.82;
+    padding:6px 14px 0 0;
+    font-weight:600;
+    color:var(--accent);
+  }
+
+  /* ---------- SECTIONS ---------- */
+  h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(28px,3.4vw,36px);
+    line-height:1.15;
+    letter-spacing:-0.015em;
+    margin:80px 0 24px;
+  }
+  h2 .num{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:11px;
+    letter-spacing:0.22em;
+    color:var(--accent);
+    display:block;
+    margin-bottom:10px;
+    text-transform:uppercase;
+  }
+  h3{
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:19px;
+    margin:40px 0 12px;
+    letter-spacing:-0.005em;
+  }
+  p{margin:0 0 20px}
+
+  /* ---------- PULLQUOTE ---------- */
+  .pullquote{
+    margin:56px -24px;
+    padding:40px 36px;
+    background:linear-gradient(135deg,var(--accent-soft) 0%,#F8F4FF 100%);
+    border-left:4px solid var(--accent);
+    border-radius:6px;
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:clamp(20px,2.4vw,26px);
+    line-height:1.45;
+    color:var(--ink);
+  }
+  .pullquote strong{font-style:normal;font-weight:700;color:var(--accent)}
+  .pullquote .small{
+    display:block;margin-top:18px;
+    font-family:'Inter',sans-serif;
+    font-style:normal;font-size:13px;
+    letter-spacing:0.16em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;
+  }
+
+  /* ---------- TABLE ---------- */
+  .tablewrap{margin:28px -8px;overflow-x:auto}
+  table.matrix{
+    width:100%;border-collapse:collapse;
+    font-size:15px;background:var(--paper-2);
+    border-radius:10px;overflow:hidden;
+    box-shadow:0 1px 0 rgba(20,19,31,0.04);
+  }
+  table.matrix th,table.matrix td{
+    text-align:left;padding:16px 14px;
+    border-bottom:1px solid var(--rule);
+    vertical-align:top;
+  }
+  table.matrix th{
+    font-weight:600;
+    background:#FBFAF6;
+    font-size:11px;text-transform:uppercase;letter-spacing:0.1em;
+    color:var(--muted);
+  }
+  table.matrix tr:last-child td{border-bottom:none}
+  table.matrix td.axis{font-weight:600;color:var(--ink);width:30%}
+  table.matrix td .lean-c{color:var(--canvas);font-weight:600}
+  table.matrix td .lean-m{color:var(--model);font-weight:600}
+  .axis-num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:22px;height:22px;border-radius:50%;
+    background:var(--accent);color:#fff;
+    font-weight:700;font-size:11px;
+    margin-right:10px;flex-shrink:0;
+  }
+
+  /* ---------- CARDS ---------- */
+  .cards{display:grid;gap:18px;margin:28px 0 36px}
+  @media(min-width:640px){.cards{grid-template-columns:1fr 1fr}}
+  .card{
+    padding:22px 22px 18px;
+    border:1px solid var(--rule);
+    border-radius:12px;
+    background:var(--paper-2);
+    transition:transform 0.15s ease,box-shadow 0.15s ease;
+  }
+  .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(20,19,31,0.06)}
+  .card.canvas{border-top:3px solid var(--canvas)}
+  .card.model{border-top:3px solid var(--model)}
+  .card h4{
+    margin:0 0 8px;font-size:16px;font-weight:700;
+    font-family:'Inter',sans-serif;letter-spacing:-0.005em;
+  }
+  .card p{font-size:14.5px;color:var(--muted);margin:0;line-height:1.6}
+  .tag{
+    display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:0.12em;
+    text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-bottom:12px;
+  }
+  .card.canvas .tag{background:var(--canvas-soft);color:var(--canvas)}
+  .card.model .tag{background:var(--model-soft);color:var(--model)}
+
+  /* ---------- CALLOUT ---------- */
+  .callout{
+    margin:36px 0;
+    padding:22px 26px;
+    border-radius:12px;
+    background:var(--warm-soft);
+    border-left:3px solid var(--warm);
+    font-size:16px;line-height:1.65;
+  }
+  .callout .label{
+    display:inline-block;
+    font-size:11px;font-weight:700;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--warm);
+    margin-bottom:6px;
+  }
+
+  /* ---------- LISTS ---------- */
+  ul.fancy{padding-left:0;list-style:none;margin:24px 0 32px}
+  ul.fancy li{
+    padding:14px 0 14px 30px;
+    position:relative;
+    border-bottom:1px solid var(--rule);
+    line-height:1.55;
+  }
+  ul.fancy li:last-child{border-bottom:none}
+  ul.fancy li::before{
+    content:"";
+    position:absolute;left:0;top:22px;
+    width:14px;height:1px;background:var(--accent);
+  }
+  ul.fancy li strong{color:var(--ink)}
+
+  /* ---------- CLOSING ---------- */
+  .closing{
+    margin:96px 0 0;
+    padding:56px 0 0;
+    border-top:1px solid var(--rule);
+    font-family:'Fraunces',serif;
+    font-size:clamp(20px,2.3vw,24px);
+    line-height:1.5;
+    font-style:italic;
+    color:var(--muted);
+  }
+  .closing strong{color:var(--ink);font-style:normal;font-weight:600}
+  .closing-sig{
+    margin-top:32px;font-family:'Inter',sans-serif;
+    font-size:13px;letter-spacing:0.16em;text-transform:uppercase;
+    color:var(--accent);font-weight:700;font-style:normal;
+  }
+
+  footer.foot{
+    margin-top:80px;padding-top:28px;
+    border-top:1px solid var(--rule);
+    font-size:13px;color:var(--muted);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  }
+
+  /* ---------- INLINE ---------- */
+  code{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.86em;
+    background:rgba(110,46,232,0.07);
+    padding:2px 7px;border-radius:5px;
+    color:var(--accent);
+  }
+  strong{font-weight:700;color:var(--ink)}
+  em{color:var(--ink-soft)}
+  a{color:var(--accent);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+
+  /* ---------- ORNAMENT ---------- */
+  .ornament{
+    text-align:center;
+    color:var(--rule);
+    font-size:18px;letter-spacing:1em;
+    margin:64px 0;user-select:none;
+  }
+
+  @media (max-width:600px){
+    .wrap{padding:40px 22px 90px}
+    .pullquote{margin-left:-8px;margin-right:-8px;padding:28px 24px}
+  }
+</style>
+</head>
+<body>
+<article class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow"><span class="line"></span>Power Platform · Architecture</div>
+    <h1 class="title">Where the <em>Gravity</em><br>Lives</h1>
+    <p class="subtitle">An architect's field guide to choosing between Canvas and Model-Driven Power Apps — because the right answer is rarely <em>which one</em>, it's <em>which one where</em>.</p>
+    <div class="byline">
+      <span><strong>For the architect's desk</strong></span>
+      <span class="dot"></span>
+      <span>A 10-minute read</span>
+      <span class="dot"></span>
+      <span>Edition 2026</span>
+    </div>
+  </header>
+
+  <p class="lede">Every Power Platform engagement begins the same way. A stakeholder describes a problem. A maker proposes an app. And before any data model, security boundary, or integration line is drawn, someone in the room asks the question that quietly defines the next eighteen months: <strong>Canvas, or Model-Driven?</strong></p>
+
+  <p>Treated as a UI choice, it's a trivia question. Treated as an architecture choice — which is what it actually is — it determines the shape of your solution: what scales cleanly, what ages well, what your governance team approves on the first pass, and what costs you a rebuild in year two.</p>
+
+  <p>This is the framework I bring to that decision, distilled from real enterprise engagements where the wrong call cost time, license budget, or the user trust that's hardest to rebuild.</p>
+
+  <aside class="pullquote">
+    <strong>Model-Driven</strong> when the <em>data model</em> is the application.<br>
+    <strong>Canvas</strong> when the <em>experience</em> is the application.
+    <span class="small">— The one sentence to remember</span>
+  </aside>
+
+  <h2><span class="num">Section One</span>The Gravity Principle</h2>
+
+  <p>Every solution has a center of gravity. In some, it's the data: a relational schema with rules, roles, and a lifecycle that the business already knows by name — <em>Lead, Opportunity, Case, Order</em>. The app is a window onto that model. In others, it's the experience: an inspector's gloved hands on a tablet at -10°C, an executive flicking through a status portal at 6 a.m., a kiosk in a factory canteen. The data is plumbing; the <em>interaction</em> is the product.</p>
+
+  <p>Pick the wrong center, and you'll spend the next year fighting your platform — hand-building views that Model-Driven would have generated, or jamming a customer-service workflow into Canvas screens that should have been a Business Process Flow.</p>
+
+  <h2><span class="num">Section Two</span>The Five-Axis Framework</h2>
+
+  <p>I do not begin by listing features. I begin with five axes — five questions about the solution, not the platform. If three or more lean one way, the decision is made. If they split evenly, axis one and axis three break the tie.</p>
+
+  <div class="tablewrap">
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th style="width:30%">Axis</th>
+        <th>Lean Model-Driven</th>
+        <th>Lean Canvas</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="axis"><span class="axis-num">1</span>Data Gravity</td>
+        <td><span class="lean-m">Single source of truth in Dataverse.</span> Normalized relational model. Many tables, many relationships.</td>
+        <td><span class="lean-c">Multiple sources</span> — SharePoint, SQL, SAP, REST, Excel — or the data is secondary to the workflow.</td>
+      </tr>
+      <tr>
+        <td class="axis"><span class="axis-num">2</span>UX Requirement</td>
+        <td><span class="lean-m">Standardized CRUD UX is acceptable.</span> Consistency &gt; pixel-perfection.</td>
+        <td><span class="lean-c">Brand-aligned, pixel-perfect</span>, custom interactions, gamified, kiosk-style, or signage.</td>
+      </tr>
+      <tr>
+        <td class="axis"><span class="axis-num">3</span>User Persona</td>
+        <td><span class="lean-m">Internal LOB users</span> living in the app daily. Need role-based views, queues, hierarchies.</td>
+        <td><span class="lean-c">Field workers, frontline, citizens</span>, external partners, occasional users, mobile-first.</td>
+      </tr>
+      <tr>
+        <td class="axis"><span class="axis-num">4</span>Process Maturity</td>
+        <td><span class="lean-m">Repeatable end-to-end processes</span> with stages, approvals, SLA, queues, escalations.</td>
+        <td><span class="lean-c">Task-level workflows</span>, ad-hoc capture, single-purpose forms, inspection, request submission.</td>
+      </tr>
+      <tr>
+        <td class="axis"><span class="axis-num">5</span>Governance &amp; Scale</td>
+        <td><span class="lean-m">High.</span> RBAC, audit, hierarchical security, large record volumes, solution-led ALM.</td>
+        <td><span class="lean-c">Moderate.</span> Smaller teams, faster iteration, app-per-task, lighter governance footprint.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>This framework matters because the question feels visual but the answer is structural. A maker chooses what looks easier. An architect chooses what stays right at scale.</p>
+
+  <h2><span class="num">Section Three</span>When Model-Driven Wins</h2>
+
+  <p>Model-Driven shines when your application is, fundamentally, the user interface of a business process that already exists on paper, in a spreadsheet, or in the heads of senior operators.</p>
+
+  <div class="cards">
+    <div class="card model">
+      <span class="tag">Model-Driven</span>
+      <h4>Sales Pipeline Management</h4>
+      <p>Leads → Opportunities → Quotes → Orders, with reps, managers, exec dashboards, territory hierarchy, and forecast roll-ups. Business Process Flows, queues, and security roles do 80% of the work before you write a line.</p>
+    </div>
+    <div class="card model">
+      <span class="tag">Model-Driven</span>
+      <h4>Case &amp; Service Management</h4>
+      <p>Cases with SLAs, queues, entitlements, knowledge articles, omnichannel routing. The standard MDA shell <em>is</em> the optimal UX — your users have used it for fifteen years across vendors.</p>
+    </div>
+    <div class="card model">
+      <span class="tag">Model-Driven</span>
+      <h4>Regulated, Audited Systems</h4>
+      <p>Pharma trials, financial controls, HR records. Field-level security, column-level history, audit logs, and managed solutions matter more than custom UI. Use the platform's guarantees, don't recreate them.</p>
+    </div>
+    <div class="card model">
+      <span class="tag">Model-Driven</span>
+      <h4>Schema-Heavy Domains</h4>
+      <p>Fifty related Dataverse tables. Hand-authoring forms and views in Canvas is a multi-month project. In MDA, the same effort is sitemap configuration and a few business rules.</p>
+    </div>
+  </div>
+
+  <h2><span class="num">Section Four</span>When Canvas Wins</h2>
+
+  <p>Canvas wins when the experience is the differentiator — when the user's hands, screen, location, or attention budget shape the solution more than its data model does.</p>
+
+  <div class="cards">
+    <div class="card canvas">
+      <span class="tag">Canvas</span>
+      <h4>Field Inspection &amp; Maintenance</h4>
+      <p>Utility, construction, manufacturing crews. Camera, GPS, signature, offline-first, branded UI, glove-friendly buttons. The form is everything; the data layer is whatever fits behind it.</p>
+    </div>
+    <div class="card canvas">
+      <span class="tag">Canvas</span>
+      <h4>Executive Portals &amp; Status Apps</h4>
+      <p>Three screens, submit a request, see status. Brand-aligned, intranet-embedded, perceived speed matters. Canvas ships in days; MDA would be over-engineered for the scope.</p>
+    </div>
+    <div class="card canvas">
+      <span class="tag">Canvas</span>
+      <h4>Kiosk &amp; Shop-Floor Apps</h4>
+      <p>Tablet mounted at a station, single screen, no chrome, no navigation menu. Canvas gives you full layout control and a touch-optimized experience MDA cannot match.</p>
+    </div>
+    <div class="card canvas">
+      <span class="tag">Canvas</span>
+      <h4>Teams-Embedded Micro-Apps</h4>
+      <p>A pinned tab in a Teams channel that lets a project group log statuses or vote on options. Tiny scope, lives where the users already work, no Dataverse dependency required.</p>
+    </div>
+  </div>
+
+  <h2><span class="num">Section Five</span>Where Architects Earn Their Title</h2>
+
+  <p>The advice above is correct but obvious. The judgements that distinguish a senior architect are the ones the makers in the room have not yet seen.</p>
+
+  <ul class="fancy">
+    <li><strong>The answer is usually <em>both</em>.</strong> The modern enterprise pattern is Model-Driven as the operational backbone, with <em>Canvas Custom Pages</em> embedded inside it for the screens that need bespoke UX. You get MDA's data, security, and process — and Canvas's design freedom precisely where it matters. Mentioning custom pages signals current expertise.</li>
+    <li><strong>Model-Driven is often <em>faster</em>, not slower.</strong> For a Dataverse-first solution, MDA generates forms, views, charts, and security from the schema. Canvas requires you to hand-build every pixel. Makers default to Canvas because it <em>feels</em> lighter; architects know better.</li>
+    <li><strong>Canvas does not scale with schema breadth.</strong> Adding a thirtieth table to MDA is a sitemap edit and a form designer session. Adding a thirtieth table to Canvas is three to five new screens, manually. The cost curves diverge.</li>
+    <li><strong>PCF closes most of Canvas's UX advantage.</strong> Before defaulting to Canvas for "we need a richer control," remember Power Apps Component Framework controls inside MDA. React-grade UX inside the model-driven shell. Most "we needed Canvas" stories were actually "we needed a custom PCF control."</li>
+    <li><strong>Model-Driven is not Dynamics-only.</strong> A persistent misconception. MDA is the standalone Power Apps experience over Dataverse. You do not need Dynamics 365 licensing to use it.</li>
+    <li><strong>Code Apps is the emerging third option.</strong> When neither Canvas nor MDA fits — React/Vite-level control with Power Platform connectors and Dataverse — Power Apps Code Apps (preview) is where Microsoft is heading. Flag it to show you read the roadmap.</li>
+  </ul>
+
+  <div class="callout">
+    <span class="label">Architect's Trap</span>
+    <p style="margin:0">The most expensive Power Platform mistakes are not "we picked the wrong app type." They are "we picked the wrong app type, then doubled down for eighteen months to avoid admitting it." Choose with humility — and design seams that let you change course in year two without burning year one.</p>
+  </div>
+
+  <h2><span class="num">Section Six</span>The Hybrid Patterns</h2>
+
+  <p>Real enterprise solutions almost never live entirely in one app type. These are the four compositions I propose most often:</p>
+
+  <ul class="fancy">
+    <li><strong>Backbone + Bespoke.</strong> Model-Driven as the operational core, with one or two Canvas Custom Pages for the screens whose UX deserves design effort. Default pattern for sales, service, and case-management modernizations.</li>
+    <li><strong>Field Front, Enterprise Back.</strong> Canvas as the field/mobile interface; Dataverse as the data backbone. Operations team uses an MDA against the same tables. One model, two personas, two apps.</li>
+    <li><strong>Form Embedded in Process.</strong> An MDA where one form hosts an embedded Canvas app — a guided product configurator, a complex pricing wizard — that writes back to the parent record.</li>
+    <li><strong>Three Personas, One Model.</strong> Internal users on Model-Driven, field workers on Canvas, external partners on Power Pages, all sharing the same Dataverse environment. Same data. Three windows. One source of truth.</li>
+  </ul>
+
+  <h2><span class="num">Section Seven</span>The Architect-Only Layer</h2>
+
+  <p>Beyond the visible decision is a quieter one: the non-functional concerns no maker raises in the first meeting but every architect must price in.</p>
+
+  <div class="tablewrap">
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>Concern</th>
+        <th>Canvas</th>
+        <th>Model-Driven</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="axis">Licensing</td><td>Per-app license can be the cheapest path for narrow scope.</td><td>Per-user Power Apps Premium for Dataverse-backed apps.</td></tr>
+      <tr><td class="axis">Performance ceiling</td><td>Delegation limits, client-side rendering, large gallery risk.</td><td>Bounded by Dataverse view design, FetchXML, N:N joins.</td></tr>
+      <tr><td class="axis">ALM maturity</td><td>App.pa.yaml in source control, solution-packaged, but per-screen ownership is hard.</td><td>Solution-native, environment variables, connection references, segmented solutions.</td></tr>
+      <tr><td class="axis">Accessibility</td><td>Maker responsibility — easy to break with custom controls.</td><td>Mostly inherited from the platform. Safer for compliance.</td></tr>
+      <tr><td class="axis">Offline capability</td><td>Explicit offline patterns on Power Apps mobile.</td><td>MDA mobile / Field Service offline profiles — heavier to configure.</td></tr>
+      <tr><td class="axis">Multi-language</td><td>Manual via collections and variables.</td><td>Native through Dataverse translations and form metadata.</td></tr>
+      <tr><td class="axis">Automated testing</td><td>Test Studio for Canvas.</td><td>External tools (Playwright, EasyRepro).</td></tr>
+      <tr><td class="axis">Upgrade safety</td><td>Publish a version — consumers see it immediately.</td><td>Solution-based dev → test → prod with staged deployment.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>None of these row entries should determine the decision alone. Together, they reshape the cost model of the choice over a three-year horizon — and the architect is the only person in the room being paid to think on that horizon.</p>
+
+  <div class="ornament">· · ·</div>
+
+  <div class="closing">
+    Canvas and Model-Driven are not competitors. They are two answers to the same prior question: <strong>where does the gravity of this solution lie?</strong> Find the gravity first. The app type will follow.<br><br>
+    Every architectural decision that ages well begins this way — not with a tool, but with the truth about the work.
+    <div class="closing-sig">End</div>
+  </div>
+
+  <footer class="foot">
+    <span>Where the Gravity Lives — An Architect's Field Guide</span>
+    <span>Power Platform · 2026</span>
+  </footer>
+
+</article>
+</body>
+</html>

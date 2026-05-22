@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two Doors — How an Architect Decides When the Team Is Split</title>
+<meta name="description" content="A Power Platform architect's framework for deciding when ten engineers split five-against-five on an approach. Decision factors, reversibility, the worked example of Plugin vs Power Automate, and how to run the room.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF8F3;
+    --paper-2:#FFFFFF;
+    --ink:#14131F;
+    --ink-soft:#2A2838;
+    --muted:#6B6779;
+    --rule:#E5E1D6;
+    --accent:#C2410C;
+    --accent-2:#EA580C;
+    --accent-soft:#FFEDD5;
+    --doorA:#1E3A5F;
+    --doorA-soft:#DCE6F2;
+    --doorB:#B45309;
+    --doorB-soft:#FEF3C7;
+    --good:#047857;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,system-ui,Segoe UI,Roboto,sans-serif;
+    font-size:18px;
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:64px 28px 120px}
+
+  header.hero{padding:32px 0 56px;border-bottom:1px solid var(--rule);margin-bottom:56px;position:relative}
+  .series{
+    font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:8px;
+  }
+  .eyebrow{
+    font-size:12px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:28px;display:flex;align-items:center;gap:12px;
+  }
+  .eyebrow .line{flex:0 0 36px;height:1px;background:var(--accent);opacity:0.6}
+  h1.title{
+    font-family:'Fraunces',Georgia,serif;
+    font-weight:500;
+    font-size:clamp(44px,8vw,84px);
+    line-height:1;
+    letter-spacing:-0.03em;
+    margin:0 0 28px;
+    font-variation-settings:"opsz" 144;
+  }
+  h1.title em{
+    font-style:italic;font-weight:400;
+    color:var(--accent);
+    font-variation-settings:"opsz" 144;
+  }
+  .subtitle{
+    font-family:'Fraunces',serif;
+    font-style:italic;font-weight:400;
+    font-size:clamp(20px,2.4vw,24px);
+    line-height:1.45;
+    color:var(--muted);
+    margin:0 0 36px;
+    max-width:620px;
+  }
+  .byline{
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    font-size:13px;color:var(--muted);padding-top:8px;
+  }
+  .byline strong{color:var(--ink);font-weight:600}
+  .byline .dot{width:3px;height:3px;background:var(--muted);border-radius:50%}
+
+  .lede{
+    font-family:'Fraunces',serif;
+    font-size:clamp(21px,2.4vw,26px);
+    line-height:1.5;color:var(--ink);
+    font-weight:400;margin:0 0 36px;
+  }
+  .lede::first-letter{
+    font-family:'Fraunces',serif;
+    font-size:84px;float:left;line-height:0.82;
+    padding:6px 14px 0 0;font-weight:600;color:var(--accent);
+  }
+
+  h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(28px,3.4vw,38px);
+    line-height:1.15;letter-spacing:-0.015em;
+    margin:80px 0 24px;
+  }
+  h2 .num{
+    font-family:'Inter',sans-serif;font-weight:600;
+    font-size:11px;letter-spacing:0.22em;color:var(--accent);
+    display:block;margin-bottom:10px;text-transform:uppercase;
+  }
+  h3{
+    font-family:'Inter',sans-serif;font-weight:700;
+    font-size:19px;margin:36px 0 12px;letter-spacing:-0.005em;
+  }
+  p{margin:0 0 20px}
+
+  .pullquote{
+    margin:56px -24px;padding:40px 36px;
+    background:linear-gradient(135deg,var(--accent-soft) 0%,#FFF7ED 100%);
+    border-left:4px solid var(--accent);border-radius:6px;
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:clamp(20px,2.4vw,26px);line-height:1.45;color:var(--ink);
+  }
+  .pullquote strong{font-style:normal;font-weight:700;color:var(--accent)}
+  .pullquote .small{
+    display:block;margin-top:18px;
+    font-family:'Inter',sans-serif;font-style:normal;
+    font-size:13px;letter-spacing:0.16em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;
+  }
+
+  .doors{display:grid;gap:20px;margin:32px 0 40px}
+  @media(min-width:680px){.doors{grid-template-columns:1fr 1fr;gap:18px}}
+  .door{
+    padding:24px 24px 22px;border:1px solid var(--rule);
+    border-radius:14px;background:var(--paper-2);
+    position:relative;overflow:hidden;
+  }
+  .door::before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
+  .door.a::before{background:var(--doorA)}
+  .door.b::before{background:var(--doorB)}
+  .door .label{
+    font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;
+    padding:3px 10px;border-radius:4px;display:inline-block;margin-bottom:14px;
+  }
+  .door.a .label{background:var(--doorA-soft);color:var(--doorA)}
+  .door.b .label{background:var(--doorB-soft);color:var(--doorB)}
+  .door h4{
+    margin:0 0 14px;font-size:20px;font-weight:700;
+    font-family:'Inter',sans-serif;letter-spacing:-0.01em;line-height:1.25;
+  }
+  .door ul{margin:8px 0 0;padding-left:18px;font-size:15px;color:var(--ink-soft);line-height:1.6}
+  .door ul li{margin-bottom:8px}
+  .door ul li::marker{color:var(--muted)}
+
+  .group{
+    margin:36px 0;padding:28px 28px 18px;
+    border-radius:14px;background:var(--paper-2);border:1px solid var(--rule);
+  }
+  .group-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+  .group-tag{
+    font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);
+  }
+  .group-name{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:500;
+    font-size:22px;color:var(--ink);
+  }
+  .group-sub{font-size:14px;color:var(--muted);flex:1 1 100%;margin-top:2px}
+  .factors{display:grid;gap:14px}
+  @media(min-width:640px){.factors{grid-template-columns:repeat(3,1fr)}}
+  .factor{padding:14px 4px 8px}
+  .factor .n{
+    font-family:'Fraunces',serif;font-size:32px;line-height:1;
+    font-weight:600;color:var(--accent);display:block;margin-bottom:6px;
+  }
+  .factor h5{
+    margin:0 0 6px;font-size:15px;font-weight:700;
+    font-family:'Inter',sans-serif;letter-spacing:-0.005em;
+  }
+  .factor p{font-size:14px;color:var(--muted);margin:0;line-height:1.55}
+
+  .tablewrap{margin:28px -8px;overflow-x:auto}
+  table.verdict{
+    width:100%;border-collapse:collapse;font-size:15px;
+    background:var(--paper-2);border-radius:10px;overflow:hidden;
+    box-shadow:0 1px 0 rgba(20,19,31,0.04);
+  }
+  table.verdict th,table.verdict td{
+    text-align:left;padding:14px 14px;
+    border-bottom:1px solid var(--rule);vertical-align:top;
+  }
+  table.verdict th{
+    font-weight:600;background:#FBFAF6;
+    font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);
+  }
+  table.verdict tr:last-child td{border-bottom:none}
+  table.verdict td.factor-col{font-weight:600;color:var(--ink);width:25%}
+  table.verdict td .winA{color:var(--doorA);font-weight:700}
+  table.verdict td .winB{color:var(--doorB);font-weight:700}
+  table.verdict td .draw{color:var(--muted);font-weight:600;font-style:italic}
+
+  .callout{
+    margin:36px 0;padding:22px 26px;border-radius:12px;
+    background:var(--doorA-soft);border-left:3px solid var(--doorA);
+    font-size:16px;line-height:1.65;
+  }
+  .callout .label{
+    display:inline-block;font-size:11px;font-weight:700;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--doorA);margin-bottom:6px;
+  }
+  .callout.warn{background:var(--doorB-soft);border-left-color:var(--doorB)}
+  .callout.warn .label{color:var(--doorB)}
+
+  ul.fancy{padding-left:0;list-style:none;margin:24px 0 32px}
+  ul.fancy li{
+    padding:14px 0 14px 30px;position:relative;
+    border-bottom:1px solid var(--rule);line-height:1.55;
+  }
+  ul.fancy li:last-child{border-bottom:none}
+  ul.fancy li::before{
+    content:"";position:absolute;left:0;top:22px;
+    width:14px;height:1px;background:var(--accent);
+  }
+  ul.fancy li strong{color:var(--ink)}
+
+  ol.steps{padding-left:0;list-style:none;counter-reset:step;margin:24px 0 32px}
+  ol.steps li{
+    counter-increment:step;padding:18px 0 18px 56px;position:relative;
+    border-bottom:1px solid var(--rule);line-height:1.6;
+  }
+  ol.steps li:last-child{border-bottom:none}
+  ol.steps li::before{
+    content:counter(step);position:absolute;left:0;top:16px;
+    width:36px;height:36px;border-radius:50%;
+    background:var(--accent);color:#fff;
+    font-family:'Fraunces',serif;font-weight:600;font-size:18px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  ol.steps li strong{display:block;font-size:16px;margin-bottom:2px;color:var(--ink)}
+  ol.steps li span{font-size:15px;color:var(--muted)}
+
+  .mini{
+    margin:18px 0;padding:18px 22px;
+    background:var(--paper-2);border:1px solid var(--rule);border-radius:10px;
+    font-size:15px;line-height:1.6;
+  }
+  .mini strong{display:block;margin-bottom:4px;color:var(--ink);font-size:14px}
+  .mini em{color:var(--ink-soft);font-style:italic}
+
+  .closing{
+    margin:96px 0 0;padding:56px 0 0;border-top:1px solid var(--rule);
+    font-family:'Fraunces',serif;font-size:clamp(20px,2.3vw,24px);
+    line-height:1.5;font-style:italic;color:var(--muted);
+  }
+  .closing strong{color:var(--ink);font-style:normal;font-weight:600}
+  .closing-sig{
+    margin-top:32px;font-family:'Inter',sans-serif;
+    font-size:13px;letter-spacing:0.16em;text-transform:uppercase;
+    color:var(--accent);font-weight:700;font-style:normal;
+  }
+
+  footer.foot{
+    margin-top:80px;padding-top:28px;border-top:1px solid var(--rule);
+    font-size:13px;color:var(--muted);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  }
+
+  code{
+    font-family:'JetBrains Mono',monospace;font-size:0.86em;
+    background:rgba(194,65,12,0.08);padding:2px 7px;border-radius:5px;color:var(--accent);
+  }
+  strong{font-weight:700;color:var(--ink)}
+  em{color:var(--ink-soft)}
+  a{color:var(--accent);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+
+  .ornament{
+    text-align:center;color:var(--rule);font-size:18px;letter-spacing:1em;
+    margin:64px 0;user-select:none;
+  }
+
+  @media (max-width:600px){
+    .wrap{padding:40px 22px 90px}
+    .pullquote{margin-left:-8px;margin-right:-8px;padding:28px 24px}
+    h1.title{font-size:48px}
+  }
+</style>
+</head>
+<body>
+<article class="wrap">
+
+  <header class="hero">
+    <div class="series">An Architect's Field Guide · Vol. II</div>
+    <div class="eyebrow"><span class="line"></span>Power Platform · Leadership</div>
+    <h1 class="title">Two <em>Doors</em></h1>
+    <p class="subtitle">How a Power Platform architect decides when the team is split five against five — and how to live with the call afterwards.</p>
+    <div class="byline">
+      <span><strong>For the architect's desk</strong></span>
+      <span class="dot"></span>
+      <span>A 12-minute read</span>
+      <span class="dot"></span>
+      <span>Edition 2026</span>
+    </div>
+  </header>
+
+  <p class="lede">The room is split. Five engineers favour one approach; five favour the other. Both camps are senior. Both have written paragraphs of justification on the whiteboard. They are now looking at you. The build cannot start until the architect speaks.</p>
+
+  <p>This is the moment that does not appear in any training course. There is no obviously correct answer — if there were, the team would have found it together. There is no winning argument — if there were, one camp would have already conceded. The architect is not being asked to discover the truth. The architect is being asked to <em>convert disagreement into momentum</em> without losing the trust of the five who will be told to commit to the path they did not choose.</p>
+
+  <p>Done badly, the call wastes a quarter. Done well, it becomes the moment the team began to trust the architecture function. Here is the framework I bring to it.</p>
+
+  <aside class="pullquote">
+    <strong>Two-way doors</strong> deserve a coin flip and a deadline.<br>
+    <strong>One-way doors</strong> deserve a meeting and a memo.
+    <span class="small">— The single sentence to remember</span>
+  </aside>
+
+  <h2><span class="num">Section One</span>Reframe the Question</h2>
+
+  <p>The first mistake architects make in this situation is treating the 5-5 split as a technical contest with a right answer. It almost never is. When two competent groups of senior engineers reach opposite conclusions from the same evidence, the technical merit of the two paths is, within a margin, close to equal. They are arguing because the <em>tiebreaker is missing</em> — usually a requirement, a non-functional constraint, or a value judgement nobody has surfaced.</p>
+
+  <p>The architect's job is not to declare a winner. It is to:</p>
+
+  <ul class="fancy">
+    <li><strong>Find the missing question.</strong> What requirement, if known, would collapse the disagreement? Surface it. Make the business answer it. Then both camps converge.</li>
+    <li><strong>Classify the door.</strong> Borrow from Jeff Bezos. A <em>two-way door</em> can be reversed in a week with limited damage. A <em>one-way door</em> is structural and cannot be unwound without a project. Apply scrutiny proportional to the door type. Spending three weeks deciding a two-way door is its own kind of failure.</li>
+    <li><strong>Make the call, then defend the process — not the choice.</strong> A team will accept a decision it would not have made, if it trusts the way the decision was reached.</li>
+  </ul>
+
+  <h2><span class="num">Section Two</span>The Anchor Example</h2>
+
+  <p>To keep this concrete, let us use a dilemma that actually happens. Your Power Platform team is building an opportunity-management solution in Dataverse. Every new Opportunity must trigger the creation of a matching customer record in SAP. The team is split.</p>
+
+  <div class="doors">
+    <div class="door a">
+      <span class="label">Door A · The Pro-Code Camp</span>
+      <h4>A Dataverse Plugin in C#</h4>
+      <ul>
+        <li><strong>Synchronous &amp; transactional.</strong> If SAP rejects the customer, the Opportunity save fails. Strong consistency by design.</li>
+        <li><strong>No per-execution license cost.</strong> Plugin runs inside the Dataverse sandbox; no premium flow runs to count.</li>
+        <li><strong>Sub-second latency.</strong> Direct HTTP call from the plugin to SAP, no orchestrator overhead.</li>
+        <li><strong>Testable.</strong> Unit-testable with FakeXrmEasy; mockable interfaces.</li>
+        <li><strong>Familiar territory.</strong> Half the team comes from a Dynamics CE background and has shipped plugins for years.</li>
+      </ul>
+    </div>
+    <div class="door b">
+      <span class="label">Door B · The Low-Code Camp</span>
+      <h4>A Power Automate Cloud Flow</h4>
+      <ul>
+        <li><strong>Visual run history.</strong> Every execution is inspectable end-to-end; a citizen developer can diagnose a failure.</li>
+        <li><strong>Built-in retry &amp; error handling.</strong> Native retry policies, "configure run after," scopes for compensation.</li>
+        <li><strong>Faster to MVP.</strong> First working sync in a day, not a sprint.</li>
+        <li><strong>Easier to evolve.</strong> When SAP adds a field, a maker changes it without a build pipeline.</li>
+        <li><strong>Roadmap alignment.</strong> Microsoft's investment is heaviest in low-code; the platform documentation, Copilot, and CoE tooling all assume flows by default.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>Read those two columns carefully. Neither is wrong. Neither camp is being unreasonable. The disagreement is real, and the room is genuinely split, because <em>the actual tiebreaker has not been put on the table</em>. We will return to this example after laying out the framework.</p>
+
+  <h2><span class="num">Section Three</span>The Nine Decision Factors</h2>
+
+  <p>I weigh every contested architectural decision against nine factors, grouped into three horizons. The grouping matters because each horizon imposes a different kind of cost — and architects who only consider one horizon make the predictable mistakes of their training.</p>
+
+  <div class="group">
+    <div class="group-head">
+      <span class="group-tag">Horizon One</span>
+      <span class="group-name">Today — the cost of building it</span>
+      <span class="group-sub">Mistakes here delay launch. Recoverable, but visible to stakeholders.</span>
+    </div>
+    <div class="factors">
+      <div class="factor">
+        <span class="n">1</span>
+        <h5>Time to first value</h5>
+        <p>How fast can each path show a working end-to-end demo? A faster path buys you political room to iterate.</p>
+      </div>
+      <div class="factor">
+        <span class="n">2</span>
+        <h5>Team skill availability</h5>
+        <p>What can your current team actually ship? Plans that require hiring or reskilling are bets, not decisions.</p>
+      </div>
+      <div class="factor">
+        <span class="n">3</span>
+        <h5>Build &amp; license cost</h5>
+        <p>Premium connector entitlements, AI Builder credits, per-flow per-user licensing — count what each path consumes.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-head">
+      <span class="group-tag">Horizon Two</span>
+      <span class="group-name">Tomorrow — the cost of running it</span>
+      <span class="group-sub">Mistakes here punish you for years. Operations, not engineering, lives with the call.</span>
+    </div>
+    <div class="factors">
+      <div class="factor">
+        <span class="n">4</span>
+        <h5>Maintainability</h5>
+        <p>Who will hold this in eighteen months? Will they read C# plugin code or a flow diagram more confidently?</p>
+      </div>
+      <div class="factor">
+        <span class="n">5</span>
+        <h5>Performance &amp; scale</h5>
+        <p>What is the throughput envelope? Where does the path fall over — 1,000 records a day, or 100,000?</p>
+      </div>
+      <div class="factor">
+        <span class="n">6</span>
+        <h5>Observability &amp; support</h5>
+        <p>When it fails at 2 a.m., what does the on-call see? Run history, App Insights traces, or silence?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="group-head">
+      <span class="group-tag">Horizon Three</span>
+      <span class="group-name">Forever — the cost of being wrong</span>
+      <span class="group-sub">Mistakes here become legacy. They define what your successor inherits.</span>
+    </div>
+    <div class="factors">
+      <div class="factor">
+        <span class="n">7</span>
+        <h5>Reversibility</h5>
+        <p>Two-way door or one-way door? How many weeks would it cost to undo the choice if you were wrong?</p>
+      </div>
+      <div class="factor">
+        <span class="n">8</span>
+        <h5>Platform alignment</h5>
+        <p>Does the path ride Microsoft's roadmap or fight it? Roadmap-aligned choices age into "best practice"; off-roadmap choices age into technical debt.</p>
+      </div>
+      <div class="factor">
+        <span class="n">9</span>
+        <h5>Strategic optionality</h5>
+        <p>Which path keeps more doors open for next year's scope? The decision that preserves choice usually wins on a long enough timeline.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2><span class="num">Section Four</span>The Framework Applied</h2>
+
+  <p>Returning to Door A (plugin) versus Door B (cloud flow), here is how I would mark the nine factors before turning to the room. The verdict in each row is a tentative one — its strength depends on facts only the business can supply.</p>
+
+  <div class="tablewrap">
+  <table class="verdict">
+    <thead>
+      <tr>
+        <th>Factor</th>
+        <th>Door A · Plugin</th>
+        <th>Door B · Flow</th>
+        <th>Tentative edge</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="factor-col">Time to first value</td><td>Sprint or two</td><td>Within days</td><td><span class="winB">Door B</span></td></tr>
+      <tr><td class="factor-col">Team skill</td><td>Strong if half are CE-trained</td><td>Universal across the team</td><td><span class="winB">Door B</span></td></tr>
+      <tr><td class="factor-col">Build &amp; license cost</td><td>No per-execution cost</td><td>Premium connector + flow runs</td><td><span class="winA">Door A</span></td></tr>
+      <tr><td class="factor-col">Maintainability</td><td>Compiled, signed, deployed</td><td>Visible, editable by a maker</td><td><span class="winB">Door B</span></td></tr>
+      <tr><td class="factor-col">Performance &amp; scale</td><td>Sub-second, sandboxed</td><td>Async, throttled, retries</td><td><span class="winA">Door A</span> (high volume)</td></tr>
+      <tr><td class="factor-col">Observability</td><td>Trace logs, App Insights</td><td>Native run history per record</td><td><span class="winB">Door B</span></td></tr>
+      <tr><td class="factor-col">Reversibility</td><td>Plugin assembly redeploy</td><td>Disable a flow toggle</td><td><span class="winB">Door B</span></td></tr>
+      <tr><td class="factor-col">Platform alignment</td><td>Mature, but de-emphasised</td><td>Microsoft's low-code default</td><td><span class="winB">Door B</span></td></tr>
+      <tr><td class="factor-col">Strategic optionality</td><td>Locks into pro-code path</td><td>Easy to extend to other targets</td><td><span class="winB">Door B</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Door B wins seven of nine. A junior architect would call it here.</p>
+
+  <p>A senior architect would not — because the table assumes a missing answer. Look again at row five and row seven. Both are conditional on the same question: <strong>what consistency does the business actually require?</strong> If a new Opportunity may not exist in Dataverse without a matching customer in SAP, the requirement is strong consistency. A flow cannot provide that. Door A is then the only acceptable answer, and seven low-priority wins by Door B become irrelevant.</p>
+
+  <p>This is the architect's actual contribution: not the table, but the recognition that the table is incomplete without one missing fact. That recognition turns a 5-5 deadlock into a thirty-minute conversation with the product owner — and a decision the room can accept.</p>
+
+  <div class="callout">
+    <span class="label">The Real Move</span>
+    <p style="margin:0">Ninety percent of contested architecture decisions resolve cleanly the moment a missing non-functional requirement is named. The architect's first action is rarely to choose — it is to <em>elicit the choice</em> from a stakeholder who did not realise they were holding it.</p>
+  </div>
+
+  <h2><span class="num">Section Five</span>Other Tiebreakers Worth Practising On</h2>
+
+  <p>The same framework applies to most Power Platform 5-5 splits. Each of these is a real argument I have refereed, and each resolved on a single missing question.</p>
+
+  <div class="mini">
+    <strong>Dataverse vs SharePoint as the backend</strong>
+    The missing question is <em>row volume and security model</em>. Below ten thousand rows with simple item-level permissions, SharePoint costs nothing extra. Above that, or where you need field-level security and audit, Dataverse becomes the only honest answer.
+  </div>
+
+  <div class="mini">
+    <strong>One large solution vs segmented solutions</strong>
+    The missing question is <em>release cadence per component</em>. If reports ship monthly but the data model ships quarterly, you need segmented solutions or you will paint yourself into a deployment corner.
+  </div>
+
+  <div class="mini">
+    <strong>Premium connector vs custom connector to Azure</strong>
+    The missing question is <em>shape of the API contract</em>. If the upstream service is volatile, a custom connector lets you version the contract you depend on. If it is stable, the premium connector saves you a build pipeline.
+  </div>
+
+  <div class="mini">
+    <strong>PCF control vs Canvas component</strong>
+    The missing question is <em>where the control must run</em>. PCF runs in model-driven apps and on forms; Canvas components do not. If the control must live on a model-driven form, the debate is over before it starts.
+  </div>
+
+  <div class="mini">
+    <strong>Synchronous plugin vs async webhook + Service Bus</strong>
+    The missing question is <em>blast radius of a downstream outage</em>. Synchronous plugin = your save fails when the downstream fails. Webhook + Service Bus = your save succeeds and the downstream catches up. Pick based on which failure mode is acceptable to the business.
+  </div>
+
+  <h2><span class="num">Section Six</span>How to Run the Room</h2>
+
+  <p>The framework is the easy part. The harder skill is choreographing the conversation so that the team leaves with conviction instead of resentment. I run the meeting in six moves.</p>
+
+  <ol class="steps">
+    <li><strong>Make each camp argue the other side first.</strong><span>Ten minutes. Camp A presents Door B as if it were their own. Camp B does the inverse. This collapses straw-man positions and surfaces the strongest version of each path. A surprising number of disagreements end here.</span></li>
+    <li><strong>Surface the missing requirement out loud.</strong><span>Walk the room through the nine factors. Where the table is contested, name the underlying business question. Refuse to proceed until it is answered or explicitly deferred with a default.</span></li>
+    <li><strong>Classify the door.</strong><span>Two-way or one-way? Reversible in a week, or structural? Match the depth of analysis to the cost of being wrong. Two-way doors should be decided in the meeting; one-way doors deserve a memo and a sleep.</span></li>
+    <li><strong>Time-box the decision.</strong><span>"We will choose by end of day Wednesday." Without a deadline, the room re-litigates. With a deadline, both camps focus on what would change their mind.</span></li>
+    <li><strong>Document the rejected alternative.</strong><span>An Architecture Decision Record (ADR) captures the choice <em>and the reason the other path was not taken</em>. This is gold in eighteen months when somebody asks "why didn't we use a flow?"</span></li>
+    <li><strong>Name the rollback criteria.</strong><span>"If sync latency exceeds 30 seconds at p95 for two consecutive weeks, we revisit." A decision with explicit reversibility is easier to commit to than one that feels permanent.</span></li>
+  </ol>
+
+  <div class="callout warn">
+    <span class="label">Anti-Pattern</span>
+    <p style="margin:0">Beware the cop-out "<em>let's do both</em>." Sometimes — backbone-plus-bespoke patterns, hybrid integrations — that is the right answer. More often, it is the architect's way of avoiding the unpopularity of a clear call. If "both" doubles your maintenance surface to halve a political argument, you have not led, you have flinched.</p>
+  </div>
+
+  <h2><span class="num">Section Seven</span>After the Call</h2>
+
+  <p>The hour after the decision matters as much as the hour of the decision. Three behaviours separate architects who keep their teams from those who slowly lose them.</p>
+
+  <ul class="fancy">
+    <li><strong>Disagree and commit, publicly.</strong> Borrow the phrase from Bezos and Andy Grove. Acknowledge the dissent. Acknowledge the merit of the rejected path. Then ask the dissenting five to commit fully to execution. The architect's tone — gracious, specific, unambiguous — sets whether the team rallies or sulks.</li>
+    <li><strong>Write the ADR within 48 hours.</strong> Memory of the trade-offs decays faster than you think. The ADR is the artefact that lets a future architect — possibly you, possibly your successor — reverse the decision intelligently when the world changes.</li>
+    <li><strong>Schedule the 90-day review.</strong> Put a calendar invite on the books now. Tell the team: <em>"If this turns out to be wrong, here is the moment we will say so."</em> That single act removes the unspoken fear that the decision is a tomb.</li>
+  </ul>
+
+  <p>Architecture decisions made this way do something that pure technical decisions cannot: they build the muscle of <em>collective decision-making under uncertainty</em>. The next 5-5 split is easier. By the fourth one, the team has internalised the framework and resolves most of them without needing you in the room.</p>
+
+  <p>That is the quiet measure of architectural leadership — not the cleverness of any single call, but the steady reduction of how often the team needs you to make it.</p>
+
+  <div class="ornament">· · ·</div>
+
+  <div class="closing">
+    The architect's real job in the contested room is not to be right. It is to <strong>keep the team moving with conviction toward a decision that can be revisited without trauma</strong>. The framework is the scaffolding. The grace with which you carry the decision afterwards is the architecture.
+    <div class="closing-sig">End</div>
+  </div>
+
+  <footer class="foot">
+    <span>Two Doors — An Architect's Field Guide, Vol. II</span>
+    <span>Power Platform · 2026</span>
+  </footer>
+
+</article>
+</body>
+</html>
