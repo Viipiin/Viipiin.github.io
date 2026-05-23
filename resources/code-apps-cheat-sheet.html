@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power Apps Code Apps Cheat Sheet</title>
+<link rel="icon" type="image/svg+xml" href="code-apps-favicon.svg">
+<link rel="shortcut icon" href="code-apps-favicon.svg">
+<meta name="description" content="One-page cheat sheet for Power Apps Code Apps — prerequisites, PAC CLI commands, @microsoft/power-apps SDK, VS Code workflow, data sources, deploy, and troubleshooting.">
+<meta name="keywords" content="Power Apps Code Apps, pac code, microsoft power-apps SDK, Vite React Power Apps, code apps cheat sheet, npm power-apps">
+<meta name="author" content="Vipin Kumar">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #1a1a2e;
+    background: #fff;
+    padding: 6mm;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    text-align: center;
+    background: linear-gradient(135deg, #0277bd 0%, #4527a0 55%, #bf360c 100%);
+    color: #fff;
+    padding: 9px 12px 7px;
+    border-radius: 6px;
+    margin-bottom: 7px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 15% 25%, rgba(255,255,255,.22), transparent 35%),
+                radial-gradient(circle at 85% 75%, rgba(255,213,79,.18), transparent 40%);
+    pointer-events: none;
+  }
+  .page-header h1 { font-size: 15pt; letter-spacing: 1px; font-weight: 700; position: relative; }
+  .page-header p  { font-size: 7.5pt; opacity: .92; margin-top: 3px; position: relative; }
+  .page-header code {
+    background: rgba(255,255,255,.22);
+    padding: 0 4px;
+    border-radius: 3px;
+    font-size: 7pt;
+  }
+  .tag-row {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 5px;
+    margin-top: 6px; position: relative;
+  }
+  .tag {
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.35);
+    padding: 1px 7px;
+    border-radius: 999px;
+    font-size: 6.4pt;
+    font-weight: 600;
+    letter-spacing: .3px;
+  }
+  .tag.hot { background: #ffd54f; color: #4527a0; border-color: #ffd54f; }
+
+  /* ── Workflow strip ── */
+  .workflow {
+    background: linear-gradient(90deg, #eef4ff 0%, #f3eef9 50%, #fff4ee 100%);
+    border: 1px solid #d0d7e8;
+    border-radius: 6px;
+    padding: 6px 8px;
+    margin-bottom: 7px;
+    display: flex; flex-wrap: wrap; gap: 4px;
+    align-items: stretch;
+  }
+  .wf-step {
+    flex: 1 1 110px;
+    background: #fff;
+    border: 1px solid #d6deec;
+    border-radius: 5px;
+    padding: 4px 6px;
+    position: relative;
+    min-width: 110px;
+  }
+  .wf-step .wf-num {
+    display: inline-block;
+    background: #0277bd;
+    color: #fff;
+    width: 14px; height: 14px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 6.5pt;
+    font-weight: 700;
+    line-height: 14px;
+    margin-right: 4px;
+  }
+  .wf-step b { font-size: 7.2pt; color: #0f3460; }
+  .wf-step p { font-size: 6.6pt; color: #555; margin-top: 1px; line-height: 1.3; }
+  .wf-step.s-2 .wf-num { background: #2e7d32; }
+  .wf-step.s-3 .wf-num { background: #4527a0; }
+  .wf-step.s-4 .wf-num { background: #00838f; }
+  .wf-step.s-5 .wf-num { background: #e65100; }
+  .wf-step.s-6 .wf-num { background: #c62828; }
+  .wf-step.s-7 .wf-num { background: #6a1b9a; }
+  .wf-step.s-8 .wf-num { background: #283593; }
+
+  /* ── 3-column grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+  }
+
+  /* ── Each command-group card ── */
+  .card {
+    border: 1px solid #d0d7e8;
+    border-radius: 5px;
+    overflow: hidden;
+    break-inside: avoid;
+    background: #fff;
+  }
+  .card.span2 { grid-column: span 2; }
+  .card.span3 { grid-column: span 3; }
+
+  .card-header {
+    padding: 4px 7px;
+    font-weight: 700;
+    font-size: 8pt;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .card-header .cmd-label {
+    background: rgba(255,255,255,.22);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 7pt;
+  }
+  .card-header .sub {
+    font-size: 6.5pt;
+    opacity: .85;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 500;
+  }
+
+  /* colour palette per group */
+  .c-overview { background: linear-gradient(90deg,#0277bd,#1565c0); }
+  .c-prereq   { background: #2e7d32; }
+  .c-pac      { background: #bf360c; }
+  .c-npm      { background: #c62828; }
+  .c-vscode   { background: #006fc7; }
+  .c-anatomy  { background: #5d4037; }
+  .c-auth     { background: #283593; }
+  .c-data     { background: #00838f; }
+  .c-sdk      { background: #4527a0; }
+  .c-dev      { background: #558b2f; }
+  .c-deploy   { background: #1565c0; }
+  .c-alm      { background: #00695c; }
+  .c-limits   { background: #9a3412; }
+  .c-tips     { background: #7b2d8b; }
+  .c-trouble  { background: #37474f; }
+  .c-snippets { background: #311b92; }
+  .c-license  { background: #6d4c41; }
+  .c-resources{ background: #0f3460; }
+
+  table { width: 100%; border-collapse: collapse; }
+  tr:nth-child(even) td { background: #f5f7fc; }
+  tr:hover td { background: #eef2ff; }
+
+  td {
+    padding: 2.5px 6px;
+    border-bottom: 1px solid #e8ecf4;
+    vertical-align: top;
+    line-height: 1.35;
+  }
+  td:first-child {
+    font-family: 'Courier New', monospace;
+    font-size: 7pt;
+    font-weight: 600;
+    color: #0f3460;
+    white-space: nowrap;
+    width: 38%;
+  }
+  td.wider:first-child { width: 46%; }
+
+  td:first-child a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dotted #8899bb;
+  }
+  td:first-child a:hover { border-bottom: 1px solid #0f3460; color: #0f3460; }
+  @media print {
+    td:first-child a { border-bottom: none; }
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 5.5pt;
+    font-weight: 700;
+    padding: 0px 3px;
+    border-radius: 2px;
+    margin-left: 3px;
+    vertical-align: middle;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+  }
+  .badge-preview { background: #ede7f6; color: #4527a0; }
+  .badge-new     { background: #e8f5e9; color: #1b5e20; }
+  .badge-tip     { background: #fff8e1; color: #b26a00; }
+  .badge-warn    { background: #ffebee; color: #b71c1c; }
+  .badge-hot     { background: #fff3e0; color: #bf360c; }
+
+  /* ── Notes box ── */
+  .note {
+    font-size: 6.5pt;
+    color: #555;
+    background: #f9f9f9;
+    padding: 3px 7px;
+    border-top: 1px dashed #ccc;
+    font-style: italic;
+  }
+  .note code, .card code {
+    background: #eef2ff;
+    color: #0f3460;
+    font-family: 'Courier New', monospace;
+    padding: 0 3px;
+    border-radius: 2px;
+    font-size: 6.8pt;
+    font-style: normal;
+  }
+
+  /* ── Code blocks ── */
+  .code {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 6.8pt;
+    padding: 5px 8px;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    overflow-x: auto;
+  }
+  .code .k  { color: #569cd6; }
+  .code .s  { color: #ce9178; }
+  .code .c  { color: #6a9955; font-style: italic; }
+  .code .fn { color: #dcdcaa; }
+  .code .v  { color: #9cdcfe; }
+  .code .t  { color: #4ec9b0; }
+  .code .n  { color: #b5cea8; }
+  .code .o  { color: #d4d4d4; }
+
+  /* ── Inline strip for "essentials" ── */
+  .strip {
+    padding: 4px 7px;
+    font-size: 6.8pt;
+    color: #1a1a2e;
+    background: #fbfcff;
+  }
+  .strip b { color: #0f3460; }
+  .strip span.kbd, .kbd {
+    display: inline-block;
+    background: #eef2ff;
+    border: 1px solid #c8d1e5;
+    border-radius: 3px;
+    padding: 0 4px;
+    font-family: Consolas, monospace;
+    font-size: 6.6pt;
+    margin: 0 2px;
+    color: #0f3460;
+  }
+  ul.tight, ol.tight { padding-left: 14px; }
+  ul.tight li, ol.tight li {
+    padding: 1.5px 0;
+    font-size: 6.9pt;
+    line-height: 1.35;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 6px;
+    text-align: center;
+    font-size: 6.5pt;
+    color: #888;
+    border-top: 1px solid #ddd;
+    padding-top: 4px;
+  }
+  .footer a {
+    color: #0277bd;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .footer a:hover { color: #4527a0; }
+  .footer-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 7px;
+  }
+  .stat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid #d9e1f2;
+    border-radius: 999px;
+    padding: 2px 8px;
+    background: #f8faff;
+    color: #334155;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .stat-value {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: #0277bd;
+  }
+  .stat-highlight {
+    border-color: #bfd2ff;
+    background: linear-gradient(135deg, #eef4ff 0%, #f6f9ff 100%);
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { padding: 5mm; font-size: 7pt; }
+    .page-header h1 { font-size: 13pt; }
+    @page { size: A3 landscape; margin: 8mm; }
+  }
+
+  /* ════════════════════════════════════════════════════
+     RESPONSIVE — SCREEN OVERRIDES
+  ════════════════════════════════════════════════════ */
+  @media screen {
+    body {
+      font-size: 13px;
+      padding: 16px;
+      max-width: 1600px;
+      margin: 0 auto;
+      background: #f3f5fa;
+    }
+    .page-header {
+      padding: 22px 22px 16px;
+      margin-bottom: 16px;
+      border-radius: 12px;
+      box-shadow: 0 18px 40px -22px rgba(15,52,96,.55);
+    }
+    .page-header h1 { font-size: 1.9rem; }
+    .page-header p  { font-size: 0.9rem; }
+    .page-header code { font-size: 0.82rem; }
+    .tag { font-size: 0.7rem; padding: 2px 10px; }
+    .grid { gap: 12px; }
+    .card { border-radius: 9px; box-shadow: 0 6px 16px -10px rgba(15,52,96,.35); }
+    .card-header {
+      padding: 9px 13px;
+      font-size: 0.82rem;
+      line-height: 1.3;
+    }
+    .card-header .cmd-label { font-size: 0.76rem; }
+    .card-header .sub       { font-size: 0.72rem; }
+    td {
+      padding: 6px 11px;
+      font-size: 0.84rem;
+    }
+    td:first-child {
+      font-size: 0.82rem;
+      width: 35%;
+    }
+    .note { font-size: 0.78rem; padding: 6px 11px; }
+    .code { font-size: 0.78rem; padding: 9px 12px; }
+    .strip { font-size: 0.8rem; padding: 8px 12px; }
+    .strip span.kbd, .kbd { font-size: 0.74rem; padding: 1px 6px; }
+    ul.tight li, ol.tight li { font-size: 0.82rem; }
+    .footer { font-size: 0.78rem; margin-top: 16px; padding-top: 10px; }
+    .footer-stats { margin-bottom: 10px; }
+    .stat-pill { padding: 4px 10px; }
+    .badge { font-size: 0.62rem; padding: 1px 5px; }
+    .workflow { padding: 10px 12px; gap: 8px; border-radius: 10px; }
+    .wf-step { padding: 8px 10px; min-width: 140px; }
+    .wf-step b { font-size: 0.82rem; }
+    .wf-step p { font-size: 0.74rem; }
+    .wf-step .wf-num { width: 20px; height: 20px; line-height: 20px; font-size: 0.78rem; }
+  }
+
+  @media screen and (max-width: 1100px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .card.span2, .card.span3 { grid-column: span 2; }
+  }
+
+  @media screen and (max-width: 700px) {
+    body { padding: 10px; font-size: 14px; }
+    .grid { grid-template-columns: 1fr; gap: 10px; }
+    .card.span2, .card.span3 { grid-column: span 1; }
+    .page-header h1 { font-size: 1.3rem; letter-spacing: 0; }
+    .page-header p  { font-size: 0.8rem; }
+    .page-header code { white-space: normal; overflow-wrap: anywhere; }
+    .card-header {
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 6px 8px;
+      font-size: 0.94rem;
+    }
+    .card-header .cmd-label { flex: 0 0 auto; font-size: 0.78rem; line-height: 1.25; }
+    .card { overflow: hidden; }
+    table, tbody, tr, td { display: block; width: 100%; }
+    table { overflow: visible; }
+    tr { border-bottom: 1px solid #e8ecf4; }
+    tr:last-child { border-bottom: none; }
+    td { white-space: normal; overflow-wrap: anywhere; }
+    td:first-child {
+      width: auto; min-width: 0; white-space: normal;
+      padding-bottom: 2px; border-bottom: none;
+      font-size: 0.88rem;
+    }
+    td:last-child { padding-top: 0; padding-bottom: 10px; font-size: 0.94rem; }
+  }
+
+  @media screen and (max-width: 400px) {
+    body { padding: 8px; }
+    .page-header { padding: 14px 12px 12px; }
+    .page-header h1 { font-size: 1.08rem; }
+    .page-header p  { font-size: 0.74rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ HEADER ═══════════════════════ -->
+<div class="page-header">
+  <h1>Power Apps Code Apps — One-Page Field Guide</h1>
+  <p>Vite + React + TypeScript meets Power Platform. Build pro-code apps backed by Power Platform connectors, ship them as managed Power Apps. <span class="badge badge-preview" style="background:rgba(255,255,255,.25);color:#fff">Preview</span></p>
+  <div class="tag-row">
+    <span class="tag hot">@microsoft/power-apps SDK</span>
+    <span class="tag">pac code &lt;cmd&gt;</span>
+    <span class="tag">Node 20+ LTS</span>
+    <span class="tag">VS Code</span>
+    <span class="tag">~1,500+ Connectors</span>
+    <span class="tag">Power Apps Premium License</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════ WORKFLOW STRIP ═══════════════════════ -->
+<div class="workflow" aria-label="Code Apps end-to-end workflow">
+  <div class="wf-step s-1"><span class="wf-num">1</span><b>Prereqs</b><p>Node 20+ LTS, npm, VS Code, PAC CLI, premium Power Apps license.</p></div>
+  <div class="wf-step s-2"><span class="wf-num">2</span><b>Authenticate</b><p><code style="font-size:.85em">pac auth create --environment &lt;env-url&gt;</code></p></div>
+  <div class="wf-step s-3"><span class="wf-num">3</span><b>Scaffold</b><p><code style="font-size:.85em">npm create vite@latest</code> then <code style="font-size:.85em">pac code init</code> (or use template).</p></div>
+  <div class="wf-step s-4"><span class="wf-num">4</span><b>Add Data</b><p><code style="font-size:.85em">pac code add-data-source -a &lt;conn&gt; -c &lt;ref&gt;</code></p></div>
+  <div class="wf-step s-5"><span class="wf-num">5</span><b>Develop</b><p>In VS Code: <code style="font-size:.85em">npm run dev</code> + Power tunnel. Hot reload, console, types.</p></div>
+  <div class="wf-step s-6"><span class="wf-num">6</span><b>Build</b><p><code style="font-size:.85em">npm run build</code> &rarr; static <code style="font-size:.85em">dist/</code> bundle.</p></div>
+  <div class="wf-step s-7"><span class="wf-num">7</span><b>Publish</b><p><code style="font-size:.85em">pac code push</code> uploads &amp; registers app.</p></div>
+  <div class="wf-step s-8"><span class="wf-num">8</span><b>Run &amp; Share</b><p>Open in Power Apps, share like any canvas/code app.</p></div>
+</div>
+
+<!-- ═══════════════════════ GRID ═══════════════════════ -->
+<div class="grid">
+
+  <!-- ══ OVERVIEW ══ -->
+  <div class="card span3">
+    <div class="card-header c-overview">
+      <span class="cmd-label">overview</span> What are Code Apps &amp; when to choose them
+      <span class="sub" style="margin-left:auto">Source: learn.microsoft.com/power-apps/developer/code-apps/overview</span>
+    </div>
+    <div class="strip">
+      <b>Code Apps</b> let pro-developers build Power Platform apps using <b>any modern web stack</b> (React/Vue/Angular/Svelte) authored in VS Code, packaged with Vite, and run inside the Power Apps player.
+      Apps inherit Power Platform <b>identity (Entra ID)</b>, <b>connectors</b>, <b>governance (DLP, tenant policies)</b>, <b>environments</b> and <b>sharing</b>.
+      Choose Code Apps when you need: complex UI (charts, maps, custom layouts), heavy client logic, npm libraries, true unit testing, Git workflows, or pixel-perfect design that Canvas can't easily match.
+      Choose <b>Canvas</b> instead when makers need to compose with formulas. Choose <b>Model-driven</b> when Dataverse + standard pages are enough.
+    </div>
+  </div>
+
+  <!-- ══ PREREQUISITES ══ -->
+  <div class="card">
+    <div class="card-header c-prereq">
+      <span class="cmd-label">prereqs</span> Install &amp; Setup
+    </div>
+    <table>
+      <tr><td>Node.js</td><td>v20 LTS or later &mdash; <code>node --version</code></td></tr>
+      <tr><td>npm</td><td>v10+ ships with Node &mdash; <code>npm --version</code></td></tr>
+      <tr><td>VS Code</td><td>Latest stable build (code-insiders also fine)</td></tr>
+      <tr><td>PAC CLI</td><td><code>winget install Microsoft.PowerAppsCLI</code></td></tr>
+      <tr><td>git</td><td>For source control / sharing samples</td></tr>
+      <tr><td>License</td><td>Power Apps <b>Premium</b> per-user OR Per-app plan</td></tr>
+      <tr><td>Tenant Flag</td><td>Admin must enable <b>Code Apps</b> in Power Platform admin center</td></tr>
+      <tr><td>Environment</td><td>Managed environment recommended (DLP, governance)</td></tr>
+    </table>
+    <div class="note">&#9888; Code Apps require <code>pac install latest</code> updated PAC. Update if <code>pac code</code> is unknown.</div>
+  </div>
+
+  <!-- ══ PAC CLI for Code Apps ══ -->
+  <div class="card">
+    <div class="card-header c-pac">
+      <span class="cmd-label">pac code</span> CLI Commands <span class="badge badge-preview">Preview</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-init" target="_blank">init</a></td><td>Initialize a Code app in the current Vite project</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list" target="_blank">list</a></td><td>List all code apps available in current environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-push" target="_blank">push</a></td><td>Build &amp; publish a new version of the app to the environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-run" target="_blank">run</a></td><td>Start the local Power tunnel so the dev server can use connections</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-add-data-source" target="_blank">add-data-source</a></td><td>Wire a connector + connection-reference into the project &amp; generate types</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-delete-data-source" target="_blank">delete-data-source</a></td><td>Remove a data source from the app</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-connection-references" target="_blank">list-connection-references</a></td><td>Show connection references in the current environment/solution</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-datasets" target="_blank">list-datasets</a></td><td>List datasets accessible via the provided connector</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-tables" target="_blank">list-tables</a></td><td>List tables accessible via a connector/dataset</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-sql-stored-procedures" target="_blank">list-sql-stored-procedures</a></td><td>Enumerate stored procedures for a SQL connection/dataset</td></tr>
+    </table>
+    <div class="note">&#128161; All <code>pac code</code> commands require an active <code>pac auth</code> profile pointing at a Power Platform environment.</div>
+  </div>
+
+  <!-- ══ NPM SDK ══ -->
+  <div class="card">
+    <div class="card-header c-npm">
+      <span class="cmd-label">npm</span> @microsoft/power-apps SDK
+      <span class="sub" style="margin-left:auto">v1.0.4+</span>
+    </div>
+    <table>
+      <tr><td>npm install</td><td><code>npm i @microsoft/power-apps</code> &mdash; runtime + auth SDK</td></tr>
+      <tr><td>npx pa-client init</td><td>Generate <code>power.config.json</code> &amp; wire scripts (npm replacement for <code>pac code init</code>)</td></tr>
+      <tr><td>npx pa-client add-data-source</td><td>Add connector &amp; regenerate <code>generated/</code> typed clients</td></tr>
+      <tr><td>npx pa-client push</td><td>Build &amp; publish (equivalent to <code>pac code push</code>)</td></tr>
+      <tr><td>npx pa-client run</td><td>Power tunnel for local <code>vite dev</code> (equivalent to <code>pac code run</code>)</td></tr>
+      <tr><td>npx pa-client list</td><td>List code apps in current environment</td></tr>
+      <tr><td>npm run dev</td><td>Start Vite dev server (host UI + HMR)</td></tr>
+      <tr><td>npm run build</td><td>Vite production build &rarr; <code>dist/</code></td></tr>
+      <tr><td>npm run preview</td><td>Serve built bundle locally</td></tr>
+    </table>
+    <div class="note">&#9888; The <code>pac code</code> CLI is moving to the npm-based <code>@microsoft/power-apps</code> client. Both work today; prefer npm for new projects.</div>
+  </div>
+
+  <!-- ══ VS CODE WORKFLOW ══ -->
+  <div class="card span2">
+    <div class="card-header c-vscode">
+      <span class="cmd-label">vs code</span> Workflow, Extensions &amp; Terminal Recipes
+    </div>
+    <table>
+      <tr><td>Recommended extensions</td><td><b>Power Platform Tools</b>, <b>ES7+ React snippets</b>, <b>ESLint</b>, <b>Prettier</b>, <b>GitLens</b>, <b>Tailwind CSS IntelliSense</b> (if used), <b>Error Lens</b></td></tr>
+      <tr><td>Open project</td><td><code>code .</code> in the project folder; trust workspace</td></tr>
+      <tr><td>Integrated terminal</td><td><span class="kbd">Ctrl + `</span> opens PowerShell &mdash; run all <code>pac</code> &amp; <code>npm</code> commands here</td></tr>
+      <tr><td>Sign in to Power Platform</td><td><code>pac auth create --environment "https://&lt;org&gt;.crm.dynamics.com"</code> &nbsp;&rarr; confirms via browser</td></tr>
+      <tr><td>Switch environments</td><td><code>pac auth select --index N</code> &middot; <code>pac auth list</code></td></tr>
+      <tr><td>Run app locally</td><td><b>Tab A:</b> <code>pac code run</code> &nbsp; <b>Tab B:</b> <code>npm run dev</code></td></tr>
+      <tr><td>Debug client code</td><td>Use VS Code's built-in <b>JavaScript Debugger</b> against the Vite URL (<code>http://localhost:5173</code>)</td></tr>
+      <tr><td>Type-safe data calls</td><td>Auto-generated TypeScript clients live under <code>src/Services/</code> &amp; <code>src/Models/</code></td></tr>
+      <tr><td>Refresh data clients</td><td>Re-run <code>pac code add-data-source ...</code> any time the connector schema changes</td></tr>
+      <tr><td>Lint &amp; format</td><td><code>npm run lint</code> &middot; <code>npm run format</code> (add Prettier if not preset)</td></tr>
+      <tr><td>Push to environment</td><td><code>pac code push</code> &mdash; first push creates app, subsequent pushes version it</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ PROJECT ANATOMY ══ -->
+  <div class="card">
+    <div class="card-header c-anatomy">
+      <span class="cmd-label">anatomy</span> Project Structure
+    </div>
+    <div class="code"><span class="c">// Typical Vite + React Code App</span>
+my-code-app/
+&#9500;&#9472; <span class="v">power.config.json</span>   <span class="c">// app id, env, datasources</span>
+&#9500;&#9472; <span class="v">package.json</span>
+&#9500;&#9472; <span class="v">vite.config.ts</span>      <span class="c">// HMR + base path</span>
+&#9500;&#9472; <span class="v">tsconfig.json</span>
+&#9500;&#9472; <span class="v">index.html</span>
+&#9500;&#9472; <span class="v">.env.local</span>          <span class="c">// local secrets, NEVER push</span>
+&#9492;&#9472; src/
+   &#9500;&#9472; <span class="v">main.tsx</span>         <span class="c">// React bootstrap</span>
+   &#9500;&#9472; <span class="v">App.tsx</span>
+   &#9500;&#9472; <span class="v">PowerProvider.tsx</span><span class="c">// initialize() SDK</span>
+   &#9500;&#9472; Models/             <span class="c">// generated DTOs</span>
+   &#9500;&#9472; Services/           <span class="c">// generated clients</span>
+   &#9492;&#9472; components/         <span class="c">// your UI</span></div>
+    <div class="note">&#128193; <code>power.config.json</code> is the single source of truth for environment + data sources. Commit it. Never commit <code>.env.local</code>.</div>
+  </div>
+
+  <!-- ══ AUTHENTICATION ══ -->
+  <div class="card span2">
+    <div class="card-header c-auth">
+      <span class="cmd-label">auth</span> Identity, PowerProvider &amp; Initialize
+    </div>
+    <table>
+      <tr><td>Identity</td><td>Apps run as the signed-in user via <b>Microsoft Entra ID</b> &mdash; no token plumbing needed</td></tr>
+      <tr><td>SDK entry-point</td><td><code>import { initialize } from "@microsoft/power-apps/app";</code></td></tr>
+      <tr><td>When to init</td><td>Call <code>initialize()</code> exactly once at app start (in <code>PowerProvider.tsx</code>) before any data call</td></tr>
+      <tr><td>User context</td><td><code>const user = await getCurrentUser();</code> &mdash; name, email, tenantId, oid</td></tr>
+      <tr><td>Connection auth</td><td>All connector calls use the connection-reference's stored credentials (no client secrets in code)</td></tr>
+      <tr><td>Sign-in UX</td><td>Power Apps host shell handles SSO; local dev uses <code>pac code run</code> tunnel for connection brokering</td></tr>
+      <tr><td>Roles &amp; sharing</td><td>Use Power Apps sharing UI; honor environment security roles for Dataverse</td></tr>
+    </table>
+    <div class="code"><span class="c">// src/PowerProvider.tsx &mdash; minimal pattern</span>
+<span class="k">import</span> { initialize } <span class="k">from</span> <span class="s">"@microsoft/power-apps/app"</span>;
+<span class="k">import</span> { useEffect, useState } <span class="k">from</span> <span class="s">"react"</span>;
+
+<span class="k">export function</span> <span class="fn">PowerProvider</span>({ children }: { children: React.ReactNode }) {
+  <span class="k">const</span> [ready, setReady] = <span class="fn">useState</span>(<span class="k">false</span>);
+  <span class="fn">useEffect</span>(() <span class="o">=&gt;</span> {
+    <span class="fn">initialize</span>().<span class="fn">then</span>(() <span class="o">=&gt;</span> <span class="fn">setReady</span>(<span class="k">true</span>));
+  }, []);
+  <span class="k">if</span> (!ready) <span class="k">return</span> <span class="o">&lt;</span>div<span class="o">&gt;</span>Loading&hellip;<span class="o">&lt;/</span>div<span class="o">&gt;</span>;
+  <span class="k">return</span> <span class="o">&lt;</span><span class="o">&gt;</span>{children}<span class="o">&lt;/</span><span class="o">&gt;</span>;
+}</div>
+  </div>
+
+  <!-- ══ DATA SOURCES ══ -->
+  <div class="card">
+    <div class="card-header c-data">
+      <span class="cmd-label">data sources</span> Connectors You Can Use
+    </div>
+    <table>
+      <tr><td>Dataverse</td><td>Tables, choices, lookups, FetchXML, $batch, Web API</td></tr>
+      <tr><td>SharePoint</td><td>Lists, document libraries, list items</td></tr>
+      <tr><td>SQL Server (Azure)</td><td>Tables, views, stored procedures (incl. params)</td></tr>
+      <tr><td>Office 365 Users</td><td>Profile, manager, photo</td></tr>
+      <tr><td>Office 365 Outlook</td><td>Mail, calendar, contacts</td></tr>
+      <tr><td>Excel Online</td><td>Workbooks, tables, rows</td></tr>
+      <tr><td>OneDrive</td><td>Files, folders</td></tr>
+      <tr><td>Microsoft Teams</td><td>Channels, messages, meetings</td></tr>
+      <tr><td>Azure DevOps</td><td>Work items, repos, pipelines</td></tr>
+      <tr><td>MCS Copilot</td><td>Invoke Copilot Studio agents</td></tr>
+      <tr><td>Custom Connector</td><td>Any OpenAPI 2.0 connector you've built</td></tr>
+      <tr><td>1,500+ certified</td><td>Anything in the Power Platform connector library</td></tr>
+    </table>
+    <div class="note">&#128268; Every data source is wired through a <b>connection reference</b> so the app travels cleanly between environments via a solution.</div>
+  </div>
+
+  <!-- ══ ADD DATA SOURCE FLOW ══ -->
+  <div class="card span2">
+    <div class="card-header c-data">
+      <span class="cmd-label">add-data-source</span> Wire a Connector &mdash; Step by Step
+    </div>
+    <table>
+      <tr><td>1. List references</td><td><code>pac code list-connection-references</code> &nbsp;&mdash; get the <code>connection-id</code></td></tr>
+      <tr><td>2. List datasets (if any)</td><td><code>pac code list-datasets -a &lt;connector-name&gt;</code></td></tr>
+      <tr><td>3. List tables / sprocs</td><td><code>pac code list-tables -a &lt;connector&gt; -d &lt;dataset&gt;</code></td></tr>
+      <tr><td>4. Add it</td><td><code>pac code add-data-source -a &lt;connector&gt; -c &lt;connection-id&gt; -d &lt;dataset&gt; -t &lt;table&gt;</code></td></tr>
+      <tr><td>5. Output</td><td>Auto-generated typed client under <code>src/Services/&lt;ConnectorName&gt;Service.ts</code> + DTOs in <code>src/Models/</code></td></tr>
+      <tr><td>6. Use it</td><td>Import the service and call typed methods &mdash; no boilerplate auth code</td></tr>
+    </table>
+    <div class="code"><span class="c">// Example: add Dataverse "accounts" table</span>
+pac code add-data-source <span class="o">\</span>
+  -a <span class="s">"shared_commondataservicepowerapps"</span> <span class="o">\</span>
+  -c <span class="s">"&lt;connection-reference-id&gt;"</span> <span class="o">\</span>
+  -t <span class="s">"accounts"</span>
+
+<span class="c">// Example: add SQL stored procedure</span>
+pac code add-data-source <span class="o">\</span>
+  -a <span class="s">"shared_sql"</span> <span class="o">\</span>
+  -c <span class="s">"&lt;connection-reference-id&gt;"</span> <span class="o">\</span>
+  -d <span class="s">"default,server.database.windows.net,mydb"</span> <span class="o">\</span>
+  -sp <span class="s">"dbo.GetTopOrders"</span></div>
+  </div>
+
+  <!-- ══ SDK QUICK REFERENCE ══ -->
+  <div class="card span2">
+    <div class="card-header c-sdk">
+      <span class="cmd-label">SDK</span> @microsoft/power-apps &mdash; API Cheatsheet
+    </div>
+    <table>
+      <tr><td>initialize()</td><td>Boot the SDK; await before any data/auth call</td></tr>
+      <tr><td>getCurrentUser()</td><td>Returns Entra ID identity of signed-in user</td></tr>
+      <tr><td>navigate(url, options)</td><td>Programmatic navigation that respects the Power Apps shell</td></tr>
+      <tr><td>showAlert(message)</td><td>Display a host-styled alert/notification</td></tr>
+      <tr><td>getEnvironment()</td><td>Read environment id, region, geography</td></tr>
+      <tr><td>&lt;Connector&gt;Service.getAll()</td><td>List records &mdash; typed</td></tr>
+      <tr><td>&lt;Connector&gt;Service.getById(id)</td><td>Fetch a single record</td></tr>
+      <tr><td>&lt;Connector&gt;Service.create(record)</td><td>Insert with strongly-typed DTO</td></tr>
+      <tr><td>&lt;Connector&gt;Service.update(id, patch)</td><td>Partial update</td></tr>
+      <tr><td>&lt;Connector&gt;Service.delete(id)</td><td>Delete by primary key</td></tr>
+      <tr><td>&lt;Connector&gt;Service.query(opts)</td><td>Typed OData-style query: filter, top, orderBy</td></tr>
+      <tr><td>invokeAction(name, params)</td><td>Call a connector custom action / stored proc</td></tr>
+      <tr><td>uploadFile(file)</td><td>Stream blob/file content (SharePoint, OneDrive)</td></tr>
+    </table>
+    <div class="code"><span class="c">// Typed Dataverse call &mdash; fully generated</span>
+<span class="k">import</span> { AccountsService } <span class="k">from</span> <span class="s">"./Services/AccountsService"</span>;
+<span class="k">import type</span> { <span class="t">Account</span> } <span class="k">from</span> <span class="s">"./Models/Account"</span>;
+
+<span class="k">const</span> top5: <span class="t">Account</span>[] = <span class="k">await</span> <span class="t">AccountsService</span>.<span class="fn">query</span>({
+  top: <span class="n">5</span>,
+  orderBy: <span class="s">"revenue desc"</span>,
+  filter: <span class="s">"statecode eq 0"</span>,
+});</div>
+  </div>
+
+  <!-- ══ LOCAL DEV ══ -->
+  <div class="card">
+    <div class="card-header c-dev">
+      <span class="cmd-label">dev</span> Local Run &amp; Debug
+    </div>
+    <ul class="tight">
+      <li>Open 2 terminals in VS Code.</li>
+      <li><b>Terminal 1 &mdash; Power tunnel:</b> <code>pac code run</code> &mdash; brokers connector traffic via your auth profile.</li>
+      <li><b>Terminal 2 &mdash; Vite:</b> <code>npm run dev</code> &mdash; opens <code>http://localhost:5173</code>.</li>
+      <li>Hot-reload: edits to <code>.tsx</code>/<code>.css</code> apply instantly.</li>
+      <li>Console &amp; network: Edge/Chrome DevTools. Network shows tunnel requests routed via <code>localhost</code>.</li>
+      <li>Stop with <span class="kbd">Ctrl + C</span> in both tabs.</li>
+      <li>Restart the tunnel any time you switch <code>pac auth select</code>.</li>
+    </ul>
+    <div class="note">&#128161; If a connector returns 401/403 locally, re-run <code>pac auth create</code> and restart <code>pac code run</code>.</div>
+  </div>
+
+  <!-- ══ BUILD & PUBLISH ══ -->
+  <div class="card">
+    <div class="card-header c-deploy">
+      <span class="cmd-label">deploy</span> Build &amp; Publish
+    </div>
+    <ol class="tight">
+      <li>Ensure <code>pac auth who</code> points at the target environment.</li>
+      <li><code>npm run build</code> &mdash; Vite emits <code>dist/</code>.</li>
+      <li><code>pac code push</code> &mdash; uploads the bundle &amp; registers a new app version.</li>
+      <li>App appears in Power Apps maker portal under <i>Apps &rarr; Code apps</i>.</li>
+      <li>Share like any Power App: <i>Share &rarr; assign users/security groups</i>.</li>
+      <li>For ALM, add the code app to a <b>solution</b> and use pipelines/PAC build tools.</li>
+      <li>Subsequent <code>pac code push</code> = new published version (auto-bumped).</li>
+    </ol>
+    <div class="note">&#128640; First push prompts for app display name &amp; description. Re-running push updates the existing app &mdash; no second prompt.</div>
+  </div>
+
+  <!-- ══ POWER.CONFIG.JSON ══ -->
+  <div class="card span2">
+    <div class="card-header c-anatomy">
+      <span class="cmd-label">power.config.json</span> The Manifest That Glues It Together
+    </div>
+    <div class="code"><span class="c">// Truncated example &mdash; generated &amp; updated by `pac code` commands</span>
+{
+  <span class="v">"version"</span>: <span class="s">"1.0"</span>,
+  <span class="v">"appId"</span>: <span class="s">"00000000-0000-0000-0000-000000000000"</span>,
+  <span class="v">"appName"</span>: <span class="s">"InventoryHub"</span>,
+  <span class="v">"environment"</span>: {
+    <span class="v">"id"</span>: <span class="s">"&lt;environment-id&gt;"</span>,
+    <span class="v">"url"</span>: <span class="s">"https://orgXYZ.crm.dynamics.com"</span>
+  },
+  <span class="v">"dataSources"</span>: [
+    {
+      <span class="v">"name"</span>: <span class="s">"accounts"</span>,
+      <span class="v">"connector"</span>: <span class="s">"shared_commondataservicepowerapps"</span>,
+      <span class="v">"connectionReferenceId"</span>: <span class="s">"&lt;conn-ref-id&gt;"</span>,
+      <span class="v">"table"</span>: <span class="s">"accounts"</span>
+    }
+  ],
+  <span class="v">"runtime"</span>: { <span class="v">"sdkVersion"</span>: <span class="s">"1.0.4"</span> }
+}</div>
+    <table>
+      <tr><td>Commit it</td><td>Yes &mdash; required for teammates &amp; CI builds</td></tr>
+      <tr><td>Hand-edit?</td><td>Avoid; use <code>add-data-source</code>/<code>delete-data-source</code> to keep types in sync</td></tr>
+      <tr><td>Multi-env</td><td>Use solution + connection references; override env at <code>pac code push --environment</code></td></tr>
+      <tr><td>Secrets</td><td>Never store secrets here &mdash; use <code>.env.local</code> + connector auth</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ SOLUTION & ALM ══ -->
+  <div class="card">
+    <div class="card-header c-alm">
+      <span class="cmd-label">ALM</span> Solutions, Pipelines, Source
+    </div>
+    <ul class="tight">
+      <li>Add the published code app to an <b>unmanaged solution</b> in the maker portal.</li>
+      <li>Include the connection-references it depends on.</li>
+      <li>Export managed/unmanaged via <code>pac solution export</code>.</li>
+      <li>Use <b>Power Platform Pipelines</b> or Azure DevOps build tools for promotion.</li>
+      <li>Keep <code>power.config.json</code> in Git; environment IDs differ per stage.</li>
+      <li>Tag releases in Git matching <code>pac code push</code> versions.</li>
+      <li>Don't check in <code>node_modules/</code>, <code>dist/</code>, or <code>.env.local</code>.</li>
+    </ul>
+  </div>
+
+  <!-- ══ LIMITATIONS ══ -->
+  <div class="card">
+    <div class="card-header c-limits">
+      <span class="cmd-label">limits</span> Known Limitations <span class="badge badge-warn">Preview</span>
+    </div>
+    <ul class="tight">
+      <li>Preview: subject to breaking changes &mdash; pin SDK versions.</li>
+      <li>Requires Premium / per-app Power Apps license.</li>
+      <li>Not available in GCC High / DoD clouds at preview time.</li>
+      <li>No offline mode (yet).</li>
+      <li>Mobile native shell support limited &mdash; design responsively for web.</li>
+      <li>Bundle size cap: keep <code>dist/</code> reasonably lean for fast load.</li>
+      <li>Cannot directly embed in Model-driven forms (use iframe or PCF).</li>
+      <li>No Power Fx in code &mdash; call connectors via the SDK instead.</li>
+      <li>Service principal auth for the dev loop is not supported.</li>
+    </ul>
+  </div>
+
+  <!-- ══ TIPS & PATTERNS ══ -->
+  <div class="card span2">
+    <div class="card-header c-tips">
+      <span class="cmd-label">tips</span> Patterns &amp; Pro-Moves
+    </div>
+    <table>
+      <tr><td>State management</td><td>Start with React Context + hooks; reach for Zustand or Redux Toolkit only when state truly is global &amp; complex.</td></tr>
+      <tr><td>UI library</td><td><b>Fluent UI v9</b> integrates cleanly with Power Apps look-and-feel; shadcn/ui &amp; MUI also work.</td></tr>
+      <tr><td>Routing</td><td>Use <code>react-router-dom</code> with <code>HashRouter</code> &mdash; avoids server config inside the Power Apps shell.</td></tr>
+      <tr><td>Forms</td><td><b>react-hook-form</b> + Zod for typed validation; pair with Fluent inputs.</td></tr>
+      <tr><td>Tables / grids</td><td><b>TanStack Table</b> for headless control; AG Grid Community if you need rich grids.</td></tr>
+      <tr><td>Charts</td><td>Recharts or Apache ECharts; both tree-shake well in Vite.</td></tr>
+      <tr><td>Icons</td><td><code>@fluentui/react-icons</code> matches host shell.</td></tr>
+      <tr><td>Loading UX</td><td>Suspense + skeleton screens; show a banner while <code>initialize()</code> resolves.</td></tr>
+      <tr><td>Error boundary</td><td>Wrap the app in a single <code>ErrorBoundary</code> that surfaces <code>showAlert</code>.</td></tr>
+      <tr><td>Telemetry</td><td>Use Application Insights JS SDK; instrument route changes &amp; service calls.</td></tr>
+      <tr><td>Testing</td><td>Vitest + React Testing Library; mock services from <code>src/Services/</code>.</td></tr>
+      <tr><td>Accessibility</td><td>Target WCAG 2.2 AA; Fluent UI components are accessible by default.</td></tr>
+      <tr><td>Localization</td><td><code>i18next</code> + <code>react-i18next</code> work out-of-the-box.</td></tr>
+      <tr><td>Performance</td><td>Code-split with dynamic <code>import()</code>; pre-fetch heavy routes on hover.</td></tr>
+      <tr><td>Env switching</td><td>Two pac profiles &mdash; DEV &amp; UAT; <code>pac auth select</code> before <code>pac code push</code>.</td></tr>
+      <tr><td>Multiple data sources</td><td>Rerun <code>add-data-source</code> per connector; generated services tree-shake away unused calls.</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ SNIPPETS ══ -->
+  <div class="card span3">
+    <div class="card-header c-snippets">
+      <span class="cmd-label">snippets</span> Copy-Paste Recipes
+    </div>
+    <div class="code"><span class="c">// 1. Bootstrap App.tsx with PowerProvider</span>
+<span class="k">import</span> { PowerProvider } <span class="k">from</span> <span class="s">"./PowerProvider"</span>;
+<span class="k">import</span> { AppShell } <span class="k">from</span> <span class="s">"./AppShell"</span>;
+
+<span class="k">export default function</span> <span class="fn">App</span>() {
+  <span class="k">return</span> (
+    <span class="o">&lt;</span><span class="t">PowerProvider</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="t">AppShell</span> <span class="o">/&gt;</span>
+    <span class="o">&lt;/</span><span class="t">PowerProvider</span><span class="o">&gt;</span>
+  );
+}
+
+<span class="c">// 2. Fetch records + loading + error states</span>
+<span class="k">import</span> { useEffect, useState } <span class="k">from</span> <span class="s">"react"</span>;
+<span class="k">import</span> { AccountsService } <span class="k">from</span> <span class="s">"./Services/AccountsService"</span>;
+<span class="k">import type</span> { <span class="t">Account</span> } <span class="k">from</span> <span class="s">"./Models/Account"</span>;
+
+<span class="k">export function</span> <span class="fn">AccountList</span>() {
+  <span class="k">const</span> [rows, setRows]   = <span class="fn">useState</span><span class="o">&lt;</span><span class="t">Account</span>[]<span class="o">&gt;</span>([]);
+  <span class="k">const</span> [error, setError] = <span class="fn">useState</span><span class="o">&lt;</span>string <span class="o">|</span> <span class="k">null</span><span class="o">&gt;</span>(<span class="k">null</span>);
+  <span class="k">const</span> [busy, setBusy]   = <span class="fn">useState</span>(<span class="k">true</span>);
+
+  <span class="fn">useEffect</span>(() <span class="o">=&gt;</span> {
+    <span class="t">AccountsService</span>.<span class="fn">query</span>({ top: <span class="n">50</span>, orderBy: <span class="s">"name asc"</span> })
+      .<span class="fn">then</span>(setRows)
+      .<span class="fn">catch</span>(e <span class="o">=&gt;</span> <span class="fn">setError</span>(e.message))
+      .<span class="fn">finally</span>(() <span class="o">=&gt;</span> <span class="fn">setBusy</span>(<span class="k">false</span>));
+  }, []);
+
+  <span class="k">if</span> (busy)  <span class="k">return</span> <span class="o">&lt;</span>p<span class="o">&gt;</span>Loading&hellip;<span class="o">&lt;/</span>p<span class="o">&gt;</span>;
+  <span class="k">if</span> (error) <span class="k">return</span> <span class="o">&lt;</span>p<span class="o">&gt;</span>{error}<span class="o">&lt;/</span>p<span class="o">&gt;</span>;
+  <span class="k">return</span> <span class="o">&lt;</span>ul<span class="o">&gt;</span>{rows.<span class="fn">map</span>(r <span class="o">=&gt;</span> <span class="o">&lt;</span>li key={r.id}<span class="o">&gt;</span>{r.name}<span class="o">&lt;/</span>li<span class="o">&gt;</span>)}<span class="o">&lt;/</span>ul<span class="o">&gt;</span>;
+}
+
+<span class="c">// 3. Create with form submit</span>
+<span class="k">async function</span> <span class="fn">addAccount</span>(name: string, revenue: number) {
+  <span class="k">const</span> created = <span class="k">await</span> <span class="t">AccountsService</span>.<span class="fn">create</span>({ name, revenue });
+  <span class="k">return</span> created.id;
+}
+
+<span class="c">// 4. Call a SQL stored procedure</span>
+<span class="k">import</span> { SqlActions } <span class="k">from</span> <span class="s">"./Services/SqlActions"</span>;
+<span class="k">const</span> result = <span class="k">await</span> <span class="t">SqlActions</span>.<span class="fn">getTopOrders</span>({ top: <span class="n">10</span> });
+
+<span class="c">// 5. Show host alert + safe nav</span>
+<span class="k">import</span> { showAlert, navigate } <span class="k">from</span> <span class="s">"@microsoft/power-apps/app"</span>;
+<span class="k">await</span> <span class="fn">showAlert</span>(<span class="s">"Saved successfully"</span>);
+<span class="fn">navigate</span>(<span class="s">"/orders"</span>);
+
+<span class="c">// 6. vite.config.ts &mdash; relative base required for Power Apps host</span>
+<span class="k">import</span> { defineConfig } <span class="k">from</span> <span class="s">"vite"</span>;
+<span class="k">import</span> react <span class="k">from</span> <span class="s">"@vitejs/plugin-react"</span>;
+
+<span class="k">export default</span> <span class="fn">defineConfig</span>({
+  plugins: [<span class="fn">react</span>()],
+  base: <span class="s">"./"</span>,                 <span class="c">// &larr; critical</span>
+  build: { outDir: <span class="s">"dist"</span>, sourcemap: <span class="k">true</span> },
+});</div>
+  </div>
+
+  <!-- ══ TROUBLESHOOTING ══ -->
+  <div class="card span2">
+    <div class="card-header c-trouble">
+      <span class="cmd-label">troubleshoot</span> Common Errors &amp; Fixes
+    </div>
+    <table>
+      <tr><td>"pac code not recognized"</td><td>Update PAC: <code>pac install latest</code>. Restart terminal.</td></tr>
+      <tr><td>401 on connector calls (local)</td><td>Tunnel auth expired. Stop <code>pac code run</code>, run <code>pac auth create</code>, restart tunnel.</td></tr>
+      <tr><td>Blank page after push</td><td>Forgot <code>base: "./"</code> in <code>vite.config.ts</code>. Rebuild and push.</td></tr>
+      <tr><td>"PowerSDK undefined"</td><td>You called a service before <code>initialize()</code> resolved. Wrap with <code>PowerProvider</code>.</td></tr>
+      <tr><td>Types out of sync</td><td>Re-run <code>pac code add-data-source</code> for that connector.</td></tr>
+      <tr><td>"Connection reference not found"</td><td>You're on the wrong env. <code>pac auth who</code> &rarr; switch with <code>pac auth select</code>.</td></tr>
+      <tr><td>"App not visible in maker portal"</td><td>Push completed but you filtered Code apps off. Maker &rarr; Apps &rarr; filter "Code apps".</td></tr>
+      <tr><td>Slow first load in production</td><td>Bundle too big. Run <code>vite build --report</code>, code-split heavy routes.</td></tr>
+      <tr><td>CORS errors locally</td><td>Always call connectors through generated services &mdash; never raw <code>fetch</code> to a connector URL.</td></tr>
+      <tr><td>"Premium connector blocked"</td><td>User lacks Premium licence OR DLP policy blocks the connector class.</td></tr>
+      <tr><td>"Solution import fails"</td><td>Connection references unmapped. Map them in the solution import wizard.</td></tr>
+      <tr><td>HMR not refreshing</td><td>Check for syntax errors in console; restart <code>npm run dev</code>.</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ LICENSING & GOVERNANCE ══ -->
+  <div class="card">
+    <div class="card-header c-license">
+      <span class="cmd-label">license</span> Governance Cheats
+    </div>
+    <ul class="tight">
+      <li><b>Maker:</b> Premium Power Apps per-user.</li>
+      <li><b>User:</b> Premium per-user OR per-app plan covering the published app.</li>
+      <li><b>Admin enable:</b> Power Platform Admin Center &rarr; Settings &rarr; Code apps &rarr; On.</li>
+      <li><b>DLP:</b> Each connector in your code app is governed by the env's DLP policy.</li>
+      <li><b>Audit:</b> Code app activity flows through Power Platform analytics + Purview.</li>
+      <li><b>Capacity:</b> Bundle size + connector calls count toward env quotas.</li>
+      <li><b>Sharing:</b> Use Entra security groups for scale; avoid per-user grants.</li>
+    </ul>
+  </div>
+
+  <!-- ══ KEYBOARD SHORTCUTS ══ -->
+  <div class="card">
+    <div class="card-header c-vscode">
+      <span class="cmd-label">VS Code</span> Shortcuts You'll Actually Use
+    </div>
+    <table>
+      <tr><td><span class="kbd">Ctrl+`</span></td><td>Toggle integrated terminal</td></tr>
+      <tr><td><span class="kbd">Ctrl+Shift+P</span></td><td>Command palette</td></tr>
+      <tr><td><span class="kbd">Ctrl+P</span></td><td>Quick open file</td></tr>
+      <tr><td><span class="kbd">Ctrl+Shift+F</span></td><td>Search across workspace</td></tr>
+      <tr><td><span class="kbd">F12</span></td><td>Go to definition</td></tr>
+      <tr><td><span class="kbd">Shift+F12</span></td><td>Show all references</td></tr>
+      <tr><td><span class="kbd">F2</span></td><td>Rename symbol (TS-aware)</td></tr>
+      <tr><td><span class="kbd">Ctrl+.</span></td><td>Quick fix / refactor</td></tr>
+      <tr><td><span class="kbd">Alt+Shift+F</span></td><td>Format document</td></tr>
+      <tr><td><span class="kbd">Ctrl+B</span></td><td>Toggle sidebar</td></tr>
+      <tr><td><span class="kbd">Ctrl+\</span></td><td>Split editor</td></tr>
+      <tr><td><span class="kbd">F5</span></td><td>Start debugging (with launch.json)</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ FAQ ══ -->
+  <div class="card span2">
+    <div class="card-header c-tips">
+      <span class="cmd-label">FAQ</span> Quick Answers
+    </div>
+    <table>
+      <tr><td>Do I need Dataverse?</td><td>No. You can use SharePoint, SQL, or any connector &mdash; Dataverse is just one option.</td></tr>
+      <tr><td>Can I use Next.js / Remix?</td><td>Code Apps target a static client bundle; SSR frameworks aren't supported. Use Vite + React/Vue/Svelte/Angular SPA mode.</td></tr>
+      <tr><td>Can I use Tailwind CSS?</td><td>Yes &mdash; install <code>tailwindcss</code>, init config, import in <code>index.css</code>. Works seamlessly with Vite.</td></tr>
+      <tr><td>Call Azure Functions / APIs directly?</td><td>Yes &mdash; via a <b>custom connector</b> wrapper. Direct <code>fetch</code> works for public APIs, but loses governance.</td></tr>
+      <tr><td>Embed in a model-driven page?</td><td>Use an iframe with the code app's URL, or embed via a PCF host control.</td></tr>
+      <tr><td>How do I version &amp; rollback?</td><td>Each <code>pac code push</code> creates a new version; previous versions are retained &amp; restorable from the maker portal.</td></tr>
+      <tr><td>Does it work on mobile?</td><td>Yes, in the Power Apps mobile player &mdash; design responsively. Native shell APIs (camera, GPS) limited via SDK; use the device's web APIs or connectors.</td></tr>
+      <tr><td>Users without licenses?</td><td>No preview without licensing &mdash; Premium licensing applies to all runtime users.</td></tr>
+      <tr><td>Is the source code visible?</td><td>The compiled JS bundle is downloaded to the client (like any web app). Keep secrets server-side or in connector auth.</td></tr>
+      <tr><td>Migrate from Canvas?</td><td>No automatic migration. Rebuild the UI in React; reuse connectors via <code>pac code add-data-source</code>.</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ RESOURCES ══ -->
+  <div class="card span3">
+    <div class="card-header c-resources">
+      <span class="cmd-label">resources</span> Official Links &mdash; bookmark these
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/overview" target="_blank">Overview</a></td><td>Code Apps concept, when to use, architecture</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/quickstart" target="_blank">Quickstart (pac code)</a></td><td>End-to-end first-app walkthrough using PAC CLI</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/npm-quickstart" target="_blank">Quickstart (npm)</a></td><td>Same walkthrough using <code>@microsoft/power-apps</code> npm client</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code" target="_blank">pac code Reference</a></td><td>Full CLI reference for the <code>pac code</code> group</td></tr>
+      <tr><td><a href="https://www.npmjs.com/package/@microsoft/power-apps" target="_blank">@microsoft/power-apps on npm</a></td><td>Latest SDK package + changelog</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/connectors/connector-reference/" target="_blank">Connector Library</a></td><td>1,500+ connectors you can wire via <code>add-data-source</code></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/admin/wp-data-loss-prevention" target="_blank">DLP Policies</a></td><td>How DLP applies to connectors used in code apps</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/alm/" target="_blank">ALM Guidance</a></td><td>Solutions, pipelines, source control patterns</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/share-app" target="_blank">Sharing Apps</a></td><td>Share &amp; secure published apps</td></tr>
+      <tr><td><a href="https://react.fluentui.dev/" target="_blank">Fluent UI v9</a></td><td>Microsoft design system &mdash; recommended pairing</td></tr>
+      <tr><td><a href="https://vitejs.dev/guide/" target="_blank">Vite Docs</a></td><td>Build tool used under the hood</td></tr>
+      <tr><td><a href="https://react.dev/" target="_blank">React Docs</a></td><td>Reference for the default scaffolded UI library</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/admin/admin-documentation" target="_blank">Power Platform Admin</a></td><td>Tenant enablement, environments, monitoring</td></tr>
+      <tr><td><a href="https://github.com/microsoft/power-apps-code-apps-samples" target="_blank">Official Samples (GitHub)</a></td><td>Reference apps &amp; templates from the product team</td></tr>
+    </table>
+  </div>
+
+</div><!-- /grid -->
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<div class="footer">
+  <div class="footer-stats" aria-label="Cheat sheet statistics">
+    <span class="stat-pill stat-highlight">Sections <span class="stat-value" id="stat-sections">0</span></span>
+    <span class="stat-pill">Commands &amp; APIs <span class="stat-value" id="stat-rows">0</span></span>
+    <span class="stat-pill">Snippets <span class="stat-value" id="stat-snippets">0</span></span>
+    <span class="stat-pill">Links <span class="stat-value" id="stat-links">0</span></span>
+  </div>
+
+  <strong>Power Apps Code Apps</strong> &nbsp;|&nbsp;
+  Install PAC: <code>winget install Microsoft.PowerAppsCLI</code> &nbsp;|&nbsp;
+  Install SDK: <code>npm i @microsoft/power-apps</code> &nbsp;|&nbsp;
+  Scaffold: <code>npm create vite@latest</code> &nbsp;|&nbsp;
+  Help: <code>pac code --help</code> &nbsp;|&nbsp;
+  Source: <a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/overview" target="_blank" rel="noopener noreferrer">learn.microsoft.com/power-apps/developer/code-apps</a> &nbsp;|&nbsp;
+  <span class="badge badge-preview">Preview</span> = subject to change &nbsp;
+  <span class="badge badge-tip">Tip</span> = pro-move
+</div>
+
+<script>
+  (function renderFooterStats() {
+    var sections   = document.querySelectorAll('.grid .card').length;
+    var rows       = document.querySelectorAll('.grid table tr').length;
+    var snippets   = document.querySelectorAll('.grid .code').length;
+    var links      = document.querySelectorAll('.grid a[href]').length
+                   + document.querySelectorAll('.footer a[href]').length;
+
+    var s1 = document.getElementById('stat-sections');
+    var s2 = document.getElementById('stat-rows');
+    var s3 = document.getElementById('stat-snippets');
+    var s4 = document.getElementById('stat-links');
+    if (s1) s1.textContent = String(sections);
+    if (s2) s2.textContent = String(rows);
+    if (s3) s3.textContent = String(snippets);
+    if (s4) s4.textContent = String(links);
+  })();
+</script>
+<script src="../assets/js/clean-url.js"></script>
+
+</body>
+</html>
