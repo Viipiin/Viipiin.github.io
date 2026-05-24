@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Claude AI 30-Day Plan favicon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a0a00"/>
+      <stop offset="50%" stop-color="#2d1b69"/>
+      <stop offset="100%" stop-color="#cc785c"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="12" fill="url(#bg)"/>
+  <!-- Brain/AI circuit -->
+  <!-- Brain outline simplified -->
+  <path d="M22 38 C16 36 13 30 15 24 C17 18 23 15 28 17 C30 12 36 12 38 17 C43 15 49 18 51 24 C53 30 50 36 44 38 L44 46 L20 46 Z" fill="none" stroke="#cc785c" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Circuit nodes inside brain -->
+  <circle cx="26" cy="26" r="2" fill="#f5a623"/>
+  <circle cx="32" cy="23" r="2" fill="#7c6af7"/>
+  <circle cx="38" cy="26" r="2" fill="#3ecf8e"/>
+  <circle cx="32" cy="32" r="2.5" fill="#cc785c"/>
+  <!-- Circuit connections -->
+  <line x1="26" y1="26" x2="32" y2="23" stroke="#f5a62388" stroke-width="1.2"/>
+  <line x1="32" y1="23" x2="38" y2="26" stroke="#7c6af788" stroke-width="1.2"/>
+  <line x1="26" y1="26" x2="32" y2="32" stroke="#f5a62388" stroke-width="1.2"/>
+  <line x1="38" y1="26" x2="32" y2="32" stroke="#3ecf8e88" stroke-width="1.2"/>
+  <!-- Days indicator -->
+  <text x="32" y="55" text-anchor="middle" font-size="6.5" font-family="Segoe UI, Arial, sans-serif" font-weight="700" fill="#f5a623" letter-spacing="0.5">30 DAYS</text>
+</svg>

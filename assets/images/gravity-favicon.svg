@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Where the Gravity Lives favicon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d0221"/>
+      <stop offset="50%" stop-color="#1a0545"/>
+      <stop offset="100%" stop-color="#0e3460"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7c4dff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#7c4dff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="12" fill="url(#bg)"/>
+  <!-- Gravity wave arcs -->
+  <path d="M10 32 Q32 12 54 32" fill="none" stroke="#7c4dff" stroke-width="2" opacity="0.6"/>
+  <path d="M10 32 Q32 18 54 32" fill="none" stroke="#a78bfa" stroke-width="1.5" opacity="0.7"/>
+  <path d="M10 32 Q32 46 54 32" fill="none" stroke="#60a5fa" stroke-width="2" opacity="0.6"/>
+  <path d="M10 32 Q32 52 54 32" fill="none" stroke="#818cf8" stroke-width="1.5" opacity="0.5"/>
+  <!-- Central star/body -->
+  <circle cx="32" cy="32" r="5" fill="url(#glow)"/>
+  <circle cx="32" cy="32" r="3" fill="#e0d7ff"/>
+  <!-- Small stars -->
+  <circle cx="15" cy="14" r="1.2" fill="#ffd54f"/>
+  <circle cx="48" cy="12" r="1" fill="#ffd54f" opacity="0.8"/>
+  <circle cx="54" cy="22" r="0.8" fill="#fff" opacity="0.7"/>
+  <circle cx="10" cy="20" r="0.8" fill="#fff" opacity="0.7"/>
+  <circle cx="22" cy="10" r="0.7" fill="#a78bfa"/>
+  <circle cx="42" cy="50" r="1" fill="#60a5fa" opacity="0.8"/>
+</svg>

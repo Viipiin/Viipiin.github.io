@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Blog favicon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6a0dad"/>
+      <stop offset="50%" stop-color="#c2185b"/>
+      <stop offset="100%" stop-color="#ff6f00"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="12" fill="url(#bg)"/>
+  <!-- Open book -->
+  <path d="M14 20 C14 18 16 17 18 17 L30 19 L30 46 L18 44 C16 44 14 43 14 41 Z" fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M50 20 C50 18 48 17 46 17 L34 19 L34 46 L46 44 C48 44 50 43 50 41 Z" fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="32" y1="19" x2="32" y2="46" stroke="#ffd54f" stroke-width="2"/>
+  <!-- Lines on pages -->
+  <line x1="18" y1="25" x2="28" y2="26" stroke="#ffffffaa" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="18" y1="30" x2="28" y2="31" stroke="#ffffffaa" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="18" y1="35" x2="28" y2="36" stroke="#ffffffaa" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="36" y1="26" x2="46" y2="25" stroke="#ffffffaa" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="36" y1="31" x2="46" y2="30" stroke="#ffffffaa" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="36" y1="36" x2="46" y2="35" stroke="#ffffffaa" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

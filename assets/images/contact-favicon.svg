@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Contact favicon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00695c"/>
+      <stop offset="50%" stop-color="#0288d1"/>
+      <stop offset="100%" stop-color="#7b1fa2"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="12" fill="url(#bg)"/>
+  <!-- Envelope body -->
+  <rect x="12" y="19" width="40" height="28" rx="4" fill="none" stroke="#eaf0ff" stroke-width="2.5"/>
+  <!-- Envelope flap V -->
+  <polyline points="12,19 32,37 52,19" fill="none" stroke="#ffd54f" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Bottom lines of envelope -->
+  <line x1="12" y1="47" x2="25" y2="35" stroke="#eaf0ff99" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="52" y1="47" x2="39" y2="35" stroke="#eaf0ff99" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
