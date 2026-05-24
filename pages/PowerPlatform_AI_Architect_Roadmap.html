@@ -164,6 +164,14 @@
     .decision-matrix td.yes { color: var(--accent3); font-weight: 700; }
     .decision-matrix td.no { color: var(--rec-bad); font-weight: 700; }
     .decision-matrix td.maybe { color: var(--accent4); font-weight: 700; }
+    /* Inline learning resources — appears under each week / topic / project */
+    .learn-box { margin-top: 12px; padding: 10px 14px; background: rgba(74,158,255,0.06); border-left: 3px solid var(--accent5); border-radius: 6px; font-size: 0.82rem; }
+    .learn-box .learn-title { color: var(--accent5); display: block; margin-bottom: 6px; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 800; }
+    .learn-box ul { list-style: none; margin: 0; padding: 0; }
+    .learn-box li { padding: 3px 0; line-height: 1.5; }
+    .learn-box a { color: var(--accent4); text-decoration: none; font-weight: 600; }
+    .learn-box a:hover { text-decoration: underline; color: var(--accent); }
+    .learn-box .src { color: var(--muted); font-size: 0.72rem; margin-left: 6px; font-weight: 500; font-style: italic; }
   </style>
 </head>
 <body>
@@ -246,6 +254,18 @@
         <li><strong>Real-world:</strong> A BFSI customer hit 4TB storage cost; design how to offload attachments to Azure Storage with SAS tokens</li>
         <li><strong>Deliverable:</strong> Markdown doc — "Dataverse Capacity Planning Playbook"</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/data-platform/data-platform-intro" target="_blank">What is Microsoft Dataverse?</a><span class="src">— MS Learn (official overview)</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/capacity-storage" target="_blank">Dataverse storage capacity (DB / File / Log)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/data-platform/create-edit-elastic-tables" target="_blank">Elastic tables (NoSQL) — when to use</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/developer/data-platform/event-framework" target="_blank">Event framework &amp; plugin pipeline stages</a><span class="src">— MS Learn (developer)</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/data-platform/types-of-fields" target="_blank">Column types &amp; File columns (offload binaries)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://www.develop1.net/public/" target="_blank">Scott Durow — Develop1 blog</a><span class="src">— Plugin internals deep-dives</span></li>
+          <li><a href="https://www.youtube.com/@ShaneYoungCloud" target="_blank">Shane Young — Dataverse tutorials</a><span class="src">— YouTube playlist</span></li>
+        </ul>
+      </div>
     </div>
     <div class="week-block">
       <h4>Week 2 — Security Model at Enterprise Scale</h4>
@@ -255,6 +275,19 @@
         <li><strong>Real-world:</strong> India-EMEA sales org needs GDPR-compliant data residency on a single tenant</li>
         <li><strong>Deliverable:</strong> Security matrix (Excel) + ER diagram of BU hierarchy</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/wp-security" target="_blank">Power Platform Security Whitepaper</a><span class="src">— MS Learn (canonical security doc)</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/security-roles-privileges" target="_blank">Security roles &amp; privileges</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/create-edit-business-units" target="_blank">Business units &amp; hierarchy</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/manage-teams" target="_blank">Owner, Access &amp; AAD teams</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/hierarchy-security" target="_blank">Hierarchical security (manager / position)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/field-level-security" target="_blank">Field-Level Security (FLS) profiles</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/customer-managed-key" target="_blank">Customer-Managed Key (BYOK) &amp; Lockbox</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://www.youtube.com/@LisaCrosbie" target="_blank">Lisa Crosbie — D365 security videos</a><span class="src">— YouTube</span></li>
+        </ul>
+      </div>
     </div>
     <div class="week-block">
       <h4>Week 3 — Solution Architecture &amp; ALM (DevOps Pipelines)</h4>
@@ -264,6 +297,20 @@
         <li><strong>Real-world:</strong> A consulting firm broke production because someone exported "Default Solution" — design guardrails</li>
         <li><strong>Deliverable:</strong> GitHub repo with working YAML pipeline + README on ALM strategy</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/alm/" target="_blank">Power Platform ALM Guide (canonical)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/data-platform/solutions-overview" target="_blank">Solutions overview — managed vs unmanaged</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/alm/devops-build-tools" target="_blank">Azure DevOps — Power Platform Build Tools</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/alm/devops-github-actions" target="_blank">GitHub Actions for Power Platform</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/alm/pipelines" target="_blank">Pipelines in Power Platform (native)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/data-platform/environmentvariables" target="_blank">Environment variables &amp; connection references</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/introduction" target="_blank">PAC CLI &amp; solution checker</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://benediktbergmann.eu/" target="_blank">Benedikt Bergmann — ALM blog</a><span class="src">— Architect-grade ALM essays</span></li>
+          <li><a href="https://www.youtube.com/@aprildunnam" target="_blank">April Dunnam — ALM playlist</a><span class="src">— YouTube</span></li>
+        </ul>
+      </div>
     </div>
     <div class="week-block">
       <h4>Week 4 — Model-Driven Design Patterns + Canvas Decision Matrix</h4>
@@ -273,6 +320,19 @@
         <li><strong>Real-world:</strong> When does a Canvas embedded page beat a quick-create form?</li>
         <li><strong>Deliverable:</strong> Demo recording (Loom) + design rationale document</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-driven-app-overview" target="_blank">Model-driven apps overview</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/model-app-page-overview" target="_blank">Custom pages embedded in MDA</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/use-command-designer" target="_blank">Modern command bar designer</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/xrm-webapi" target="_blank">Xrm.WebApi reference (form scripting)</a><span class="src">— MS Learn (developer)</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-automate/business-process-flows-overview" target="_blank">Business Process Flows (BPF)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/working-with-business-rules" target="_blank">Business rules vs JS</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://www.youtube.com/@RezaDorrani" target="_blank">Reza Dorrani — Canvas &amp; Power Fx</a><span class="src">— YouTube channel</span></li>
+          <li><a href="https://www.youtube.com/@NickDoelman" target="_blank">Nick Doelman — MDA architecture</a><span class="src">— YouTube</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -287,6 +347,19 @@
         <li><strong>Real-world:</strong> Plugin times out on bulk import — how do you re-architect with async messaging?</li>
         <li><strong>Deliverable:</strong> Diagram (draw.io) + working Function code on GitHub</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/azure/azure-functions/" target="_blank">Azure Functions docs (canonical)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/azure-functions/durable/durable-functions-overview" target="_blank">Durable Functions — orchestration patterns</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide" target="_blank">.NET isolated worker model</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/service-bus-messaging/" target="_blank">Service Bus — topics, subscriptions, DLQ</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/event-grid/" target="_blank">Event Grid docs</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/event-grid/compare-messaging-services" target="_blank">Service Bus vs Event Grid vs Event Hubs comparison</a><span class="src">— MS Learn (must-read)</span></li>
+          <li><a href="https://www.youtube.com/@JohnSavillsTechnicalTraining" target="_blank">John Savill — Azure messaging deep-dives</a><span class="src">— YouTube</span></li>
+          <li><a href="https://github.com/Azure/azure-functions-dotnet-worker" target="_blank">Azure Functions .NET isolated worker (samples)</a><span class="src">— GitHub</span></li>
+        </ul>
+      </div>
     </div>
     <div class="week-block">
       <h4>Week 6 — API Management &amp; Custom Connectors</h4>
@@ -296,6 +369,19 @@
         <li><strong>Real-world:</strong> SAP ERP exposes only SOAP — design the integration layer</li>
         <li><strong>Deliverable:</strong> APIM policy XML + custom connector JSON + flow screenshots</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/azure/api-management/" target="_blank">Azure API Management docs (canonical)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-policies" target="_blank">APIM policies — rate-limit, JWT, cache, transform</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-create-subscriptions" target="_blank">Products &amp; subscriptions</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/api-management/self-hosted-gateway-overview" target="_blank">Self-hosted gateway (on-prem)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/connectors/custom-connectors/" target="_blank">Custom connectors overview</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/connectors/custom-connectors/connect-openapi-azure-ad" target="_blank">OAuth 2.0 (Entra ID) custom connector</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/connectors/custom-connectors/certify-your-connector" target="_blank">Connector certification process</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://www.youtube.com/@JohnSavillsTechnicalTraining" target="_blank">John Savill — APIM deep-dive</a><span class="src">— YouTube</span></li>
+        </ul>
+      </div>
     </div>
     <div class="week-block">
       <h4>Week 7 — Plugin vs Flow vs Function — The Decision Framework</h4>
@@ -305,6 +391,19 @@
         <li><strong>Real-world:</strong> Quote-to-cash needs to enrich data from 4 external APIs in &lt;3s — which option wins?</li>
         <li><strong>Deliverable:</strong> Comparison table + benchmark numbers + recommendation framework</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/developer/data-platform/plug-ins" target="_blank">Dataverse plug-ins overview</a><span class="src">— MS Learn (developer)</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/developer/data-platform/tutorial-write-plug-in" target="_blank">Write your first plug-in (tutorial)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/developer/data-platform/sandbox-considerations" target="_blank">Plugin sandbox limits &amp; isolation</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-automate/overview-cloud" target="_blank">Power Automate cloud flows overview</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/api-request-limits-allocations" target="_blank">Power Automate throttling &amp; limits</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://www.develop1.net/public/" target="_blank">Scott Durow — Plugin patterns deep-dive</a><span class="src">— Develop1 blog</span></li>
+          <li><a href="https://markcarrington.dev/" target="_blank">Mark Carrington — Dataverse internals</a><span class="src">— Blog</span></li>
+          <li><a href="https://github.com/microsoft/PowerApps-Samples" target="_blank">microsoft/PowerApps-Samples — plugin samples</a><span class="src">— GitHub</span></li>
+        </ul>
+      </div>
     </div>
     <div class="week-block">
       <h4>Week 8 — Event-Driven Architecture &amp; Dataverse Webhooks</h4>
@@ -314,6 +413,18 @@
         <li><strong>Real-world:</strong> Two-way sync between Dataverse and an external system without infinite loops</li>
         <li><strong>Deliverable:</strong> Architecture diagram with sequence flow + working PoC</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/developer/data-platform/use-webhooks" target="_blank">Dataverse webhooks</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/developer/data-platform/azure-integration" target="_blank">Azure integration via service endpoints</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/developer/data-platform/write-plugin-azure-aware" target="_blank">Azure-aware plug-ins (Service Bus)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/transactional-outbox" target="_blank">Transactional Outbox pattern</a><span class="src">— Azure Architecture Center</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/idempotency" target="_blank">Idempotency pattern</a><span class="src">— Azure Architecture Center</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/data-platform/azure-synapse-link-data-lake" target="_blank">Synapse Link (CDC change feed)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://www.youtube.com/@MicrosoftMechanics" target="_blank">Microsoft Mechanics — event-driven Azure</a><span class="src">— YouTube</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -328,6 +439,20 @@
         <li><strong>Real-world:</strong> Stop writing 200 topics — use generative orchestration with grounded knowledge</li>
         <li><strong>Deliverable:</strong> Working bot in your tenant + demo video</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/" target="_blank">Copilot Studio docs (canonical)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics" target="_blank">Topic authoring, trigger phrases, entities</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/nlu-generative-actions" target="_blank">Generative actions &amp; orchestration</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/nlu-boost-conversations" target="_blank">Generative answers from SharePoint / websites</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-fundamentals-publish-channels" target="_blank">Channel publishing (Teams, web, embedded)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/configuration-end-user-authentication" target="_blank">Authentication setup (Entra ID)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/credentials/applied-skills/create-agents-in-microsoft-copilot-studio/" target="_blank">Applied Skill — Create agents in Copilot Studio</a><span class="src">— MS Credentials</span></li>
+          <li><a href="https://www.youtube.com/@MicrosoftCopilot" target="_blank">Microsoft Copilot — official channel</a><span class="src">— YouTube</span></li>
+          <li><a href="https://www.youtube.com/@LisaCrosbie" target="_blank">Lisa Crosbie — Copilot Studio playlist</a><span class="src">— YouTube</span></li>
+        </ul>
+      </div>
     </div>
     <div class="week-block">
       <h4>Week 10 — Azure OpenAI: Models, Grounding, RAG</h4>
@@ -337,6 +462,21 @@
         <li><strong>Real-world:</strong> Why "ChatGPT clone" demos fail in production — hallucinations, no source attribution, no governance</li>
         <li><strong>Deliverable:</strong> End-to-end RAG solution + cost-per-query analysis</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/" target="_blank">Azure OpenAI Service docs (canonical)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models" target="_blank">Models — GPT-4o / GPT-4.1 / o-series</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/use-your-data" target="_blank">Azure OpenAI on your data (RAG)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/search/vector-search-overview" target="_blank">Azure AI Search — vector search</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/search/hybrid-search-overview" target="_blank">Hybrid search (vector + BM25)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/provisioned-throughput" target="_blank">PTU vs PAYGO</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/use-your-data-securely" target="_blank">Private endpoints for Azure OpenAI</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://github.com/Azure-Samples/azure-search-openai-demo" target="_blank">Reference RAG implementation</a><span class="src">— Azure-Samples GitHub</span></li>
+          <li><a href="https://eugeneyan.com/writing/llm-patterns/" target="_blank">Eugene Yan — LLM patterns (RAG, evals)</a><span class="src">— Blog</span></li>
+          <li><a href="https://www.youtube.com/@JohnSavillsTechnicalTraining" target="_blank">John Savill — Azure OpenAI deep dive</a><span class="src">— YouTube</span></li>
+        </ul>
+      </div>
     </div>
     <div class="week-block">
       <h4>Week 11 — AI Builder &amp; Document Intelligence</h4>
@@ -346,6 +486,18 @@
         <li><strong>Real-world:</strong> When to choose AI Builder vs raw Document Intelligence (cost, customizability, governance)</li>
         <li><strong>Deliverable:</strong> Solution package + accuracy benchmark on sample dataset</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/ai-builder/" target="_blank">AI Builder docs</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/ai-builder/prompts-overview" target="_blank">GPT prompt actions in Power Automate</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/ai-builder/prebuilt-overview" target="_blank">Prebuilt vs custom AI Builder models</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/" target="_blank">Azure Document Intelligence (canonical)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/train/custom-model" target="_blank">Train custom Document Intelligence models</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/ai-builder/administer-licensing" target="_blank">AI Builder credits &amp; capacity model</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://www.youtube.com/@LisaCrosbie" target="_blank">Lisa Crosbie — AI Builder tutorials</a><span class="src">— YouTube</span></li>
+        </ul>
+      </div>
     </div>
     <div class="week-block">
       <h4>Week 12 — Enterprise AI Patterns &amp; Governance</h4>
@@ -355,6 +507,19 @@
         <li><strong>Real-world:</strong> Legal/CISO sign-off requirements for any GenAI in regulated industries</li>
         <li><strong>Deliverable:</strong> Governance checklist + working PII redaction layer</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/content-safety/" target="_blank">Azure AI Content Safety</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection" target="_blank">Prompt injection / jailbreak detection</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/overview" target="_blank">PII detection &amp; redaction (AI Language)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/well-architected/ai/responsible-ai" target="_blank">Responsible AI — Well-Architected guidance</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/purview/ai-microsoft-purview" target="_blank">Microsoft Purview for AI</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/ai/playbook/" target="_blank">Microsoft AI Playbook</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://openai.com/index/practices-for-governing-agentic-ai-systems/" target="_blank">OpenAI — Governing Agentic AI Systems</a><span class="src">— Industry guidance</span></li>
+          <li><a href="https://applied-llms.org/" target="_blank">Applied LLMs — field guide</a><span class="src">— Production wisdom</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -369,6 +534,17 @@
         <li><strong>Build:</strong> Take 4 official practice tests; design a fictional "AdventureWorks" architecture end-to-end (envision → blueprint → ALM → cutover)</li>
         <li><strong>Real-world:</strong> Practice the case-study format — PL-600 tests architect <em>judgment</em>, not feature knowledge</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources — PL-600</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/credentials/certifications/exams/pl-600/" target="_blank">Official PL-600 exam page &amp; skills outline</a><span class="src">— MS Learn (book here)</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/training/courses/pl-600t00" target="_blank">PL-600 official learning path</a><span class="src">— MS Learn (free)</span></li>
+          <li><a href="https://www.youtube.com/@NickDoelman" target="_blank">Nick Doelman — PL-600 study series</a><span class="src">— YouTube (best free prep)</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/guidance/" target="_blank">Power Platform Guidance &amp; Best Practices</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://www.measureup.com/microsoft/pl-600.html" target="_blank">MeasureUp — official practice tests</a><span class="src">— Paid (industry standard)</span></li>
+          <li><a href="https://www.develop1.net/public/" target="_blank">Scott Durow — architect-grade essays</a><span class="src">— Blog</span></li>
+        </ul>
+      </div>
     </div>
     <div class="week-block">
       <h4>Weeks 15–16: Take PL-600 + Start Portfolio Project #1</h4>
@@ -376,6 +552,15 @@
         <li><strong>Book PL-600 exam.</strong> Even if you fail, you learn the gaps. Most architects fail once — it's normal.</li>
         <li><strong>Start Project #1</strong> (Enterprise CRM, see Section 5). Document architecture in a public GitHub repo with diagrams</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources — Portfolio &amp; Diagrams</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/azure/architecture/icons/" target="_blank">Official Azure architecture icons (for diagrams)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/architecture/" target="_blank">Azure Architecture Center — reference architectures</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://app.diagrams.net/" target="_blank">draw.io — free architecture diagram tool</a><span class="src">— Tool</span></li>
+          <li><a href="https://github.com/microsoft/PowerApps-Samples" target="_blank">microsoft/PowerApps-Samples — README patterns</a><span class="src">— GitHub</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -387,6 +572,18 @@
         <li><strong>Topics:</strong> Identity (AAD/Entra), storage strategy, business continuity, infra design, monitoring/governance</li>
         <li><strong>Build:</strong> Design "well-architected" landing zone diagrams. Read Microsoft's Cloud Adoption Framework end-to-end</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources — AZ-305</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/credentials/certifications/exams/az-305/" target="_blank">Official AZ-305 exam page</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/training/courses/az-305t00" target="_blank">AZ-305 learning path (free)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/" target="_blank">Cloud Adoption Framework (CAF)</a><span class="src">— MS Learn (required reading)</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/well-architected/" target="_blank">Azure Well-Architected Framework (5 pillars)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/architecture/landing-zones/" target="_blank">Azure landing zones</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://www.youtube.com/@JohnSavillsTechnicalTraining" target="_blank">John Savill — AZ-305 master class</a><span class="src">— YouTube (best free prep)</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/entra/" target="_blank">Microsoft Entra ID docs</a><span class="src">— MS Learn</span></li>
+        </ul>
+      </div>
     </div>
     <div class="week-block">
       <h4>Weeks 19–20: AI-102 prep + Portfolio Project #2 (AI Chatbot)</h4>
@@ -394,6 +591,18 @@
         <li>AI-102 covers Azure AI services (Vision, Speech, Language, Search, OpenAI). Highly practical exam.</li>
         <li>Project #2: Production-grade RAG chatbot for an enterprise use case</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources — AI-102 &amp; RAG Project</span>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/credentials/certifications/exams/ai-102/" target="_blank">Official AI-102 exam page</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/training/courses/ai-102t00" target="_blank">AI-102 learning path (free)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/" target="_blank">Azure AI Services overview</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/" target="_blank">Azure AI Foundry docs</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://github.com/Azure-Samples/azure-search-openai-demo" target="_blank">Azure-Samples/azure-search-openai-demo</a><span class="src">— Clone-deploy-study RAG ref</span></li>
+          <li><a href="https://github.com/MicrosoftLearning/mslearn-ai-services" target="_blank">MSLearn AI-102 official labs</a><span class="src">— GitHub</span></li>
+          <li><a href="https://www.youtube.com/@JohnSavillsTechnicalTraining" target="_blank">John Savill — AI-102 series</a><span class="src">— YouTube</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -406,6 +615,16 @@
         <li>Rewrite LinkedIn headline + About + Featured (see Section 8)</li>
         <li>Publish 2 LinkedIn articles or blog posts on PP+AI architecture decisions you made</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources — Personal Brand</span>
+        <ul>
+          <li><a href="https://www.linkedin.com/learning/" target="_blank">LinkedIn Learning — personal branding</a><span class="src">— Courses</span></li>
+          <li><a href="https://www.linkedin.com/business/talent/blog/talent-acquisition/best-linkedin-profile-tips" target="_blank">LinkedIn — official profile optimization tips</a><span class="src">— LinkedIn</span></li>
+          <li><a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme" target="_blank">Awesome GitHub README examples</a><span class="src">— GitHub</span></li>
+          <li><a href="https://hashnode.com/" target="_blank">Hashnode — developer-focused blogging</a><span class="src">— Platform</span></li>
+          <li><a href="https://dev.to/" target="_blank">dev.to — technical writing community</a><span class="src">— Platform</span></li>
+        </ul>
+      </div>
     </div>
     <div class="week-block">
       <h4>Weeks 23–26: Interview prep, applications, negotiation</h4>
@@ -414,6 +633,17 @@
         <li>Apply to 5 roles/week (Naukri, LinkedIn, referrals — referrals win)</li>
         <li>Speak at one community event (D365 UG, Power Platform User Group India)</li>
       </ul>
+      <div class="learn-box">
+        <span class="learn-title">📚 Learning Resources — Interview &amp; Negotiation</span>
+        <ul>
+          <li><a href="https://www.kalzumeus.com/2012/01/23/salary-negotiation/" target="_blank">Patrick McKenzie — Salary Negotiation (classic)</a><span class="src">— Long-form essay</span></li>
+          <li><a href="https://github.com/donnemartin/system-design-primer" target="_blank">System Design Primer</a><span class="src">— GitHub (interview prep)</span></li>
+          <li><a href="https://www.pramp.com/" target="_blank">Pramp — free mock interviews</a><span class="src">— Peer mock platform</span></li>
+          <li><a href="https://interviewing.io/" target="_blank">interviewing.io — anonymous mock interviews</a><span class="src">— Platform</span></li>
+          <li><a href="https://www.meetup.com/power-platform-user-group-india/" target="_blank">Power Platform User Group India (PPUGI)</a><span class="src">— Community speaking</span></li>
+          <li><a href="https://aka.ms/MSReactorBlr" target="_blank">Microsoft Reactor Bengaluru — lightning talks</a><span class="src">— Speaking venue</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -434,6 +664,16 @@
       <li>Server-side sync vs Outlook plugin (the latter is dead — don't recommend it)</li>
       <li>Auditing: per-table, per-column, retention strategy, performance impact</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Deep-Dive Resources — Dataverse Internals</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/power-apps/developer/data-platform/" target="_blank">Dataverse developer docs (full root)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/data-platform/types-of-fields" target="_blank">Column types deep dive (incl. file/image)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-apps/developer/data-platform/server-side-sync-vs-outlook-app" target="_blank">Server-side sync vs Outlook app</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/manage-dataverse-auditing" target="_blank">Auditing strategy &amp; performance impact</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://github.com/microsoft/PowerPlatform-DataverseServiceClient" target="_blank">DataverseServiceClient (.NET SDK source)</a><span class="src">— GitHub</span></li>
+      </ul>
+    </div>
   </div>
 
   <div class="card">
@@ -446,6 +686,16 @@
       <li>Field-Level Security (FLS) profiles + column encryption for PII/PCI</li>
       <li>Bring-Your-Own-Key (BYOK), Customer Lockbox, data residency (India = Central + South India regions)</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Deep-Dive Resources — Enterprise Security</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/wp-security-cds" target="_blank">Dataverse security concepts (whitepaper)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/customer-lockbox" target="_blank">Customer Lockbox for Power Platform</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/data-storage-india" target="_blank">India data residency (Central + South India)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/compliance/regulatory/offering-gdpr" target="_blank">Microsoft GDPR offering</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://nishantrana.me/" target="_blank">Nishant Rana — India customer-style security scenarios</a><span class="src">— Blog</span></li>
+      </ul>
+    </div>
   </div>
 
   <div class="card">
@@ -464,6 +714,17 @@
           <tr><td>SEO / public web presence</td><td class="no">No</td><td class="no">No</td><td class="yes">Best</td></tr>
         </tbody>
       </table>
+    </div>
+    <div class="learn-box">
+      <span class="learn-title">📚 Deep-Dive Resources — Canvas vs MDA vs Power Pages</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/" target="_blank">Power Apps maker docs (Canvas + MDA)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-pages/" target="_blank">Power Pages docs (canonical)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/getting-started" target="_blank">Canvas app — getting started</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-pages/configure/portal-security" target="_blank">Power Pages web roles &amp; security</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/starter-kit-overview" target="_blank">CoE Starter Kit — governance patterns</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://www.youtube.com/@RezaDorrani" target="_blank">Reza Dorrani — Canvas vs MDA comparison videos</a><span class="src">— YouTube</span></li>
+      </ul>
     </div>
   </div>
 
@@ -499,6 +760,17 @@
       <li>PAC CLI <code>solution checker</code> in CI to block bad code from merging</li>
       <li>Backup strategy: Dataverse automatic backups (7 days), manual backups before major releases</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Deep-Dive Resources — ALM &amp; Solutions</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/alm/solution-concepts-alm" target="_blank">Solution layering &amp; concepts</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/alm/conn-ref-env-variables-build-tools" target="_blank">Connection references &amp; env variables in pipelines</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/backup-restore-environments" target="_blank">Backup &amp; restore environments</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://github.com/microsoft/PowerPlatform-Build-Tools" target="_blank">microsoft/PowerPlatform-Build-Tools</a><span class="src">— GitHub (YAML samples)</span></li>
+        <li><a href="https://benediktbergmann.eu/" target="_blank">Benedikt Bergmann — advanced ALM articles</a><span class="src">— Blog</span></li>
+        <li><a href="https://www.youtube.com/@aprildunnam" target="_blank">April Dunnam — ALM &amp; governance</a><span class="src">— YouTube</span></li>
+      </ul>
+    </div>
   </div>
 
   <h3 style="font-size: 1.25rem; margin: 28px 0 12px; color: var(--accent3);">▸ Integration</h3>
@@ -517,6 +789,16 @@
         </tbody>
       </table>
     </div>
+    <div class="learn-box">
+      <span class="learn-title">📚 Deep-Dive Resources — Messaging Spine</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/azure/event-grid/compare-messaging-services" target="_blank">Service Bus vs Event Grid vs Event Hubs comparison</a><span class="src">— MS Learn (canonical)</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview" target="_blank">Service Bus — features &amp; FIFO sessions</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about" target="_blank">Event Hubs — telemetry at scale</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/event-grid/event-schema" target="_blank">Event Grid event schema</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/category/messaging" target="_blank">Azure messaging design patterns</a><span class="src">— Architecture Center</span></li>
+      </ul>
+    </div>
   </div>
 
   <div class="card">
@@ -528,6 +810,16 @@
       <li>Self-hosted gateway for on-prem backends (no need for VPN tunnels to APIM)</li>
       <li>Use Premium tier for VNet integration; Standard v2 for cost-conscious deployments</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Deep-Dive Resources — API Management Patterns</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/azure/api-management/api-management-policies" target="_blank">APIM policy reference (validate-jwt, rate-limit, cache)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/api-management/api-management-using-with-vnet" target="_blank">APIM Premium — VNet integration</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-mutual-certificates" target="_blank">Mutual TLS / certificate auth</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/architecture/microservices/design/gateway" target="_blank">API gateway pattern (microservices)</a><span class="src">— Architecture Center</span></li>
+        <li><a href="https://azure.github.io/api-management-policy-snippets/" target="_blank">APIM policy snippets repository</a><span class="src">— GitHub</span></li>
+      </ul>
+    </div>
   </div>
 
   <div class="card">
@@ -539,6 +831,17 @@
       <li><strong>Real-time outbound webhooks:</strong> Plugin → Service Bus → consumer at their pace</li>
       <li><strong>Federated query:</strong> Virtual tables backed by OData provider (no copy, but careful with perf)</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Deep-Dive Resources — External System Integration</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/data-platform/create-edit-virtual-entities" target="_blank">Virtual tables (federated query, OData)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/execute-batch-operations-using-web-api" target="_blank">ExecuteMultiple / batch Web API</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/data-factory/" target="_blank">Azure Data Factory (bulk ETL)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/data-platform/azure-synapse-link-data-lake" target="_blank">Azure Synapse Link for Dataverse</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/category/data-management" target="_blank">Data management patterns (CQRS, Saga, etc.)</a><span class="src">— Architecture Center</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/logic-apps/connectors/built-in/reference/sap/" target="_blank">SAP connector (Logic Apps / Power Automate)</a><span class="src">— MS Learn</span></li>
+      </ul>
+    </div>
   </div>
 
   <h3 style="font-size: 1.25rem; margin: 28px 0 12px; color: var(--accent4);">▸ AI &amp; Copilot</h3>
@@ -554,6 +857,18 @@
       <li>Network: deploy with Private Endpoints, disable public network access, route through APIM for auditing</li>
       <li>India data residency: Azure OpenAI in <em>South India</em> region (added 2024); fall back to Sweden Central / East US 2 for newest models</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Deep-Dive Resources — Azure OpenAI Architecture</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models" target="_blank">Model catalog — GPT-4o, 4.1, o-series</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/provisioned-throughput" target="_blank">PTU vs PAYGO economics</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/embeddings" target="_blank">Embeddings — text-embedding-3-large/small</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/architecture/ai-ml/architecture/baseline-azure-ai-foundry-chat" target="_blank">Baseline reference architecture — OpenAI chat</a><span class="src">— Architecture Center</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/cosmos-db/vector-database" target="_blank">Cosmos DB as vector store</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://huyenchip.com/2025/01/07/agents.html" target="_blank">Chip Huyen — Agents taxonomy</a><span class="src">— Blog (interview prep)</span></li>
+        <li><a href="https://www.anthropic.com/research/building-effective-agents" target="_blank">Anthropic — Building Effective Agents</a><span class="src">— Most-cited agent essay</span></li>
+      </ul>
+    </div>
   </div>
 
   <div class="card">
@@ -564,6 +879,16 @@
       <li>Hybrid: Copilot Studio for the conversation UI, calling Azure Function tools that wrap your custom OpenAI orchestration</li>
       <li>Pricing trap: Copilot Studio messages (~$0.01/msg with prepaid packs) add up — model your TCO</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Deep-Dive Resources — Copilot Studio Decisions</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio" target="_blank">What is Copilot Studio? (fundamentals)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-licensing-subscriptions" target="_blank">Licensing &amp; message metering</a><span class="src">— MS Learn (TCO modeling)</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/" target="_blank">M365 Copilot extensibility (declarative vs custom-engine)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/nlu-generative-actions" target="_blank">Generative orchestration deep-dive</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://devblogs.microsoft.com/semantic-kernel/" target="_blank">Semantic Kernel blog (custom engine alternative)</a><span class="src">— DevBlogs</span></li>
+      </ul>
+    </div>
   </div>
 
   <div class="card">
@@ -574,6 +899,16 @@
       <li><strong>Custom Vision</strong> — image classification/object detection, exportable to edge (ONNX)</li>
       <li><strong>Decision driver:</strong> Volume + team capability. AI Builder under 10k docs/month and PP-only team. DI above that or when you need pro-dev SDLC.</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Deep-Dive Resources — AI Builder vs DI vs Custom Vision</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/ai-builder/prebuilt-overview" target="_blank">AI Builder prebuilt vs custom models</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/overview" target="_blank">Document Intelligence overview</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/custom-vision-service/" target="_blank">Custom Vision (image classification &amp; detection)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/custom-vision-service/export-your-model" target="_blank">Custom Vision — export to ONNX (edge)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/concept-custom-neural" target="_blank">Custom neural models (DI)</a><span class="src">— MS Learn</span></li>
+      </ul>
+    </div>
   </div>
 
   <div class="card">
@@ -586,6 +921,19 @@
       <li><strong>Evals:</strong> Golden Q&amp;A set, automated regression tests using LLM-as-judge + human-in-the-loop sampling</li>
       <li><strong>FinOps:</strong> Per-tenant chargeback, alerts on cost spikes, prompt-compression strategies</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Deep-Dive Resources — Enterprise AI Patterns</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/azure/architecture/ai-ml/" target="_blank">Azure AI/ML reference architectures</a><span class="src">— Architecture Center</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview" target="_blank">RAG with Azure AI Search (production)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-approach-gen-ai" target="_blank">Evals — LLM-as-judge approach</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://hamel.dev/blog/posts/evals/" target="_blank">Hamel Husain — Evals Are Underrated</a><span class="src">— Blog (must-read)</span></li>
+        <li><a href="https://eugeneyan.com/writing/llm-patterns/" target="_blank">Eugene Yan — production LLM patterns</a><span class="src">— Blog</span></li>
+        <li><a href="https://martinfowler.com/articles/gen-ai-patterns/" target="_blank">Martin Fowler — GenAI Patterns</a><span class="src">— Thoughtworks</span></li>
+        <li><a href="https://applied-llms.org/" target="_blank">Applied LLMs — production wisdom</a><span class="src">— Field guide</span></li>
+        <li><a href="https://github.com/Azure-Samples/azure-search-openai-demo" target="_blank">Azure-Samples — reference RAG impl</a><span class="src">— GitHub</span></li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -984,6 +1332,17 @@
     </ol>
     <h4>AI Bonus</h4>
     <p>Add AI Builder GPT prompt: "Summarize this account's last 6 months of activity" inside the form.</p>
+    <div class="learn-box">
+      <span class="learn-title">📚 Build Resources — Project 1 (Enterprise CRM + ALM)</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/training/paths/dynamics-365-sales-functional-consultant-associate/" target="_blank">D365 Sales setup training</a><span class="src">— MS Learn (free)</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/wp-security-cds" target="_blank">Dataverse security model (BU / FLS / teams)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/alm/devops-build-tools" target="_blank">Azure DevOps pipeline for Power Platform</a><span class="src">— MS Learn (canonical)</span></li>
+        <li><a href="https://github.com/microsoft/PowerPlatform-Build-Tools" target="_blank">PowerPlatform-Build-Tools (YAML samples)</a><span class="src">— GitHub</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/embed-powerbi-report-in-system-form" target="_blank">Embed Power BI report in MDA form</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/ai-builder/prompts-overview" target="_blank">AI Builder GPT prompts in forms</a><span class="src">— MS Learn</span></li>
+      </ul>
+    </div>
   </div>
 
   <div class="project-card" data-num="PROJECT 2">
@@ -1027,6 +1386,18 @@
       <li>PII redaction at input (never at output — too late)</li>
       <li>Cost per resolved ticket vs human agent</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Build Resources — Project 2 (RAG Chatbot)</span>
+      <ul>
+        <li><a href="https://github.com/Azure-Samples/azure-search-openai-demo" target="_blank">Azure-Samples — reference RAG implementation</a><span class="src">— GitHub (clone &amp; deploy)</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/use-your-data" target="_blank">Azure OpenAI on your data (RAG)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/search/hybrid-search-overview" target="_blank">Hybrid search (vector + BM25)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-add-sharepoint" target="_blank">Ground Copilot Studio on SharePoint</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/configuration-add-skills" target="_blank">Custom actions via Power Automate</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/overview" target="_blank">PII redaction (AI Language)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview" target="_blank">Application Insights — token &amp; latency telemetry</a><span class="src">— MS Learn</span></li>
+      </ul>
+    </div>
   </div>
 
   <div class="project-card" data-num="PROJECT 3">
@@ -1077,6 +1448,17 @@
       <li>Retry strategy when SAP is down (Service Bus queue + DLQ)</li>
       <li>Observability — every step writes to App Insights with correlation ID</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Build Resources — Project 3 (Invoice → ERP)</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/train/custom-model" target="_blank">Train a custom Document Intelligence model</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/prebuilt/invoice" target="_blank">Prebuilt invoice model (DI)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-automate/email-triggers" target="_blank">Power Automate Outlook trigger</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-automate/get-started-approvals" target="_blank">Teams Adaptive Card approvals</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/api-management/sap-api" target="_blank">SAP OData via APIM</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/retry" target="_blank">Retry pattern with Service Bus + DLQ</a><span class="src">— Architecture Center</span></li>
+      </ul>
+    </div>
   </div>
 
   <div class="project-card" data-num="PROJECT 4">
@@ -1122,6 +1504,17 @@
       <li>What "exactly-once" actually means (it doesn't — design for at-least-once + idempotency)</li>
       <li>Monitoring SLOs: 99th-percentile latency, DLQ depth, error budget</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Build Resources — Project 4 (Event-Driven Sync)</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/power-apps/developer/data-platform/write-plugin-azure-aware" target="_blank">Dataverse plugin → Service Bus endpoint</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues" target="_blank">Service Bus DLQ patterns</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-service-bus-trigger" target="_blank">Function Service Bus trigger</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview" target="_blank">Managed identity for Functions</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/idempotency" target="_blank">Idempotency &amp; correlation IDs</a><span class="src">— Architecture Center</span></li>
+        <li><a href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/" target="_blank">Salesforce REST API reference</a><span class="src">— SF Docs</span></li>
+      </ul>
+    </div>
   </div>
 
   <div class="project-card" data-num="PROJECT 5">
@@ -1161,6 +1554,18 @@
       <li>Bureau quota management — circuit breaker if quota exhausted</li>
       <li>Fallback to human if confidence &lt; threshold</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Build Resources — Project 5 (Agentic Loan Origination)</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/nlu-generative-actions" target="_blank">Generative orchestration in Copilot Studio</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-flow" target="_blank">Power Automate flows as Copilot actions</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/connectors/custom-connectors/" target="_blank">Custom connector for CIBIL/bureau API</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-automate/business-process-flows-overview" target="_blank">Business Process Flows (stages)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/advanced-messaging/whatsapp/connect-whatsapp-business-account" target="_blank">WhatsApp via Azure Communication Services</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://www.rbi.org.in/scripts/BS_ViewMasDirections.aspx" target="_blank">RBI Digital Lending Guidelines (India compliance)</a><span class="src">— RBI official</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker" target="_blank">Circuit breaker pattern (bureau quota)</a><span class="src">— Architecture Center</span></li>
+      </ul>
+    </div>
   </div>
 
   <div class="callout success">
@@ -1463,6 +1868,21 @@
       <div class="framework-cell"><h4>7. STRIDE (security threats)</h4><p>Spoofing, Tampering, Repudiation, Info disclosure, DoS, Elevation. Walk through these for any integration design.</p></div>
       <div class="framework-cell"><h4>8. C4 Model for diagrams</h4><p>Context → Container → Component → Code. Most architects only draw the first two; that's correct — go deeper only when needed.</p></div>
     </div>
+    <div class="learn-box">
+      <span class="learn-title">📚 Framework Resources — Master Each One</span>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/azure/well-architected/" target="_blank">Azure Well-Architected Framework (5 pillars)</a><span class="src">— MS Learn (quote in interviews)</span></li>
+        <li><a href="https://www.atlassian.com/work-management/project-management/raci-chart" target="_blank">RACI chart guide</a><span class="src">— Atlassian</span></li>
+        <li><a href="https://martinfowler.com/articles/build-vs-buy.html" target="_blank">Martin Fowler — Build vs Buy thinking</a><span class="src">— Blog</span></li>
+        <li><a href="https://en.wikipedia.org/wiki/CAP_theorem" target="_blank">CAP theorem</a><span class="src">— Wikipedia</span></li>
+        <li><a href="http://www.cs.umd.edu/~abadi/papers/abadi-pacelc.pdf" target="_blank">PACELC paper (Daniel Abadi)</a><span class="src">— Original paper</span></li>
+        <li><a href="https://insights.sei.cmu.edu/library/atam-method-for-architecture-evaluation/" target="_blank">ATAM — SEI Carnegie Mellon</a><span class="src">— Method reference</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats" target="_blank">STRIDE threat modeling (Microsoft)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://c4model.com/" target="_blank">C4 Model — Simon Brown</a><span class="src">— Official site</span></li>
+        <li><a href="https://adr.github.io/" target="_blank">Architecture Decision Records (ADR)</a><span class="src">— Community spec</span></li>
+        <li><a href="https://www.thoughtworks.com/radar" target="_blank">Thoughtworks Technology Radar</a><span class="src">— Tech trend signal</span></li>
+      </ul>
+    </div>
   </div>
 
   <div class="card">
@@ -1493,6 +1913,17 @@
       <li>Pre-mortem habit: "If this fails in production, the most likely cause will be X. Here's how we'll detect it."</li>
       <li>Talk in roadmaps (now → next → later), not just sprints.</li>
     </ul>
+    <div class="learn-box">
+      <span class="learn-title">📚 Resources — Architect Communication &amp; Leadership</span>
+      <ul>
+        <li><a href="https://staffeng.com/" target="_blank">StaffEng — senior IC career stories</a><span class="src">— Book + site</span></li>
+        <li><a href="https://www.oreilly.com/library/view/the-software-architect/9781492077534/" target="_blank">The Software Architect Elevator (Hohpe)</a><span class="src">— O'Reilly book</span></li>
+        <li><a href="https://lethain.com/" target="_blank">Will Larson — Irrational Exuberance (eng leadership)</a><span class="src">— Blog</span></li>
+        <li><a href="https://www.amazon.com/Fundamentals-Software-Architecture-Engineering-Approach/dp/1492043451" target="_blank">Fundamentals of Software Architecture (Richards/Ford)</a><span class="src">— Book</span></li>
+        <li><a href="https://hbr.org/topic/leadership" target="_blank">HBR — Leadership articles</a><span class="src">— Harvard Business Review</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/strategy/" target="_blank">CAF Strategy phase — business framing</a><span class="src">— MS Learn</span></li>
+      </ul>
+    </div>
   </div>
 </section>
 
