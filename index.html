@@ -1146,36 +1146,186 @@
     }());
     </script>
 
-<!-- Secret Vault (triggered by typing 'vkpv' anywhere on the page) -->
-<div id="vk-vault" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:99999;align-items:center;justify-content:center;font-family:'Segoe UI',sans-serif;">
-  <div style="background:#1a1d27;border:1px solid #2e3250;border-radius:14px;padding:2rem 2.5rem;max-width:400px;width:90%;text-align:center;position:relative;">
-    <button id="vk-vault-close" style="position:absolute;top:0.75rem;right:1rem;background:none;border:none;color:#8b8fa8;font-size:1.25rem;cursor:pointer;line-height:1;" title="Close">&times;</button>
-    <div style="font-size:1.75rem;margin-bottom:0.75rem;">🗂️</div>
-    <h2 style="color:#e8e9f0;font-size:1.1rem;font-weight:600;margin-bottom:0.4rem;">Private Vault</h2>
-    <p style="color:#8b8fa8;font-size:0.8rem;margin-bottom:1.5rem;">Your private resources</p>
-    <a href="pages/Claude_AI_Architect_30Day_Plan.html" style="display:block;padding:0.75rem 1rem;background:#20243a;border:1px solid #2e3250;border-radius:8px;color:#cc785c;text-decoration:none;font-size:0.9rem;margin-bottom:0.75rem;transition:background 0.2s;">Claude AI Architect — 30-Day Plan</a>
-    <a href="pages/PowerPlatform_AI_Architect_Roadmap.html" style="display:block;padding:0.75rem 1rem;background:#20243a;border:1px solid #2e3250;border-radius:8px;color:#7c6af7;text-decoration:none;font-size:0.9rem;transition:background 0.2s;">Power Platform AI Architect Roadmap</a>
+<!-- Private Vault v2 — triggered by typing 'vkpv' anywhere on the page -->
+<style>
+#vk-vault{display:none;position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+#vk-bd{position:absolute;inset:0;background:rgba(6,7,14,.8);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+#vk-card{position:relative;background:linear-gradient(160deg,#0d0f1a 0%,#14172a 55%,#1a1040 100%);border:1px solid rgba(124,106,247,.3);border-radius:22px;padding:2.25rem 2rem 2rem;max-width:460px;width:92%;box-shadow:0 32px 80px rgba(0,0,0,.75),0 0 0 1px rgba(124,106,247,.06),inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden}
+#vk-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -10%,rgba(124,106,247,.14) 0%,transparent 62%);pointer-events:none}
+#vk-close{position:absolute;top:.9rem;right:1rem;background:none;border:none;color:#3d415e;font-size:1.05rem;cursor:pointer;padding:.3rem .4rem;border-radius:6px;transition:color .2s,background .2s;line-height:1}
+#vk-close:hover{color:#a78bfa;background:rgba(124,106,247,.1)}
+/* login */
+#vk-login{text-align:center}
+.vk-lock{display:inline-flex;align-items:center;justify-content:center;width:62px;height:62px;background:linear-gradient(135deg,rgba(124,106,247,.14),rgba(204,120,92,.08));border:1px solid rgba(124,106,247,.22);border-radius:18px;margin-bottom:1.2rem}
+.vk-lock svg{width:26px;height:26px;stroke:#a78bfa;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#vk-login h2{color:#e8e9f0;font-size:1.1rem;font-weight:700;margin-bottom:.3rem;letter-spacing:-.2px}
+#vk-login p.sub{color:#5a5e7e;font-size:.78rem;margin-bottom:1.4rem}
+#vk-pin{width:100%;padding:.72rem 1rem;background:rgba(255,255,255,.035);border:1px solid #262a45;border-radius:10px;color:#e8e9f0;font-size:1.05rem;text-align:center;letter-spacing:.35em;outline:none;transition:border-color .2s,box-shadow .2s;margin-bottom:.7rem}
+#vk-pin:focus{border-color:rgba(124,106,247,.55);box-shadow:0 0 0 3px rgba(124,106,247,.11)}
+#vk-pin.shake{animation:vkShake .42s ease;border-color:#ef4444!important;box-shadow:0 0 0 3px rgba(239,68,68,.13)!important}
+#vk-btn{width:100%;padding:.72rem;background:linear-gradient(135deg,#5a49be,#7c6af7);border:none;border-radius:10px;color:#fff;font-size:.9rem;font-weight:600;cursor:pointer;transition:opacity .2s,transform .15s;letter-spacing:.01em}
+#vk-btn:hover{opacity:.85;transform:translateY(-1px)}
+#vk-btn:active{transform:translateY(0)}
+#vk-err{color:#f87171;font-size:.76rem;margin-top:.55rem;min-height:1.1em;text-align:center}
+#vk-hint{color:#383c58;font-size:.7rem;margin-top:.45rem;text-align:center}
+/* content */
+#vk-content{display:none}
+.vk-ch{text-align:center;margin-bottom:1.5rem}
+.vk-ch-icon{font-size:1.4rem;margin-bottom:.45rem;display:block}
+.vk-ch h2{color:#e8e9f0;font-size:1.05rem;font-weight:700;margin-bottom:.2rem}
+.vk-ch p{color:#5a5e7e;font-size:.75rem}
+.vk-lbl{font-size:.65rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#3d415e;margin-bottom:.55rem;padding-left:.15rem}
+.vk-group{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.05rem}
+.vk-a{display:flex;align-items:center;gap:.8rem;padding:.8rem .9rem;background:rgba(255,255,255,.025);border:1px solid #1e2138;border-radius:10px;text-decoration:none;transition:background .18s,border-color .18s,transform .15s;position:relative}
+.vk-a:hover{background:rgba(255,255,255,.05);transform:translateX(4px)}
+.vk-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.vk-txt{flex:1;min-width:0}
+.vk-t{font-size:.86rem;font-weight:600;line-height:1.3;display:block}
+.vk-d{font-size:.7rem;color:#5a5e7e;margin-top:.1rem;display:block}
+.vk-arr{color:#3d415e;font-size:.72rem;flex-shrink:0;transition:transform .18s,color .18s}
+.vk-a:hover .vk-arr{transform:translateX(3px);color:#a78bfa}
+/* accents */
+.a-amber{border-left:3px solid #cc785c}.a-amber .vk-ico{background:rgba(204,120,92,.11)}.a-amber .vk-t{color:#e09070}.a-amber:hover{border-color:#cc785c}
+.a-purple{border-left:3px solid #7c6af7}.a-purple .vk-ico{background:rgba(124,106,247,.11)}.a-purple .vk-t{color:#a78bfa}.a-purple:hover{border-color:#7c6af7}
+.a-teal{border-left:3px solid #3ecf8e}.a-teal .vk-ico{background:rgba(62,207,142,.1)}.a-teal .vk-t{color:#4fdb9d}.a-teal:hover{border-color:#3ecf8e}
+.a-blue{border-left:3px solid #4a9eff}.a-blue .vk-ico{background:rgba(74,158,255,.1)}.a-blue .vk-t{color:#67b4ff}.a-blue:hover{border-color:#4a9eff}
+#vk-lock-btn{display:block;width:100%;text-align:center;color:#383c58;font-size:.72rem;margin-top:.6rem;cursor:pointer;background:none;border:none;transition:color .2s;padding:.3rem 0}
+#vk-lock-btn:hover{color:#6b7090}
+/* animations */
+@keyframes vkShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes vkIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes vkFadeIn{from{opacity:0}to{opacity:1}}
+.vk-slide{animation:vkIn .32s ease}
+#vk-vault.vk-opening{animation:vkFadeIn .22s ease}
+</style>
+
+<div id="vk-vault" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;align-items:center;justify-content:center;">
+  <div id="vk-bd"></div>
+  <div id="vk-card">
+    <button id="vk-close" title="Close (Esc)">✕</button>
+
+    <!-- Login Screen -->
+    <div id="vk-login">
+      <div class="vk-lock">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h2>Private Vault</h2>
+      <p class="sub">Enter your passkey to unlock</p>
+      <input id="vk-pin" type="password" placeholder="••••••" maxlength="32" autocomplete="off" spellcheck="false" aria-label="Vault passkey" />
+      <button id="vk-btn">Unlock</button>
+      <p id="vk-err" aria-live="polite"></p>
+      <p id="vk-hint">Hint: trigger key + year</p>
+    </div>
+
+    <!-- Content (shown after unlock) -->
+    <div id="vk-content">
+      <div class="vk-ch">
+        <span class="vk-ch-icon">🔓</span>
+        <h2>Private Vault</h2>
+        <p>Your exclusive resources</p>
+      </div>
+
+      <p class="vk-lbl">Career Tools</p>
+      <div class="vk-group">
+        <a href="pages/Claude_AI_Architect_30Day_Plan.html" class="vk-a a-amber" target="_blank" rel="noopener noreferrer">
+          <div class="vk-ico">🧠</div>
+          <div class="vk-txt">
+            <span class="vk-t">Claude AI Architect — 30-Day Plan</span>
+            <span class="vk-d">AI-assisted career acceleration roadmap</span>
+          </div>
+          <span class="vk-arr">→</span>
+        </a>
+        <a href="pages/PowerPlatform_AI_Architect_Roadmap.html" class="vk-a a-purple" target="_blank" rel="noopener noreferrer">
+          <div class="vk-ico">🗺️</div>
+          <div class="vk-txt">
+            <span class="vk-t">Power Platform AI Architect Roadmap</span>
+            <span class="vk-d">6-month path to 35–50 LPA target</span>
+          </div>
+          <span class="vk-arr">→</span>
+        </a>
+      </div>
+
+      <p class="vk-lbl">Deep Dives</p>
+      <div class="vk-group">
+        <a href="pages/PowerPlatform_75_UseCases.html" class="vk-a a-teal" target="_blank" rel="noopener noreferrer">
+          <div class="vk-ico">📋</div>
+          <div class="vk-txt">
+            <span class="vk-t">Power Platform — 75 Use Cases</span>
+            <span class="vk-d">Architect-level interview prep &amp; solution patterns</span>
+          </div>
+          <span class="vk-arr">→</span>
+        </a>
+        <a href="pages/Azure-Functions-25-Use-Cases.html" class="vk-a a-blue" target="_blank" rel="noopener noreferrer">
+          <div class="vk-ico">⚡</div>
+          <div class="vk-txt">
+            <span class="vk-t">Azure Functions — 25 Use Cases</span>
+            <span class="vk-d">Serverless patterns for Power Platform integrations</span>
+          </div>
+          <span class="vk-arr">→</span>
+        </a>
+      </div>
+
+      <button id="vk-lock-btn">🔒 Lock vault</button>
+    </div>
   </div>
 </div>
+
 <script>
 (function(){
+  // Passkey stored as base64. Current passkey: vkpv2025 (trigger key + year)
+  // To change: replace value with btoa('yournewpasskey')
+  var VH='dmtwdjIwMjU=', unlocked=false;
+
+  function open(){
+    var v=document.getElementById('vk-vault');
+    v.style.display='flex';
+    v.classList.add('vk-opening');
+    setTimeout(function(){v.classList.remove('vk-opening');},250);
+    if(!unlocked) setTimeout(function(){var p=document.getElementById('vk-pin');if(p)p.focus();},50);
+  }
+  function close(){document.getElementById('vk-vault').style.display='none';}
+  function lock(){
+    unlocked=false;
+    document.getElementById('vk-login').style.display='block';
+    document.getElementById('vk-content').style.display='none';
+    document.getElementById('vk-pin').value='';
+    document.getElementById('vk-err').textContent='';
+  }
+  function reveal(){
+    unlocked=true;
+    document.getElementById('vk-login').style.display='none';
+    var c=document.getElementById('vk-content');
+    c.style.display='block';
+    c.classList.add('vk-slide');
+    setTimeout(function(){c.classList.remove('vk-slide');},350);
+  }
+  function tryUnlock(){
+    var pin=document.getElementById('vk-pin').value;
+    var err=document.getElementById('vk-err');
+    if(!pin){err.textContent='Please enter your passkey.';return;}
+    if(btoa(pin)===VH){err.textContent='';reveal();}
+    else{
+      err.textContent='Incorrect passkey — try again.';
+      var inp=document.getElementById('vk-pin');
+      inp.value='';
+      inp.classList.add('shake');
+      setTimeout(function(){inp.classList.remove('shake');inp.focus();},460);
+    }
+  }
+
   var seq='vkpv',buf='';
   document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){close();return;}
     if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
     buf+=e.key.toLowerCase();
     if(buf.length>seq.length)buf=buf.slice(-seq.length);
-    if(buf===seq){
-      var v=document.getElementById('vk-vault');
-      v.style.display='flex';
-      buf='';
-    }
+    if(buf===seq){open();buf='';}
   });
-  document.getElementById('vk-vault-close').addEventListener('click',function(){
-    document.getElementById('vk-vault').style.display='none';
-  });
-  document.getElementById('vk-vault').addEventListener('click',function(e){
-    if(e.target===this)this.style.display='none';
-  });
+  document.getElementById('vk-close').addEventListener('click',close);
+  document.getElementById('vk-bd').addEventListener('click',close);
+  document.getElementById('vk-btn').addEventListener('click',tryUnlock);
+  document.getElementById('vk-lock-btn').addEventListener('click',lock);
+  document.getElementById('vk-pin').addEventListener('keydown',function(e){if(e.key==='Enter')tryUnlock();});
 }());
 </script>
 
