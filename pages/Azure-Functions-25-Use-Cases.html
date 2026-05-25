@@ -1,0 +1,2500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azure Functions — 25 Enterprise Use Cases | Architect Playbook</title>
+<link rel="icon" type="image/svg+xml" href="../assets/images/azure-functions-favicon.svg">
+<link rel="shortcut icon" href="../assets/images/azure-functions-favicon.svg">
+<style>
+  :root{
+    --azure:#0078D4; --azure-dark:#005A9E; --azure-light:#E5F1FB;
+    --ink:#1B1B1F; --muted:#5C5C66; --line:#E2E4E8;
+    --bg:#F7F9FC; --card:#FFFFFF; --code-bg:#0E1116; --code-fg:#E6EDF3;
+    --ok:#107C10; --warn:#A4262C; --accent:#5C2D91;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  header.hero{background:linear-gradient(135deg,#0078D4 0%,#005A9E 60%,#2D3F8E 100%);color:#fff;padding:48px 32px 40px;box-shadow:0 4px 18px rgba(0,0,0,.08)}
+  header.hero h1{margin:0 0 8px;font-size:34px;letter-spacing:-.4px;font-weight:600}
+  header.hero .sub{font-size:16px;opacity:.92}
+  header.hero .meta{margin-top:18px;display:flex;gap:14px;flex-wrap:wrap;font-size:13px}
+  header.hero .meta span{background:rgba(255,255,255,.14);padding:6px 12px;border-radius:14px;backdrop-filter:blur(6px)}
+  main{max-width:1180px;margin:0 auto;padding:32px 24px 80px}
+  .toc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 26px;margin-bottom:36px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .toc h2{margin:0 0 14px;font-size:18px;color:var(--azure-dark)}
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:8px 18px}
+  .toc-grid a{color:var(--ink);text-decoration:none;font-size:14px;padding:6px 8px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s}
+  .toc-grid a:hover{background:var(--azure-light);color:var(--azure-dark)}
+  .toc-grid a .num{display:inline-block;width:26px;height:26px;line-height:26px;text-align:center;background:var(--azure);color:#fff;border-radius:50%;font-size:12px;font-weight:600;flex-shrink:0}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase}
+  .b-file{background:#FFF4CE;color:#7A5800}
+  .b-iot{background:#DFF6DD;color:#0B5A0B}
+  .b-api{background:#E5F1FB;color:#0078D4}
+  .b-sched{background:#F3E5FF;color:#5C2D91}
+  .b-event{background:#FDE7E9;color:#A4262C}
+  .b-int{background:#EBF8F7;color:#0F6F70}
+  .uc{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .uc-header{padding:22px 28px 18px;background:linear-gradient(180deg,#FAFBFD 0%,#fff 100%);border-bottom:1px solid var(--line)}
+  .uc-header .row{display:flex;align-items:flex-start;gap:14px}
+  .uc-num{flex-shrink:0;width:46px;height:46px;border-radius:10px;background:var(--azure);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px}
+  .uc-title{flex:1}
+  .uc-title h2{margin:0 0 4px;font-size:20px;color:var(--azure-dark);font-weight:600}
+  .uc-title .industry{font-size:13px;color:var(--muted)}
+  .uc-body{padding:22px 28px 8px}
+  .uc-section{margin-bottom:22px}
+  .uc-section h3{font-size:14px;text-transform:uppercase;letter-spacing:.6px;color:var(--accent);margin:0 0 10px;font-weight:600;border-left:3px solid var(--azure);padding-left:10px}
+  .uc-section p{margin:6px 0}
+  .uc-section ul{margin:6px 0;padding-left:22px}
+  .uc-section li{margin:3px 0}
+  .steps{counter-reset:step;list-style:none;padding:0;margin:8px 0}
+  .steps li{counter-increment:step;position:relative;padding:6px 0 6px 38px;border-bottom:1px dashed var(--line)}
+  .steps li:last-child{border-bottom:none}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:8px;width:26px;height:26px;line-height:26px;text-align:center;background:var(--azure-light);color:var(--azure-dark);border-radius:50%;font-size:12px;font-weight:700}
+  pre.code{background:var(--code-bg);color:var(--code-fg);padding:18px 20px;border-radius:8px;overflow-x:auto;font-family:'Cascadia Code',Consolas,'Courier New',monospace;font-size:13px;line-height:1.5;margin:8px 0}
+  pre.code .k{color:#FF7B72}
+  pre.code .s{color:#A5D6FF}
+  pre.code .c{color:#8B949E;font-style:italic}
+  pre.code .t{color:#FFA657}
+  pre.code .f{color:#D2A8FF}
+  pre.code .a{color:#7EE787}
+  .arch{background:#0E1116;color:#7EE787;padding:16px 20px;border-radius:8px;font-family:'Cascadia Code',Consolas,monospace;font-size:12.5px;white-space:pre;overflow-x:auto;line-height:1.55}
+  .kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:8px}
+  .kpi div{background:var(--azure-light);border-left:3px solid var(--azure);padding:10px 12px;border-radius:4px;font-size:13px}
+  .kpi div b{color:var(--azure-dark);font-size:15px;display:block;margin-bottom:2px}
+  .tag{display:inline-block;background:#F0F2F5;border:1px solid var(--line);padding:2px 8px;border-radius:10px;font-size:11px;margin:2px 4px 2px 0;color:var(--muted)}
+  .back-top{margin:18px 0 4px;text-align:right;border-top:1px dashed var(--line);padding-top:14px}
+  .back-top a{display:inline-flex;align-items:center;gap:6px;color:var(--azure);text-decoration:none;font-size:13px;font-weight:600;padding:6px 14px;border:1px solid var(--azure-light);border-radius:16px;background:var(--azure-light);transition:all .15s}
+  .back-top a:hover{background:var(--azure);color:#fff;border-color:var(--azure);transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,120,212,.25)}
+  .back-top a::before{content:"\2191";font-weight:700}
+  .float-top{position:fixed;bottom:28px;right:28px;width:46px;height:46px;border-radius:50%;background:var(--azure);color:#fff;display:none;align-items:center;justify-content:center;font-size:22px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.18);transition:all .2s;z-index:100;cursor:pointer;border:none;font-weight:700}
+  .float-top:hover{background:var(--azure-dark);transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.25)}
+  .float-top.visible{display:flex}
+  @media print{.back-top,.float-top{display:none!important}}
+  footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);background:var(--card);margin-top:50px}
+  @media print{
+    header.hero{background:var(--azure-dark)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .uc{break-inside:avoid;page-break-inside:avoid}
+    pre.code,.arch{background:#1a1a1a!important;-webkit-print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero" id="top">
+  <h1>Azure Functions — 25 Enterprise Use Cases</h1>
+  <div class="sub">Architect-Level Playbook · Production-Ready Patterns · Serverless at Scale</div>
+  <div class="meta">
+    <span>Senior Azure Solution Architect Reference</span>
+    <span>2026 Edition</span>
+    <span>25 Diverse Industries</span>
+    <span>Event-Driven · Pay-Per-Execution · Auto-Scale</span>
+  </div>
+</header>
+
+<main>
+
+<section class="toc">
+  <h2>Use Case Index</h2>
+  <div class="legend">
+    <span class="badge b-file">File Processing</span>
+    <span class="badge b-iot">Real-Time / IoT</span>
+    <span class="badge b-api">Backend API</span>
+    <span class="badge b-sched">Scheduled / Automation</span>
+    <span class="badge b-event">Event-Driven Workflow</span>
+    <span class="badge b-int">Integration (Power Platform / D365)</span>
+  </div>
+  <div class="toc-grid" style="margin-top:18px">
+    <a href="#uc1"><span class="num">1</span>Retail — Invoice & Receipt OCR Ingestion</a>
+    <a href="#uc2"><span class="num">2</span>Banking — Real-Time Fraud Detection</a>
+    <a href="#uc3"><span class="num">3</span>Healthcare — HL7/FHIR Message Routing</a>
+    <a href="#uc4"><span class="num">4</span>Manufacturing — IoT Predictive Maintenance</a>
+    <a href="#uc5"><span class="num">5</span>SaaS — Multi-Tenant Onboarding API</a>
+    <a href="#uc6"><span class="num">6</span>Logistics — Shipment Tracking Webhooks</a>
+    <a href="#uc7"><span class="num">7</span>Insurance — Claims Document Processing</a>
+    <a href="#uc8"><span class="num">8</span>E-commerce — Cart Abandonment Recovery</a>
+    <a href="#uc9"><span class="num">9</span>Media — Video Transcoding Pipeline</a>
+    <a href="#uc10"><span class="num">10</span>Energy — Smart Meter Aggregation</a>
+    <a href="#uc11"><span class="num">11</span>Power Platform — Dataverse Plugin Replacement</a>
+    <a href="#uc12"><span class="num">12</span>Dynamics 365 — Custom Workflow Action</a>
+    <a href="#uc13"><span class="num">13</span>Banking — Daily Statement Generation</a>
+    <a href="#uc14"><span class="num">14</span>Travel — Flight Price Aggregator</a>
+    <a href="#uc15"><span class="num">15</span>Real Estate — MLS Listing Sync</a>
+    <a href="#uc16"><span class="num">16</span>Telecom — CDR Stream Processing</a>
+    <a href="#uc17"><span class="num">17</span>Healthcare — Appointment Reminder Service</a>
+    <a href="#uc18"><span class="num">18</span>Government — License Renewal Notifications</a>
+    <a href="#uc19"><span class="num">19</span>Education — Exam Result Notification</a>
+    <a href="#uc20"><span class="num">20</span>Retail — Omni-Channel Inventory Sync</a>
+    <a href="#uc21"><span class="num">21</span>Finance — End-of-Day Reconciliation</a>
+    <a href="#uc22"><span class="num">22</span>Smart Building — HVAC Control</a>
+    <a href="#uc23"><span class="num">23</span>HR — AI Resume Screening</a>
+    <a href="#uc24"><span class="num">24</span>Marketing — Lead Scoring & Routing</a>
+    <a href="#uc25"><span class="num">25</span>Compliance — GDPR Right-to-Erasure</a>
+  </div>
+</section>
+
+<article class="uc" id="uc1">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">1</div>
+      <div class="uc-title">
+        <h2>Retail — Invoice & Receipt OCR Ingestion Pipeline</h2>
+        <div class="industry">Industry: Retail / Finance Operations &nbsp;·&nbsp; <span class="badge b-file">File Processing</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A retail chain with 1,200 stores receives ~80,000 supplier invoices per month in mixed formats (PDF, JPG, scanned). Finance clerks manually key data into SAP — ~6 min/invoice, ~$1.4M/year labor cost, with 14-day average DSO inflation due to processing delays and a 7% data-entry error rate.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li><b>Blob trigger</b> fires the instant a document lands — no polling overhead</li>
+        <li><b>Pay-per-execution</b>: month-end spike is 8× daily average — App Service or AKS would idle 70% of the time</li>
+        <li><b>Auto-scale</b> to 200 instances during peaks</li>
+        <li><b>vs Logic Apps</b>: 3–5× cheaper at this scale; better retry/error semantics</li>
+        <li><b>vs AKS</b>: no cluster ops, no node patching, no HPA tuning</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Email / SFTP / Scanner] -> [Blob Storage: /incoming]
+        v  (BlobTrigger)
+   [Azure Function: ExtractInvoice]
+        v  Azure AI Document Intelligence (prebuilt-invoice)
+        v  [Durable Orchestrator: Validate & Enrich]
+        v  [Service Bus: invoices-validated]
+        v  [Function: PostToSAP via OData]
+        v  [Cosmos DB: audit trail]
+   [App Insights + Log Analytics + Power BI]</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li><b>Requirement breakdown:</b> extract vendor, PO#, line items, totals, VAT; confidence >= 0.85 -> auto-post; else route to human queue.</li>
+        <li><b>Provision resources:</b> Function App (Premium EP1 for VNet -> SAP), ADLS Gen2, Document Intelligence, Service Bus, Cosmos DB, Key Vault.</li>
+        <li><b>Runtime:</b> C# .NET 8 isolated worker (best SDK + perf).</li>
+        <li><b>Triggers/bindings:</b> BlobTrigger on <code>incoming/{name}</code>, ServiceBus output binding, Cosmos output binding for audit.</li>
+        <li><b>Core logic:</b> call Document Intelligence -> map fields -> validate against vendor master -> enqueue.</li>
+        <li><b>Integrate:</b> SAP via OData with managed identity, Key Vault for credentials, Power BI dataset refresh on completion.</li>
+        <li><b>Deploy:</b> Bicep + GitHub Actions, slot swap for zero downtime.</li>
+        <li><b>Monitor:</b> App Insights custom metric <code>InvoiceConfidence</code>; alert on spike of low-confidence docs.</li>
+        <li><b>Optimize:</b> exponential retry (5 attempts), poison queue at &gt; 5 failures, Premium pre-warmed instances = 3.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet (C# .NET 8 isolated)</h3>
+<pre class="code"><span class="a">[Function("ExtractInvoice")]</span>
+<span class="a">[ServiceBusOutput("invoices-validated", Connection = "SbConn")]</span>
+<span class="k">public async</span> <span class="t">Task</span>&lt;<span class="t">InvoiceMessage</span>&gt; <span class="f">Run</span>(
+    <span class="a">[BlobTrigger("incoming/{name}", Connection = "StorageConn")]</span> <span class="t">Stream</span> blob,
+    <span class="k">string</span> name,
+    <span class="t">FunctionContext</span> ctx)
+{
+    <span class="k">var</span> log = ctx.<span class="f">GetLogger</span>&lt;ExtractInvoice&gt;();
+    <span class="k">var</span> client = <span class="k">new</span> <span class="t">DocumentAnalysisClient</span>(
+        <span class="k">new</span> <span class="t">Uri</span>(_cfg[<span class="s">"DI_ENDPOINT"</span>]),
+        <span class="k">new</span> <span class="t">DefaultAzureCredential</span>());
+
+    <span class="k">var</span> op = <span class="k">await</span> client.<span class="f">AnalyzeDocumentAsync</span>(
+        WaitUntil.Completed, <span class="s">"prebuilt-invoice"</span>, blob);
+    <span class="k">var</span> doc = op.Value.Documents.FirstOrDefault()
+        ?? <span class="k">throw new</span> <span class="t">InvalidOperationException</span>(<span class="s">"No invoice detected"</span>);
+
+    <span class="k">var</span> msg = <span class="k">new</span> <span class="t">InvoiceMessage</span> {
+        BlobName       = name,
+        VendorName     = doc.Fields[<span class="s">"VendorName"</span>]?.Value?.AsString(),
+        InvoiceTotal   = doc.Fields[<span class="s">"InvoiceTotal"</span>]?.Value?.AsCurrency().Amount ?? 0,
+        Confidence     = doc.Confidence,
+        RequiresReview = doc.Confidence &lt; 0.85
+    };
+    log.<span class="f">LogInformation</span>(<span class="s">"Extracted {Vendor} conf={Conf}"</span>, msg.VendorName, msg.Confidence);
+    <span class="k">return</span> msg;
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>92%</b> Straight-through processing</div>
+        <div><b>$1.3M/yr</b> Labor savings</div>
+        <div><b>14 to 4 days</b> DSO reduction</div>
+        <div><b>$2.8M</b> Working capital released</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li><b>Durable Functions</b> for human-in-the-loop approval workflow</li>
+        <li><b>Azure OpenAI</b> for free-text remittance advice extraction</li>
+        <li>Extend to expense reports, POs, customs declarations</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Event-Driven Pipeline</span><span class="tag">Claim-Check</span><span class="tag">Dead-Letter Queue</span><span class="tag">CQRS (write SAP / read Cosmos)</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Insurance:</b> medical claim form digitization</li>
+        <li><b>Logistics:</b> bill-of-lading and customs declaration extraction</li>
+        <li><b>Legal:</b> contract clause extraction at scale</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc2">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">2</div>
+      <div class="uc-title">
+        <h2>Banking — Real-Time Card Fraud Detection</h2>
+        <div class="industry">Industry: Financial Services &nbsp;·&nbsp; <span class="badge b-iot">Real-Time / Analytics</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A digital bank processes 12M card transactions/day. The legacy batch fraud system runs every 4 hours — losing ~$220K/month to fraud that could be blocked at authorization time. Required SLA: &lt; 150ms decision at p99.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Event Hub trigger with <b>sub-second latency</b>, scales to millions of events/sec via partitions</li>
+        <li><b>Premium plan</b> with pre-warmed instances + VNet for sub-ms feature lookups</li>
+        <li>Per-event cost ~$0.0000002 vs $0.0008 in an always-on AKS pod equivalent</li>
+        <li><b>vs Stream Analytics</b>: better for complex ML model integration and custom routing</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Card switch] -> [Event Hub: tx-stream (32 partitions)]
+                       v
+        [Function: ScoreTransaction (Premium EP3, VNet)]
+            +-> Azure ML real-time endpoint (XGBoost)
+            +-> Redis Premium (customer behavior, &lt;2ms)
+            +-> Cosmos DB (blocked list, Strong consistency)
+                       v
+        [Event Hub: tx-decisions] -> core banking
+                       v
+        [Azure Data Explorer] for analyst review + retraining</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define SLA: p99 &lt; 150ms, FPR &lt; 0.5%, daily model drift check.</li>
+        <li>Provision: Function App Premium EP3 (VNet-integrated), Event Hub (Standard, 20 TUs), Redis Premium with Private Endpoint, Azure ML, Cosmos multi-region.</li>
+        <li>Runtime: C# isolated worker (lowest cold-start in .NET).</li>
+        <li>EventHubTrigger with <code>batch=64</code>, output binding to decisions Event Hub.</li>
+        <li>Logic: Redis feature lookup -> ML score -> rules engine -> emit decision.</li>
+        <li>Integrate: managed identity to Azure ML; Private Endpoint to Redis and Cosmos.</li>
+        <li>Deploy: Bicep, blue/green slot swap, feature flags for kill-switch.</li>
+        <li>Monitor: App Insights live metrics, custom KPI <code>ScoreLatencyP99</code>.</li>
+        <li>Optimize: pre-warmed instances = 10, Redis pipelining, async scoring.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="a">[Function("ScoreTransaction")]</span>
+<span class="a">[EventHubOutput("tx-decisions", Connection = "EhOut")]</span>
+<span class="k">public async</span> <span class="t">Task</span>&lt;<span class="t">Decision</span>[]&gt; <span class="f">Run</span>(
+    <span class="a">[EventHubTrigger("tx-stream", Connection = "EhIn")]</span> <span class="t">EventData</span>[] events)
+{
+    <span class="k">var</span> decisions = <span class="k">new</span> <span class="t">List</span>&lt;<span class="t">Decision</span>&gt;(events.Length);
+    <span class="k">foreach</span> (<span class="k">var</span> e <span class="k">in</span> events)
+    {
+        <span class="k">var</span> tx       = <span class="t">JsonSerializer</span>.<span class="f">Deserialize</span>&lt;<span class="t">Transaction</span>&gt;(e.EventBody);
+        <span class="k">var</span> profile  = <span class="k">await</span> _redis.<span class="f">HashGetAllAsync</span>($<span class="s">"cust:{tx.CustomerId}"</span>);
+        <span class="k">var</span> features = <span class="t">FeatureBuilder</span>.<span class="f">Build</span>(tx, profile);
+        <span class="k">var</span> score    = <span class="k">await</span> _mlClient.<span class="f">ScoreAsync</span>(features); <span class="c">// &lt;30ms p99</span>
+        <span class="k">var</span> verdict  = score &gt; 0.82 ? <span class="s">"BLOCK"</span> : score &gt; 0.55 ? <span class="s">"STEP_UP"</span> : <span class="s">"ALLOW"</span>;
+        decisions.<span class="f">Add</span>(<span class="k">new</span> <span class="t">Decision</span>(tx.Id, verdict, score));
+    }
+    <span class="k">return</span> decisions.<span class="f">ToArray</span>();
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>$190K/mo</b> Fraud prevented</div>
+        <div><b>78ms</b> Avg decision latency</div>
+        <div><b>Weekly</b> Model retrain cycle</div>
+        <div><b>0.32%</b> False positive rate</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li><b>Azure Stream Analytics</b> for sliding-window aggregations feeding features</li>
+        <li><b>Durable Entities</b> for stateful per-customer counters</li>
+        <li><b>Cognitive Services Anomaly Detector</b> for unsupervised baseline</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Stream Processing</span><span class="tag">CEP</span><span class="tag">Feature Store (Sidecar)</span><span class="tag">Pub-Sub</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Telecom:</b> real-time call fraud (IRSF detection)</li>
+        <li><b>E-commerce:</b> checkout risk scoring (Stripe Radar pattern)</li>
+        <li><b>Gaming:</b> cheat / bot detection at login</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc3">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">3</div>
+      <div class="uc-title">
+        <h2>Healthcare — HL7 / FHIR Message Routing</h2>
+        <div class="industry">Industry: Healthcare &nbsp;·&nbsp; <span class="badge b-int">Integration</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A 14-hospital network exchanges 4M HL7 v2 / FHIR messages per day between EHRs (Epic, Cerner) and ancillary systems (lab, radiology, billing). On-prem Mirth Connect cluster costs $480K/year and has 2–4 outages per quarter, breaching HITRUST SLAs.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li><b>Service Bus trigger with sessions</b> preserves per-patient message order</li>
+        <li>Stateless transformation = ideal serverless workload</li>
+        <li>HIPAA-eligible service with BAA coverage</li>
+        <li><b>vs Logic Apps</b>: greater throughput, version control, unit testing</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[EHR HL7 MLLP] -> [On-prem MLLP listener / Azure API for FHIR]
+                v
+        [Service Bus Topic: hl7-inbound (sessions = PatientID)]
+                v
+        [Function: TransformAndRoute]
+            +-> Convert HL7 v2 -> FHIR R4 (FHIR Converter)
+            +-> De-identify (Presidio) for analytics copy
+            +-> Route by message type (ADT, ORU, ORM...)
+                v
+        [Subscriptions: lab, billing, data-lake (FHIR ndjson)]
+                v
+        [Azure Health Data Services (FHIR)]</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Inventory message types and ~140 segment mappings.</li>
+        <li>Provision: Function App Premium (VNet -> on-prem via ExpressRoute), Service Bus Premium (sessions + 1MB+ messages), AHDS, ADLS Gen2.</li>
+        <li>Runtime: C# isolated worker with Firely .NET SDK.</li>
+        <li>ServiceBusTrigger with <code>IsSessionsEnabled = true</code>.</li>
+        <li>Logic: parse -> validate FHIR profile -> enrich via MPI -> publish.</li>
+        <li>Integrate: MPI REST API, AHDS via managed identity, Sentinel for security telemetry.</li>
+        <li>Deploy: ADO Pipelines + Bicep, Azure Policy for HIPAA controls.</li>
+        <li>Monitor: App Insights with PHI-scrubbed logging; Sentinel workbooks.</li>
+        <li>Optimize: <code>prefetch=100</code>, <code>maxConcurrentCalls=32</code>, partition by site.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="a">[Function("TransformHL7")]</span>
+<span class="k">public async</span> <span class="t">Task</span> <span class="f">Run</span>(
+    <span class="a">[ServiceBusTrigger("hl7-inbound", "router-sub",
+        Connection = "Sb", IsSessionsEnabled = true)]</span>
+    <span class="t">ServiceBusReceivedMessage</span> msg,
+    <span class="t">ServiceBusMessageActions</span> actions)
+{
+    <span class="k">var</span> hl7    = <span class="t">Encoding</span>.UTF8.<span class="f">GetString</span>(msg.Body);
+    <span class="k">var</span> bundle = _converter.<span class="f">ToFhir</span>(hl7);            <span class="c">// Microsoft FHIR Converter</span>
+    bundle      = <span class="k">await</span> _enricher.<span class="f">AttachMpiAsync</span>(bundle);
+
+    <span class="k">var</span> msgType = <span class="f">ParseMsh9</span>(hl7);                <span class="c">// e.g. "ADT^A08"</span>
+    <span class="k">await</span> _publisher.<span class="f">PublishAsync</span>(msgType, bundle);
+    <span class="k">await</span> _ahds.<span class="f">PutBundleAsync</span>(bundle);
+
+    <span class="k">await</span> actions.<span class="f">CompleteMessageAsync</span>(msg);
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>$410K/yr</b> Infra savings</div>
+        <div><b>99.95%</b> Delivery SLA (was 99.4%)</div>
+        <div><b>6w to 4d</b> Onboard new downstream</div>
+        <div><b>Zero</b> Outages last 12 months</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li><b>Durable Functions</b> for multi-system ADT reconciliation</li>
+        <li><b>Azure OpenAI</b> to summarize discharge notes for care coordinators</li>
+        <li>DICOM image routing variant (DICOMweb endpoints)</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Message Router</span><span class="tag">Content-Based Router</span><span class="tag">Canonical Data Model</span><span class="tag">Saga (ADT merge)</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Insurance:</b> EDI 837/835 claim routing</li>
+        <li><b>Logistics:</b> EDI 214/315 shipment status broadcasts</li>
+        <li><b>Retail:</b> ASN (EDI 856) supplier integration</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc4">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">4</div>
+      <div class="uc-title">
+        <h2>Manufacturing — IoT Predictive Maintenance</h2>
+        <div class="industry">Industry: Manufacturing / CPG &nbsp;·&nbsp; <span class="badge b-iot">Real-Time / IoT</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A CPG manufacturer with 38 plants experiences ~210 unplanned downtime events/year on bottling lines, averaging $42K/hour. Goal: predict bearing failure 24h ahead from vibration + temperature telemetry (24,000 sensors at 10 Hz).</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>IoT Hub / Event Hub trigger fits the streaming firehose with partition-aware scale</li>
+        <li>Cheaper than Spark Structured Streaming for this transformation tier</li>
+        <li>Co-exists nicely with Stream Analytics for windowed aggregations</li>
+        <li><b>vs containers</b>: zero infra for the ingestion tier</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[OPC-UA Sensors] -> [Edge IoT Gateway] -> [IoT Hub]
+                                        v
+        [Function: PreprocessTelemetry] (Event Hub-compatible endpoint)
+                v
+        [Azure Data Explorer] (raw + downsampled)
+                v
+        [Function: ScoreAsset (Timer 1min)] -> Azure ML
+                v
+        [Service Bus: maintenance-alerts] -> Dynamics 365 Field Service</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define telemetry schema, failure labels, target precision/recall.</li>
+        <li>Provision: IoT Hub S2, Function App Premium, ADX cluster, Azure ML.</li>
+        <li>Runtime: Python 3.11 (aligned with data-science stack).</li>
+        <li>EventHubTrigger (cardinality = many), Timer for batch scoring.</li>
+        <li>Logic: downsample 10Hz -> 1Hz, compute FFT features, write to ADX, batch-score.</li>
+        <li>Integrate: D365 Field Service work order via Dataverse Web API.</li>
+        <li>Deploy: Terraform + GitHub Actions.</li>
+        <li>Monitor: ADX dashboards, App Insights, IoT Hub diagnostics.</li>
+        <li>Optimize: prefetch tuning, Parquet batching to ADLS, model A/B via slots.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet (Python)</h3>
+<pre class="code"><span class="k">import</span> azure.functions <span class="k">as</span> func
+<span class="k">import</span> numpy <span class="k">as</span> np, json
+<span class="k">from</span> scipy.fft <span class="k">import</span> rfft
+
+<span class="k">def</span> <span class="f">main</span>(events: <span class="t">list</span>[func.EventHubEvent]) -&gt; <span class="t">str</span>:
+    rows = []
+    <span class="k">for</span> e <span class="k">in</span> events:
+        d = json.loads(e.get_body().decode())
+        vib = np.array(d[<span class="s">"vibration"</span>])           <span class="c"># 100 samples</span>
+        fft_bins = np.abs(rfft(vib))[:10]
+        rows.append({
+            <span class="s">"assetId"</span>:  d[<span class="s">"assetId"</span>],
+            <span class="s">"ts"</span>:       d[<span class="s">"ts"</span>],
+            <span class="s">"rms"</span>:      <span class="t">float</span>(np.sqrt(np.mean(vib**2))),
+            <span class="s">"kurtosis"</span>: <span class="t">float</span>(((vib - vib.mean())**4).mean() / vib.var()**2),
+            <span class="s">"fft"</span>:      fft_bins.tolist(),
+            <span class="s">"tempC"</span>:    d[<span class="s">"temp"</span>]
+        })
+    <span class="k">return</span> json.dumps(rows)   <span class="c"># output binding -&gt; ADX via Event Hub</span></pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>31%</b> Reduction in unplanned downtime</div>
+        <div><b>$2.7M/yr</b> Recovered output</div>
+        <div><b>40%</b> Maintenance labor efficiency</div>
+        <div><b>$480K</b> Spare parts inventory cut</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li><b>Azure Digital Twins</b> for plant-wide simulation</li>
+        <li><b>Durable Functions</b> for multi-step diagnosis workflows</li>
+        <li>Edge variant: <b>Azure Functions on IoT Edge</b> for offline resilience</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Lambda Architecture</span><span class="tag">Event Sourcing</span><span class="tag">Hot + Warm Path</span><span class="tag">Pub-Sub</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Wind farms:</b> turbine gearbox monitoring</li>
+        <li><b>Mining:</b> haul truck powertrain analytics</li>
+        <li><b>Aviation:</b> engine health monitoring</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc5">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">5</div>
+      <div class="uc-title">
+        <h2>SaaS — Multi-Tenant Onboarding API (Durable Functions)</h2>
+        <div class="industry">Industry: SaaS / B2B Software &nbsp;·&nbsp; <span class="badge b-api">Backend API</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A B2B SaaS company onboards ~80 new tenants/month. Today an ops engineer runs 14 scripts (DB provision, Stripe customer, SendGrid template, Auth0 tenant, sample data, welcome email) — average 3 hrs each, error-prone, blocking sales cycle.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>HTTP-triggered API + <b>Durable Functions</b> for long, idempotent orchestrations</li>
+        <li>Stateless auth via Easy Auth + JWT validation</li>
+        <li><b>vs Logic Apps</b>: better versioning, unit testing, IDE experience</li>
+        <li><b>vs custom service</b>: no host to scale or patch</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Admin Portal] -> [APIM] -> [HTTP Function: StartOnboarding]
+                            v
+                  [Durable Orchestrator: OnboardTenantFlow]
+                  +- Activity: CreateAuth0Tenant
+                  +- Activity: ProvisionCosmosContainer
+                  +- Activity: CreateStripeCustomer
+                  +- Activity: SeedSampleData
+                  +- Activity: SendWelcomeEmail
+                            v
+                  [Cosmos: tenant registry] + [Event Grid: TenantProvisioned]</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define onboarding contract and per-tenant config schema.</li>
+        <li>Provision: Function App, APIM, Cosmos DB, Key Vault (per-tenant secrets).</li>
+        <li>Runtime: TypeScript on Node 20 (aligned with existing platform stack).</li>
+        <li>HTTP trigger + Durable orchestrator + activities.</li>
+        <li>Logic with exponential retries and compensations for partial failures.</li>
+        <li>Integrate: Auth0 Management API, Stripe, SendGrid via Key Vault secrets.</li>
+        <li>Deploy: Azure DevOps pipelines, infra-as-code via Bicep, contract tests.</li>
+        <li>Monitor: Durable Functions monitoring extension; expose status query API.</li>
+        <li>Optimize: parallel fan-out for independent activities; sticky orchestration IDs for idempotency.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet (TypeScript)</h3>
+<pre class="code"><span class="k">import</span> * <span class="k">as</span> df <span class="k">from</span> <span class="s">"durable-functions"</span>;
+
+df.app.<span class="f">orchestration</span>(<span class="s">"OnboardTenantFlow"</span>, <span class="k">function</span>* (ctx) {
+    <span class="k">const</span> req  = ctx.df.<span class="f">getInput</span>&lt;<span class="t">OnboardReq</span>&gt;();
+    <span class="k">const</span> opts = { retry: <span class="k">new</span> df.<span class="t">RetryOptions</span>(5000, 3) };
+
+    <span class="k">const</span> auth0  = <span class="k">yield</span> ctx.df.<span class="f">callActivityWithRetry</span>(<span class="s">"CreateAuth0Tenant"</span>,   opts, req);
+    <span class="k">const</span> db     = <span class="k">yield</span> ctx.df.<span class="f">callActivityWithRetry</span>(<span class="s">"ProvisionCosmos"</span>,     opts, req);
+    <span class="k">const</span> stripe = <span class="k">yield</span> ctx.df.<span class="f">callActivityWithRetry</span>(<span class="s">"CreateStripeCustomer"</span>, opts, req);
+
+    <span class="c">// parallel - fan-out / fan-in</span>
+    <span class="k">yield</span> ctx.df.<span class="t">Task</span>.<span class="f">all</span>([
+        ctx.df.<span class="f">callActivity</span>(<span class="s">"SeedSampleData"</span>,   { req, db }),
+        ctx.df.<span class="f">callActivity</span>(<span class="s">"SendWelcomeEmail"</span>, { req, auth0 })
+    ]);
+    <span class="k">return</span> { tenantId: req.tenantId, auth0, stripeId: stripe.id };
+});</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>3h to 4min</b> Onboarding time</div>
+        <div><b>5d to 6h</b> Sales close-to-live</div>
+        <div><b>99.7%</b> Provisioning success</div>
+        <div><b>0</b> Ops engineers required</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Self-service signup via Power Pages calling the same Function</li>
+        <li>Offboarding orchestrator (GDPR right-to-erasure)</li>
+        <li><b>Azure OpenAI</b> to generate tenant config from natural-language brief</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Orchestrator-Worker</span><span class="tag">Saga (Compensations)</span><span class="tag">Fan-out / Fan-in</span><span class="tag">BFF</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Telecom:</b> SIM / eSIM activation workflows</li>
+        <li><b>Banking:</b> KYC + digital account opening</li>
+        <li><b>Healthcare:</b> patient portal account provisioning</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc6">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">6</div>
+      <div class="uc-title">
+        <h2>Logistics — Shipment Tracking Webhook Aggregator</h2>
+        <div class="industry">Industry: Logistics / 3PL &nbsp;·&nbsp; <span class="badge b-event">Event-Driven Workflow</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A 3PL integrates 27 carriers (FedEx, DHL, Maersk...) each posting webhook events at unpredictable rates (peaks 9K events/min during holidays). Customers complain of stale tracking; the existing IIS app fails under spikes, causing $90K/quarter in SLA penalties.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>HTTP trigger absorbs spikes elastically; Service Bus decouples downstream processing</li>
+        <li>Pay-per-execution beats always-on App Service for a 10x-spiky workload</li>
+        <li><b>vs APIM-only</b>: APIM does throttling but you still need the compute tier</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Carrier Webhooks] -> [APIM] -> [HTTP Function: AcceptWebhook]
+                                  v (publish)
+                         [Service Bus: shipment-events]
+                                  v
+                         [Function: NormalizeAndPersist]
+                                  v
+                    [Cosmos DB (shipments)] + [SignalR: customer push]</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define canonical shipment event schema (carrier-agnostic).</li>
+        <li>Provision: APIM, Function App (Consumption is sufficient here), Service Bus, Cosmos DB, SignalR.</li>
+        <li>Runtime: Node.js 20.</li>
+        <li>HTTP trigger (anonymous + per-carrier HMAC validation), Service Bus output binding.</li>
+        <li>Validation + dedupe by <code>(carrier, eventId)</code>.</li>
+        <li>Integrate: SignalR negotiate function for client subscriptions; Power BI streaming dataset.</li>
+        <li>Deploy: Bicep + GH Actions; APIM policies for per-carrier rate limiting.</li>
+        <li>Monitor: per-carrier failure rate alerts, dead-letter queue dashboard.</li>
+        <li>Optimize: 202 Accepted pattern — accept fast, process async.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet (Node.js)</h3>
+<pre class="code"><span class="k">const</span> { app, output } = <span class="f">require</span>(<span class="s">'@azure/functions'</span>);
+<span class="k">const</span> sbOut = output.<span class="f">serviceBusQueue</span>({ queueName: <span class="s">'shipment-events'</span>, connection: <span class="s">'Sb'</span> });
+
+app.<span class="f">http</span>(<span class="s">'AcceptWebhook'</span>, {
+  methods: [<span class="s">'POST'</span>], authLevel: <span class="s">'anonymous'</span>,
+  extraOutputs: [sbOut],
+  handler: <span class="k">async</span> (req, ctx) =&gt; {
+    <span class="k">const</span> carrier = req.params.carrier;
+    <span class="k">const</span> raw = <span class="k">await</span> req.<span class="f">text</span>();
+    <span class="k">if</span> (!<span class="f">verifyHmac</span>(carrier, raw, req.headers.<span class="f">get</span>(<span class="s">'x-signature'</span>))) {
+      <span class="k">return</span> { status: 401 };
+    }
+    ctx.extraOutputs.<span class="f">set</span>(sbOut, {
+      carrier, payload: <span class="t">JSON</span>.<span class="f">parse</span>(raw), receivedAt: <span class="t">Date</span>.<span class="f">now</span>()
+    });
+    <span class="k">return</span> { status: 202 };
+  }
+});</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>14K req/min</b> Sustained, no drops</div>
+        <div><b>9min to 22s</b> Tracking freshness p95</div>
+        <div><b>62%</b> Infra cost reduction</div>
+        <div><b>$90K/qtr</b> SLA penalties avoided</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Add <b>Event Grid</b> for fan-out to BI, alerting, fraud</li>
+        <li>Geo-replicate Cosmos for global low-latency reads</li>
+        <li>Add ETA prediction via Azure ML</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Async Request-Reply</span><span class="tag">Competing Consumers</span><span class="tag">Claim Check</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Payments:</b> PSP webhook ingestion (Stripe, Adyen)</li>
+        <li><b>Marketing:</b> campaign event ingestion (SendGrid, Twilio)</li>
+        <li><b>Gaming:</b> matchmaking / telemetry callbacks</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc7">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">7</div>
+      <div class="uc-title">
+        <h2>Insurance — Claims Document Processing with Human-in-the-Loop</h2>
+        <div class="industry">Industry: Insurance &nbsp;·&nbsp; <span class="badge b-file">File Processing</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A health insurer processes 320K claims/month with attached medical records, bills, and discharge summaries. Manual triage takes 11 days average; CMS targets are 7. Backlog drives policyholder churn (~2.4% annually) worth $18M in lost premium.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Blob trigger ingests claim packets; <b>Durable Functions</b> orchestrates the multi-stage review</li>
+        <li>Wait-for-external-event pattern enables human approval seamlessly</li>
+        <li><b>vs Logic Apps</b>: better for ML-heavy logic, custom routing rules</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Claimant Portal] -> [Blob: /claims/{claimId}/]
+                          v
+                [Durable Orchestrator: ClaimReview]
+                +- Activity: ExtractText (Document Intelligence)
+                +- Activity: ClassifyDocs (custom model)
+                +- Activity: AutoAdjudicate (rules + ML)
+                +- Wait External Event: AdjusterApproved
+                +- Activity: NotifyAndPay
+                          v
+                  [Dynamics 365 + Core claims system]</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define document types, decision rules, escalation thresholds.</li>
+        <li>Provision: Function App Premium, Document Intelligence (custom model), Storage, Cosmos, APIM, Power Apps for adjusters.</li>
+        <li>Runtime: C# .NET 8 isolated.</li>
+        <li>Blob trigger -> orchestrator start; orchestrator <code>WaitForExternalEvent</code>.</li>
+        <li>Core logic: extraction -> classification -> rules -> confidence-based routing.</li>
+        <li>Integrate: Power App adjuster UI posts approval to orchestrator.</li>
+        <li>Deploy: ADO multi-env (dev/UAT/prod) + Bicep.</li>
+        <li>Monitor: Durable status dashboard, custom metric <code>AvgClaimCycleTime</code>.</li>
+        <li>Optimize: sub-orchestrations for parallel doc processing.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet (Durable Orchestrator)</h3>
+<pre class="code"><span class="a">[Function(nameof(ClaimReview))]</span>
+<span class="k">public async</span> <span class="t">Task</span>&lt;<span class="t">ClaimResult</span>&gt; <span class="f">ClaimReview</span>(
+    <span class="a">[OrchestrationTrigger]</span> <span class="t">TaskOrchestrationContext</span> ctx)
+{
+    <span class="k">var</span> claim = ctx.<span class="f">GetInput</span>&lt;<span class="t">Claim</span>&gt;()!;
+
+    <span class="k">var</span> docs = <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>&lt;<span class="t">List</span>&lt;<span class="t">DocFacts</span>&gt;&gt;(
+        <span class="s">"ExtractText"</span>, claim.Files);
+
+    <span class="k">var</span> decision = <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>&lt;<span class="t">Decision</span>&gt;(
+        <span class="s">"AutoAdjudicate"</span>, docs);
+
+    <span class="k">if</span> (decision.Confidence &lt; 0.9)
+    {
+        <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>(<span class="s">"NotifyAdjuster"</span>, claim.Id);
+        <span class="k">using var</span> cts = <span class="k">new</span> <span class="t">CancellationTokenSource</span>();
+        <span class="k">var</span> approval = <span class="k">await</span> ctx.<span class="f">WaitForExternalEvent</span>&lt;<span class="t">Approval</span>&gt;(
+            <span class="s">"AdjusterDecision"</span>, <span class="t">TimeSpan</span>.<span class="f">FromDays</span>(2), cts.Token);
+        decision = decision <span class="k">with</span> { Outcome = approval.Outcome };
+    }
+    <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>(<span class="s">"NotifyAndPay"</span>, decision);
+    <span class="k">return</span> <span class="k">new</span> <span class="t">ClaimResult</span>(claim.Id, decision.Outcome);
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>11d to 4.5d</b> Avg claim cycle</div>
+        <div><b>68%</b> Straight-through adjudication</div>
+        <div><b>2.4% to 0.9%</b> Annual churn</div>
+        <div><b>$11M</b> Retained premium</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Add fraud detection model into the orchestrator</li>
+        <li>Integrate Copilot Studio for claimant chat status updates</li>
+        <li>Add explainable AI for adjuster decision-support</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Human Interaction Pattern</span><span class="tag">Saga</span><span class="tag">Approval Workflow</span><span class="tag">Compensating Transaction</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Mortgage:</b> loan document review and underwriting</li>
+        <li><b>Government:</b> permit / visa application processing</li>
+        <li><b>HR:</b> background-check workflows</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc8">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">8</div>
+      <div class="uc-title">
+        <h2>E-commerce — Cart Abandonment Recovery</h2>
+        <div class="industry">Industry: Retail / E-commerce &nbsp;·&nbsp; <span class="badge b-sched">Scheduled / Automation</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>An online retailer with $180M GMV has a 71% cart abandonment rate. Existing email tool sends generic blast emails 24h later, recovering only 1.6%. Industry benchmark is 8-12% with personalized, well-timed nudges.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li><b>Timer trigger</b> every 15 min for cohort scanning; per-cart <b>Durable Functions</b> instances for stateful nudge ladders</li>
+        <li>Massively parallel: 100K active carts = 100K cheap orchestration instances</li>
+        <li><b>vs CRM-native automation</b>: deeper personalization, easier ML integration</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Storefront] -> [Cosmos: carts (TTL)] -> Change Feed
+                                     v
+                  [Function: StartAbandonmentFlow]
+                                     v
+              [Durable Orchestrator: NudgeLadder]
+              +- Wait 1h  -> Send email A (gentle reminder)
+              +- Wait 24h -> Send email B (discount 5%)
+              +- Wait 72h -> Send email C (discount 10% + free ship)
+                                     v
+                  [Dynamics 365 Marketing / SendGrid / SMS]</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define abandonment criteria, nudge ladder, opt-out logic.</li>
+        <li>Provision: Function App (Consumption), Cosmos DB, Communication Services / SendGrid, Dynamics 365 Marketing.</li>
+        <li>Runtime: C# isolated worker.</li>
+        <li>Cosmos change feed trigger -> start orchestration; durable timers between nudges.</li>
+        <li>Logic: check cart status before each nudge; terminate if checked out / opted out.</li>
+        <li>Integrate: Azure Personalizer (or Azure OpenAI) for subject-line A/B selection.</li>
+        <li>Deploy: GH Actions + Bicep.</li>
+        <li>Monitor: conversion funnel per nudge step.</li>
+        <li>Optimize: query orchestrator instance store for cohort analytics.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="a">[Function(nameof(NudgeLadder))]</span>
+<span class="k">public async</span> <span class="t">Task</span> <span class="f">NudgeLadder</span>(
+    <span class="a">[OrchestrationTrigger]</span> <span class="t">TaskOrchestrationContext</span> ctx)
+{
+    <span class="k">var</span> cart = ctx.<span class="f">GetInput</span>&lt;<span class="t">Cart</span>&gt;()!;
+    <span class="k">var</span> steps = <span class="k">new</span>[] {
+        (<span class="t">TimeSpan</span>.<span class="f">FromHours</span>(1),  <span class="s">"gentle"</span>),
+        (<span class="t">TimeSpan</span>.<span class="f">FromHours</span>(24), <span class="s">"discount5"</span>),
+        (<span class="t">TimeSpan</span>.<span class="f">FromHours</span>(72), <span class="s">"discount10"</span>)
+    };
+
+    <span class="k">foreach</span> (<span class="k">var</span> (delay, template) <span class="k">in</span> steps)
+    {
+        <span class="k">await</span> ctx.<span class="f">CreateTimer</span>(ctx.CurrentUtcDateTime.<span class="f">Add</span>(delay), <span class="t">CancellationToken</span>.None);
+        <span class="k">var</span> status = <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>&lt;<span class="t">CartStatus</span>&gt;(<span class="s">"CheckCart"</span>, cart.Id);
+        <span class="k">if</span> (status.IsCheckedOut || status.IsOptedOut) <span class="k">return</span>;
+        <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>(<span class="s">"SendNudge"</span>, <span class="k">new</span> <span class="t">NudgeReq</span>(cart, template));
+    }
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>1.6% to 9.4%</b> Recovery rate</div>
+        <div><b>$14M/yr</b> Incremental revenue</div>
+        <div><b>3.2x</b> Email CTR</div>
+        <div><b>$0.0004</b> Cost per nudge run</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Add SMS / WhatsApp channel via ACS</li>
+        <li>Personalize content via Azure OpenAI per cart contents</li>
+        <li>Loyalty-tier-specific ladders</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Scheduler / Timer</span><span class="tag">Durable Stateful Workflow</span><span class="tag">Change Feed Listener</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>SaaS:</b> trial-expiry nudge ladders</li>
+        <li><b>Banking:</b> incomplete loan application reminders</li>
+        <li><b>Travel:</b> abandoned booking recovery</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc9">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">9</div>
+      <div class="uc-title">
+        <h2>Media — Video Transcoding & Distribution Pipeline</h2>
+        <div class="industry">Industry: Media / Streaming &nbsp;·&nbsp; <span class="badge b-file">File Processing</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A sports media company ingests 600 raw match videos/week (4K, 50GB each) and must publish HLS/DASH ABR streams in &lt; 30 minutes to monetize highlight reels. Existing FFmpeg cluster takes 90+ minutes and costs $42K/month even when idle.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Blob trigger kicks off pipeline immediately on upload</li>
+        <li><b>Durable Functions fan-out</b> processes segments in parallel</li>
+        <li>For heavy GPU encoding, Functions can dispatch to Azure Container Apps / Batch — best of both worlds</li>
+        <li><b>vs always-on cluster</b>: 75% cost cut</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Studio Upload] -> [Blob: /raw]
+        v (BlobTrigger)
+[Function: SplitVideo] -> [Durable Orchestrator]
+        +- Fan-out -> ContainerApp jobs (ffmpeg per segment, GPU)
+        +- Fan-in   -> Concatenate / package HLS+DASH
+        +- Generate thumbnails + previews
+        +- Push to Azure CDN + notify Event Grid
+                v
+        [Front Door + CDN] -> end users</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define output ladder (240p/480p/720p/1080p/4K), DRM strategy, captioning.</li>
+        <li>Provision: Function App Premium, Container Apps with GPU, Storage (premium block blobs), Azure CDN.</li>
+        <li>Runtime: C# isolated for orchestrator; container images with FFmpeg+NVENC for workers.</li>
+        <li>Blob trigger -> orchestrator -> fan-out activities call Container App jobs.</li>
+        <li>Logic: split-by-keyframe, parallel encode, concat, generate manifest.</li>
+        <li>Integrate: Azure AI Video Indexer for chapter detection / captions.</li>
+        <li>Deploy: Bicep + GitHub Actions, container build via ACR Tasks.</li>
+        <li>Monitor: orchestration duration metric, GPU utilization in Container Apps.</li>
+        <li>Optimize: segment size tuning, KEDA scaler on Container Apps, spot capacity.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="a">[Function(nameof(TranscodeOrchestrator))]</span>
+<span class="k">public async</span> <span class="t">Task</span>&lt;<span class="t">string</span>&gt; <span class="f">TranscodeOrchestrator</span>(
+    <span class="a">[OrchestrationTrigger]</span> <span class="t">TaskOrchestrationContext</span> ctx)
+{
+    <span class="k">var</span> input = ctx.<span class="f">GetInput</span>&lt;<span class="t">VideoInput</span>&gt;()!;
+    <span class="k">var</span> segments = <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>&lt;<span class="t">List</span>&lt;<span class="t">Segment</span>&gt;&gt;(<span class="s">"SplitVideo"</span>, input);
+
+    <span class="c">// Fan-out: parallel encode per segment per rendition</span>
+    <span class="k">var</span> tasks = <span class="k">new</span> <span class="t">List</span>&lt;<span class="t">Task</span>&lt;<span class="t">string</span>&gt;&gt;();
+    <span class="k">foreach</span> (<span class="k">var</span> seg <span class="k">in</span> segments)
+        <span class="k">foreach</span> (<span class="k">var</span> rendition <span class="k">in</span> <span class="k">new</span>[] { <span class="s">"480p"</span>, <span class="s">"720p"</span>, <span class="s">"1080p"</span>, <span class="s">"4k"</span> })
+            tasks.<span class="f">Add</span>(ctx.<span class="f">CallActivityAsync</span>&lt;<span class="t">string</span>&gt;(<span class="s">"EncodeSegment"</span>,
+                <span class="k">new</span> <span class="t">EncodeJob</span>(seg, rendition)));
+
+    <span class="k">var</span> encoded = <span class="k">await</span> <span class="t">Task</span>.<span class="f">WhenAll</span>(tasks);
+    <span class="k">var</span> manifest = <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>&lt;<span class="t">string</span>&gt;(<span class="s">"PackageHls"</span>, encoded);
+    <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>(<span class="s">"PublishToCdn"</span>, manifest);
+    <span class="k">return</span> manifest;
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>90 to 18 min</b> Time to publish</div>
+        <div><b>$42K to $11K</b> Monthly cost</div>
+        <div><b>4x more</b> Highlights monetized</div>
+        <div><b>2.1x</b> Ad revenue uplift</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Add live transcoding via Azure Media Services</li>
+        <li>AI-powered auto-highlight detection</li>
+        <li>Multi-language dubbing via Azure Speech</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Fan-out / Fan-in</span><span class="tag">Map-Reduce</span><span class="tag">Pipeline</span><span class="tag">Async Workflow</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Education:</b> lecture recording transcode + caption pipeline</li>
+        <li><b>Surveillance:</b> CCTV archive compression + redaction</li>
+        <li><b>Genomics:</b> variant-calling BAM/VCF processing</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc10">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">10</div>
+      <div class="uc-title">
+        <h2>Energy — Smart Meter Reading Aggregation</h2>
+        <div class="industry">Industry: Utilities / Energy &nbsp;·&nbsp; <span class="badge b-iot">Real-Time / IoT</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A regional utility has rolled out 2.8M smart meters reporting every 15 minutes. Daily volume: 270M readings. Existing nightly batch ETL into Teradata takes 14h, blocking next-day settlement and demand-response programs worth $7M/year.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Event Hub trigger for sustained 3K msg/s ingestion at low cost</li>
+        <li>Functions write to ADLS + Cosmos enabling near-real-time settlement</li>
+        <li><b>vs Synapse alone</b>: Functions handle the per-event transformation cleanly; Synapse handles analytical queries</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Smart Meters] -> [Concentrator] -> [Event Hub: meter-readings]
+                                       v
+              [Function: ValidateAndEnrich (Python)]
+                +-> Lookup customer tariff in Cosmos
+                +-> Calculate kWh delta + cost
+                +-> Emit to two paths:
+                       +- [ADLS Gen2 / Parquet] -> Synapse / Fabric
+                       +- [Cosmos DB: latest readings] -> mobile app</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define schema, validation rules, late-arrival policy.</li>
+        <li>Provision: Event Hub (Dedicated 1 CU), Function App Premium, ADLS, Cosmos DB, Synapse / Fabric.</li>
+        <li>Runtime: Python with PyArrow for Parquet writes.</li>
+        <li>EventHubTrigger batched; Cosmos output binding for hot reads.</li>
+        <li>Logic: validate sequence, detect tampering, compute billing fields.</li>
+        <li>Integrate: Power BI direct-query over Fabric / Synapse.</li>
+        <li>Deploy: Terraform + Azure Pipelines.</li>
+        <li>Monitor: events-per-second, lag, validation failure rate.</li>
+        <li>Optimize: batch Parquet at 256MB targets, partition by <code>date/region</code>.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet (Python)</h3>
+<pre class="code"><span class="k">import</span> azure.functions <span class="k">as</span> func, json
+<span class="k">import</span> pyarrow <span class="k">as</span> pa, pyarrow.parquet <span class="k">as</span> pq, io
+
+<span class="k">def</span> <span class="f">main</span>(events: <span class="t">list</span>[func.EventHubEvent],
+         out_blob: func.Out[<span class="t">bytes</span>]) -&gt; <span class="k">None</span>:
+    rows = []
+    <span class="k">for</span> e <span class="k">in</span> events:
+        r = json.loads(e.get_body())
+        <span class="k">if</span> r[<span class="s">"kWh"</span>] &lt; 0 <span class="k">or</span> r[<span class="s">"kWh"</span>] &gt; 50000:
+            <span class="k">continue</span>  <span class="c"># anomaly drop</span>
+        rows.append({
+            <span class="s">"meter"</span>:   r[<span class="s">"meter"</span>],
+            <span class="s">"ts"</span>:      r[<span class="s">"ts"</span>],
+            <span class="s">"kWh"</span>:     r[<span class="s">"kWh"</span>],
+            <span class="s">"tariff"</span>:  <span class="f">lookup_tariff</span>(r[<span class="s">"meter"</span>]),
+            <span class="s">"region"</span>:  r.get(<span class="s">"region"</span>, <span class="s">"unknown"</span>)
+        })
+    table = pa.Table.from_pylist(rows)
+    buf = io.BytesIO()
+    pq.write_table(table, buf, compression=<span class="s">"snappy"</span>)
+    out_blob.<span class="f">set</span>(buf.getvalue())</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>14h to 6 min</b> Lag to settlement</div>
+        <div><b>$7M/yr</b> DR program enabled</div>
+        <div><b>3K msg/s</b> Sustained throughput</div>
+        <div><b>0.04%</b> Anomalous reading rate</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Add tamper-detection ML model</li>
+        <li>Push usage insights to customers via Power Apps</li>
+        <li>Integrate with EV charging optimization</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Stream Processing</span><span class="tag">Lambda Architecture</span><span class="tag">Data Lakehouse</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Water utilities:</b> leak detection from smart-meter telemetry</li>
+        <li><b>Telecom:</b> usage-based billing pipelines</li>
+        <li><b>Logistics:</b> fleet telematics aggregation</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc11">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">11</div>
+      <div class="uc-title">
+        <h2>Power Platform — Dataverse Plugin Replacement</h2>
+        <div class="industry">Industry: Cross-industry / Power Platform &nbsp;·&nbsp; <span class="badge b-int">Integration</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>An enterprise's Dynamics 365 environment has 47 Dataverse plugins (sandboxed C# assemblies) implementing complex business logic — pricing, eligibility, fraud rules. Cold-start latency hurts UX; the 2-min sandbox timeout limits feature scope; debugging is painful, and updates require solution deployments per environment.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Externalize logic from Dataverse sandbox — no time limit, full debug, independent deploy</li>
+        <li>Called via <b>Dataverse webhook</b> from synchronous or async plugin stub</li>
+        <li>Can be reused by Power Apps, Power Automate, Logic Apps, external apps</li>
+        <li><b>vs Logic Apps</b>: code-first, version control, unit testable, lower latency</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Dataverse Event] -> [Webhook step (sync/async)]
+                          v (HTTPS + secret header)
+              [HTTP Function: PricingEngine]
+                          v
+              +-> Cosmos / SQL for reference data
+              +-> Azure ML model endpoint
+              +-> Dataverse Web API (write-back) via managed identity
+                          v
+              [App Insights for end-to-end trace]</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Identify plugins exceeding sandbox limits or slow; classify sync vs async.</li>
+        <li>Provision: Function App, APIM (optional gateway), Key Vault, App Insights linked to D365 trace.</li>
+        <li>Runtime: C# isolated worker, ServiceClient SDK for Dataverse.</li>
+        <li>HTTP trigger receiving Dataverse RemoteExecutionContext JSON.</li>
+        <li>Business logic + Dataverse write-back via managed identity.</li>
+        <li>Register webhook in D365 Plugin Registration Tool with HMAC secret header.</li>
+        <li>Deploy: ALM via Solutions for webhook reference + Bicep for Function.</li>
+        <li>Monitor: correlate D365 plugin trace logs with App Insights via correlation ID.</li>
+        <li>Optimize: Premium plan + warm instances for sync hot paths; circuit breaker for failures.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="a">[Function("PricingEngine")]</span>
+<span class="k">public async</span> <span class="t">Task</span>&lt;<span class="t">HttpResponseData</span>&gt; <span class="f">Run</span>(
+    <span class="a">[HttpTrigger(AuthorizationLevel.Function, "post")]</span> <span class="t">HttpRequestData</span> req)
+{
+    <span class="c">// 1. Verify webhook secret</span>
+    <span class="k">if</span> (!req.Headers.<span class="f">TryGetValues</span>(<span class="s">"x-secret"</span>, <span class="k">out</span> <span class="k">var</span> sec)
+        || sec.<span class="f">FirstOrDefault</span>() != _cfg[<span class="s">"DvWebhookSecret"</span>])
+        <span class="k">return</span> req.<span class="f">CreateResponse</span>(<span class="t">HttpStatusCode</span>.Unauthorized);
+
+    <span class="c">// 2. Parse Dataverse RemoteExecutionContext</span>
+    <span class="k">var</span> ctx  = <span class="k">await</span> <span class="t">JsonSerializer</span>.<span class="f">DeserializeAsync</span>&lt;<span class="t">RemoteExecutionContext</span>&gt;(req.Body);
+    <span class="k">var</span> quoteId = <span class="k">new</span> <span class="t">Guid</span>(ctx.PrimaryEntityId);
+
+    <span class="c">// 3. Apply pricing rules + ML</span>
+    <span class="k">var</span> price = <span class="k">await</span> _engine.<span class="f">CalculateAsync</span>(quoteId, ctx.InputParameters);
+
+    <span class="c">// 4. Write back via Dataverse Web API</span>
+    <span class="k">await</span> _dataverse.<span class="f">UpdateAsync</span>(<span class="s">"quotes"</span>, quoteId,
+        <span class="k">new</span> { totalamount = price.Total, discount_rate = price.Discount });
+
+    <span class="k">return</span> req.<span class="f">CreateResponse</span>(<span class="t">HttpStatusCode</span>.OK);
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>2s to 280ms</b> Pricing latency</div>
+        <div><b>3w to 1d</b> Logic change cycle</div>
+        <div><b>47 to 3</b> Sandbox plugins remaining</div>
+        <div><b>$0</b> ALM headache</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Same Function reused by Power Pages, Copilot Studio, mobile apps</li>
+        <li>Add Durable Function for long-running plugin replacement</li>
+        <li>Use Service Bus for async plugins to decouple Dataverse</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Strangler Fig</span><span class="tag">Anti-Corruption Layer</span><span class="tag">Webhook Integration</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Salesforce:</b> Apex-to-Azure-Function offload via outbound messages</li>
+        <li><b>ServiceNow:</b> business rule offload to Azure for ML scoring</li>
+        <li><b>SAP:</b> BAPI extension via Azure Functions and SAP ERP cloud connector</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc12">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">12</div>
+      <div class="uc-title">
+        <h2>Dynamics 365 — Custom Workflow Action via Azure Function</h2>
+        <div class="industry">Industry: Cross-industry / CRM &nbsp;·&nbsp; <span class="badge b-int">Integration</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A field-service business uses Dynamics 365 Customer Service. When a case is created, agents need an instant SLA, similar-case-resolution suggestion, and customer sentiment from prior calls. Native workflows can't call ML endpoints; agents spend ~6 min/case searching manually.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Exposed as <b>Custom Connector</b> to Power Automate / Power Apps</li>
+        <li>Bridges Dataverse, Azure OpenAI, and Cognitive Search securely</li>
+        <li>One Function powers cloud flows, model-driven app ribbon, custom pages</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[D365 Case Created]
+        v (Power Automate trigger)
+[Custom Connector] -> [HTTP Function: SuggestResolution]
+        +-> Azure AI Search (semantic) over KB
+        +-> Azure OpenAI (summarize, suggest)
+        +-> Dataverse FetchXML for past cases
+                v
+        Returns: SLA, top-3 KB articles, suggested response, sentiment</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Inventory the prompts, data sources, response schema.</li>
+        <li>Provision: Function App, Azure AI Search, Azure OpenAI, Key Vault.</li>
+        <li>Runtime: C# isolated (Semantic Kernel) or Python (LangChain).</li>
+        <li>HTTP trigger with OpenAPI annotations -> Custom Connector definition.</li>
+        <li>Logic: search -> enrich with case context -> call OpenAI with structured output schema.</li>
+        <li>Integrate via Custom Connector (Power Platform); secure with Azure AD.</li>
+        <li>Deploy connector via Solution; CI/CD with ALM Accelerator.</li>
+        <li>Monitor: token usage, latency, citation coverage.</li>
+        <li>Optimize: prompt caching (semantic cache in Cosmos), embedding caching.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet (C# w/ Semantic Kernel)</h3>
+<pre class="code"><span class="a">[Function("SuggestResolution")]</span>
+<span class="k">public async</span> <span class="t">Task</span>&lt;<span class="t">SuggestResponse</span>&gt; <span class="f">Run</span>(
+    <span class="a">[HttpTrigger("post")]</span> <span class="t">HttpRequestData</span> req)
+{
+    <span class="k">var</span> body = <span class="k">await</span> req.<span class="f">ReadFromJsonAsync</span>&lt;<span class="t">CaseInput</span>&gt;();
+
+    <span class="c">// 1. Semantic search over KB</span>
+    <span class="k">var</span> hits = <span class="k">await</span> _search.<span class="f">SearchAsync</span>(body!.Description, top: 5);
+
+    <span class="c">// 2. Retrieve past resolved similar cases</span>
+    <span class="k">var</span> past = <span class="k">await</span> _dataverse.<span class="f">FetchSimilarCasesAsync</span>(body.AccountId, body.Description);
+
+    <span class="c">// 3. Ground LLM call</span>
+    <span class="k">var</span> kernel = _kernelBuilder.<span class="f">Build</span>();
+    <span class="k">var</span> result = <span class="k">await</span> kernel.<span class="f">InvokePromptAsync</span>&lt;<span class="t">SuggestResponse</span>&gt;(
+        <span class="s">"Given case {{case}} and context {{ctx}}, suggest resolution as JSON."</span>,
+        <span class="k">new</span>() { [<span class="s">"case"</span>] = body.Description,
+                [<span class="s">"ctx"</span>]  = <span class="k">new</span> { hits, past } });
+
+    <span class="k">return</span> result;
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>6min to 45s</b> First-response prep</div>
+        <div><b>+22%</b> First-contact resolution</div>
+        <div><b>$1.8M/yr</b> Agent capacity unlocked</div>
+        <div><b>+11pts</b> CSAT</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Plug into <b>Copilot Studio</b> as a custom skill</li>
+        <li>Voice channel via Dynamics Omnichannel</li>
+        <li>Live sentiment via Azure AI Speech</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">RAG (Retrieval-Augmented Generation)</span><span class="tag">BFF</span><span class="tag">Custom Connector</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Banking call centers:</b> RAG-based agent assistant</li>
+        <li><b>Telco:</b> automated case triage</li>
+        <li><b>Public sector:</b> citizen service desk co-pilot</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc13">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">13</div>
+      <div class="uc-title">
+        <h2>Banking — Daily Statement Generation</h2>
+        <div class="industry">Industry: Retail Banking &nbsp;·&nbsp; <span class="badge b-sched">Scheduled / Automation</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A retail bank generates 4.2M PDF statements/month. Legacy mainframe job runs 9h overnight, blocking the batch window and forcing IT support overtime. Failures require manual restart of the entire batch.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li><b>Timer trigger</b> kicks off; <b>Durable fan-out</b> processes accounts in parallel</li>
+        <li>Resumable: failures isolated per account, not per batch</li>
+        <li>Pay only for actual run time (~1 hour/day)</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Timer 02:00] -> [Function: StartBatch]
+                      v
+            [Durable Orchestrator]
+            +- Fan-out: ListAccounts (chunks of 500)
+            +- Activity per chunk: GenerateStatementPdf
+            +- Fan-in: Aggregate audit report
+                      v
+       [Blob: /statements/{yyyyMM}/{accountId}.pdf]
+                      v
+       [Event Grid -> Email/Push/Online banking]</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define statement template, retention, encryption requirements.</li>
+        <li>Provision: Function App Premium, Storage with CMK encryption, Key Vault, Notification Hubs.</li>
+        <li>Runtime: C# isolated (QuestPDF for PDF generation).</li>
+        <li>Timer trigger nightly; Durable orchestrator fans out to chunked activities.</li>
+        <li>Logic: query SQL/Cosmos by date range -> render PDF -> upload blob -> emit event.</li>
+        <li>Integrate: Event Grid -> Logic App for email; Communication Services for SMS.</li>
+        <li>Deploy: ADO + Bicep, with managed identities only (no secrets).</li>
+        <li>Monitor: orchestration completion %, per-chunk failures, SLA dashboard.</li>
+        <li>Optimize: pre-warm 20 instances, chunk-size tuning, SQL connection pooling.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="a">[Function(nameof(StatementBatch))]</span>
+<span class="k">public async</span> <span class="t">Task</span>&lt;<span class="t">BatchReport</span>&gt; <span class="f">StatementBatch</span>(
+    <span class="a">[OrchestrationTrigger]</span> <span class="t">TaskOrchestrationContext</span> ctx)
+{
+    <span class="k">var</span> month    = ctx.<span class="f">GetInput</span>&lt;<span class="t">string</span>&gt;()!;
+    <span class="k">var</span> chunks   = <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>&lt;<span class="t">List</span>&lt;<span class="t">AccountChunk</span>&gt;&gt;(<span class="s">"ListAccounts"</span>, month);
+    <span class="k">var</span> tasks    = chunks.<span class="f">Select</span>(c =&gt;
+        ctx.<span class="f">CallActivityAsync</span>&lt;<span class="t">ChunkResult</span>&gt;(<span class="s">"GenerateChunk"</span>, c)).<span class="f">ToList</span>();
+    <span class="k">var</span> results  = <span class="k">await</span> <span class="t">Task</span>.<span class="f">WhenAll</span>(tasks);
+    <span class="k">var</span> total    = results.<span class="f">Sum</span>(r =&gt; r.Successful);
+    <span class="k">var</span> failed   = results.<span class="f">Sum</span>(r =&gt; r.Failed);
+    <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>(<span class="s">"PublishAuditReport"</span>, <span class="k">new</span> { month, total, failed });
+    <span class="k">return</span> <span class="k">new</span> <span class="t">BatchReport</span>(month, total, failed);
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>9h to 52 min</b> Batch duration</div>
+        <div><b>$240K/yr</b> Mainframe + overtime savings</div>
+        <div><b>Per-account</b> Retry granularity</div>
+        <div><b>99.998%</b> Delivery SLA</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Real-time interim statements on demand via HTTP variant</li>
+        <li>Personalization via OpenAI (insights, spending categories)</li>
+        <li>Multi-language template generation</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Scheduler-Agent-Supervisor</span><span class="tag">Fan-out / Fan-in</span><span class="tag">Idempotent Retry</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Telecom:</b> monthly invoice generation</li>
+        <li><b>Utility:</b> bill generation</li>
+        <li><b>Insurance:</b> renewal notice generation</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc14">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">14</div>
+      <div class="uc-title">
+        <h2>Travel — Flight Price Aggregator</h2>
+        <div class="industry">Industry: Travel / OTA &nbsp;·&nbsp; <span class="badge b-sched">Scheduled / Automation</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>An OTA polls 18 GDS/NDC providers for 12K popular routes every 5 min. The current monolith hits rate limits, drops responses, and provides stale prices (10-30 min old) causing booking-conversion losses.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Timer trigger schedules per provider × route partition</li>
+        <li>Independent scaling per provider; one provider's outage doesn't choke others</li>
+        <li>Cosmos DB + change feed pushes refreshed prices to clients</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Timer xN (one per provider/region)]
+        v
+[Function: FetchProviderPrices]
+   +-> Outbound HTTP with retry/backoff
+   +-> Normalize to canonical schema
+   +-> Upsert Cosmos DB (TTL = 6 min)
+        v
+[Cosmos change feed] -> [Function: BroadcastUpdates]
+        v
+[Front Door / Web App] -> end users</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define canonical price schema, provider quota strategy.</li>
+        <li>Provision: Function App, Cosmos DB (autoscale), APIM (outbound throttling), Key Vault.</li>
+        <li>Runtime: TypeScript with native fetch.</li>
+        <li>Multiple timer-triggered functions per provider; Cosmos output binding.</li>
+        <li>Logic: throttle-aware polling, dedupe via ETag, normalize.</li>
+        <li>Integrate: SignalR for instant client push.</li>
+        <li>Deploy: GH Actions per provider connector (independent ALM).</li>
+        <li>Monitor: provider success rates, freshness P95.</li>
+        <li>Optimize: per-provider circuit breaker, exponential backoff with jitter.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="k">const</span> { app, output } = <span class="f">require</span>(<span class="s">'@azure/functions'</span>);
+<span class="k">const</span> cosmos = output.<span class="f">cosmosDB</span>({
+  databaseName: <span class="s">'prices'</span>, containerName: <span class="s">'live'</span>,
+  connection: <span class="s">'CosmosConn'</span>, createIfNotExists: <span class="k">false</span>
+});
+
+app.<span class="f">timer</span>(<span class="s">'FetchAmadeus'</span>, {
+  schedule: <span class="s">'0 */5 * * * *'</span>,
+  extraOutputs: [cosmos],
+  handler: <span class="k">async</span> (_, ctx) =&gt; {
+    <span class="k">const</span> routes = <span class="k">await</span> <span class="f">getActiveRoutes</span>(<span class="s">'amadeus'</span>);
+    <span class="k">const</span> docs = [];
+    <span class="k">for</span> (<span class="k">const</span> r <span class="k">of</span> routes) {
+      <span class="k">try</span> {
+        <span class="k">const</span> raw = <span class="k">await</span> <span class="f">callAmadeus</span>(r);   <span class="c">// with retries</span>
+        docs.<span class="f">push</span>(<span class="f">toCanonical</span>(<span class="s">'amadeus'</span>, raw));
+      } <span class="k">catch</span> (e) { ctx.log.<span class="f">warn</span>(<span class="s">'skip'</span>, r.id, e.message); }
+    }
+    ctx.extraOutputs.<span class="f">set</span>(cosmos, docs);
+  }
+});</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>10-30min to 90s</b> Price freshness</div>
+        <div><b>+18%</b> Search-to-book conversion</div>
+        <div><b>$6.4M/yr</b> Incremental bookings</div>
+        <div><b>Independent</b> Per-provider failures</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Add price-prediction ML for "buy now vs wait"</li>
+        <li>Add hotel and car-rental connectors using the same pattern</li>
+        <li>Personalized fare recommendation via Azure Personalizer</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Polling Consumer</span><span class="tag">Circuit Breaker</span><span class="tag">Cache-Aside</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Finance:</b> market data aggregation across exchanges</li>
+        <li><b>E-commerce:</b> competitor price scraping</li>
+        <li><b>Energy:</b> wholesale electricity price tracking</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc15">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">15</div>
+      <div class="uc-title">
+        <h2>Real Estate — MLS Listing Sync</h2>
+        <div class="industry">Industry: Real Estate / PropTech &nbsp;·&nbsp; <span class="badge b-event">Event-Driven Workflow</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A property portal must sync listings from 60+ MLS feeds (RETS, RESO Web API). Listings change every few minutes; current cron-based ingest is 2-6h stale, costing leads to competitors with fresher data.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Service Bus topic decouples ingest from downstream consumers (search, alerts, BI)</li>
+        <li>Functions pull from feeds, publish events, and react to subscriber-side changes</li>
+        <li>Easy to add a new MLS feed without changing downstream subscribers</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Timer 2min per MLS] -> [Function: PullDelta]
+                            v (publish per listing)
+                  [Service Bus Topic: listings]
+                            v
+        subs: [SearchIndexer] [BuyerAlerts] [BiSink] [ImageEnricher]</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define canonical listing schema, dedupe key (MLS ID), conflict rules.</li>
+        <li>Provision: Function App, Service Bus Premium, Azure AI Search, Storage, Cosmos.</li>
+        <li>Runtime: C# isolated (RESO SDK).</li>
+        <li>Timer per MLS pulling delta since last cursor; SB topic publish.</li>
+        <li>Subscriber functions: index to AI Search, fire alerts, enrich photos via Computer Vision.</li>
+        <li>Integrate: Power BI streaming dataset; Dynamics 365 for broker workflow.</li>
+        <li>Deploy: per-connector Function App for blast-radius isolation.</li>
+        <li>Monitor: per-feed lag, change-event volume.</li>
+        <li>Optimize: incremental cursors stored in Cosmos, exponential backoff per feed.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="a">[Function("PullMlsDelta")]</span>
+<span class="a">[ServiceBusOutput("listings-topic", Connection = "Sb")]</span>
+<span class="k">public async</span> <span class="t">Task</span>&lt;<span class="t">Listing</span>[]&gt; <span class="f">Run</span>(
+    <span class="a">[TimerTrigger("0 */2 * * * *")]</span> <span class="t">TimerInfo</span> t)
+{
+    <span class="k">var</span> cursor   = <span class="k">await</span> _state.<span class="f">GetCursorAsync</span>(<span class="s">"mls-A"</span>);
+    <span class="k">var</span> changes  = <span class="k">await</span> _mlsClient.<span class="f">GetChangesAsync</span>(<span class="s">"mls-A"</span>, cursor);
+    <span class="k">var</span> canon    = changes.<span class="f">Select</span>(_mapper.ToCanonical).<span class="f">ToArray</span>();
+    <span class="k">await</span> _state.<span class="f">SaveCursorAsync</span>(<span class="s">"mls-A"</span>, changes.NextCursor);
+    <span class="k">return</span> canon;
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>4h to 90s</b> Avg listing freshness</div>
+        <div><b>+27%</b> Lead capture</div>
+        <div><b>1d</b> Add new MLS feed</div>
+        <div><b>60+</b> Feeds supported</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Computer Vision auto-tags rooms and amenities in photos</li>
+        <li>Geo-enrichment with school district / walkability scores</li>
+        <li>OpenAI summarizes long listing descriptions for mobile cards</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Pub-Sub</span><span class="tag">CDC / Change Data Capture</span><span class="tag">Anti-Corruption Layer</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Automotive:</b> dealer inventory sync</li>
+        <li><b>Retail:</b> supplier catalog feed onboarding</li>
+        <li><b>Job boards:</b> recruiter ATS sync</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc16">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">16</div>
+      <div class="uc-title">
+        <h2>Telecom — Call Detail Record (CDR) Stream Processing</h2>
+        <div class="industry">Industry: Telecommunications &nbsp;·&nbsp; <span class="badge b-iot">Real-Time / Analytics</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A Tier-1 mobile operator generates 2.3B CDRs/day. Batch billing pipelines lag 24h, causing customer disputes and slow fraud detection. Goal: real-time rating and fraud signals within 5 seconds of call termination.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Event Hub ingest with partition-aware Functions for 30K events/sec</li>
+        <li>Hot path emits fraud signals; cold path lands to ADLS for billing recon</li>
+        <li><b>vs Kafka + Spark</b>: lower ops burden; Functions auto-scale</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Switches / SBC] -> [Event Hub: cdr-raw (64 partitions)]
+                          v
+        [Function: RateAndScore]
+            +-> Real-time rating engine
+            +-> Fraud features (Redis state)
+            +-> Splits:
+                  +- [Event Hub: cdr-rated] -> billing
+                  +- [Event Hub: cdr-fraud-signal] -> SOC alerting</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define CDR fields, rating rules, fraud signal taxonomy.</li>
+        <li>Provision: Function App Premium with high throughput, Event Hubs Dedicated, Redis Premium, ADLS.</li>
+        <li>Runtime: C# isolated (highest throughput).</li>
+        <li>EventHubTrigger with batch=128, output to two Event Hubs.</li>
+        <li>Logic: per-CDR rating, sliding window per MSISDN for anomalies, emit.</li>
+        <li>Integrate: ADX for analyst queries; Power BI for execs.</li>
+        <li>Deploy: Bicep, region-paired DR.</li>
+        <li>Monitor: throughput, lag per partition, fraud alert SLA.</li>
+        <li>Optimize: pre-warmed = 30, batch and concurrency tuning.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="a">[Function("RateAndScoreCdr")]</span>
+<span class="k">public async</span> <span class="t">Task</span> <span class="f">Run</span>(
+    <span class="a">[EventHubTrigger("cdr-raw", Connection = "Eh", IsBatched = true)]</span> <span class="t">EventData</span>[] events,
+    <span class="a">[EventHub("cdr-rated", Connection = "EhOut")]</span> <span class="t">IAsyncCollector</span>&lt;<span class="t">RatedCdr</span>&gt; rated,
+    <span class="a">[EventHub("cdr-fraud-signal", Connection = "EhOut")]</span> <span class="t">IAsyncCollector</span>&lt;<span class="t">FraudSignal</span>&gt; fraud)
+{
+    <span class="k">foreach</span> (<span class="k">var</span> e <span class="k">in</span> events)
+    {
+        <span class="k">var</span> cdr = _parser.<span class="f">Parse</span>(e.EventBody);
+        <span class="k">var</span> r   = _rater.<span class="f">Rate</span>(cdr);
+        <span class="k">await</span> rated.<span class="f">AddAsync</span>(r);
+
+        <span class="k">if</span> (<span class="k">await</span> _fraud.<span class="f">IsAnomalousAsync</span>(cdr))
+            <span class="k">await</span> fraud.<span class="f">AddAsync</span>(<span class="k">new</span> <span class="t">FraudSignal</span>(cdr.Msisdn, r.Cost, cdr.Dest));
+    }
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>24h to 4s</b> Time-to-bill</div>
+        <div><b>$3.1M/yr</b> Fraud loss prevented</div>
+        <div><b>30K eps</b> Sustained throughput</div>
+        <div><b>-62%</b> Billing disputes</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Add IoT SIM analytics and connected-car CDR variants</li>
+        <li>Stream to Microsoft Fabric for unified analytics</li>
+        <li>Edge variant for 5G MEC (Multi-access Edge Compute)</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Stream Processing</span><span class="tag">Hot + Cold Path</span><span class="tag">Sliding Window</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Payments:</b> per-transaction interchange computation</li>
+        <li><b>Cloud providers:</b> per-resource metered billing</li>
+        <li><b>Adtech:</b> real-time bidding event processing</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc17">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">17</div>
+      <div class="uc-title">
+        <h2>Healthcare — Appointment Reminder Service</h2>
+        <div class="industry">Industry: Healthcare &nbsp;·&nbsp; <span class="badge b-sched">Scheduled / Automation</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A clinic chain has 22% no-show rate, costing $14M/yr in lost capacity. Manual call reminders are expensive ($1.30/call); SMS through a static vendor lacks personalization and bidirectional confirmation.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Timer trigger scans appointment DB; SMS via Azure Communication Services</li>
+        <li>HTTP trigger receives confirmations/cancellations and updates EHR</li>
+        <li>HIPAA-eligible end-to-end</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Timer hourly] -> [Function: QueueReminders]
+                       v
+              [Service Bus: reminders]
+                       v
+          [Function: SendReminder] -> ACS SMS / Email
+                       v
+          [HTTP Webhook: ConfirmResponse]
+                       v
+              [FHIR API -> EHR appointment status]</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define reminder rules (24h prior, 2h prior), opt-in/opt-out, language.</li>
+        <li>Provision: Function App, Service Bus, Communication Services, FHIR Service.</li>
+        <li>Runtime: C# isolated.</li>
+        <li>Timer + ServiceBus triggers; HTTP for inbound webhook.</li>
+        <li>Logic: render template per patient locale; idempotent send with dedupe.</li>
+        <li>Integrate: Microsoft Bookings + Dynamics 365 Customer Service.</li>
+        <li>Deploy: Bicep + GH Actions with HIPAA policy guardrails.</li>
+        <li>Monitor: delivery success, opt-out rate, confirmation rate.</li>
+        <li>Optimize: per-region SMS routing for cost; cached templates.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="a">[Function("SendReminder")]</span>
+<span class="k">public async</span> <span class="t">Task</span> <span class="f">Run</span>(
+    <span class="a">[ServiceBusTrigger("reminders", Connection = "Sb")]</span> <span class="t">ReminderJob</span> job)
+{
+    <span class="k">var</span> msg = _templates.<span class="f">Render</span>(job.Locale, job.PatientName,
+                                  job.AppointmentTime, job.ClinicName);
+    <span class="k">await</span> _sms.<span class="f">SendAsync</span>(job.MobileE164, msg,
+        idempotencyKey: $<span class="s">"rem-{job.AppointmentId}-{job.StepCode}"</span>);
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>22% to 8%</b> No-show rate</div>
+        <div><b>$9M/yr</b> Recovered capacity</div>
+        <div><b>$0.012</b> Cost per reminder</div>
+        <div><b>14 languages</b> Auto-localized</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Add Copilot Studio bot for self-service reschedule</li>
+        <li>Add WhatsApp Business API channel</li>
+        <li>Predict no-show risk via Azure ML to target high-risk patients</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Scheduler</span><span class="tag">Pub-Sub</span><span class="tag">Idempotent Receiver</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Government:</b> appointment reminders for DMV / passport offices</li>
+        <li><b>Beauty / wellness:</b> spa booking reminders</li>
+        <li><b>Service trades:</b> field-service visit confirmations</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc18">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">18</div>
+      <div class="uc-title">
+        <h2>Government — License Renewal Notifications (Cosmos Change Feed)</h2>
+        <div class="industry">Industry: Government / Public Sector &nbsp;·&nbsp; <span class="badge b-event">Event-Driven Workflow</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A motor-vehicle department maintains 8.6M licenses. Citizens miss renewals at 11%, causing fines, court backlog, and lost fees (~$22M/yr). Manual mail-merge campaigns are weekly and expensive ($1.20/letter).</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li><b>Cosmos DB change feed trigger</b> reacts to every update</li>
+        <li>Timer trigger scans for upcoming expiries in tiered ladder (90/30/7 days)</li>
+        <li>Pay-per-execution makes this affordable at sub-cent per notification</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Cosmos DB: licenses] -> Change Feed
+                          v
+        [Function: OnLicenseChange] (record audit)
+                          v
+[Timer daily] -> [Function: ScanExpiringLicenses]
+                          v
+        [Service Bus: notifications-queue]
+                          v
+        [Function: Notify] -> Email / SMS / Push / Postal partner API</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define notification ladder, languages, accessibility (a11y) requirements.</li>
+        <li>Provision: Function App, Cosmos DB, Service Bus, ACS, Power Apps for clerks.</li>
+        <li>Runtime: Python (data team owns this).</li>
+        <li>Change feed + Timer triggers; SB output binding.</li>
+        <li>Logic: query upcoming expiries with continuation tokens; dedupe.</li>
+        <li>Integrate: Power Pages self-service renewal site; payment processor.</li>
+        <li>Deploy: Terraform; Azure Policy for compliance.</li>
+        <li>Monitor: send success, opt-in rate, renewal conversion.</li>
+        <li>Optimize: query indexes by expiry date; partition by region.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet (Python)</h3>
+<pre class="code"><span class="k">import</span> azure.functions <span class="k">as</span> func, datetime, json
+
+<span class="k">def</span> <span class="f">main</span>(timer: func.TimerRequest,
+         out_q: func.Out[<span class="t">str</span>],
+         licenses) -&gt; <span class="k">None</span>:
+    today = datetime.date.today()
+    targets = [today + datetime.timedelta(days=d) <span class="k">for</span> d <span class="k">in</span> (90, 30, 7)]
+    msgs = []
+    <span class="k">for</span> doc <span class="k">in</span> licenses:
+        exp = datetime.date.fromisoformat(doc[<span class="s">"expiresOn"</span>])
+        <span class="k">if</span> exp <span class="k">in</span> targets <span class="k">and</span> doc.get(<span class="s">"optIn"</span>, <span class="k">True</span>):
+            msgs.append(json.dumps({
+                <span class="s">"licId"</span>: doc[<span class="s">"id"</span>],
+                <span class="s">"step"</span>:  (exp - today).days,
+                <span class="s">"to"</span>:    doc[<span class="s">"contact"</span>],
+                <span class="s">"lang"</span>:  doc.get(<span class="s">"locale"</span>, <span class="s">"en"</span>)
+            }))
+    <span class="k">if</span> msgs:
+        out_q.<span class="f">set</span>(msgs)</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>11% to 3.5%</b> Missed renewals</div>
+        <div><b>$16M/yr</b> Recovered fees</div>
+        <div><b>$1.20 to $0.04</b> Per-citizen contact</div>
+        <div><b>-38%</b> Court backlog</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Self-service renewal via Power Pages -> Function -> core system</li>
+        <li>Multi-channel preference learning</li>
+        <li>Extend to vehicle inspection, business license, professional certs</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Change Feed Listener</span><span class="tag">Scheduler</span><span class="tag">Materialized View</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>SaaS:</b> subscription-renewal nudge campaigns</li>
+        <li><b>B2B:</b> certificate / contract expiry alerts</li>
+        <li><b>Insurance:</b> policy renewal reminders</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc19">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">19</div>
+      <div class="uc-title">
+        <h2>Education — Exam Result Notification (Flash-Crowd)</h2>
+        <div class="industry">Industry: Education &nbsp;·&nbsp; <span class="badge b-event">Event-Driven Workflow</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A national board publishes results for 4.5M students simultaneously. Past attempts crashed the portal under 800K concurrent users. Need an event-driven design that handles a 30-min flash crowd of 1.5M concurrent.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Service Bus + Functions decouple publishing from reads</li>
+        <li>SignalR Service handles WebSocket fan-out without bespoke infra</li>
+        <li>Static result PDFs pre-generated in Blob + CDN — near-zero compute at read time</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Result Publisher] -> [Service Bus: result-publish]
+                              v
+                  [Function: MaterializeResults]
+                              v
+            [Blob (per-student PDF)] + [CDN] + [Cosmos: roll->cdnUrl]
+                              v
+       [HTTP Function: LookupResult] (Cosmos point read)
+                              v
+                       [SignalR push optional]</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Design schema (roll number, marks, percentile, certificates).</li>
+        <li>Provision: Function App Premium, Service Bus, Cosmos with autoscale, CDN, SignalR.</li>
+        <li>Runtime: C# isolated.</li>
+        <li>Pre-publish Functions materialize PDFs to Blob/CDN; on go-live, only point reads.</li>
+        <li>Logic: idempotent generation, signed URLs for downloads, watermarking.</li>
+        <li>Integrate: Power BI for live ops dashboard, ACS for opt-in SMS push.</li>
+        <li>Deploy: traffic-shadowed dry runs, blue-green slots.</li>
+        <li>Monitor: P99 lookup latency, CDN hit ratio, queue depth.</li>
+        <li>Optimize: warm 100 instances, CDN pre-fetch, hash-bucketed Cosmos partitions.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="a">[Function("LookupResult")]</span>
+<span class="k">public async</span> <span class="t">Task</span>&lt;<span class="t">HttpResponseData</span>&gt; <span class="f">Run</span>(
+    <span class="a">[HttpTrigger("get", Route = "result/{roll}")]</span> <span class="t">HttpRequestData</span> req,
+    <span class="k">string</span> roll,
+    <span class="a">[CosmosDBInput("results","items",
+        Connection="Cos", Id="{roll}", PartitionKey="{roll}")]</span> <span class="t">ResultDoc</span>? doc)
+{
+    <span class="k">if</span> (doc <span class="k">is null</span>) <span class="k">return</span> req.<span class="f">CreateResponse</span>(<span class="t">HttpStatusCode</span>.NotFound);
+    <span class="k">var</span> res = req.<span class="f">CreateResponse</span>(<span class="t">HttpStatusCode</span>.OK);
+    res.Headers.<span class="f">Add</span>(<span class="s">"Cache-Control"</span>, <span class="s">"public, max-age=300"</span>);
+    <span class="k">await</span> res.<span class="f">WriteAsJsonAsync</span>(<span class="k">new</span> { roll, doc.Marks, doc.Percentile, doc.PdfUrl });
+    <span class="k">return</span> res;
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>1.5M concurrent</b> Sustained</div>
+        <div><b>&lt;120ms</b> P95 lookup</div>
+        <div><b>Zero</b> Site outages</div>
+        <div><b>92%</b> CDN cache hit</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Add chatbot for FAQs ("when is supplementary exam?")</li>
+        <li>Career-recommendation engine on top of marks</li>
+        <li>Univ-application autofill via Power Apps</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Pre-Materialization / Cache Warm</span><span class="tag">CQRS</span><span class="tag">Flash-Crowd Handling</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Ticketing:</b> concert / sports onsale launches</li>
+        <li><b>Government:</b> tax-refund status portals</li>
+        <li><b>Retail:</b> flash-sale launches</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc20">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">20</div>
+      <div class="uc-title">
+        <h2>Retail — Omni-Channel Inventory Sync</h2>
+        <div class="industry">Industry: Retail / Omnichannel &nbsp;·&nbsp; <span class="badge b-int">Integration</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>An omnichannel retailer has stock spread across 320 stores, 14 DCs, and 3 marketplaces. Real-time accuracy is &lt; 85%, causing oversells, cancellations, and brand damage (~$8M/yr).</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Service Bus topic fans out stock-change events to channels (Shopify, Amazon, eBay, in-store POS sync)</li>
+        <li>Functions perform per-channel transformation + API calls</li>
+        <li>Channel-specific retry/dead-letter without blocking others</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[POS/WMS/ERP] -> [Event Grid] -> [Function: NormalizeStockEvent]
+                                          v
+                       [Service Bus Topic: stock-events]
+                                          v
+        Subs:
+            +- [Function: PushToShopify]
+            +- [Function: PushToAmazon]
+            +- [Function: PushToMarketplace]
+            +- [Function: UpdateOms]</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define canonical stock-event schema (SKU, location, delta, reason).</li>
+        <li>Provision: Event Grid, Service Bus, Function App, Dataverse (OMS) or Dynamics 365 Commerce.</li>
+        <li>Runtime: TypeScript per channel (small modular code).</li>
+        <li>Event Grid trigger -> SB output; SB triggers per channel.</li>
+        <li>Logic: per-channel mapping, throttle handling, oversell protection.</li>
+        <li>Integrate: Power BI for inventory accuracy KPI.</li>
+        <li>Deploy: Function App per channel for blast-radius isolation.</li>
+        <li>Monitor: per-channel success, lag, override events.</li>
+        <li>Optimize: per-channel concurrency, batch where channel supports it.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code">app.<span class="f">serviceBusTopic</span>(<span class="s">'PushToShopify'</span>, {
+  topicName: <span class="s">'stock-events'</span>, subscriptionName: <span class="s">'shopify'</span>,
+  connection: <span class="s">'Sb'</span>,
+  handler: <span class="k">async</span> (msg, ctx) =&gt; {
+    <span class="k">const</span> e = msg <span class="k">as</span> <span class="t">StockEvent</span>;
+    <span class="k">try</span> {
+      <span class="k">await</span> shopify.<span class="f">setInventoryLevel</span>(e.sku, e.locationId, e.newQty);
+    } <span class="k">catch</span> (err) {
+      <span class="k">if</span> (err.code === <span class="s">'THROTTLED'</span>) <span class="k">throw</span> err;   <span class="c">// SB retry</span>
+      ctx.log.<span class="f">error</span>(<span class="s">'shopify push failed'</span>, e.sku, err);
+      <span class="k">throw</span> err;
+    }
+  }
+});</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>85% to 99.2%</b> Inventory accuracy</div>
+        <div><b>$6.8M/yr</b> Oversell loss avoided</div>
+        <div><b>-72%</b> Order cancellations</div>
+        <div><b>1 day</b> Add new channel</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Add demand sensing model to drive automatic markdowns</li>
+        <li>Integrate ATP (Available-to-Promise) engine</li>
+        <li>Push to BOPIS (Buy Online Pickup In Store) and curbside flows</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Pub-Sub</span><span class="tag">Anti-Corruption Layer</span><span class="tag">Throttle / Backpressure</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Hotel chains:</b> room-availability sync across OTAs</li>
+        <li><b>Airlines:</b> seat inventory distribution</li>
+        <li><b>Manufacturing:</b> finished-goods sync across plants</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc21">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">21</div>
+      <div class="uc-title">
+        <h2>Finance — End-of-Day Reconciliation (Durable)</h2>
+        <div class="industry">Industry: Banking / Capital Markets &nbsp;·&nbsp; <span class="badge b-sched">Scheduled / Automation</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A securities firm must reconcile trades, cash, positions, and corporate actions across 6 systems daily by 06:00 next-day. Today's process is brittle Python scripts on a VM — 1 failure restarts the whole job (avg 2x per week, $40K/day in delayed reporting risk).</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li><b>Durable Functions</b> orchestrates multi-system extracts and matches with checkpoint resilience</li>
+        <li>Sub-orchestrations parallelize independent recs</li>
+        <li>Bicep-managed, audit-friendly compared to ad-hoc VM scripts</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Timer 17:30 NY] -> [Orchestrator: EodReconciliation]
+        +- Sub-orch: TradesRec  (Front office vs middle office)
+        +- Sub-orch: CashRec    (Bank statements vs ledger)
+        +- Sub-orch: PositionRec(Custodian vs internal book)
+        +- Sub-orch: CorpActionRec
+                  v
+        [SQL: rec_breaks] + [Power BI ops dashboard]
+                  v
+        [Service Bus: rec-break-alert] -> ops Teams channel</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Inventory feeds, match rules, tolerance windows, escalation paths.</li>
+        <li>Provision: Function App Premium, SQL, Service Bus, Key Vault, Storage.</li>
+        <li>Runtime: C# isolated (LINQ + Dataflow for joins).</li>
+        <li>Timer trigger + Durable orchestrator + sub-orchestrators.</li>
+        <li>Logic: deterministic match keys, tolerance config, break categorization.</li>
+        <li>Integrate: Power BI, Teams adaptive cards via webhook.</li>
+        <li>Deploy: ADO, infra-as-code, change advisory board controls.</li>
+        <li>Monitor: per-rec duration, break count, audit trail in Storage Tables.</li>
+        <li>Optimize: parallel sub-orch, batched DB reads, checkpoint frequency tuning.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="a">[Function(nameof(EodReconciliation))]</span>
+<span class="k">public async</span> <span class="t">Task</span>&lt;<span class="t">EodReport</span>&gt; <span class="f">EodReconciliation</span>(
+    <span class="a">[OrchestrationTrigger]</span> <span class="t">TaskOrchestrationContext</span> ctx)
+{
+    <span class="k">var</span> date  = ctx.<span class="f">GetInput</span>&lt;<span class="t">string</span>&gt;()!;
+    <span class="k">var</span> tasks = <span class="k">new</span>[] {
+        ctx.<span class="f">CallSubOrchestratorAsync</span>&lt;<span class="t">RecResult</span>&gt;(<span class="s">"TradesRec"</span>,    date),
+        ctx.<span class="f">CallSubOrchestratorAsync</span>&lt;<span class="t">RecResult</span>&gt;(<span class="s">"CashRec"</span>,      date),
+        ctx.<span class="f">CallSubOrchestratorAsync</span>&lt;<span class="t">RecResult</span>&gt;(<span class="s">"PositionRec"</span>,  date),
+        ctx.<span class="f">CallSubOrchestratorAsync</span>&lt;<span class="t">RecResult</span>&gt;(<span class="s">"CorpActionRec"</span>,date)
+    };
+    <span class="k">var</span> results = <span class="k">await</span> <span class="t">Task</span>.<span class="f">WhenAll</span>(tasks);
+    <span class="k">var</span> report  = <span class="k">new</span> <span class="t">EodReport</span>(date, results);
+    <span class="k">if</span> (report.HasMaterialBreaks)
+        <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>(<span class="s">"AlertOps"</span>, report);
+    <span class="k">return</span> report;
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>2x weekly to 0</b> Restart events</div>
+        <div><b>-65%</b> Break investigation</div>
+        <div><b>$1.9M/yr</b> Risk + ops savings</div>
+        <div><b>Full</b> Audit trail</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>ML-driven break categorization to auto-assign tickets</li>
+        <li>Intraday rec for high-volume desks</li>
+        <li>Extend to T+0 settlement readiness</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Orchestrator-Worker</span><span class="tag">Saga</span><span class="tag">Checkpoint / Resume</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Insurance:</b> premium / commission reconciliation</li>
+        <li><b>Payments:</b> merchant settlement</li>
+        <li><b>E-commerce:</b> marketplace seller payout rec</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc22">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">22</div>
+      <div class="uc-title">
+        <h2>Smart Building — HVAC Control with Azure Digital Twins</h2>
+        <div class="industry">Industry: Real Estate / FacilityOps &nbsp;·&nbsp; <span class="badge b-iot">Real-Time / IoT</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A REIT manages 42 office towers. HVAC is the largest opex line ($24M/yr). Existing BMS runs rule-based schedules indifferent to occupancy and weather, wasting an estimated 18% energy.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Bridges Digital Twins ↔ ML model ↔ BACnet bridge for control</li>
+        <li>Event Grid triggers Functions on twin property change</li>
+        <li>Cheap enough to run on every floor every 5 minutes</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[BMS sensors] -> [IoT Hub] -> [Function: UpdateTwins]
+                                       v
+                          [Azure Digital Twins]
+                                       v (twin update -> Event Grid)
+                          [Function: OptimizeSetpoints]
+                                +-> Weather API
+                                +-> Azure ML occupancy forecast
+                                +-> Compute optimal setpoints
+                                       v
+                          [BACnet Gateway] -> HVAC controllers</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Model DTDL ontology (Building -> Floor -> Zone -> AHU).</li>
+        <li>Provision: IoT Hub, Digital Twins, Function App Premium, Azure ML, on-prem BACnet bridge via private endpoint.</li>
+        <li>Runtime: Python (data-science alignment).</li>
+        <li>Event Grid -> twin change -> optimize function.</li>
+        <li>Logic: forecast occupancy, weather, compute setpoint with comfort constraints.</li>
+        <li>Integrate: Microsoft Sustainability Manager for ESG reporting.</li>
+        <li>Deploy: GitHub Actions, blue-green safe rollout per building.</li>
+        <li>Monitor: kWh saved, comfort complaints, override frequency.</li>
+        <li>Optimize: per-building shadow mode before activation.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="k">import</span> azure.functions <span class="k">as</span> func, json
+
+<span class="k">def</span> <span class="f">main</span>(event: func.EventGridEvent) -&gt; <span class="k">None</span>:
+    payload = event.get_json()
+    zone_id = payload[<span class="s">"twinId"</span>]
+    occ    = <span class="f">forecast_occupancy</span>(zone_id)
+    wx     = <span class="f">get_weather</span>(payload[<span class="s">"location"</span>])
+    sp     = <span class="f">optimize</span>(occ, wx,
+                      current=payload[<span class="s">"data"</span>][<span class="s">"setpoint"</span>],
+                      comfort_band=(21, 24))
+    <span class="f">push_setpoint</span>(zone_id, sp)</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>18% to 4%</b> Energy waste</div>
+        <div><b>$3.4M/yr</b> Opex savings</div>
+        <div><b>-21%</b> Scope-2 emissions</div>
+        <div><b>+4pts</b> Tenant comfort NPS</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Add tenant Power App for personal comfort preferences</li>
+        <li>Demand-response market participation</li>
+        <li>Extend to lighting, elevators, electric-vehicle chargers</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Digital Twin</span><span class="tag">Reactive Control Loop</span><span class="tag">Edge-Cloud Hybrid</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Manufacturing:</b> energy-intensive equipment scheduling</li>
+        <li><b>Retail:</b> store HVAC optimization with foot-traffic data</li>
+        <li><b>Hospitality:</b> guest-room HVAC + occupancy</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc23">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">23</div>
+      <div class="uc-title">
+        <h2>HR — AI Resume Screening</h2>
+        <div class="industry">Industry: HR / Recruiting &nbsp;·&nbsp; <span class="badge b-file">File Processing</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A global staffing firm receives 1.4M resumes/year. Recruiters spend 18% of their time on initial screening. Goal: AI shortlist top 10 candidates per role within 2 minutes of application, with bias auditing.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Blob trigger fires per resume upload</li>
+        <li>Document Intelligence + Azure OpenAI extract structured profile and score against role rubric</li>
+        <li>Cheap, parallel, and easy to scale with hiring spikes</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Career Site / ATS] -> [Blob: resumes/]
+        v (BlobTrigger)
+[Function: ParseAndScore]
+   +-> Document Intelligence (extract fields)
+   +-> Azure OpenAI (skills inference, scoring rubric, bias check)
+   +-> Cosmos: candidate profile + role scores
+        v
+[Service Bus: shortlist-events] -> ATS (Dynamics 365 Talent / Workday)</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define role rubrics, fairness checks, audit logging.</li>
+        <li>Provision: Function App, Document Intelligence, Azure OpenAI (PTU for predictable cost), Cosmos.</li>
+        <li>Runtime: Python with LangChain.</li>
+        <li>Blob trigger -> SB output binding.</li>
+        <li>Logic: extract -> embed -> match role taxonomy -> score with structured-output prompt.</li>
+        <li>Integrate: Power Apps for recruiter review.</li>
+        <li>Deploy: Bicep + GH Actions.</li>
+        <li>Monitor: bias dashboards by protected attribute (audit only, never feature).</li>
+        <li>Optimize: token-saving prompts, cached embeddings, batch where possible.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="k">def</span> <span class="f">main</span>(blob: func.InputStream, out_q: func.Out[<span class="t">str</span>]) -&gt; <span class="k">None</span>:
+    text      = <span class="f">di_extract</span>(blob.read())                 <span class="c"># Document Intelligence</span>
+    profile   = <span class="f">llm_parse_profile</span>(text)                 <span class="c"># structured JSON</span>
+    roles     = <span class="f">get_open_roles_by_match</span>(profile.skills)  <span class="c"># vector search</span>
+    scored    = [<span class="f">score_against_rubric</span>(profile, r) <span class="k">for</span> r <span class="k">in</span> roles]
+    top       = <span class="t">sorted</span>(scored, key=<span class="k">lambda</span> s: -s.score)[:5]
+    <span class="f">audit_bias_check</span>(profile, top)                     <span class="c"># protected attrs audit</span>
+    out_q.<span class="f">set</span>(json.dumps({<span class="s">"candidate"</span>: profile.id, <span class="s">"top"</span>: [t._asdict() <span class="k">for</span> t <span class="k">in</span> top]}))</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>18% to 4%</b> Recruiter screening time</div>
+        <div><b>2 min</b> Time to shortlist</div>
+        <div><b>+34%</b> Quality-of-hire score</div>
+        <div><b>Auditable</b> Bias compliance</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Add interview-question generator per candidate</li>
+        <li>Outreach drip campaigns to high-fit passive candidates</li>
+        <li>Integrate with LinkedIn Talent Insights</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">RAG</span><span class="tag">Pipeline Per File</span><span class="tag">Human-in-the-Loop Review</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Education:</b> applicant essay screening</li>
+        <li><b>Legal:</b> e-discovery document relevance scoring</li>
+        <li><b>Procurement:</b> RFP response evaluation</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc24">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">24</div>
+      <div class="uc-title">
+        <h2>Marketing — Lead Scoring & Routing to Dynamics 365</h2>
+        <div class="industry">Industry: Marketing / Sales &nbsp;·&nbsp; <span class="badge b-int">Integration</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A B2B company generates 12K leads/month across forms, events, and ads. Manual qualification (SDR triage) takes 4-24h; ~38% of hot leads go cold before contact, costing an estimated $5.6M in pipeline annually.</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li>Event Grid trigger fires per lead-created event</li>
+        <li>Functions score lead (ML + firmographic enrichment) and assign owner in Dynamics 365 in &lt; 5s</li>
+        <li>Integrates with Power Automate for human notifications and SLA escalation</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Web form / Event / Ads webhook] -> [Event Grid]
+                                          v
+                  [Function: EnrichAndScoreLead]
+                          +-> Clearbit / ZoomInfo enrichment
+                          +-> Azure ML lead-score model
+                          +-> Dataverse Web API: create / update lead
+                                          v
+                  [Function: AssignAndNotify] -> owner / Teams
+                                          v
+                  [Power Automate]: SLA escalation</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Define scoring rubric, territory rules, SLA tiers.</li>
+        <li>Provision: Function App, Azure ML endpoint, Dynamics 365 + Dataverse, Event Grid, Key Vault.</li>
+        <li>Runtime: C# isolated.</li>
+        <li>Event Grid trigger; output to Dataverse via managed identity.</li>
+        <li>Logic: enrich -> score -> derive owner -> write lead -> emit event for notification.</li>
+        <li>Integrate: Power Automate flow for SLA timers (3h / 24h escalations).</li>
+        <li>Deploy: ALM solution with environment variables.</li>
+        <li>Monitor: time-to-touch, conversion by score band.</li>
+        <li>Optimize: cache enrichment results 30 days; model A/B via slots.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="a">[Function("EnrichAndScoreLead")]</span>
+<span class="k">public async</span> <span class="t">Task</span> <span class="f">Run</span>(
+    <span class="a">[EventGridTrigger]</span> <span class="t">EventGridEvent</span> ev)
+{
+    <span class="k">var</span> raw     = ev.Data.<span class="f">ToObjectFromJson</span>&lt;<span class="t">LeadIn</span>&gt;();
+    <span class="k">var</span> enriched = <span class="k">await</span> _enrichClient.<span class="f">EnrichAsync</span>(raw.Email);
+    <span class="k">var</span> score    = <span class="k">await</span> _ml.<span class="f">PredictAsync</span>(<span class="t">FeatureBuilder</span>.<span class="f">Build</span>(raw, enriched));
+    <span class="k">var</span> owner    = _router.<span class="f">PickOwner</span>(raw.Country, enriched.Industry, score.Band);
+
+    <span class="k">await</span> _dataverse.<span class="f">UpsertLeadAsync</span>(<span class="k">new</span> {
+        firstname     = raw.First, lastname = raw.Last, emailaddress1 = raw.Email,
+        companyname   = enriched.Company,
+        leadqualitycode = score.Band,                <span class="c">// Hot / Warm / Cold</span>
+        ownerid_value = owner.SystemUserId,
+        statuscode    = 1                            <span class="c">// New</span>
+    });
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>4-24h to &lt;5s</b> Routing latency</div>
+        <div><b>+41%</b> SDR conversion</div>
+        <div><b>$3.9M/yr</b> Pipeline recovered</div>
+        <div><b>3.2x</b> Hot-lead engagement</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>Add Account-Based Marketing (ABM) signals from intent platforms</li>
+        <li>Predict best contact time / channel</li>
+        <li>Auto-draft outreach email via Azure OpenAI</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Event-Driven Integration</span><span class="tag">CQRS</span><span class="tag">Strangler Fig (over CRM)</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Higher ed:</b> student inquiry routing</li>
+        <li><b>Real estate:</b> buyer lead distribution</li>
+        <li><b>Finance:</b> wealth-management prospect routing</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<article class="uc" id="uc25">
+  <div class="uc-header">
+    <div class="row">
+      <div class="uc-num">25</div>
+      <div class="uc-title">
+        <h2>Compliance — GDPR Right-to-Erasure Orchestration</h2>
+        <div class="industry">Industry: Cross-industry / Data Privacy &nbsp;·&nbsp; <span class="badge b-event">Event-Driven Workflow</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-section"><h3>1. Business Context & Problem Statement</h3>
+      <p>A global SaaS holds personal data in 23 systems (DB, blob, analytics, backups, third-party). GDPR Article 17 requires erasure within 30 days. Manual coordination across teams takes 18 days on average, with a 6% miss rate creating regulatory exposure (fines up to 4% of revenue).</p>
+    </div>
+    <div class="uc-section"><h3>2. Why Azure Functions?</h3>
+      <ul>
+        <li><b>Durable Functions</b> coordinates erasure across systems with retries and compensations</li>
+        <li>Auditable orchestrations satisfy "evidence of compliance" requirement</li>
+        <li>Event-driven start from privacy portal or Dynamics 365 case</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>3. High-Level Architecture</h3>
+<div class="arch">[Privacy Portal / D365 case] -> [HTTP Function: StartErasure]
+                                       v
+                          [Durable Orchestrator]
+                          +- FanOut: 23 system-specific activities
+                          |    - SQL anonymize
+                          |    - Cosmos delete
+                          |    - Blob purge
+                          |    - Backup retention flag
+                          |    - Salesforce delete via API
+                          |    - ...
+                          +- Aggregate: compliance receipt
+                                       v
+                  [Cosmos: erasure_audit] + [PDF receipt to subject]</div>
+    </div>
+    <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
+      <ol class="steps">
+        <li>Inventory PII across systems; classify (delete vs anonymize vs flag for retention).</li>
+        <li>Provision: Function App Premium, Cosmos, Storage, Key Vault, APIM.</li>
+        <li>Runtime: C# isolated.</li>
+        <li>HTTP start + Durable orchestrator + 23 activities (per system).</li>
+        <li>Logic: per-system erasure with idempotency; compensation policy for partial failures.</li>
+        <li>Integrate: Microsoft Purview for data-map verification.</li>
+        <li>Deploy: Bicep + ADO with audit-friendly approvals.</li>
+        <li>Monitor: SLA dashboard, per-system success, average duration.</li>
+        <li>Optimize: parallel where systems support; tombstone strategy for analytics warehouses.</li>
+      </ol>
+    </div>
+    <div class="uc-section"><h3>5. Code Snippet</h3>
+<pre class="code"><span class="a">[Function(nameof(ErasureOrchestrator))]</span>
+<span class="k">public async</span> <span class="t">Task</span>&lt;<span class="t">ErasureReceipt</span>&gt; <span class="f">ErasureOrchestrator</span>(
+    <span class="a">[OrchestrationTrigger]</span> <span class="t">TaskOrchestrationContext</span> ctx)
+{
+    <span class="k">var</span> req     = ctx.<span class="f">GetInput</span>&lt;<span class="t">ErasureRequest</span>&gt;()!;
+    <span class="k">var</span> systems = <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>&lt;<span class="t">string</span>[]&gt;(<span class="s">"GetSystemsHoldingPii"</span>, req.SubjectId);
+
+    <span class="k">var</span> tasks = systems.<span class="f">Select</span>(s =&gt; ctx.<span class="f">CallActivityWithRetryAsync</span>&lt;<span class="t">EraseResult</span>&gt;(
+        $<span class="s">"Erase_{s}"</span>,
+        <span class="k">new</span> <span class="t">TaskOptions</span>(<span class="t">TaskRetryOptions</span>.<span class="f">FromRetryPolicy</span>(
+            <span class="k">new</span>(maxNumberOfAttempts: 5, firstRetryInterval: <span class="t">TimeSpan</span>.<span class="f">FromMinutes</span>(2)))),
+        req.SubjectId));
+
+    <span class="k">var</span> results = <span class="k">await</span> <span class="t">Task</span>.<span class="f">WhenAll</span>(tasks);
+    <span class="k">var</span> receipt = <span class="k">new</span> <span class="t">ErasureReceipt</span>(req.SubjectId,
+        DateTimeOffset: ctx.CurrentUtcDateTime, Results: results);
+    <span class="k">await</span> ctx.<span class="f">CallActivityAsync</span>(<span class="s">"PersistAuditAndNotify"</span>, receipt);
+    <span class="k">return</span> receipt;
+}</pre>
+    </div>
+    <div class="uc-section"><h3>6. Business Outcome & Value</h3>
+      <div class="kpi">
+        <div><b>18d to 2d</b> SLA achieved</div>
+        <div><b>6% to 0%</b> Miss rate</div>
+        <div><b>Audit-ready</b> Receipts</div>
+        <div><b>Eliminated</b> Regulatory exposure</div>
+      </div>
+    </div>
+    <div class="uc-section"><h3>7. Variations / Extensions</h3>
+      <ul>
+        <li>DSAR (subject access requests) using the same orchestration shell</li>
+        <li>CCPA / LGPD / India DPDP variants by parameterizing rules</li>
+        <li>Integrate Microsoft Purview Data Map for live system discovery</li>
+      </ul>
+    </div>
+    <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
+      <span class="tag">Saga (Compensations)</span><span class="tag">Orchestrator-Worker</span><span class="tag">Audit Trail</span>
+    </div>
+    <div class="uc-section"><h3>9. Similar Industry Use Cases</h3>
+      <ul>
+        <li><b>Healthcare:</b> HIPAA disclosure-accounting requests</li>
+        <li><b>Finance:</b> SOX-mandated record disposal</li>
+        <li><b>Public sector:</b> FOIA / GDPR transparency workflows</li>
+      </ul>
+    </div>
+    <div class="back-top"><a href="#top">Back to Top</a></div>
+  </div>
+</article>
+
+<footer>
+  <p><b>Azure Functions — 25 Enterprise Use Cases Playbook</b><br>
+  Architect-level reference designed for production deployment.<br>
+  Adapt naming, regions, SKUs, and security baselines to your enterprise standards.</p>
+  <p style="margin-top:14px;color:#888;font-size:12px">
+    Generated for the Use Cases Power Platform reference library · 2026 Edition
+  </p>
+</footer>
+
+</main>
+
+<a href="#top" class="float-top" id="floatTop" title="Back to Top" aria-label="Back to Top">&#8593;</a>
+<script>
+  (function(){
+    var btn = document.getElementById('floatTop');
+    function toggle(){ if(window.scrollY > 600) btn.classList.add('visible'); else btn.classList.remove('visible'); }
+    window.addEventListener('scroll', toggle, { passive: true });
+    toggle();
+  })();
+</script>
+</body>
+</html>
