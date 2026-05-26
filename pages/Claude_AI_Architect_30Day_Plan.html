@@ -321,6 +321,18 @@
       .days-grid { grid-template-columns: 1fr; }
       .overview { padding: 16px; }
     }
+  /* ── Print Button ── */
+  .print-btn{position:fixed;top:16px;right:16px;z-index:9999;background:var(--accent2);color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.3);display:flex;align-items:center;gap:6px;transition:opacity .15s,transform .1s;font-family:inherit}
+  .print-btn:hover{opacity:.85;transform:translateY(-1px)}
+  @media print{
+    @page{size:A4 portrait;margin:15mm 12mm}
+    .print-btn{display:none!important}
+    body{background:#fff!important;color:#111!important}
+    header{background:#1a1040!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .card,.overview,.day-card{background:#f5f5f5!important;color:#111!important;border-color:#ddd!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .day-card{break-inside:avoid;page-break-inside:avoid}
+    a{color:#0066cc!important}
+  }
   </style>
 </head>
 <body>
@@ -1332,6 +1344,6 @@
   </p>
   <p style="margin-top:8px; color:#555">Generated · May 2026 · GitHub Copilot</p>
 </footer>
-
+<button class="print-btn" onclick="window.print()" title="Print / Save as A4 PDF" aria-label="Print page">🖨️ Print / PDF</button>
 </body>
 </html>

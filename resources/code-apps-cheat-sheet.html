@@ -324,11 +324,15 @@
     background: linear-gradient(135deg, #eef4ff 0%, #f6f9ff 100%);
   }
 
+  /* ── Print Button ── */
+  .print-btn{position:fixed;top:12px;right:12px;z-index:9999;background:#0277bd;color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.25);display:flex;align-items:center;gap:5px;transition:background .15s,transform .1s;font-family:inherit}
+  .print-btn:hover{background:#4527a0;transform:translateY(-1px)}
   /* ── Print ── */
   @media print {
     body { padding: 5mm; font-size: 7pt; }
     .page-header h1 { font-size: 13pt; }
-    @page { size: A3 landscape; margin: 8mm; }
+    .print-btn { display: none !important; }
+    @page { size: A4 landscape; margin: 8mm; }
   }
 
   /* ════════════════════════════════════════════════════
@@ -1010,6 +1014,6 @@ pac code add-data-source <span class="o">\</span>
   })();
 </script>
 <script src="../assets/js/clean-url.js"></script>
-
+<button class="print-btn" onclick="window.print()" title="Print / Save as A4 PDF" aria-label="Print page">🖨️ Print / PDF</button>
 </body>
 </html>

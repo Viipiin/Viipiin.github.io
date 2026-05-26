@@ -73,10 +73,14 @@
   .float-top.visible{display:flex}
   @media print{.back-top,.float-top{display:none!important}}
   footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);background:var(--card);margin-top:50px}
+  .print-btn{position:fixed;top:16px;right:16px;z-index:9999;background:var(--azure);color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.2);display:flex;align-items:center;gap:6px;transition:background .15s,transform .1s;font-family:inherit}
+  .print-btn:hover{background:var(--azure-dark);transform:translateY(-1px)}
   @media print{
+    @page{size:A4 portrait;margin:15mm 12mm}
+    .print-btn{display:none!important}
     header.hero{background:var(--azure-dark)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
     .uc{break-inside:avoid;page-break-inside:avoid}
-    pre.code,.arch{background:#1a1a1a!important;-webkit-print-color-adjust:exact}
+    pre.code,.arch{background:#1a1a1a!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
 </style>
 </head>
@@ -2488,6 +2492,7 @@ app.<span class="f">timer</span>(<span class="s">'FetchAmadeus'</span>, {
 </main>
 
 <a href="#top" class="float-top" id="floatTop" title="Back to Top" aria-label="Back to Top">&#8593;</a>
+<button class="print-btn" onclick="window.print()" title="Print / Save as A4 PDF" aria-label="Print page">🖨️ Print / PDF</button>
 <script>
   (function(){
     var btn = document.getElementById('floatTop');
