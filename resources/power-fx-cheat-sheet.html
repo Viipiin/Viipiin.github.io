@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power Fx – Complete Canvas Apps Formula Reference</title>
+<link rel="icon" type="image/svg+xml" href="power-fx-favicon.svg">
+<link rel="shortcut icon" href="power-fx-favicon.svg">
+<meta name="description" content="Complete Power Fx formula reference for Canvas Apps — 150+ functions across 17 categories with syntax, live examples, delegation guide, inline interview hints, and 12 pattern recipes.">
+<meta name="keywords" content="Power Fx, Canvas Apps, Power Apps formulas, Power Fx cheat sheet, delegation, Patch, Filter, LookUp, ForAll, Power Apps functions">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 7.5pt; color: #1a1a2e; background: #fff; padding: 6mm; }
+
+.page-header { text-align: center; background: linear-gradient(135deg, #6a1b9a 0%, #1a237e 55%, #0d47a1 100%); color: #fff; padding: 8px 12px 6px; border-radius: 6px; margin-bottom: 7px; }
+.page-header h1 { font-size: 15pt; letter-spacing: 1px; font-weight: 700; }
+.page-header p  { font-size: 7.5pt; opacity: .85; margin-top: 2px; }
+.page-header .badges { margin-top: 4px; display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+.page-header .hb { background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 1px 8px; font-size: 6.5pt; font-weight: 600; }
+
+.stats-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin-bottom: 6px; }
+.stat-pill { display: inline-flex; align-items: center; gap: 4px; border: 1px solid #d9e1f2; border-radius: 999px; padding: 2px 8px; background: #f8faff; color: #334155; font-weight: 600; font-size: 7pt; line-height: 1.3; }
+.stat-value { font-family: 'Courier New', monospace; font-weight: 700; color: #1a237e; }
+
+.search-wrap { margin-bottom: 5px; display: flex; justify-content: center; }
+.search-input { width: 100%; max-width: 500px; padding: 4px 12px; border: 1.5px solid #c5cae9; border-radius: 6px; font-family: inherit; font-size: 8pt; outline: none; color: #1a1a2e; }
+.search-input:focus { border-color: #1a237e; box-shadow: 0 0 0 2px #e8eaf6; }
+
+.tab-nav { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 8px; padding: 4px 0 5px; border-bottom: 2px solid #e8eaf6; position: sticky; top: 0; background: #fff; z-index: 100; }
+.tab-nav a { text-decoration: none; font-size: 6.5pt; font-weight: 700; padding: 3px 7px; border-radius: 4px; color: #fff; letter-spacing: .3px; transition: opacity .15s, transform .1s; white-space: nowrap; }
+.tab-nav a:hover { opacity: .82; transform: translateY(-1px); }
+
+.section-title { font-size: 10pt; font-weight: 700; color: #1a1a2e; margin: 10px 0 5px; padding-left: 6px; display: flex; align-items: center; gap: 6px; scroll-margin-top: 58px; }
+.section-title::before { content: ''; display: block; width: 4px; height: 1em; border-radius: 2px; background: currentColor; flex-shrink: 0; }
+
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 10px; }
+.card { border: 1px solid #d0d7e8; border-radius: 5px; overflow: hidden; break-inside: avoid; }
+.card.span2 { grid-column: span 2; }
+.card.span3 { grid-column: span 3; }
+
+.card-header { padding: 4px 7px; font-weight: 700; font-size: 7.5pt; letter-spacing: .4px; text-transform: uppercase; color: #fff; display: flex; align-items: center; gap: 5px; }
+
+.c-text  { background: #1a6b3c; } .c-text2 { background: #256340; } .c-text3 { background: #185a30; }
+.c-math  { background: #0277bd; } .c-math2 { background: #01579b; }
+.c-logic { background: #d84315; } .c-logic2{ background: #b71c1c; }
+.c-date  { background: #6a1b9a; } .c-date2 { background: #4a148c; }
+.c-tbl   { background: #00838f; } .c-tbl2  { background: #006064; }
+.c-col   { background: #00695c; }
+.c-coll  { background: #c0392b; } .c-coll2 { background: #922b21; }
+.c-form  { background: #6d4c41; }
+.c-nav   { background: #1565c0; }
+.c-var   { background: #283593; }
+.c-ctrl  { background: #4527a0; }
+.c-user  { background: #37474f; }
+.c-clr   { background: #ad1457; }
+.c-type  { background: #2e7d32; }
+.c-json  { background: #4e342e; }
+.c-bit   { background: #546e7a; }
+.c-ai    { background: #5e35b1; }
+.c-deleg { background: #0f3460; }
+.c-patt  { background: #7b2d8b; }
+
+table { width: 100%; border-collapse: collapse; }
+tr:nth-child(even) td { background: #f5f7fc; }
+tr:hover td { background: #eef2ff; }
+tr.hidden { display: none !important; }
+
+td { padding: 2.5px 6px; border-bottom: 1px solid #e8ecf4; vertical-align: top; line-height: 1.35; }
+td.fn { font-family: 'Courier New', monospace; font-size: 7pt; font-weight: 700; color: #0d1b6e; white-space: nowrap; width: 18%; }
+td.syn { width: 35%; }
+td.desc { width: 47%; font-size: 7pt; }
+
+.sig { font-family: 'Courier New', monospace; font-size: 6.5pt; color: #1a237e; display: block; margin-bottom: 1px; }
+.ex  { font-size: 6pt; color: #444; display: block; font-style: italic; }
+.ex strong { color: #1a6b3c; font-style: normal; font-weight: 700; }
+
+.badge { display: inline-block; font-size: 5.5pt; font-weight: 700; padding: 0px 3px; border-radius: 2px; margin-left: 2px; vertical-align: middle; text-transform: uppercase; letter-spacing: .3px; }
+.b-int { background: #fff8e1; color: #e65100; border: 1px solid #ffca28; }
+.b-d   { background: #e8f5e9; color: #2e7d32; border: 1px solid #81c784; }
+.b-nd  { background: #fce4ec; color: #c62828; border: 1px solid #ef9a9a; }
+.b-dep { background: #fff3e0; color: #9a3412; }
+
+.hint { display: block; font-size: 5.8pt; color: #7b4f00; background: #fffde7; border-left: 2px solid #ffa000; padding: 1px 4px; margin-top: 2px; font-style: italic; border-radius: 0 2px 2px 0; }
+.note { font-size: 6.5pt; color: #555; background: #f9f9f9; padding: 2px 6px 3px; border-top: 1px dashed #ccc; font-style: italic; }
+
+.check { color: #2e7d32; font-weight: 700; }
+.cross { color: #c62828; font-weight: 700; }
+.part  { color: #e65100; font-weight: 700; }
+
+.recipe { padding: 4px 7px; border-bottom: 1px solid #e8ecf4; }
+.recipe-title { font-weight: 700; font-size: 7pt; color: #1a1a2e; margin-bottom: 2px; }
+.recipe-code { font-family: 'Courier New', monospace; font-size: 6.5pt; background: #f0f4ff; padding: 3px 6px; border-radius: 3px; display: block; color: #1a237e; white-space: pre-wrap; }
+.recipe-desc { font-size: 6.5pt; color: #555; margin-top: 2px; font-style: italic; }
+
+.print-btn { position:fixed; top:12px; right:12px; z-index:9999; background:#1a237e; color:#fff; border:none; border-radius:8px; padding:9px 12px; font-size:14px; font-weight:600; cursor:pointer; box-shadow:0 2px 12px rgba(0,0,0,.25); display:flex; align-items:center; gap:0; overflow:hidden; white-space:nowrap; transition:background .2s, transform .1s, gap .25s; font-family:inherit; }
+.print-btn:hover { background:#6a1b9a; transform:translateY(-1px); gap:6px; }
+.print-btn .btn-label { max-width:0; overflow:hidden; opacity:0; font-size:12px; transition:max-width .3s ease, opacity .25s ease; }
+.print-btn:hover .btn-label { max-width:140px; opacity:1; }
+
+.footer { margin-top: 10px; text-align: center; font-size: 6.5pt; color: #888; border-top: 1px solid #ddd; padding-top: 6px; }
+.footer a { color: #1a237e; text-decoration: underline; text-underline-offset: 2px; }
+
+@media print {
+  body { padding: 4mm; font-size: 7pt; }
+  .page-header h1 { font-size: 13pt; }
+  .print-btn, .search-wrap, .tab-nav { display: none !important; }
+  @page { size: A4 landscape; margin: 7mm; }
+  .card { page-break-inside: avoid; }
+}
+@media screen {
+  body { font-size: 13px; padding: 20px; max-width: 1900px; margin: 0 auto; background: #f8faff; }
+  .page-header { padding: 20px 24px 16px; margin-bottom: 16px; border-radius: 12px; }
+  .page-header h1 { font-size: 1.85rem; }
+  .page-header p  { font-size: 0.88rem; }
+  .page-header .hb { font-size: 0.72rem; padding: 2px 10px; }
+  .stats-bar { margin-bottom: 12px; gap: 8px; }
+  .stat-pill { padding: 4px 12px; font-size: 0.78rem; }
+  .search-wrap { margin-bottom: 10px; }
+  .search-input { font-size: 0.9rem; padding: 8px 16px; border-radius: 8px; }
+  .tab-nav { gap: 5px; padding: 6px 0 8px; }
+  .tab-nav a { font-size: 0.72rem; padding: 4px 10px; border-radius: 5px; }
+  .grid { gap: 14px; }
+  .card { border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.07); }
+  .card-header { padding: 9px 14px; font-size: 0.8rem; }
+  td { padding: 6px 10px; font-size: 0.83rem; }
+  td.fn { font-size: 0.82rem; }
+  .sig { font-size: 0.78rem; }
+  .ex  { font-size: 0.73rem; }
+  .hint { font-size: 0.72rem; padding: 2px 6px; }
+  .note { font-size: 0.75rem; padding: 5px 10px; }
+  .section-title { font-size: 1.1rem; margin: 22px 0 10px; scroll-margin-top: 72px; }
+  .footer { font-size: 0.78rem; margin-top: 20px; padding-top: 10px; }
+  .badge { font-size: 0.6rem; padding: 1px 4px; }
+  .recipe-title { font-size: 0.82rem; }
+  .recipe-code { font-size: 0.78rem; padding: 5px 8px; }
+  .recipe-desc { font-size: 0.75rem; }
+}
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">&#128438;<span class="btn-label">Print / Save PDF</span></button>
+
+<div class="page-header">
+  <h1>&#9889; Power Fx – Canvas Apps Formula Reference</h1>
+  <p>Complete function reference for Power Apps Canvas &nbsp;·&nbsp; Interview-ready &nbsp;·&nbsp; Project-ready</p>
+  <div class="badges">
+    <span class="hb">&#128994; D = Delegable to server</span>
+    <span class="hb">&#128308; ND = Not delegable (client-side only)</span>
+    <span class="hb">&#11088; INT = Common interview topic</span>
+    <span class="hb">&#128993; DEP = Deprecated</span>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-pill">&#128196; <span class="stat-value">17</span>&nbsp;Categories</div>
+  <div class="stat-pill">&#9889; <span class="stat-value">150+</span>&nbsp;Functions</div>
+  <div class="stat-pill">&#11088; <span class="stat-value">40+</span>&nbsp;Interview Hints</div>
+  <div class="stat-pill">&#127381; <span class="stat-value">12</span>&nbsp;Pattern Recipes</div>
+</div>
+
+<div class="search-wrap">
+  <input class="search-input" id="searchBox" type="search" placeholder="&#128270;  Search functions, e.g. Filter, Patch, DateAdd…" oninput="filterFunctions(this.value)">
+</div>
+
+<nav class="tab-nav">
+  <a href="#text"     style="background:#1a6b3c">Text</a>
+  <a href="#math"     style="background:#0277bd">Math &amp; Stats</a>
+  <a href="#logic"    style="background:#d84315">Logical &amp; Error</a>
+  <a href="#date"     style="background:#6a1b9a">Date &amp; Time</a>
+  <a href="#tables"   style="background:#00838f">Table Ops</a>
+  <a href="#columns"  style="background:#00695c">Column Shaping</a>
+  <a href="#coll"     style="background:#c0392b">Collections &amp; Patch</a>
+  <a href="#forms"    style="background:#6d4c41">Forms</a>
+  <a href="#nav"      style="background:#1565c0">Navigation &amp; UX</a>
+  <a href="#vars"     style="background:#283593">Variables &amp; Scope</a>
+  <a href="#ctrl"     style="background:#4527a0">Controls</a>
+  <a href="#user"     style="background:#37474f">User &amp; Env</a>
+  <a href="#color"    style="background:#ad1457">Color</a>
+  <a href="#types"    style="background:#2e7d32">Type Conversion</a>
+  <a href="#json"     style="background:#4e342e">JSON &amp; Storage</a>
+  <a href="#bitwise"  style="background:#546e7a">Bitwise</a>
+  <a href="#ai"       style="background:#5e35b1">AI Builder</a>
+  <a href="#deleg"    style="background:#0f3460">Delegation</a>
+  <a href="#patterns" style="background:#7b2d8b">Recipes</a>
+</nav>
+
+<!-- ═══════════ TEXT ═══════════ -->
+<div id="text" class="section-title" style="color:#1a6b3c">Text Functions</div>
+<div class="grid">
+
+  <div class="card span3">
+    <div class="card-header c-text">String Inspection &amp; Extraction</div>
+    <table>
+      <tr><td class="fn">Len<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Len(Text) → Number</span><span class="ex">Ex: <strong>Len("Power Fx")</strong> → 8</span></td><td class="desc">Character count of a string.<span class="hint">&#11088; Len is for strings; CountRows is for tables — frequently confused in interviews.</span></td></tr>
+      <tr><td class="fn">Find</td><td class="syn"><span class="sig">Find(FindText, WithinText [,StartNum]) → Number</span><span class="ex">Ex: <strong>Find("@", Email.Text)</strong> → 1-based position of @; Blank if not found</span></td><td class="desc">Returns 1-based position of a substring within text. Returns Blank if not found.</td></tr>
+      <tr><td class="fn">StartsWith</td><td class="syn"><span class="sig">StartsWith(Text, StartText) → Boolean</span><span class="ex">Ex: <strong>StartsWith(Title.Text, "Mgr")</strong></span></td><td class="desc">True if Text begins with StartText. Case-insensitive.</td></tr>
+      <tr><td class="fn">EndsWith</td><td class="syn"><span class="sig">EndsWith(Text, EndText) → Boolean</span><span class="ex">Ex: <strong>EndsWith(FileName, ".pdf")</strong></span></td><td class="desc">True if Text ends with EndText. Case-insensitive.</td></tr>
+      <tr><td class="fn">Left<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Left(Text, NumChars) → Text</span><span class="ex">Ex: <strong>Left("Power Fx", 5)</strong> → "Power"</span></td><td class="desc">Returns leftmost N characters.</td></tr>
+      <tr><td class="fn">Right</td><td class="syn"><span class="sig">Right(Text, NumChars) → Text</span><span class="ex">Ex: <strong>Right("Power Fx", 2)</strong> → "Fx"</span></td><td class="desc">Returns rightmost N characters.</td></tr>
+      <tr><td class="fn">Mid<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Mid(Text, StartNum, NumChars) → Text</span><span class="ex">Ex: <strong>Mid("Power Fx", 7, 2)</strong> → "Fx"</span></td><td class="desc">Returns substring from a 1-based position.<span class="hint">&#11088; Combine Mid + Find to extract parts of structured strings like "Code:Value".</span></td></tr>
+      <tr><td class="fn">Split<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Split(Text, Separator) → Table{Result}</span><span class="ex">Ex: <strong>Split("a,b,c", ",")</strong> → 3-row table with column "Result"</span></td><td class="desc">Splits text into a single-column table (column = <em>Result</em>).<span class="hint">&#11088; Use with ForAll or Gallery Items to process comma-separated values stored in a text field.</span></td></tr>
+      <tr><td class="fn">Unicode</td><td class="syn"><span class="sig">Unicode(Text) → Number</span><span class="ex">Ex: <strong>Unicode("A")</strong> → 65</span></td><td class="desc">Returns the Unicode code point of the first character.</td></tr>
+      <tr><td class="fn">Char</td><td class="syn"><span class="sig">Char(Number) → Text</span><span class="ex">Ex: <strong>Char(10)</strong> → newline · <strong>Char(9)</strong> → tab · <strong>Char(65)</strong> → "A"</span></td><td class="desc">Returns the character for a given code point.<span class="hint">&#11088; Char(10) is the only way to embed a line break inside a Label or multi-line TextInput.</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card span3">
+    <div class="card-header c-text2">Transformation, Encoding &amp; Format Conversion</div>
+    <table>
+      <tr><td class="fn">Lower</td><td class="syn"><span class="sig">Lower(Text) → Text</span><span class="ex">Ex: <strong>Lower("HELLO")</strong> → "hello"</span></td><td class="desc">Converts all characters to lowercase.</td></tr>
+      <tr><td class="fn">Upper</td><td class="syn"><span class="sig">Upper(Text) → Text</span><span class="ex">Ex: <strong>Upper("hello")</strong> → "HELLO"</span></td><td class="desc">Converts all characters to uppercase.</td></tr>
+      <tr><td class="fn">Proper</td><td class="syn"><span class="sig">Proper(Text) → Text</span><span class="ex">Ex: <strong>Proper("power fx")</strong> → "Power Fx"</span></td><td class="desc">Capitalises the first letter of each word.</td></tr>
+      <tr><td class="fn">Trim<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Trim(Text) → Text</span><span class="ex">Ex: <strong>Trim("  Hi  there  ")</strong> → "Hi there"</span></td><td class="desc">Removes leading, trailing, and extra interior spaces.<span class="hint">&#11088; Trim vs TrimEnds: Trim collapses all excess spaces; TrimEnds only strips leading/trailing spaces.</span></td></tr>
+      <tr><td class="fn">TrimEnds</td><td class="syn"><span class="sig">TrimEnds(Text) → Text</span><span class="ex">Ex: <strong>TrimEnds("  Hi  there  ")</strong> → "Hi  there"</span></td><td class="desc">Strips only leading and trailing spaces; preserves interior spacing.</td></tr>
+      <tr><td class="fn">Replace</td><td class="syn"><span class="sig">Replace(Text, StartNum, NumChars, NewText) → Text</span><span class="ex">Ex: <strong>Replace("Power", 1, 5, "Canvas")</strong> → "Canvas"</span></td><td class="desc">Replaces characters at a specific position and length. Position-based.</td></tr>
+      <tr><td class="fn">Substitute<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Substitute(Text, OldText, NewText [,InstanceNum]) → Text</span><span class="ex">Ex: <strong>Substitute("a-b-c", "-", "/")</strong> → "a/b/c"</span></td><td class="desc">Replaces a substring by value. InstanceNum targets a specific occurrence.<span class="hint">&#11088; Replace uses position; Substitute uses value — classic interview distinction.</span></td></tr>
+      <tr><td class="fn">PlainText</td><td class="syn"><span class="sig">PlainText(HTMLText) → Text</span><span class="ex">Ex: <strong>PlainText("&lt;b&gt;Hi&lt;/b&gt;")</strong> → "Hi"</span></td><td class="desc">Strips HTML tags and decodes entities. Use to sanitise RichTextEditor output.</td></tr>
+      <tr><td class="fn">EncodeHTML</td><td class="syn"><span class="sig">EncodeHTML(Text) → Text</span><span class="ex">Ex: <strong>EncodeHTML("&lt;b&gt;")</strong> → "&amp;lt;b&amp;gt;"</span></td><td class="desc">Encodes HTML special characters for safe rendering in HTML context.</td></tr>
+      <tr><td class="fn">EncodeUrl</td><td class="syn"><span class="sig">EncodeUrl(Text) → Text</span><span class="ex">Ex: <strong>EncodeUrl("hello world")</strong> → "hello%20world"</span></td><td class="desc">URL-encodes a string. Required before embedding dynamic values in Launch() URLs.</td></tr>
+      <tr><td class="fn">Text<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Text(Value [,FormatString]) → Text</span><span class="ex">Ex: <strong>Text(Today(), "dd-mmm-yyyy")</strong> → "01-Jun-2026" · <strong>Text(12500.5, "$#,##0.00")</strong></span></td><td class="desc">Converts number, date, or datetime to a formatted string.<span class="hint">&#11088; Key format tokens: dd/mm/yyyy · hh:mm AM/PM · $#,##0.00 · 0.00%. Text() is the go-to for all display formatting.</span></td></tr>
+      <tr><td class="fn">Value<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Value(Text [,LanguageTag]) → Number</span><span class="ex">Ex: <strong>Value("1,234.56")</strong> → 1234.56</span></td><td class="desc">Parses text to a number. Respects locale decimal/thousand separators.<span class="hint">&#11088; Always wrap TextInput.Text in Value() before arithmetic to avoid type errors.</span></td></tr>
+      <tr><td class="fn">Concat<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Concat(Table, Formula [,Separator]) → Text</span><span class="ex">Ex: <strong>Concat(Tags, Name, ", ")</strong> → "Tag1, Tag2"</span></td><td class="desc">Evaluates formula on each table row and joins results into one string.<span class="hint">&#11088; Concat (table→text) vs Concatenate (text args). Use Concat to build comma-separated display lists.</span></td></tr>
+      <tr><td class="fn">Concatenate<span class="badge b-dep">DEP</span></td><td class="syn"><span class="sig">Concatenate(Text1, Text2, …) → Text</span><span class="ex">Ex: prefer <strong>First.Text &amp; " " &amp; Last.Text</strong></span></td><td class="desc">Joins text strings. Prefer the &amp; operator — shorter and more readable.</td></tr>
+    </table>
+  </div>
+
+  <div class="card span3">
+    <div class="card-header c-text3">Regex – Pattern Matching</div>
+    <table>
+      <tr><td class="fn">IsMatch<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">IsMatch(Text, Pattern [,Options]) → Boolean</span><span class="ex">Ex: <strong>IsMatch(EmailInput.Text, Match.Email)</strong></span></td><td class="desc">True if text matches a regular expression pattern. Options: Contains, Complete, BeginsWith, EndsWith, IgnoreCase, Multiline.<span class="hint">&#11088; Built-in patterns save writing raw regex: Match.Email · Match.Digits · Match.Letter · Match.MultipleLetters.</span></td></tr>
+      <tr><td class="fn">Match</td><td class="syn"><span class="sig">Match(Text, Pattern [,Options]) → Record</span><span class="ex">Ex: <strong>Match("AB-123", "\d+").FullMatch</strong> → "123"</span></td><td class="desc">Returns the first regex match as a record: FullMatch, SubMatches (table), StartMatch (position).</td></tr>
+      <tr><td class="fn">MatchAll</td><td class="syn"><span class="sig">MatchAll(Text, Pattern [,Options]) → Table</span><span class="ex">Ex: <strong>MatchAll("a1 b2", "[a-z]\d")</strong> → 2-row table</span></td><td class="desc">Returns a table of all regex matches. Each row: FullMatch, SubMatches, StartMatch.</td></tr>
+    </table>
+    <div class="note">Built-in Match patterns: Match.Email · Match.Digits · Match.Letter · Match.MultipleDigits · Match.MultipleLetters · Match.MultipleNonSpaces · Match.NonSpace · Match.OptionalDigits · Match.OptionalLetters · Match.MultilineNewline</div>
+  </div>
+
+</div>
+
+<!-- ═══════════ MATH & STATS ═══════════ -->
+<div id="math" class="section-title" style="color:#0277bd">Math &amp; Statistics</div>
+<div class="grid">
+
+  <div class="card span3">
+    <div class="card-header c-math">Rounding, Arithmetic &amp; Scientific</div>
+    <table>
+      <tr><td class="fn">Abs</td><td class="syn"><span class="sig">Abs(Number) → Number</span><span class="ex">Ex: <strong>Abs(-5)</strong> → 5</span></td><td class="desc">Absolute value — removes the sign.</td></tr>
+      <tr><td class="fn">Round<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Round(Number, Decimals) → Number</span><span class="ex">Ex: <strong>Round(3.567, 2)</strong> → 3.57 · <strong>Round(2.5, 0)</strong> → 3</span></td><td class="desc">Rounds half-away-from-zero.<span class="hint">&#11088; Round(2.5)=3, RoundDown(2.9)=2, RoundUp(2.1)=3 — common interview comparison.</span></td></tr>
+      <tr><td class="fn">RoundUp</td><td class="syn"><span class="sig">RoundUp(Number, Decimals) → Number</span><span class="ex">Ex: <strong>RoundUp(2.1, 0)</strong> → 3</span></td><td class="desc">Always rounds away from zero regardless of the decimal portion.</td></tr>
+      <tr><td class="fn">RoundDown</td><td class="syn"><span class="sig">RoundDown(Number, Decimals) → Number</span><span class="ex">Ex: <strong>RoundDown(2.9, 0)</strong> → 2</span></td><td class="desc">Always rounds toward zero (truncates toward zero).</td></tr>
+      <tr><td class="fn">Ceiling</td><td class="syn"><span class="sig">Ceiling(Number [,Significance]) → Number</span><span class="ex">Ex: <strong>Ceiling(4.1)</strong> → 5 · <strong>Ceiling(7, 5)</strong> → 10</span></td><td class="desc">Rounds up to the nearest multiple of Significance (default 1).</td></tr>
+      <tr><td class="fn">Floor</td><td class="syn"><span class="sig">Floor(Number [,Significance]) → Number</span><span class="ex">Ex: <strong>Floor(4.9)</strong> → 4 · <strong>Floor(7, 5)</strong> → 5</span></td><td class="desc">Rounds down to the nearest multiple of Significance (default 1).</td></tr>
+      <tr><td class="fn">Int</td><td class="syn"><span class="sig">Int(Number) → Number</span><span class="ex">Ex: <strong>Int(3.9)</strong> → 3 · <strong>Int(-3.2)</strong> → -4</span></td><td class="desc">Rounds toward negative infinity (true floor for all real numbers).</td></tr>
+      <tr><td class="fn">Trunc</td><td class="syn"><span class="sig">Trunc(Number [,Decimals]) → Number</span><span class="ex">Ex: <strong>Trunc(-3.9)</strong> → -3 · <strong>Trunc(3.9)</strong> → 3</span></td><td class="desc">Truncates toward zero regardless of sign.<span class="hint">&#11088; Int(-3.2) = -4 but Trunc(-3.2) = -3 — subtle negative-number difference.</span></td></tr>
+      <tr><td class="fn">Mod</td><td class="syn"><span class="sig">Mod(Dividend, Divisor) → Number</span><span class="ex">Ex: <strong>Mod(10, 3)</strong> → 1 · <strong>Mod(8, 2)</strong> → 0 (even check)</span></td><td class="desc">Remainder after division. Use Mod(n,2)=0 to detect even numbers or wrap sequences.</td></tr>
+      <tr><td class="fn">Power</td><td class="syn"><span class="sig">Power(Base, Exponent) → Number</span><span class="ex">Ex: <strong>Power(2, 10)</strong> → 1024 (same as 2^10)</span></td><td class="desc">Raises Base to Exponent. Equivalent to the ^ operator.</td></tr>
+      <tr><td class="fn">Sqrt</td><td class="syn"><span class="sig">Sqrt(Number) → Number</span><span class="ex">Ex: <strong>Sqrt(144)</strong> → 12</span></td><td class="desc">Square root.</td></tr>
+      <tr><td class="fn">Exp</td><td class="syn"><span class="sig">Exp(Number) → Number</span><span class="ex">Ex: <strong>Exp(1)</strong> → 2.71828 (e)</span></td><td class="desc">Returns e raised to the given power (e^x).</td></tr>
+      <tr><td class="fn">Ln</td><td class="syn"><span class="sig">Ln(Number) → Number</span><span class="ex">Ex: <strong>Ln(Exp(1))</strong> → 1</span></td><td class="desc">Natural logarithm (base e). Inverse of Exp.</td></tr>
+      <tr><td class="fn">Log</td><td class="syn"><span class="sig">Log(Number [,Base]) → Number</span><span class="ex">Ex: <strong>Log(1000, 10)</strong> → 3 · <strong>Log(8, 2)</strong> → 3</span></td><td class="desc">Logarithm. Default base is 10 when omitted.</td></tr>
+      <tr><td class="fn">Pi</td><td class="syn"><span class="sig">Pi() → Number</span><span class="ex">Ex: <strong>Pi()</strong> → 3.14159265358979…</span></td><td class="desc">Returns the mathematical constant π.</td></tr>
+      <tr><td class="fn">Rand</td><td class="syn"><span class="sig">Rand() → Number</span><span class="ex">Ex: <strong>Rand()</strong> → 0.0 to 0.9999… (recalculates on every evaluation)</span></td><td class="desc">Random decimal in [0,1). Recalculates on every formula evaluation — not cached.</td></tr>
+      <tr><td class="fn">RandBetween</td><td class="syn"><span class="sig">RandBetween(Low, High) → Number</span><span class="ex">Ex: <strong>RandBetween(1, 100)</strong> → random integer 1–100 inclusive</span></td><td class="desc">Random integer between Low and High inclusive.</td></tr>
+    </table>
+  </div>
+
+  <div class="card span3">
+    <div class="card-header c-math2">Aggregates &amp; Statistics</div>
+    <table>
+      <tr><td class="fn">Sum<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Sum(Table, Formula) or Sum(N1, N2, …) → Number</span><span class="ex">Ex: <strong>Sum(Orders, Quantity * Price)</strong> · <strong>Sum(10, 20, 30)</strong> → 60</span></td><td class="desc">Totals a formula across table rows, or sums scalar values.<span class="hint">&#11088; Table form is delegable on Dataverse when applied to a direct column. Collection form is not.</span></td></tr>
+      <tr><td class="fn">Average</td><td class="syn"><span class="sig">Average(Table, Formula) or Average(N1, N2, …) → Number</span><span class="ex">Ex: <strong>Average(Scores, Value)</strong></span></td><td class="desc">Mean of values. Table form is delegable on Dataverse.</td></tr>
+      <tr><td class="fn">Max<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Max(Table, Formula) or Max(N1, N2, …) → Number</span><span class="ex">Ex: <strong>Max(Products, Price)</strong></span></td><td class="desc">Maximum value. Delegable on Dataverse.<span class="hint">&#11088; Max/Min on Dataverse tables delegate; on local collections they don't.</span></td></tr>
+      <tr><td class="fn">Min</td><td class="syn"><span class="sig">Min(Table, Formula) or Min(N1, N2, …) → Number</span><span class="ex">Ex: <strong>Min(Tasks, DueDate)</strong></span></td><td class="desc">Minimum value. Delegable on Dataverse.</td></tr>
+      <tr><td class="fn">Count</td><td class="syn"><span class="sig">Count(Table, Formula) → Number</span><span class="ex">Ex: <strong>Count(Orders, OrderNum)</strong></span></td><td class="desc">Counts rows where the formula evaluates to a numeric (non-blank) value.</td></tr>
+      <tr><td class="fn">CountA</td><td class="syn"><span class="sig">CountA(Table, Formula) → Number</span><span class="ex">Ex: <strong>CountA(Tasks, Title)</strong></span></td><td class="desc">Counts rows where the formula result is non-blank (any type).</td></tr>
+      <tr><td class="fn">CountIf<span class="badge b-int">INT</span><span class="badge b-d">D</span></td><td class="syn"><span class="sig">CountIf(Table, Condition) → Number</span><span class="ex">Ex: <strong>CountIf(Tasks, Status = "Done")</strong></span></td><td class="desc">Counts rows matching a condition. Delegable on Dataverse.<span class="hint">&#11088; Use CountIf instead of CountRows(Filter(…)) — CountIf is delegable on Dataverse for large datasets.</span></td></tr>
+      <tr><td class="fn">CountRows<span class="badge b-int">INT</span><span class="badge b-nd">ND</span></td><td class="syn"><span class="sig">CountRows(Table) → Number</span><span class="ex">Ex: <strong>CountRows(colCart)</strong> → number of items in collection</span></td><td class="desc">Total number of rows in a table or collection. Never delegable.<span class="hint">&#11088; For accurate row counts on large Dataverse tables, use CountIf(Table, true) — it is delegable.</span></td></tr>
+      <tr><td class="fn">StdevP</td><td class="syn"><span class="sig">StdevP(Table, Formula) or StdevP(N1, N2, …) → Number</span><span class="ex">Ex: <strong>StdevP(Results, Score)</strong></span></td><td class="desc">Population standard deviation of numeric values.</td></tr>
+      <tr><td class="fn">VarP</td><td class="syn"><span class="sig">VarP(Table, Formula) or VarP(N1, N2, …) → Number</span><span class="ex">Ex: <strong>VarP(Results, Score)</strong></span></td><td class="desc">Population variance of numeric values.</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<!-- ═══════════ LOGICAL & ERROR ═══════════ -->
+<div id="logic" class="section-title" style="color:#d84315">Logical, Conditional &amp; Error Handling</div>
+<div class="grid">
+
+  <div class="card span3">
+    <div class="card-header c-logic">Conditionals, Boolean Logic &amp; Blank / Type Checks</div>
+    <table>
+      <tr><td class="fn">If<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">If(Condition, ThenResult [,ElseResult]) → Any</span><span class="ex">Ex: <strong>If(Score &gt;= 60, "Pass", "Fail")</strong></span></td><td class="desc">Returns ThenResult when true, ElseResult when false. Can be chained: If(c1,r1, c2,r2, default).<span class="hint">&#11088; Switch is cleaner for 3+ branches. If re-evaluates each condition; Switch evaluates the formula once.</span></td></tr>
+      <tr><td class="fn">Switch<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Switch(Formula, Match1, Result1 [,…] [,Default]) → Any</span><span class="ex">Ex: <strong>Switch(Status, "New","&#128308;", "Done","&#128994;", "&#9899;")</strong></span></td><td class="desc">Matches formula against a list of values and returns the corresponding result. More readable than nested If.<span class="hint">&#11088; Switch evaluates the formula once; nested If re-evaluates each branch condition — Switch is cheaper for 3+ cases.</span></td></tr>
+      <tr><td class="fn">And / &amp;&amp;</td><td class="syn"><span class="sig">And(Cond1, Cond2, …) → Boolean</span><span class="ex">Ex: <strong>And(Age &gt; 18, HasID)</strong> or <strong>Age &gt; 18 &amp;&amp; HasID</strong></span></td><td class="desc">True only when ALL conditions are true. Short-circuits on the first false.</td></tr>
+      <tr><td class="fn">Or / ||</td><td class="syn"><span class="sig">Or(Cond1, Cond2, …) → Boolean</span><span class="ex">Ex: <strong>Or(Role = "Admin", Role = "Owner")</strong></span></td><td class="desc">True when ANY condition is true. Short-circuits on the first true.</td></tr>
+      <tr><td class="fn">Not / !</td><td class="syn"><span class="sig">Not(Condition) → Boolean</span><span class="ex">Ex: <strong>Not(IsBlank(SearchBox.Text))</strong></span></td><td class="desc">Inverts a boolean value.</td></tr>
+      <tr><td class="fn">IsBlank<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">IsBlank(Value) → Boolean</span><span class="ex">Ex: <strong>IsBlank(TextInput1.Text)</strong></span></td><td class="desc">True if value is blank or an empty string ("").<span class="hint">&#11088; IsBlank checks single values; IsEmpty checks tables — both appear in every canvas app validation pattern.</span></td></tr>
+      <tr><td class="fn">IsEmpty<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">IsEmpty(Table) → Boolean</span><span class="ex">Ex: <strong>IsEmpty(colCart)</strong> · <strong>IsEmpty(Filter(Tasks, Status="Open"))</strong></span></td><td class="desc">True if the table or collection has zero rows.<span class="hint">&#11088; IsEmpty(Filter(…)) is more efficient than CountRows(Filter(…)) = 0 for delegation awareness.</span></td></tr>
+      <tr><td class="fn">Blank</td><td class="syn"><span class="sig">Blank() → Blank</span><span class="ex">Ex: <strong>Set(varUser, Blank())</strong></span></td><td class="desc">Returns an explicit blank value. Use to reset variables or clear optional lookup fields.</td></tr>
+      <tr><td class="fn">Coalesce<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Coalesce(Value1, Value2, …) → Any</span><span class="ex">Ex: <strong>Coalesce(UserInput.Text, "Default value")</strong></span></td><td class="desc">Returns the first non-blank value in the list.<span class="hint">&#11088; Cleaner than If(IsBlank(x), fallback, x). Essential for providing safe defaults on optional fields.</span></td></tr>
+      <tr><td class="fn">IsNumeric</td><td class="syn"><span class="sig">IsNumeric(Text) → Boolean</span><span class="ex">Ex: <strong>IsNumeric("123abc")</strong> → false · <strong>IsNumeric("42")</strong> → true</span></td><td class="desc">True if text can be parsed as a valid number. Use for input validation before calling Value().</td></tr>
+      <tr><td class="fn">IsType</td><td class="syn"><span class="sig">IsType(Record, TypeName) → Boolean</span><span class="ex">Ex: <strong>If(IsType(item.Owner, Contacts), AsType(item.Owner, Contacts).FullName)</strong></span></td><td class="desc">Checks whether a polymorphic record is of a specific Dataverse entity type. Always use before AsType.</td></tr>
+      <tr><td class="fn">Boolean</td><td class="syn"><span class="sig">Boolean(TextOrNumber) → Boolean</span><span class="ex">Ex: <strong>Boolean("yes")</strong> → true · <strong>Boolean(0)</strong> → false</span></td><td class="desc">Parses "true"/"false"/"yes"/"no"/1/0 strings to Boolean. Useful for SharePoint Yes/No fields stored as text.</td></tr>
+    </table>
+  </div>
+
+  <div class="card span3">
+    <div class="card-header c-logic2">Error Handling</div>
+    <table>
+      <tr><td class="fn">IfError<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">IfError(Value, Replacement [,Value2, Replacement2, …]) → Any</span><span class="ex">Ex: <strong>IfError(1 / Qty, 0)</strong> · <strong>IfError(Patch(…), Notify("Error: " &amp; FirstError.Message))</strong></span></td><td class="desc">Returns Value; if it is an error, returns Replacement instead.<span class="hint">&#11088; Essential for safe division and Patch operations. Always wrap Patch in IfError in production apps.</span></td></tr>
+      <tr><td class="fn">IsError</td><td class="syn"><span class="sig">IsError(Value) → Boolean</span><span class="ex">Ex: <strong>If(IsError(Value(TextInput.Text)), "Not a number", "")</strong></span></td><td class="desc">True if the expression produced an error. Use to show contextual validation messages.</td></tr>
+      <tr><td class="fn">Error</td><td class="syn"><span class="sig">Error({Kind: ErrorKind.xxx, Message: "…"}) → Error</span><span class="ex">Ex: <strong>Error({Kind: ErrorKind.Custom, Message: "Age is required"})</strong></span></td><td class="desc">Raises a custom error that propagates up and is caught by an enclosing IfError.</td></tr>
+      <tr><td class="fn">Errors<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Errors(DataSource [,Record]) → Table</span><span class="ex">Ex: <strong>Errors(Accounts, EditForm1.LastSubmit)</strong></span></td><td class="desc">Returns error details from the last data-source operation. Columns: Record, Column, Message, Error (ErrorKind).<span class="hint">&#11088; Use in OnFailure of SubmitForm to surface field-level validation errors from Dataverse business rules.</span></td></tr>
+    </table>
+    <div class="note">ErrorKind values: Conflict · ConstraintViolation · CreatePermission · DeletePermission · EditPermission · GeneratedValue · None · NotFound · ReadPermission · Sync · Unknown · Validation · Custom</div>
+  </div>
+
+</div>
+
+<!-- ═══════════ DATE & TIME ═══════════ -->
+<div id="date" class="section-title" style="color:#6a1b9a">Date &amp; Time</div>
+<div class="grid">
+
+  <div class="card span3">
+    <div class="card-header c-date">Construction &amp; Parsing</div>
+    <table>
+      <tr><td class="fn">Now<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Now() → DateTime</span><span class="ex">Ex: <strong>Now()</strong> → current date + time (live)</span></td><td class="desc">Current date and time. Recalculates continuously.<span class="hint">&#11088; Now() returns DateTime; Today() returns Date (midnight). Both recalculate live — common interview pair.</span></td></tr>
+      <tr><td class="fn">Today<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Today() → Date</span><span class="ex">Ex: <strong>Today()</strong> → current date at midnight</span></td><td class="desc">Returns today's date with no time component. Use for date comparisons and arithmetic.</td></tr>
+      <tr><td class="fn">Date</td><td class="syn"><span class="sig">Date(Year, Month, Day) → Date</span><span class="ex">Ex: <strong>Date(2026, 12, 31)</strong> · <strong>Date(2026, 13, 1)</strong> → 1 Jan 2027 (overflow wraps)</span></td><td class="desc">Constructs a Date from year/month/day integers. Month and Day overflow wraps correctly.</td></tr>
+      <tr><td class="fn">Time</td><td class="syn"><span class="sig">Time(Hour, Minute, Second) → Time</span><span class="ex">Ex: <strong>Time(9, 30, 0)</strong> → 09:30:00 · Add to a Date with + to get DateTime</span></td><td class="desc">Constructs a Time value. Add to a Date using the + operator to build a full DateTime.</td></tr>
+      <tr><td class="fn">DateTimeValue</td><td class="syn"><span class="sig">DateTimeValue(Text [,LanguageTag]) → DateTime</span><span class="ex">Ex: <strong>DateTimeValue("2026-06-01T09:00:00")</strong></span></td><td class="desc">Parses a text string into a DateTime. Supports ISO 8601 and locale-specific formats.</td></tr>
+      <tr><td class="fn">DateValue</td><td class="syn"><span class="sig">DateValue(Text [,LanguageTag]) → Date</span><span class="ex">Ex: <strong>DateValue("01/06/2026", "en-GB")</strong></span></td><td class="desc">Parses text to a Date. LanguageTag resolves ambiguous formats (mm/dd vs dd/mm).</td></tr>
+      <tr><td class="fn">TimeValue</td><td class="syn"><span class="sig">TimeValue(Text [,LanguageTag]) → Time</span><span class="ex">Ex: <strong>TimeValue("9:30 AM")</strong></span></td><td class="desc">Parses a text string to a Time value.</td></tr>
+    </table>
+  </div>
+
+  <div class="card span3">
+    <div class="card-header c-date">Arithmetic &amp; Component Extraction</div>
+    <table>
+      <tr><td class="fn">DateAdd<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">DateAdd(DateTime, Delta [,Units]) → DateTime</span><span class="ex">Ex: <strong>DateAdd(Today(), 30, TimeUnit.Days)</strong> · <strong>DateAdd(Today(), -1, TimeUnit.Months)</strong></span></td><td class="desc">Adds or subtracts a duration. Units: TimeUnit.Days · Months · Years · Hours · Minutes · Seconds · Weeks · Quarters.<span class="hint">&#11088; Always specify TimeUnit explicitly — improves readability and is expected in code reviews.</span></td></tr>
+      <tr><td class="fn">DateDiff<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">DateDiff(Start, End [,Units]) → Number</span><span class="ex">Ex: <strong>DateDiff(BirthDate, Today(), TimeUnit.Years)</strong> → age in years</span></td><td class="desc">Returns the difference between two dates in the given units. Negative if Start &gt; End.<span class="hint">&#11088; DateDiff(BirthDate, Today(), TimeUnit.Years) is the standard age-calculation pattern.</span></td></tr>
+      <tr><td class="fn">TimeZoneOffset</td><td class="syn"><span class="sig">TimeZoneOffset([DateTime]) → Number (minutes)</span><span class="ex">Ex: <strong>TimeZoneOffset()</strong> → -330 for IST (UTC+5:30)</span></td><td class="desc">Returns the local UTC offset in minutes. Use to normalise UTC-stored timestamps to local time.</td></tr>
+      <tr><td class="fn">Day</td><td class="syn"><span class="sig">Day(DateTime) → Number</span><span class="ex">Ex: <strong>Day(Today())</strong> → 1–31</span></td><td class="desc">Day of the month component.</td></tr>
+      <tr><td class="fn">Month</td><td class="syn"><span class="sig">Month(DateTime) → Number</span><span class="ex">Ex: <strong>Month(Today())</strong> → 1–12 (January = 1)</span></td><td class="desc">Month number from a date.</td></tr>
+      <tr><td class="fn">Year</td><td class="syn"><span class="sig">Year(DateTime) → Number</span><span class="ex">Ex: <strong>Year(Today())</strong> → 2026</span></td><td class="desc">4-digit year from a date.</td></tr>
+      <tr><td class="fn">Hour</td><td class="syn"><span class="sig">Hour(DateTime) → Number</span><span class="ex">Ex: <strong>Hour(Now())</strong> → 0–23</span></td><td class="desc">Hour component (24-hour clock).</td></tr>
+      <tr><td class="fn">Minute</td><td class="syn"><span class="sig">Minute(DateTime) → Number</span><span class="ex">Ex: <strong>Minute(Now())</strong> → 0–59</span></td><td class="desc">Minute component from a datetime.</td></tr>
+      <tr><td class="fn">Second</td><td class="syn"><span class="sig">Second(DateTime) → Number</span><span class="ex">Ex: <strong>Second(Now())</strong> → 0–59</span></td><td class="desc">Second component from a datetime.</td></tr>
+      <tr><td class="fn">Weekday</td><td class="syn"><span class="sig">Weekday(DateTime [,StartOfWeek]) → Number</span><span class="ex">Ex: <strong>Weekday(Today(), StartOfWeek.Monday)</strong> → 1=Mon … 7=Sun</span></td><td class="desc">Day of week as a number. StartOfWeek.Monday makes Monday = 1.</td></tr>
+      <tr><td class="fn">WeekNum</td><td class="syn"><span class="sig">WeekNum(DateTime [,StartOfWeek]) → Number</span><span class="ex">Ex: <strong>WeekNum(Today())</strong> → 1–54</span></td><td class="desc">Week number of the year based on the locale start-of-week.</td></tr>
+      <tr><td class="fn">ISOWeekNum</td><td class="syn"><span class="sig">ISOWeekNum(DateTime) → Number</span><span class="ex">Ex: <strong>ISOWeekNum(Today())</strong></span></td><td class="desc">ISO 8601 week number. Monday = first day; Week 1 = week containing the year's first Thursday.</td></tr>
+    </table>
+  </div>
+
+  <div class="card span3">
+    <div class="card-header c-date2">Calendar &amp; Clock Enumerations</div>
+    <table>
+      <tr><td class="fn">Calendar.MonthsLong</td><td class="syn"><span class="sig">Calendar.MonthsLong() → Table{Value}</span><span class="ex">Ex: Gallery Items: <strong>Calendar.MonthsLong()</strong> → ["January", "February", …]</span></td><td class="desc">Locale-aware full month names as a single-column table. Bind directly to a Dropdown or Gallery.</td></tr>
+      <tr><td class="fn">Calendar.MonthsShort</td><td class="syn"><span class="sig">Calendar.MonthsShort() → Table{Value}</span><span class="ex">Ex: <strong>Calendar.MonthsShort()</strong> → ["Jan", "Feb", …]</span></td><td class="desc">Abbreviated month names for the current locale.</td></tr>
+      <tr><td class="fn">Calendar.WeekdaysLong</td><td class="syn"><span class="sig">Calendar.WeekdaysLong() → Table{Value}</span><span class="ex">Ex: <strong>Calendar.WeekdaysLong()</strong> → ["Sunday", "Monday", …]</span></td><td class="desc">Full weekday names for the current locale.</td></tr>
+      <tr><td class="fn">Calendar.WeekdaysShort</td><td class="syn"><span class="sig">Calendar.WeekdaysShort() → Table{Value}</span><span class="ex">Ex: <strong>Calendar.WeekdaysShort()</strong> → ["Sun", "Mon", …]</span></td><td class="desc">Abbreviated weekday names for the current locale.</td></tr>
+      <tr><td class="fn">Clock.AmPm</td><td class="syn"><span class="sig">Clock.AmPm → Text</span><span class="ex">Ex: <strong>Clock.AmPm</strong> → "AM" or "PM" (locale-aware)</span></td><td class="desc">Locale-appropriate AM/PM designation string.</td></tr>
+      <tr><td class="fn">Clock.AmPmShort</td><td class="syn"><span class="sig">Clock.AmPmShort → Text</span><span class="ex">Ex: <strong>Clock.AmPmShort</strong> → "a" or "p" (abbreviated)</span></td><td class="desc">Abbreviated AM/PM string for the current locale.</td></tr>
+      <tr><td class="fn">Clock.IsClock24</td><td class="syn"><span class="sig">Clock.IsClock24 → Boolean</span><span class="ex">Ex: <strong>If(Clock.IsClock24, "HH:mm", "h:mm AM/PM")</strong></span></td><td class="desc">True if the device uses a 24-hour clock. Use for conditional time format strings in Text().</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<!-- ═══════════ TABLE OPERATIONS ═══════════ -->
+<div id="tables" class="section-title" style="color:#00838f">Table Operations</div>
+<div class="grid">
+
+  <div class="card span3">
+    <div class="card-header c-tbl">Filter, Search &amp; Lookup</div>
+    <table>
+      <tr><td class="fn">Filter<span class="badge b-d">D</span><span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Filter(Table, Cond1 [,Cond2, …]) → Table</span><span class="ex">Ex: <strong>Filter(Accounts, Status = "Active", Region = ddRegion.Selected.Value)</strong></span></td><td class="desc">Returns rows matching all conditions (AND logic for multiple conditions).<span class="hint">&#11088; Most common interview topic. Delegable on Dataverse for =, &lt;, &gt;, in, And, Or. Complex/computed expressions may not delegate.</span></td></tr>
+      <tr><td class="fn">Search<span class="badge b-nd">ND</span><span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Search(Table, SearchText, Col1 [,Col2, …]) → Table</span><span class="ex">Ex: <strong>Search(Products, SearchBox.Text, "Name", "SKU")</strong></span></td><td class="desc">Case-insensitive substring search across named text columns. Always client-side.<span class="hint">&#11088; Search is NEVER delegable. Use Filter + StartsWith for delegable text search on large Dataverse tables.</span></td></tr>
+      <tr><td class="fn">LookUp<span class="badge b-d">D</span><span class="badge b-int">INT</span></td><td class="syn"><span class="sig">LookUp(Table, Condition [,Result]) → Record | Value</span><span class="ex">Ex: <strong>LookUp(Employees, Email = User().Email, FullName)</strong></span></td><td class="desc">Returns the first matching record (or a field from it). Delegable on Dataverse.<span class="hint">&#11088; LookUp returns ONE record; Filter returns a TABLE. This distinction is asked in every interview.</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card span3">
+    <div class="card-header c-tbl">Sort, Slicing &amp; Row Access</div>
+    <table>
+      <tr><td class="fn">Sort<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Sort(Table, Formula [,Order]) → Table</span><span class="ex">Ex: <strong>Sort(Products, Price, SortOrder.Descending)</strong></span></td><td class="desc">Sorts by a formula. SortOrder.Ascending (default) or SortOrder.Descending.<span class="hint">&#11088; Sort on a computed formula = NOT delegable. SortByColumns on a real column = delegable.</span></td></tr>
+      <tr><td class="fn">SortByColumns<span class="badge b-d">D</span></td><td class="syn"><span class="sig">SortByColumns(Table, Col, Order [,Col2, Order2, …]) → Table</span><span class="ex">Ex: <strong>SortByColumns(Accounts, "Name", SortOrder.Ascending)</strong></span></td><td class="desc">Sorts by one or more real column names (as text strings). Delegable on Dataverse and SharePoint.</td></tr>
+      <tr><td class="fn">Shuffle</td><td class="syn"><span class="sig">Shuffle(Table) → Table</span><span class="ex">Ex: <strong>Shuffle(Questions)</strong></span></td><td class="desc">Returns the table in a random order. Always client-side.</td></tr>
+      <tr><td class="fn">First<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">First(Table) → Record</span><span class="ex">Ex: <strong>First(SortByColumns(Orders, "Created", SortOrder.Descending))</strong></span></td><td class="desc">Returns the first record. Returns blank if the table is empty.<span class="hint">&#11088; First(SortByColumns(…)) is the standard pattern to get the newest or highest-value record.</span></td></tr>
+      <tr><td class="fn">Last</td><td class="syn"><span class="sig">Last(Table) → Record</span><span class="ex">Ex: <strong>Last(colHistory)</strong></span></td><td class="desc">Returns the last record of a table or collection.</td></tr>
+      <tr><td class="fn">FirstN</td><td class="syn"><span class="sig">FirstN(Table, N) → Table</span><span class="ex">Ex: <strong>FirstN(TopProducts, 5)</strong></span></td><td class="desc">Returns the first N rows as a table.</td></tr>
+      <tr><td class="fn">LastN</td><td class="syn"><span class="sig">LastN(Table, N) → Table</span><span class="ex">Ex: <strong>LastN(AuditLog, 10)</strong></span></td><td class="desc">Returns the last N rows as a table.</td></tr>
+      <tr><td class="fn">Index</td><td class="syn"><span class="sig">Index(Table, RowIndex) → Record</span><span class="ex">Ex: <strong>Index(Gallery1.AllItems, 3)</strong></span></td><td class="desc">Returns the record at a 1-based row index. Useful for custom pagination controls.</td></tr>
+      <tr><td class="fn">Sample</td><td class="syn"><span class="sig">Sample(Table, N) → Table</span><span class="ex">Ex: <strong>Sample(Questions, 10)</strong></span></td><td class="desc">Returns N randomly selected rows. Client-side only. Useful for quiz/survey scenarios.</td></tr>
+    </table>
+  </div>
+
+  <div class="card span3">
+    <div class="card-header c-tbl2">ForAll, Sequence, Grouping &amp; Table Construction</div>
+    <table>
+      <tr><td class="fn">ForAll<span class="badge b-int">INT</span><span class="badge b-nd">ND</span></td><td class="syn"><span class="sig">ForAll(Table, Formula) → Table</span><span class="ex">Ex: <strong>ForAll(colItems, Patch(Orders, Defaults(Orders), {Name: Name, Qty: Qty}))</strong></span></td><td class="desc">Evaluates a formula for every row; returns the resulting table. Always client-side.<span class="hint">&#11088; ForAll is non-delegable. For delegable batch writes use Patch(DataSource, Table) instead.</span></td></tr>
+      <tr><td class="fn">Sequence<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Sequence(Count [,Start] [,Step]) → Table{Value}</span><span class="ex">Ex: <strong>Sequence(5)</strong> → [1,2,3,4,5] · <strong>Sequence(5, 0, 10)</strong> → [0,10,20,30,40]</span></td><td class="desc">Generates a single-column table of sequential numbers.<span class="hint">&#11088; Sequence is the cleanest way to build custom paging controls or repeat operations N times.</span></td></tr>
+      <tr><td class="fn">Table</td><td class="syn"><span class="sig">Table(Record1, Record2, …) → Table</span><span class="ex">Ex: <strong>[{Name:"A", Val:1}, {Name:"B", Val:2}]</strong> (shorthand)</span></td><td class="desc">Constructs an inline table from record literals. Prefer the [] shorthand syntax for readability.</td></tr>
+      <tr><td class="fn">Distinct<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Distinct(Table, Formula) → Table{Result}</span><span class="ex">Ex: <strong>Distinct(Products, Category)</strong></span></td><td class="desc">Returns unique values of the formula as a single-column table (column = <em>Result</em>).<span class="hint">&#11088; Classic dropdown pattern: Dropdown Items = Distinct(DataSource, ColumnName). Partially delegable on Dataverse.</span></td></tr>
+      <tr><td class="fn">GroupBy</td><td class="syn"><span class="sig">GroupBy(Table, Col1 [,Col2, …], GroupColName) → Table</span><span class="ex">Ex: <strong>GroupBy(Orders, "Region", "RegionOrders")</strong></span></td><td class="desc">Groups rows by column values. Nested rows stored in the GroupColName column as a sub-table.</td></tr>
+      <tr><td class="fn">Ungroup</td><td class="syn"><span class="sig">Ungroup(Table, ColName) → Table</span><span class="ex">Ex: <strong>Ungroup(grouped, "RegionOrders")</strong></span></td><td class="desc">Flattens a grouped table back to a flat table. Inverse of GroupBy.</td></tr>
+      <tr><td class="fn">Zip</td><td class="syn"><span class="sig">Zip(Table1, Table2 [,…]) → Table</span><span class="ex">Ex: <strong>Zip(Names, Scores)</strong> → combined by row index</span></td><td class="desc">Combines multiple tables by row index into one table of records. Stops at the shortest table.</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<!-- ═══════════ COLUMN SHAPING ═══════════ -->
+<div id="columns" class="section-title" style="color:#00695c">Column Shaping</div>
+<div class="grid">
+  <div class="card span3">
+    <div class="card-header c-col">AddColumns · DropColumns · RenameColumns · ShowColumns · AsType · IsType</div>
+    <table>
+      <tr><td class="fn">AddColumns<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">AddColumns(Table, ColName, Formula [,ColName2, Formula2, …]) → Table</span><span class="ex">Ex: <strong>AddColumns(Products, "TotalValue", Price * Stock, "Label", Name &amp; " (" &amp; SKU &amp; ")")</strong></span></td><td class="desc">Returns a new table with extra computed columns added. Does NOT modify the source.<span class="hint">&#11088; AddColumns is the Power Fx equivalent of SQL SELECT with computed columns — heavily used in Gallery Items.</span></td></tr>
+      <tr><td class="fn">DropColumns</td><td class="syn"><span class="sig">DropColumns(Table, ColName [,ColName2, …]) → Table</span><span class="ex">Ex: <strong>DropColumns(Accounts, "InternalID", "AuditField")</strong></span></td><td class="desc">Returns a table with specified columns removed. Useful to reduce payload before Patch.</td></tr>
+      <tr><td class="fn">RenameColumns</td><td class="syn"><span class="sig">RenameColumns(Table, OldName, NewName [,…]) → Table</span><span class="ex">Ex: <strong>RenameColumns(Result, "cr123_name", "ProductName", "cr123_price", "Price")</strong></span></td><td class="desc">Renames columns. Essential for mapping Dataverse internal/publisher-prefixed names to readable display names.</td></tr>
+      <tr><td class="fn">ShowColumns</td><td class="syn"><span class="sig">ShowColumns(Table, ColName [,ColName2, …]) → Table</span><span class="ex">Ex: <strong>ShowColumns(Contacts, "FullName", "Email", "Phone")</strong></span></td><td class="desc">Returns a table with ONLY the specified columns (whitelist). Inverse of DropColumns.</td></tr>
+      <tr><td class="fn">AsType</td><td class="syn"><span class="sig">AsType(Record, TypeName) → Record</span><span class="ex">Ex: <strong>AsType(item.Owner, Contacts).FullName</strong></span></td><td class="desc">Casts a polymorphic Dataverse lookup to a specific entity type to access its typed columns.</td></tr>
+      <tr><td class="fn">IsType</td><td class="syn"><span class="sig">IsType(Record, TypeName) → Boolean</span><span class="ex">Ex: <strong>If(IsType(item.Owner, Contacts), AsType(item.Owner, Contacts).FullName, "—")</strong></span></td><td class="desc">Checks the runtime type of a polymorphic record. Always use IsType before AsType to avoid errors.</td></tr>
+    </table>
+    <div class="note">These functions return a new table — they never modify the source. Chain them: AddColumns(RenameColumns(Filter(…))). All are non-delegable (client-side processing).</div>
+  </div>
+</div>
+
+<!-- ═══════════ COLLECTIONS & PATCH ═══════════ -->
+<div id="coll" class="section-title" style="color:#c0392b">Collections &amp; Patch (Data Mutation)</div>
+<div class="grid">
+
+  <div class="card span3">
+    <div class="card-header c-coll">Collection Operations – Collect · ClearCollect · Clear · Remove · RemoveIf · Update · UpdateIf</div>
+    <table>
+      <tr><td class="fn">Collect<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Collect(Target, Item1 [,Item2, …]) → Table</span><span class="ex">Ex: <strong>Collect(colCart, {Name: Product.Name, Qty: 1, Price: Product.Price})</strong></span></td><td class="desc">Appends records to a collection. Does NOT clear existing data first.<span class="hint">&#11088; Collect ADDS; ClearCollect REPLACES — the most common interview mix-up on collection functions.</span></td></tr>
+      <tr><td class="fn">ClearCollect<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">ClearCollect(Target, Table) → Table</span><span class="ex">Ex: <strong>ClearCollect(colProducts, Filter(Products, Active = true))</strong></span></td><td class="desc">Clears the collection first then loads new data. Standard pattern for caching on app start.<span class="hint">&#11088; Put ClearCollect in App OnStart (inside Concurrent) to pre-load data and reduce screen-load latency.</span></td></tr>
+      <tr><td class="fn">Clear<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Clear(Collection) → Void</span><span class="ex">Ex: <strong>Clear(colCart)</strong></span></td><td class="desc">Empties all rows from the collection. The collection variable still exists.<span class="hint">&#11088; Use Clear to reset a shopping cart or a multi-step selection buffer between sessions.</span></td></tr>
+      <tr><td class="fn">Remove</td><td class="syn"><span class="sig">Remove(Source, Record1 [,Record2, …] [,All]) → Void</span><span class="ex">Ex: <strong>Remove(colCart, ThisItem)</strong></span></td><td class="desc">Removes specific records from a collection or data source by record reference. All removes all matching.</td></tr>
+      <tr><td class="fn">RemoveIf</td><td class="syn"><span class="sig">RemoveIf(Source, Condition [,Condition2, …]) → Void</span><span class="ex">Ex: <strong>RemoveIf(colCart, Qty = 0)</strong></span></td><td class="desc">Removes all rows matching the condition. Works on both collections and data sources.</td></tr>
+      <tr><td class="fn">Update</td><td class="syn"><span class="sig">Update(Collection, OldRecord, NewRecord [,All]) → Void</span><span class="ex">Ex: prefer UpdateIf or Patch instead</span></td><td class="desc">Replaces an entire record in a collection. Rarely used in modern apps — prefer UpdateIf or Patch.</td></tr>
+      <tr><td class="fn">UpdateIf</td><td class="syn"><span class="sig">UpdateIf(Collection, Condition, ChangeRecord [,…]) → Void</span><span class="ex">Ex: <strong>UpdateIf(colCart, ID = selectedID, {Qty: NewQty})</strong></span></td><td class="desc">Updates matching rows in a local collection. Does not work on server data sources — use Patch for those.</td></tr>
+    </table>
+  </div>
+
+  <div class="card span3">
+    <div class="card-header c-coll2">Patch, Defaults, Refresh &amp; Errors – Server Data Source Write Operations</div>
+    <table>
+      <tr><td class="fn">Patch<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Patch(DataSource, BaseRecord, ChangeRecord [,…]) → Record</span><span class="ex">Ex (create): <strong>Patch(Accounts, Defaults(Accounts), {Name: "Acme", Status: "Active"})</strong><br>Ex (update): <strong>Patch(Accounts, LookUp(Accounts, ID = varID), {Status: "Closed"})</strong></span></td><td class="desc">Creates or updates a record by merging ChangeRecord into BaseRecord.<span class="hint">&#11088; Top interview topic. Defaults(DataSource) = create new; existing record = update. Always wrap in IfError.</span></td></tr>
+      <tr><td class="fn">Patch (bulk)</td><td class="syn"><span class="sig">Patch(DataSource, Table) → Table</span><span class="ex">Ex: <strong>Patch(Orders, colPendingOrders)</strong></span></td><td class="desc">Upserts all rows of a table into the data source in a single operation. Far more efficient than ForAll + Patch per row.</td></tr>
+      <tr><td class="fn">Defaults<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Defaults(DataSource) → Record</span><span class="ex">Ex: <strong>Patch(Tasks, Defaults(Tasks), {Title: txtTitle.Text, AssignedTo: User().Email})</strong></span></td><td class="desc">Returns a blank record with default values for the data source. Use as BaseRecord to tell Patch to create a new record.<span class="hint">&#11088; Defaults is the only way to signal "create new" to Patch — it provides the empty base row.</span></td></tr>
+      <tr><td class="fn">Refresh</td><td class="syn"><span class="sig">Refresh(DataSource) → Void</span><span class="ex">Ex: <strong>Refresh(Accounts)</strong></span></td><td class="desc">Forces the data source to reload from the server, clearing the local cache.</td></tr>
+      <tr><td class="fn">Errors<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Errors(DataSource [,Record]) → Table</span><span class="ex">Ex: <strong>Errors(Accounts, EditForm1.LastSubmit)</strong></span></td><td class="desc">Returns error details from the last data operation. Columns: Record, Column, Message, Error (ErrorKind).<span class="hint">&#11088; Call in OnFailure of SubmitForm to surface column-level validation errors from Dataverse business rules.</span></td></tr>
+    </table>
+  </div>
+
+</div>
+
+<!-- ═══════════ FORMS ═══════════ -->
+<div id="forms" class="section-title" style="color:#6d4c41">Form Functions</div>
+<div class="grid">
+  <div class="card span3">
+    <div class="card-header c-form">SubmitForm · ResetForm · NewForm · EditForm · ViewForm</div>
+    <table>
+      <tr><td class="fn">SubmitForm<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">SubmitForm(FormControl) → Void</span><span class="ex">Ex: <strong>SubmitForm(EditForm1)</strong></span></td><td class="desc">Validates all data cards then calls Patch on the data source. OnSuccess / OnFailure fire after.<span class="hint">&#11088; SubmitForm is declarative — use OnSuccess to navigate away and Errors() in OnFailure to display messages.</span></td></tr>
+      <tr><td class="fn">ResetForm<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">ResetForm(FormControl) → Void</span><span class="ex">Ex: <strong>ResetForm(EditForm1)</strong></span></td><td class="desc">Resets all data card fields to their original values and clears unsaved changes.<span class="hint">&#11088; ResetForm does NOT clear the Item property. Combine with Set(varItem, Blank()) to fully reset a form.</span></td></tr>
+      <tr><td class="fn">NewForm</td><td class="syn"><span class="sig">NewForm(FormControl) → Void</span><span class="ex">Ex: <strong>NewForm(EditForm1)</strong></span></td><td class="desc">Sets the form to New mode — all fields blank, ready to create a new record.</td></tr>
+      <tr><td class="fn">EditForm</td><td class="syn"><span class="sig">EditForm(FormControl) → Void</span><span class="ex">Ex: <strong>EditForm(EditForm1)</strong></span></td><td class="desc">Switches the form from View mode to Edit mode, making all data card fields editable.</td></tr>
+      <tr><td class="fn">ViewForm</td><td class="syn"><span class="sig">ViewForm(FormControl) → Void</span><span class="ex">Ex: <strong>ViewForm(EditForm1)</strong></span></td><td class="desc">Sets the form to View (read-only) mode. Fields display their values but cannot be edited.</td></tr>
+    </table>
+    <div class="note">Form.Mode: FormMode.Edit (0) · FormMode.New (1) · FormMode.View (2) &nbsp;|&nbsp; Form.LastSubmit: record returned by last successful SubmitForm &nbsp;|&nbsp; Form.Valid: true when all required cards pass validation</div>
+  </div>
+</div>
+
+<!-- ═══════════ NAVIGATION & UX ═══════════ -->
+<div id="nav" class="section-title" style="color:#1565c0">Navigation &amp; UX</div>
+<div class="grid">
+  <div class="card span3">
+    <div class="card-header c-nav">Navigate · Back · Launch · Exit · Download · Notify</div>
+    <table>
+      <tr><td class="fn">Navigate<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Navigate(Screen [,Transition] [,ContextRecord]) → Void</span><span class="ex">Ex: <strong>Navigate(DetailScreen, ScreenTransition.Fade, {locRecord: ThisItem, locMode: "Edit"})</strong></span></td><td class="desc">Navigates to a screen. ContextRecord sets UpdateContext variables on the target screen.<span class="hint">&#11088; ContextRecord in Navigate is the primary way to pass data between screens — sets local variables on the target.</span></td></tr>
+      <tr><td class="fn">Back<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Back([Transition]) → Void</span><span class="ex">Ex: <strong>Back(ScreenTransition.UnCover)</strong></span></td><td class="desc">Returns to the previous screen in the navigation stack.<span class="hint">&#11088; Back() pops the navigation stack; Navigate() pushes. Use Back() for cancel and dismiss patterns.</span></td></tr>
+      <tr><td class="fn">Launch</td><td class="syn"><span class="sig">Launch(URL [,ParamName, ParamValue, …]) → Void</span><span class="ex">Ex: <strong>Launch("https://teams.microsoft.com/…", "userId", EncodeUrl(User().Email))</strong></span></td><td class="desc">Opens a URL in the browser or an external app. Use EncodeUrl() for dynamic query parameter values.</td></tr>
+      <tr><td class="fn">Exit</td><td class="syn"><span class="sig">Exit([Value]) → Void</span><span class="ex">Ex: <strong>Exit()</strong></span></td><td class="desc">Closes the app. Optional Value is passed back to the embedding context (model-driven / Teams).</td></tr>
+      <tr><td class="fn">Download</td><td class="syn"><span class="sig">Download(URL) → Void</span><span class="ex">Ex: <strong>Download(Attachment.AbsoluteUri)</strong></span></td><td class="desc">Initiates a file download to the device. Works in browser-based canvas apps.</td></tr>
+      <tr><td class="fn">Notify<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Notify(Message [,NotificationType] [,Timeout]) → Void</span><span class="ex">Ex: <strong>Notify("Saved!", NotificationType.Success, 3000)</strong></span></td><td class="desc">Shows a banner notification. Default timeout: 10 s.<span class="hint">&#11088; Always call Notify in OnSuccess / OnFailure of SubmitForm to give the user visible feedback.</span></td></tr>
+    </table>
+    <div class="note">NotificationType: NotificationType.Success · Error · Warning · Information &nbsp;|&nbsp; ScreenTransition: None · Fade · Cover · CoverRight · UnCover · UnCoverRight · Push · Pop</div>
+  </div>
+</div>
+
+<!-- ═══════════ VARIABLES & SCOPE ═══════════ -->
+<div id="vars" class="section-title" style="color:#283593">Variables &amp; Scope</div>
+<div class="grid">
+  <div class="card span3">
+    <div class="card-header c-var">Set · UpdateContext · With</div>
+    <table>
+      <tr><td class="fn">Set<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Set(VariableName, Value) → Void</span><span class="ex">Ex: <strong>Set(gblUserRole, LookUp(Employees, Email = User().Email, Role))</strong></span></td><td class="desc">Sets a global variable accessible from ALL screens. Creates the variable on first use — no declaration needed.<span class="hint">&#11088; Set = global (all screens); UpdateContext = local (current screen only). Top variable interview question.</span></td></tr>
+      <tr><td class="fn">UpdateContext<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">UpdateContext({VarName: Value, Var2: Value2, …}) → Void</span><span class="ex">Ex: <strong>UpdateContext({locIsLoading: true, locSelectedID: ThisItem.ID})</strong></span></td><td class="desc">Creates or updates screen-local variables (scoped to the current screen, destroyed on navigation).<span class="hint">&#11088; Naming convention: "loc" prefix for local (UpdateContext), "gbl" prefix for global (Set).</span></td></tr>
+      <tr><td class="fn">With<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">With({Alias: Value, …}, Formula) → Any</span><span class="ex">Ex: <strong>With({emp: LookUp(Employees, ID = Gallery1.Selected.ID)}, emp.Name &amp; " – " &amp; emp.Dept)</strong></span></td><td class="desc">Creates immutable named aliases scoped to a formula. Avoids repeating expensive lookups multiple times.<span class="hint">&#11088; With is Power Fx's "let" construct. Use it to store intermediate LookUp results — single evaluation, no side effects.</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ CONTROLS ═══════════ -->
+<div id="ctrl" class="section-title" style="color:#4527a0">Control Behavior</div>
+<div class="grid">
+  <div class="card span3">
+    <div class="card-header c-ctrl">Reset · Select · SetFocus · PDF · RequestHide</div>
+    <table>
+      <tr><td class="fn">Reset<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Reset(Control) → Void</span><span class="ex">Ex: <strong>Reset(TextInput1); Reset(Dropdown1)</strong></span></td><td class="desc">Resets a control to its Default property value. Works on inputs, dropdowns, sliders, date pickers.<span class="hint">&#11088; Reset(control) resets one control; ResetForm(form) resets all data cards in a form at once.</span></td></tr>
+      <tr><td class="fn">Select</td><td class="syn"><span class="sig">Select(Control [,Row]) → Void</span><span class="ex">Ex: <strong>Select(BtnSave)</strong> · <strong>Select(Gallery1, 1)</strong></span></td><td class="desc">Programmatically fires the OnSelect of a control or a specific gallery row. Useful for automation and testing.</td></tr>
+      <tr><td class="fn">SetFocus</td><td class="syn"><span class="sig">SetFocus(Control) → Void</span><span class="ex">Ex: <strong>SetFocus(SearchBox)</strong></span></td><td class="desc">Moves keyboard focus to the specified control. Use after navigation or form submission.</td></tr>
+      <tr><td class="fn">PDF</td><td class="syn"><span class="sig">PDF(Control1 [,Control2, …]) → PDF object</span><span class="ex">Ex: <strong>PDF(Screen1)</strong> · pass result to Power Automate as attachment</span></td><td class="desc">Generates a PDF from one or more controls or a full screen. Pass the result to a flow for email or storage.</td></tr>
+      <tr><td class="fn">RequestHide</td><td class="syn"><span class="sig">RequestHide() → Void</span><span class="ex">Ex: <strong>RequestHide()</strong> (inside a Teams or model-driven panel)</span></td><td class="desc">Requests that the hosting Power Apps panel be hidden. Used in embedded Teams / model-driven panel scenarios.</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ USER & ENVIRONMENT ═══════════ -->
+<div id="user" class="section-title" style="color:#37474f">User &amp; Environment</div>
+<div class="grid">
+  <div class="card span3">
+    <div class="card-header c-user">User() · Param() · Language() · Connection · Host</div>
+    <table>
+      <tr><td class="fn">User()<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">User() → Record {Email, FullName, Image}</span><span class="ex">Ex: <strong>User().Email</strong> → "vipin@org.com" · <strong>User().FullName</strong> → "Vipin Tyagi"</span></td><td class="desc">Returns the current signed-in user's Email, FullName (display name), and Image (photo URL).<span class="hint">&#11088; Filter data by current user: Filter(Tasks, AssignedTo = User().Email). No extra connector required.</span></td></tr>
+      <tr><td class="fn">Param<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Param(ParameterName) → Text</span><span class="ex">Ex: <strong>Param("recordId")</strong> → value passed via Launch() or deep link URL</span></td><td class="desc">Reads a URL or launch parameter passed when the app was opened.<span class="hint">&#11088; Deep-link pattern: Launch(appURL, "recordId", selectedID) → Param("recordId") on App OnStart.</span></td></tr>
+      <tr><td class="fn">Language</td><td class="syn"><span class="sig">Language() → Text</span><span class="ex">Ex: <strong>Language()</strong> → "en-US" · "fr-FR" · "de-DE"</span></td><td class="desc">Returns the current user's locale tag. Use to conditionally format dates or numbers per locale.</td></tr>
+      <tr><td class="fn">Connection.Connected</td><td class="syn"><span class="sig">Connection.Connected → Boolean</span><span class="ex">Ex: <strong>If(!Connection.Connected, Notify("You are offline", NotificationType.Warning))</strong></span></td><td class="desc">True when the device has a network connection. Use for offline-aware UX.</td></tr>
+      <tr><td class="fn">Host.name</td><td class="syn"><span class="sig">Host.name → Text</span><span class="ex">Ex: <strong>Host.name</strong> → "Power Apps" · "Microsoft Teams" · "SharePoint"</span></td><td class="desc">Identifies the hosting environment. Adapt UI layout or features based on the host.</td></tr>
+      <tr><td class="fn">Host.sessionID</td><td class="syn"><span class="sig">Host.sessionID → Text</span><span class="ex">Ex: <strong>Host.sessionID</strong> → unique GUID per session</span></td><td class="desc">Unique session identifier. Useful for telemetry, diagnostics logging, and support cases.</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ COLOR ═══════════ -->
+<div id="color" class="section-title" style="color:#ad1457">Color Functions</div>
+<div class="grid">
+  <div class="card span3">
+    <div class="card-header c-clr">RGBA · ColorValue · ColorFade · Color.*</div>
+    <table>
+      <tr><td class="fn">RGBA<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">RGBA(Red, Green, Blue, Alpha) → Color</span><span class="ex">Ex: <strong>RGBA(0, 120, 212, 1)</strong> → Microsoft blue · <strong>RGBA(255, 0, 0, 0.5)</strong> → semi-transparent red</span></td><td class="desc">Constructs a color. R/G/B: 0–255. Alpha: 0 (fully transparent) to 1 (fully opaque).<span class="hint">&#11088; Use RGBA for data-driven colors: RGBA(255, If(Status = "Late", 0, 255), 0, 1) — red for late, green otherwise.</span></td></tr>
+      <tr><td class="fn">ColorValue</td><td class="syn"><span class="sig">ColorValue(ColorNameOrHex) → Color</span><span class="ex">Ex: <strong>ColorValue("#0078D4")</strong> · <strong>ColorValue("OrangeRed")</strong></span></td><td class="desc">Converts a CSS named color or hex string to a Power Apps Color value.</td></tr>
+      <tr><td class="fn">ColorFade</td><td class="syn"><span class="sig">ColorFade(Color, FadeDelta) → Color</span><span class="ex">Ex: <strong>ColorFade(RGBA(0,120,212,1), 0.5)</strong> → lighter blue · <strong>ColorFade(…, -0.3)</strong> → darker</span></td><td class="desc">Lightens (positive delta) or darkens (negative delta) a color. FadeDelta: -1 to 1.</td></tr>
+      <tr><td class="fn">Color.*</td><td class="syn"><span class="sig">Color.Red, Color.Blue, Color.Transparent, Color.White, …</span><span class="ex">Ex: <strong>Fill: Color.Transparent</strong> · <strong>Color: Color.DarkSlateGray</strong></span></td><td class="desc">Built-in named color constants. Full CSS color set available as Color.ColorName enumeration.</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ TYPE CONVERSION ═══════════ -->
+<div id="types" class="section-title" style="color:#2e7d32">Type Conversion</div>
+<div class="grid">
+  <div class="card span3">
+    <div class="card-header c-type">Value · Text · Boolean · Float · Decimal</div>
+    <table>
+      <tr><td class="fn">Value<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Value(Text [,LanguageTag]) → Number</span><span class="ex">Ex: <strong>Value("3.14")</strong> → 3.14 · <strong>Value("1.234,56", "de-DE")</strong> → 1234.56</span></td><td class="desc">Parses text to a floating-point number. LanguageTag handles locale separators.<span class="hint">&#11088; Required when doing math on any TextInput — text controls return Text type by default.</span></td></tr>
+      <tr><td class="fn">Text<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">Text(Value [,FormatString [,LanguageTag]]) → Text</span><span class="ex">Ex: <strong>Text(12500.5, "$#,##0.00")</strong> → "$12,500.50" · <strong>Text(Today(), "dd-mmm-yyyy")</strong></span></td><td class="desc">Converts number, date, datetime, or boolean to a formatted string. Essential for all display formatting.</td></tr>
+      <tr><td class="fn">Boolean</td><td class="syn"><span class="sig">Boolean(TextOrNumber) → Boolean</span><span class="ex">Ex: <strong>Boolean("yes")</strong> → true · <strong>Boolean(0)</strong> → false · <strong>Boolean("TRUE")</strong> → true</span></td><td class="desc">Parses "true"/"false"/"yes"/"no"/1/0 to Boolean. Useful for SharePoint Yes/No fields stored as text.</td></tr>
+      <tr><td class="fn">Float</td><td class="syn"><span class="sig">Float(TextOrNumber) → Float</span><span class="ex">Ex: <strong>Float("3.14")</strong> → 3.14 (IEEE 754 double)</span></td><td class="desc">Explicit conversion to IEEE 754 double-precision float. Use when interfacing with external numeric types.</td></tr>
+      <tr><td class="fn">Decimal</td><td class="syn"><span class="sig">Decimal(TextOrNumber) → Decimal</span><span class="ex">Ex: <strong>Decimal("19.99")</strong> → exact decimal (no floating-point rounding)</span></td><td class="desc">Converts to an exact decimal representation. Avoids floating-point rounding — use for financial values.</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ JSON & STORAGE ═══════════ -->
+<div id="json" class="section-title" style="color:#4e342e">JSON &amp; Local Storage</div>
+<div class="grid">
+  <div class="card span3">
+    <div class="card-header c-json">JSON · SaveData · LoadData · ClearData</div>
+    <table>
+      <tr><td class="fn">JSON<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">JSON(Value [,Format]) → Text</span><span class="ex">Ex: <strong>JSON(colCart, JSONFormat.IndentFour)</strong> · <strong>JSON({Name:"A", Qty:2})</strong></span></td><td class="desc">Serialises a value, record, or table to a JSON string. Format: Compact (default) · IndentFour · IgnoreUnsupportedTypes · IncludeBinaryData.<span class="hint">&#11088; Use JSON() to send data to Power Automate HTTP connectors as a request body string.</span></td></tr>
+      <tr><td class="fn">SaveData</td><td class="syn"><span class="sig">SaveData(Collection, Name) → Void</span><span class="ex">Ex: <strong>SaveData(colDraft, "formDraft")</strong></span></td><td class="desc">Persists a collection to the device's local storage. Survives app restarts. Native mobile apps only.</td></tr>
+      <tr><td class="fn">LoadData</td><td class="syn"><span class="sig">LoadData(Collection, Name [,IgnoreNonexistentFile]) → Void</span><span class="ex">Ex: <strong>LoadData(colDraft, "formDraft", true)</strong></span></td><td class="desc">Restores a previously saved collection from local storage. Set IgnoreNonexistentFile = true to skip errors if the file is missing.<span class="hint">&#11088; SaveData/LoadData power offline-capable apps: store drafts locally, sync when Connection.Connected is true.</span></td></tr>
+      <tr><td class="fn">ClearData</td><td class="syn"><span class="sig">ClearData([Name]) → Void</span><span class="ex">Ex: <strong>ClearData("formDraft")</strong> · <strong>ClearData()</strong> → removes all saved data</span></td><td class="desc">Deletes saved data from local storage by name. Omit Name to clear all saved data.</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ BITWISE ═══════════ -->
+<div id="bitwise" class="section-title" style="color:#546e7a">Bitwise Functions</div>
+<div class="grid">
+  <div class="card span3">
+    <div class="card-header c-bit">BitAnd · BitOr · BitXor · BitNot · BitShiftLeft · BitShiftRight</div>
+    <table>
+      <tr><td class="fn">BitAnd</td><td class="syn"><span class="sig">BitAnd(Num1, Num2) → Number</span><span class="ex">Ex: <strong>BitAnd(12, 10)</strong> → 8 &nbsp;(1100 &amp; 1010 = 1000)</span></td><td class="desc">Bitwise AND. Use for permission flag mask checks — BitAnd(userFlags, requiredFlag) ≠ 0 means permission is set.</td></tr>
+      <tr><td class="fn">BitOr</td><td class="syn"><span class="sig">BitOr(Num1, Num2) → Number</span><span class="ex">Ex: <strong>BitOr(12, 10)</strong> → 14 &nbsp;(1100 | 1010 = 1110)</span></td><td class="desc">Bitwise OR. Use to combine multiple permission flags into a single integer.</td></tr>
+      <tr><td class="fn">BitXor</td><td class="syn"><span class="sig">BitXor(Num1, Num2) → Number</span><span class="ex">Ex: <strong>BitXor(12, 10)</strong> → 6 &nbsp;(XOR)</span></td><td class="desc">Bitwise XOR. Toggle individual flags or detect bit-level differences.</td></tr>
+      <tr><td class="fn">BitNot</td><td class="syn"><span class="sig">BitNot(Number) → Number</span><span class="ex">Ex: <strong>BitNot(0)</strong> → -1 &nbsp;(all bits set)</span></td><td class="desc">Bitwise NOT — flips all bits (one's complement).</td></tr>
+      <tr><td class="fn">BitShiftLeft</td><td class="syn"><span class="sig">BitShiftLeft(Number, Bits) → Number</span><span class="ex">Ex: <strong>BitShiftLeft(1, 3)</strong> → 8 &nbsp;(multiply by 2³)</span></td><td class="desc">Shifts bits left by N positions. Equivalent to multiplying by 2^N.</td></tr>
+      <tr><td class="fn">BitShiftRight</td><td class="syn"><span class="sig">BitShiftRight(Number, Bits) → Number</span><span class="ex">Ex: <strong>BitShiftRight(8, 3)</strong> → 1 &nbsp;(divide by 2³)</span></td><td class="desc">Shifts bits right by N positions. Equivalent to integer-dividing by 2^N.</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ AI BUILDER ═══════════ -->
+<div id="ai" class="section-title" style="color:#5e35b1">AI Builder Functions</div>
+<div class="grid">
+  <div class="card span3">
+    <div class="card-header c-ai">AIClassify · AIExtract · AIReply · AISentiment · AISummarize · AITranslate</div>
+    <table>
+      <tr><td class="fn">AIClassify</td><td class="syn"><span class="sig">AIClassify(Text, Categories) → Record{Label, Confidence}</span><span class="ex">Ex: <strong>AIClassify(Feedback.Text, ["Positive","Negative","Neutral"])</strong></span></td><td class="desc">Classifies text into one of the provided categories. Returns the best-matching label and a confidence score.</td></tr>
+      <tr><td class="fn">AIExtract</td><td class="syn"><span class="sig">AIExtract(Text, FieldNames) → Record</span><span class="ex">Ex: <strong>AIExtract(Invoice.Text, ["Amount","Date","Vendor"]).Amount</strong></span></td><td class="desc">Extracts named entities or fields from unstructured text. Returns a record with one field per name.</td></tr>
+      <tr><td class="fn">AIReply<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">AIReply(Text [,Instructions]) → Text</span><span class="ex">Ex: <strong>AIReply(UserMessage.Text, "Reply as a helpful HR assistant in 2 sentences")</strong></span></td><td class="desc">Generates a conversational reply. Instructions shape tone, role, and length.<span class="hint">&#11088; AIReply powers in-app copilot experiences without leaving Power Apps — great interview talking point for AI-augmented apps.</span></td></tr>
+      <tr><td class="fn">AISentiment</td><td class="syn"><span class="sig">AISentiment(Text) → Record{Sentiment, Confidence}</span><span class="ex">Ex: <strong>AISentiment(ReviewText.Text).Sentiment</strong> → "Positive"</span></td><td class="desc">Analyses sentiment. Returns Positive / Negative / Neutral with a confidence score (0–1).</td></tr>
+      <tr><td class="fn">AISummarize</td><td class="syn"><span class="sig">AISummarize(Text [,Instructions]) → Text</span><span class="ex">Ex: <strong>AISummarize(LongDoc.Text, "In 3 bullet points")</strong></span></td><td class="desc">Summarises long text. Instructions control output format and target length.</td></tr>
+      <tr><td class="fn">AITranslate</td><td class="syn"><span class="sig">AITranslate(Text, TargetLanguage) → Text</span><span class="ex">Ex: <strong>AITranslate(Message.Text, "fr")</strong> → French translation</span></td><td class="desc">Translates text to the target language. TargetLanguage is a BCP-47 tag: "fr", "de", "ja", "hi", etc.</td></tr>
+    </table>
+    <div class="note">AI Builder functions require an AI Builder licence or Power Apps Premium and consume AI Builder credits. They run server-side.</div>
+  </div>
+</div>
+
+<!-- ═══════════ DELEGATION ═══════════ -->
+<div id="deleg" class="section-title" style="color:#0f3460">Delegation Guide</div>
+<div class="grid">
+  <div class="card span3">
+    <div class="card-header c-deleg">Which Functions Delegate? – Dataverse vs SharePoint</div>
+    <table>
+      <tr style="background:#e8eaf6"><td class="fn" style="color:#1a237e;font-weight:700">Function</td><td class="syn" style="font-weight:700;color:#1a237e">Dataverse</td><td class="desc" style="font-weight:700;color:#1a237e">SharePoint &nbsp;&nbsp; Notes</td></tr>
+      <tr><td class="fn">Filter</td><td class="syn"><span class="check">✔ Delegable</span></td><td class="desc"><span class="check">✔ Delegable</span> &nbsp;· Simple predicates (=, &lt;, &gt;, And, Or, in). Complex/computed expressions fall back to client.</td></tr>
+      <tr><td class="fn">LookUp</td><td class="syn"><span class="check">✔ Delegable</span></td><td class="desc"><span class="check">✔ Delegable</span> &nbsp;· Single-record fetch — fully delegable with simple conditions.</td></tr>
+      <tr><td class="fn">SortByColumns</td><td class="syn"><span class="check">✔ Delegable</span></td><td class="desc"><span class="check">✔ Delegable</span> &nbsp;· Sort on real column names. Computed expressions are non-delegable.</td></tr>
+      <tr><td class="fn">Sort (formula)</td><td class="syn"><span class="cross">✘ Not Delegable</span></td><td class="desc"><span class="cross">✘ Not Delegable</span> &nbsp;· Sort on a computed formula is always client-side.</td></tr>
+      <tr><td class="fn">Search</td><td class="syn"><span class="cross">✘ Not Delegable</span></td><td class="desc"><span class="cross">✘ Not Delegable</span> &nbsp;· Always client-side. Use Filter + StartsWith for delegable text search on Dataverse.</td></tr>
+      <tr><td class="fn">StartsWith (in Filter)</td><td class="syn"><span class="check">✔ Delegable</span></td><td class="desc"><span class="cross">✘ Not Delegable</span> &nbsp;· Dataverse: delegable text prefix. SharePoint: client-side only.</td></tr>
+      <tr><td class="fn">CountIf</td><td class="syn"><span class="check">✔ Delegable</span></td><td class="desc"><span class="cross">✘ Not Delegable</span> &nbsp;· Dataverse: delegable. SharePoint: capped at 500 rows.</td></tr>
+      <tr><td class="fn">Sum / Average / Max / Min</td><td class="syn"><span class="check">✔ Delegable</span></td><td class="desc"><span class="cross">✘ Not Delegable</span> &nbsp;· Table aggregate form delegates on Dataverse only.</td></tr>
+      <tr><td class="fn">CountRows</td><td class="syn"><span class="cross">✘ Not Delegable</span></td><td class="desc"><span class="cross">✘ Not Delegable</span> &nbsp;· Never delegable. Use CountIf(Table, true) on Dataverse for accurate large counts.</td></tr>
+      <tr><td class="fn">Distinct</td><td class="syn"><span class="part">~ Partial</span></td><td class="desc"><span class="cross">✘ Not Delegable</span> &nbsp;· Dataverse: delegable on simple columns only. Computed formula = non-delegable.</td></tr>
+      <tr><td class="fn">In (membership)</td><td class="syn"><span class="check">✔ Delegable</span></td><td class="desc"><span class="part">~ Partial</span> &nbsp;· Filter(Table, ID in colIDs) — delegable on Dataverse for choice/lookup columns.</td></tr>
+      <tr><td class="fn">IsBlank (in Filter)</td><td class="syn"><span class="check">✔ Delegable</span></td><td class="desc"><span class="part">~ Partial</span> &nbsp;· Dataverse: delegable. SharePoint: may be non-delegable depending on column type.</td></tr>
+      <tr><td class="fn">ForAll</td><td class="syn"><span class="cross">✘ Not Delegable</span></td><td class="desc"><span class="cross">✘ Not Delegable</span> &nbsp;· Always client-side. Use Patch(DataSource, Table) for delegable bulk writes instead.</td></tr>
+    </table>
+    <div class="note">&#9888;&#65039; Delegation limit default: 500 rows (raise to 2 000 in Settings → Data row limit). Data beyond the limit is silently dropped. Use Filter + SortByColumns as the safest delegable combination for large tables.</div>
+  </div>
+</div>
+
+<!-- ═══════════ PATTERNS ═══════════ -->
+<div id="patterns" class="section-title" style="color:#7b2d8b">Common Pattern Recipes</div>
+<div class="grid">
+
+  <div class="card span3">
+    <div class="card-header c-patt">Data &amp; Collection Patterns</div>
+    <div class="recipe">
+      <div class="recipe-title">1. Create a new Dataverse record (Patch + Defaults)</div>
+      <code class="recipe-code">IfError(
+  Patch(Accounts, Defaults(Accounts), {Name: txtName.Text, Status: "Active"}),
+  Notify("Error: " &amp; FirstError.Message, NotificationType.Error)
+);
+Notify("Account created!", NotificationType.Success);</code>
+      <div class="recipe-desc">Wrap every Patch in IfError — Dataverse business rule violations surface as errors, not exceptions.</div>
+    </div>
+    <div class="recipe">
+      <div class="recipe-title">2. Delegable text search with StartsWith</div>
+      <code class="recipe-code">// Gallery Items (delegates on Dataverse):
+Filter(Contacts, StartsWith(FullName, SearchBox.Text) || StartsWith(Email, SearchBox.Text))</code>
+      <div class="recipe-desc">StartsWith delegates on Dataverse. Search() does NOT — avoid Search() on tables with 500+ rows.</div>
+    </div>
+    <div class="recipe">
+      <div class="recipe-title">3. Cache data on app start with Concurrent</div>
+      <code class="recipe-code">// App OnStart:
+Concurrent(
+  ClearCollect(colProducts, Filter(Products, Active = true)),
+  ClearCollect(colCategories, Distinct(Products, Category)),
+  Set(gblCurrentUser, LookUp(Employees, Email = User().Email))
+);</code>
+      <div class="recipe-desc">Concurrent() runs multiple ClearCollect calls in parallel — significantly faster than sequential.</div>
+    </div>
+    <div class="recipe">
+      <div class="recipe-title">4. Cascading dropdown</div>
+      <code class="recipe-code">// ddCategory Items:  Distinct(Products, Category)
+// ddProduct Items:   Filter(Products, Category = ddCategory.Selected.Result)</code>
+      <div class="recipe-desc">Filter the child dropdown on the parent's Selected value. Delegable on Dataverse.</div>
+    </div>
+    <div class="recipe">
+      <div class="recipe-title">5. Shopping cart upsert (add or increment)</div>
+      <code class="recipe-code">If(CountIf(colCart, ID = ThisItem.ID) = 0,
+   Collect(colCart, {ID: ThisItem.ID, Name: ThisItem.Name, Qty: 1, Price: ThisItem.Price}),
+   UpdateIf(colCart, ID = ThisItem.ID, {Qty: Qty + 1})
+);
+// Cart total:  Sum(colCart, Qty * Price)</code>
+      <div class="recipe-desc">CountIf checks existence; Collect adds; UpdateIf increments — clean upsert on a collection.</div>
+    </div>
+    <div class="recipe">
+      <div class="recipe-title">6. Batch write a collection to Dataverse</div>
+      <code class="recipe-code">IfError(
+  Patch(Orders, colPendingOrders),
+  Notify("Batch failed: " &amp; FirstError.Message, NotificationType.Error)
+);
+Clear(colPendingOrders);</code>
+      <div class="recipe-desc">Single Patch(DataSource, Table) is far more efficient than ForAll + Patch per row.</div>
+    </div>
+  </div>
+
+  <div class="card span3">
+    <div class="card-header c-patt">UX &amp; Formula Patterns</div>
+    <div class="recipe">
+      <div class="recipe-title">7. Pass data between screens via Navigate context</div>
+      <code class="recipe-code">// Button OnSelect (Screen A):
+Navigate(DetailScreen, ScreenTransition.Fade, {locRecord: ThisItem, locMode: "Edit"})
+
+// DetailScreen reads locRecord.Name, locRecord.ID etc. directly</code>
+      <div class="recipe-desc">ContextRecord in Navigate sets UpdateContext variables on the target screen — the cleanest inter-screen data transfer.</div>
+    </div>
+    <div class="recipe">
+      <div class="recipe-title">8. Loading spinner during data fetch</div>
+      <code class="recipe-code">// Button OnSelect:
+UpdateContext({locLoading: true});
+Concurrent(
+  ClearCollect(colData, MyDataSource),
+  Set(gblConfig, LookUp(Config, Key = "App"))
+);
+UpdateContext({locLoading: false});
+
+// Spinner Visible: locLoading</code>
+      <div class="recipe-desc">Toggle locLoading to show/hide a spinner while data loads in the background.</div>
+    </div>
+    <div class="recipe">
+      <div class="recipe-title">9. With() to avoid repeated expensive LookUp</div>
+      <code class="recipe-code">// Instead of two LookUp calls:
+With({emp: LookUp(Employees, ID = Gallery1.Selected.ID)},
+     emp.Name &amp; " – " &amp; emp.Department &amp; " – " &amp; emp.Email)</code>
+      <div class="recipe-desc">With() evaluates the LookUp once and aliases the result — cheaper and more readable than repeating.</div>
+    </div>
+    <div class="recipe">
+      <div class="recipe-title">10. Dynamic label color by status (Switch + RGBA)</div>
+      <code class="recipe-code">// Label Color property:
+Switch(ThisItem.Status,
+  "Active",  RGBA(0, 128, 0, 1),
+  "Pending", RGBA(255, 165, 0, 1),
+  "Closed",  RGBA(200, 0, 0, 1),
+              RGBA(128, 128, 128, 1))</code>
+      <div class="recipe-desc">Switch + RGBA for status-based colour coding — no separate icon or image column needed.</div>
+    </div>
+    <div class="recipe">
+      <div class="recipe-title">11. Age calculation and deadline countdown</div>
+      <code class="recipe-code">// Age in full years:
+DateDiff(BirthDatePicker.SelectedDate, Today(), TimeUnit.Years)
+
+// Days until deadline (negative = overdue):
+DateDiff(Today(), DeadlineDatePicker.SelectedDate, TimeUnit.Days)</code>
+      <div class="recipe-desc">Always specify TimeUnit explicitly for clarity and to avoid ambiguity in code reviews.</div>
+    </div>
+    <div class="recipe">
+      <div class="recipe-title">12. Build a comma-separated tag list from multi-select</div>
+      <code class="recipe-code">// Display selected tags from a checkbox gallery:
+Concat(Filter(colTags, Selected), Name, ", ")
+
+// Deep-link pattern: pass ID via Launch, read via Param
+// Launch(appURL, "id", ThisItem.ID)  →  Set(gblID, Param("id")) in App OnStart</code>
+      <div class="recipe-desc">Concat(Table, Formula, Separator) is the cleanest way to join multi-selected items into a display string.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>&#128279; Reference: <a href="https://learn.microsoft.com/en-us/power-platform/power-fx/formula-reference-overview" target="_blank">Power Fx Formula Reference – Microsoft Learn</a> &nbsp;|&nbsp; <a href="https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/delegation-overview" target="_blank">Delegation Overview</a> &nbsp;|&nbsp; Power Apps Canvas &nbsp;·&nbsp; Power Fx 1.0</p>
+</div>
+
+<script>
+function filterFunctions(q) {
+  q = q.trim().toLowerCase();
+  document.querySelectorAll('table tr').forEach(function(row) {
+    if (row.style && row.style.background && row.style.background.includes('e8eaf6')) return;
+    var text = row.textContent.toLowerCase();
+    row.classList.toggle('hidden', q.length > 0 && !text.includes(q));
+  });
+  document.querySelectorAll('.card').forEach(function(card) {
+    var rows = card.querySelectorAll('table tr');
+    if (!rows.length) return;
+    var dataRows = Array.from(rows).filter(function(r){ return !r.style.background || !r.style.background.includes('e8eaf6'); });
+    if (!dataRows.length) return;
+    var allHidden = dataRows.every(function(r){ return r.classList.contains('hidden'); });
+    card.style.display = (q && allHidden) ? 'none' : '';
+  });
+}
+document.querySelectorAll('.tab-nav a').forEach(function(a){
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+</script>
+</body>
+</html>
