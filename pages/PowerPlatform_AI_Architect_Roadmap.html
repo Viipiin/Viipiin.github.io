@@ -6,6 +6,8 @@
   <title>Power Platform + AI Solution Architect — Career Roadmap (India 35–50 LPA Target)</title>
   <link rel="icon" type="image/svg+xml" href="../assets/images/pp-roadmap-favicon.svg">
   <link rel="shortcut icon" href="../assets/images/pp-roadmap-favicon.svg">
+  <meta name="description" content="A structured career roadmap for Power Platform + AI Solution Architects targeting 35–50 LPA in India. Covers certifications, skills, learning paths, and architect-level progression milestones.">
+  <meta name="keywords" content="Power Platform architect career, AI architect roadmap, India LPA salary, Power Platform certifications, solution architect skills">
   <style>
     :root {
       --bg: #0f1117;
@@ -173,8 +175,10 @@
     .learn-box a:hover { text-decoration: underline; color: var(--accent); }
     .learn-box .src { color: var(--muted); font-size: 0.72rem; margin-left: 6px; font-weight: 500; font-style: italic; }
   /* ── Print Button ── */
-  .print-btn{position:fixed;top:16px;right:16px;z-index:9999;background:var(--accent2);color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.3);display:flex;align-items:center;gap:6px;transition:opacity .15s,transform .1s;font-family:inherit}
-  .print-btn:hover{opacity:.85;transform:translateY(-1px)}
+  .print-btn{position:fixed;top:16px;right:16px;z-index:9999;background:var(--accent2);color:#fff;border:none;border-radius:8px;padding:10px 14px;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.3);display:flex;align-items:center;gap:0;overflow:hidden;white-space:nowrap;transition:opacity .15s,transform .1s,gap .25s;font-family:inherit}
+  .print-btn:hover{opacity:.85;transform:translateY(-1px);gap:7px}
+  .print-btn .btn-label{max-width:0;overflow:hidden;opacity:0;font-size:13px;transition:max-width .3s ease,opacity .25s ease}
+  .print-btn:hover .btn-label{max-width:140px;opacity:1}
   @media print{
     @page{size:A4 portrait;margin:15mm 12mm}
     .print-btn{display:none!important}
@@ -2003,6 +2007,6 @@
   <p style="margin-top: 6px;">Built for the <span class="author-tag">India market, 25–50 LPA architect roles</span>. Bookmark this page and revisit weekly.</p>
   <p style="margin-top: 12px; font-size: 0.78rem;">Treat this as a living document — Microsoft retires exams and ships products fast; always cross-check with <a href="https://learn.microsoft.com/" style="color: var(--accent5); text-decoration: none;">Microsoft Learn</a> before booking exams.</p>
 </footer>
-<button class="print-btn" onclick="window.print()" title="Print / Save as A4 PDF" aria-label="Print page">🖨️ Print / PDF</button>
+<button class="print-btn" onclick="window.print()" title="Print / Save PDF">🖨️<span class="btn-label">Print / Save PDF</span></button>
 </body>
 </html>

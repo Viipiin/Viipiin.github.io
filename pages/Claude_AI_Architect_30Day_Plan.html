@@ -6,6 +6,8 @@
   <title>Claude AI Architect — 30-Day Certification Study Plan</title>
   <link rel="icon" type="image/svg+xml" href="../assets/images/claude-ai-favicon.svg">
   <link rel="shortcut icon" href="../assets/images/claude-ai-favicon.svg">
+  <meta name="description" content="A 30-day structured study plan for architects preparing with Claude AI — covering AI concepts, Anthropic API, prompt engineering, tool use, MCP, and enterprise AI integration patterns.">
+  <meta name="keywords" content="Claude AI study plan, Anthropic API, prompt engineering, tool use, MCP, AI architect, 30 day plan, Claude certification">
   <style>
     :root {
       --bg: #0f1117;
@@ -322,8 +324,10 @@
       .overview { padding: 16px; }
     }
   /* ── Print Button ── */
-  .print-btn{position:fixed;top:16px;right:16px;z-index:9999;background:var(--accent2);color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.3);display:flex;align-items:center;gap:6px;transition:opacity .15s,transform .1s;font-family:inherit}
-  .print-btn:hover{opacity:.85;transform:translateY(-1px)}
+  .print-btn{position:fixed;top:16px;right:16px;z-index:9999;background:var(--accent2);color:#fff;border:none;border-radius:8px;padding:10px 14px;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.3);display:flex;align-items:center;gap:0;overflow:hidden;white-space:nowrap;transition:opacity .15s,transform .1s,gap .25s;font-family:inherit}
+  .print-btn:hover{opacity:.85;transform:translateY(-1px);gap:7px}
+  .print-btn .btn-label{max-width:0;overflow:hidden;opacity:0;font-size:13px;transition:max-width .3s ease,opacity .25s ease}
+  .print-btn:hover .btn-label{max-width:140px;opacity:1}
   @media print{
     @page{size:A4 portrait;margin:15mm 12mm}
     .print-btn{display:none!important}
@@ -1344,6 +1348,6 @@
   </p>
   <p style="margin-top:8px; color:#555">Generated · May 2026 · GitHub Copilot</p>
 </footer>
-<button class="print-btn" onclick="window.print()" title="Print / Save as A4 PDF" aria-label="Print page">🖨️ Print / PDF</button>
+<button class="print-btn" onclick="window.print()" title="Print / Save PDF">🖨️<span class="btn-label">Print / Save PDF</span></button>
 </body>
 </html>

@@ -325,8 +325,10 @@
   }
 
   /* ── Print Button ── */
-  .print-btn{position:fixed;top:12px;right:12px;z-index:9999;background:#0277bd;color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.25);display:flex;align-items:center;gap:5px;transition:background .15s,transform .1s;font-family:inherit}
-  .print-btn:hover{background:#4527a0;transform:translateY(-1px)}
+  .print-btn{position:fixed;top:12px;right:12px;z-index:9999;background:#0277bd;color:#fff;border:none;border-radius:8px;padding:9px 12px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.25);display:flex;align-items:center;gap:0;overflow:hidden;white-space:nowrap;transition:background .15s,transform .1s,gap .25s;font-family:inherit}
+  .print-btn:hover{background:#4527a0;transform:translateY(-1px);gap:6px}
+  .print-btn .btn-label{max-width:0;overflow:hidden;opacity:0;font-size:12px;transition:max-width .3s ease,opacity .25s ease}
+  .print-btn:hover .btn-label{max-width:140px;opacity:1}
   /* ── Print ── */
   @media print {
     body { padding: 5mm; font-size: 7pt; }
@@ -1014,6 +1016,6 @@ pac code add-data-source <span class="o">\</span>
   })();
 </script>
 <script src="../assets/js/clean-url.js"></script>
-<button class="print-btn" onclick="window.print()" title="Print / Save as A4 PDF" aria-label="Print page">🖨️ Print / PDF</button>
+<button class="print-btn" onclick="window.print()" title="Print / Save PDF">🖨️<span class="btn-label">Print / Save PDF</span></button>
 </body>
 </html>
