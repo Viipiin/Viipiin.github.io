@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#0078d4"/>
+  <text x="16" y="22" font-family="Segoe UI, system-ui, sans-serif" font-size="16" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="-0.5">D</text>
+  <circle cx="24" cy="9" r="4" fill="#50e6ff"/>
+  <text x="24" y="12" font-family="Segoe UI, system-ui, sans-serif" font-size="5.5" font-weight="700" fill="#0078d4" text-anchor="middle">365</text>
+</svg>
