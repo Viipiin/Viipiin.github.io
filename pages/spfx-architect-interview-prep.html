@@ -465,7 +465,7 @@ A 12-year SharePoint practitioner can recite the SPFx lifecycle. So can a junior
   </div>
 
   <div class="qa">
-    <div class="q-num">O 19.1</div>
+    <div class="q-num">1.1</div>
     <div class="q">What are the most commonly used modern SharePoint web parts and when would you use each?</div>
     <div class="a">
       <table>
@@ -492,7 +492,7 @@ A 12-year SharePoint practitioner can recite the SPFx lifecycle. So can a junior
   </div>
 
   <div class="qa">
-    <div class="q-num">O 19.2</div>
+    <div class="q-num">1.2</div>
     <div class="q">What SharePoint site templates are available OOTB and when do you choose each?</div>
     <div class="a">
       <ul>
@@ -506,7 +506,7 @@ A 12-year SharePoint practitioner can recite the SPFx lifecycle. So can a junior
   </div>
 
   <div class="qa">
-    <div class="q-num">O 19.3</div>
+    <div class="q-num">1.3</div>
     <div class="q">What is the Highlighted Content web part and how does it differ from a List web part?</div>
     <div class="a">
       <ul>
@@ -519,7 +519,7 @@ A 12-year SharePoint practitioner can recite the SPFx lifecycle. So can a junior
   </div>
 
   <div class="qa">
-    <div class="q-num">O 19.4</div>
+    <div class="q-num">1.4</div>
     <div class="q">What are SharePoint site features and how do you activate/deactivate them?</div>
     <div class="a">
       <p>Site features are toggleable capabilities bundled with SharePoint. They exist at two scopes:</p>
@@ -548,7 +548,7 @@ Get-PnPFeature -Scope Web | Select-Object DisplayName, DefinitionId</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">P 17.1</div>
+    <div class="q-num">2.1</div>
     <div class="q">What are the default SharePoint permission levels and what can each do?</div>
     <div class="a">
       <p>SharePoint ships with five default permission levels (plus two special ones):</p>
@@ -566,7 +566,7 @@ Get-PnPFeature -Scope Web | Select-Object DisplayName, DefinitionId</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">P 17.2</div>
+    <div class="q-num">2.2</div>
     <div class="q">What is permission inheritance and when would you break it?</div>
     <div class="a">
       <p>By default, every sub-site, list, library, and list item <strong>inherits permissions</strong> from its parent. Breaking inheritance ("unique permissions") creates an independent permission set for that object.</p>
@@ -587,7 +587,7 @@ Get-PnPFeature -Scope Web | Select-Object DisplayName, DefinitionId</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">P 17.3</div>
+    <div class="q-num">2.3</div>
     <div class="q">What are SharePoint groups vs Microsoft 365 groups and which should you use for site permissions?</div>
     <div class="a">
       <ul>
@@ -600,7 +600,7 @@ Get-PnPFeature -Scope Web | Select-Object DisplayName, DefinitionId</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">P 17.4</div>
+    <div class="q-num">2.4</div>
     <div class="q">How do you set unique permissions on a list item programmatically using REST API or PnP JS?</div>
     <div class="a">
       <pre><span class="cmt">// PnP JS — break item inheritance and grant role</span>
@@ -627,7 +627,7 @@ Get-PnPFeature -Scope Web | Select-Object DisplayName, DefinitionId</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">P 17.5</div>
+    <div class="q-num">2.5</div>
     <div class="q">How do you audit permissions across a site collection — what tools do you use?</div>
     <div class="a">
       <ul>
@@ -662,7 +662,7 @@ foreach ($list in $lists) {
   </div>
 
   <div class="qa">
-    <div class="q-num">L 18.1</div>
+    <div class="q-num">3.1</div>
     <div class="q">What is the difference between a SharePoint List and a Document Library?</div>
     <div class="a">
       <table>
@@ -681,7 +681,7 @@ foreach ($list in $lists) {
   </div>
 
   <div class="qa">
-    <div class="q-num">L 18.2</div>
+    <div class="q-num">3.2</div>
     <div class="q">What are the key SharePoint Online limits for lists and libraries you must know?</div>
     <div class="a">
       <ul>
@@ -701,7 +701,7 @@ foreach ($list in $lists) {
   </div>
 
   <div class="qa">
-    <div class="q-num">L 18.3</div>
+    <div class="q-num">3.3</div>
     <div class="q">How do you work around the 5,000 item list view threshold?</div>
     <div class="a">
       <p>Four strategies, in order of preference:</p>
@@ -726,7 +726,7 @@ foreach ($list in $lists) {
   </div>
 
   <div class="qa">
-    <div class="q-num">L 18.4</div>
+    <div class="q-num">3.4</div>
     <div class="q">What column types are available in SharePoint lists and what are their gotchas?</div>
     <div class="a">
       <table>
@@ -749,7 +749,7 @@ foreach ($list in $lists) {
   </div>
 
   <div class="qa">
-    <div class="q-num">L 18.5</div>
+    <div class="q-num">3.5</div>
     <div class="q">How does versioning work in SharePoint and what storage impact should you plan for?</div>
     <div class="a">
       <p><strong>Document Libraries:</strong></p>
@@ -774,7 +774,7 @@ foreach ($list in $lists) {
   </div>
 
   <div class="qa">
-    <div class="q-num">N 20.1</div>
+    <div class="q-num">4.1</div>
     <div class="q">What role does Node.js play in SPFx development and which versions are supported?</div>
     <div class="a">
       <p>Node.js is the <strong>build-time runtime</strong> for SPFx — it powers the toolchain (Gulp, Webpack, Yeoman) but does not run in the browser. The browser only receives the compiled JavaScript bundle.</p>
@@ -796,7 +796,7 @@ foreach ($list in $lists) {
   </div>
 
   <div class="qa">
-    <div class="q-num">N 20.2</div>
+    <div class="q-num">4.2</div>
     <div class="q">What does the SPFx build chain look like — what do Gulp and Webpack each do?</div>
     <div class="a">
       <ul>
@@ -816,7 +816,7 @@ foreach ($list in $lists) {
   </div>
 
   <div class="qa">
-    <div class="q-num">N 20.3</div>
+    <div class="q-num">4.3</div>
     <div class="q">How do you implement responsive design in an SPFx web part?</div>
     <div class="a">
       <p>Three complementary approaches:</p>
@@ -859,7 +859,7 @@ foreach ($list in $lists) {
   </div>
 
   <div class="qa">
-    <div class="q-num">N 20.4</div>
+    <div class="q-num">4.4</div>
     <div class="q">What common npm commands do you use daily in SPFx development?</div>
     <div class="a">
       <pre><span class="cmt"># Install all dependencies from package.json</span>
@@ -900,7 +900,7 @@ npm uninstall lodash</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">G 21.1</div>
+    <div class="q-num">5.1</div>
     <div class="q">What are the core Git commands you use daily and what does each do?</div>
     <div class="a">
       <pre><span class="cmt"># Clone a repository</span>
@@ -944,7 +944,7 @@ git rebase main</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">G 21.2</div>
+    <div class="q-num">5.2</div>
     <div class="q">What branching strategy do you use for SharePoint/SPFx projects?</div>
     <div class="a">
       <p>I follow a simplified <strong>GitFlow</strong> adapted for SharePoint projects:</p>
@@ -965,7 +965,7 @@ git rebase main</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">G 21.3</div>
+    <div class="q-num">5.3</div>
     <div class="q">How do you resolve a merge conflict in Git?</div>
     <div class="a">
       <pre><span class="cmt"># 1. Start the merge or rebase that causes the conflict</span>
@@ -992,7 +992,7 @@ git rebase --continue</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">G 21.4</div>
+    <div class="q-num">5.4</div>
     <div class="q">Walk me through configuring a full CI/CD pipeline for an SPFx project in Azure DevOps.</div>
     <div class="a">
       <p><strong>Pipeline structure: two pipelines (CI + CD)</strong></p>
@@ -1052,7 +1052,7 @@ steps:
   </div>
 
   <div class="qa">
-    <div class="q-num">G 21.5</div>
+    <div class="q-num">5.5</div>
     <div class="q">What is a Pull Request and why is it mandatory on team projects?</div>
     <div class="a">
       <p>A Pull Request (PR) is a request to merge a feature branch into a target branch (develop or main). It is the code review gate — no code reaches the main codebase without at least one reviewer approving it.</p>
@@ -1318,7 +1318,7 @@ Pre-migration checklist:
   </div>
 
   <div class="qa">
-    <div class="q-num">PS 22.1</div>
+    <div class="q-num">7.1</div>
     <div class="q">How do you connect to SharePoint Online with PnP PowerShell and what authentication options exist?</div>
     <div class="a">
       <pre><span class="cmt"># Interactive browser login (development/ad-hoc use)</span>
@@ -1341,7 +1341,7 @@ Disconnect-PnPOnline</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">PS 22.2</div>
+    <div class="q-num">7.2</div>
     <div class="q">What are the most useful PnP PowerShell commands for SharePoint administration?</div>
     <div class="a">
       <pre><span class="cmt"># Site and web management</span>
@@ -1378,7 +1378,7 @@ Publish-PnPApp -Identity "solution-id" -Scope Tenant</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">PS 22.3</div>
+    <div class="q-num">7.3</div>
     <div class="q">Write a PowerShell script to bulk create SharePoint sites from a CSV file.</div>
     <div class="a">
       <pre><span class="cmt"># sites.csv format: Title,Url,Owner,Template</span>
@@ -1412,7 +1412,7 @@ Disconnect-PnPOnline</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">PS 22.4</div>
+    <div class="q-num">7.4</div>
     <div class="q">How do you use PowerShell to manage ShareGate migrations — key commands and pre-migration checks?</div>
     <div class="a">
       <pre><span class="cmt"># Import ShareGate module</span>
@@ -1450,7 +1450,7 @@ Copy-Site -Site $src -DestinationSite $dst `
   </div>
 
   <div class="qa">
-    <div class="q-num">PS 22.5</div>
+    <div class="q-num">7.5</div>
     <div class="q">What PowerShell scripts do you use to validate a migration was successful?</div>
     <div class="a">
       <pre><span class="cmt"># 1. Count items in source vs destination</span>
@@ -1493,7 +1493,7 @@ Write-Host "Items with unique permissions: $($uniqueItems.Count)"</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 3.1</div>
+    <div class="q-num">8.1</div>
     <div class="q">What's the difference between Automated, Instant, Scheduled, and Solution-aware flows? Which would you use for a tenant-wide approval routing system?</div>
     <div class="a">
       <ul>
@@ -1507,7 +1507,7 @@ Write-Host "Items with unique permissions: $($uniqueItems.Count)"</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 3.2</div>
+    <div class="q-num">8.2</div>
     <div class="q">How do you handle errors in Power Automate? Walk through Try/Catch/Finally pattern.</div>
     <div class="a">
       <p>Use Scope actions configured with <code class="inline">RunAfter</code> conditions:</p>
@@ -1523,7 +1523,7 @@ filter(result(<span class="str">'Try_Scope'</span>), item()?[<span class="str">'
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 3.3</div>
+    <div class="q-num">8.3</div>
     <div class="q">What is the SharePoint "Send an HTTP request to SharePoint" action used for, and when is it better than the standard SharePoint connector?</div>
     <div class="a">
       <p>It calls SharePoint REST or CSOM endpoints directly using the flow's connection. Use it when:</p>
@@ -1541,7 +1541,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 3.4</div>
+    <div class="q-num">8.4</div>
     <div class="q">A flow runs 500 times an hour and is hitting SharePoint connector throttling. How do you fix it?</div>
     <div class="a">
       <ol>
@@ -1556,7 +1556,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 3.5</div>
+    <div class="q-num">8.5</div>
     <div class="q">What is the difference between Concurrency Control on an "Apply to each" and Sequential mode? When does sequential matter?</div>
     <div class="a">
       <p>By default, Apply to each runs items sequentially. Toggling "Concurrency Control" lets you set Degree of Parallelism (1&ndash;50).</p>
@@ -1571,7 +1571,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 3.6</div>
+    <div class="q-num">8.6</div>
     <div class="q">Explain retry policies on actions. Default behaviour vs custom configuration.</div>
     <div class="a">
       <p>Default = Exponential retry, 4 attempts, intervals of 5s, 10s, 20s, 40s (roughly). You can override per action:</p>
@@ -1589,7 +1589,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 3.7</div>
+    <div class="q-num">8.7</div>
     <div class="q">How do you implement secure secrets in Power Automate flows?</div>
     <div class="a">
       <ul>
@@ -1602,7 +1602,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 3.8</div>
+    <div class="q-num">8.8</div>
     <div class="q">Difference between Standard and Premium connectors. Cost implications.</div>
     <div class="a">
       <p>Standard connectors (SharePoint, Outlook, Teams, OneDrive, Approvals) are included with Microsoft 365 licenses. Premium connectors (HTTP, SQL, Dataverse, custom connectors, on-premises data gateway, all third-party SaaS like Salesforce, ServiceNow, SAP) require a Power Automate Premium license per user OR a per-flow license.</p>
@@ -1612,7 +1612,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 3.9</div>
+    <div class="q-num">8.9</div>
     <div class="q">What is a Custom Connector and when should you build one?</div>
     <div class="a">
       <p>A Custom Connector wraps a REST API (defined via OpenAPI/Swagger or Postman collection) so it appears alongside built-in connectors in flow designer, with proper auth, action discovery, and parameter typing.</p>
@@ -1628,7 +1628,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 3.10</div>
+    <div class="q-num">8.10</div>
     <div class="q">How do you achieve idempotency in a flow that processes SharePoint items?</div>
     <div class="a">
       <p>Flows can fire twice (rare but real &mdash; e.g., during platform throttling recovery). Idempotency strategies:</p>
@@ -1713,7 +1713,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 4.1</div>
+    <div class="q-num">9.1</div>
     <div class="q">Lift-and-shift vs Rebuild &mdash; how do you decide for each site?</div>
     <div class="a">
       <p>Decision matrix I use:</p>
@@ -1735,7 +1735,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 4.2</div>
+    <div class="q-num">9.2</div>
     <div class="q">SPMT vs ShareGate vs Metalogix (Quest) &mdash; what's the practical difference?</div>
     <div class="a">
       <ul>
@@ -1748,7 +1748,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 4.3</div>
+    <div class="q-num">9.3</div>
     <div class="q">What pre-migration assessment do you run before quoting timelines?</div>
     <div class="a">
       <ol>
@@ -1764,7 +1764,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 4.4</div>
+    <div class="q-num">9.4</div>
     <div class="q">How do you handle SharePoint 2010/2013 workflows during migration?</div>
     <div class="a">
       <p>Both are deprecated in SPO. The path:</p>
@@ -1779,7 +1779,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 4.5</div>
+    <div class="q-num">9.5</div>
     <div class="q">Authentication differences: Classic SharePoint (NTLM/Kerberos) vs SharePoint Online (Modern auth / AAD). What breaks?</div>
     <div class="a">
       <p>On-prem typically uses Windows Auth (NTLM, Kerberos, or claims-based with ADFS). SPO uses Azure AD with Modern Authentication (OAuth2 / OpenID Connect).</p>
@@ -1795,7 +1795,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 4.6</div>
+    <div class="q-num">9.6</div>
     <div class="q">What's the difference between SharePoint REST API on-prem vs SPO? Anything you actually need to rewrite?</div>
     <div class="a">
       <ul>
@@ -1810,7 +1810,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 4.7</div>
+    <div class="q-num">9.7</div>
     <div class="q">How do you deal with the 5000 item list view threshold during migration?</div>
     <div class="a">
       <p>The threshold isn't lifted in SPO. Strategies:</p>
@@ -1826,7 +1826,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 4.8</div>
+    <div class="q-num">9.8</div>
     <div class="q">A document library has 1.2 million files. How do you migrate it?</div>
     <div class="a">
       <ol>
@@ -1841,7 +1841,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 4.9</div>
+    <div class="q-num">9.9</div>
     <div class="q">What is "Hybrid SharePoint" and when would you keep it long-term?</div>
     <div class="a">
       <p>Hybrid SharePoint connects on-prem (2013/2016/2019/SE) with SPO via federation: hybrid search (unified results), hybrid OneDrive (redirect to SPO), hybrid taxonomy and content types, hybrid sites following.</p>
@@ -1856,7 +1856,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 4.10</div>
+    <div class="q-num">9.10</div>
     <div class="q">How do you migrate InfoPath forms?</div>
     <div class="a">
       <p>InfoPath is dead. Options:</p>
@@ -1871,7 +1871,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 4.11</div>
+    <div class="q-num">9.11</div>
     <div class="q">How do you preserve item-level permissions during migration?</div>
     <div class="a">
       <p>SPMT and ShareGate both preserve unique permissions <em>if the source identity maps to a destination identity</em>. The gotchas:</p>
@@ -1885,7 +1885,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 4.12</div>
+    <div class="q-num">9.12</div>
     <div class="q">What's your rollback plan if the migration goes wrong at 60% completion?</div>
     <div class="a">
       <p>Real answer: there is no clean rollback once content is in SPO and users have started editing it. Defences:</p>
@@ -1961,7 +1961,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 6.1</div>
+    <div class="q-num">10.1</div>
     <div class="q">You're leading 5 developers on a migration. Two are senior, two mid, one junior. How do you distribute work?</div>
     <div class="a">
       <p>Skill-based slicing, not hierarchy-based:</p>
@@ -1976,7 +1976,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 6.2</div>
+    <div class="q-num">10.2</div>
     <div class="q">What's your code review philosophy and process?</div>
     <div class="a">
       <ul>
@@ -1991,7 +1991,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 6.3</div>
+    <div class="q-num">10.3</div>
     <div class="q">A production SPFx web part is down. CEO is asking questions. Walk through your first 30 minutes.</div>
     <div class="a">
       <ol>
@@ -2006,7 +2006,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 6.4</div>
+    <div class="q-num">10.4</div>
     <div class="q">How do you communicate technical risk to non-technical stakeholders?</div>
     <div class="a">
       <p>Three rules:</p>
@@ -2019,7 +2019,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 6.5</div>
+    <div class="q-num">10.5</div>
     <div class="q">How do you handle a senior developer pushing back on your architectural decision?</div>
     <div class="a">
       <p>Listen first. If the pushback has merit, change the decision and credit them. If it doesn't, explain the constraints they may not see (compliance, licensing, executive direction) and ask if those change their view.</p>
@@ -2033,7 +2033,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 6.6</div>
+    <div class="q-num">10.6</div>
     <div class="q">What's your ALM and CI/CD setup for SPFx?</div>
     <div class="a">
       <ul>
@@ -2048,7 +2048,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 6.7</div>
+    <div class="q-num">10.7</div>
     <div class="q">How do you onboard a new developer to your SPFx project?</div>
     <div class="a">
       <ol>
@@ -2063,7 +2063,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 6.8</div>
+    <div class="q-num">10.8</div>
     <div class="q">Tell me about a time you had to say no to a stakeholder.</div>
     <div class="a">
       <p>Recently a business sponsor wanted real-time push notifications for every list item change to 4,000 users, via SPFx + signalR. The signalR alone wasn't the issue &mdash; the social cost of 200K notifications/day to 4K users was. I declined the initial scope and proposed:</p>
@@ -2089,7 +2089,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   <div class="callout do"><strong>Format:</strong> each entry is MISTAKE → WHY IT HURTS → FIX, with code where a snippet makes the fix obvious.</div>
 
   <div class="qa">
-    <div class="q-num">M 11.1</div>
+    <div class="q-num">11.1</div>
     <div class="q">Calling <code>spfi()</code> inside every component render instead of once in <code>onInit</code></div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> <code>const sp = spfi().using(SPFx(props.context));</code> inside the component body — creates a new PnP instance on every re-render, destroys caching, leaks memory.</div>
@@ -2112,7 +2112,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.2</div>
+    <div class="q-num">11.2</div>
     <div class="q">Forgetting to cancel async operations in <code>useEffect</code> cleanup</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> calling <code>setState</code> after a component has unmounted — causes React "can't perform state update on unmounted component" warnings and memory leaks in long-lived SPFx pages.</div>
@@ -2129,7 +2129,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.3</div>
+    <div class="q-num">11.3</div>
     <div class="q">Using <code>any</code> types everywhere in TypeScript</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> <code>const item: any = await sp.web.lists...</code> — defeats the compiler, hides bugs until runtime, and signals to reviewers that the dev doesn't trust their own data shapes.</div>
@@ -2149,7 +2149,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.4</div>
+    <div class="q-num">11.4</div>
     <div class="q">Over-fetching list data — no <code>$select</code>, no <code>$top</code></div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> <code>sp.web.lists.getByTitle("X").items()</code> with no selectors — returns every column including heavy lookup expansion, system fields, and potentially thousands of rows. Kills performance, hits list view threshold.</div>
@@ -2168,7 +2168,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.5</div>
+    <div class="q-num">11.5</div>
     <div class="q">Blocking the render cycle with synchronous-looking awaits at the top level</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> making the <code>render()</code> method async and awaiting data before calling <code>ReactDOM.render</code> — the web part shows nothing until the await resolves, giving users a blank box.</div>
@@ -2177,7 +2177,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.6</div>
+    <div class="q-num">11.6</div>
     <div class="q">Not calling <code>ReactDOM.unmountComponentAtNode</code> in <code>onDispose</code></div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> omitting <code>onDispose</code> — the React component tree keeps living in memory after the web part is removed from the page. In SharePoint pages with dynamic web part manipulation (e.g., News), this causes progressive memory leaks.</div>
@@ -2190,7 +2190,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.7</div>
+    <div class="q-num">11.7</div>
     <div class="q">Using <code>innerHTML</code> / <code>dangerouslySetInnerHTML</code> to render user-supplied content</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> injecting list column data directly into HTML without sanitization — classic XSS vector in SharePoint. A malicious list editor writes <code>&lt;script&gt;alert(1)&lt;/script&gt;</code> into a column and it runs for every viewer.</div>
@@ -2199,7 +2199,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.8</div>
+    <div class="q-num">11.8</div>
     <div class="q">Hardcoding site URLs, list GUIDs, or tenant names in component code</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> <code>const url = "https://contoso.sharepoint.com/sites/hr"</code> hardcoded inside a component — breaks in every other environment (dev, UAT, another tenant's deployment).</div>
@@ -2217,7 +2217,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.9</div>
+    <div class="q-num">11.9</div>
     <div class="q">Deploying a web part that requires Graph permissions without admin consent</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> declaring <code>webApiPermissionRequests</code> in <code>package-solution.json</code> and deploying, assuming it just works — the permission request is created in "Pending" state; calls fail with 401 until a Global Admin or SharePoint Admin approves it in the API Access page.</div>
@@ -2229,7 +2229,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.10</div>
+    <div class="q-num">11.10</div>
     <div class="q">Using global CSS class names instead of CSS Modules in SPFx</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> writing <code>.myButton { color: red; }</code> in a <code>.scss</code> file imported without CSS Modules — the class leaks to the entire SharePoint page, breaking styles in every other web part and SharePoint chrome.</div>
@@ -2246,7 +2246,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.11</div>
+    <div class="q-num">11.11</div>
     <div class="q">Migration pitfall: translating AngularJS <code>$watch</code> as a <code>useEffect</code> with no dependency array</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> <code>useEffect(() =&gt; { fetchData(); })</code> — no dependency array means it runs after every render, hammering the SharePoint REST API and re-rendering infinitely if the fetch sets state.</div>
@@ -2260,7 +2260,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.12</div>
+    <div class="q-num">11.12</div>
     <div class="q">Migration pitfall: porting AngularJS two-way binding to uncontrolled React inputs</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> using <code>defaultValue</code> and reading via <code>ref.current.value</code> — uncontrolled inputs drift out of sync with state in complex forms, making validation and conditional logic unreliable.</div>
@@ -2269,7 +2269,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.13</div>
+    <div class="q-num">11.13</div>
     <div class="q">Not handling throttling (HTTP 429) in Power Automate flows that call SharePoint at scale</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> looping over 500 list items and calling "Update item" inside the loop with default concurrency (1) and no retry policy — flow runs for hours and silently fails on 429 responses after the SharePoint throttle kicks in.</div>
@@ -2278,7 +2278,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.14</div>
+    <div class="q-num">11.14</div>
     <div class="q">Deploying to App Catalog without <code>skipFeatureDeployment: true</code> and wondering why the web part isn't available site-wide</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> uploading to tenant App Catalog, setting "Make this solution available to all sites" — but if <code>skipFeatureDeployment</code> is <code>false</code> in <code>package-solution.json</code>, site owners still have to manually "Add an app" per site.</div>
@@ -2295,7 +2295,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.15</div>
+    <div class="q-num">11.15</div>
     <div class="q">Forgetting that <code>onSave()</code> / <code>onClose()</code> must be called in a Form Customizer</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> saving the list item via PnP JS but not calling <code>this.context.formCustomizerContext.onSave()</code> — the panel stays open, the list view doesn't refresh, and the user doesn't know if the save succeeded.</div>
@@ -2304,7 +2304,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.16</div>
+    <div class="q-num">11.16</div>
     <div class="q">Using <code>sp.web.currentUser.get()</code> for every component that needs the current user</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> each component independently calls <code>sp.web.currentUser.get()</code> — results in N parallel calls for N components on the same page.</div>
@@ -2316,7 +2316,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.17</div>
+    <div class="q-num">11.17</div>
     <div class="q">Including large third-party libraries in an SPFx bundle without code-splitting</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> importing Lodash, Moment.js, or a full charting library — they are bundled into the web part JS, inflating a <code>.js</code> from 150 KB to 1.5 MB and breaking SharePoint's loading performance budget.</div>
@@ -2325,7 +2325,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.18</div>
+    <div class="q-num">11.18</div>
     <div class="q">Not version-bumping <code>package-solution.json</code> before redeploying</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> rebuilding and re-uploading the <code>.sppkg</code> without bumping the <code>version</code> field — SharePoint App Catalog may serve the cached old version to sites that already added the app, causing production bugs from stale code.</div>
@@ -2334,7 +2334,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.19</div>
+    <div class="q-num">11.19</div>
     <div class="q">Registering Application Customizer in the wrong scope during testing</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> adding the custom action at <code>Site</code> scope thinking it will appear on all subsites — in SPFx, Application Customizers registered at Site (site collection root) scope only apply to the root web, not subsites. Tenant scope applies everywhere.</div>
@@ -2343,7 +2343,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">M 11.20</div>
+    <div class="q-num">11.20</div>
     <div class="q">Running <code>gulp serve</code> against the wrong <code>serve.json</code> environment</div>
     <div class="a">
       <div class="callout dont"><strong>Anti-pattern:</strong> editing <code>config/serve.json</code> to point at the dev tenant and committing that change — teammates pull the repo and their serve session starts pointing to your tenant. Causes confusing 403 errors and data mutations in the wrong environment.</div>
@@ -2362,7 +2362,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">FU 14.1</div>
+    <div class="q-num">12.1</div>
     <div class="q">What is Fluent UI and why is it the preferred choice for SPFx web parts over Bootstrap or custom CSS?</div>
     <div class="a">
       <p>Fluent UI (formerly Office UI Fabric) is Microsoft's open-source design system built for the Microsoft 365 ecosystem. In SPFx it is the right choice because:</p>
@@ -2377,7 +2377,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">FU 14.2</div>
+    <div class="q-num">12.2</div>
     <div class="q">Fluent UI v8 vs v9 — what's the difference and why can't we use v9 in SPFx yet?</div>
     <div class="a">
       <ul>
@@ -2390,7 +2390,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">FU 14.3</div>
+    <div class="q-num">12.3</div>
     <div class="q">How do you apply a custom theme in SPFx using Fluent UI's <code>ThemeProvider</code> and <code>createTheme</code>?</div>
     <div class="a">
       <pre><span class="kw">import</span> { ThemeProvider, createTheme } <span class="kw">from</span> <span class="str">"@fluentui/react"</span>;
@@ -2415,7 +2415,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">FU 14.4</div>
+    <div class="q-num">12.4</div>
     <div class="q">When do you use <code>Panel</code> vs <code>Dialog</code> vs <code>Modal</code> in Fluent UI?</div>
     <div class="a">
       <ul>
@@ -2439,7 +2439,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">FU 14.5</div>
+    <div class="q-num">12.5</div>
     <div class="q">How do you implement a <code>DetailsList</code> with custom column rendering in SPFx?</div>
     <div class="a">
       <pre><span class="kw">import</span> { DetailsList, IColumn } <span class="kw">from</span> <span class="str">"@fluentui/react"</span>;
@@ -2472,7 +2472,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">FU 14.6</div>
+    <div class="q-num">12.6</div>
     <div class="q">How does <code>Stack</code> and <code>StackItem</code> work for layout and when do you prefer it over CSS Flexbox?</div>
     <div class="a">
       <p><code>Stack</code> is Fluent UI's layout primitive — a div with pre-wired flexbox semantics and spacing tokens. Use it for predictable, accessible spacing inside web part forms and card layouts.</p>
@@ -2490,7 +2490,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">FU 14.7</div>
+    <div class="q-num">12.7</div>
     <div class="q">What is <code>mergeStyles</code> from <code>@fluentui/merge-styles</code> and when would you use it instead of CSS Modules?</div>
     <div class="a">
       <p><code>mergeStyles</code> is Fluent UI's CSS-in-JS engine — it generates scoped class names at runtime from a style object, similar to emotion or styled-components. It is the approach Fluent UI itself uses internally.</p>
@@ -2508,7 +2508,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">FU 14.8</div>
+    <div class="q-num">12.8</div>
     <div class="q">Explain CSS Modules in SPFx — how does the <code>.module.scss</code> filename enforce scoping?</div>
     <div class="a">
       <p>When a SASS file is named <code>*.module.scss</code>, the SPFx webpack config processes it through the CSS Modules loader. At build time, each CSS class is transformed to a unique name like <code>myWebPart_title_a3f92d</code>. This hash is injected into the generated TypeScript typings file, so you access styles via an imported object.</p>
@@ -2533,7 +2533,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">FU 14.9</div>
+    <div class="q-num">12.9</div>
     <div class="q">How do you consume SharePoint's site theme colours in SASS within SPFx?</div>
     <div class="a">
       <p>SharePoint injects CSS custom properties (CSS variables) for the current site theme into the page at runtime. The Fluent UI / SPFx toolchain also exposes them via <code>[theme:…]</code> token syntax in SASS files, which gets replaced at build time.</p>
@@ -2553,7 +2553,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   </div>
 
   <div class="qa">
-    <div class="q-num">FU 14.10</div>
+    <div class="q-num">12.10</div>
     <div class="q">How do you build a responsive layout in an SPFx web part using SASS?</div>
     <div class="a">
       <pre><span class="cmt">/* MyWebPart.module.scss */</span>
@@ -2587,7 +2587,7 @@ $ms-screen-max-lg: 1023px;
   </div>
 
   <div class="qa">
-    <div class="q-num">FU 14.11</div>
+    <div class="q-num">12.11</div>
     <div class="q">Describe the key Fluent UI components used in a typical SPFx List Form Customizer.</div>
     <div class="a">
       <ul>
@@ -2605,7 +2605,7 @@ $ms-screen-max-lg: 1023px;
   </div>
 
   <div class="qa">
-    <div class="q-num">FU 14.12</div>
+    <div class="q-num">12.12</div>
     <div class="q">How does Fluent UI handle accessibility and what do you still need to add manually?</div>
     <div class="a">
       <p><strong>Built in:</strong> All interactive Fluent UI v8 components include correct ARIA roles, keyboard event handlers (Enter, Space, Escape, Tab, Arrow keys), focus indicators, and screen reader announcements for dynamic content (via <code>aria-live</code> regions for Spinners and MessageBars).</p>
@@ -2620,7 +2620,7 @@ $ms-screen-max-lg: 1023px;
   </div>
 
   <div class="qa">
-    <div class="q-num">FU 14.13</div>
+    <div class="q-num">12.13</div>
     <div class="q">How do you use SASS variables and mixins for reusable styles across multiple SPFx components?</div>
     <div class="a">
       <pre><span class="cmt">/* _variables.scss — shared across components via @import */</span>
@@ -2672,7 +2672,7 @@ $radius-sm:     4px;
   <h3 style="margin:32px 0 16px;font-size:18px;font-family:'Fraunces',Georgia,serif;">Part A — PnP Controls</h3>
 
   <div class="qa">
-    <div class="q-num">PC 15.1</div>
+    <div class="q-num">13.1</div>
     <div class="q">What are the two PnP controls packages and what does each one provide?</div>
     <div class="a">
       <ul>
@@ -2686,7 +2686,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">PC 15.2</div>
+    <div class="q-num">13.2</div>
     <div class="q">How do you implement the <code>PeoplePicker</code> control and handle its onChange callback?</div>
     <div class="a">
       <pre><span class="kw">import</span> { PeoplePicker, PrincipalType } <span class="kw">from</span> <span class="str">"@pnp/spfx-controls-react/lib/PeoplePicker"</span>;
@@ -2713,7 +2713,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">PC 15.3</div>
+    <div class="q-num">13.3</div>
     <div class="q">How do you configure the <code>TaxonomyPicker</code> for a managed metadata field?</div>
     <div class="a">
       <pre><span class="kw">import</span> { TaxonomyPicker, IPickerTerms } <span class="kw">from</span>
@@ -2743,7 +2743,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">PC 15.4</div>
+    <div class="q-num">13.4</div>
     <div class="q">What does the <code>WebPartTitle</code> control do and why should you use it?</div>
     <div class="a">
       <p><code>WebPartTitle</code> renders the web part's title in the same style as SharePoint's native web parts — with an inline "edit" mode that lets the user click to rename the title directly on the page, consistent with the native SharePoint experience.</p>
@@ -2759,7 +2759,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">PC 15.5</div>
+    <div class="q-num">13.5</div>
     <div class="q">When do you use the PnP <code>RichText</code> control vs a Fluent UI <code>TextField multiline</code>?</div>
     <div class="a">
       <ul>
@@ -2777,7 +2777,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">PC 15.6</div>
+    <div class="q-num">13.6</div>
     <div class="q">Name four useful <code>@pnp/spfx-property-controls</code> controls and their use cases.</div>
     <div class="a">
       <ul>
@@ -2790,7 +2790,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">PC 15.7</div>
+    <div class="q-num">13.7</div>
     <div class="q">How do you lazy-load a PnP control to keep the initial bundle size small?</div>
     <div class="a">
       <pre><span class="cmt">// Instead of static import at top of file:</span>
@@ -2813,7 +2813,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   <h3 style="margin:32px 0 16px;font-size:18px;font-family:'Fraunces',Georgia,serif;">Part B — Classic SharePoint Foundations</h3>
 
   <div class="qa">
-    <div class="q-num">CS 15.8</div>
+    <div class="q-num">13.8</div>
     <div class="q">What are master pages and page layouts in Classic SharePoint, and what replaces them in Modern?</div>
     <div class="a">
       <ul>
@@ -2825,7 +2825,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">CS 15.9</div>
+    <div class="q-num">13.9</div>
     <div class="q">Explain farm solutions vs sandboxed solutions vs SharePoint Add-ins vs SPFx — the evolution.</div>
     <div class="a">
       <ul>
@@ -2838,7 +2838,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">CS 15.10</div>
+    <div class="q-num">13.10</div>
     <div class="q">What is the SharePoint Feature Framework and what kinds of features exist?</div>
     <div class="a">
       <p>A Feature is a packaged unit of SharePoint functionality that can be activated or deactivated at a specific scope. Scopes from widest to narrowest: <strong>Farm → Web Application → Site (site collection) → Web (subsite)</strong>.</p>
@@ -2848,7 +2848,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">CS 15.11</div>
+    <div class="q-num">13.11</div>
     <div class="q">What are Content Types and Site Columns in SharePoint, and how do they survive migration to SharePoint Online?</div>
     <div class="a">
       <p><strong>Site Columns:</strong> Reusable column definitions defined at site collection level (or higher via Content Type Hub). Any list in the site can add a site column rather than recreating the same column definition with the same business rules.</p>
@@ -2858,7 +2858,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">CS 15.12</div>
+    <div class="q-num">13.12</div>
     <div class="q">What were Custom Actions in Classic SharePoint and what is their SPFx equivalent?</div>
     <div class="a">
       <ul>
@@ -2871,7 +2871,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">CS 15.13</div>
+    <div class="q-num">13.13</div>
     <div class="q">What is the difference between CSOM, JSOM, and the REST API? What should you know about each for migration?</div>
     <div class="a">
       <ul>
@@ -2896,7 +2896,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   <h3 style="margin:32px 0 16px;font-size:18px;font-family:'Fraunces',Georgia,serif;">Part A — Accessibility</h3>
 
   <div class="qa">
-    <div class="q-num">A11Y 16.1</div>
+    <div class="q-num">14.1</div>
     <div class="q">What are the WCAG 2.2 conformance levels and which level do Microsoft's own products target?</div>
     <div class="a">
       <ul>
@@ -2909,7 +2909,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">A11Y 16.2</div>
+    <div class="q-num">14.2</div>
     <div class="q">What ARIA roles and attributes do you apply in an SPFx list web part?</div>
     <div class="a">
       <pre><span class="cmt">// A list of items with keyboard navigation</span>
@@ -2936,7 +2936,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">A11Y 16.3</div>
+    <div class="q-num">14.3</div>
     <div class="q">How do you manage focus correctly when a custom Panel or Dialog opens and closes in SPFx?</div>
     <div class="a">
       <p>Fluent UI's <code>Panel</code> and <code>Dialog</code> handle this automatically when used correctly:</p>
@@ -2967,7 +2967,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">A11Y 16.4</div>
+    <div class="q-num">14.4</div>
     <div class="q">What colour contrast ratio is required by WCAG AA and how do you check it in SPFx development?</div>
     <div class="a">
       <ul>
@@ -2987,7 +2987,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">A11Y 16.5</div>
+    <div class="q-num">14.5</div>
     <div class="q">How do you make a keyboard-navigable custom toolbar in a ListView Command Set?</div>
     <div class="a">
       <pre><span class="cmt">// Use roving tabIndex pattern for a button group</span>
@@ -3022,7 +3022,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   <h3 style="margin:32px 0 16px;font-size:18px;font-family:'Fraunces',Georgia,serif;">Part B — Performance</h3>
 
   <div class="qa">
-    <div class="q-num">PERF 16.6</div>
+    <div class="q-num">14.6</div>
     <div class="q">When does <code>React.memo</code> actually help and when does it make things worse?</div>
     <div class="a">
       <p><code>React.memo</code> wraps a functional component to skip re-renders if props haven't changed (shallow equality). It helps when: the parent re-renders frequently but the child's output is stable; the child is expensive to render (large lists, charts).</p>
@@ -3038,7 +3038,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">PERF 16.7</div>
+    <div class="q-num">14.7</div>
     <div class="q">How do you analyze and reduce the bundle size of an SPFx web part?</div>
     <div class="a">
       <ol>
@@ -3058,7 +3058,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">PERF 16.8</div>
+    <div class="q-num">14.8</div>
     <div class="q">How do you virtualize a long list (1,000+ items) in an SPFx web part?</div>
     <div class="a">
       <p>Rendering 1,000 DOM nodes kills performance. Virtualization renders only the visible rows. Two options in SPFx:</p>
@@ -3080,7 +3080,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">PERF 16.9</div>
+    <div class="q-num">14.9</div>
     <div class="q">How do you debounce a search input that fires SharePoint REST calls?</div>
     <div class="a">
       <pre><span class="kw">import</span> { useCallback, useEffect, useState } <span class="kw">from</span> <span class="str">"react"</span>;
@@ -3109,7 +3109,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">PERF 16.10</div>
+    <div class="q-num">14.10</div>
     <div class="q">What SPFx-specific performance optimizations should you apply in <code>onInit</code>?</div>
     <div class="a">
       <ul>
@@ -3127,7 +3127,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   <h3 style="margin:32px 0 16px;font-size:18px;font-family:'Fraunces',Georgia,serif;">Part C — Security</h3>
 
   <div class="qa">
-    <div class="q-num">SEC 16.11</div>
+    <div class="q-num">14.11</div>
     <div class="q">How can XSS occur in an SPFx web part and how do you prevent it?</div>
     <div class="a">
       <p><strong>Attack vector:</strong> A SharePoint list item contains a malicious script in a text column (e.g., <code>&lt;script&gt;document.cookie...&lt;/script&gt;</code>). Your web part reads the column and renders it unsafely.</p>
@@ -3151,7 +3151,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">SEC 16.12</div>
+    <div class="q-num">14.12</div>
     <div class="q">Are SPFx web parts vulnerable to CSRF and why?</div>
     <div class="a">
       <p>SPFx web parts run in the same origin as SharePoint and use <code>SPHttpClient</code>, which automatically includes the SharePoint <strong>form digest</strong> (request digest) in all POST/PATCH/DELETE requests as the <code>X-RequestDigest</code> header. This digest is a CSRF token — it is unique per session, tied to the authenticated user, and expires. Without the correct digest, the server rejects the mutation.</p>
@@ -3161,7 +3161,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">SEC 16.13</div>
+    <div class="q-num">14.13</div>
     <div class="q">Explain the least-privilege principle for <code>webApiPermissionRequests</code> in SPFx.</div>
     <div class="a">
       <p>When your SPFx solution calls Microsoft Graph or a custom Azure AD–protected API, you declare the required OAuth scopes in <code>package-solution.json</code>. These permissions are granted at the tenant level to the SharePoint Online Client Extensibility Web Application Principal — meaning <em>all</em> SPFx solutions in the tenant share the same permission grants.</p>
@@ -3177,7 +3177,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">SEC 16.14</div>
+    <div class="q-num">14.14</div>
     <div class="q">What is Content Security Policy (CSP) in the context of SharePoint Online and SPFx?</div>
     <div class="a">
       <p>SharePoint Online sends a <code>Content-Security-Policy</code> HTTP header that restricts which origins can load scripts, styles, fonts, and other resources. This is a defence-in-depth measure — even if an attacker injects a script tag, the browser will block it if the source isn't in the CSP allowlist.</p>
@@ -3192,7 +3192,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">SEC 16.15</div>
+    <div class="q-num">14.15</div>
     <div class="q">How do you securely store and access configuration secrets (API keys, connection strings) in an SPFx solution?</div>
     <div class="a">
       <div class="callout dont"><strong>Never do:</strong> Hardcode API keys in TypeScript source code or web part properties — web part property values are stored in SharePoint page JSON and readable by anyone with page view access.</div>
@@ -3217,7 +3217,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">R 23.1</div>
+    <div class="q-num">15.1</div>
     <div class="q">How do you approach understanding and translating a business requirement into a technical solution?</div>
     <div class="a">
       <p>My process in three stages:</p>
@@ -3230,7 +3230,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">R 23.2</div>
+    <div class="q-num">15.2</div>
     <div class="q">How do you estimate development effort for SharePoint and Power Platform work?</div>
     <div class="a">
       <p>I estimate in three layers and add buffers explicitly:</p>
@@ -3244,7 +3244,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">R 23.3</div>
+    <div class="q-num">15.3</div>
     <div class="q">How do you prepare and deliver a technical demo to a client?</div>
     <div class="a">
       <ul>
@@ -3258,7 +3258,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">R 23.4</div>
+    <div class="q-num">15.4</div>
     <div class="q">How do you handle client interaction when there is a requirement conflict or a missed deadline?</div>
     <div class="a">
       <ul>
@@ -3270,7 +3270,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">R 23.5</div>
+    <div class="q-num">15.5</div>
     <div class="q">How do you mentor a junior developer on a SharePoint project?</div>
     <div class="a">
       <ul>
@@ -3284,7 +3284,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">R 23.6</div>
+    <div class="q-num">15.6</div>
     <div class="q">What does your deployment process look like for an SPFx solution going to production?</div>
     <div class="a">
       <p>My production deployment checklist:</p>
@@ -3301,7 +3301,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">R 23.7</div>
+    <div class="q-num">15.7</div>
     <div class="q">How do you provide technical workarounds when a client requirement hits a SharePoint limitation?</div>
     <div class="a">
       <p>Three-step approach:</p>
@@ -3327,7 +3327,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   <div class="q-num" style="margin-top:8px;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);">Category A &mdash; SPFx Fundamentals</div>
 
   <div class="qa">
-    <div class="q-num">Q 8.A.1</div>
+    <div class="q-num">16.1</div>
     <div class="q">What files does the SPFx Yeoman generator scaffold, and what is the purpose of each key config file?</div>
     <div class="a">
       <table>
@@ -3346,7 +3346,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.A.2</div>
+    <div class="q-num">16.2</div>
     <div class="q">What is the difference between <code class="inline">gulp serve</code> and <code class="inline">gulp bundle --ship + gulp package-solution --ship</code>?</div>
     <div class="a">
       <ul>
@@ -3362,7 +3362,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.A.3</div>
+    <div class="q-num">16.3</div>
     <div class="q">What is the SPFx context object and what can you get from it?</div>
     <div class="a">
       <p><code class="inline">this.context</code> inside a web part gives access to the entire SharePoint page context at runtime. Key properties:</p>
@@ -3381,7 +3381,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.A.4</div>
+    <div class="q-num">16.4</div>
     <div class="q">What happens when you upload a new version of an .sppkg to the App Catalog?</div>
     <div class="a">
       <p>SharePoint compares the solution version in <code class="inline">package-solution.json</code>. If the version incremented, the new .sppkg is accepted and deployed. If you upload the same version, SharePoint may reject the upload or overwrite silently depending on the "Upgrade" vs "Add" action.</p>
@@ -3391,7 +3391,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.A.5</div>
+    <div class="q-num">16.5</div>
     <div class="q">What is <code class="inline">ServiceScope</code> in SPFx and why should you use it?</div>
     <div class="a">
       <p><code class="inline">ServiceScope</code> is SPFx's built-in dependency injection container. It allows multiple web parts on the same page to share a single instance of a service (e.g., one PnP context, one Graph client, one caching layer) rather than each constructing their own.</p>
@@ -3410,7 +3410,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.A.6</div>
+    <div class="q-num">16.6</div>
     <div class="q">What is the difference between Local Workbench and Hosted Workbench? Which is still useful?</div>
     <div class="a">
       <p><strong>Local Workbench</strong> (<code class="inline">localhost:4321/temp/workbench.html</code>) — runs entirely in browser with no SharePoint connection. Only useful for pure React/UI work with mocked data. Microsoft removed it in SPFx 1.13+ because the SharePoint context was always null and the mock was misleading.</p>
@@ -3423,7 +3423,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   <div class="q-num" style="margin-top:32px;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);">Category B &mdash; React in SPFx</div>
 
   <div class="qa">
-    <div class="q-num">Q 8.B.1</div>
+    <div class="q-num">16.7</div>
     <div class="q">How do you correctly pass the SPFx context to a React component and use it inside a hook?</div>
     <div class="a">
       <pre><span class="cmt">// Web part render() method</span>
@@ -3453,7 +3453,7 @@ ReactDOM.<span class="fn">render</span>(element, <span class="kw">this</span>.do
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.B.2</div>
+    <div class="q-num">16.8</div>
     <div class="q">When does <code class="inline">useEffect</code> run, and what is the cleanup function for?</div>
     <div class="a">
       <ul>
@@ -3475,7 +3475,7 @@ ReactDOM.<span class="fn">render</span>(element, <span class="kw">this</span>.do
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.B.3</div>
+    <div class="q-num">16.9</div>
     <div class="q">What is <code class="inline">useMemo</code> vs <code class="inline">useCallback</code>, and when do you use each in SPFx?</div>
     <div class="a">
       <ul>
@@ -3495,7 +3495,7 @@ ReactDOM.<span class="fn">render</span>(element, <span class="kw">this</span>.do
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.B.4</div>
+    <div class="q-num">16.10</div>
     <div class="q">How do you handle loading and error states cleanly in a data-fetching hook for SPFx?</div>
     <div class="a">
       <pre><span class="kw">interface</span> <span class="fn">AsyncState</span>&lt;T&gt; {
@@ -3524,7 +3524,7 @@ ReactDOM.<span class="fn">render</span>(element, <span class="kw">this</span>.do
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.B.5</div>
+    <div class="q-num">16.11</div>
     <div class="q">What is <code class="inline">React.memo</code> and when should you apply it to SPFx list-row components?</div>
     <div class="a">
       <p><code class="inline">React.memo</code> is a HOC that does a shallow prop comparison before re-rendering. Wrap a component that is rendered many times (e.g., a list row) and whose props change rarely.</p>
@@ -3536,7 +3536,7 @@ ReactDOM.<span class="fn">render</span>(element, <span class="kw">this</span>.do
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.B.6</div>
+    <div class="q-num">16.12</div>
     <div class="q">How do you handle property pane values changing and re-rendering only the affected part of the React tree?</div>
     <div class="a">
       <p>SPFx calls <code class="inline">render()</code> on every property pane change. If your root component rebuilds the entire tree, this causes visible flicker and excess API calls.</p>
@@ -3561,7 +3561,7 @@ ReactDOM.<span class="fn">render</span>(
   <div class="q-num" style="margin-top:32px;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);">Category C &mdash; PnP JS &amp; SharePoint Data</div>
 
   <div class="qa">
-    <div class="q-num">Q 8.C.1</div>
+    <div class="q-num">16.13</div>
     <div class="q">What changed in PnP JS v3 (the @pnp/sp package) that breaks PnP v2 code?</div>
     <div class="a">
       <p>Three breaking changes:</p>
@@ -3581,7 +3581,7 @@ ReactDOM.<span class="fn">render</span>(
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.C.2</div>
+    <div class="q-num">16.14</div>
     <div class="q">How do you perform a batch of SharePoint REST calls with PnP JS to reduce round trips?</div>
     <div class="a">
       <pre><span class="kw">const</span> sp = <span class="fn">spfi</span>().<span class="fn">using</span>(<span class="fn">SPFx</span>(<span class="kw">this</span>.context));
@@ -3604,7 +3604,7 @@ console.<span class="fn">log</span>(webTitle, listCount);</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.C.3</div>
+    <div class="q-num">16.15</div>
     <div class="q">How do you add caching to PnP JS calls and what are the gotchas?</div>
     <div class="a">
       <pre><span class="kw">import</span> { Caching } <span class="kw">from</span> <span class="str">"@pnp/queryable"</span>;
@@ -3623,7 +3623,7 @@ console.<span class="fn">log</span>(webTitle, listCount);</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.C.4</div>
+    <div class="q-num">16.16</div>
     <div class="q">How do you handle pagination for a list with 50,000 items using PnP JS?</div>
     <div class="a">
       <pre><span class="kw">const</span> sp = <span class="fn">spfi</span>().<span class="fn">using</span>(<span class="fn">SPFx</span>(<span class="kw">this</span>.context));
@@ -3645,7 +3645,7 @@ console.<span class="fn">log</span>(webTitle, listCount);</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.C.5</div>
+    <div class="q-num">16.17</div>
     <div class="q">How do you create a list item with managed metadata (taxonomy) fields using PnP JS?</div>
     <div class="a">
       <pre><span class="kw">import</span> { spfi, SPFx } <span class="kw">from</span> <span class="str">"@pnp/sp"</span>;
@@ -3668,7 +3668,7 @@ console.<span class="fn">log</span>(webTitle, listCount);</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.C.6</div>
+    <div class="q-num">16.18</div>
     <div class="q">When should you use <code class="inline">SPHttpClient</code> instead of PnP JS for SharePoint REST calls?</div>
     <div class="a">
       <ul>
@@ -3689,7 +3689,7 @@ console.<span class="fn">log</span>(webTitle, listCount);</pre>
   <div class="q-num" style="margin-top:32px;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);">Category D &mdash; SPFx Extensions</div>
 
   <div class="qa">
-    <div class="q-num">Q 8.D.1</div>
+    <div class="q-num">16.19</div>
     <div class="q">How do you deploy an Application Customizer to the entire tenant without activating it site by site?</div>
     <div class="a">
       <ol>
@@ -3709,7 +3709,7 @@ console.<span class="fn">log</span>(webTitle, listCount);</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.D.2</div>
+    <div class="q-num">16.20</div>
     <div class="q">How do you pass configuration to a deployed Application Customizer?</div>
     <div class="a">
       <p>Via the <code class="inline">clientSideComponentProperties</code> JSON string set when registering the Custom Action. Access it inside the extension via <code class="inline">this.properties</code>:</p>
@@ -3732,7 +3732,7 @@ console.<span class="fn">log</span>(webTitle, listCount);</pre>
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.D.3</div>
+    <div class="q-num">16.21</div>
     <div class="q">Explain the Form Customizer in depth — how is it associated with a content type?</div>
     <div class="a">
       <p>Form Customizer (SPFx 1.15+) replaces the default New/Edit/Display forms for a specific content type on a list. Association is done by setting three fields on the content type:</p>
@@ -3751,7 +3751,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.D.4</div>
+    <div class="q-num">16.22</div>
     <div class="q">What are the limitations of a Field Customizer compared to JSON column formatting?</div>
     <div class="a">
       <table>
@@ -3770,7 +3770,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.D.5</div>
+    <div class="q-num">16.23</div>
     <div class="q">How do you conditionally show/hide a ListView Command Set button based on the selected items?</div>
     <div class="a">
       <pre><span class="kw">public</span> <span class="fn">onListViewUpdated</span>(event: IListViewCommandSetListViewUpdatedParameters): <span class="kw">void</span> {
@@ -3793,7 +3793,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   <div class="q-num" style="margin-top:32px;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);">Category E &mdash; AngularJS to SPFx Migration</div>
 
   <div class="qa">
-    <div class="q-num">Q 8.E.1</div>
+    <div class="q-num">16.24</div>
     <div class="q">How do you handle AngularJS apps injected via Script Editor Web Part in classic pages?</div>
     <div class="a">
       <p>Script Editor Web Part is removed from modern SharePoint. AngularJS loaded through it must be rebuilt. Migration path:</p>
@@ -3812,7 +3812,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.E.2</div>
+    <div class="q-num">16.25</div>
     <div class="q">How do you migrate AngularJS <code class="inline">$http</code> interceptors to the SPFx equivalent?</div>
     <div class="a">
       <p>AngularJS interceptors handle things like: auth token injection, request logging, error toast on 4xx, refresh token on 401.</p>
@@ -3834,7 +3834,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.E.3</div>
+    <div class="q-num">16.26</div>
     <div class="q">AngularJS used <code class="inline">ng-route</code> / <code class="inline">ui-router</code> for SPA routing inside a SharePoint page. How do you replicate this in SPFx?</div>
     <div class="a">
       <p>Three approaches, in order of preference:</p>
@@ -3854,7 +3854,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   <div class="q-num" style="margin-top:32px;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);">Category F &mdash; UI/UX Layer</div>
 
   <div class="qa">
-    <div class="q-num">Q 8.F.1</div>
+    <div class="q-num">16.27</div>
     <div class="q">How do you use Fluent UI's <code class="inline">DetailsList</code> for a SharePoint list view with sorting, filtering, and selection?</div>
     <div class="a">
       <pre><span class="kw">import</span> { DetailsList, SelectionMode, IColumn } <span class="kw">from</span> <span class="str">"@fluentui/react"</span>;
@@ -3880,7 +3880,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.F.2</div>
+    <div class="q-num">16.28</div>
     <div class="q">How do you structure SASS in an SPFx project to avoid style bleed across web parts?</div>
     <div class="a">
       <p>SPFx uses CSS Modules — SASS files ending in <code class="inline">.module.scss</code> are locally scoped. Each class name is mangled to a unique string at build time.</p>
@@ -3904,7 +3904,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.F.3</div>
+    <div class="q-num">16.29</div>
     <div class="q">Name the top 5 PnP React Controls you use most and what each solves.</div>
     <div class="a">
       <table>
@@ -3921,7 +3921,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.F.4</div>
+    <div class="q-num">16.30</div>
     <div class="q">How do you make an SPFx web part accessible (WCAG 2.1 AA)?</div>
     <div class="a">
       <ul>
@@ -3939,7 +3939,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   <div class="q-num" style="margin-top:32px;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);">Category G &mdash; SharePoint Online Concepts</div>
 
   <div class="qa">
-    <div class="q-num">Q 8.G.1</div>
+    <div class="q-num">16.31</div>
     <div class="q">What is a Hub Site and how does it affect SPFx web part development?</div>
     <div class="a">
       <p>A Hub Site is a SharePoint site that acts as a parent for associated sites. It provides shared navigation, theme, and content rollup across associated sites.</p>
@@ -3959,7 +3959,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.G.2</div>
+    <div class="q-num">16.32</div>
     <div class="q">Explain SharePoint's permission inheritance model and how it relates to SPFx.</div>
     <div class="a">
       <p>By default permissions inherit: Tenant &rarr; Site Collection &rarr; Site &rarr; List &rarr; Item. When you break inheritance at any level, that object gets its own permission set.</p>
@@ -3973,7 +3973,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.G.3</div>
+    <div class="q-num">16.33</div>
     <div class="q">What is the SharePoint Search API and when would you use it in an SPFx web part over a list query?</div>
     <div class="a">
       <p>SharePoint Search uses a pre-built index. Queries are fast regardless of list size and can span multiple site collections.</p>
@@ -3994,7 +3994,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.G.4</div>
+    <div class="q-num">16.34</div>
     <div class="q">What are Content Types in SharePoint and how do you work with them in SPFx?</div>
     <div class="a">
       <p>Content types define the schema (columns + form associations) for a SharePoint item or document. They allow multiple lists/libraries across a site collection to share the same structure.</p>
@@ -4011,7 +4011,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   <div class="q-num" style="margin-top:32px;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);">Category H &mdash; Advanced &amp; Scenario-Based</div>
 
   <div class="qa">
-    <div class="q-num">Q 8.H.1</div>
+    <div class="q-num">16.35</div>
     <div class="q">A web part loads in 8 seconds on the first visit. How do you diagnose and fix it?</div>
     <div class="a">
       <ol>
@@ -4032,7 +4032,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.H.2</div>
+    <div class="q-num">16.36</div>
     <div class="q">How do you implement role-based UI visibility in an SPFx web part?</div>
     <div class="a">
       <pre><span class="kw">import</span> { SPPermission } <span class="kw">from</span> <span class="str">"@microsoft/sp-page-context"</span>;
@@ -4053,7 +4053,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.H.3</div>
+    <div class="q-num">16.37</div>
     <div class="q">How would you implement real-time notifications in an SPFx web part?</div>
     <div class="a">
       <p>Options from simplest to most capable:</p>
@@ -4079,7 +4079,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.H.4</div>
+    <div class="q-num">16.38</div>
     <div class="q">Client wants to move from Power Apps customized list form to SPFx Form Customizer. When do you agree and when do you push back?</div>
     <div class="a">
       <p><strong>Move to SPFx Form Customizer when:</strong></p>
@@ -4101,7 +4101,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.H.5</div>
+    <div class="q-num">16.39</div>
     <div class="q">How do you implement an SPFx solution that works in both SharePoint Online and Microsoft Teams?</div>
     <div class="a">
       <pre><span class="cmt">// Detect Teams vs SharePoint context</span>
@@ -4124,7 +4124,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 8.H.6</div>
+    <div class="q-num">16.40</div>
     <div class="q">What's the "What not to say" list for this SPFx interview?</div>
     <div class="a">
       <div class="callout dont">
@@ -4154,7 +4154,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.1</div>
+    <div class="q-num">17.1</div>
     <div class="q">Walk me through the SPFx web part lifecycle. Which hooks have you actually used in production, and which one have you regretted using?</div>
     <div class="a">
       <p>The core lifecycle methods are <code class="inline">onInit()</code>, <code class="inline">render()</code>, <code class="inline">onDispose()</code>, plus the property-pane hooks <code class="inline">onPropertyPaneFieldChanged()</code>, <code class="inline">getPropertyPaneConfiguration()</code>, and <code class="inline">onPropertyPaneConfigurationComplete()</code>.</p>
@@ -4169,7 +4169,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.2</div>
+    <div class="q-num">17.2</div>
     <div class="q">What is the difference between reactive vs non-reactive property panes, and when would you choose each?</div>
     <div class="a">
       <p>Reactive (default) re-renders the web part on every keystroke. Non-reactive (<code class="inline">disableReactivePropertyChanges = true</code>) only commits when the user clicks Apply.</p>
@@ -4182,7 +4182,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.3</div>
+    <div class="q-num">17.3</div>
     <div class="q">Explain SPFx solution scope: tenant-wide vs site-collection. Where does the bundle physically live, and what are the trust implications?</div>
     <div class="a">
       <p>SPFx packages are <code class="inline">.sppkg</code> files uploaded to the <strong>App Catalog</strong>. Two catalogs exist:</p>
@@ -4196,7 +4196,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.4</div>
+    <div class="q-num">17.4</div>
     <div class="q">How do you call a custom AAD-protected Web API from SPFx without exposing client secrets?</div>
     <div class="a">
       <p>Use <code class="inline">AadHttpClient</code> from <code class="inline">@microsoft/sp-http</code> with a pre-approved API permission in <code class="inline">package-solution.json</code>:</p>
@@ -4217,7 +4217,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.5</div>
+    <div class="q-num">17.5</div>
     <div class="q">What are the three extension types and when do you reach for each?</div>
     <div class="a">
       <ul>
@@ -4230,7 +4230,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.6</div>
+    <div class="q-num">17.6</div>
     <div class="q">How do you implement isolated permissions for an SPFx solution? Why might you NOT want isolation?</div>
     <div class="a">
       <p>Set <code class="inline">isDomainIsolated: true</code> in <code class="inline">package-solution.json</code>. SPFx then loads the web part inside a unique <code class="inline">contoso.sharepoint.com</code>-style iframe domain, separating its OAuth permissions from the rest of the page.</p>
@@ -4240,7 +4240,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.7</div>
+    <div class="q-num">17.7</div>
     <div class="q">How do you debug an SPFx web part that works in workbench but fails in a real modern page?</div>
     <div class="a">
       <ol>
@@ -4254,7 +4254,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.8</div>
+    <div class="q-num">17.8</div>
     <div class="q">PnP JS vs SharePoint REST &mdash; when do you reach for raw REST?</div>
     <div class="a">
       <p>I default to PnP JS because of:</p>
@@ -4274,7 +4274,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.9</div>
+    <div class="q-num">17.9</div>
     <div class="q">How would you optimize an SPFx web part bundle that has grown to 4 MB?</div>
     <div class="a">
       <ol>
@@ -4290,7 +4290,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.10</div>
+    <div class="q-num">17.10</div>
     <div class="q">How do you handle SharePoint theming so that your web part respects light/dark/custom themes?</div>
     <div class="a">
       <p>Two layers:</p>
@@ -4306,7 +4306,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.11</div>
+    <div class="q-num">17.11</div>
     <div class="q">A web part throws "Failed to load component" intermittently for 5% of users. How do you triage?</div>
     <div class="a">
       <ol>
@@ -4320,7 +4320,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.12</div>
+    <div class="q-num">17.12</div>
     <div class="q">Walk me through securely calling Microsoft Graph from SPFx with delegated permissions.</div>
     <div class="a">
       <pre><span class="cmt">// 1. Declare in package-solution.json</span>
@@ -4344,7 +4344,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.13</div>
+    <div class="q-num">17.13</div>
     <div class="q">How do you structure an SPFx project with multiple web parts that share business logic?</div>
     <div class="a">
       <p>Folder layout I use on every team:</p>
@@ -4368,7 +4368,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.14</div>
+    <div class="q-num">17.14</div>
     <div class="q">A senior dev opens a PR that uses <code class="inline">useState</code> to store 12 form fields as one object. Walk me through your code review comments.</div>
     <div class="a">
       <p>I'd push back on this for three reasons:</p>
@@ -4384,7 +4384,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 1.15</div>
+    <div class="q-num">17.15</div>
     <div class="q">How do you handle SPFx version upgrades without breaking existing solutions in production?</div>
     <div class="a">
       <p>Upgrades &mdash; say SPFx 1.15 &rarr; 1.18 &mdash; break in three ways: Node version, gulp/webpack, and React/Fluent versions. Approach:</p>
@@ -4586,7 +4586,7 @@ ReactDOM.<span class="fn">render</span>(
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 5.1</div>
+    <div class="q-num">19.1</div>
     <div class="q">How do you analyze a legacy AngularJS SharePoint codebase before migration?</div>
     <div class="a">
       <ol>
@@ -4601,7 +4601,7 @@ ReactDOM.<span class="fn">render</span>(
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 5.2</div>
+    <div class="q-num">19.2</div>
     <div class="q">Map AngularJS concepts to React equivalents.</div>
     <div class="a">
       <table>
@@ -4627,7 +4627,7 @@ ReactDOM.<span class="fn">render</span>(
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 5.3</div>
+    <div class="q-num">19.3</div>
     <div class="q">Walk through migrating a single AngularJS controller to a React functional component.</div>
     <div class="a">
       <p>Original AngularJS:</p>
@@ -4674,7 +4674,7 @@ ReactDOM.<span class="fn">render</span>(
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 5.4</div>
+    <div class="q-num">19.4</div>
     <div class="q">What's the role of Strict Contextual Escaping (SCE) in AngularJS and what's the React equivalent?</div>
     <div class="a">
       <p>AngularJS uses <code class="inline">$sce.trustAsHtml()</code> to render trusted HTML. React's default is to escape all string content. The equivalent is <code class="inline">dangerouslySetInnerHTML={{ __html: trustedHtml }}</code> &mdash; explicitly named to make developers think twice.</p>
@@ -4687,7 +4687,7 @@ ReactDOM.<span class="fn">render</span>(
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 5.5</div>
+    <div class="q-num">19.5</div>
     <div class="q">Common AngularJS-to-React migration pitfalls &mdash; top 5.</div>
     <div class="a">
       <ol>
@@ -4701,7 +4701,7 @@ ReactDOM.<span class="fn">render</span>(
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 5.6</div>
+    <div class="q-num">19.6</div>
     <div class="q">How do you handle the situation where the legacy AngularJS app uses $resource for a custom WCF service?</div>
     <div class="a">
       <p>Three sub-questions:</p>
@@ -4714,7 +4714,7 @@ ReactDOM.<span class="fn">render</span>(
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 5.7</div>
+    <div class="q-num">19.7</div>
     <div class="q">When migrating, do you re-write everything at once or run AngularJS and React side-by-side?</div>
     <div class="a">
       <p>For anything beyond ~5 forms or one app, never big-bang. The hybrid approach:</p>
@@ -4728,7 +4728,7 @@ ReactDOM.<span class="fn">render</span>(
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 5.8</div>
+    <div class="q-num">19.8</div>
     <div class="q">How do you migrate AngularJS forms with complex validation rules to React?</div>
     <div class="a">
       <p>AngularJS forms use <code class="inline">ng-required</code>, <code class="inline">ng-pattern</code>, custom <code class="inline">$validators</code>. In React I always reach for <code class="inline">react-hook-form</code> with <code class="inline">zod</code> or <code class="inline">yup</code> for the schema:</p>
@@ -4746,7 +4746,7 @@ ReactDOM.<span class="fn">render</span>(
   </div>
 
   <div class="qa">
-    <div class="q-num">Q 5.9</div>
+    <div class="q-num">19.9</div>
     <div class="q">How do you handle global state that AngularJS used $rootScope for?</div>
     <div class="a">
       <p>Options ranked by appropriateness:</p>
@@ -5230,7 +5230,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.1</div>
+    <div class="q-num">22.1</div>
     <div class="q">Write an SPFx web part that reads all items from a list called "Announcements" and displays them as cards. Use PnP JS v3 and React functional components.</div>
     <div class="a">
       <pre><span class="cmt">// AnnouncementsWebPart.ts — onInit + render</span>
@@ -5289,7 +5289,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.2</div>
+    <div class="q-num">22.2</div>
     <div class="q">Write a custom hook <code class="inline">useSharePointList&lt;T&gt;</code> that accepts a list name and a select string, and returns <code class="inline">{data, loading, error, refetch}</code>.</div>
     <div class="a">
       <pre><span class="kw">export function</span> <span class="fn">useSharePointList</span>&lt;T&gt;(
@@ -5321,7 +5321,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.3</div>
+    <div class="q-num">22.3</div>
     <div class="q">Write a complete PnP JS CRUD example: Create, Read, Update, Delete a list item.</div>
     <div class="a">
       <pre><span class="kw">const</span> sp = <span class="fn">spfi</span>().<span class="fn">using</span>(<span class="fn">SPFx</span>(<span class="kw">this</span>.context));
@@ -5355,7 +5355,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.4</div>
+    <div class="q-num">22.4</div>
     <div class="q">Write an Application Customizer that reads a "Banners" list and shows the active banner in the Top placeholder. Include error handling and dismiss.</div>
     <div class="a">
       <pre><span class="kw">export default class</span> <span class="fn">BannerCustomizer</span>
@@ -5407,7 +5407,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.5</div>
+    <div class="q-num">22.5</div>
     <div class="q">Write a Form Customizer that loads existing item data in Edit mode and saves changes.</div>
     <div class="a">
       <pre><span class="kw">export const</span> <span class="fn">ProjectForm</span> = ({ context, displayMode, itemId, onSave, onClose }:
@@ -5456,7 +5456,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.6</div>
+    <div class="q-num">22.6</div>
     <div class="q">Write a <code class="inline">useDebounce</code> hook and show how to use it for a search-as-you-type SPFx control.</div>
     <div class="a">
       <pre><span class="cmt">// useDebounce.ts</span>
@@ -5483,7 +5483,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.7</div>
+    <div class="q-num">22.7</div>
     <div class="q">Write a ListView Command Set that exports selected items to CSV and triggers a browser download.</div>
     <div class="a">
       <pre><span class="kw">public async</span> <span class="fn">onExecute</span>(event: IListViewCommandSetExecuteEventParameters): Promise&lt;<span class="kw">void</span>&gt; {
@@ -5509,7 +5509,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.8</div>
+    <div class="q-num">22.8</div>
     <div class="q">Write a Field Customizer that shows a coloured status pill (Red/Amber/Green) using Fluent UI and SASS.</div>
     <div class="a">
       <pre><span class="cmt">// StatusPill.module.scss</span>
@@ -5534,7 +5534,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.9</div>
+    <div class="q-num">22.9</div>
     <div class="q">Write a React component that uses <code class="inline">useReducer</code> to manage a multi-step wizard form in SPFx.</div>
     <div class="a">
       <pre><span class="kw">type</span> <span class="fn">Action</span> =
@@ -5572,7 +5572,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.10</div>
+    <div class="q-num">22.10</div>
     <div class="q">Write a TypeScript utility function that retries a failed async call with exponential backoff.</div>
     <div class="a">
       <pre><span class="kw">export async function</span> <span class="fn">withRetry</span>&lt;T&gt;(
@@ -5601,7 +5601,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.11</div>
+    <div class="q-num">22.11</div>
     <div class="q">Write a React <code class="inline">ErrorBoundary</code> component suitable for SPFx with telemetry reporting.</div>
     <div class="a">
       <pre><span class="kw">interface</span> <span class="fn">State</span> { hasError: <span class="kw">boolean</span>; error?: Error }
@@ -5636,7 +5636,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.12</div>
+    <div class="q-num">22.12</div>
     <div class="q">Write a PnP JS call to upload a file to a SharePoint document library from an SPFx web part.</div>
     <div class="a">
       <pre><span class="kw">const</span> <span class="fn">handleFileUpload</span> = <span class="kw">async</span> (file: File): Promise&lt;<span class="kw">void</span>&gt; =&gt; {
@@ -5659,7 +5659,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.13</div>
+    <div class="q-num">22.13</div>
     <div class="q">Write a React component that renders a Fluent UI <code class="inline">DetailsList</code> with client-side sorting.</div>
     <div class="a">
       <pre><span class="kw">const</span> [sortKey, setSortKey] = <span class="fn">useState</span>(<span class="str">"Title"</span>);
@@ -5687,7 +5687,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.14</div>
+    <div class="q-num">22.14</div>
     <div class="q">Write the TypeScript interface structure for a well-typed SPFx web part with property pane.</div>
     <div class="a">
       <pre><span class="cmt">// IMyWebPartProps.ts — property pane schema</span>
@@ -5723,7 +5723,7 @@ define([], <span class="kw">function</span>() {
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.15</div>
+    <div class="q-num">22.15</div>
     <div class="q">Write a PnP JS call to get the current user's profile details including manager and department.</div>
     <div class="a">
       <pre><span class="kw">import</span> <span class="str">"@pnp/sp/profiles"</span>;
@@ -5744,7 +5744,7 @@ console.<span class="fn">log</span>(profile.DisplayName, profile.Email, profile.
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.16</div>
+    <div class="q-num">22.16</div>
     <div class="q">Write a web part property pane with a dropdown that is populated from a SharePoint list.</div>
     <div class="a">
       <pre><span class="kw">private</span> _listOptions: IPropertyPaneDropdownOption[] = [];
@@ -5774,7 +5774,7 @@ console.<span class="fn">log</span>(profile.DisplayName, profile.Email, profile.
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.17</div>
+    <div class="q-num">22.17</div>
     <div class="q">Convert this AngularJS controller to React. Show the complete migration.</div>
     <div class="a">
       <pre><span class="cmt">// ORIGINAL AngularJS</span>
@@ -5819,7 +5819,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.18</div>
+    <div class="q-num">22.18</div>
     <div class="q">Write a SharePoint REST API call using <code class="inline">SPHttpClient</code> to create a list item with a lookup field.</div>
     <div class="a">
       <pre><span class="kw">const</span> siteUrl = <span class="kw">this</span>.context.pageContext.web.absoluteUrl;
@@ -5844,7 +5844,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.19</div>
+    <div class="q-num">22.19</div>
     <div class="q">Write the <code class="inline">package-solution.json</code> entries for a web part that needs <code class="inline">User.Read.All</code> from Graph and a custom API permission.</div>
     <div class="a">
       <pre>{
@@ -5875,7 +5875,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">C 10.20</div>
+    <div class="q-num">22.20</div>
     <div class="q">Write a reusable <code class="inline">ConfirmDialog</code> React component using Fluent UI <code class="inline">Dialog</code> that can be called from any part of the app.</div>
     <div class="a">
       <pre><span class="cmt">// ConfirmDialog.tsx</span>
@@ -5925,7 +5925,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.1</div>
+    <div class="q-num">23.1</div>
     <div class="q">What does <code>strict: true</code> in <code>tsconfig.json</code> enable, and why should every SPFx project have it?</div>
     <div class="a">
       <p><code>strict: true</code> is a shorthand that enables a bundle of compiler flags simultaneously:</p>
@@ -5942,7 +5942,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.2</div>
+    <div class="q-num">23.2</div>
     <div class="q">Explain TypeScript generics with a concrete SPFx data-fetching example.</div>
     <div class="a">
       <p>Generics let you write a function or class that works over a type supplied by the caller, preserving type safety without widening to <code>any</code>.</p>
@@ -5968,7 +5968,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.3</div>
+    <div class="q-num">23.3</div>
     <div class="q">Walk through the utility types you use most in SPFx — <code>Partial</code>, <code>Pick</code>, <code>Omit</code>, <code>Readonly</code>, <code>Record</code>.</div>
     <div class="a">
       <pre><span class="kw">interface</span> IListItem {
@@ -6001,7 +6001,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.4</div>
+    <div class="q-num">23.4</div>
     <div class="q">What are type guards and how do you write a custom one?</div>
     <div class="a">
       <p>A type guard is an expression that narrows a type within a conditional block. TypeScript provides built-in guards (<code>typeof</code>, <code>instanceof</code>, <code>in</code>) and lets you write user-defined ones using the <code>is</code> predicate syntax.</p>
@@ -6028,7 +6028,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.5</div>
+    <div class="q-num">23.5</div>
     <div class="q">What is a discriminated union and how does it improve React state modeling in SPFx?</div>
     <div class="a">
       <p>A discriminated union is a union type where each member has a common literal property (the "discriminant") that uniquely identifies it. TypeScript uses the discriminant to narrow types in switch/if blocks.</p>
@@ -6055,7 +6055,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.6</div>
+    <div class="q-num">23.6</div>
     <div class="q">Explain <code>interface</code> vs <code>type</code> — when do you use each in SPFx?</div>
     <div class="a">
       <ul>
@@ -6077,7 +6077,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.7</div>
+    <div class="q-num">23.7</div>
     <div class="q">What is <code>unknown</code> and why is it safer than <code>any</code>? Give an SPFx example.</div>
     <div class="a">
       <p><code>any</code> disables type checking entirely — you can call methods on it, pass it anywhere, and TypeScript won't complain. <code>unknown</code> is the type-safe alternative: it accepts any value, but you must narrow it before doing anything useful with it.</p>
@@ -6099,7 +6099,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.8</div>
+    <div class="q-num">23.8</div>
     <div class="q">How do <code>keyof</code> and <code>typeof</code> operators work? Give a practical SPFx use case.</div>
     <div class="a">
       <pre><span class="cmt">// keyof — produces a union of an interface's property names</span>
@@ -6120,7 +6120,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.9</div>
+    <div class="q-num">23.9</div>
     <div class="q">What is a mapped type and when would you use one in SPFx?</div>
     <div class="a">
       <p>A mapped type iterates over the keys of a type and transforms each property. All utility types (<code>Partial</code>, <code>Readonly</code>, etc.) are themselves implemented as mapped types.</p>
@@ -6140,7 +6140,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.10</div>
+    <div class="q-num">23.10</div>
     <div class="q">Explain <code>ReturnType</code>, <code>Parameters</code>, and <code>Awaited</code> utility types.</div>
     <div class="a">
       <pre><span class="cmt">// ReturnType — captures what a function returns</span>
@@ -6161,7 +6161,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.11</div>
+    <div class="q-num">23.11</div>
     <div class="q">What is a conditional type? Give a simple SPFx-relevant example.</div>
     <div class="a">
       <pre><span class="cmt">// T extends U ? X : Y — resolves at compile time based on assignability</span>
@@ -6178,7 +6178,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.12</div>
+    <div class="q-num">23.12</div>
     <div class="q">How do you type React component props and event handlers in SPFx?</div>
     <div class="a">
       <pre><span class="kw">import</span> { IWebPartContext } <span class="kw">from</span> <span class="str">"@microsoft/sp-webpart-base"</span>;
@@ -6209,7 +6209,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.13</div>
+    <div class="q-num">23.13</div>
     <div class="q">What are <code>enum</code> vs <code>const</code> assertions (<code>as const</code>)? Which is preferred in modern SPFx?</div>
     <div class="a">
       <pre><span class="cmt">// Traditional enum — generates runtime JS, can have reverse mapping</span>
@@ -6228,7 +6228,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.14</div>
+    <div class="q-num">23.14</div>
     <div class="q">How do you use <code>useReducer</code> with TypeScript to manage a complex form state in a Form Customizer?</div>
     <div class="a">
       <pre><span class="kw">interface</span> IFormState {
@@ -6265,7 +6265,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   </div>
 
   <div class="qa">
-    <div class="q-num">TS 13.15</div>
+    <div class="q-num">23.15</div>
     <div class="q">What is declaration merging and when does it appear in SPFx?</div>
     <div class="a">
       <p>Declaration merging means the TypeScript compiler merges two or more declarations sharing the same name into a single definition. The most common forms in SPFx:</p>
@@ -6298,7 +6298,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
 
   <!-- ═══════════════════ SCENARIO 1 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.1</div>
+    <div class="q-num">24.1</div>
     <div class="q">
       <strong>SCENARIO — Permissions + Large Data:</strong> A client has a SharePoint list with 400,000 expense records. Every item must be visible only to the employee who created it and their manager chain. Users complain queries are slow and some get a "list view threshold" error. How do you redesign this?
     </div>
@@ -6323,7 +6323,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
 
   <!-- ═══════════════════ SCENARIO 2 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.2</div>
+    <div class="q-num">24.2</div>
     <div class="q">
       <strong>SCENARIO — SPFx Performance:</strong> Your web part works perfectly in the SPFx workbench and on a blank SharePoint page. But when it's placed on a page that already has 7 other web parts, the browser tab freezes for 4–5 seconds on load. Users are complaining. Walk through your diagnosis and fix.
     </div>
@@ -6347,7 +6347,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
 
   <!-- ═══════════════════ SCENARIO 3 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.3</div>
+    <div class="q-num">24.3</div>
     <div class="q">
       <strong>SCENARIO — Power Automate Scale:</strong> You need to build a flow that processes 50,000 SharePoint list items overnight — calling an external API for each item. The external API has a rate limit of 200 calls per minute. The flow must complete before 6 AM. How do you architect this without timeouts or rate-limit errors?
     </div>
@@ -6371,7 +6371,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
 
   <!-- ═══════════════════ SCENARIO 4 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.4</div>
+    <div class="q-num">24.4</div>
     <div class="q">
       <strong>DEEP CONCEPT — React Hooks:</strong> A junior developer wrote this component. Users report it makes API calls indefinitely even after the data loads, causing hundreds of network requests. Find the bug and explain exactly why it happens.
       <pre style="margin-top:12px"><span class="kw">function</span> <span class="fn">ProjectList</span>() {
@@ -6412,7 +6412,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
 
   <!-- ═══════════════════ SCENARIO 5 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.5</div>
+    <div class="q-num">24.5</div>
     <div class="q">
       <strong>SCENARIO — CI/CD Production Incident:</strong> A developer bypassed the Azure DevOps branch policy and pushed directly to main at 4:30 PM on a Friday. Production breaks immediately — a web part that was working all week now shows a blank white panel. You are on-call. Walk through your response, step by step.
     </div>
@@ -6440,7 +6440,7 @@ m365 spo app deploy --name solution.sppkg --appCatalogUrl $url</pre>
 
   <!-- ═══════════════════ SCENARIO 6 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.6</div>
+    <div class="q-num">24.6</div>
     <div class="q">
       <strong>SCENARIO — ShareGate Migration Gone Wrong:</strong> Halfway through a ShareGate migration from SP 2013 to SPO, you notice all migrated documents have the migration service account as the Author and Created By — not the original authors. The client is furious. The original authors need to show on the documents for legal compliance. How do you fix this, and how do you prevent it in the future?
     </div>
@@ -6477,7 +6477,7 @@ foreach ($row in $items) {
 
   <!-- ═══════════════════ SCENARIO 7 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.7</div>
+    <div class="q-num">24.7</div>
     <div class="q">
       <strong>DEEP CONCEPT — SPFx Graph Permissions:</strong> Your SPFx web part calls Microsoft Graph to read users' profiles using <code>User.Read.All</code> delegated permission. It works for you (Global Admin) but exactly 40% of users get a 403 Forbidden response. The permission is approved in SharePoint Admin &rarr; API Access. What are the possible causes and how do you diagnose each?
     </div>
@@ -6498,7 +6498,7 @@ foreach ($row in $items) {
 
   <!-- ═══════════════════ SCENARIO 8 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.8</div>
+    <div class="q-num">24.8</div>
     <div class="q">
       <strong>SCENARIO — Large Data CRUD with PnP JS:</strong> You need to bulk-update a "Status" column on 80,000 list items from "Pending" to "Archived" as part of a year-end process. If you run this as a single PnP JS call from the browser it will throttle and time out. Design the correct approach.
     </div>
@@ -6544,7 +6544,7 @@ query.ViewXml = <span class="str">"&lt;View&gt;&lt;Query&gt;&lt;Where&gt;&lt;Eq&
 
   <!-- ═══════════════════ SCENARIO 9 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.9</div>
+    <div class="q-num">24.9</div>
     <div class="q">
       <strong>SCENARIO — Complex Power Automate Approval:</strong> Build a multi-stage contract approval: Legal first, then parallel Finance &amp; Procurement if value &gt; £50K, then CEO if value &gt; £250K. Any rejection sends back to the submitter with the reason. A 48-hour reminder fires if any approver hasn't responded. The flow must be solution-aware and portable across Dev/UAT/Prod. What are the key design decisions?
     </div>
@@ -6591,7 +6591,7 @@ query.ViewXml = <span class="str">"&lt;View&gt;&lt;Query&gt;&lt;Where&gt;&lt;Eq&
 
   <!-- ═══════════════════ SCENARIO 10 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.10</div>
+    <div class="q-num">24.10</div>
     <div class="q">
       <strong>DEEP CONCEPT — AngularJS $watch vs React useEffect:</strong> You're migrating an AngularJS controller that uses <code>$scope.$watch('project', handler, true)</code> — the third argument <code>true</code> enables deep equality comparison on a complex nested object. How do you replicate this in React without causing an infinite render loop?
     </div>
@@ -6624,7 +6624,7 @@ query.ViewXml = <span class="str">"&lt;View&gt;&lt;Query&gt;&lt;Where&gt;&lt;Eq&
 
   <!-- ═══════════════════ SCENARIO 11 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.11</div>
+    <div class="q-num">24.11</div>
     <div class="q">
       <strong>SCENARIO — Deployment Rollback Under Pressure:</strong> You deployed an SPFx update at 9 AM. By 10 AM, 30 users have reported a critical bug — a button that submits a form does nothing. The fix will take at least 3 hours to develop and test. What do you do in the next 15 minutes?
     </div>
@@ -6652,7 +6652,7 @@ m365 spo app deploy \
 
   <!-- ═══════════════════ SCENARIO 12 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.12</div>
+    <div class="q-num">24.12</div>
     <div class="q">
       <strong>SCENARIO — PowerShell Script Fails Mid-Migration:</strong> You are running a PnP PowerShell script migrating 120,000 files overnight using the SharePoint Migration API. At 3 AM, after processing 70,000 files, the script throws a 429 Too Many Requests error and hangs. You wake up to this at 7 AM. Walk through your recovery.
     </div>
@@ -6693,7 +6693,7 @@ $remaining = $allFiles | Where-Object { $processed -notcontains $_["FileLeafRef"
 
   <!-- ═══════════════════ SCENARIO 13 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.13</div>
+    <div class="q-num">24.13</div>
     <div class="q">
       <strong>DEEP CONCEPT — Theming:</strong> Your SPFx web part looks correct in the default SharePoint theme. But when a site admin switches to a dark theme, your web part still shows a white background with white text — effectively invisible. What went wrong and how do you fix it permanently?
     </div>
@@ -6733,7 +6733,7 @@ themeProvider.<span class="fn">themeChangedEvent</span>.<span class="fn">add</sp
 
   <!-- ═══════════════════ SCENARIO 14 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.14</div>
+    <div class="q-num">24.14</div>
     <div class="q">
       <strong>SCENARIO — Estimation Challenge:</strong> A client shows you a SharePoint Designer approval workflow with 22 stages, 4 parallel branches, escalation paths, and integration with an SAP system via REST. They ask you to re-build it in Power Automate in 2 weeks. How do you respond?
     </div>
@@ -6766,7 +6766,7 @@ themeProvider.<span class="fn">themeChangedEvent</span>.<span class="fn">add</sp
 
   <!-- ═══════════════════ SCENARIO 15 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.15</div>
+    <div class="q-num">24.15</div>
     <div class="q">
       <strong>DEEP CONCEPT — Node.js &amp; SPFx Build:</strong> A new developer joins the team and runs <code>gulp serve</code> after cloning the repo. They get this error: <em>"Error: ENOENT: no such file or directory, stat 'node_modules/@microsoft/sp-build-core-tasks'"</em>. They then run <code>npm install</code> and get 47 vulnerabilities. They run <code>npm audit fix --force</code>. Now <code>gulp serve</code> fails with a completely different error about Webpack version mismatch. What happened and how do you help them fix it?
     </div>
@@ -6799,7 +6799,7 @@ gulp build</pre>
 
   <!-- ═══════════════════ SCENARIO 16 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.16</div>
+    <div class="q-num">24.16</div>
     <div class="q">
       <strong>SCENARIO — Responsive Web Part in Teams:</strong> Your SPFx web part renders correctly on a full SharePoint page. But when the same web part is added to a Microsoft Teams tab, the layout is completely broken — columns are overflowing, text is clipped, and a dropdown menu renders off-screen. Walk through your fix strategy.
     </div>
@@ -6842,7 +6842,7 @@ gulp build</pre>
 
   <!-- ═══════════════════ SCENARIO 17 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.17</div>
+    <div class="q-num">24.17</div>
     <div class="q">
       <strong>SCENARIO — Client Conflict: OOTB vs Custom:</strong> A client insists they need a custom SPFx web part to display a list of company news articles with filtering by department. You know the OOTB Highlighted Content web part + SharePoint News feature can do this with zero code. How do you handle this conversation?
     </div>
@@ -6867,7 +6867,7 @@ gulp build</pre>
 
   <!-- ═══════════════════ SCENARIO 18 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.18</div>
+    <div class="q-num">24.18</div>
     <div class="q">
       <strong>DEEP CONCEPT — SPFx Extension vs Web Part:</strong> When would you use a ListView Command Set Extension instead of a web part to add a "Generate Report" button to a document library? What can each do that the other cannot?
     </div>
@@ -6897,7 +6897,7 @@ gulp build</pre>
 
   <!-- ═══════════════════ SCENARIO 19 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.19</div>
+    <div class="q-num">24.19</div>
     <div class="q">
       <strong>SCENARIO — Mentoring a Junior:</strong> A junior developer on your team has submitted a PR. The code works and passes all tests. But you spot three issues: (1) they're making 5 separate API calls that could be batched into 1, (2) they used <code>any</code> type in 4 places in TypeScript, and (3) they wrote a 200-line component that should be 3 components. How do you handle the code review without demoralising them?
     </div>
@@ -6915,7 +6915,7 @@ gulp build</pre>
 
   <!-- ═══════════════════ SCENARIO 20 ═══════════════════ -->
   <div class="qa">
-    <div class="q-num">SC 24.20</div>
+    <div class="q-num">24.20</div>
     <div class="q">
       <strong>SCENARIO — Migration + Permissions Nightmare:</strong> Post-migration to SPO, users are reporting they can access documents they shouldn't — documents from other departments are visible in search results even though on-prem they were restricted. ShareGate reported permissions migrated successfully. What is happening?
     </div>
