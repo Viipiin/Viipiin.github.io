@@ -1,0 +1,2411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Power Platform COE & Governance — Study Guide</title>
+  <meta name="description" content="A comprehensive study guide for Power Platform COE, Governance, DLP, ALM, Managed Environments, and Architecture — built for governance/COE role interviews.">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card: #161b22;
+      --card2: #1c2128;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --accent2: #7c6af7;
+      --accent3: #3fb950;
+      --accent4: #f5a623;
+      --accent5: #ff7b72;
+      --accent6: #d2a8ff;
+      --text: #e6edf3;
+      --muted: #8b949e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.7; scroll-behavior: smooth; }
+    header { background: linear-gradient(135deg, #0d1117 0%, #1a1040 40%, #0d1b2e 100%); border-bottom: 2px solid var(--accent); padding: 60px 40px 52px; text-align: center; position: relative; overflow: hidden; }
+    header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 50%, rgba(88,166,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 80% 50%, rgba(124,106,247,0.1) 0%, transparent 55%); pointer-events: none; }
+    header h1 { font-size: 2.6rem; font-weight: 800; background: linear-gradient(135deg, #58a6ff, #7c6af7, #3fb950); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.5px; margin-bottom: 14px; position: relative; }
+    header p.subtitle { font-size: 1rem; color: var(--muted); max-width: 720px; margin: 0 auto 18px; position: relative; }
+    .header-meta { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; position: relative; margin-bottom: 18px; }
+    .badge { border-radius: 20px; padding: 5px 14px; font-size: 0.78rem; font-weight: 700; }
+    .badge-blue { background: rgba(88,166,255,0.15); border: 1px solid var(--accent); color: var(--accent); }
+    .badge-purple { background: rgba(124,106,247,0.15); border: 1px solid var(--accent2); color: var(--accent6); }
+    .badge-green { background: rgba(63,185,80,0.15); border: 1px solid var(--accent3); color: var(--accent3); }
+    .badge-orange { background: rgba(245,166,35,0.15); border: 1px solid var(--accent4); color: var(--accent4); }
+    nav.toc { background: rgba(22,27,34,0.96); border-bottom: 1px solid var(--border); padding: 14px 40px; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+    nav.toc ul { display: flex; gap: 6px; list-style: none; flex-wrap: wrap; justify-content: center; }
+    nav.toc a { color: var(--muted); text-decoration: none; padding: 5px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; transition: all 0.2s; border: 1px solid transparent; }
+    nav.toc a:hover { color: var(--text); background: var(--card2); border-color: var(--border); }
+    main { max-width: 1060px; margin: 0 auto; padding: 40px 24px 80px; }
+    .progress-strip { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; margin-bottom: 40px; }
+    .ps-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+    .ps-item:hover { border-color: var(--accent); color: var(--accent); }
+    .ps-num { font-size: 1.1rem; font-weight: 800; display: block; margin-bottom: 3px; }
+    .c1 .ps-num { color: var(--accent); } .c2 .ps-num { color: var(--accent2); } .c3 .ps-num { color: var(--accent3); } .c4 .ps-num { color: var(--accent4); } .c5 .ps-num { color: var(--accent5); } .c6 .ps-num { color: #f0883e; } .c7 .ps-num { color: var(--accent6); } .c8 .ps-num { color: #39d353; }
+    section.chapter { margin-bottom: 72px; }
+    .chapter-header { display: flex; align-items: center; gap: 16px; border-bottom: 2px solid var(--border); padding-bottom: 16px; margin-bottom: 28px; }
+    .ch-num { font-size: 2.4rem; font-weight: 900; line-height: 1; min-width: 52px; text-align: center; }
+    .ch-title { font-size: 1.5rem; font-weight: 800; }
+    .ch-sub { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+    .tag { display: inline-block; border-radius: 4px; padding: 2px 8px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .tag-coe { background: rgba(31,111,235,0.2); color: #58a6ff; }
+    .tag-gov { background: rgba(137,87,229,0.2); color: #d2a8ff; }
+    .tag-dlp { background: rgba(227,179,65,0.2); color: #f5a623; }
+    .tag-alm { background: rgba(63,185,80,0.2); color: #3fb950; }
+    .tag-arch { background: rgba(244,112,103,0.2); color: #ff7b72; }
+    .tag-qa { background: rgba(57,211,83,0.15); color: #39d353; }
+    .tag-me { background: rgba(210,168,255,0.15); color: #d2a8ff; }
+    .tag-env { background: rgba(240,136,62,0.2); color: #f0883e; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 22px 24px; margin-bottom: 18px; }
+    .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+    .card ul { color: var(--muted); font-size: 0.88rem; padding-left: 18px; }
+    .card ul li { margin-bottom: 5px; }
+    .card ul li strong { color: var(--text); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .hbox { border-radius: 8px; padding: 16px 20px; margin-bottom: 18px; }
+    .hbox-blue { background: rgba(88,166,255,0.06); border: 1px solid rgba(88,166,255,0.3); border-left: 4px solid var(--accent); }
+    .hbox-green { background: rgba(63,185,80,0.06); border: 1px solid rgba(63,185,80,0.3); border-left: 4px solid var(--accent3); }
+    .hbox-orange { background: rgba(245,166,35,0.06); border: 1px solid rgba(245,166,35,0.3); border-left: 4px solid var(--accent4); }
+    .hbox-purple { background: rgba(124,106,247,0.06); border: 1px solid rgba(124,106,247,0.3); border-left: 4px solid var(--accent2); }
+    .hbox-red { background: rgba(255,123,114,0.06); border: 1px solid rgba(255,123,114,0.3); border-left: 4px solid var(--accent5); }
+    .hbox h4 { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .hbox p, .hbox ul { color: var(--muted); font-size: 0.88rem; line-height: 1.65; }
+    .hbox ul { padding-left: 18px; } .hbox ul li { margin-bottom: 4px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 0.85rem; }
+    th { background: var(--card2); color: var(--text); font-weight: 700; padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--border); }
+    td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: top; }
+    tr:hover td { background: var(--card2); color: var(--text); }
+    td strong { color: var(--text); }
+    .tbl-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 18px; }
+    .qa-block { margin-bottom: 14px; }
+    .qa-q { background: var(--card2); border: 1px solid var(--border); border-left: 4px solid var(--accent3); border-radius: 8px; padding: 12px 16px; font-weight: 700; font-size: 0.88rem; cursor: pointer; user-select: none; display: flex; justify-content: space-between; align-items: center; }
+    .qa-q:hover { border-left-color: var(--accent); }
+    .qa-q .arrow { font-size: 0.8rem; color: var(--muted); }
+    .qa-a { background: var(--card); border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; padding: 14px 16px; display: none; font-size: 0.86rem; color: var(--muted); line-height: 1.7; }
+    .qa-a.open { display: block; }
+    .qa-a ul { padding-left: 18px; margin-top: 6px; } .qa-a li { margin-bottom: 4px; }
+    .qa-a ol { padding-left: 18px; margin-top: 6px; } .qa-a ol li { margin-bottom: 4px; }
+    .arch { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 22px; font-family: 'Courier New', monospace; font-size: 0.78rem; color: var(--accent3); line-height: 1.6; overflow-x: auto; margin-bottom: 18px; white-space: pre; }
+    .cheat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+    .cheat-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--accent6); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .cheat-row { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 7px; font-size: 0.82rem; }
+    .cheat-key { color: var(--accent4); font-weight: 700; min-width: 160px; flex-shrink: 0; }
+    .cheat-val { color: var(--muted); }
+    .pill { display: inline-block; border-radius: 12px; padding: 2px 10px; font-size: 0.75rem; font-weight: 700; }
+    .pill-std { background: rgba(63,185,80,0.2); color: #3fb950; }
+    .pill-prem { background: rgba(245,166,35,0.2); color: #f5a623; }
+    .pill-block { background: rgba(255,123,114,0.2); color: #ff7b72; }
+    .study-tip { background: rgba(57,211,83,0.06); border: 1px solid rgba(57,211,83,0.25); border-left: 4px solid #39d353; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.84rem; color: var(--muted); }
+    .study-tip strong { color: #39d353; }
+    .week-plan { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 18px; }
+    .week-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+    .week-card h4 { font-size: 0.82rem; font-weight: 800; color: var(--accent); margin-bottom: 10px; }
+    .week-card ul { font-size: 0.78rem; color: var(--muted); padding-left: 16px; }
+    .week-card li { margin-bottom: 5px; }
+    h2 { font-size: 1.2rem; font-weight: 800; margin: 28px 0 14px; color: var(--text); }
+    footer { text-align: center; padding: 40px 24px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    footer a { color: var(--accent); text-decoration: none; }
+    /* Microsoft Learn image figures */
+    .ms-figure { margin: 20px 0; background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .ms-figure img { width: 100%; display: block; background: #fff; max-height: 460px; object-fit: contain; padding: 8px; }
+    .ms-figure figcaption { padding: 8px 16px 10px; font-size: 0.75rem; color: var(--muted); text-align: center; border-top: 1px solid var(--border); }
+    .ms-figure figcaption a { color: var(--accent); text-decoration: none; }
+    .ms-figure figcaption a:hover { text-decoration: underline; }
+    .ms-figure figcaption strong { color: var(--text); }
+    .img-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
+    @media (max-width: 760px) { .img-row { grid-template-columns: 1fr; } }
+    @media (max-width: 760px) {
+      header h1 { font-size: 1.8rem; }
+      .two-col, .three-col { grid-template-columns: 1fr; }
+      .week-plan { grid-template-columns: 1fr 1fr; }
+      .progress-strip { grid-template-columns: repeat(4, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Power Platform COE &amp; Governance</h1>
+  <p class="subtitle">Structured study guide for the Governance / COE Lead role — COE Starter Kit, DLP, ALM, Managed Environments, Architecture, Compliance &amp; Reporting</p>
+  <div class="header-meta">
+    <span class="badge badge-blue">Intermediate → Advanced</span>
+    <span class="badge badge-purple">4-Week Plan</span>
+    <span class="badge badge-green">8 Chapters</span>
+    <span class="badge badge-orange">Interview Q&amp;A Included</span>
+  </div>
+  <p style="font-size:0.8rem;color:var(--muted);position:relative;">Viipiin Tyagi · viipiin.github.io · June 2026</p>
+</header>
+
+<nav class="toc">
+  <ul>
+    <li><a href="#ch1">1. COE</a></li>
+    <li><a href="#ch2">2. Kit</a></li>
+    <li><a href="#ch3">3. Environments</a></li>
+    <li><a href="#ch4">4. Managed Envts</a></li>
+    <li><a href="#ch5">5. DLP</a></li>
+    <li><a href="#ch6">6. ALM</a></li>
+    <li><a href="#ch7">7. Governance</a></li>
+    <li><a href="#ch8">8. Cheat Sheets</a></li>
+    <li><a href="#ch9">9. Env Groups</a></li>
+    <li><a href="#ch10">10. Dataverse Sec</a></li>
+    <li><a href="#ch11">11. Solutions</a></li>
+    <li><a href="#ch12">12. Licensing</a></li>
+    <li><a href="#ch13">13. Adoption</a></li>
+    <li><a href="#ch14">14. Adv DLP</a></li>
+    <li><a href="#ch15">15. Well-Architected</a></li>
+    <li><a href="#ch16">16. CAT Tools</a></li>
+    <li><a href="#ch17">17. Default Env</a></li>
+    <li><a href="#ch18">18. Resources</a></li>
+    <li><a href="#study-plan">Study Plan</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<div class="progress-strip">
+  <a href="#ch1" style="text-decoration:none"><div class="ps-item c1"><span class="ps-num">01</span>COE Concept</div></a>
+  <a href="#ch2" style="text-decoration:none"><div class="ps-item c2"><span class="ps-num">02</span>Starter Kit</div></a>
+  <a href="#ch3" style="text-decoration:none"><div class="ps-item c3"><span class="ps-num">03</span>Environments</div></a>
+  <a href="#ch4" style="text-decoration:none"><div class="ps-item c4"><span class="ps-num">04</span>Managed Envts</div></a>
+  <a href="#ch5" style="text-decoration:none"><div class="ps-item c5"><span class="ps-num">05</span>DLP &amp; Security</div></a>
+  <a href="#ch6" style="text-decoration:none"><div class="ps-item c6"><span class="ps-num">06</span>ALM &amp; DevOps</div></a>
+  <a href="#ch7" style="text-decoration:none"><div class="ps-item c7"><span class="ps-num">07</span>Governance</div></a>
+  <a href="#ch8" style="text-decoration:none"><div class="ps-item c8"><span class="ps-num">08</span>Cheat Sheets</div></a>
+</div>
+
+<!-- CHAPTER 1 -->
+<section class="chapter" id="ch1">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:var(--accent)">01</div>
+    <div><div class="ch-title">What is a Center of Excellence (COE)?</div><div class="ch-sub">Organizational model · Strategic purpose · People, Process, Technology</div></div>
+    <span class="tag tag-coe">COE</span>
+  </div>
+
+  <div class="hbox hbox-blue">
+    <h4>Core Definition</h4>
+    <p>A <strong>Center of Excellence (COE)</strong> is a team within an organization that provides <strong>leadership, best practices, research, support, and training</strong> for Power Platform adoption. It balances innovation with control, scales citizen development, and connects low-code initiatives to measurable business outcomes.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>What a COE IS</h3>
+      <ul>
+        <li><strong>People:</strong> Admins, architects, champions, business liaisons</li>
+        <li><strong>Process:</strong> Governance workflows, compliance gates, maker onboarding</li>
+        <li><strong>Technology:</strong> COE Starter Kit, admin center, monitoring tools</li>
+        <li>A <em>strategic capability</em>, not just a toolset</li>
+        <li>Cultural change agent for the organisation</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>What a COE is NOT</h3>
+      <ul>
+        <li>NOT just the COE Starter Kit (tools are a means, not the end)</li>
+        <li>NOT a bottleneck or approval committee</li>
+        <li>NOT replacing PPAC — it complements it</li>
+        <li>NOT one-size-fits-all; every org customises theirs</li>
+        <li>NOT the sole owner of Power Platform resources</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Three COE Pillars</h2>
+  <div class="three-col">
+    <div class="card">
+      <h3 style="color:var(--accent)">Admin / Visibility</h3>
+      <ul>
+        <li>Full tenant inventory (apps, flows, makers)</li>
+        <li>Power BI adoption dashboards</li>
+        <li>Orphaned resource detection</li>
+        <li>Capacity monitoring &amp; alerts</li>
+        <li>DLP impact analysis</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent2)">Govern / Compliance</h3>
+      <ul>
+        <li>DLP policy design &amp; enforcement</li>
+        <li>App compliance &amp; audit workflows</li>
+        <li>Inactivity / quarantine processes</li>
+        <li>Environment request management</li>
+        <li>Teams environment governance</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent3)">Nurture / Enablement</h3>
+      <ul>
+        <li>Maker onboarding &amp; welcome emails</li>
+        <li>Training, hackathons, communities</li>
+        <li>Templates &amp; reusable components</li>
+        <li>Internal app catalog</li>
+        <li>ROI measurement &amp; showcases</li>
+      </ul>
+    </div>
+  </div>
+
+  <figure class="ms-figure">
+    <img src="https://learn.microsoft.com/en-us/power-platform/guidance/coe/media/coe1.png" alt="COE Power BI dashboard showing adoption overview across tenant environments" onerror="this.closest('figure').style.display='none'">
+    <figcaption><strong>COE Power BI Dashboard</strong> — The first thing you launch after COE setup: tenant-wide inventory, maker activity, adoption metrics. <a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/overview" target="_blank" rel="noopener">Source: Microsoft Learn — COE Overview</a></figcaption>
+  </figure>
+
+  <h2>COE Team Roles</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Role</th><th>Responsibility</th><th>Key Skill</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Platform Admin</strong></td><td>Environments, DLP, licenses, PPAC</td><td>Admin center, PowerShell CLI</td></tr>
+        <tr><td><strong>Platform Architect</strong></td><td>Environment strategy, ALM, integration</td><td>Solution design, Azure, DevOps</td></tr>
+        <tr><td><strong>Governance Lead (YOU)</strong></td><td>COE operations, compliance, reporting, policies</td><td>COE Kit, DLP, Power BI</td></tr>
+        <tr><td><strong>Community Champion</strong></td><td>Maker enablement, training, evangelism</td><td>Communication, training design</td></tr>
+        <tr><td><strong>Business Liaison</strong></td><td>Align COE priorities with business needs</td><td>Stakeholder management</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 1</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How do you explain a COE to a non-technical stakeholder? <span class="arrow">▼</span></div>
+    <div class="qa-a">"A COE is the team that makes sure Power Platform is used <em>safely, effectively, and at scale</em> across the organisation. Think of it like a control tower — we give makers the runway to build quickly while ensuring nothing dangerous takes off without a check. We provide guardrails, training, and visibility so the platform delivers real business value without creating technical debt or compliance risk."</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is the difference between a COE and the COE Starter Kit? <span class="arrow">▼</span></div>
+    <div class="qa-a">The <strong>COE</strong> is the organizational strategy — people, processes, governance model. The <strong>COE Starter Kit</strong> is a free, open-source reference implementation built in Power Platform that gives you a technical starting point. You still need to customise the kit to your org's needs. Note: Microsoft has announced the Starter Kit is no longer actively maintained; its core capabilities are migrating to Power Platform Admin Center.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What are the three pillars of the COE Starter Kit? <span class="arrow">▼</span></div>
+    <div class="qa-a"><strong>Admin (Core Components)</strong> — Syncs tenant inventory into Dataverse; Power BI dashboard; DLP impact analysis; permission management.<br><br><strong>Govern (Governance Components)</strong> — Compliance processes, app quarantine, inactivity notifications, orphaned resource cleanup, Teams governance.<br><br><strong>Nurture (Nurture Components)</strong> — Maker welcome emails, training materials, app catalog, community support, ROI tracking.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How do you measure COE success? <span class="arrow">▼</span></div>
+    <div class="qa-a">Key metrics include: <ul><li>Number of active makers and apps in production</li><li>Compliance rate (% of apps with business justification)</li><li>Mean time to environment provisioning</li><li>DLP policy violation incidents over time</li><li>Orphaned resource count trend</li><li>Estimated ROI / hours saved via automation</li><li>Maker community engagement (training attendance, champion count)</li></ul></div>
+  </div>
+</section>
+
+<!-- CHAPTER 2 -->
+<section class="chapter" id="ch2">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:var(--accent2)">02</div>
+    <div><div class="ch-title">COE Starter Kit — Deep Dive</div><div class="ch-sub">Core Components · Governance Components · Key Apps &amp; Flows · Power BI</div></div>
+    <span class="tag tag-coe">Starter Kit</span>
+  </div>
+
+  <div class="study-tip"><strong>Study tip:</strong> The COE Starter Kit is no longer actively maintained. Its core capabilities are migrating to PPAC. In interviews, acknowledge this and show you know <em>both</em> the kit and the native PPAC capabilities.</div>
+
+  <h2>Core Components (Admin Module)</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Sync Flows — What they do</h3>
+      <ul>
+        <li><strong>Sync Template v3 (Driver)</strong> — Master orchestrator, triggers child flows</li>
+        <li><strong>Sync flows (Apps, Flows, Connectors…)</strong> — Pull all tenant resources into Dataverse tables</li>
+        <li><strong>CLEANUP flows</strong> — Detect deleted resources, orphaned makers, stale connections (runs weekly/biweekly)</li>
+        <li><strong>Capacity Alerts</strong> — Daily check vs. admin-approved capacity thresholds</li>
+        <li><strong>Welcome Email v3</strong> — Triggers automatically when a new Maker record is created</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Key Admin Apps</h3>
+      <ul>
+        <li><strong>CoE Admin Command Center</strong> — Central launchpad, health monitoring, env variable management</li>
+        <li><strong>Power Platform Admin View</strong> — Model-driven app; full inventory, risk assessments, sharing details</li>
+        <li><strong>DLP Impact Analysis</strong> — Draft DLP policies, preview impact on existing apps/flows before applying</li>
+        <li><strong>Manage Permissions</strong> — Bulk ownership changes, security roles, connections across tenant</li>
+        <li><strong>CoE Maker Command Center</strong> — Maker-facing: submit environment requests, view request status</li>
+        <li><strong>App Catalog</strong> — Publish approved apps org-wide</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="img-row">
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/guidance/coe/media/commandcenter1.png" alt="COE Admin Command Center showing bookmarks, service health and flow management" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>COE Admin Command Center</strong> — Central launchpad for all COE kit apps, health status, env vars. <a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/core-components" target="_blank" rel="noopener">Source: Microsoft Learn</a></figcaption>
+    </figure>
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/guidance/coe/media/coesetupwizard.png" alt="COE Setup and Upgrade Wizard showing prerequisites checklist" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>COE Setup Wizard</strong> — Run after every install or upgrade to configure env vars, enable flows in order. <a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/core-components" target="_blank" rel="noopener">Source: Microsoft Learn</a></figcaption>
+    </figure>
+  </div>
+
+  <h2>Key Dataverse Tables in COE Inventory</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Table</th><th>What it stores</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Environment</strong></td><td>All environments — type, capacity, security roles, DLP</td></tr>
+        <tr><td><strong>PowerApps App</strong></td><td>Canvas/model-driven apps — owner, shared with, last modified, compliance status</td></tr>
+        <tr><td><strong>Flow</strong></td><td>Cloud flows — owner, connections, run frequency, orphan status</td></tr>
+        <tr><td><strong>PowerApps Connector</strong></td><td>Standard and custom connectors in use across tenant</td></tr>
+        <tr><td><strong>Maker</strong></td><td>Users who have created any resource — first seen, department</td></tr>
+        <tr><td><strong>Desktop Flow</strong></td><td>PAD flows — type (PAD/Selenium), status, orphan flag</td></tr>
+        <tr><td><strong>Microsoft Copilot Studio</strong></td><td>Bots/agents — sessions, components, orphan status</td></tr>
+        <tr><td><strong>Power Platform Solution</strong></td><td>Solutions across environments</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Governance Components</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Compliance Process</h3>
+      <ul>
+        <li>Emails makers of apps shared with 20+ users (or 1+ group) with no business justification</li>
+        <li>Apps not published in 60 days flagged for re-publish</li>
+        <li>High-impact apps require a mitigation plan attachment</li>
+        <li>Business Process Flows (BPFs) guide admins: Validate → Assess Risk → Approve</li>
+        <li><strong>Developer Compliance Center</strong> — maker app to submit justifications &amp; support details</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Inactivity &amp; Quarantine</h3>
+      <ul>
+        <li>Apps/Flows inactive 6 months → approval sent to owner to keep or delete</li>
+        <li>Ignored approvals → manager notified via Cleanup Old Objects App</li>
+        <li>App quarantine after X days of non-compliance (default: 7 days)</li>
+        <li>Quarantined app: access revoked, maker emailed, must submit compliance details</li>
+        <li>Admin reviews, completes risk assessment, manually releases quarantine</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="img-row">
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/guidance/coe/media/coe55.png" alt="Sample compliance detail request email sent to a maker whose app is missing business justification" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>Compliance Request Email</strong> — Auto-sent to makers when their app exceeds 20 users without a business justification. <a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/governance-components" target="_blank" rel="noopener">Source: Microsoft Learn</a></figcaption>
+    </figure>
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/guidance/coe/media/coe56.png" alt="Developer Compliance Center showing canvas apps list with compliance status indicators" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>Developer Compliance Center</strong> — Maker-facing app to submit business justification, impact, and dependencies to the COE. <a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/governance-components" target="_blank" rel="noopener">Source: Microsoft Learn</a></figcaption>
+    </figure>
+  </div>
+
+  <div class="hbox hbox-purple">
+    <h4>Teams Environment Governance</h4>
+    <p>When a Dataverse for Teams environment is created, an adaptive card is sent to the team owner requesting a business justification. No justification within 7 days → environment deleted. No apps/flows after 90 days → deleted. (This process is also now available natively in PPAC.)</p>
+  </div>
+
+  <h2>Orphaned Resource Management</h2>
+  <div class="card">
+    <h3>What happens when a maker leaves the org?</h3>
+    <ul>
+      <li>CLEANUP flow runs weekly and checks all makers against Azure AD / M365 Users</li>
+      <li>Resources owned by users no longer in the directory are <strong>flagged as orphaned</strong></li>
+      <li>"Request Orphaned Objects Reassigned" flow sends Teams adaptive card to the former owner's manager</li>
+      <li>Manager chooses: take ownership, assign to someone else, delete, or email the list to themselves</li>
+      <li>If no manager found, admin receives a list of unresolvable orphaned objects</li>
+    </ul>
+  </div>
+
+  <div class="img-row">
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/guidance/coe/media/quarantine4.png" alt="Email notification sent to maker when their app is quarantined for non-compliance" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>App Quarantine Email</strong> — Maker is notified when access is revoked; they must submit compliance details to restore it. <a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/governance-components" target="_blank" rel="noopener">Source: Microsoft Learn</a></figcaption>
+    </figure>
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/guidance/coe/media/orphanedobjects1.png" alt="Teams notification to manager showing list of orphaned apps and flows from a former employee" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>Orphaned Resource Notification</strong> — Manager receives a Teams card with options to reassign, delete, or take ownership of orphaned resources. <a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/governance-components" target="_blank" rel="noopener">Source: Microsoft Learn</a></figcaption>
+    </figure>
+  </div>
+
+  <h2>Power BI Dashboard (COE)</h2>
+  <div class="three-col">
+    <div class="card">
+      <h3>Inventory Reports</h3>
+      <ul>
+        <li>All apps, flows, makers by environment</li>
+        <li>Orphaned apps &amp; flows</li>
+        <li>Apps by connector type (premium/standard)</li>
+        <li>Sharing breadth per app</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Usage &amp; Adoption</h3>
+      <ul>
+        <li>Top makers, most-used apps</li>
+        <li>Adoption by department, city, region</li>
+        <li>Inactive resource tracking</li>
+        <li>Month-over-month growth</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Governance Insights</h3>
+      <ul>
+        <li>Compliance status overview</li>
+        <li>DLP policy violations</li>
+        <li>Capacity &amp; add-on usage</li>
+        <li>Environment health summary</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="img-row">
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/guidance/coe/media/pb-2.png" alt="COE Power BI dashboard showing app inventory filtered by connector type" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>COE Power BI Dashboard — App Inventory</strong> — Filter apps by connector, owner, environment, compliance status. <a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/core-components" target="_blank" rel="noopener">Source: Microsoft Learn</a></figcaption>
+    </figure>
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/guidance/coe/media/dlp_new1.png" alt="DLP Impact Analysis app showing affected apps and flows for a draft policy change" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>DLP Impact Analysis App</strong> — Preview which apps/flows break before applying a policy change. <a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/core-components" target="_blank" rel="noopener">Source: Microsoft Learn</a></figcaption>
+    </figure>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 2</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: Walk me through setting up the COE Starter Kit from scratch. <span class="arrow">▼</span></div>
+    <div class="qa-a"><ol><li>Create a dedicated <strong>COE host environment</strong> (not Default) with Dataverse</li><li>Assign a service account with <strong>Power Platform Admin</strong> role</li><li>Download the kit from aka.ms/CoEStarterKitDownload</li><li>Import <strong>Core Components</strong> solution first</li><li>Run the <strong>CoE Setup Wizard</strong> to configure env variables, email settings, communication groups</li><li>Enable and run Sync flows to populate inventory</li><li>Set up <strong>Power BI Dashboard</strong> connecting to Dataverse data</li><li>Import <strong>Governance Components</strong>; configure compliance thresholds</li><li>Import <strong>Nurture Components</strong>; configure welcome email</li></ol></div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How does the COE Starter Kit complement PPAC? <span class="arrow">▼</span></div>
+    <div class="qa-a">PPAC provides native, fully-supported capabilities: environment management, Managed Environments, tenant-level analytics, DLP policies, Pipelines. The COE Starter Kit adds custom capabilities not yet in PPAC: bulk permission changes, maker community workflows, ROI calculations, granular compliance processes with approval chains, orphaned resource management, and cross-departmental Power BI reports with org data overlaid. Best practice: start with PPAC, then layer in the Starter Kit for gaps.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is the DLP Impact Analysis app and when would you use it? <span class="arrow">▼</span></div>
+    <div class="qa-a">It lets admins draft <em>proposed</em> DLP policy changes and see which existing canvas apps and cloud flows would <strong>break</strong> before applying the change. Use it when: tightening policies (e.g. moving a connector to Blocked), adding new connectors to a policy, or during policy consolidation. You can then proactively contact impacted makers before enforcing the change, reducing business disruption.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How does app quarantine work? <span class="arrow">▼</span></div>
+    <div class="qa-a">The "Admin | Quarantine non-compliant apps" flow runs daily. If an app has had compliance details requested but not submitted for more than X days (default 7), the app's quarantine flag is set to Yes. The "Admin | Set app quarantine status" flow then <em>revokes user access</em> to the app and emails the maker explaining why. The maker submits compliance details via the Developer Compliance Center. An admin then reviews, completes a risk assessment, and manually releases the quarantine from Power Platform Admin View.</div>
+  </div>
+</section>
+
+<!-- CHAPTER 3 -->
+<section class="chapter" id="ch3">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:var(--accent3)">03</div>
+    <div><div class="ch-title">Environment Strategy &amp; Setup</div><div class="ch-sub">Environment types · Multi-env architecture · Naming conventions · Lifecycle management</div></div>
+    <span class="tag tag-env">Environments</span>
+  </div>
+
+  <h2>Environment Types</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Type</th><th>Purpose</th><th>Dataverse?</th><th>Key Note</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Default</strong></td><td>Personal productivity, shared tenant space</td><td>Yes (shared)</td><td>Every licensed user is Maker by default — high governance risk</td></tr>
+        <tr><td><strong>Developer</strong></td><td>Personal sandbox per maker</td><td>Yes</td><td>Free with Developer Plan; not for production use</td></tr>
+        <tr><td><strong>Sandbox</strong></td><td>Test/UAT; can be reset and copied</td><td>Optional</td><td>Use for testing, training, POCs</td></tr>
+        <tr><td><strong>Production</strong></td><td>Live business applications</td><td>Yes</td><td>Enable Managed Environments; full ALM required</td></tr>
+        <tr><td><strong>Teams (D4T)</strong></td><td>Teams-embedded apps/chatbots</td><td>Dataverse for Teams</td><td>Lightweight; limited capabilities vs. full Dataverse</td></tr>
+        <tr><td><strong>Trial</strong></td><td>30-day exploration</td><td>Optional</td><td>Not for production; convert or delete after trial</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Recommended Enterprise Environment Architecture</h2>
+  <div class="arch">  TENANT
+  ├── Default Environment (governed — personal productivity only, strict DLP)
+  ├── COE Host Environment (COE Starter Kit, shared tools, admin only)
+  │
+  ├── Business Unit: HR
+  │   ├── HR-DEV   (Sandbox, unmanaged solutions, maker builds)
+  │   ├── HR-UAT   (Sandbox, managed solutions, QA testing)
+  │   └── HR-PROD  (Production, Managed Environment enabled, ALM pipeline)
+  │
+  ├── Business Unit: Finance
+  │   ├── FIN-DEV / FIN-UAT / FIN-PROD  (same pattern)
+  │
+  └── Developer Environments (one per maker, isolated, Developer Plan)
+
+  Naming: [ORG]-[BU]-[STAGE]-[REGION]
+  Example: CONTOSO-HR-PROD-UAEN  |  CONTOSO-FIN-DEV-WE</div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>Default Environment Governance</h3>
+      <ul>
+        <li>Every tenant has exactly one Default environment</li>
+        <li>All licensed users are Environment Makers by default</li>
+        <li>Highest sprawl risk — must be governed proactively</li>
+        <li>Apply <strong>strict DLP</strong> limiting to standard connectors only</li>
+        <li>Use <strong>Default Environment Routing</strong> (Managed Env) to redirect makers to personal developer environments</li>
+        <li>Consider disabling canvas app creation in Default via tenant setting for mature COEs</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Environment Lifecycle Stages</h3>
+      <ul>
+        <li><strong>Request:</strong> Maker submits via COE Maker Command Center</li>
+        <li><strong>Review:</strong> Admin evaluates business case, connector needs, capacity</li>
+        <li><strong>Provision:</strong> Created with DLP applied; Managed Environments enabled on PROD</li>
+        <li><strong>Active:</strong> Monitored via COE sync, capacity alerts, compliance flows</li>
+        <li><strong>Decommission:</strong> Inactivity check → approval → deletion after 90 days no use</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Environment Capacity Planning</h2>
+  <div class="hbox hbox-orange">
+    <h4>Capacity Types to Know</h4>
+    <ul>
+      <li><strong>Dataverse Database:</strong> 10 GB tenant base + 5 GB per qualifying D365/PP license</li>
+      <li><strong>Dataverse File:</strong> 20 GB tenant base + 2 GB per qualifying license</li>
+      <li><strong>Dataverse Log:</strong> 2 GB tenant base</li>
+      <li><strong>Power Automate:</strong> Cloud flow run limits based on license type (per user per day)</li>
+      <li><strong>AI Builder Credits:</strong> Pooled at tenant level; shared across all environments</li>
+      <li>COE Capacity Alerts flow monitors actual usage vs. admin-approved thresholds per environment</li>
+    </ul>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 3</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How would you design an environment strategy for a 5,000-user enterprise? <span class="arrow">▼</span></div>
+    <div class="qa-a">I'd propose a <strong>hub-and-spoke</strong> model: <ul><li><strong>COE Hub environment</strong> — hosts Starter Kit, shared connectors, reusable components library</li><li><strong>Business Unit spokes</strong> — each BU gets DEV/UAT/PROD trio; Managed Environments on PROD</li><li><strong>Default environment</strong> — locked to personal productivity, strict DLP, Default Env Routing enabled</li><li><strong>Developer environments</strong> — one per maker via Developer Plan; completely isolated</li><li>All new environments provisioned via automated request workflow, not ad hoc</li><li>Naming convention enforced at creation; tagging by BU, region, lifecycle stage</li></ul></div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is Default Environment Routing and why is it important? <span class="arrow">▼</span></div>
+    <div class="qa-a">Default Environment Routing (a Managed Environments feature) automatically redirects makers who would normally create resources in the Default environment to their own <strong>personal developer environment</strong> instead. This prevents sprawl in Default, gives each maker an isolated safe space to experiment, and preserves Default for genuine personal productivity use. Critical for mature COEs with many makers — without it, the Default environment becomes an unmanageable junkyard.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How do you handle an environment provisioning request? <span class="arrow">▼</span></div>
+    <div class="qa-a">Using the COE environment request process: maker submits request via Maker Command Center (purpose, estimated users, connector needs, business case). Admin reviews in COE Admin Environment Request app — checks DLP compatibility, capacity, and business justification. On approval, the "Env Request | Create approved environment" flow provisions the environment and automatically applies the correct DLP policy. The request tracks an expiry date; the cleanup flow handles unused environments after expiry with warning emails before deletion.</div>
+  </div>
+</section>
+
+<!-- CHAPTER 4 -->
+<section class="chapter" id="ch4">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:var(--accent4)">04</div>
+    <div><div class="ch-title">Managed Environments</div><div class="ch-sub">Premium governance suite · Full feature set · When to enable · Licensing</div></div>
+    <span class="tag tag-me">Managed Envts</span>
+  </div>
+
+  <div class="hbox hbox-blue">
+    <h4>What are Managed Environments?</h4>
+    <p>A suite of <strong>premium</strong> admin capabilities built into PPAC allowing admins to govern Power Platform at scale — more control, less effort, better insights. Can be enabled on any environment type. Included with standalone Power Apps, Power Automate, Copilot Studio, Power Pages, and Dynamics 365 licenses.</p>
+  </div>
+
+  <h2>Full Feature Set</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Control &amp; Security Features</h3>
+      <ul>
+        <li><strong>Limit Sharing</strong> — Cap how widely apps can be shared (e.g., max 20 users or groups only)</li>
+        <li><strong>IP Firewall</strong> — Restrict environment access to trusted IP ranges</li>
+        <li><strong>IP Cookie Binding</strong> — Block cookie replay attacks</li>
+        <li><strong>Customer Managed Key (CMK)</strong> — Bring your own encryption key for Dataverse data at rest</li>
+        <li><strong>Lockbox</strong> — Microsoft engineer access requires explicit customer approval</li>
+        <li><strong>Virtual Network Support</strong> — Route traffic through organisation's Azure VNet</li>
+        <li><strong>Conditional Access per app</strong> — Individual Azure AD CA policies per canvas app</li>
+        <li><strong>Control allowed apps</strong> — Allow-list specific apps in an environment</li>
+        <li><strong>Masking Rules</strong> — Mask sensitive column data in specific contexts</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Visibility &amp; Enablement Features</h3>
+      <ul>
+        <li><strong>Weekly Usage Insights</strong> — Digest email to admins on environment activity</li>
+        <li><strong>Solution Checker Enforcement</strong> — Block solution import if checker fails at configured threshold</li>
+        <li><strong>Maker Welcome Content</strong> — Custom guidance shown when makers first sign in to Power Apps</li>
+        <li><strong>Default Environment Routing</strong> — Redirect new makers to personal developer environments</li>
+        <li><strong>Data Policies Visibility</strong> — See all DLP policies applying to the environment</li>
+        <li><strong>Export to App Insights</strong> — Telemetry to Azure Application Insights for custom alerting</li>
+        <li><strong>Pipelines in Power Platform</strong> — Native managed CI/CD for solution deployments</li>
+        <li><strong>Extended Backup</strong> — Longer backup retention beyond standard 7 days</li>
+        <li><strong>Environment Groups</strong> — Apply settings to groups of environments at once</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Managed Environments vs. COE Starter Kit</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Capability</th><th>Managed Environments (PPAC)</th><th>COE Starter Kit</th></tr></thead>
+      <tbody>
+        <tr><td>Sharing limits</td><td>✅ Native, proactive enforcement</td><td>❌ Only reactive (compliance email)</td></tr>
+        <tr><td>Maker welcome</td><td>✅ On sign-in to Power Apps</td><td>Partial — only after first resource created</td></tr>
+        <tr><td>Inactivity management</td><td>Weekly digest highlights inactive</td><td>✅ Full approval workflows + auto-delete</td></tr>
+        <tr><td>Orphaned resource mgmt</td><td>Limited</td><td>✅ Full manager notification + reassignment flow</td></tr>
+        <tr><td>DLP impact preview</td><td>Limited</td><td>✅ DLP Impact Analysis app</td></tr>
+        <tr><td>Bulk permission changes</td><td>Limited</td><td>✅ Manage Permissions app</td></tr>
+        <tr><td>IP Firewall, CMK, VNet</td><td>✅ Enterprise security</td><td>❌ Not available</td></tr>
+        <tr><td>Solution checker enforce</td><td>✅ Gate deployments</td><td>❌ Not available</td></tr>
+        <tr><td>Native ALM Pipelines</td><td>✅ Built into PPAC</td><td>❌ Not available</td></tr>
+        <tr><td>ROI calculation</td><td>❌</td><td>✅ Nurture components</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 4</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: When would you enable Managed Environments on an environment? <span class="arrow">▼</span></div>
+    <div class="qa-a">Always enable on <strong>Production</strong> environments. Consider enabling on UAT for ALM Pipeline support and Solution Checker enforcement. Key triggers: need IP Firewall for sensitive data environments, Sharing Limits for regulated industries, App Insights integration for custom monitoring, or native Pipelines for ALM. Note: Managed Environments is a premium entitlement — confirm license coverage before enabling at scale (included in standalone PP/D365 licenses, NOT in M365-seeded use).</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is Solution Checker enforcement and why is it a governance tool? <span class="arrow">▼</span></div>
+    <div class="qa-a">Solution Checker is a static analysis tool that checks Power Platform solutions for quality, reliability, and security issues (hardcoded URLs, deprecated APIs, performance anti-patterns). When enforcement is enabled on a Managed Environment, <strong>solutions fail to import if they don't pass the checker</strong> at the configured severity threshold (low/medium/high/critical). This is a proactive quality gate — it prevents poorly built or risky solutions from reaching production without a developer even needing to remember to run it manually.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is the Limit Sharing feature and why is it important for governance? <span class="arrow">▼</span></div>
+    <div class="qa-a">Limit Sharing caps the number of users/groups an app in a Managed Environment can be shared with (e.g., max 20 individual users; group sharing optional). This is <em>proactive enforcement</em> — the platform itself blocks over-sharing, not just a compliance email after the fact. Critical for regulated industries (finance, healthcare) where data access scope must be tightly controlled. Without it, a maker could accidentally share a sensitive business app with the whole organisation.</div>
+  </div>
+</section>
+
+<!-- CHAPTER 5 -->
+<section class="chapter" id="ch5">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:var(--accent5)">05</div>
+    <div><div class="ch-title">DLP Policies &amp; Security</div><div class="ch-sub">Connector tiers · Policy scope · Advanced features · Dataverse security model</div></div>
+    <span class="tag tag-dlp">DLP</span>
+  </div>
+
+  <div class="hbox hbox-red">
+    <h4>DLP in one sentence</h4>
+    <p>DLP policies control which connectors can work together in Power Apps and Power Automate — preventing data leakage between incompatible services by grouping connectors into <strong>Business</strong>, <strong>Non-Business</strong>, and <strong>Blocked</strong> tiers.</p>
+  </div>
+
+  <h2>Connector Classification Tiers</h2>
+  <div class="three-col">
+    <div class="card">
+      <h3 style="color:var(--accent3)">Business <span class="pill pill-std">Approved</span></h3>
+      <ul>
+        <li>Approved enterprise data connectors</li>
+        <li>SharePoint, Dataverse, M365, Teams, Azure</li>
+        <li>Can share data within this group</li>
+        <li>Cannot mix with Non-Business group</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent4)">Non-Business <span class="pill pill-prem">Restricted</span></h3>
+      <ul>
+        <li>Consumer / personal-use connectors</li>
+        <li>Twitter, personal OneDrive, Gmail</li>
+        <li>Can share data within this group</li>
+        <li>Cannot mix with Business group in same app/flow</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent5)">Blocked <span class="pill pill-block">Denied</span></h3>
+      <ul>
+        <li>Completely unavailable in the environment</li>
+        <li>Flows/apps using these connectors break immediately</li>
+        <li>Use for high-risk or disallowed connectors</li>
+        <li>Cannot be used in any app or flow</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>DLP Policy Scope</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Tenant-Level Policies</h3>
+      <ul>
+        <li>Apply to ALL environments or selected environments</li>
+        <li>Set by Global Admin or Power Platform Admin only</li>
+        <li>Cannot be overridden by environment admins</li>
+        <li>Only one "all environments" policy possible per tenant</li>
+        <li>Use for org-wide baseline (e.g., block dangerous connectors everywhere)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Environment-Level Policies</h3>
+      <ul>
+        <li>Set by environment admin or tenant admin</li>
+        <li>Apply to a specific environment only</li>
+        <li><strong>Most restrictive policy wins</strong> when combined with tenant policy</li>
+        <li>Use for BU-specific requirements (e.g., HR-only BambooHR connector)</li>
+        <li>An environment-level policy cannot unblock what a tenant policy blocks</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>DLP Advanced Features</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Feature</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Connector Endpoint Filtering</strong></td><td>Restrict which specific URLs/endpoints a connector can call (e.g., only allow SharePoint at specific on-prem URL). Not detectable by DLP Impact Analysis app.</td></tr>
+        <tr><td><strong>Custom Connector Policies</strong></td><td>Classify custom connectors into Business/Non-Business/Blocked, same as standard connectors</td></tr>
+        <tr><td><strong>HTTP Connector Policy</strong></td><td>Control HTTP actions in flows — block arbitrary outbound HTTP calls to prevent data exfiltration</td></tr>
+        <tr><td><strong>DLP for Desktop Flows</strong></td><td>Control which desktop flow modules (e.g., Windows automation, Excel, web browser) can be used. Requires Managed Environments.</td></tr>
+        <tr><td><strong>DLP Exemption</strong></td><td>Exclude specific environments from a tenant DLP policy (use sparingly; requires documented justification)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Power Platform Security Model (Layers)</h2>
+  <div class="arch">  AZURE AD / ENTRA ID
+  Authentication · Conditional Access · MFA · Guest access policies
+         ↓
+  TENANT LEVEL
+  Tenant DLP policies · License assignment · Tenant isolation
+         ↓
+  ENVIRONMENT LEVEL
+  Environment DLP · Environment Admin role · IP Firewall (Managed Env)
+  Managed Environment settings · Sharing limits · Solution Checker enforcement
+         ↓
+  DATAVERSE LEVEL
+  Security roles (table/column/row level) · Business Units
+  Teams (sharing groups) · Column-level security profiles · Hierarchy security
+         ↓
+  APP / FLOW LEVEL
+  App sharing (Can View / Can Edit / Owner)
+  Connection references · Run-only users for flows · Per-app Conditional Access</div>
+
+  <h2>Dataverse Security — Key Concepts</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Security Roles</h3>
+      <ul>
+        <li>Collection of privileges: Create / Read / Write / Delete / Append / AppendTo / Assign / Share</li>
+        <li>Applied at Business Unit or user level</li>
+        <li>Privilege scope: User / Business Unit / Parent BU / Organisation</li>
+        <li>Built-in: System Administrator, System Customizer, Basic User, Environment Maker</li>
+        <li>Always create custom roles for least-privilege access</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Column &amp; Row Level Security</h3>
+      <ul>
+        <li><strong>Column-level security profiles:</strong> Restrict read/write/create on specific columns</li>
+        <li><strong>Row-level via record sharing:</strong> Share specific Dataverse records with users or teams</li>
+        <li><strong>Owner team vs. Access team:</strong> Owner teams inherit security roles; access teams for temporary record-level sharing</li>
+        <li><strong>Hierarchy security:</strong> Managers can access direct reports' records</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 5</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: A business unit needs to use the Twitter connector but your tenant DLP blocks it. How do you handle this? <span class="arrow">▼</span></div>
+    <div class="qa-a">First, understand the business case. If legitimate (e.g., social media monitoring): (1) Create an <strong>environment-specific policy</strong> for that BU's dedicated environment allowing Twitter in Non-Business tier — BUT the tenant policy still wins. (2) If tenant policy has Twitter as Blocked, I need to use a <strong>DLP policy exemption</strong> to exclude that environment from the blocking tenant policy. Document the exemption with: business justification, approver name, review frequency, and risk acceptance sign-off. Communicate the change to affected makers via DLP Impact Analysis first.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How would you design a DLP strategy for a financial services company? <span class="arrow">▼</span></div>
+    <div class="qa-a"><ul><li><strong>Tenant baseline policy:</strong> Block all consumer connectors (Gmail, Dropbox, social media), raw HTTP connector, unvetted third-party connectors</li><li><strong>Business group:</strong> SharePoint, Dataverse, Azure services, M365, approved internal APIs</li><li><strong>Environment-specific policies:</strong> Add only the connectors needed by that specific BU (e.g., SAP connector only in Finance environment)</li><li><strong>Custom connector governance:</strong> All custom connectors default to Blocked; require security review + classification before enabling</li><li><strong>Endpoint filtering:</strong> For any allowed HTTP connector, restrict to approved internal API gateway endpoints only</li><li><strong>DLP for desktop flows:</strong> Restrict PAD modules to approved automation types in regulated environments</li><li>Review quarterly using DLP Impact Analysis before any changes</li></ul></div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is the difference between tenant-level and environment-level DLP policies? <span class="arrow">▼</span></div>
+    <div class="qa-a">Tenant-level policies are created by Global/Power Platform Admins and apply across all or selected environments — environment admins cannot override them. Environment-level policies are set by environment admins and only apply to that single environment. When both exist, the <strong>most restrictive combination applies</strong> — a connector blocked at tenant level cannot be unblocked at environment level. This layered approach lets you set an org-wide baseline at tenant level, then add BU-specific restrictions at environment level.</div>
+  </div>
+</section>
+
+<!-- CHAPTER 6 -->
+<section class="chapter" id="ch6">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:#f0883e">06</div>
+    <div><div class="ch-title">ALM &amp; DevOps</div><div class="ch-sub">Solutions · Pipelines · Environment variables · Source control · Deployment gates</div></div>
+    <span class="tag tag-alm">ALM</span>
+  </div>
+
+  <h2>Solution Types</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Managed Solutions ✅ (for PROD/UAT)</h3>
+      <ul>
+        <li>Used in <strong>production and UAT</strong> environments</li>
+        <li>Cannot be directly edited — prevents unmanaged customisation</li>
+        <li>Exported from unmanaged in DEV; version-controlled</li>
+        <li>Can be upgraded cleanly; deleted without residue</li>
+        <li><strong>Non-negotiable best practice for all deployments</strong></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Unmanaged Solutions 🔧 (DEV only)</h3>
+      <ul>
+        <li>Used in <strong>development environments only</strong></li>
+        <li>Fully editable — where makers and devs build</li>
+        <li>Exported and packed as managed before deploying to UAT/PROD</li>
+        <li><strong>Never import unmanaged into production</strong> — creates ungovernable customisations</li>
+        <li>Should be stored in source control as unpacked YAML</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Standard ALM Pipeline Flow</h2>
+  <div class="arch">  DEV (Unmanaged)          SOURCE CONTROL        UAT (Managed)         PROD (Managed)
+  ─────────────────        ──────────────        ─────────────         ─────────────
+  Maker builds         →   Export + unpack   →   Solution Checker  →   Approval gate
+  in DEV env               to repo (YAML)        automated tests       → deploy managed
+       ↑                        ↓                      ↓                     ↓
+  Fix feedback         ←  CI build triggered   ← QA approves        ← Stakeholder
+                            on PR/commit            or rejects            sign-off
+
+  Tools:
+  ├── Power Platform Build Tools (Azure DevOps extension)
+  ├── Power Platform GitHub Actions
+  ├── pac CLI (pack / unpack / import / export / solution-check)
+  └── Power Platform Pipelines (native — Managed Environments)</div>
+
+  <div class="img-row">
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/alm/media/application-lifecycle.png" alt="The application lifecycle diagram showing plan, develop, build and test, deploy, operate, monitor cycle" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>Application Lifecycle</strong> — Plan → Develop → Build &amp; Test → Deploy → Operate → Monitor → Learn. Every stage needs governance. <a href="https://learn.microsoft.com/en-us/power-platform/alm/overview-alm" target="_blank" rel="noopener">Source: Microsoft Learn — ALM Overview</a></figcaption>
+    </figure>
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/alm/media/dev-to-test-alm.png" alt="Diagram showing how a solution is distributed from the development environment to a test environment as a managed solution" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>Dev → Test Deployment</strong> — Unmanaged solution in DEV is exported as managed and imported into the test environment. <a href="https://learn.microsoft.com/en-us/power-platform/alm/solution-concepts-alm" target="_blank" rel="noopener">Source: Microsoft Learn — Solution Concepts</a></figcaption>
+    </figure>
+  </div>
+
+  <h2>Key ALM Concepts</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Concept</th><th>What it is</th><th>Why it matters for governance</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Environment Variables</strong></td><td>Named config values in a solution (text, number, JSON, Key Vault secret) that differ per environment</td><td>Same managed solution works across DEV/UAT/PROD without any code changes; enforces environment separation</td></tr>
+        <tr><td><strong>Connection References</strong></td><td>Abstraction layer for connector connections in solutions</td><td>Connections swap per environment without breaking flows; service accounts used in PROD, dev accounts in DEV</td></tr>
+        <tr><td><strong>Solution Segmentation</strong></td><td>Split solutions: Core data model / Business logic / UI / Customisations</td><td>Reduces blast radius of changes; enables parallel team development; faster deployments</td></tr>
+        <tr><td><strong>pac CLI</strong></td><td>Power Platform CLI for pack/unpack/import/export operations</td><td>Essential for automation in CI/CD pipelines; enables source control of solutions as YAML</td></tr>
+        <tr><td><strong>Solution Checker</strong></td><td>Static analysis tool — checks for hardcoded URLs, deprecated APIs, performance issues</td><td>Quality gate before deployments; can be enforced automatically via Managed Environments</td></tr>
+        <tr><td><strong>Publisher Prefix</strong></td><td>Org-specific namespace for solution components (e.g., contoso_)</td><td>Prevents naming collisions; critical for managing upgrades and layers</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="hbox hbox-green">
+    <h4>Power Platform Pipelines (Native ALM)</h4>
+    <ul>
+      <li>Built into PPAC — no external CI/CD tool required for standard scenarios</li>
+      <li>Configure named stages: DEV → UAT → PROD</li>
+      <li>Approval gates between stages; deployment history tracked</li>
+      <li>Requires Managed Environments on target environment</li>
+      <li>Solution Checker enforcement integrated as a gate</li>
+      <li>For complex enterprise scenarios: augment with Azure DevOps / GitHub Actions for full CI/CD, automated tests, PR policies</li>
+    </ul>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 6</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: Why should you never import an unmanaged solution into production? <span class="arrow">▼</span></div>
+    <div class="qa-a">Unmanaged solutions cannot be cleanly deleted — their components merge into the unmanaged layer of the environment and leave residual customisations even after the solution is removed. This creates <strong>customisation debt</strong> that's very hard to remediate. Additionally, unmanaged components can be edited directly in production, bypassing the ALM pipeline entirely, leading to environment drift and breaking the single source of truth in source control. This is a critical governance failure in regulated environments.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is the difference between Environment Variables and Connection References? <span class="arrow">▼</span></div>
+    <div class="qa-a"><strong>Environment Variables</strong> store configuration values that differ per environment — e.g., SharePoint site URL is different in DEV vs. PROD, or an Azure Key Vault reference for a secret. You set the value during import without touching the solution logic.<br><br><strong>Connection References</strong> abstract the actual authenticated connection a flow or app uses. In DEV you map it to your dev account's connection; in PROD you map it to a service account connection. The solution holds the reference name, not a hard-coded connection ID — so the deployment pipeline just maps the reference to the appropriate connection for each environment at import time.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How do you set up an end-to-end DevOps pipeline for Power Platform? <span class="arrow">▼</span></div>
+    <div class="qa-a"><ol><li>Install <strong>Power Platform Build Tools</strong> extension in Azure DevOps</li><li>Create a service connection using a service principal (SPN) with Power Platform Admin permissions</li><li><strong>Build pipeline (CI):</strong> Export solution from DEV → Unpack with pac CLI → Commit unpacked YAML to repo → PR triggers solution checker</li><li><strong>Release pipeline (CD):</strong> Pack solution from YAML → Deploy managed to UAT → Run Solution Checker → Approval gate → Deploy managed to PROD</li><li>Use pipeline variables / variable groups for env-specific connection reference mappings</li><li>Optionally: Run Power Apps Test Engine tests between UAT and PROD stages</li><li>Notify stakeholders on deployment completion via Teams / email action</li></ol></div>
+  </div>
+</section>
+
+<!-- CHAPTER 7 -->
+<section class="chapter" id="ch7">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:var(--accent6)">07</div>
+    <div><div class="ch-title">Governance Framework &amp; Compliance</div><div class="ch-sub">Governance maturity · Compliance lifecycle · Reporting strategy · Maker management</div></div>
+    <span class="tag tag-gov">Governance</span>
+  </div>
+
+  <h2>Governance Maturity Model</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Level</th><th>Name</th><th>Characteristics</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1</strong></td><td>Reactive</td><td>No formal governance; admins respond to problems ad hoc; Default environment uncontrolled; no DLP design; no visibility</td></tr>
+        <tr><td><strong>2</strong></td><td>Aware</td><td>Basic DLP in place; admin understands tenant inventory; some environment structure exists; no ALM; no compliance process</td></tr>
+        <tr><td><strong>3</strong></td><td>Defined</td><td>COE established; environment request process; DLP strategy documented; maker community emerging; basic managed/unmanaged ALM</td></tr>
+        <tr><td><strong>4</strong></td><td>Managed</td><td>Managed Environments on PROD; automated compliance flows; Power BI reporting; solution checker enforced; DevOps pipelines in use</td></tr>
+        <tr><td><strong>5</strong></td><td>Optimised</td><td>Proactive governance; AI-assisted monitoring; self-service with guardrails; ROI measurement; continuous improvement feedback loop</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Compliance Lifecycle</h2>
+  <div class="arch">  MAKE            DISCOVER          ASSESS           ENFORCE          RESOLVE
+  ─────           ─────────         ──────           ───────          ───────
+  Maker creates → COE Sync flows → Compliance    → Quarantine   → Admin reviews
+  resource         populate          email to         if not           risk, releases
+  in tenant        Dataverse         maker            compliant        or deletes
+       ↑                │                 ↓               ↓                 ↓
+       │           Power BI         Developer       Maker emailed   Manager notified
+       │           Dashboard        Compliance      (access         if maker ignores
+       └───────── feedback ←─────── Center ◄────── revoked)        approval chain</div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>Governance Policy Questions to Answer</h3>
+      <ul>
+        <li>Who can create environments? (Request process or self-service?)</li>
+        <li>Who can create custom connectors? (Open or approval gate?)</li>
+        <li>What constitutes a compliant app? (Description, sharing limits, justification)</li>
+        <li>What happens to apps inactive for 6 months?</li>
+        <li>How are orphaned resources handled when a maker leaves?</li>
+        <li>What is the escalation path for non-compliance?</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>App Classification Framework</h3>
+      <ul>
+        <li><strong>Personal Productivity:</strong> Default env, &lt;5 users, standard connectors, no compliance gate</li>
+        <li><strong>Team/Departmental:</strong> Dedicated env, team sharing, may use premium, basic compliance</li>
+        <li><strong>Business Critical:</strong> Dedicated prod env, full ALM, Managed Env, SLA defined, audit required</li>
+        <li><strong>Enterprise:</strong> Formal project, architecture review, security assessment, DevOps pipeline, CAB process</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Reporting Strategy</h2>
+  <div class="three-col">
+    <div class="card">
+      <h3>Executive Dashboard</h3>
+      <ul>
+        <li>Total apps in production</li>
+        <li>Compliance rate (%)</li>
+        <li>Active makers (monthly)</li>
+        <li>Estimated hours saved / ROI</li>
+        <li>DLP incidents this quarter</li>
+        <li>Platform adoption trend (chart)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Admin Operations</h3>
+      <ul>
+        <li>Orphaned resources by environment</li>
+        <li>Non-compliant apps &gt;7 days</li>
+        <li>Capacity usage vs. approved</li>
+        <li>Sync flow error rate</li>
+        <li>Environments without DLP applied</li>
+        <li>Pending environment requests</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Maker / BU View</h3>
+      <ul>
+        <li>My apps compliance status</li>
+        <li>Pending approval actions</li>
+        <li>Inactive resources flagged</li>
+        <li>My environment requests</li>
+        <li>Training resources &amp; next steps</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 7</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How would you establish governance in an organisation that currently has no COE? <span class="arrow">▼</span></div>
+    <div class="qa-a">I'd follow a phased approach:<br><br><strong>Phase 1 — Discover (Month 1-2):</strong> Install COE Starter Kit, run inventory sync, understand current state via Power BI. Identify top makers, most-used apps, highest-risk connectors and environments.<br><br><strong>Phase 2 — Stabilise (Month 2-4):</strong> Design and implement DLP policies. Lock down Default environment. Create environment provisioning process. Identify business-critical apps needing proper ALM.<br><br><strong>Phase 3 — Govern (Month 4-6):</strong> Enable Managed Environments on production. Implement compliance process, maker welcome email, inactivity notifications. Start formal ALM for new projects.<br><br><strong>Phase 4 — Optimise (Ongoing):</strong> Executive Power BI reporting, maker community building, ROI tracking, continuous improvement cycle.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How do you balance governance with maker empowerment? <span class="arrow">▼</span></div>
+    <div class="qa-a">The key principle is <strong>"guardrails, not barriers."</strong> Governance that slows makers down creates shadow IT; governance that empowers them creates sustainable adoption. Practical ways to balance: (1) Self-service developer environments — safe space to experiment. (2) Clear, documented DLP policies — makers know what they can use without asking. (3) Fast environment request process (target &lt;48hrs) — no waiting weeks. (4) Templates and reusable components — make the compliant path the easy path. (5) Active maker community — people get help fast without going around the COE.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What reporting would you present to a C-level executive about Power Platform? <span class="arrow">▼</span></div>
+    <div class="qa-a">Focus on business outcomes, not technical metrics. Show: <ul><li><strong>Value:</strong> Estimated hours saved, cost avoided, number of business processes automated; trend over time</li><li><strong>Adoption:</strong> Active maker count growth; apps solving real business problems vs. total apps</li><li><strong>Risk:</strong> Compliance rate and trend; DLP incidents resolved; unresolved orphaned apps</li><li><strong>Investment:</strong> License cost vs. ROI generated; environments count vs. budget</li></ul>Avoid overwhelming executives with sync flow errors or connector counts. Use trend charts — show improvement, not just current state.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How do you handle a maker who repeatedly builds non-compliant apps? <span class="arrow">▼</span></div>
+    <div class="qa-a">Escalation path: (1) <strong>Automated reminder</strong> via compliance email (COE flow — standard). (2) If no response after X days, <strong>quarantine the app</strong> and send personalised email. (3) Reach out directly — offer to help complete the Developer Compliance Center form; often it's lack of understanding, not malice. (4) If still unresolved, <strong>email their manager</strong> (COE "Email Managers" flow). (5) Document the pattern and involve HR for repeated intentional non-compliance. The goal is always to understand WHY — fix the process if it's unclear, fix the person if it's deliberate.</div>
+  </div>
+</section>
+
+<!-- CHAPTER 8 -->
+<section class="chapter" id="ch8">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:#39d353">08</div>
+    <div><div class="ch-title">Cheat Sheets &amp; Quick Reference</div><div class="ch-sub">Key terms · Decision guides · Connector quick-ref · Licensing · Architecture patterns</div></div>
+    <span class="tag tag-qa">Cheat Sheet</span>
+  </div>
+
+  <h2>Key Terms &amp; Acronyms</h2>
+  <div class="two-col">
+    <div class="cheat-card">
+      <h4>Platform &amp; Admin Terms</h4>
+      <div class="cheat-row"><span class="cheat-key">PPAC</span><span class="cheat-val">Power Platform Admin Center — central admin hub</span></div>
+      <div class="cheat-row"><span class="cheat-key">ME / Managed Env</span><span class="cheat-val">Managed Environments — premium governance suite</span></div>
+      <div class="cheat-row"><span class="cheat-key">DLP</span><span class="cheat-val">Data Loss Prevention — connector grouping policies</span></div>
+      <div class="cheat-row"><span class="cheat-key">COE</span><span class="cheat-val">Center of Excellence — org governance team and kit</span></div>
+      <div class="cheat-row"><span class="cheat-key">PPBT</span><span class="cheat-val">Power Platform Build Tools — Azure DevOps extension</span></div>
+      <div class="cheat-row"><span class="cheat-key">Dataverse / CDS</span><span class="cheat-val">Cloud data platform underpinning Power Platform</span></div>
+      <div class="cheat-row"><span class="cheat-key">D4T</span><span class="cheat-val">Dataverse for Teams — lightweight Teams environment</span></div>
+      <div class="cheat-row"><span class="cheat-key">BPF</span><span class="cheat-val">Business Process Flow — guided stage navigation in MDA</span></div>
+      <div class="cheat-row"><span class="cheat-key">SR</span><span class="cheat-val">Security Role — collection of Dataverse privileges</span></div>
+      <div class="cheat-row"><span class="cheat-key">BU</span><span class="cheat-val">Business Unit — org hierarchy unit in Dataverse</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>ALM &amp; DevOps Terms</h4>
+      <div class="cheat-row"><span class="cheat-key">ALM</span><span class="cheat-val">Application Lifecycle Management</span></div>
+      <div class="cheat-row"><span class="cheat-key">Managed Solution</span><span class="cheat-val">Read-only deployment artifact for UAT/PROD</span></div>
+      <div class="cheat-row"><span class="cheat-key">Unmanaged Solution</span><span class="cheat-val">Editable solution — DEV environments only</span></div>
+      <div class="cheat-row"><span class="cheat-key">Env Variable</span><span class="cheat-val">Config value (URL, secret) that differs per environment</span></div>
+      <div class="cheat-row"><span class="cheat-key">Connection Reference</span><span class="cheat-val">Abstract connector pointer — swapped per environment</span></div>
+      <div class="cheat-row"><span class="cheat-key">Publisher Prefix</span><span class="cheat-val">Org namespace for solution components (e.g., contoso_)</span></div>
+      <div class="cheat-row"><span class="cheat-key">Solution Checker</span><span class="cheat-val">Static analysis tool for quality and security</span></div>
+      <div class="cheat-row"><span class="cheat-key">pac CLI</span><span class="cheat-val">Power Platform CLI — pack/unpack/import/export solutions</span></div>
+      <div class="cheat-row"><span class="cheat-key">Pipelines</span><span class="cheat-val">Native managed ALM in PPAC (requires Managed Environments)</span></div>
+    </div>
+  </div>
+
+  <h2>DLP Connector Quick Reference</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Connector</th><th>Typical Tier</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>SharePoint Online</td><td><span class="pill pill-std">Business</span></td><td>Core M365 corporate data</td></tr>
+        <tr><td>Dataverse / CDS</td><td><span class="pill pill-std">Business</span></td><td>Core PP data platform</td></tr>
+        <tr><td>Microsoft Teams</td><td><span class="pill pill-std">Business</span></td><td>Corporate communications</td></tr>
+        <tr><td>Azure services (Blob, SB, SQL)</td><td><span class="pill pill-std">Business</span></td><td>Org-owned cloud resources</td></tr>
+        <tr><td>Outlook / Exchange</td><td><span class="pill pill-std">Business</span></td><td>Corporate email</td></tr>
+        <tr><td>Twitter / X</td><td><span class="pill pill-prem">Non-Business</span></td><td>Consumer / social media</td></tr>
+        <tr><td>Personal OneDrive</td><td><span class="pill pill-prem">Non-Business</span></td><td>Personal storage (not corp)</td></tr>
+        <tr><td>Gmail</td><td><span class="pill pill-prem">Non-Business</span></td><td>Non-corporate email</td></tr>
+        <tr><td>HTTP / HTTP + Swagger</td><td><span class="pill pill-block">Block or restrict</span></td><td>Use endpoint filtering if partial allow needed</td></tr>
+        <tr><td>Unclassified custom connectors</td><td><span class="pill pill-block">Block by default</span></td><td>Review and classify before enabling</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Governance Decision Quick Rules</h2>
+  <div class="two-col">
+    <div class="cheat-card">
+      <h4>Environment Decisions</h4>
+      <div class="cheat-row"><span class="cheat-key">Personal development?</span><span class="cheat-val">Developer environment (isolated, free)</span></div>
+      <div class="cheat-row"><span class="cheat-key">Teams lightweight app?</span><span class="cheat-val">Dataverse for Teams environment</span></div>
+      <div class="cheat-row"><span class="cheat-key">Departmental app?</span><span class="cheat-val">BU DEV → UAT → PROD (Managed Env on PROD)</span></div>
+      <div class="cheat-row"><span class="cheat-key">Enterprise / cross-org?</span><span class="cheat-val">Dedicated PROD + full ALM + DevOps pipeline</span></div>
+      <div class="cheat-row"><span class="cheat-key">COE tooling?</span><span class="cheat-val">Dedicated COE host env (never Default)</span></div>
+      <div class="cheat-row"><span class="cheat-key">Quick personal automation?</span><span class="cheat-val">Default env (with strict DLP applied)</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>Governance Trigger Rules</h4>
+      <div class="cheat-row"><span class="cheat-key">App &gt; 20 users</span><span class="cheat-val">Require business justification + compliance form</span></div>
+      <div class="cheat-row"><span class="cheat-key">App inactive 6 months</span><span class="cheat-val">Inactivity notification → approval to keep or delete</span></div>
+      <div class="cheat-row"><span class="cheat-key">New environment request</span><span class="cheat-val">Review → auto-provision with DLP policy applied</span></div>
+      <div class="cheat-row"><span class="cheat-key">Maker leaves org</span><span class="cheat-val">Orphan check → notify manager within 7 days</span></div>
+      <div class="cheat-row"><span class="cheat-key">Compliance overdue 7d</span><span class="cheat-val">Quarantine app — revoke access until resolved</span></div>
+      <div class="cheat-row"><span class="cheat-key">PROD deployment</span><span class="cheat-val">Managed solution + Solution Checker pass + approval gate</span></div>
+    </div>
+  </div>
+
+  <h2>Top 10 Things Every COE / Governance Lead Must Know</h2>
+  <div class="hbox hbox-green">
+    <ul>
+      <li>1. The COE Starter Kit is a <em>reference implementation</em> — customise it to your org; it's no longer actively maintained by Microsoft</li>
+      <li>2. PPAC + Managed Environments is the native, fully-supported first choice; COE Kit fills remaining gaps</li>
+      <li>3. <strong>Never import an unmanaged solution into production environments</strong></li>
+      <li>4. DLP policies: most restrictive wins when tenant + environment policies combine</li>
+      <li>5. Default environment is the hardest to govern — lock it down first; use Default Env Routing</li>
+      <li>6. Environment Variables and Connection References are mandatory for proper ALM across environments</li>
+      <li>7. Governance = people + process + technology; tools alone do not make a COE</li>
+      <li>8. Managed Environments is required for Pipelines, Solution Checker enforcement, IP Firewall, and CMK</li>
+      <li>9. The COE Power BI dashboard gives department-level insights that PPAC tenant analytics doesn't provide</li>
+      <li>10. Balance governance with maker empowerment — <strong>guardrails, not barriers</strong></li>
+    </ul>
+  </div>
+</section>
+
+<!-- STUDY PLAN -->
+<section class="chapter" id="study-plan">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:var(--accent3)">→</div>
+    <div><div class="ch-title">4-Week Study Plan</div><div class="ch-sub">Structured week-by-week breakdown with hands-on tasks and resources</div></div>
+  </div>
+
+  <div class="week-plan">
+    <div class="week-card">
+      <h4>Week 1 — COE Foundations</h4>
+      <ul>
+        <li>Read COE Overview on MS Learn</li>
+        <li>Study Chapters 1 + 2 of this guide</li>
+        <li>Sign up for M365 Developer Program (free tenant)</li>
+        <li>Install COE Starter Kit in dev tenant</li>
+        <li>Run sync flows and explore Power BI dashboard</li>
+        <li>Watch COE Starter Kit overview video (YouTube)</li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <h4>Week 2 — Environments &amp; Managed Envts</h4>
+      <ul>
+        <li>Study Chapters 3 + 4</li>
+        <li>Draw your own environment strategy diagram</li>
+        <li>Enable Managed Environments on a test env</li>
+        <li>Test Default Environment Routing</li>
+        <li>Configure Limit Sharing and Maker Welcome</li>
+        <li>Read PPAC Managed Environments docs</li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <h4>Week 3 — DLP &amp; ALM</h4>
+      <ul>
+        <li>Study Chapters 5 + 6</li>
+        <li>Create 2-3 DLP policies in dev tenant</li>
+        <li>Test DLP Impact Analysis app with a proposed change</li>
+        <li>Create a solution with env variables + connection refs</li>
+        <li>Set up a basic Azure DevOps or GitHub Actions pipeline</li>
+        <li>Run Solution Checker on a test solution</li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <h4>Week 4 — Governance &amp; Interview Prep</h4>
+      <ul>
+        <li>Study Chapters 7 + 8</li>
+        <li>Configure compliance processes in COE Kit</li>
+        <li>Design a governance framework one-pager</li>
+        <li>Practice all interview Q&amp;A in this guide</li>
+        <li>Whiteboard a full architecture end-to-end</li>
+        <li>Review PL-600 / PL-400 practice questions</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="study-tip">
+    <strong>Recommended Certifications for this role:</strong> PL-900 (Foundation) → PL-400 (Developer) → PL-600 (Solution Architect Expert). For the compliance/security angle: SC-400 (M365 Information Protection) and AZ-900 (Azure Fundamentals) add valuable context for Managed Environments security features.
+  </div>
+
+  <div class="hbox hbox-purple">
+    <h4>Key Microsoft Learn paths to bookmark</h4>
+    <ul>
+      <li>learn.microsoft.com/power-platform/guidance/coe/overview</li>
+      <li>learn.microsoft.com/power-platform/admin/managed-environment-overview</li>
+      <li>learn.microsoft.com/power-platform/admin/wp-data-loss-prevention</li>
+      <li>learn.microsoft.com/power-platform/alm/overview-alm</li>
+      <li>learn.microsoft.com/power-platform/guidance/adoption/coe</li>
+      <li>learn.microsoft.com/power-platform/admin/environments-overview</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════ CHAPTER 9: ENVIRONMENT GROUPS ═══════════════ -->
+<section class="chapter" id="ch9">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:#4ec9b0">09</div>
+    <div><div class="ch-title">Environment Groups — Govern at Scale</div><div class="ch-sub">Logical folders for environments · Rules enforcement · AI governance · Use cases</div></div>
+    <span class="tag tag-env">Env Groups</span>
+  </div>
+
+  <div class="hbox hbox-blue">
+    <h4>Think of Environment Groups as "folders" for your environments</h4>
+    <p>Instead of configuring each environment one-by-one (error-prone at scale), you group environments into logical collections and apply <strong>rules</strong> that lock down settings across all environments in the group simultaneously. A rule published at group level cannot be overridden by environment admins — only a tenant admin can change it.</p>
+  </div>
+
+  <div class="study-tip"><strong>Key constraint:</strong> Environment Groups can only contain <strong>Managed Environments</strong>. Each environment can belong to only ONE group. Groups cannot be nested.</div>
+
+  <figure class="ms-figure">
+    <img src="https://learn.microsoft.com/en-us/power-platform/admin/media/environment-groups-strategy.png" alt="Diagram depicting one strategy for using environment groups aligned to organizational structure — Personal Productivity, Dev/Test, and Production groups" onerror="this.closest('figure').style.display='none'">
+    <figcaption><strong>Environment Groups Strategy</strong> — Organize environments into logical groups by purpose (Personal Productivity, Dev/Test, Production) and apply rules centrally to all members at once. <a href="https://learn.microsoft.com/en-us/power-platform/admin/environment-groups" target="_blank" rel="noopener">Source: Microsoft Learn — Environment Groups</a></figcaption>
+  </figure>
+
+  <h2>How Environment Groups Work (Simple Mental Model)</h2>
+  <div class="arch">  TENANT ADMIN creates Environment Group: "Production Environments"
+  ─────────────────────────────────────────────────────────────────────
+  ┌─ Environment Group: "Production Environments" ────────────────────┐
+  │  Rules published:                                                  │
+  │   ✅ Sharing Limit = 50 users max                                  │
+  │   ✅ Solution Checker = Critical errors blocked                    │
+  │   ✅ Backup Retention = 28 days                                    │
+  │   ✅ Maker Welcome Content = "Welcome to PROD, read policies first"│
+  │                                                                    │
+  │  Environments in this group (all auto-inherit rules):             │
+  │  ├── HR-PROD   ← locked, can't change sharing limit locally       │
+  │  ├── FIN-PROD  ← locked, can't change sharing limit locally       │
+  │  └── OPS-PROD  ← locked, can't change sharing limit locally       │
+  └────────────────────────────────────────────────────────────────────┘
+
+  If HR admin tries to change sharing limit in HR-PROD → blocked by group rule
+  Only TENANT ADMIN can update the rule at group level</div>
+
+  <h2>Rules You Can Apply to an Environment Group</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Rule Category</th><th>What You Can Control</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Sharing &amp; Security</strong></td><td>Limit sharing (max users/groups), restrict agent/bot sharing</td></tr>
+        <tr><td><strong>ALM</strong></td><td>Solution Checker enforcement level (warn/block), backup retention duration</td></tr>
+        <tr><td><strong>AI Features</strong></td><td>Enable/disable Copilot features in maker studio, generative AI settings per group</td></tr>
+        <tr><td><strong>Usage Insights</strong></td><td>Weekly digest to admins — on/off at group level</td></tr>
+        <tr><td><strong>Maker Welcome</strong></td><td>Customised welcome content shown when makers sign into the environment</td></tr>
+        <tr><td><strong>Data Policies</strong></td><td>Visibility of DLP policies applying to environments in the group</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>4 Key Use Cases for Environment Groups</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3 style="color:#4ec9b0">1. Personal Productivity Sandbox Group</h3>
+      <ul>
+        <li>Combine with <strong>Default Environment Routing</strong> — every new maker auto-gets a developer env placed in this group</li>
+        <li>Apply rules: restrict agent sharing (so in-progress bots don't leak), add maker welcome content</li>
+        <li>Keeps Default environment clean while every maker has their own governed space</li>
+        <li>Result: Maker isolation like "each person has their own OneDrive"</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:#f0883e">2. Production Environments Group</h3>
+      <ul>
+        <li>Group all PROD environments across all BUs</li>
+        <li>Rules: Solution Checker = critical block, Sharing Limit = tight, Backup = 28 days, Maker Welcome = read policy first</li>
+        <li>Benefit: No environment admin can accidentally loosen PROD governance</li>
+        <li>Changes only by tenant admin — enforced change control</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent2)">3. AI Pilot / Copilot Group</h3>
+      <ul>
+        <li>Create a dedicated group for environments testing Copilot features</li>
+        <li>Enable AI features only in this group — PROD group has AI turned off until ready</li>
+        <li>Controlled, phased AI rollout across the org</li>
+        <li>Move environments between groups as confidence grows</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent3)">4. Regional Compliance Group</h3>
+      <ul>
+        <li>Global enterprises: separate groups for North America, Europe (GDPR), APAC</li>
+        <li>Apply region-specific compliance rules at group level</li>
+        <li>Environments within each region auto-inherit local regulations-aligned settings</li>
+        <li>No per-environment configuration needed — set once, apply to hundreds</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Environment Routing + Groups = Fully Automatic Governance</h2>
+  <div class="hbox hbox-green">
+    <h4>The golden combination</h4>
+    <p>Set up Default Environment Routing to point to a specific Environment Group. Result: when any new maker signs up and tries to create in Default, the platform <strong>automatically</strong> creates their personal developer environment AND places it in the correct group — inheriting all group rules immediately. No admin action needed. The maker gets a governed space; the admin gets control. This is the closest Power Platform gets to fully automated environment governance.</p>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 9</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How are Environment Groups different from just applying Managed Environment settings individually? <span class="arrow">▼</span></div>
+    <div class="qa-a">Individual ME settings require you to configure each environment separately — at 100+ environments, this becomes unmanageable and leads to configuration drift (environments slowly diverge). Environment Groups let you define settings <em>once</em> at the group level and automatically push them to all member environments. Critically, group rules <strong>lock</strong> the settings so local admins cannot override them — enforcing consistency. It's the difference between manually setting the speed limit on each road vs. having a centralized speed control system.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What happens to an environment's settings when you remove it from a group? <span class="arrow">▼</span></div>
+    <div class="qa-a">When an environment is removed from a group, it <strong>retains the last configuration applied by the group's rules</strong>, but those settings become unlocked. The local environment admin can then modify them freely. This is important — removing from a group doesn't reset settings to factory defaults; it just unlocks them for local management. This means you can move environments between groups without losing their current configuration.</div>
+  </div>
+</section>
+
+<!-- ═══════════════ CHAPTER 10: DATAVERSE SECURITY DEEP DIVE ═══════════════ -->
+<section class="chapter" id="ch10">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:#ce9178">10</div>
+    <div><div class="ch-title">Dataverse Security — Deep Dive</div><div class="ch-sub">Role types · Security roles · Business Units · Teams · Field/Row security · How access is determined</div></div>
+    <span class="tag tag-dlp">Dataverse</span>
+  </div>
+
+  <div class="hbox hbox-blue">
+    <h4>Why this matters for an architect</h4>
+    <p>Dataverse security is multi-layered and often misunderstood. Getting it wrong means either <strong>too much access</strong> (data breach risk) or <strong>too little</strong> (users can't do their job). As an architect, you design the security model before any app is built — because changing it later is painful and risky.</p>
+  </div>
+
+  <h2>The 4 Levels of Roles in Power Platform</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Role Type</th><th>Examples</th><th>Where Assigned</th><th>What it Controls</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Tenant-level Admin</strong></td><td>Power Platform Admin, Global Admin, D365 Admin</td><td>Microsoft 365 Admin Center</td><td>All environments across the entire tenant — create envs, set DLP, view all</td></tr>
+        <tr><td><strong>Environment-level</strong></td><td>Environment Admin, Environment Maker</td><td>PPAC → Environment → Settings</td><td>Create/manage resources in one env (no Dataverse data access)</td></tr>
+        <tr><td><strong>Dataverse Security Role</strong></td><td>System Administrator, System Customizer, Basic User</td><td>Inside Dataverse → Security Roles</td><td>Access to Dataverse tables, records, and apps within one env</td></tr>
+        <tr><td><strong>App-specific</strong></td><td>D365 Sales roles, Customer Service roles</td><td>Installed with D365 apps</td><td>Access to specific Dynamics 365 app features</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="hbox hbox-red">
+    <h4>CRITICAL — The "Admin Tax" trap architects must know</h4>
+    <p>A <strong>Power Platform Admin</strong> at tenant level does NOT automatically get Dataverse data access in any environment. They must ALSO be assigned the <strong>System Administrator Dataverse security role</strong> in each specific environment they need to access data in. Many architects get caught out by this — the tenant admin can manage environments but can't see any data without the explicit Dataverse role assignment.</p>
+  </div>
+
+  <h2>Security Privileges — The 8 Building Blocks</h2>
+  <div class="three-col">
+    <div class="card">
+      <h3>Core CRUD + Append</h3>
+      <ul>
+        <li><strong>Create</strong> — Make new records</li>
+        <li><strong>Read</strong> — View records</li>
+        <li><strong>Write</strong> — Edit existing records</li>
+        <li><strong>Delete</strong> — Remove records</li>
+        <li><strong>Append</strong> — Link to another record (e.g. contact to account)</li>
+        <li><strong>Append To</strong> — Allow others to link TO this record</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Sharing Privileges</h3>
+      <ul>
+        <li><strong>Assign</strong> — Change the owner of a record</li>
+        <li><strong>Share</strong> — Grant access to another user without changing ownership</li>
+        <li>These two are the most powerful — they can escalate access beyond the security role</li>
+        <li>Restrict Share privilege on sensitive data tables (e.g. HR, Payroll)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Privilege Scope (Access Levels)</h3>
+      <ul>
+        <li><strong>User</strong> — Only own records</li>
+        <li><strong>Business Unit</strong> — Own + BU members' records</li>
+        <li><strong>Parent: Child BU</strong> — Own BU + all child BUs</li>
+        <li><strong>Organisation</strong> — All records in the environment</li>
+        <li>Start with User scope; expand only when needed</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Business Units — The Org Hierarchy in Dataverse</h2>
+  <div class="arch">  ROOT BUSINESS UNIT (= tenant name)
+  │
+  ├── Sales BU
+  │   ├── North Sales Team
+  │   └── South Sales Team
+  │
+  ├── HR BU
+  │   └── Payroll Team
+  │
+  └── Operations BU
+
+  Key rules:
+  • Every user belongs to exactly one Business Unit
+  • Security role privileges are scoped to the user's BU by default
+  • "Business Unit" privilege scope = all records owned by users in the SAME BU
+  • "Parent: Child BU" scope = user's BU + all BUs beneath it in the hierarchy
+  • Moving a user to a different BU changes their data access scope
+  • Root BU users with "Org" scope = see everything</div>
+
+  <h2>Teams in Dataverse — 3 Types</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Team Type</th><th>What it is</th><th>Key Behaviour</th><th>Best for</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Owner Team</strong></td><td>A team that can be assigned as the OWNER of records</td><td>Team members inherit the team's security roles; records owned by team visible to all members</td><td>Shared record ownership — e.g. a case owned by "Support Team" not a specific person</td></tr>
+        <tr><td><strong>Access Team</strong></td><td>Dynamic team — records don't have a permanent owner team</td><td>Members get temporary access to specific records via Access Team template; no security role inheritance</td><td>Scenario where specific people need short-term access to specific records (e.g. a deal team for one opportunity)</td></tr>
+        <tr><td><strong>Azure AD Group Team</strong></td><td>Team backed by an Azure AD security group or M365 group</td><td>Membership auto-syncs with Azure AD group; assign security roles to team, all group members inherit them</td><td>Large orgs managing access via Azure AD — best for scale (add user to AD group → automatically gets Dataverse access)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Column-Level Security (Field-Level Security)</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>What it is</h3>
+      <ul>
+        <li>Restricts access to specific <strong>columns (fields)</strong> on a table — regardless of table-level security role</li>
+        <li>A user may have Read access to the Contact table, but a CLS profile can hide the "Salary" column from them</li>
+        <li>Controlled via <strong>Field Security Profiles</strong> — independent of security roles</li>
+        <li>Applies to: Custom columns, and specific system columns enabled for field security</li>
+        <li>Three settings per column: <strong>Allow Read / Allow Update / Allow Create</strong></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>When to use it</h3>
+      <ul>
+        <li>PII fields (passport number, SSN, salary, bank account)</li>
+        <li>Sensitive business data (margin, deal discount %)</li>
+        <li>Internal-only fields on otherwise publicly visible records</li>
+        <li>Compliance requirements (GDPR, HIPAA) requiring column-level restriction</li>
+        <li>Design tip: Enable column security EARLY — adding it later to existing data doesn't retroactively protect already-read data</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>How Dataverse Determines Record Access (the algorithm)</h2>
+  <div class="arch">  DATAVERSE ACCESS CHECK — in order:
+
+  1. Does the user own the record?                       → YES = Access granted (if security role allows)
+         ↓ NO
+  2. Is the user in the same BU as the owner?            → YES (if BU scope privilege) = Access granted
+         ↓ NO
+  3. Is the user in a parent BU of the owner's BU?      → YES (if Parent BU scope) = Access granted
+         ↓ NO
+  4. Does the user have Org-level scope on the table?   → YES = Access granted
+         ↓ NO
+  5. Is the record shared directly with the user?        → YES = Access granted
+         ↓ NO
+  6. Is the user in a team that owns/has access?         → YES = Access granted
+         ↓ NO
+  7. Does the user have a hierarchy security position    → YES = Access granted
+         above the owner?
+         ↓ NO
+  → ACCESS DENIED</div>
+
+  <h2>Interview Q&amp;A — Chapter 10</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How would you design the Dataverse security model for a Sales org with 3 regional teams? <span class="arrow">▼</span></div>
+    <div class="qa-a"><ul><li>Create 3 <strong>Business Units</strong>: North Sales, South Sales, West Sales (all under Root BU)</li><li>Create an <strong>Owner Team</strong> per region (e.g. "North Sales Team")</li><li>Custom security role: "Sales Rep" — Read own + BU Accounts, Create/Write own Opportunities, Read BU Contacts</li><li>Custom role: "Sales Manager" — all of above + Read Parent:Child BU (sees all 3 regions' records)</li><li>For sensitive deal margins: enable <strong>Column-Level Security</strong> on Margin field; create a profile "Sales Manager Only" — only managers can see it</li><li>For deal teams: use <strong>Access Teams</strong> so multiple reps can collaborate on one opportunity without permanently sharing ownership</li><li>Backend integrations: use <strong>Application User</strong> (service principal) with a minimal custom role — NOT System Administrator</li></ul></div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is the difference between an Owner Team and an Access Team in Dataverse? <span class="arrow">▼</span></div>
+    <div class="qa-a"><strong>Owner Team:</strong> A team that can be assigned as the <em>owner</em> of records. All team members inherit the team's security roles and can see all records owned by the team. Best for scenarios where "the team owns the work" — e.g. a support case owned by "Tier 1 Support Team" not a specific agent.<br><br><strong>Access Team:</strong> A dynamic team where individual records are shared with specific users on a per-record basis using an Access Team Template. Members get access to that specific record only, not the team's security roles. Best for short-term collaboration on specific records — e.g. a major deal team for one opportunity where an analyst needs temporary access.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: A Power Platform Admin says they can't see any data in a Dataverse environment. Why? <span class="arrow">▼</span></div>
+    <div class="qa-a">This is a very common confusion. A <strong>Power Platform Admin</strong> (tenant-level role) grants the ability to manage environments, set DLP policies, and view environment settings — but it does <em>NOT</em> grant Dataverse data access. To access data in a specific Dataverse environment, the admin must also be assigned the <strong>System Administrator security role</strong> within that specific environment. These are two completely independent permission layers: one is an Azure AD admin role, the other is a Dataverse table-level security role.</div>
+  </div>
+</section>
+
+<!-- ═══════════════ CHAPTER 11: SOLUTIONS DEEP DIVE ═══════════════ -->
+<section class="chapter" id="ch11">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:#dcdcaa">11</div>
+    <div><div class="ch-title">Solutions — Deep Dive for Architects</div><div class="ch-sub">Solution layers · Publisher prefix · Component types · Update vs Upgrade vs Patch · Dependencies</div></div>
+    <span class="tag tag-alm">Solutions</span>
+  </div>
+
+  <h2>Solution Lifecycle — 4 Operations</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Operation</th><th>What it does</th><th>Can delete components?</th><th>When to use</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Create / Export</strong></td><td>Author in DEV, export as managed artifact</td><td>N/A</td><td>Normal development cycle</td></tr>
+        <tr><td><strong>Update</strong></td><td>Add/modify components in existing managed solution</td><td>❌ No</td><td>Adding new features, minor changes — can't clean up old components</td></tr>
+        <tr><td><strong>Upgrade</strong></td><td>Replace entire managed solution with new version; merges patches, removes unused components</td><td>✅ Yes</td><td>Major releases, schema cleanup, removing deprecated features</td></tr>
+        <tr><td><strong>Patch</strong></td><td>Small delta on top of parent solution — only changed components</td><td>❌ No</td><td>Hotfixes, minor bug fixes; roll patches up into next Upgrade</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="hbox hbox-orange">
+    <h4>Architect guidance: Update vs Upgrade</h4>
+    <p>Use <strong>Update</strong> for adding new features without breaking existing ones. Use <strong>Upgrade</strong> when you need to remove components or do major version bumps — it's the only operation that can delete table columns, remove flows, etc. from a managed solution. <strong>Patches</strong> are useful for hotfixes but create management overhead — prefer rolling patches into upgrades regularly.</p>
+  </div>
+
+  <h2>Solution Layers — Understanding Customisation Stack</h2>
+  <div class="arch">  DATAVERSE ENVIRONMENT — Customisation Stack (bottom = base, top = wins)
+
+  ┌─────────────────────────────────────────────────────────────────┐
+  │ LAYER 4 (top): Unmanaged Customisations (DEV only)              │
+  │    → Direct edits, maker's own solutions, "active" layer        │
+  │    → Always wins over managed layers below                      │
+  ├─────────────────────────────────────────────────────────────────┤
+  │ LAYER 3: Your Managed Solution v2.0                             │
+  │    → Latest upgrade of your solution                            │
+  ├─────────────────────────────────────────────────────────────────┤
+  │ LAYER 2: Your Managed Solution v1.0 (base)                      │
+  │    → Original managed solution                                  │
+  ├─────────────────────────────────────────────────────────────────┤
+  │ LAYER 1 (bottom): Microsoft base platform components            │
+  │    → Default tables, system forms, built-in features            │
+  └─────────────────────────────────────────────────────────────────┘
+
+  KEY: In PROD/UAT, Layer 4 (unmanaged) should be EMPTY
+       If makers customise directly in PROD, they add to Layer 4
+       → This is why unmanaged solutions in PROD are dangerous</div>
+
+  <h2>Publisher Prefix — The Namespace Strategy</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>What it is and why it matters</h3>
+      <ul>
+        <li>Every custom component gets prefixed: <code>contoso_ContactType</code>, <code>contoso_WelcomeFlow</code></li>
+        <li>Prevents naming collisions when multiple solutions from different publishers are in the same env</li>
+        <li>CRITICAL: Set it ONCE before creating any components — <strong>you cannot rename components after creation</strong></li>
+        <li>Use a short, unique company/team identifier: 3-8 chars, lowercase, no special chars</li>
+        <li>Bad practice: using the default "new_" prefix — generic, no namespace separation</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Multi-team publisher strategy</h3>
+      <ul>
+        <li>Large orgs: one publisher per team/product line (e.g. <code>hrapp_</code>, <code>finapp_</code>, <code>coekit_</code>)</li>
+        <li>Simpler orgs: one publisher for the whole company</li>
+        <li>ISVs: one publisher per product</li>
+        <li>Tip: Register publisher prefix in source control documentation so teams don't accidentally overlap</li>
+        <li>Once a managed solution with components is deployed, you cannot change the publisher — plan carefully</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Solution Segmentation Strategy</h2>
+  <div class="arch">  RECOMMENDED SOLUTION SEGMENTS for a complex app:
+
+  ┌──────────────────────────────────────────────────────────────────┐
+  │ contoso_DataModel (Foundation)                                    │
+  │   → Tables, columns, relationships, choices                       │
+  │   → Changes rarely; deployed first; all other solutions depend on │
+  ├──────────────────────────────────────────────────────────────────┤
+  │ contoso_BusinessLogic                                             │
+  │   → Plugins, workflows, business rules, custom APIs              │
+  │   → Changes occasionally; depends on DataModel                   │
+  ├──────────────────────────────────────────────────────────────────┤
+  │ contoso_UI                                                        │
+  │   → Canvas apps, model-driven app, forms, views, dashboards       │
+  │   → Changes frequently; depends on DataModel                     │
+  ├──────────────────────────────────────────────────────────────────┤
+  │ contoso_Automation                                                │
+  │   → Cloud flows, Power Automate                                   │
+  │   → Changes frequently; depends on all above                     │
+  └──────────────────────────────────────────────────────────────────┘
+
+  Benefits: Change UI without deploying DataModel (faster, safer)
+            Teams can work on UI and BusinessLogic in parallel
+            Reduced blast radius — a broken UI doesn't touch data model</div>
+
+  <div class="img-row">
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/alm/media/solution-publisher-prefix.png" alt="Screenshot showing the Contoso solution with publisher prefix 'contoso' prefixing all component names" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>Solution Publisher Prefix</strong> — The publisher prefix (e.g. <em>contoso_</em>) is prepended to every component name. Set it once before creating anything — it cannot be changed after. <a href="https://learn.microsoft.com/en-us/power-platform/alm/solution-concepts-alm" target="_blank" rel="noopener">Source: Microsoft Learn — Solution Concepts</a></figcaption>
+    </figure>
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/alm/media/components-in-solution.png" alt="Components list inside a Power Platform solution showing tables, apps, flows, and other component types" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>Solution Components</strong> — Everything in a solution is a component: tables, columns, apps, flows, plugins, charts, security roles. <a href="https://learn.microsoft.com/en-us/power-platform/alm/solution-concepts-alm" target="_blank" rel="noopener">Source: Microsoft Learn — Solution Concepts</a></figcaption>
+    </figure>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 11</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: When would you use a Patch vs an Upgrade for a managed solution? <span class="arrow">▼</span></div>
+    <div class="qa-a"><strong>Patch</strong>: Small, urgent fix that only changes specific components (like fixing a bug in one flow or updating a form field). Fast to deploy. Downside: patches accumulate as layers and create complexity over time. <br><br><strong>Upgrade</strong>: Major release that replaces the entire solution. Rolls up all patches, can delete unused components, and delivers a clean version. Use it at the end of a sprint/feature set. Prefer Upgrade + "Stage for Upgrade" option to see impact before committing. <br><br>General best practice: use Patches for hotfixes, Upgrades for planned releases. Never accumulate more than 2-3 patches without rolling into an Upgrade.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is a solution dependency and why does it matter in ALM? <span class="arrow">▼</span></div>
+    <div class="qa-a">A solution dependency means Solution B cannot be installed without Solution A (the base). For example, a "BusinessLogic" solution that uses tables from a "DataModel" solution has a dependency on DataModel. Consequences: (1) You must deploy DataModel first. (2) You cannot delete/uninstall DataModel while BusinessLogic is still installed. (3) If DataModel has a bug that requires deletion of a column, BusinessLogic must be removed first. Design principle: keep your foundation solutions (data model) very stable with few changes — because everything depends on them.</div>
+  </div>
+</section>
+
+<!-- ═══════════════ CHAPTER 12: LICENSING ═══════════════ -->
+<section class="chapter" id="ch12">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:#9cdcfe">12</div>
+    <div><div class="ch-title">Power Platform Licensing — Architect Guide</div><div class="ch-sub">What each license gives you · Seeded vs standalone · When you need premium · Common gotchas</div></div>
+    <span class="tag tag-arch">Licensing</span>
+  </div>
+
+  <div class="study-tip"><strong>Architect rule:</strong> Never design a solution without checking the license implications first. A solution that requires Premium connectors for all 5,000 users costs 5× more than one using standard connectors. License design IS architecture.</div>
+
+  <h2>The License Decision Tree</h2>
+  <div class="arch">  WHAT DOES THE USER NEED TO DO?
+  ──────────────────────────────────────────────────────────────────
+  Use SharePoint/Teams/Outlook based apps only?
+  └──► M365 License (seeded use) — standard connectors only
+
+  Run a Canvas App connected to Dataverse or premium connector?
+  └──► Power Apps Premium (per user) OR Power Apps per app plan
+
+  Run multiple different premium apps?
+  └──► Power Apps Premium per user (unlimited apps)
+
+  Build and run automations with premium connectors?
+  └──► Power Automate Premium (per user)
+
+  Run unattended RPA (robotic process automation, no human present)?
+  └──► Power Automate Process (per bot/machine/month)
+
+  Build / test only — not for production use?
+  └──► Power Apps Developer Plan (FREE — personal env only)
+
+  Pay per use without committing upfront?
+  └──► Pay-as-you-go via Azure subscription</div>
+
+  <h2>License Comparison Table</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>License</th><th>Can use Premium Connectors?</th><th>Can use Dataverse (non-Default)?</th><th>Managed Environments?</th><th>Typical cost signal</th></tr></thead>
+      <tbody>
+        <tr><td><strong>M365 (seeded)</strong></td><td>❌</td><td>Limited (Default only)</td><td>❌</td><td>Already included in M365</td></tr>
+        <tr><td><strong>Power Apps per app</strong></td><td>✅</td><td>✅</td><td>✅ (entitlement)</td><td>Low — specific app only</td></tr>
+        <tr><td><strong>Power Apps Premium (per user)</strong></td><td>✅</td><td>✅</td><td>✅ (entitlement)</td><td>Medium — unlimited apps</td></tr>
+        <tr><td><strong>Power Automate Premium</strong></td><td>✅</td><td>✅</td><td>✅ (entitlement)</td><td>Medium — cloud flows</td></tr>
+        <tr><td><strong>Power Automate Process</strong></td><td>✅</td><td>✅</td><td>✅ (entitlement)</td><td>Per machine — RPA bots</td></tr>
+        <tr><td><strong>D365 (seeded PP)</strong></td><td>✅ (in context)</td><td>✅ (same D365 env)</td><td>✅ (entitlement)</td><td>Included in D365 license</td></tr>
+        <tr><td><strong>Developer Plan</strong></td><td>✅</td><td>✅</td><td>❌ (prod use)</td><td>FREE — personal dev only</td></tr>
+        <tr><td><strong>Pay-as-you-go</strong></td><td>✅</td><td>✅</td><td>✅</td><td>Metered — Azure subscription</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Key Licensing Gotchas (What Architects Get Wrong)</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Common Mistakes</h3>
+      <ul>
+        <li><strong>"M365 users can use Dataverse"</strong> → Only in Default env for limited scenarios. Need Premium license for production Dataverse environments</li>
+        <li><strong>"Developer Plan is free, let's use it for production"</strong> → Developer Plan is strictly for individual personal development. Cannot share apps with others in production</li>
+        <li><strong>"Per App license covers all apps"</strong> → Per App = 1 app OR 1 portal per user. If user needs 3 apps, they need 3 per-app licenses (cheaper to use Premium per user for power users)</li>
+        <li><strong>"We have D365 so we don't need Power Apps licenses"</strong> → D365 seeded use allows Power Platform use <em>within the context</em> of D365 apps only, not for standalone custom apps</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Architect Design Rules</h3>
+      <ul>
+        <li>Design for the <strong>least-licensed user</strong> first — can you build with standard connectors?</li>
+        <li>For broad org-wide apps with 5000+ users: consider <strong>per-app plan</strong> (cheaper than per-user for occasional use)</li>
+        <li>For power users who use many apps: <strong>per-user Premium</strong> is more economical</li>
+        <li>RPA bots running unattended overnight? <strong>Process license per machine</strong>, NOT per user</li>
+        <li>Always add a <strong>10-15% buffer</strong> on license count estimates for joiners/movers</li>
+        <li>AI Builder credits: scoped to tenant, not per user — design AI features to be frugal</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Dataverse Storage — Capacity Architecture</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Storage Type</th><th>Base Allocation (Tenant)</th><th>Add-on per License</th><th>What Eats It</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Database</strong></td><td>10 GB</td><td>+5 GB / qualifying D365 or PP license</td><td>Table data, audit logs, plug-in trace logs</td></tr>
+        <tr><td><strong>File</strong></td><td>20 GB</td><td>+2 GB / qualifying license</td><td>Attachments, email attachments, document management</td></tr>
+        <tr><td><strong>Log</strong></td><td>2 GB</td><td>No per-license add-on</td><td>Audit logs only</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="hbox hbox-orange">
+    <h4>Capacity planning tip for architects</h4>
+    <p>Audit logs can silently consume gigabytes of Database capacity. Always check what is being audited — many orgs enable org-wide auditing without realising the storage impact. Disable audit on high-volume tables that don't need it, or route audit logs to Azure Log Analytics instead of Dataverse. Also: COE Capacity Alerts flow compares actual usage to "approved capacity" thresholds you set per environment — configure it early.</p>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 12</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: A business wants to build a company-wide app for 5,000 occasional users. What license do you recommend and why? <span class="arrow">▼</span></div>
+    <div class="qa-a">For 5,000 occasional users (e.g., accessing an app once a week), the <strong>Power Apps per app plan</strong> is likely most cost-effective — it licenses specific users for a specific app at a lower per-user cost than Premium. However, key questions first: (1) Does the app need premium connectors or Dataverse? If standard connectors + SharePoint only, check if M365 seeded use covers it — potentially zero extra cost. (2) Do these users need multiple apps? If yes, per-user Premium becomes more economical beyond ~3 apps. Always model both costs before recommending. For architects: document the license model in the solution architecture document.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is the difference between Power Automate Premium and Process license? <span class="arrow">▼</span></div>
+    <div class="qa-a"><strong>Power Automate Premium (per user)</strong> licenses a human user to run cloud flows and attended desktop flows. The user is present and interacting. It's for personal automation and business process flows triggered by user actions.<br><br><strong>Power Automate Process (per machine/bot)</strong> licenses a machine to run <em>unattended</em> desktop flows (RPA) — no human present, runs overnight, processes data autonomously. Priced per machine, not per user. For example, if you have 3 machines running overnight batch processes, you need 3 Process licenses — regardless of how many flows run on each machine.</div>
+  </div>
+</section>
+
+<!-- ═══════════════ CHAPTER 13: ADOPTION METHODOLOGY ═══════════════ -->
+<section class="chapter" id="ch13">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:#b5cea8">13</div>
+    <div><div class="ch-title">Adoption Methodology &amp; Strategy</div><div class="ch-sub">8 pillars · Strategy to execution · Vision · Community · Availability</div></div>
+    <span class="tag tag-gov">Adoption</span>
+  </div>
+
+  <div class="hbox hbox-blue">
+    <h4>Why adoption strategy matters for a COE/Governance Lead</h4>
+    <p>Tools and governance are useless without adoption. A COE Lead doesn't just govern — they <strong>drive change</strong>. Microsoft's adoption guidance gives you a proven framework to align business goals with technical capabilities, get leadership buy-in, and build a thriving maker community. This is what separates a governance administrator from a true architect leader.</p>
+  </div>
+
+  <h2>Microsoft Power Platform Adoption Framework — 8 Pillars</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Pillar</th><th>What it covers</th><th>COE Lead's role</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Strategy</strong></td><td>Document objectives, key results, and key initiatives behind PP adoption</td><td>Define the "why" — what business problems are we solving? What is success?</td></tr>
+        <tr><td><strong>Plan</strong></td><td>Define roles, responsibilities, delivery models</td><td>Design the COE team structure, governance model, maker enablement approach</td></tr>
+        <tr><td><strong>Security</strong></td><td>Protect workloads and data from threats; meet compliance requirements</td><td>DLP strategy, Managed Environments security, Dataverse security model</td></tr>
+        <tr><td><strong>Governance</strong></td><td>Implement digital guardrails for makers to create with confidence</td><td>The core of your role — policies, compliance, environment lifecycle, ALM</td></tr>
+        <tr><td><strong>Operations</strong></td><td>ALM strategy and ongoing production support</td><td>Solution pipelines, incident response, capacity management, change management</td></tr>
+        <tr><td><strong>Availability</strong></td><td>Plan for failures; build disaster recovery</td><td>Backup/restore strategy, environment recovery, business continuity for critical apps</td></tr>
+        <tr><td><strong>Readiness</strong></td><td>Upskill makers; envision high-value use cases</td><td>Training programmes, hackathons, templates, use case discovery workshops</td></tr>
+        <tr><td><strong>Community</strong></td><td>Accelerate adoption with a thriving internal community</td><td>Champion programme, internal events, sharing successes, maker recognition</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Adoption Strategy — The 3 Phases</h2>
+  <div class="arch">  PHASE 1: DISCOVER (Months 1-3)         PHASE 2: ENABLE (Months 3-9)        PHASE 3: OPTIMISE (Month 9+)
+  ─────────────────────────────          ─────────────────────────────       ─────────────────────────────
+  "What do we have?"                     "Set up the right structures"        "Continuously improve"
+
+  • Install COE Starter Kit              • Define environment strategy         • Measure ROI
+  • Inventory all apps/flows/makers      • Implement DLP policies              • Refine governance policies
+  • Identify top makers                  • Create maker onboarding process     • Scale champion programme
+  • Find shadow IT / risky connectors    • Launch maker community              • Automate compliance processes
+  • Understand current license usage     • Establish ALM for new projects      • Executive reporting cadence
+  • Document "as-is" state              • Managed Environments on PROD         • Continuous training calendar</div>
+
+  <h2>Building a Maker Community — The Champion Model</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Who are Champions?</h3>
+      <ul>
+        <li>Enthusiastic Power Platform makers already in business units</li>
+        <li>They are NOT IT — they are business users who love building</li>
+        <li>Act as the "local expert" in their BU — first line of help</li>
+        <li>Reduce COE bottleneck; scale governance at the edge</li>
+        <li>Typical ratio: 1 champion per 100-200 makers</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Champion Programme Essentials</h3>
+      <ul>
+        <li>Monthly "Champion hours" — share what you built, get updates</li>
+        <li>Early access to new features and previews</li>
+        <li>Recognition: internal badges, leaderboards, management visibility</li>
+        <li>Direct channel to COE team for questions/escalations</li>
+        <li>Responsible for training BU makers on policy changes</li>
+        <li>COE handles governance design; champions handle local enablement</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Disaster Recovery &amp; Availability for Power Platform</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Scenario</th><th>Native capability</th><th>Architect consideration</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Environment recovery</strong></td><td>PPAC: Backup &amp; Restore (7-day standard; 28-day with Managed Env)</td><td>For business-critical apps: enable Managed Environments for extended backup; document restore procedure</td></tr>
+        <tr><td><strong>Solution rollback</strong></td><td>Delete managed solution restores previous state</td><td>Keep previous managed solution .zip in release artefacts; document rollback steps in runbook</td></tr>
+        <tr><td><strong>Region failover</strong></td><td>Microsoft handles geo-redundancy per SLA</td><td>Design for async data sync to secondary; understand RTO/RPO per environment type</td></tr>
+        <tr><td><strong>Orphaned environments</strong></td><td>COE Kit identifies; admin manually recovers</td><td>Define environment owner = service account, not individual — prevents admin lock-out</td></tr>
+        <tr><td><strong>Connector outage</strong></td><td>Flow error handling + retry policies</td><td>Implement error notifications; use circuit breaker pattern in complex flows</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 13</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How would you get leadership buy-in for a Power Platform COE investment? <span class="arrow">▼</span></div>
+    <div class="qa-a">Frame it in business terms, not technical ones. Approach: (1) <strong>Show the current risk</strong> — use COE inventory to show how many apps exist with no owner, no DLP policy, sensitive connectors in use. Frame it as a compliance and data leak risk. (2) <strong>Show ROI opportunity</strong> — identify 3-5 existing high-value apps built without governance as evidence of citizen dev value; project what structured adoption could deliver at scale. (3) <strong>Propose a phased investment</strong> — month 1-3 discovery + governance setup, months 3-9 scale with measurable outcomes (compliance rate, maker count, hours saved). (4) <strong>Benchmark against industry</strong> — reference Gartner/Forrester stats on low-code ROI. Make it a risk + opportunity conversation, not a technology one.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is the biggest mistake organisations make when adopting Power Platform? <span class="arrow">▼</span></div>
+    <div class="qa-a">Two equally common mistakes: (1) <strong>Governing too late</strong> — letting the platform grow organically for 1-2 years without governance, then trying to retrofit policies onto thousands of existing apps. The cleanup work is enormous and politically difficult (you're now breaking things people depend on). (2) <strong>Over-governing too early</strong> — locking everything down before makers have a chance to experiment, killing adoption before it starts. The sweet spot is establishing a lightweight governance foundation in month 1 (DLP, environment structure, maker welcome) that enables safe experimentation, then layering in compliance processes as the community grows.</div>
+  </div>
+</section>
+
+<!-- ═══════════════ CHAPTER 14: ADVANCED DLP ═══════════════ -->
+<section class="chapter" id="ch14">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:#f44747">14</div>
+    <div><div class="ch-title">Advanced DLP — Connector Architecture</div><div class="ch-sub">Connector types · Virtual connectors · MCP connectors · Design-time vs runtime · Policy change process</div></div>
+    <span class="tag tag-dlp">Advanced DLP</span>
+  </div>
+
+  <h2>4 Types of Connectors in DLP Policies</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Type</th><th>What it is</th><th>DLP behaviour</th><th>Architect note</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Certified Connectors</strong></td><td>Microsoft-tested connectors meeting security/reliability standards</td><td>Fully supported in Business/Non-Business/Blocked classification</td><td>Use as the baseline — prefer certified over custom for governance</td></tr>
+        <tr><td><strong>Custom Connectors</strong></td><td>Maker-built connectors to systems not covered by certified connectors</td><td>Can be classified like any connector; default to Non-Business if unclassified</td><td>Always require security review before classification; default to Blocked until reviewed</td></tr>
+        <tr><td><strong>Virtual Connectors</strong></td><td>Not a real RESTful API — used as "on/off switches" for features (e.g., Copilot Studio capabilities)</td><td>Classification in DLP but no endpoint filtering support (ACP doesn't support them)</td><td>Copilot Studio virtual connectors are moving to their own governance rules — watch for changes</td></tr>
+        <tr><td><strong>MCP Connectors</strong></td><td>Model Context Protocol connectors exposing AI tool endpoints for Copilot Studio agents</td><td>Governable via Advanced Connector Policies (ACP); not through traditional DLP tiers</td><td>New and evolving — key for AI governance; restrict MCP servers by endpoint via ACP</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Design-Time vs Runtime DLP Enforcement</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Design-Time (Maker experience)</h3>
+      <ul>
+        <li>When a maker tries to add a blocked connector to an app or flow, they <strong>cannot save</strong></li>
+        <li>Error message shown immediately: "This connector is blocked by your organisation's data policy"</li>
+        <li>Prevents new violations from being created</li>
+        <li>Applies to Power Apps, Power Automate, Copilot Studio maker studio</li>
+        <li>Effective immediately when policy is saved</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Runtime (Existing apps &amp; flows)</h3>
+      <ul>
+        <li>Existing apps/flows that were built BEFORE a policy change may still run temporarily</li>
+        <li>DLP policy change triggers a <strong>cascade process</strong> that evaluates all existing resources</li>
+        <li>Violating resources are placed in <strong>suspended/quarantine</strong> state — they stop running</li>
+        <li>Connections to fully blocked connectors are <strong>disabled</strong></li>
+        <li><strong>Latency: up to 24 hours</strong> in large tenants before full enforcement takes effect</li>
+        <li>Use DLP Impact Analysis app BEFORE applying changes to discover these</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>The DLP Policy Change Process (What happens when you change a policy)</h2>
+  <div class="arch">  ADMIN saves DLP policy change in PPAC
+           ↓
+  Step 1: Policy config saved at customer management level
+           ↓
+  Step 2: Config cascades to all relevant environments in tenant
+           ↓
+  Step 3: Resources in each env periodically check for updated policy
+           ↓
+  Step 4: Each app, flow, and chatbot is evaluated against the new policy
+           ↓
+  Step 5: Violations detected?
+          YES ──→ App/flow put into SUSPENDED state (can't run)
+          NO  ──→ No action needed
+           ↓
+  Step 6: Connections to fully blocked connectors → DISABLED state
+           ↓
+  Step 7: Any running app/flow using a disabled connection → FAILS at runtime
+
+  ⚠️  LATENCY WARNING: Full enforcement takes up to 24 hours in large tenants
+  ✅  BEST PRACTICE: Use DLP Impact Analysis app before any policy change
+                     Notify affected makers 2 weeks before enforcement</div>
+
+  <h2>Advanced Connector Policies (ACP) — The Power Tool</h2>
+  <div class="hbox hbox-purple">
+    <h4>What is ACP and when do you need it?</h4>
+    <p>Advanced Connector Policies go beyond simple Business/Non-Business/Blocked tiers. With ACP you can: restrict which specific <strong>actions</strong> of a connector are allowed (e.g., SharePoint "Get Items" allowed but "Delete Items" blocked), filter by <strong>endpoint URL</strong> (e.g., HTTP connector can only call api.contoso.com), and govern MCP server endpoints for AI agents. ACP is for organisations that need granular control beyond what standard DLP tiers provide — typically financial services, healthcare, or orgs with strict data residency requirements.</p>
+  </div>
+
+  <h2>DLP Architecture — Best Practices for Architects</h2>
+  <div class="arch">  RECOMMENDED DLP ARCHITECTURE PATTERN
+
+  TENANT LEVEL (baseline — applies everywhere):
+  ├── BLOCKED: HTTP raw connector, high-risk social/consumer connectors
+  ├── BLOCKED: All unclassified custom connectors (default)
+  ├── NON-BUSINESS: Consumer productivity (Dropbox, Box, Gmail, Twitter)
+  └── BUSINESS: M365 (SharePoint, Teams, Exchange, OneDrive Corp), Dataverse, Azure
+
+  ENVIRONMENT GROUPS (by purpose):
+  ├── DEV group DLP: Slightly relaxed — allow experimental connectors for testing
+  │                  (still no consumer connectors)
+  ├── UAT group DLP: Same as PROD — test with real policy before going live
+  └── PROD group DLP: Strictest — only approved connectors; ACP for sensitive tables
+
+  PER BU ENVIRONMENT DLP (additional restrictions on top):
+  ├── HR Environments: SAP SuccessFactors connector (Business) — HR only
+  ├── Finance Environments: SAP ERP connector (Business) — Finance only
+  └── Others: No SAP connectors needed → kept Blocked for them
+
+  RULE: Most restrictive combination always wins
+  Tenant policy + Env policy = BOTH enforced simultaneously</div>
+
+  <h2>Interview Q&amp;A — Chapter 14</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is the difference between standard DLP policies and Advanced Connector Policies (ACP)? <span class="arrow">▼</span></div>
+    <div class="qa-a">Standard DLP policies classify entire connectors into Business/Non-Business/Blocked tiers — it's an all-or-nothing control per connector. <strong>ACP</strong> provides action-level and endpoint-level granularity: you can allow "Get Items" on SharePoint but block "Delete Items"; or allow the HTTP connector only to endpoint <code>https://api.contoso.com</code> and block all other URLs. ACP is the right choice when you can't block an entire connector (business need exists) but need to restrict dangerous operations within it. ACP does NOT support virtual connectors — those have their own governance path.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: You've just changed a DLP policy to block the Twitter connector. How soon does it take effect for existing flows using Twitter? <span class="arrow">▼</span></div>
+    <div class="qa-a">Not immediately. When a DLP policy is saved, a cascade process evaluates all existing resources in the affected environments. In <strong>most cases this takes under 1 hour</strong>, but in tenants with thousands of apps and flows, it can take <strong>up to 24 hours</strong> for full enforcement. During this window, existing flows may still run. The connection to Twitter will be <strong>disabled</strong> once the cascade completes, and any flow using it will fail at runtime with a broken connection error. Best practice: warn makers with 2 weeks' notice, use DLP Impact Analysis beforehand to identify all affected flows, and plan the change for a low-traffic period.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What are virtual connectors and why should a COE architect know about them? <span class="arrow">▼</span></div>
+    <div class="qa-a">Virtual connectors are not real APIs — they appear in DLP policies as on/off switches for platform features, primarily for <strong>Copilot Studio governance</strong> (e.g., turning off specific chatbot capabilities like web search or file upload). They cannot be governed by ACP (advanced connector policies). This is important for COE architects because: (1) Copilot Studio governance requires understanding virtual connectors to control what AI agents can do. (2) Microsoft is evolving virtual connectors into their own dedicated governance capability separate from DLP entirely — so stay updated on this changing area. (3) If you need to govern Copilot/AI features, this is the current mechanism.</div>
+  </div>
+</section>
+
+<!-- ═══════════ CH15: WELL-ARCHITECTED ═══════════ -->
+<section class="chapter" id="ch15">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:#569cd6">15</div>
+    <div><div class="ch-title">Power Platform Well-Architected Framework</div><div class="ch-sub">5 pillars · Design principles · Assessment tool · Reliability · Security · OpEx · Performance · UX</div></div>
+    <span class="tag tag-arch">Well-Architected</span>
+  </div>
+
+  <div class="hbox hbox-blue">
+    <h4>What is the Well-Architected Framework (PPWAF)?</h4>
+    <p>A set of best-practices, architecture guidance, and review tools from Microsoft to help you make informed decisions about designing Power Platform workloads. 5 pillars. Every solution you design should be evaluated against all 5. Use the <strong>Assessment Tool</strong> (aka.ms/powa/assessment) to score your workload and get an actionable report.</p>
+  </div>
+
+  <div class="arch">  POWER PLATFORM WELL-ARCHITECTED — 5 PILLARS
+
+  RELIABILITY      SECURITY       OPERATIONAL      PERFORMANCE      EXPERIENCE
+  ───────────      ────────       EXCELLENCE       EFFICIENCY       OPTIMISATION
+  Resilience &     CIA triad +    DevOps culture   Scale &          UX that drives
+  recovery at      threat model   + observability  efficiency +     business
+  scale            + encryption   + safe deploys   load testing     outcomes</div>
+
+  <h2>Pillar 1: Reliability</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>5 Design Principles</h3>
+      <ul>
+        <li><strong>Design for business requirements</strong> — Define RTO and RPO; not every app needs 99.99% uptime</li>
+        <li><strong>Design for resilience</strong> — Assume components WILL fail; build graceful degradation</li>
+        <li><strong>Design for recovery</strong> — Test your DR plan; document every restore step</li>
+        <li><strong>Design for operations</strong> — Make failures visible; proactive monitoring and alerts</li>
+        <li><strong>Keep it simple</strong> — Complexity is the enemy of reliability; fewer parts = fewer failure points</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>In practice</h3>
+      <ul>
+        <li>Map every critical flow — identify where a failure breaks the business process</li>
+        <li>Perform <strong>failure mode analysis</strong> — what breaks when X fails?</li>
+        <li>Set SLA targets: e.g., "app available 99.5% during business hours"</li>
+        <li>Implement <strong>transient fault handling</strong> in flows (retry with exponential backoff)</li>
+        <li>Use <strong>background jobs</strong> to decouple user waits from long-running processes</li>
+        <li>Design a <strong>testing strategy</strong> — unit tests for formulas, integration tests for flows</li>
+        <li>Document a <strong>disaster recovery runbook</strong> — backup schedules, restore steps, RTO/RPO</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Pillar 2: Security</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>5 Design Principles</h3>
+      <ul>
+        <li><strong>Plan security readiness</strong> — Classify data FIRST; design controls to match classification</li>
+        <li><strong>Protect confidentiality</strong> — Least privilege; encrypt at rest and in transit</li>
+        <li><strong>Protect integrity</strong> — Prevent unauthorised modification; audit all changes</li>
+        <li><strong>Protect availability</strong> — Implement throttling; protect against abuse</li>
+        <li><strong>Sustain security posture</strong> — Review quarterly; threat model regularly</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>In practice</h3>
+      <ul>
+        <li><strong>Classify all Dataverse tables/columns:</strong> Public / Internal / Confidential / Restricted</li>
+        <li><strong>Secure dev lifecycle:</strong> Mandatory solution checker, no hardcoded secrets</li>
+        <li><strong>Use service principals</strong> for integrations — never named user accounts</li>
+        <li><strong>Azure Key Vault</strong> for secrets — reference via Environment Variables, never plain text</li>
+        <li><strong>Threat model</strong> high-impact apps using STRIDE methodology</li>
+        <li>Define an <strong>incident response plan</strong> before go-live, not after an incident</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Pillar 3: Operational Excellence</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Principle</th><th>What it means in practice</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Embrace fusion + DevOps culture</strong></td><td>Break silos between makers and IT; shared ownership of quality; same ALM pipeline for all</td></tr>
+        <tr><td><strong>Establish development standards</strong></td><td>Naming conventions, solution structure, env variable usage — documented and enforced via Solution Checker</td></tr>
+        <tr><td><strong>Evolve ops with observability</strong></td><td>Every critical flow emits telemetry to App Insights; build dashboards for business AND ops metrics</td></tr>
+        <tr><td><strong>Deploy with confidence</strong></td><td>Managed solutions, Solution Checker gates, approval workflows — never deploy to PROD manually</td></tr>
+        <tr><td><strong>Automate for efficiency</strong></td><td>CI/CD pipelines, automated environment provisioning, automated compliance checks via COE flows</td></tr>
+        <tr><td><strong>Safe deployment practices</strong></td><td>Test in UAT first, rollback plan documented, validate connections before deployment starts</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Pillar 4: Performance Efficiency</h2>
+  <div class="card">
+    <h3>Key performance facts for PP architects</h3>
+    <ul>
+      <li><strong>Delegation in Canvas Apps:</strong> Non-delegable filters process ONLY the first 500-2000 records on the client — silently wrong results on large data sets. Always use Dataverse (widest delegation support). Yellow triangle in formula bar = delegation warning — never ship to PROD with critical delegation warnings</li>
+      <li><strong>Dataverse API limits:</strong> 1,000 API requests/user/5 minutes (standard license) — design bulk operations with $batch API; avoid row-by-row loops in flows for large datasets</li>
+      <li><strong>Flow throttling:</strong> Cloud flows have per-user/per-day run limits by license type; design async patterns (queue + trigger) for high-volume scenarios</li>
+      <li><strong>Canvas app load time:</strong> Limit data sources on App.OnStart; use lazy-load patterns; pre-load only what Screen 1 needs</li>
+      <li><strong>Horizontal scaling:</strong> Use parallel branches in flows (Control → Parallel Branch) for independent operations; use child flows for reusable patterns</li>
+      <li><strong>Test at scale BEFORE go-live:</strong> Many apps perform fine at 100 records but fail at 100,000 — test with production-representative data volumes</li>
+    </ul>
+  </div>
+
+  <h2>Pillar 5: Experience Optimization</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>UX principles</h3>
+      <ul>
+        <li>Design for the <strong>least technical user</strong> — if they struggle, everyone struggles</li>
+        <li>Use <strong>Creator Kit</strong> Fluent UI controls for professional, consistent look</li>
+        <li>Mobile-first for field workers — test on phone screens from day one</li>
+        <li>Accessibility (a11y) — screen reader support, colour contrast ratio, keyboard navigation</li>
+        <li>Reduce clicks — measure time to complete a key task</li>
+        <li>Clear, actionable error messages — never just "Something went wrong"</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Business outcome focus</h3>
+      <ul>
+        <li>Define success metrics BEFORE building: e.g., "Expense report submitted in &lt;3 mins"</li>
+        <li>Prototype with low-fidelity mockups and real users before building anything</li>
+        <li>Track adoption metrics post-launch — not just "is it deployed?"</li>
+        <li>Co-design with business users — they know the process, you know the tech</li>
+        <li>Gather feedback at 2 weeks, 1 month, and 3 months post go-live</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="hbox hbox-green">
+    <h4>PPWAF Assessment Tool — URL: aka.ms/powa/assessment</h4>
+    <p>50-80 questions across all 5 pillars, tailored to your workload type. Produces a scored report with current pillar scores, specific gaps with priority ratings, and recommended actions with doc links. As COE Lead: mandate this assessment for all business-critical apps before they go live. It's free, takes 30 minutes, and produces a report you can share with stakeholders to justify investment in quality improvements.</p>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 15</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: A team is about to go live with a business-critical Power Platform app. What architecture review would you conduct? <span class="arrow">▼</span></div>
+    <div class="qa-a">I'd run a PPWAF review across all 5 pillars: <ul><li><strong>Reliability:</strong> RTO/RPO defined? Retry logic in flows? DR runbook exists?</li><li><strong>Security:</strong> Data classified? Connections using service principals? Secrets in Key Vault? Threat model done?</li><li><strong>Operational Excellence:</strong> Solution Checker gate passing? App Insights telemetry configured? Rollback plan documented?</li><li><strong>Performance:</strong> Tested with production-scale data? No delegation warnings on critical queries? Flow limits accounted for?</li><li><strong>Experience:</strong> Tested with actual end users? Accessible? Error messages user-friendly?</li></ul>Use aka.ms/powa/assessment for a formal scored report. Require all Critical/High findings resolved before go-live approval.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is delegation in Power Apps and why is it a critical performance concern? <span class="arrow">▼</span></div>
+    <div class="qa-a">Delegation means the filter/query is processed by the data source SERVER rather than downloaded to the client first. Without delegation, Power Apps downloads data to the client — but only the first 500-2000 records (configurable, max 2000). If your table has 50,000 records and you have a non-delegable filter, you search ONLY the first 2000 rows — silently returning incorrect results with no error shown to users. Architects must: (1) Always use Dataverse for large-scale data (widest delegation support), (2) Always verify delegation in the formula bar (yellow triangle = warning), (3) Never ship an app with delegation warnings on business-critical query paths.</div>
+  </div>
+</section>
+
+<!-- ═══════════ CH16: CAT TOOLS ═══════════ -->
+<section class="chapter" id="ch16">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:#c586c0">16</div>
+    <div><div class="ch-title">CAT Tools, Toolkits &amp; Developer Arsenal</div><div class="ch-sub">Creator Kit · pac CLI · Pipelines · Power Platform Build Tools · What's deprecated</div></div>
+    <span class="tag tag-alm">CAT Tools</span>
+  </div>
+
+  <div class="hbox hbox-blue">
+    <h4>What are "CAT Tools"?</h4>
+    <p>CAT = Customer Advisory Team — Microsoft's internal team that builds accelerators and toolkits for enterprise customers. Tools are open-source, free, community-supported. Key CAT tools: COE Starter Kit, Creator Kit, ALM Accelerator (now deprecated, replaced by Pipelines). Know what's active vs deprecated — interviews test this.</p>
+  </div>
+
+  <h2>Tool Status Overview</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Tool</th><th>What it is</th><th>Status</th><th>Use when</th></tr></thead>
+      <tbody>
+        <tr><td><strong>COE Starter Kit</strong></td><td>Governance, monitoring, compliance toolkit</td><td>⚠️ No longer maintained — PPAC + ME first</td><td>Need custom compliance workflows beyond PPAC</td></tr>
+        <tr><td><strong>Creator Kit</strong></td><td>Fluent UI component library for Canvas Apps</td><td>✅ Active (community-supported)</td><td>Building professional-grade Canvas Apps</td></tr>
+        <tr><td><strong>ALM Accelerator</strong></td><td>Azure DevOps-based ALM automation</td><td>⚠️ Deprecated — use Pipelines instead</td><td>Legacy enterprise with existing ADO setup</td></tr>
+        <tr><td><strong>Pipelines in PP</strong></td><td>Native built-in CI/CD for PP solutions</td><td>✅ Active — Microsoft product feature</td><td>First choice for ALL new ALM automation</td></tr>
+        <tr><td><strong>Power Platform Build Tools</strong></td><td>Azure DevOps extension for solution ops</td><td>✅ Active</td><td>Complex ADO pipelines extending native Pipelines</td></tr>
+        <tr><td><strong>pac CLI</strong></td><td>Command-line tool for all PP dev operations</td><td>✅ Active</td><td>Automation scripts, CI/CD, solution pack/unpack</td></tr>
+        <tr><td><strong>Power Apps Test Engine</strong></td><td>Automated testing framework for Canvas Apps</td><td>✅ Active (preview)</td><td>Automated regression testing in CI/CD pipelines</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Creator Kit — Components &amp; When to Use It</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>Components included</h3>
+      <ul>
+        <li><strong>Data display:</strong> DetailsList (sortable tables), Facepile, Persona card</li>
+        <li><strong>Inputs:</strong> Fluent Buttons, Combobox, DatePicker, Slider, Toggle, TagList</li>
+        <li><strong>Navigation:</strong> Nav, Pivot (tab nav), Breadcrumb, CommandBar</li>
+        <li><strong>Feedback:</strong> Dialog, Panel, ProgressIndicator, Shimmer (loading skeleton), Spinner</li>
+        <li><strong>Layout:</strong> Stack, Responsive containers, Elevation (shadow card effect)</li>
+        <li><strong>Theme:</strong> Fluent Design Theme Editor for brand-consistent colour schemes</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Why use it + how to get it</h3>
+      <ul>
+        <li>Built-in Power Apps controls look dated — Creator Kit gives modern Fluent UI</li>
+        <li>Accessibility built-in (screen reader, keyboard nav, focus management)</li>
+        <li>Consistent design system across all apps in your org</li>
+        <li>PCF-based — performant and customisable</li>
+        <li><strong>Download:</strong> aka.ms/creatorkit/appsource (AppSource marketplace)</li>
+        <li>⚠️ <strong>Prerequisite:</strong> Enable PCF code components in PPAC → Settings → Features BEFORE installing</li>
+        <li>GitHub: github.com/microsoft/powercat-creator-kit</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="img-row">
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/guidance/creator-kit/media/creatorkitview.png" alt="Fluent UI components in the Creator Kit including buttons, date pickers, tables, navigation menus and dialogs" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>Creator Kit — Fluent UI Components</strong> — Modern, accessible controls for Canvas Apps. Buttons, DetailsList, DatePicker, Nav, Dialog, Shimmer and more. <a href="https://learn.microsoft.com/en-us/power-platform/guidance/creator-kit/overview" target="_blank" rel="noopener">Source: Microsoft Learn</a></figcaption>
+    </figure>
+    <figure class="ms-figure">
+      <img src="https://learn.microsoft.com/en-us/power-platform/alm/media/deployment-pipelines.png" alt="Power Platform Pipelines showing deployment stages from development through QA to production" onerror="this.closest('figure').style.display='none'">
+      <figcaption><strong>Power Platform Pipelines</strong> — Native in-product CI/CD: Dev → QA → Prod stages with approval gates and automated deployment history. <a href="https://learn.microsoft.com/en-us/power-platform/alm/pipelines" target="_blank" rel="noopener">Source: Microsoft Learn</a></figcaption>
+    </figure>
+  </div>
+
+  <h2>pac CLI — Essential Commands Architects Use Daily</h2>
+  <div class="arch">  AUTH
+  pac auth create --environment "HR-Dev"      # Connect to environment
+  pac auth list                               # Show all auth profiles
+  pac auth select --index 2                   # Switch active profile
+
+  SOLUTION OPS (the daily dev workflow)
+  pac solution export --name MySol --path ./out --managed false   # Export from DEV
+  pac solution unpack --zipFile MySol.zip --folder ./src          # Unpack to YAML (git commit)
+  pac solution pack   --zipFile MySol_managed.zip --folder ./src --packagetype Managed
+  pac solution import --path ./MySol_managed.zip                  # Import managed to UAT/PROD
+  pac solution check  --path ./MySol.zip                          # Run Solution Checker
+  pac solution clone  --name MySolution                           # Clone solution locally
+
+  ENVIRONMENT MANAGEMENT
+  pac env list                                # List all environments
+  pac admin create-environment --name "HR-UAT" --type Sandbox --region uk
+  pac admin copy-environment --source-env "HR-Dev" --target-env "HR-UAT"
+  pac admin delete-environment --environment "HR-DEV-OLD"
+
+  PIPELINES
+  pac pipeline list                           # List all pipelines
+  pac pipeline deploy --id &lt;id&gt; --solution MySolution</div>
+
+  <h2>Pipelines in Power Platform — Deep Dive</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>How it works</h3>
+      <ul>
+        <li><strong>Host environment:</strong> PROD env where pipeline config lives; stores deployment history and artefacts</li>
+        <li><strong>Development environments:</strong> Where makers build; can be Developer plan envs (no Managed Env needed)</li>
+        <li><strong>Target environments:</strong> QA, UAT, PROD — <strong>must be Managed Environments</strong></li>
+        <li>Sequential stages — cannot skip QA to go to PROD</li>
+        <li>Same solution artefact passes through all stages — no re-export in between</li>
+        <li>Auto-backs up both managed and unmanaged solutions on every deployment</li>
+        <li>Always deploys as <strong>Upgrade</strong> (cleans up old components)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Key facts interviewers test</h3>
+      <ul>
+        <li>Cannot deploy to <strong>different tenants</strong> — use ADO/GitHub for cross-tenant</li>
+        <li>Cannot deploy Power BI Dashboards (currently)</li>
+        <li><strong>Rollback:</strong> redeploy previous version from run history</li>
+        <li><strong>Delegated deployments:</strong> use service principal as deployer for PROD security</li>
+        <li>Connection references and env variables validated BEFORE deployment starts</li>
+        <li>Extend with Power Automate + pac CLI for custom pre/post steps</li>
+        <li>Starting Feb 2026: Microsoft auto-converts pipeline targets to Managed Environments</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>When to Use Which ALM Tool</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Scenario</th><th>Best Tool</th></tr></thead>
+      <tbody>
+        <tr><td>Citizen dev team, no DevOps expertise</td><td><strong>Native Pipelines</strong> — simple setup, maker-friendly</td></tr>
+        <tr><td>Pro dev team with existing Azure DevOps</td><td><strong>ADO + Power Platform Build Tools</strong> — full CI/CD control</td></tr>
+        <tr><td>Mixed team (makers + pro devs)</td><td><strong>Pipelines + extend with ADO/pac CLI</strong></td></tr>
+        <tr><td>Cross-tenant deployment</td><td><strong>Azure DevOps or GitHub Actions</strong></td></tr>
+        <tr><td>Currently using ALM Accelerator</td><td><strong>Migrate to Pipelines</strong> — ALM Accelerator is deprecated</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 16</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: What is the Creator Kit and when would you recommend it? <span class="arrow">▼</span></div>
+    <div class="qa-a">The Creator Kit is a collection of Fluent UI-based PCF (Power Apps Component Framework) controls for Canvas Apps — professional-grade components like sortable tables, modals, navigation menus, and modern form inputs that the built-in Power Apps controls don't offer. Recommend it when: (1) The app needs a professional modern UI, (2) The app serves external users or a broad audience where impressions matter, (3) Accessibility compliance is required, (4) The org is building multiple apps and needs a consistent design system. Key prerequisite: PCF code components must be enabled in the environment BEFORE installing. Download from AppSource: aka.ms/creatorkit/appsource.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: How are native Pipelines different from Azure DevOps pipelines for Power Platform? <span class="arrow">▼</span></div>
+    <div class="qa-a"><strong>Native Pipelines (PPAC):</strong> Built into Power Platform, no external tools. Simple setup. Maker-friendly UI. Microsoft handles infrastructure. Opinionated (always Upgrade, sequential stages, no cross-tenant). Best for 80% of use cases.<br><br><strong>Azure DevOps Pipelines:</strong> Full-featured CI/CD platform. Complex setup (service connections, YAML, app registrations) but far more flexible: custom steps, automated testing, PR triggers, branch policies, multi-stage approvals, cross-tenant. Best for enterprise teams with complex requirements or existing DevOps investments.<br><br>Best practice: use Native Pipelines as the core deployment mechanism, then extend with ADO/GitHub Actions for custom pre/post logic.</div>
+  </div>
+</section>
+
+<!-- ═══════════ CH17: DEFAULT ENV SECURITY ═══════════ -->
+<section class="chapter" id="ch17">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:#ff8c00">17</div>
+    <div><div class="ch-title">Securing the Default Environment — Complete Playbook</div><div class="ch-sub">Step-by-step hardening · DLP · Anti-oversharing · Exchange rules · Tenant isolation · PowerShell</div></div>
+    <span class="tag tag-dlp">Default Env</span>
+  </div>
+
+  <div class="hbox hbox-red">
+    <h4>Why this deserves its own chapter</h4>
+    <p>The Default environment is the <strong>highest-risk environment in any tenant</strong> — every licensed user is automatically a maker, it can't be deleted, and it's where uncontrolled app sprawl begins. A complete hardening playbook is essential for any governance architect.</p>
+  </div>
+
+  <h2>Complete Hardening Checklist (Priority Order)</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Priority</th><th>Action</th><th>How to do it</th></tr></thead>
+      <tbody>
+        <tr><td>🔴 Do first</td><td><strong>Rename the environment</strong></td><td>PPAC → Environments → Edit → rename from "TenantName (default)" to "Personal Productivity Environment"</td></tr>
+        <tr><td>🔴 Do first</td><td><strong>Enable Managed Environments</strong></td><td>PPAC → Environments → select Default → Enable Managed Environment</td></tr>
+        <tr><td>🔴 Do first</td><td><strong>Configure Maker Welcome Content</strong></td><td>Managed Env settings → Maker Welcome → add link to Power Platform Hub, COE contact, policies</td></tr>
+        <tr><td>🔴 Do first</td><td><strong>Configure Sharing Limits</strong></td><td>Managed Env → Limit Sharing → max 20 individual users; restrict group sharing</td></tr>
+        <tr><td>🔴 High</td><td><strong>Set DLP — Blocked as default group</strong></td><td>PPAC → Data policies → Default env policy → Change default group to "Blocked" (new connectors auto-blocked)</td></tr>
+        <tr><td>🔴 High</td><td><strong>Move risky connectors to Blocked</strong></td><td>DLP policy: move all consumer/social/storage connectors to Blocked; keep only approved M365 in Business</td></tr>
+        <tr><td>🟡 Medium</td><td><strong>Block custom connectors by default</strong></td><td>DLP → Custom connector rules → block all URL patterns except explicitly approved ones</td></tr>
+        <tr><td>🟡 Medium</td><td><strong>Disable "Share with Everyone"</strong></td><td>PowerShell: <code>$settings.powerPlatform.powerApps.disableShareWithEveryone=$true; Set-TenantSettings $settings</code></td></tr>
+        <tr><td>🟡 Medium</td><td><strong>Customise DLP error message</strong></td><td>PowerShell: <code>Set-PowerAppDlpErrorSettings</code> with link to PP Hub and COE team email</td></tr>
+        <tr><td>🟡 Medium</td><td><strong>Configure tenant isolation</strong></td><td>PPAC → Policies → Tenant Isolation → block inbound/outbound except approved tenants</td></tr>
+        <tr><td>🟡 Medium</td><td><strong>Enable Default Env Routing</strong></td><td>PPAC → Policies → Default Env Routing → point to Personal Productivity environment group</td></tr>
+        <tr><td>🟡 Medium</td><td><strong>JIT/PIM for admin access</strong></td><td>Azure AD → PIM → just-in-time elevation for Power Platform Admin role</td></tr>
+        <tr><td>🟢 Enablement</td><td><strong>Create Power Platform Hub</strong></td><td>SharePoint template (aka.ms/PowerPlatformHub) — self-service docs, policies, COE contact</td></tr>
+        <tr><td>🟢 Lower</td><td><strong>Exchange email rules</strong></td><td>Work with Exchange admin — block mass outbound emails by Power Automate SMTP headers from Default env ID</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>DLP for Default Env — Recommended Configuration</h2>
+  <div class="arch">  DEFAULT ENVIRONMENT DLP POLICY
+
+  BUSINESS (makers CAN use with other Business connectors):
+  SharePoint Online · Teams · Office 365 Outlook · Office 365 Users
+  OneDrive for Business · Planner · Forms · Excel Online (Business)
+
+  NON-BUSINESS: (leave empty — push everything to Business or Blocked)
+
+  BLOCKED (makers CANNOT use in Default):
+  Twitter/X · Facebook · Gmail · Yahoo Mail · Dropbox · Box · Google Drive
+  HTTP connector · All custom connectors (block all URL patterns by default)
+  All premium third-party connectors not specifically approved
+
+  DEFAULT GROUP FOR NEW CONNECTORS: BLOCKED
+  (New connectors are safe until explicitly reviewed and classified)</div>
+
+  <h2>Tenant Isolation — Stop Cross-Tenant Data Flow</h2>
+  <div class="card">
+    <h3>What it is and why it matters</h3>
+    <ul>
+      <li>Controls whether your users can connect PP apps to data in OTHER Azure AD tenants</li>
+      <li>Does NOT affect normal Azure AD access outside Power Platform</li>
+      <li><strong>Inbound isolation:</strong> Block users from other tenants connecting to YOUR data via PP connectors</li>
+      <li><strong>Outbound isolation:</strong> Block YOUR users connecting to other tenants' data</li>
+      <li>Whitelist specific trusted tenants (e.g., a partner org) while blocking everything else</li>
+      <li>Critical for: financial services, healthcare, government — any data-residency-sensitive org</li>
+      <li>PowerShell: <code>Get-PowerAppTenantIsolationPolicy</code> / <code>Set-PowerAppTenantIsolationPolicy</code></li>
+    </ul>
+  </div>
+
+  <h2>Exchange Rules — Stopping Email Abuse from Power Automate</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>The risk</h3>
+      <ul>
+        <li>Office 365 Outlook = standard connector — CANNOT be DLP-blocked</li>
+        <li>A maker could build a flow sending 10,000 external emails (blast, phishing, data ex-fil)</li>
+        <li>Power Automate injects identifying SMTP headers into every email sent</li>
+        <li>Header: <code>x-ms-mail-application: Microsoft Power Automate</code></li>
+        <li>Header: <code>x-ms-mail-environment-id: &lt;env-guid&gt;</code></li>
+        <li>This lets Exchange rules identify and block PP-originated emails specifically</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Exchange rules to implement</h3>
+      <ul>
+        <li><strong>Block external email blasts:</strong> If x-ms-mail-application contains "Power Automate" + recipient is external + source env = Default env ID → block</li>
+        <li><strong>Block auto-forwarding:</strong> Block forward operations to external addresses from PP in Default env</li>
+        <li><strong>Exception allowlist:</strong> Approved flows/apps (by GUID) exempted from the block rules</li>
+        <li><strong>Best practice:</strong> Move ANY app/flow sending external email to a dedicated governed environment — not Default</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Interview Q&amp;A — Chapter 17</h2>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: A maker in your Default environment built a flow that emails everyone in the company daily. How do you prevent recurrence? <span class="arrow">▼</span></div>
+    <div class="qa-a">Three defensive layers: (1) <strong>Exchange rule:</strong> Work with Exchange admin to block bulk outbound emails identified by the Power Automate SMTP header from the Default env's environment ID. (2) <strong>Managed Environments Sharing Limits:</strong> Prevent flows from being shared with more than X users — limits the blast radius of any future flows. (3) <strong>Governance process:</strong> Any app/flow that sends external communications must live in a dedicated, governed environment (not Default) — require formal approval via the COE env request workflow. (4) <strong>Communication:</strong> Update Maker Welcome Content to clearly state Default = personal productivity, not org-wide communications.</div>
+  </div>
+  <div class="qa-block">
+    <div class="qa-q" onclick="toggleQA(this)">Q: Name 5 PowerShell commands a PP admin uses to govern the Default environment. <span class="arrow">▼</span></div>
+    <div class="qa-a"><ul><li><code>$settings = Get-TenantSettings</code> — get current tenant settings object</li><li><code>$settings.powerPlatform.powerApps.disableShareWithEveryone=$true; Set-TenantSettings $settings</code> — disable sharing with Everyone</li><li><code>Set-PowerAppDlpErrorSettings</code> — customise the error message shown when DLP blocks a connector</li><li><code>Get-PowerAppTenantIsolationPolicy</code> — view current cross-tenant isolation policy</li><li><code>Get-AdminPowerAppLicenses -OutputFilePath './licenses.csv'</code> — export all Power Platform user licenses for audit</li></ul></div>
+  </div>
+</section>
+
+<!-- ═══════════ CH18: ARCHITECT RESOURCE LIBRARY ═══════════ -->
+<section class="chapter" id="ch18">
+  <div class="chapter-header">
+    <div class="ch-num" style="color:#39d353">18</div>
+    <div><div class="ch-title">Architect Resource Library</div><div class="ch-sub">Tier 1 must-reads · Deep dives · GitHub repos · Community leaders · Certifications roadmap</div></div>
+    <span class="tag tag-qa">Resources</span>
+  </div>
+
+  <h2>Tier 1 — Read This Before Any Interview</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Resource</th><th>URL (learn.microsoft.com/...)</th><th>Why it matters</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Power Platform Well-Architected</strong></td><td>power-platform/well-architected</td><td>Framework for ALL solution design decisions; use assessment tool for every critical workload</td></tr>
+        <tr><td><strong>COE Starter Kit Overview</strong></td><td>power-platform/guidance/coe/overview</td><td>Core COE knowledge; understand all 3 modules + what's moved to PPAC</td></tr>
+        <tr><td><strong>Managed Environments Overview</strong></td><td>power-platform/admin/managed-environment-overview</td><td>Native governance platform — full feature list, licensing</td></tr>
+        <tr><td><strong>Environment Groups</strong></td><td>power-platform/admin/environment-groups</td><td>Scale governance to hundreds of environments at once</td></tr>
+        <tr><td><strong>DLP / Data Policies</strong></td><td>power-platform/admin/wp-data-loss-prevention</td><td>Connector types, design-time vs runtime, policy cascade process</td></tr>
+        <tr><td><strong>Secure the Default Environment</strong></td><td>power-platform/guidance/adoption/secure-default-environment</td><td>Step-by-step hardening with PowerShell commands</td></tr>
+        <tr><td><strong>Pipelines in Power Platform</strong></td><td>power-platform/alm/pipelines</td><td>Native ALM — architecture, FAQs, what it deploys, when to use</td></tr>
+        <tr><td><strong>Solution Concepts ALM</strong></td><td>power-platform/alm/solution-concepts-alm</td><td>Managed vs unmanaged, layers, publisher prefix — ALM fundamentals</td></tr>
+        <tr><td><strong>Dataverse Security Roles</strong></td><td>power-platform/admin/database-security</td><td>Full role model, privilege scopes, team types, app-specific roles</td></tr>
+        <tr><td><strong>Power Platform Adoption</strong></td><td>power-platform/guidance/adoption/methodology</td><td>8 pillars of adoption strategy — essential for COE/governance leadership roles</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Tier 2 — Deep Dives for Advanced Architects</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Resource</th><th>URL</th><th>Use for</th></tr></thead>
+      <tbody>
+        <tr><td><strong>pac CLI Reference</strong></td><td>power-platform/developer/cli/introduction</td><td>Full command reference; automate everything from the terminal</td></tr>
+        <tr><td><strong>Creator Kit</strong></td><td>power-platform/guidance/creator-kit/overview</td><td>Professional Fluent UI components for Canvas Apps</td></tr>
+        <tr><td><strong>Advanced Connector Policies</strong></td><td>power-platform/admin/advanced-connector-policies</td><td>Action-level and endpoint-level DLP governance (beyond tiers)</td></tr>
+        <tr><td><strong>Solution Layers</strong></td><td>power-platform/alm/solution-layers-alm</td><td>Understand managed/unmanaged stack; customisation conflicts</td></tr>
+        <tr><td><strong>ALM Environment Strategy</strong></td><td>power-platform/alm/environment-strategy-alm</td><td>Which environments for which ALM stages</td></tr>
+        <tr><td><strong>IP Firewall</strong></td><td>power-platform/admin/ip-firewall</td><td>Network-level security for Managed Environments</td></tr>
+        <tr><td><strong>Tenant Isolation</strong></td><td>power-platform/admin/cross-tenant-restrictions</td><td>Block cross-tenant data flows via PP connectors</td></tr>
+        <tr><td><strong>Power Platform Architecture Center</strong></td><td>power-platform/architecture</td><td>Reference architectures for common scenarios</td></tr>
+        <tr><td><strong>Git Integration for PP</strong></td><td>power-platform/alm/git-integration/overview</td><td>Native Git source control (no pac CLI unpack needed) — preview feature</td></tr>
+        <tr><td><strong>PPWAF Assessment Tool</strong></td><td>aka.ms/powa/assessment</td><td>Score your workload; generate architecture review report</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>GitHub Repos Every PP Architect Should Know</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Repo</th><th>GitHub URL</th><th>What you'll find</th></tr></thead>
+      <tbody>
+        <tr><td><strong>COE Starter Kit</strong></td><td>github.com/microsoft/coe-starter-kit</td><td>Full source code, releases, roadmap, known issues</td></tr>
+        <tr><td><strong>Creator Kit</strong></td><td>github.com/microsoft/powercat-creator-kit</td><td>PCF component source, samples, bug tracking, changelog</td></tr>
+        <tr><td><strong>Power Platform DevOps Templates</strong></td><td>github.com/microsoft/PowerPlatform-DevOps-Templates</td><td>Ready-to-use ADO pipeline YAML templates</td></tr>
+        <tr><td><strong>Power Apps Samples</strong></td><td>github.com/microsoft/PowerApps-Samples</td><td>Dataverse, Canvas, PCF, automation code samples</td></tr>
+        <tr><td><strong>Power Platform Governance Guidelines</strong></td><td>github.com/microsoft/powerplatformgovernance</td><td>Governance templates, DLP examples, policies</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Community Resources — Where Real Architects Learn</h2>
+  <div class="three-col">
+    <div class="card">
+      <h3>Microsoft Official</h3>
+      <ul>
+        <li><strong>Power Platform Blog</strong> — powerplatform.microsoft.com/blog</li>
+        <li><strong>Power Apps Community</strong> — powerusers.microsoft.com</li>
+        <li><strong>Microsoft Learn</strong> — PL-900, PL-400, PL-600 paths</li>
+        <li><strong>Power Platform YouTube</strong> — youtube.com/@MSPowerPlatform</li>
+        <li><strong>Power Platform Podcast</strong> — official Microsoft podcast</li>
+        <li><strong>Microsoft Power Platform Conference</strong> — annual event, October</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Community Leaders to Follow</h3>
+      <ul>
+        <li><strong>Shane Young</strong> (PowerApps911) — best Canvas Apps YouTube tutorials</li>
+        <li><strong>Reza Dorrani</strong> — Dataverse + advanced Power Apps</li>
+        <li><strong>Manuel Pichler</strong> (Microsoft) — COE Kit + governance deep dives</li>
+        <li><strong>Pieter Veenstra</strong> — Power Automate advanced patterns</li>
+        <li><strong>Laura Rogers</strong> — SharePoint + Power Platform integration</li>
+        <li><strong>Lewis Baybutt</strong> — Architecture patterns, Canvas pro dev</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Events &amp; Conferences</h3>
+      <ul>
+        <li><strong>MPPC</strong> — Microsoft Power Platform Conference (Oct, Las Vegas)</li>
+        <li><strong>Power Platform Global Hack</strong> — Annual hackathon</li>
+        <li><strong>PPCC Europe</strong> — Power Platform Community Conference EU</li>
+        <li><strong>Power Apps User Groups</strong> — local PAUG meetups globally</li>
+        <li><strong>D365 Saturday</strong> — community-run, free online events</li>
+        <li><strong>Low Code Revolution Podcast</strong> — weekly community podcast</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Certification Roadmap for This Role</h2>
+  <div class="arch">  FOUNDATION              DEVELOPER                ARCHITECT
+  ──────────              ─────────                ─────────
+  PL-900                  PL-400                   PL-600
+  Power Platform          Power Platform           Power Platform
+  Fundamentals            Developer Associate      Solution Architect Expert
+
+  Covers: What is PP,     Canvas Apps dev,         Architecture decisions,
+  basic use cases,        Model-driven dev,        Security design,
+  licensing overview,     Dataverse extensions,    Integration patterns,
+  connectors overview     Custom connectors,       ALM strategy,
+                          Power Automate adv.,     Governance framework,
+                          PCF controls,            Well-Architected review,
+                          Solution lifecycle       Solution architecture
+
+  ─────────────────────────────────────────────────────────────────────
+  ADJACENT CERTIFICATIONS that add context for COE/Governance role:
+
+  SC-400  → M365 Information Protection — compliance, data classification, sensitivity labels
+  AZ-900  → Azure Fundamentals — Key Vault, App Insights, VNets (relevant for ME features)
+  MS-900  → M365 Fundamentals — seeded licensing, Exchange, Teams governance context</div>
+
+  <h2>Top Vocabulary — Architect-Level Language</h2>
+  <div class="two-col">
+    <div class="cheat-card">
+      <h4>Use these phrases in interviews</h4>
+      <div class="cheat-row"><span class="cheat-key">hub-and-spoke env model</span><span class="cheat-val">Central COE hub + BU-specific environment spokes</span></div>
+      <div class="cheat-row"><span class="cheat-key">managed/unmanaged layers</span><span class="cheat-val">How customisations stack in Dataverse</span></div>
+      <div class="cheat-row"><span class="cheat-key">design-time vs runtime DLP</span><span class="cheat-val">When policies block makers vs running apps</span></div>
+      <div class="cheat-row"><span class="cheat-key">publisher prefix namespace</span><span class="cheat-val">Component naming strategy to avoid conflicts</span></div>
+      <div class="cheat-row"><span class="cheat-key">delegated deployments</span><span class="cheat-val">Service principal as deployer for PROD security</span></div>
+      <div class="cheat-row"><span class="cheat-key">transient fault handling</span><span class="cheat-val">Retry with exponential backoff in flows</span></div>
+    </div>
+    <div class="cheat-card">
+      <h4>More architect phrases</h4>
+      <div class="cheat-row"><span class="cheat-key">failure mode analysis</span><span class="cheat-val">Map what breaks at each step of a critical flow</span></div>
+      <div class="cheat-row"><span class="cheat-key">data classification first</span><span class="cheat-val">Classify tables before designing security model</span></div>
+      <div class="cheat-row"><span class="cheat-key">Environment Groups at scale</span><span class="cheat-val">Rules applied to groups of environments in bulk</span></div>
+      <div class="cheat-row"><span class="cheat-key">PPWAF gate for go-live</span><span class="cheat-val">Run assessment tool before prod deployment</span></div>
+      <div class="cheat-row"><span class="cheat-key">guardrails not barriers</span><span class="cheat-val">Governance that enables rather than blocks</span></div>
+      <div class="cheat-row"><span class="cheat-key">fusion dev team</span><span class="cheat-val">Makers + pro devs + IT working together</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+
+<footer>
+  <p>Built for <a href="https://viipiin.github.io">viipiin.github.io</a> · Power Platform COE &amp; Governance Study Guide · June 2026</p>
+  <p style="margin-top:6px;">Content sourced from Microsoft Learn documentation · For interview preparation and professional development</p>
+</footer>
+
+<script>
+  function toggleQA(el) {
+    const answer = el.nextElementSibling;
+    const isOpen = answer.classList.contains('open');
+    answer.classList.toggle('open', !isOpen);
+    el.querySelector('.arrow').textContent = isOpen ? '▼' : '▲';
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

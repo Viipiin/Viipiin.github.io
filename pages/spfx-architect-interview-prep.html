@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -319,6 +319,43 @@
     font-weight:700;
     font-size:13px;
   }
+  /* ── Complexity badges via data-complexity attribute ─────────────────── */
+  section.part[data-complexity] .part-number::after{
+    display:inline-block;
+    font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;
+    padding:3px 10px;border-radius:20px;margin-left:12px;vertical-align:middle;
+    font-family:'Inter',system-ui,sans-serif;
+  }
+  section.part[data-complexity="simple"] .part-number::after{
+    content:"● SIMPLE";background:var(--good-soft);color:var(--good);
+  }
+  section.part[data-complexity="medium"] .part-number::after{
+    content:"● MEDIUM";background:var(--warm-soft);color:var(--warm);
+  }
+  section.part[data-complexity="complex"] .part-number::after{
+    content:"● COMPLEX";background:var(--bad-soft);color:var(--bad);
+  }
+  /* Left border tint on section header by complexity */
+  section.part[data-complexity="simple"] .part-header{border-bottom-color:var(--good);}
+  section.part[data-complexity="medium"] .part-header{border-bottom-color:var(--warm);}
+  section.part[data-complexity="complex"] .part-header{border-bottom-color:var(--bad);}
+
+  /* ── TOC complexity group headers ────────────────────────────────────── */
+  .toc-group-head{
+    list-style:none;
+    display:flex;align-items:center;gap:8px;
+    padding:14px 0 5px;margin:0;
+    font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;
+  }
+  .toc-group-head::after{content:"";flex:1;height:1px;}
+  .toc-group-head.simple{color:var(--good);}
+  .toc-group-head.simple::after{background:var(--good-soft);}
+  .toc-group-head.medium{color:var(--warm);}
+  .toc-group-head.medium::after{background:var(--warm-soft);}
+  .toc-group-head.complex{color:var(--bad);}
+  .toc-group-head.complex::after{background:var(--bad-soft);}
+  nav.toc ol li.toc-group-head{padding-left:0}
+
   .rapid .ra::before{
     content:"A. ";
     color:var(--good);
@@ -383,28 +420,44 @@ A 12-year SharePoint practitioner can recite the SPFx lifecycle. So can a junior
 </p>
 
 <nav class="toc" id="toc">
-  <h3>Sections</h3>
+  <h3>Sections by Complexity</h3>
   <ol>
-    <li><a href="#s1">Deep Technical Questions &mdash; SPFx</a><span class="meta">15 Q</span></li>
-    <li><a href="#s2">Hands-on SPFx Scenarios</a><span class="meta">5 cases</span></li>
-    <li><a href="#s3">Power Automate Questions &amp; Scenarios</a><span class="meta">10 Q + 4 cases</span></li>
-    <li><a href="#s4">SharePoint Migration &mdash; On-Prem to Online</a><span class="meta">12 Q + 3 cases</span></li>
-    <li><a href="#s5">AngularJS to SPFx Migration</a><span class="meta">9 Q + 2 cases</span></li>
-    <li><a href="#s6">Leadership &amp; Architecture</a><span class="meta">8 Q</span></li>
-    <li><a href="#s7">Rapid-Fire &amp; Advanced Edge Cases</a><span class="meta">20 Q</span></li>
-    <li><a href="#s8">Extended Q&amp;A &mdash; All Categories A&ndash;H</a><span class="meta">48 Q</span></li>
-    <li><a href="#s9">Real-World Scenario Bank</a><span class="meta">35 scenarios</span></li>
-    <li><a href="#s10">Hands-on &amp; Coding Questions</a><span class="meta">20 exercises + code</span></li>
-    <li><a href="#s11">Common Mistakes &amp; Best Practices</a><span class="meta">anti-patterns + fixes</span></li>
+    <!-- ── SIMPLE ─────────────────────────────────────── -->
+    <li class="toc-group-head simple">● Simple &mdash; Foundation</li>
+    <li><a href="#s19">Out-of-Box Features &amp; Modern Web Parts</a><span class="meta">8 Q — OOTB webparts, site features, templates</span></li>
+    <li><a href="#s17">SharePoint Permissions &mdash; Levels, Unique &amp; Groups</a><span class="meta">10 Q — permission model deep dive</span></li>
+    <li><a href="#s18">Lists &amp; Libraries &mdash; Complete with Limitations</a><span class="meta">10 Q — columns, views, thresholds, versioning</span></li>
+    <li><a href="#s20">Node.js, Responsive Development &amp; Build Tooling</a><span class="meta">8 Q — Node, npm, webpack, responsive patterns</span></li>
+    <li><a href="#s21">Azure DevOps, Git &amp; CI/CD Pipeline</a><span class="meta">10 Q — Git basics, branching, pipeline config</span></li>
     <li><a href="#s12">Rapid Revision Sheet</a><span class="meta">cheat sheet + commands</span></li>
-    <li><a href="#s13">TypeScript Deep Dive</a><span class="meta">15 Q — generics, utility types, type guards</span></li>
+
+    <!-- ── MEDIUM ─────────────────────────────────────── -->
+    <li class="toc-group-head medium">● Medium &mdash; Practitioner</li>
+    <li><a href="#s22">PowerShell for SharePoint &amp; Migration</a><span class="meta">10 Q — PnP PowerShell, scripts, automation</span></li>
+    <li><a href="#s3">Power Automate &mdash; Questions &amp; Scenarios</a><span class="meta">10 Q + 4 cases</span></li>
+    <li><a href="#s4">SharePoint Migration &mdash; On-Prem to Online</a><span class="meta">12 Q + 3 cases</span></li>
+    <li><a href="#s6">Leadership &amp; Architecture</a><span class="meta">8 Q</span></li>
+    <li><a href="#s11">Common Mistakes &amp; Best Practices</a><span class="meta">anti-patterns + fixes</span></li>
     <li><a href="#s14">Fluent UI &amp; SASS Styling</a><span class="meta">13 Q — theming, components, CSS modules</span></li>
     <li><a href="#s15">PnP Controls &amp; Classic SharePoint</a><span class="meta">20 Q — controls API + classic foundations</span></li>
     <li><a href="#s16">Accessibility, Performance &amp; Security</a><span class="meta">15 Q — WCAG + optimization + XSS</span></li>
+    <li><a href="#s23">Roles &amp; Responsibilities &mdash; IC, Estimation &amp; Leadership</a><span class="meta">8 Q — estimation, client interaction, mentoring</span></li>
+    <li><a href="#s8">Extended Q&amp;A &mdash; All Categories A&ndash;H</a><span class="meta">48 Q</span></li>
+
+    <!-- ── COMPLEX ────────────────────────────────────── -->
+    <li class="toc-group-head complex">● Complex &mdash; Expert</li>
+    <li><a href="#s1">Deep Technical Questions &mdash; SPFx</a><span class="meta">15 Q</span></li>
+    <li><a href="#s2">Hands-on SPFx Scenarios</a><span class="meta">5 cases</span></li>
+    <li><a href="#s5">AngularJS to SPFx Migration</a><span class="meta">9 Q + 2 cases</span></li>
+    <li><a href="#s7">Rapid-Fire &amp; Advanced Edge Cases</a><span class="meta">20 Q</span></li>
+    <li><a href="#s9">Real-World Scenario Bank</a><span class="meta">35 scenarios</span></li>
+    <li><a href="#s10">Hands-on &amp; Coding Questions</a><span class="meta">20 exercises + code</span></li>
+    <li><a href="#s13">TypeScript Deep Dive</a><span class="meta">15 Q — generics, utility types, type guards</span></li>
+    <li><a href="#s24">Deep Concept &amp; Scenario Challenges</a><span class="meta">20 hard scenarios — separates practitioners from readers</span></li>
   </ol>
 </nav>
 
-<section class="part" id="s1">
+<section class="part" id="s1" data-complexity="complex">
   <div class="part-header">
     <div class="part-number">SECTION 01</div>
     <h2 class="part-title">Deep Technical Questions &mdash; SPFx</h2>
@@ -659,7 +712,7 @@ A 12-year SharePoint practitioner can recite the SPFx lifecycle. So can a junior
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s2">
+<section class="part" id="s2" data-complexity="complex">
   <div class="part-header">
     <div class="part-number">SECTION 02</div>
     <h2 class="part-title">Hands-on SPFx Scenarios</h2>
@@ -836,7 +889,7 @@ ReactDOM.<span class="fn">render</span>(
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s3">
+<section class="part" id="s3" data-complexity="medium">
   <div class="part-header">
     <div class="part-number">SECTION 03</div>
     <h2 class="part-title">Power Automate &mdash; Questions &amp; Scenarios</h2>
@@ -1056,7 +1109,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s4">
+<section class="part" id="s4" data-complexity="medium">
   <div class="part-header">
     <div class="part-number">SECTION 04</div>
     <h2 class="part-title">SharePoint Migration &mdash; On-Prem to Online</h2>
@@ -1304,7 +1357,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s5">
+<section class="part" id="s5" data-complexity="complex">
   <div class="part-header">
     <div class="part-number">SECTION 05</div>
     <h2 class="part-title">AngularJS to SPFx (React + TypeScript) Migration</h2>
@@ -1530,7 +1583,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s6">
+<section class="part" id="s6" data-complexity="medium">
   <div class="part-header">
     <div class="part-number">SECTION 06</div>
     <h2 class="part-title">Leadership &amp; Architecture</h2>
@@ -1656,7 +1709,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s7">
+<section class="part" id="s7" data-complexity="complex">
   <div class="part-header">
     <div class="part-number">SECTION 07</div>
     <h2 class="part-title">Rapid-Fire &amp; Advanced Edge Cases</h2>
@@ -1706,7 +1759,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s8">
+<section class="part" id="s8" data-complexity="medium">
   <div class="part-header">
     <div class="part-number">SECTION 08</div>
     <h2 class="part-title">Extended Q&amp;A &mdash; Categories A through H</h2>
@@ -2535,7 +2588,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
 
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
-<section class="part" id="s9">
+<section class="part" id="s9" data-complexity="complex">
   <div class="part-header">
     <div class="part-number">SECTION 09</div>
     <h2 class="part-title">Real-World Scenario Bank</h2>
@@ -2903,7 +2956,7 @@ define([], <span class="kw">function</span>() {
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s10">
+<section class="part" id="s10" data-complexity="complex">
   <div class="part-header">
     <div class="part-number">SECTION 10</div>
     <h2 class="part-title">Hands-on &amp; Coding Questions</h2>
@@ -3598,7 +3651,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s11">
+<section class="part" id="s11" data-complexity="medium">
   <div class="part-header">
     <div class="part-number">SECTION 11</div>
     <h2 class="part-title">Common Mistakes &amp; Best Practices</h2>
@@ -3873,7 +3926,7 @@ angular.<span class="fn">controller</span>(<span class="str">"TaskCtrl"</span>, 
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s12">
+<section class="part" id="s12" data-complexity="simple">
   <div class="part-header">
     <div class="part-number">SECTION 12</div>
     <h2 class="part-title">Rapid Revision Sheet</h2>
@@ -4113,7 +4166,7 @@ Pre-migration checklist:
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s13">
+<section class="part" id="s13" data-complexity="complex">
   <div class="part-header">
     <div class="part-number">SECTION 13</div>
     <h2 class="part-title">TypeScript Deep Dive</h2>
@@ -4485,7 +4538,7 @@ Pre-migration checklist:
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s14">
+<section class="part" id="s14" data-complexity="medium">
   <div class="part-header">
     <div class="part-number">SECTION 14</div>
     <h2 class="part-title">Fluent UI &amp; SASS Styling</h2>
@@ -4793,7 +4846,7 @@ $radius-sm:     4px;
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s15">
+<section class="part" id="s15" data-complexity="medium">
   <div class="part-header">
     <div class="part-number">SECTION 15</div>
     <h2 class="part-title">PnP Controls &amp; Classic SharePoint Foundations</h2>
@@ -5017,7 +5070,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
   <a href="#toc" class="back-link">Back to sections</a>
 </section>
 
-<section class="part" id="s16">
+<section class="part" id="s16" data-complexity="medium">
   <div class="part-header">
     <div class="part-number">SECTION 16</div>
     <h2 class="part-title">Accessibility, Performance &amp; Security</h2>
@@ -5334,6 +5387,1556 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
         <li><strong>SharePoint property bag (site property):</strong> Acceptable for non-sensitive configuration (list names, feature flags) that admins set. Not appropriate for secrets — property bags are readable by users with API access.</li>
         <li><strong>Web part properties:</strong> Only for non-sensitive UI configuration (display labels, count limits). Never for keys.</li>
       </ul>
+    </div>
+  </div>
+
+  <a href="#toc" class="back-link">Back to sections</a>
+</section>
+
+<section class="part" id="s17" data-complexity="simple">
+  <div class="part-header">
+    <div class="part-number">SECTION 17</div>
+    <h2 class="part-title">SharePoint Permissions &mdash; Levels, Unique &amp; Groups</h2>
+    <div class="part-summary">Permission management is one of the most common day-to-day responsibilities in SharePoint projects. These questions cover the full model — from default levels to broken inheritance and item-level permissions.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">P 17.1</div>
+    <div class="q">What are the default SharePoint permission levels and what can each do?</div>
+    <div class="a">
+      <p>SharePoint ships with five default permission levels (plus two special ones):</p>
+      <ul>
+        <li><strong>Full Control</strong> — complete site administration, including creating/deleting lists, managing permissions, and activating features. Typically only site collection admins and owners.</li>
+        <li><strong>Design</strong> — can create and modify pages, themes, style sheets, and master pages. Rarely used in modern SharePoint.</li>
+        <li><strong>Edit</strong> — add, edit, delete items and lists. Cannot manage permissions or site settings. The standard contributor-plus level.</li>
+        <li><strong>Contribute</strong> — add, edit, delete list items and documents. Cannot manage lists or views. Most team members land here.</li>
+        <li><strong>Read</strong> — view-only access to all content.</li>
+        <li><strong>View Only</strong> — like Read but prevents file downloads (useful for protected documents). Users can view in browser only.</li>
+        <li><strong>Limited Access</strong> — automatically assigned when a user has access to a specific item but not the parent list/site. You cannot assign this manually.</li>
+      </ul>
+      <p>You can also create <strong>custom permission levels</strong> by copying an existing level and adding/removing individual permissions (e.g., allow Add Items but remove Delete Items).</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">P 17.2</div>
+    <div class="q">What is permission inheritance and when would you break it?</div>
+    <div class="a">
+      <p>By default, every sub-site, list, library, and list item <strong>inherits permissions</strong> from its parent. Breaking inheritance ("unique permissions") creates an independent permission set for that object.</p>
+      <p><strong>When to break inheritance:</strong></p>
+      <ul>
+        <li>A specific document library needs to be restricted to HR only while the rest of the site is accessible to all staff</li>
+        <li>Individual items in a list need different visibility (e.g., each employee sees only their own records)</li>
+        <li>A sub-site for a confidential project within a broader intranet</li>
+      </ul>
+      <p><strong>Risks of breaking inheritance excessively:</strong></p>
+      <ul>
+        <li>Performance — SharePoint has to check permissions at every object level; thousands of unique permissions on list items causes serious throttling and slow page loads</li>
+        <li>Maintenance complexity — permission changes at the parent no longer cascade down</li>
+        <li>Migration complexity — tools like ShareGate must map item-level permissions individually</li>
+      </ul>
+      <p><strong>Rule of thumb:</strong> break at the list/library level only. Avoid item-level unique permissions unless it's a genuine business requirement — always explore column-based audience targeting or Microsoft 365 groups first.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">P 17.3</div>
+    <div class="q">What are SharePoint groups vs Microsoft 365 groups and which should you use for site permissions?</div>
+    <div class="a">
+      <ul>
+        <li><strong>SharePoint groups</strong> — exist within a single site collection. Managed from Site Settings &rarr; People and Groups. No Azure AD backing. Members are assigned a SharePoint permission level. Best for site-scoped access control.</li>
+        <li><strong>Microsoft 365 groups</strong> — Azure AD-backed groups. Assigning an M365 group to a SharePoint site gives all members access and creates a connected experience (Teams channel, Planner, shared mailbox). Permissions are managed in Azure AD, not SharePoint.</li>
+        <li><strong>Azure AD Security groups</strong> — no M365 connected experience. Can be nested. Best for large org-wide access control patterns managed by IT.</li>
+      </ul>
+      <p><strong>Best practice for new projects:</strong> Prefer M365 groups for team sites (they provision a Teams channel automatically). Use SharePoint groups for classic intranet scenarios or when you need granular sub-site control. Never add individual users directly to site permissions — always via groups.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">P 17.4</div>
+    <div class="q">How do you set unique permissions on a list item programmatically using REST API or PnP JS?</div>
+    <div class="a">
+      <pre><span class="cmt">// PnP JS — break item inheritance and grant role</span>
+<span class="kw">import</span> { spfi, SPFx } from <span class="str">"@pnp/sp"</span>;
+<span class="kw">import</span> { <span class="str">"@pnp/sp/security"</span> } <span class="kw">from</span> <span class="str">"@pnp/sp/security"</span>;
+
+<span class="kw">const</span> sp = <span class="fn">spfi</span>().<span class="fn">using</span>(<span class="fn">SPFx</span>(context));
+
+<span class="kw">const</span> item = sp.web.lists.<span class="fn">getByTitle</span>(<span class="str">"Projects"</span>).items.<span class="fn">getById</span>(42);
+
+<span class="cmt">// Step 1: Break inheritance (true = copy existing permissions)</span>
+<span class="kw">await</span> item.<span class="fn">breakRoleInheritance</span>(<span class="kw">true</span>, <span class="kw">false</span>);
+
+<span class="cmt">// Step 2: Get the role definition (e.g. "Contribute")</span>
+<span class="kw">const</span> roleId = <span class="kw">await</span> sp.web.roleDefinitions.<span class="fn">getByName</span>(<span class="str">"Contribute"</span>).select(<span class="str">"Id"</span>)();
+
+<span class="cmt">// Step 3: Get the principal (user or group)</span>
+<span class="kw">const</span> user = <span class="kw">await</span> sp.web.siteUsers.<span class="fn">getByEmail</span>(<span class="str">"user@contoso.com"</span>)();
+
+<span class="cmt">// Step 4: Assign role</span>
+<span class="kw">await</span> item.roleAssignments.<span class="fn">add</span>(user.Id, roleId.Id);</pre>
+      <p><strong>Warning:</strong> break inheritance on items sparingly — each unique item permission is a separate security object in SQL. Lists with 50,000+ uniquely-permissioned items have caused tenant-wide performance degradation in production.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">P 17.5</div>
+    <div class="q">How do you audit permissions across a site collection — what tools do you use?</div>
+    <div class="a">
+      <ul>
+        <li><strong>SharePoint Admin Center</strong> &rarr; Active sites &rarr; select site &rarr; Permissions — gives a top-level view</li>
+        <li><strong>PnP PowerShell</strong> — <code class="inline">Get-PnPListItemPermission</code>, <code class="inline">Get-PnPRoleAssignment</code> for scripted audits across all lists and items</li>
+        <li><strong>ShareGate</strong> — has a dedicated "Permissions Report" that exports all broken inheritance, group memberships, and user access to Excel — much faster than scripting for large sites</li>
+        <li><strong>Microsoft 365 Admin Center</strong> &rarr; Reports &rarr; SharePoint activity — for access activity, not just assignments</li>
+      </ul>
+      <pre><span class="cmt"># PnP PowerShell — export all lists with unique permissions</span>
+Connect-PnPOnline -Url "https://contoso.sharepoint.com/sites/hr" -Interactive
+$lists = Get-PnPList
+foreach ($list in $lists) {
+  $items = Get-PnPListItem -List $list -Fields "Id","Title"
+  foreach ($item in $items) {
+    $perms = Get-PnPListItemPermission -List $list -Identity $item.Id
+    if ($perms.HasUniqueRoleAssignments) {
+      Write-Host "List: $($list.Title) | Item: $($item.Id) | UNIQUE PERMISSIONS"
+    }
+  }
+}</pre>
+    </div>
+  </div>
+
+  <a href="#toc" class="back-link">Back to sections</a>
+</section>
+
+<section class="part" id="s18" data-complexity="simple">
+  <div class="part-header">
+    <div class="part-number">SECTION 18</div>
+    <h2 class="part-title">Lists &amp; Libraries &mdash; Complete with Limitations</h2>
+    <div class="part-summary">Lists and Libraries are the foundation of SharePoint. A complete understanding means knowing not just how to use them but where they break down — thresholds, column limits, versioning costs, and metadata constraints.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">L 18.1</div>
+    <div class="q">What is the difference between a SharePoint List and a Document Library?</div>
+    <div class="a">
+      <table>
+        <thead><tr><th>Aspect</th><th>List</th><th>Document Library</th></tr></thead>
+        <tbody>
+          <tr><td>Primary purpose</td><td>Structured data rows (tasks, contacts, custom records)</td><td>File storage with metadata</td></tr>
+          <tr><td>Default content</td><td>List items (no file attachment by default)</td><td>Documents, images, any file type</td></tr>
+          <tr><td>Versioning</td><td>Item versioning (major only)</td><td>Major and minor (draft) versioning</td></tr>
+          <tr><td>Check-out/Check-in</td><td>No</td><td>Yes — prevents simultaneous edits</td></tr>
+          <tr><td>Content approval</td><td>Supported</td><td>Supported</td></tr>
+          <tr><td>Co-authoring</td><td>No</td><td>Yes (Word, Excel, PowerPoint via Office Online)</td></tr>
+          <tr><td>Storage quota counted</td><td>Only attachments</td><td>Yes — all files count against site quota</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">L 18.2</div>
+    <div class="q">What are the key SharePoint Online limits for lists and libraries you must know?</div>
+    <div class="a">
+      <ul>
+        <li><strong>List view threshold:</strong> 5,000 items — any query returning more than 5,000 items at once is blocked. Applies to filters, sorts, and indexed column queries.</li>
+        <li><strong>Maximum items in a list:</strong> 30 million items (soft technical limit; performance degrades well before this)</li>
+        <li><strong>Maximum columns per list:</strong> 2,048 columns of any type combined; but practical limit is much lower — each indexed column adds query overhead</li>
+        <li><strong>Maximum indexed columns:</strong> 20 per list</li>
+        <li><strong>Document library size:</strong> 25 TB per library (site collection quota usually limits this first)</li>
+        <li><strong>Max file size:</strong> 250 GB per file</li>
+        <li><strong>Attachment size on list items:</strong> 250 MB per attachment</li>
+        <li><strong>File name length:</strong> 400 characters including path; avoid special characters <code class="inline"># % &amp; * : &lt; &gt; ? / \ { | } ~</code></li>
+        <li><strong>Versioning storage:</strong> each version stores a full copy of the file — a 10MB document with 100 versions uses 1GB. Enable version limits.</li>
+        <li><strong>Site collection storage:</strong> 25 TB per site collection in SPO</li>
+        <li><strong>Lookup columns:</strong> max 12 lookup columns per view (adds a SQL join per lookup)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">L 18.3</div>
+    <div class="q">How do you work around the 5,000 item list view threshold?</div>
+    <div class="a">
+      <p>Four strategies, in order of preference:</p>
+      <ol>
+        <li><strong>Indexed columns + filtered views</strong> — add an index on the column you filter/sort by. Every view that returns &lt;5,000 items by using that indexed column avoids the threshold. Do this <em>before</em> the list exceeds 5,000 items — adding an index to a large list triggers a full scan and may time out.</li>
+        <li><strong>PnP JS server-side paging</strong> — use <code class="inline">getPaged()</code> rather than loading all items at once:
+          <pre><span class="kw">let</span> page = <span class="kw">await</span> sp.web.lists.<span class="fn">getByTitle</span>(<span class="str">"Requests"</span>).items
+  .<span class="fn">select</span>(<span class="str">"Id"</span>, <span class="str">"Title"</span>, <span class="str">"Status"</span>)
+  .<span class="fn">filter</span>(<span class="str">"Status eq 'Open'"</span>)
+  .<span class="fn">top</span>(<span class="num">500</span>)
+  .<span class="fn">getPaged</span>&lt;IItem[]&gt;();
+
+<span class="kw">while</span> (page.hasNext) {
+  page = <span class="kw">await</span> page.<span class="fn">getNext</span>();
+  <span class="cmt">// process page.results</span>
+}</pre>
+        </li>
+        <li><strong>Folders for partitioning</strong> — folders are transparent to the threshold. A library with 500K files across 100 folders can serve each folder's items without hitting the limit.</li>
+        <li><strong>Microsoft Search or Graph Search</strong> — for read-only lookup scenarios, use the Search API which has no threshold. Results come from the search index, not direct SQL.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">L 18.4</div>
+    <div class="q">What column types are available in SharePoint lists and what are their gotchas?</div>
+    <div class="a">
+      <table>
+        <thead><tr><th>Column Type</th><th>Key Limitation / Gotcha</th></tr></thead>
+        <tbody>
+          <tr><td>Single line of text</td><td>Max 255 characters; use Multiple Lines for longer text</td></tr>
+          <tr><td>Multiple lines of text</td><td>Rich text stores HTML — strip tags carefully when reading via REST. Cannot be indexed for filtering.</td></tr>
+          <tr><td>Choice</td><td>Options are list-specific. For shared options across lists, use Managed Metadata instead.</td></tr>
+          <tr><td>Number</td><td>Stored as float — be careful with currency calculations and rounding</td></tr>
+          <tr><td>Currency</td><td>Locale-sensitive formatting — test across regional settings</td></tr>
+          <tr><td>Date and Time</td><td>Stored in UTC. REST returns ISO 8601. Always normalize to local time in UI.</td></tr>
+          <tr><td>Lookup</td><td>Max 12 lookups per view. Cascading lookup (lookup on a lookup column's value) requires custom code or PnP cascading dropdowns.</td></tr>
+          <tr><td>Person or Group</td><td>Returns email and display name but the Id is a local SharePoint user Id — use <code>LoginName</code> for stable cross-site identity.</td></tr>
+          <tr><td>Managed Metadata</td><td>Requires a Term Store term set. Cannot be used in Power Apps without custom connector.</td></tr>
+          <tr><td>Calculated</td><td>Calculated at save time only — not dynamic. Cannot reference other lists or use Today() reliably after item creation.</td></tr>
+          <tr><td>Hyperlink / Picture</td><td>Stored as "URL, Description" — split on comma when reading via REST.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">L 18.5</div>
+    <div class="q">How does versioning work in SharePoint and what storage impact should you plan for?</div>
+    <div class="a">
+      <p><strong>Document Libraries:</strong></p>
+      <ul>
+        <li><strong>Major versions</strong> (1.0, 2.0, 3.0) — published, visible to all readers</li>
+        <li><strong>Minor versions</strong> (1.1, 1.2) — draft state, visible only to contributors and above. Enable minor versioning when you need a review/approval workflow before publishing.</li>
+        <li><strong>Version limits</strong> — set "Keep the following number of major versions" to prevent unbounded growth. Recommended: 10–20 major + 5 minor for most document libraries.</li>
+      </ul>
+      <p><strong>Storage impact:</strong> SharePoint does <em>not</em> store deltas — each version is a full copy. A 5 MB PowerPoint with 50 versions uses 250 MB. Multiply this across a 10,000-document library and storage costs escalate fast.</p>
+      <p><strong>Best practice:</strong> Always set version limits. Use a Power Automate flow to archive old versions to Azure Blob Storage if long-term retention is required without storage cost.</p>
+    </div>
+  </div>
+
+  <a href="#toc" class="back-link">Back to sections</a>
+</section>
+
+<section class="part" id="s19" data-complexity="simple">
+  <div class="part-header">
+    <div class="part-number">SECTION 19</div>
+    <h2 class="part-title">Out-of-Box Features &amp; Modern Web Parts</h2>
+    <div class="part-summary">Knowing the OOTB catalog inside-out prevents over-engineering. The right answer to many requirements is a configured OOTB web part, not a custom SPFx build.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">O 19.1</div>
+    <div class="q">What are the most commonly used modern SharePoint web parts and when would you use each?</div>
+    <div class="a">
+      <table>
+        <thead><tr><th>Web Part</th><th>Best for</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Hero</strong></td><td>Homepage banner — up to 5 tiles with images, links, and text. First thing visitors see.</td></tr>
+          <tr><td><strong>News</strong></td><td>Aggregating news posts from the current site or across hub sites. Auto-rollup with thumbnail.</td></tr>
+          <tr><td><strong>Quick Links</strong></td><td>Navigation shortcuts with icons. Replace custom link lists in classic.</td></tr>
+          <tr><td><strong>Text</strong></td><td>Rich text content with tables, headings, styles. Basic content authoring.</td></tr>
+          <tr><td><strong>Image</strong></td><td>Single image with alt text, link, and caption. Use for brand banners.</td></tr>
+          <tr><td><strong>File Viewer</strong></td><td>Embed Word, Excel, PDF directly on the page. No download required.</td></tr>
+          <tr><td><strong>List / Library</strong></td><td>Display a filtered view of any list or library inline on a page.</td></tr>
+          <tr><td><strong>Highlighted Content</strong></td><td>Dynamic content rollup using search query — newest documents, specific content types, tagged pages. Very powerful OOTB.</td></tr>
+          <tr><td><strong>People</strong></td><td>Display user profiles — useful for team pages, contact directories.</td></tr>
+          <tr><td><strong>Yammer / Viva Engage</strong></td><td>Embed community conversations on intranet pages.</td></tr>
+          <tr><td><strong>Power BI Report</strong></td><td>Embed a published Power BI report. User must have Power BI licence.</td></tr>
+          <tr><td><strong>Forms (Microsoft Forms)</strong></td><td>Embed a survey or quiz directly on the page.</td></tr>
+          <tr><td><strong>Stream</strong></td><td>Embed a video from Microsoft Stream / SharePoint video library.</td></tr>
+          <tr><td><strong>Planner</strong></td><td>Show a Planner board or tasks from a connected M365 group.</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Interview tip:</strong> Always ask "is there an OOTB web part for this?" before writing a single line of SPFx. Custom code = maintenance cost. OOTB = Microsoft maintains it.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">O 19.2</div>
+    <div class="q">What SharePoint site templates are available OOTB and when do you choose each?</div>
+    <div class="a">
+      <ul>
+        <li><strong>Team site (with M365 group)</strong> — collaboration focus; auto-creates Teams channel, Planner, shared mailbox. Best for project teams.</li>
+        <li><strong>Team site (no M365 group)</strong> — standalone SharePoint site; no Teams/Planner. Best for intranet sub-sites, HR libraries, department pages.</li>
+        <li><strong>Communication site</strong> — broadcast focus (one team publishes, everyone reads). Best for intranets, news hubs, policy sites. No M365 group.</li>
+        <li><strong>Hub site</strong> — not a template but a designation. Associate team and communication sites to a hub to share navigation, branding, and News rollup across sites.</li>
+        <li><strong>Document Center</strong> — legacy template for large document management; replaced in modern SP by standard document libraries with metadata.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">O 19.3</div>
+    <div class="q">What is the Highlighted Content web part and how does it differ from a List web part?</div>
+    <div class="a">
+      <ul>
+        <li><strong>List web part</strong> — shows a specific configured view from a specific list/library on a specific site. Static source. Best for displaying live data from a known list.</li>
+        <li><strong>Highlighted Content web part</strong> — uses the SharePoint Search index as its data source. Dynamically surfaces content matching a query (content type, tag, date range, author, keyword). Can aggregate content across all sites in the tenant.</li>
+      </ul>
+      <p><strong>Use Highlighted Content when:</strong> you want automatic rollup (e.g., "show all documents tagged 'Policy' created in the last 30 days across all sites"). The results update automatically as new content is indexed.</p>
+      <p><strong>Limitation:</strong> search index has a crawl delay (typically minutes). New content won't appear instantly.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">O 19.4</div>
+    <div class="q">What are SharePoint site features and how do you activate/deactivate them?</div>
+    <div class="a">
+      <p>Site features are toggleable capabilities bundled with SharePoint. They exist at two scopes:</p>
+      <ul>
+        <li><strong>Site collection features</strong> — Site Settings &rarr; Site collection features. Examples: SharePoint Server Publishing Infrastructure, Content Type Hub, Cross-Site Collection Publishing.</li>
+        <li><strong>Site features</strong> — Site Settings &rarr; Manage site features. Examples: Team Collaboration Lists (creates default Announcements, Calendar, Tasks lists), SharePoint Server Publishing.</li>
+      </ul>
+      <p>Via PowerShell:</p>
+      <pre><span class="cmt"># Activate a site feature</span>
+Enable-PnPFeature -Identity "87294c72-f260-42f3-a41b-981a2ffce37a" -Scope Site
+
+<span class="cmt"># List all active features</span>
+Get-PnPFeature -Scope Web | Select-Object DisplayName, DefinitionId</pre>
+      <p><strong>Common gotcha:</strong> Activating Publishing Infrastructure on a modern site can break the modern page experience — some features conflict. Always test in dev first.</p>
+    </div>
+  </div>
+
+  <a href="#toc" class="back-link">Back to sections</a>
+</section>
+
+<section class="part" id="s20" data-complexity="simple">
+  <div class="part-header">
+    <div class="part-number">SECTION 20</div>
+    <h2 class="part-title">Node.js, Responsive Development &amp; Build Tooling</h2>
+    <div class="part-summary">SPFx development requires Node.js fluency. Responsive design in SPFx means working with Fluent UI breakpoints and CSS modules — not just media queries. These questions cover both.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">N 20.1</div>
+    <div class="q">What role does Node.js play in SPFx development and which versions are supported?</div>
+    <div class="a">
+      <p>Node.js is the <strong>build-time runtime</strong> for SPFx — it powers the toolchain (Gulp, Webpack, Yeoman) but does not run in the browser. The browser only receives the compiled JavaScript bundle.</p>
+      <p><strong>Version compatibility matrix (key ones):</strong></p>
+      <table>
+        <thead><tr><th>SPFx Version</th><th>Node.js Version</th><th>SharePoint Target</th></tr></thead>
+        <tbody>
+          <tr><td>1.18.x (current)</td><td>18.x LTS</td><td>SPO + Teams + Viva</td></tr>
+          <tr><td>1.16.x</td><td>16.x LTS</td><td>SPO + Teams</td></tr>
+          <tr><td>1.15.x</td><td>16.x</td><td>SPO</td></tr>
+          <tr><td>1.12.x</td><td>14.x</td><td>SPO + SP2019</td></tr>
+          <tr><td>1.4.x</td><td>6.x / 8.x</td><td>SP2019 + SP2016</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Critical:</strong> Using the wrong Node version breaks the build silently or with cryptic errors. Always use <code class="inline">nvm</code> (Node Version Manager) to switch between versions per project. Pin the version in <code class="inline">.nvmrc</code>:</p>
+      <pre>18.19.0</pre>
+      <p>Run <code class="inline">nvm use</code> at the project root to activate it automatically.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">N 20.2</div>
+    <div class="q">What does the SPFx build chain look like — what do Gulp and Webpack each do?</div>
+    <div class="a">
+      <ul>
+        <li><strong>Yeoman (@microsoft/generator-sharepoint)</strong> — scaffolds the project structure, creating all config files, package.json, tsconfig, gulpfile, and the initial web part class.</li>
+        <li><strong>npm</strong> — installs all node modules declared in package.json including the SPFx build toolchain (<code class="inline">@microsoft/sp-build-web</code>, <code class="inline">@microsoft/sp-webpart-workbench</code>).</li>
+        <li><strong>Gulp</strong> — the task runner. Key tasks:
+          <ul>
+            <li><code class="inline">gulp serve</code> — local development server with hot reload on the SPFx workbench</li>
+            <li><code class="inline">gulp bundle --ship</code> — production bundle (minified, no source maps)</li>
+            <li><code class="inline">gulp package-solution --ship</code> — creates the <code class="inline">.sppkg</code> file for App Catalog upload</li>
+          </ul>
+        </li>
+        <li><strong>Webpack</strong> — bundler called internally by Gulp. Combines all TypeScript/React code + imports into a single JS bundle per web part. Handles tree-shaking, code splitting, and externals (libraries loaded from CDN instead of bundled).</li>
+        <li><strong>TypeScript compiler (tsc)</strong> — transpiles TypeScript to JavaScript. Configuration in <code class="inline">tsconfig.json</code>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">N 20.3</div>
+    <div class="q">How do you implement responsive design in an SPFx web part?</div>
+    <div class="a">
+      <p>Three complementary approaches:</p>
+      <ol>
+        <li><strong>Fluent UI Stack + responsive breakpoints</strong> — Fluent UI's <code class="inline">Stack</code> component is a flexbox wrapper. Combine with <code class="inline">StackItem</code> and conditional props based on screen width.</li>
+        <li><strong>CSS modules with media queries</strong> — SPFx uses CSS modules (scoped class names). Write breakpoints in the <code class="inline">.module.scss</code> file:
+          <pre><span class="cmt">/* Component.module.scss */</span>
+.card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.title {
+  font-size: 18px;
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
+}</pre>
+        </li>
+        <li><strong>useWindowDimensions hook</strong> — for layout changes that must happen in React state (e.g., switching between a table and a card layout):
+          <pre><span class="kw">function</span> <span class="fn">useWindowWidth</span>() {
+  <span class="kw">const</span> [width, setWidth] = <span class="fn">useState</span>(window.innerWidth);
+  <span class="fn">useEffect</span>(() =&gt; {
+    <span class="kw">const</span> handler = () =&gt; <span class="fn">setWidth</span>(window.innerWidth);
+    window.<span class="fn">addEventListener</span>(<span class="str">"resize"</span>, handler);
+    <span class="kw">return</span> () =&gt; window.<span class="fn">removeEventListener</span>(<span class="str">"resize"</span>, handler);
+  }, []);
+  <span class="kw">return</span> width;
+}</pre>
+        </li>
+      </ol>
+      <p><strong>SPFx-specific tip:</strong> The web part container width is available via <code class="inline">this.domElement.clientWidth</code> in the web part class — pass it as a prop to React for layout decisions based on the web part's <em>actual</em> width, not the browser window width (web parts can be in 1/3 column layouts).</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">N 20.4</div>
+    <div class="q">What common npm commands do you use daily in SPFx development?</div>
+    <div class="a">
+      <pre><span class="cmt"># Install all dependencies from package.json</span>
+npm install
+
+<span class="cmt"># Install a specific package and save to dependencies</span>
+npm install @pnp/sp --save
+
+<span class="cmt"># Install a dev-only package (not bundled in production)</span>
+npm install jest --save-dev
+
+<span class="cmt"># Check for outdated packages</span>
+npm outdated
+
+<span class="cmt"># Audit for security vulnerabilities</span>
+npm audit
+
+<span class="cmt"># Fix auto-fixable vulnerabilities</span>
+npm audit fix
+
+<span class="cmt"># List installed packages (top-level)</span>
+npm list --depth=0
+
+<span class="cmt"># Remove a package</span>
+npm uninstall lodash</pre>
+      <p><strong>Common gotcha:</strong> Never run <code class="inline">npm audit fix --force</code> on an SPFx project — it may upgrade packages to versions incompatible with the SPFx toolchain and break the build silently.</p>
+    </div>
+  </div>
+
+  <a href="#toc" class="back-link">Back to sections</a>
+</section>
+
+<section class="part" id="s21" data-complexity="simple">
+  <div class="part-header">
+    <div class="part-number">SECTION 21</div>
+    <h2 class="part-title">Azure DevOps, Git &amp; CI/CD Pipeline</h2>
+    <div class="part-summary">Source control and pipeline configuration are baseline expectations for any developer role. These questions cover Git fundamentals through to configuring a full SPFx deployment pipeline in Azure DevOps.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">G 21.1</div>
+    <div class="q">What are the core Git commands you use daily and what does each do?</div>
+    <div class="a">
+      <pre><span class="cmt"># Clone a repository</span>
+git clone https://dev.azure.com/org/project/_git/repo
+
+<span class="cmt"># Check current status — staged, unstaged, untracked files</span>
+git status
+
+<span class="cmt"># Create and switch to a new branch</span>
+git checkout -b feature/my-feature
+<span class="cmt"># Modern equivalent:</span>
+git switch -c feature/my-feature
+
+<span class="cmt"># Stage specific files</span>
+git add src/webparts/MyWebPart/MyWebPart.ts
+
+<span class="cmt"># Stage all changes</span>
+git add .
+
+<span class="cmt"># Commit with message</span>
+git commit -m "feat: add PnP paging to large list handler"
+
+<span class="cmt"># Push branch to remote</span>
+git push origin feature/my-feature
+
+<span class="cmt"># Pull latest from remote (fetch + merge)</span>
+git pull origin main
+
+<span class="cmt"># View commit history</span>
+git log --oneline --graph
+
+<span class="cmt"># Discard local changes to a file</span>
+git checkout -- src/webparts/MyWebPart/MyWebPart.ts
+
+<span class="cmt"># Merge a branch into current</span>
+git merge feature/my-feature
+
+<span class="cmt"># Rebase current branch onto main (cleaner history)</span>
+git rebase main</pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">G 21.2</div>
+    <div class="q">What branching strategy do you use for SharePoint/SPFx projects?</div>
+    <div class="a">
+      <p>I follow a simplified <strong>GitFlow</strong> adapted for SharePoint projects:</p>
+      <ul>
+        <li><strong>main</strong> — production-ready code only. Protected branch. Merges via PR only after pipeline passes.</li>
+        <li><strong>develop</strong> — integration branch. All feature branches merge here first. Maps to UAT/Staging environment in the pipeline.</li>
+        <li><strong>feature/[ticket-id]-short-description</strong> — one branch per feature or bug fix. E.g., <code class="inline">feature/SP-42-paging-large-lists</code>. Created from develop, merged back to develop via PR.</li>
+        <li><strong>hotfix/[description]</strong> — emergency fixes branched from main, merged to both main and develop after resolution.</li>
+      </ul>
+      <p><strong>Branch policies in Azure DevOps (mandatory for any team project):</strong></p>
+      <ul>
+        <li>Require minimum 1 reviewer approval on PRs to develop/main</li>
+        <li>Require linked work item (ties code to Azure Boards tickets)</li>
+        <li>Require build to pass before merge (builds must be green)</li>
+        <li>Automatically delete source branch after merge</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">G 21.3</div>
+    <div class="q">How do you resolve a merge conflict in Git?</div>
+    <div class="a">
+      <pre><span class="cmt"># 1. Start the merge or rebase that causes the conflict</span>
+git merge develop
+
+<span class="cmt"># 2. Git marks conflicts in the file with conflict markers:</span>
+<span class="cmt"><<<<<<< HEAD</span>
+<span class="cmt">  // Your local version</span>
+<span class="cmt">=======</span>
+<span class="cmt">  // Incoming version from develop</span>
+<span class="cmt">>>>>>>> develop</span>
+
+<span class="cmt"># 3. Edit the file: keep what's correct (or combine both), remove the markers</span>
+
+<span class="cmt"># 4. Stage the resolved file</span>
+git add src/webparts/MyWebPart/MyWebPart.ts
+
+<span class="cmt"># 5. Complete the merge</span>
+git merge --continue
+<span class="cmt"># or for rebase:</span>
+git rebase --continue</pre>
+      <p><strong>Tools:</strong> VS Code has an inline conflict editor (Accept Current / Accept Incoming / Accept Both) that removes the need to manually edit conflict markers. Azure DevOps PR interface also shows conflicts inline for simple resolutions.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">G 21.4</div>
+    <div class="q">Walk me through configuring a full CI/CD pipeline for an SPFx project in Azure DevOps.</div>
+    <div class="a">
+      <p><strong>Pipeline structure: two pipelines (CI + CD)</strong></p>
+      <p><strong>CI Pipeline (azure-pipelines.yml) — triggered on every PR to develop/main:</strong></p>
+      <pre>trigger:
+  branches:
+    include: [develop, main, feature/*]
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18.x'
+    displayName: 'Install Node.js'
+
+  - script: npm install
+    displayName: 'npm install'
+
+  - script: npm run lint
+    displayName: 'ESLint'
+
+  - script: npm test -- --watchAll=false
+    displayName: 'Jest unit tests'
+
+  - script: gulp bundle --ship
+    displayName: 'Gulp bundle'
+
+  - script: gulp package-solution --ship
+    displayName: 'Gulp package'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: sharepoint/solution
+      artifactName: sppkg
+    displayName: 'Publish .sppkg artifact'</pre>
+      <p><strong>CD Pipeline — Release to UAT on develop merge, Production on main merge:</strong></p>
+      <pre><span class="cmt"># Using CLI for Microsoft 365 (m365) installed as a pipeline tool</span>
+- script: |
+    npm install -g @pnp/cli-microsoft365
+    m365 login --authType certificate \
+      --certificateBase64Encoded $(CERT_BASE64) \
+      --appId $(APP_ID) \
+      --tenant $(TENANT_ID)
+    m365 spo app add \
+      --filePath sharepoint/solution/my-solution.sppkg \
+      --appCatalogUrl $(APP_CATALOG_URL) \
+      --overwrite
+    m365 spo app deploy \
+      --name my-solution.sppkg \
+      --appCatalogUrl $(APP_CATALOG_URL) \
+      --skipFeatureDeployment
+  displayName: 'Deploy to App Catalog'</pre>
+      <p>Store <code class="inline">CERT_BASE64</code>, <code class="inline">APP_ID</code>, <code class="inline">TENANT_ID</code> as Azure DevOps Pipeline Variables (secret type). Never hardcode credentials.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">G 21.5</div>
+    <div class="q">What is a Pull Request and why is it mandatory on team projects?</div>
+    <div class="a">
+      <p>A Pull Request (PR) is a request to merge a feature branch into a target branch (develop or main). It is the code review gate — no code reaches the main codebase without at least one reviewer approving it.</p>
+      <p><strong>What a good PR process enforces:</strong></p>
+      <ul>
+        <li><strong>Code review</strong> — another developer reads the diff and catches bugs, security issues, or design problems before they ship</li>
+        <li><strong>Build validation</strong> — the CI pipeline must pass (lint, tests, build) before merge is allowed</li>
+        <li><strong>Linked work items</strong> — every PR traces back to a ticket in Azure Boards, creating a full audit trail</li>
+        <li><strong>Discussion thread</strong> — comments on specific lines; the author must resolve all comments before merge</li>
+      </ul>
+      <p><strong>In Azure DevOps:</strong> set branch policies on develop and main to require PR + 1 reviewer + passing build. This cannot be bypassed even by admins (unless you explicitly grant the bypass permission — which you shouldn't).</p>
+    </div>
+  </div>
+
+  <a href="#toc" class="back-link">Back to sections</a>
+</section>
+
+<section class="part" id="s22" data-complexity="medium">
+  <div class="part-header">
+    <div class="part-number">SECTION 22</div>
+    <h2 class="part-title">PowerShell for SharePoint &amp; Migration</h2>
+    <div class="part-summary">PowerShell is the primary automation tool for SharePoint Online administration and migration. These questions cover the scripts a practitioner must know by heart — from basic connection to batch migration operations.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">PS 22.1</div>
+    <div class="q">How do you connect to SharePoint Online with PnP PowerShell and what authentication options exist?</div>
+    <div class="a">
+      <pre><span class="cmt"># Interactive browser login (development/ad-hoc use)</span>
+Connect-PnPOnline -Url "https://contoso.sharepoint.com/sites/hr" -Interactive
+
+<span class="cmt"># App-only with certificate (CI/CD pipelines, unattended scripts)</span>
+Connect-PnPOnline -Url "https://contoso.sharepoint.com/sites/hr" `
+  -ClientId "your-app-id" `
+  -Tenant "contoso.onmicrosoft.com" `
+  -CertificatePath "C:\certs\sp-app.pfx" `
+  -CertificatePassword (ConvertTo-SecureString -String "password" -AsPlainText -Force)
+
+<span class="cmt"># Managed Identity (Azure Functions / Azure Automation)</span>
+Connect-PnPOnline -Url "https://contoso.sharepoint.com/sites/hr" -ManagedIdentity
+
+<span class="cmt"># Disconnect when done</span>
+Disconnect-PnPOnline</pre>
+      <p><strong>Note:</strong> Basic auth (<code class="inline">-Credentials</code> with username/password) is <strong>disabled</strong> in SharePoint Online since 2022. Any existing scripts using this must be migrated to certificate or interactive auth.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">PS 22.2</div>
+    <div class="q">What are the most useful PnP PowerShell commands for SharePoint administration?</div>
+    <div class="a">
+      <pre><span class="cmt"># Site and web management</span>
+Get-PnPSite                          <span class="cmt"># Current site info</span>
+Get-PnPWeb                           <span class="cmt"># Current web info</span>
+New-PnPWeb -Title "HR" -Url "hr" -Template "STS#3"
+Set-PnPWeb -Title "New Title"
+
+<span class="cmt"># List and library management</span>
+Get-PnPList                          <span class="cmt"># All lists in current web</span>
+Get-PnPListItem -List "Documents" -PageSize 500
+Add-PnPListItem -List "Tasks" -Values @{"Title"="Task 1";"Status"="New"}
+Set-PnPListItem -List "Tasks" -Identity 42 -Values @{"Status"="Complete"}
+Remove-PnPListItem -List "Tasks" -Identity 42 -Force
+
+<span class="cmt"># User and permissions</span>
+Get-PnPUser                          <span class="cmt"># All users in site</span>
+Add-PnPGroupMember -LoginName "user@contoso.com" -Group "Site Members"
+Get-PnPListItemPermission -List "Documents" -Identity 5
+
+<span class="cmt"># Content type management</span>
+Get-PnPContentType
+Add-PnPContentTypeToList -List "Documents" -ContentType "My CT"
+
+<span class="cmt"># Site design and branding</span>
+Add-PnPSiteDesign -Title "Corp Branding" -WebTemplate "64" -SiteScripts $script.Id
+Invoke-PnPSiteTemplate -Path "template.xml"    <span class="cmt"># Apply PnP template</span>
+Get-PnPSiteTemplate -Out "backup.xml"          <span class="cmt"># Export site as template</span>
+
+<span class="cmt"># App catalog and solutions</span>
+Add-PnPApp -Path "solution.sppkg" -Scope Tenant
+Publish-PnPApp -Identity "solution-id" -Scope Tenant</pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">PS 22.3</div>
+    <div class="q">Write a PowerShell script to bulk create SharePoint sites from a CSV file.</div>
+    <div class="a">
+      <pre><span class="cmt"># sites.csv format: Title,Url,Owner,Template</span>
+<span class="cmt"># "HR Portal","hr","hr-admin@contoso.com","STS#3"</span>
+
+Connect-PnPOnline -Url "https://contoso.sharepoint.com" -Interactive
+
+$sites = Import-Csv -Path "C:\scripts\sites.csv"
+
+foreach ($site in $sites) {
+  $fullUrl = "https://contoso.sharepoint.com/sites/$($site.Url)"
+
+  if (Get-PnPTenantSite -Url $fullUrl -ErrorAction SilentlyContinue) {
+    Write-Host "SKIP: $fullUrl already exists" -ForegroundColor Yellow
+    continue
+  }
+
+  New-PnPTenantSite `
+    -Title $site.Title `
+    -Url $fullUrl `
+    -Owner $site.Owner `
+    -Template $site.Template `
+    -TimeZone 13 `
+    -Wait
+
+  Write-Host "CREATED: $fullUrl" -ForegroundColor Green
+}
+
+Disconnect-PnPOnline</pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">PS 22.4</div>
+    <div class="q">How do you use PowerShell to manage ShareGate migrations — key commands and pre-migration checks?</div>
+    <div class="a">
+      <pre><span class="cmt"># Import ShareGate module</span>
+Import-Module ShareGate
+
+<span class="cmt"># Connect to source (SP on-prem)</span>
+$src = Connect-Site -Url "http://sp2013.contoso.com/sites/finance"
+
+<span class="cmt"># Connect to destination (SPO)</span>
+$dst = Connect-Site -Url "https://contoso.sharepoint.com/sites/finance"
+
+<span class="cmt"># Pre-migration: run analysis report (no data moved)</span>
+$result = Copy-Site -Site $src -DestinationSite $dst -WhatIf
+
+<span class="cmt"># Export pre-migration report to Excel</span>
+Export-Report $result -Path "C:\reports\premigration.xlsx"
+
+<span class="cmt"># Run actual migration with permission mapping</span>
+$mapping = New-MappingSettings
+Set-UserAndGroupMapping -MappingSettings $mapping -Source "CONTOSO\jdoe" -Destination "jdoe@contoso.com"
+
+Copy-Site -Site $src -DestinationSite $dst `
+  -MappingSettings $mapping `
+  -InsaneMode `        <span class="cmt"># Bypasses CSOM throttling limits for speed</span>
+  -CopySettings (New-CopySettings -OnContentItemExists IncrementalUpdate)</pre>
+      <p><strong>ShareGate limitations to know:</strong></p>
+      <ul>
+        <li>Cannot migrate SharePoint 2010 workflows — only content; workflows must be rebuilt in Power Automate</li>
+        <li>InfoPath forms are not migrated — must be rebuilt as Power Apps or SPFx Form Customizers</li>
+        <li>Insane Mode works well for content but can still hit SPO API throttling during large tenant migrations</li>
+        <li>License is per seat (the machine running ShareGate needs the license) — not per user migrated</li>
+        <li>Delta migration requires re-running the same copy job; ShareGate tracks what changed since last run via modification timestamps</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">PS 22.5</div>
+    <div class="q">What PowerShell scripts do you use to validate a migration was successful?</div>
+    <div class="a">
+      <pre><span class="cmt"># 1. Count items in source vs destination</span>
+Connect-PnPOnline -Url $srcUrl -Interactive
+$srcCount = (Get-PnPListItem -List "Documents" -PageSize 500).Count
+Write-Host "Source: $srcCount items"
+
+Connect-PnPOnline -Url $dstUrl -Interactive
+$dstCount = (Get-PnPListItem -List "Documents" -PageSize 500).Count
+Write-Host "Destination: $dstCount items"
+
+<span class="cmt"># 2. Spot-check metadata on a random sample</span>
+$sample = Get-PnPListItem -List "Documents" -PageSize 10 |
+  Select-Object -First 10 |
+  ForEach-Object {
+    [PSCustomObject]@{
+      Title    = $_["Title"]
+      Modified = $_["Modified"]
+      Editor   = $_["Editor"].LookupValue
+      HasUniquePerms = $_.HasUniqueRoleAssignments
+    }
+  }
+$sample | Export-Csv "C:\reports\spot-check.csv" -NoTypeInformation
+
+<span class="cmt"># 3. Check for items with unique permissions that need validation</span>
+$uniqueItems = Get-PnPListItem -List "Documents" |
+  Where-Object { $_.HasUniqueRoleAssignments -eq $true }
+Write-Host "Items with unique permissions: $($uniqueItems.Count)"</pre>
+    </div>
+  </div>
+
+  <a href="#toc" class="back-link">Back to sections</a>
+</section>
+
+<section class="part" id="s23" data-complexity="medium">
+  <div class="part-header">
+    <div class="part-number">SECTION 23</div>
+    <h2 class="part-title">Roles &amp; Responsibilities &mdash; IC, Estimation &amp; Leadership</h2>
+    <div class="part-summary">This role is an Individual Contributor who also leads — understanding requirements, providing estimates, doing client demos, mentoring, and owning deployments. These questions surface how you operate, not just what you know technically.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">R 23.1</div>
+    <div class="q">How do you approach understanding and translating a business requirement into a technical solution?</div>
+    <div class="a">
+      <p>My process in three stages:</p>
+      <ol>
+        <li><strong>Understand the problem, not just the feature request</strong> — I start with "what business problem does this solve?" A client saying "build us a custom webpart to show project status" might actually need the OOTB Highlighted Content web part configured correctly. Half the custom development requests I've seen can be satisfied with proper SharePoint configuration.</li>
+        <li><strong>Map requirements to a solution stack</strong> — once the problem is clear, I identify the components: data layer (SharePoint list? Dataverse? External API?), logic layer (Power Automate? Azure Function? Client-side?), UI layer (SPFx? Power Apps? OOTB?). I document this as a brief technical design and review it with the team before coding starts.</li>
+        <li><strong>Identify blockers early</strong> — permissions model, licensing constraints (Premium connectors, Power BI), and integration dependencies. Surface these in the first week, not in week 6.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">R 23.2</div>
+    <div class="q">How do you estimate development effort for SharePoint and Power Platform work?</div>
+    <div class="a">
+      <p>I estimate in three layers and add buffers explicitly:</p>
+      <ol>
+        <li><strong>Break into atomic tasks</strong> — each task should be independently deliverable and estimable in hours (not days). "Build approval flow" becomes: design data model (2h), build flow draft (4h), test with real approvers (3h), handle edge cases/errors (3h), document (1h) = 13h.</li>
+        <li><strong>Add complexity multipliers</strong> — integration with external systems (+30%), new technology unfamiliar to the team (+25%), tight deadline requiring parallel tracks (+20%).</li>
+        <li><strong>Explicit buffers</strong> — never bury the buffer. I state it: "Base estimate: 40h. With testing, client feedback loops, and deployment: 56h. I'm quoting 60h." Clients respect transparency over sandbagged estimates they sense but can't verify.</li>
+      </ol>
+      <p>For larger pieces I use T-shirt sizing in the planning phase (S/M/L/XL) and refine to hours only after the design is agreed. Estimating hours on a vague requirement is guessing, not estimating.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">R 23.3</div>
+    <div class="q">How do you prepare and deliver a technical demo to a client?</div>
+    <div class="a">
+      <ul>
+        <li><strong>Demo environment is never production</strong> — I maintain a separate UAT tenant or site with realistic but sanitised data. A live production demo with real employee data or live approvals is a governance and privacy risk.</li>
+        <li><strong>Script the happy path</strong> — know exactly which steps you'll click through. Practice it twice the day before. Demos are not the time to explore edge cases.</li>
+        <li><strong>Prepare for "can it also do X?" questions</strong> — have a "not in scope / future phase" response ready and a parking lot for features the client adds mid-demo.</li>
+        <li><strong>Show the end result first, then the how</strong> — clients want to see the outcome (the approved document in the library, the Teams notification received) before they care about the flow designer or the SPFx property pane.</li>
+        <li><strong>Record the demo</strong> — share the recording afterward. Stakeholders who weren't in the call can review it, and it becomes reference documentation for acceptance testing.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">R 23.4</div>
+    <div class="q">How do you handle client interaction when there is a requirement conflict or a missed deadline?</div>
+    <div class="a">
+      <ul>
+        <li><strong>Requirement conflict</strong> — bring both interpretations to the client with clear documentation of each. Never pick one and build without alignment. Use a Requirements Confirmation email: "Based on our last discussion, we understand X. Please confirm by [date] so we can proceed." This protects both sides.</li>
+        <li><strong>Missed deadline</strong> — communicate early, never on the day. If I know a feature will slip by Tuesday, I tell the client Friday. I come with three things: what slipped, why (root cause, not excuse), and a revised committed date with mitigation. Never just report a problem — always bring a plan.</li>
+        <li><strong>Scope creep</strong> — document it immediately. "That's a great idea — it's outside the current scope. I'll add it to the backlog and we can plan it for the next sprint/phase." Saying yes to scope creep without a change order is how projects lose margin and developers burn out.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">R 23.5</div>
+    <div class="q">How do you mentor a junior developer on a SharePoint project?</div>
+    <div class="a">
+      <ul>
+        <li><strong>Start with context, not syntax</strong> — a junior who understands why we use indexed columns, why we break role inheritance carefully, and why we never hardcode credentials will make better decisions than one who memorises commands. I spend the first week on architecture walkthroughs.</li>
+        <li><strong>Paired code review, not gatekeeping</strong> — I review their PRs as a teaching tool, not a filter. Every comment is a learning point: "This works, but here's a pattern that makes it testable" rather than just "change this."</li>
+        <li><strong>Assign high-context, low-blast-radius work</strong> — give juniors tasks that are real contributions but don't block the critical path if they take longer. Writing Jest tests, building Storybook stories, or a standalone utility web part is ideal.</li>
+        <li><strong>Be available but encourage debugging first</strong> — "Try it for 30 minutes, then come to me" teaches problem-solving. Always being the first answer teaches dependency.</li>
+        <li><strong>Track their growth deliberately</strong> — in 1-on-1s, revisit what they struggled with last month and confirm they're now confident. Growing people is part of the deliverable on a project, not a side task.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">R 23.6</div>
+    <div class="q">What does your deployment process look like for an SPFx solution going to production?</div>
+    <div class="a">
+      <p>My production deployment checklist:</p>
+      <ol>
+        <li><strong>Code freeze and final PR</strong> — all feature branches merged to develop, PR from develop to main reviewed and approved</li>
+        <li><strong>CI pipeline green</strong> — ESLint, Jest tests, bundle, and package-solution all pass in the pipeline</li>
+        <li><strong>UAT sign-off</strong> — a client or QA representative confirms the feature works as expected in the UAT environment</li>
+        <li><strong>Deployment window agreed</strong> — I schedule production deployments outside business hours or during agreed maintenance windows. SPFx solutions go live immediately on deploy — there is no "staging mode" in the App Catalog</li>
+        <li><strong>Deploy via CD pipeline</strong> — <code class="inline">m365 spo app add --overwrite</code> then <code class="inline">m365 spo app deploy</code>. Automated, not manual upload</li>
+        <li><strong>Smoke test post-deploy</strong> — verify the web part renders on the target page, no console errors, Graph API calls succeed (check API Access approvals), and the version number in the property pane matches the release</li>
+        <li><strong>Rollback plan</strong> — keep the previous .sppkg artifact in the pipeline. If production breaks, re-upload the previous version. Add rollback steps to the runbook before deployment starts, not after</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q-num">R 23.7</div>
+    <div class="q">How do you provide technical workarounds when a client requirement hits a SharePoint limitation?</div>
+    <div class="a">
+      <p>Three-step approach:</p>
+      <ol>
+        <li><strong>Clearly explain the platform constraint</strong> — don't just say "SharePoint can't do that." Say "SharePoint's list view threshold limits direct queries to 5,000 items. Any view without an indexed column filter will be blocked by the platform, not by our code."</li>
+        <li><strong>Present the workaround options with trade-offs</strong> — "Option 1: add an indexed Status column and filter by it — covers 95% of the use case, minimal effort. Option 2: use Microsoft Search API — no threshold, but results have a crawl delay of a few minutes. Option 3: move to Dataverse — no threshold, but requires Power Platform Premium licensing." Let the client choose based on their constraints.</li>
+        <li><strong>Document the decision</strong> — once a workaround is chosen, document it in the technical design: why the standard approach wasn't used, what the alternative is, and any future implications (e.g., "if item count exceeds 50,000, revisit the search approach").</li>
+      </ol>
+    </div>
+  </div>
+
+  <a href="#toc" class="back-link">Back to sections</a>
+</section>
+
+<section class="part" id="s24" data-complexity="complex">
+  <div class="part-header">
+    <div class="part-number">SECTION 24</div>
+    <h2 class="part-title">Deep Concept &amp; Scenario Challenges</h2>
+    <div class="part-summary">These questions have no Wikipedia answer. They are designed to surface whether the candidate has actually shipped the thing under real constraints — or just read about it. A junior will go silent. A senior will light up.</div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 1 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.1</div>
+    <div class="q">
+      <strong>SCENARIO — Permissions + Large Data:</strong> A client has a SharePoint list with 400,000 expense records. Every item must be visible only to the employee who created it and their manager chain. Users complain queries are slow and some get a "list view threshold" error. How do you redesign this?
+    </div>
+    <div class="a">
+      <p><strong>Why this is a trap:</strong> The instinct is to break inheritance on 400,000 items. That is catastrophically wrong. SharePoint's permission model stores a separate ACL row per uniquely-permissioned item. At 400,000 items, you've created 400,000 SQL ACL entries — the site will crawl and the permission check on every query will time out.</p>
+      <p><strong>Correct architecture:</strong></p>
+      <ol>
+        <li><strong>Never use item-level unique permissions at this scale.</strong> Remove them entirely.</li>
+        <li><strong>Redesign the data access pattern:</strong>
+          <ul>
+            <li>Add an indexed <code class="inline">EmployeeEmail</code> column to the list</li>
+            <li>Every query from the app must filter <code class="inline">EmployeeEmail eq 'currentUser@contoso.com'</code> — the index makes this sub-threshold even on 400K items</li>
+            <li>The manager view uses a separate filtered query: <code class="inline">ManagerEmail eq 'manager@contoso.com'</code> — also indexed</li>
+          </ul>
+        </li>
+        <li><strong>Enforce access in the application layer, not at SharePoint's permission layer</strong> — every API call includes the current user's UPN in the filter; users cannot remove this filter because it's enforced server-side in an Azure Function middleware that wraps the SharePoint REST call</li>
+        <li><strong>If regulatory isolation is truly required</strong> — move the data to Dataverse (no row-level threshold, native row-level security) or Azure SQL with row-level security policies</li>
+      </ol>
+      <div class="callout warn"><span class="tag">Red flag answer</span> "Break inheritance on each item and set permissions using Power Automate when a new item is created." This scales to about 5,000 items before it destroys performance. Reject this answer.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 2 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.2</div>
+    <div class="q">
+      <strong>SCENARIO — SPFx Performance:</strong> Your web part works perfectly in the SPFx workbench and on a blank SharePoint page. But when it's placed on a page that already has 7 other web parts, the browser tab freezes for 4–5 seconds on load. Users are complaining. Walk through your diagnosis and fix.
+    </div>
+    <div class="a">
+      <p><strong>Step 1 — Isolate the cause.</strong> Open browser DevTools &rarr; Performance tab &rarr; record the page load. Look for:</p>
+      <ul>
+        <li>Long tasks (red triangles) — anything over 50ms blocking the main thread</li>
+        <li>Multiple identical network requests — 8 web parts each making their own call to the same list? That's 8 throttleable requests firing simultaneously</li>
+        <li>Bundle size — check the Network tab for your web part's JS bundle. If it's 2MB+, the parse/compile time alone causes freezing</li>
+      </ul>
+      <p><strong>Most common root causes and fixes:</strong></p>
+      <ul>
+        <li><strong>Bundle too large:</strong> You've imported a full library (Lodash, Moment, a chart library) without tree-shaking. Fix: use targeted imports (<code class="inline">import debounce from 'lodash/debounce'</code>), externalise via config.json CDN, or replace with lighter alternatives</li>
+        <li><strong>8 parallel API calls to the same list:</strong> The ServiceScope pattern fixes this — register a single data service in <code class="inline">onInit()</code> shared across all web parts. One call, cached result, all web parts consume it</li>
+        <li><strong>Synchronous work in onInit:</strong> If you're doing heavy computation (sorting, transforming 5,000 items) synchronously, it blocks the browser. Move to a Web Worker or defer with <code class="inline">setTimeout(fn, 0)</code> to yield to render</li>
+        <li><strong>React rendering storm:</strong> Each web part's state update triggers a re-render of its children. If children are expensive (deep trees, no memoization), it cascades. Fix: <code class="inline">React.memo</code>, <code class="inline">useMemo</code>, <code class="inline">useCallback</code> on stable references</li>
+      </ul>
+      <div class="callout tip"><span class="tag">Impress answer</span> Mention that you've used the Chrome Performance tab's "Bottom-up" view to identify which specific function is eating the main thread, not just guessing.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 3 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.3</div>
+    <div class="q">
+      <strong>SCENARIO — Power Automate Scale:</strong> You need to build a flow that processes 50,000 SharePoint list items overnight — calling an external API for each item. The external API has a rate limit of 200 calls per minute. The flow must complete before 6 AM. How do you architect this without timeouts or rate-limit errors?
+    </div>
+    <div class="a">
+      <p><strong>Why a naive "Apply to each" fails:</strong> Apply to each with 50,000 items will hit Power Automate's 30-day run limit. Each iteration that takes even 1 second means 50,000 seconds = 13.8 hours. Plus the rate limit will be violated immediately if concurrency is high.</p>
+      <p><strong>Correct architecture:</strong></p>
+      <ol>
+        <li><strong>Chunked child flows:</strong> Split items into batches of 500. A parent scheduled flow reads the list using <code class="inline">getPaged()</code> (500 items per page) and triggers a child flow per batch. Child flows run in parallel (up to concurrency limit of the Apply to Each).</li>
+        <li><strong>Rate-limit compliance inside the child flow:</strong>
+          <pre>Apply to each item in batch:
+  → Call external API
+  → Delay: 300ms  ← ensures max 200 calls/min within a single flow instance</pre>
+        </li>
+        <li><strong>Concurrency tuning:</strong> With 100 parallel child flows each processing 500 items at 300ms delay = each child takes ~2.5 minutes. 100 batches × 2.5 min = 250 minutes ≈ 4 hours. Fits the window.</li>
+        <li><strong>Error handling per item:</strong> Wrap each API call in a Scope with "Run after: Has failed" to log failures to a separate SharePoint error log list — don't let one bad item kill the whole batch.</li>
+        <li><strong>Idempotency:</strong> Add a <code class="inline">ProcessedOn</code> date column to each item. Skip items where this column is already set — so if the flow is re-run, it only processes the ones that failed.</li>
+      </ol>
+      <div class="callout warn"><span class="tag">Red flag answer</span> "Just use Apply to each with concurrency set to 50." This ignores the rate limit, the timeout window, and error recovery. The flow will randomly fail at 2 AM with no way to resume.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 4 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.4</div>
+    <div class="q">
+      <strong>DEEP CONCEPT — React Hooks:</strong> A junior developer wrote this component. Users report it makes API calls indefinitely even after the data loads, causing hundreds of network requests. Find the bug and explain exactly why it happens.
+      <pre style="margin-top:12px"><span class="kw">function</span> <span class="fn">ProjectList</span>() {
+  <span class="kw">const</span> [items, setItems] = <span class="fn">useState</span>([]);
+
+  <span class="fn">useEffect</span>(() =&gt; {
+    sp.web.lists.<span class="fn">getByTitle</span>(<span class="str">"Projects"</span>).items()
+      .<span class="fn">then</span>(data =&gt; <span class="fn">setItems</span>(data));
+  }, [items]);  <span class="cmt">// &lt;— dependency array</span>
+
+  <span class="kw">return</span> &lt;<span class="fn">ul</span>&gt;{items.<span class="fn">map</span>(i =&gt; &lt;<span class="fn">li</span> key={i.Id}&gt;{i.Title}&lt;/li&gt;)}&lt;/&gt;;
+}</pre>
+    </div>
+    <div class="a">
+      <p><strong>The bug:</strong> <code class="inline">items</code> is in the dependency array of <code class="inline">useEffect</code>. This creates an infinite loop:</p>
+      <ol>
+        <li>Component mounts → <code class="inline">useEffect</code> runs → API call fires</li>
+        <li>API returns data → <code class="inline">setItems(data)</code> is called → React sets a <strong>new array reference</strong> (even if data is identical)</li>
+        <li>React compares the dependency: old <code class="inline">items</code> reference !== new <code class="inline">items</code> reference → dependency changed → <code class="inline">useEffect</code> runs again</li>
+        <li>Goto step 2. Infinitely.</li>
+      </ol>
+      <p><strong>Why a new array is always a new reference:</strong> JavaScript arrays are compared by reference, not by value. <code class="inline">[] === []</code> is <code class="inline">false</code>. Every <code class="inline">setItems(data)</code> call creates a new array object in memory, so React always sees the dependency as "changed."</p>
+      <p><strong>Fix — empty dependency array (run once on mount):</strong></p>
+      <pre><span class="fn">useEffect</span>(() =&gt; {
+  sp.web.lists.<span class="fn">getByTitle</span>(<span class="str">"Projects"</span>).items()
+    .<span class="fn">then</span>(data =&gt; <span class="fn">setItems</span>(data));
+}, []);  <span class="cmt">// ← empty array = run once on mount only</span></pre>
+      <p><strong>Fix — with cleanup for cancelled requests (production-grade):</strong></p>
+      <pre><span class="fn">useEffect</span>(() =&gt; {
+  <span class="kw">let</span> cancelled = <span class="kw">false</span>;
+  sp.web.lists.<span class="fn">getByTitle</span>(<span class="str">"Projects"</span>).items()
+    .<span class="fn">then</span>(data =&gt; { <span class="kw">if</span> (!cancelled) <span class="fn">setItems</span>(data); });
+  <span class="kw">return</span> () =&gt; { cancelled = <span class="kw">true</span>; };  <span class="cmt">// cleanup: prevents state update after unmount</span>
+}, []);</pre>
+      <div class="callout tip"><span class="tag">Follow-up</span> Ask: "What happens if a user navigates away before the API call completes?" — The answer is a React warning: "Can't perform a React state update on an unmounted component." The cleanup function above prevents it.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 5 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.5</div>
+    <div class="q">
+      <strong>SCENARIO — CI/CD Production Incident:</strong> A developer bypassed the Azure DevOps branch policy and pushed directly to main at 4:30 PM on a Friday. Production breaks immediately — a web part that was working all week now shows a blank white panel. You are on-call. Walk through your response, step by step.
+    </div>
+    <div class="a">
+      <p><strong>Immediate response (first 10 minutes):</strong></p>
+      <ol>
+        <li><strong>Identify the blast radius</strong> — how many users are affected? Is it one web part on one page, or a tenant-scoped solution that's broken everywhere? Check browser console for the error.</li>
+        <li><strong>Check the commit that caused it:</strong> <code class="inline">git log --oneline -5 main</code> — find the rogue commit and read the diff.</li>
+        <li><strong>Rollback immediately, investigate later:</strong> Re-upload the previous .sppkg from the pipeline artifacts:
+          <pre>m365 spo app add --filePath previous-version.sppkg --appCatalogUrl $url --overwrite
+m365 spo app deploy --name solution.sppkg --appCatalogUrl $url</pre>
+        </li>
+        <li><strong>Verify rollback</strong> — hard refresh on the broken page (<code class="inline">Ctrl+Shift+R</code>), confirm web part renders correctly.</li>
+        <li><strong>Communicate</strong> — notify stakeholders: "Production issue resolved at [time]. Root cause: unauthorized direct push to main. Full postmortem to follow."</li>
+      </ol>
+      <p><strong>Post-incident (next business day):</strong></p>
+      <ul>
+        <li><strong>Fix the branch policy</strong> — identify how the bypass happened. In Azure DevOps, go to Repos &rarr; Branches &rarr; main &rarr; Branch policies &rarr; ensure "Allow users to bypass policies" is OFF for everyone including admins.</li>
+        <li><strong>Postmortem doc</strong> — timeline, root cause, impact, resolution, and preventative action. Share with the team — blame-free, systems-focused.</li>
+        <li><strong>Revoke bypass permission</strong> — in Azure DevOps, the "Exempt from policy enforcement" permission must be explicitly removed from the admin group that allowed the bypass.</li>
+      </ul>
+      <div class="callout warn"><span class="tag">Red flag answer</span> "I'd investigate the issue first and then fix it." No. At 4:30 PM with users affected, you rollback first. Always. You investigate on a stable system, not a broken one.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 6 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.6</div>
+    <div class="q">
+      <strong>SCENARIO — ShareGate Migration Gone Wrong:</strong> Halfway through a ShareGate migration from SP 2013 to SPO, you notice all migrated documents have the migration service account as the Author and Created By — not the original authors. The client is furious. The original authors need to show on the documents for legal compliance. How do you fix this, and how do you prevent it in the future?
+    </div>
+    <div class="a">
+      <p><strong>Why this happens:</strong> ShareGate requires the <strong>User Mapping</strong> to be configured before migration starts. If the source domain users (e.g., <code class="inline">CONTOSO\jdoe</code>) have not been mapped to destination AAD users (<code class="inline">jdoe@contoso.com</code>), ShareGate falls back to stamping the migration account as the author.</p>
+      <p><strong>Fix for already-migrated items (retroactive):</strong></p>
+      <ol>
+        <li>Export the source metadata from ShareGate's pre-migration report or from the source SP 2013 using PnP PowerShell: get item ID, original author, created date, modified date, modified by.</li>
+        <li>Use PnP PowerShell against SPO to retroactively set the Author/Editor fields:
+          <pre>Connect-PnPOnline -Url $siteUrl -Interactive
+$items = Import-Csv "C:\source-metadata.csv"
+
+foreach ($row in $items) {
+  Set-PnPListItem -List "Documents" -Identity $row.ItemId `
+    -Values @{
+      "Author" = $row.OriginalAuthorEmail
+      "Editor" = $row.OriginalEditorEmail
+      "Created" = $row.OriginalCreated
+      "Modified" = $row.OriginalModified
+    } -SystemUpdate  <span class="cmt"># SystemUpdate prevents triggering flows/events</span>
+}</pre>
+        </li>
+        <li>Validate a sample: check 10 documents for correct Author in SPO.</li>
+      </ol>
+      <p><strong>Prevention for future migrations:</strong></p>
+      <ul>
+        <li>Run Azure AD Connect before migration — on-prem AD accounts must sync to AAD first</li>
+        <li>Configure ShareGate User Mapping from a CSV or LDAP before any data moves</li>
+        <li><strong>Always run ShareGate in WhatIf/Preview mode first</strong> and check the Mapping Report — it shows which accounts matched and which will fall back to the migration account</li>
+        <li>Migrate 5 documents as a pilot. Open them in SPO. Verify Author before running the full migration.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 7 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.7</div>
+    <div class="q">
+      <strong>DEEP CONCEPT — SPFx Graph Permissions:</strong> Your SPFx web part calls Microsoft Graph to read users' profiles using <code>User.Read.All</code> delegated permission. It works for you (Global Admin) but exactly 40% of users get a 403 Forbidden response. The permission is approved in SharePoint Admin &rarr; API Access. What are the possible causes and how do you diagnose each?
+    </div>
+    <div class="a">
+      <p><strong>Cause 1 — Delegated vs Application permission confusion.</strong> <code class="inline">User.Read.All</code> delegated means the signed-in user's own permissions must include the ability to read other users. Users without at least <code class="inline">User.Read</code> on their own AAD account, or guest users in the tenant, may lack this. <em>Diagnose:</em> Reproduce with a guest account vs a member account.</p>
+      <p><strong>Cause 2 — Conditional Access policy blocking the token.</strong> Some users may be on networks/devices that trigger a Conditional Access policy requiring MFA or a compliant device before Graph tokens are issued. The 403 comes not from SharePoint but from AAD's token issuance. <em>Diagnose:</em> Check Azure AD &rarr; Sign-in logs for the failing users — look for CA policy failures.</p>
+      <p><strong>Cause 3 — SPFx domain isolation.</strong> If <code class="inline">isDomainIsolated: true</code> is set in your solution, the web part runs in an iFrame with a different origin. The token is scoped to the isolated domain. Some tenants have policies that block cross-domain token issuance. <em>Diagnose:</em> Check <code class="inline">package-solution.json</code> for <code class="inline">isDomainIsolated</code>.</p>
+      <p><strong>Cause 4 — The 40% are in a different AAD directory (guest B2B users).</strong> <code class="inline">User.Read.All</code> delegated does not cross tenant boundaries for B2B guests. <em>Diagnose:</em> Correlate the failing 40% against the AAD users list — are they external guests?</p>
+      <p><strong>Cause 5 — Token scope not requested correctly.</strong> SPFx AadHttpClient must request the scope explicitly. If the scope string is wrong or missing, AAD issues a token without the right claims. <em>Diagnose:</em> Decode the JWT token (jwt.ms) for a failing user — check the <code class="inline">scp</code> claim.</p>
+      <pre><span class="cmt">// Correct scope request in SPFx</span>
+<span class="kw">const</span> client = <span class="kw">await</span> context.msGraphClientFactory.<span class="fn">getClient</span>(<span class="str">"3"</span>);
+<span class="kw">const</span> result = <span class="kw">await</span> client
+  .<span class="fn">api</span>(<span class="str">"/users"</span>)
+  .<span class="fn">version</span>(<span class="str">"v1.0"</span>)
+  .<span class="fn">get</span>();</pre>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 8 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.8</div>
+    <div class="q">
+      <strong>SCENARIO — Large Data CRUD with PnP JS:</strong> You need to bulk-update a "Status" column on 80,000 list items from "Pending" to "Archived" as part of a year-end process. If you run this as a single PnP JS call from the browser it will throttle and time out. Design the correct approach.
+    </div>
+    <div class="a">
+      <p><strong>Never do this from the browser.</strong> A browser session can time out, the user can close the tab, and SharePoint throttling (429) will terminate the call. Large bulk operations belong server-side.</p>
+      <p><strong>Correct architecture — Azure Function + PnP Core SDK:</strong></p>
+      <ol>
+        <li><strong>Azure Function (timer-triggered, runs at midnight):</strong>
+          <pre><span class="cmt">// C# Azure Function using PnP Core SDK</span>
+<span class="kw">using</span> PnP.Core.Services;
+
+<span class="kw">var</span> list = <span class="kw">await</span> context.Web.Lists.<span class="fn">GetByTitleAsync</span>(<span class="str">"Projects"</span>);
+
+<span class="cmt">// Page through in chunks of 500</span>
+<span class="kw">var</span> query = <span class="kw">new</span> <span class="fn">CamlQuery</span>();
+query.ViewXml = <span class="str">"&lt;View&gt;&lt;Query&gt;&lt;Where&gt;&lt;Eq&gt;&lt;FieldRef Name='Status'/&gt;&lt;Value Type='Text'&gt;Pending&lt;/Value&gt;&lt;/Eq&gt;&lt;/Where&gt;&lt;/Query&gt;&lt;RowLimit&gt;500&lt;/RowLimit&gt;&lt;/View&gt;"</span>;
+
+<span class="kw">do</span> {
+  <span class="kw">var</span> items = <span class="kw">await</span> list.Items.<span class="fn">GetAsync</span>(query);
+  <span class="cmt">// Batch update all items in this page</span>
+  <span class="kw">await</span> context.<span class="fn">ExecuteAsync</span>(batch =&gt; {
+    <span class="kw">foreach</span> (<span class="kw">var</span> item <span class="kw">in</span> items) {
+      item[<span class="str">"Status"</span>] = <span class="str">"Archived"</span>;
+      item.<span class="fn">UpdateBatch</span>(batch);
+    }
+  });
+  query.ListItemCollectionPosition = items.ListItemCollectionPosition;
+} <span class="kw">while</span> (items.ListItemCollectionPosition != <span class="kw">null</span>);</pre>
+        </li>
+        <li><strong>Exponential backoff on 429:</strong> PnP Core SDK handles retry automatically. Configure max retries and delay:
+          <pre>services.<span class="fn">AddPnPCore</span>(options =&gt; {
+  options.PnPContext.GraphFirst = <span class="kw">false</span>;
+  options.HttpRequests.RetryCount = <span class="num">10</span>;
+  options.HttpRequests.DelayInSeconds = <span class="num">3</span>;
+  options.HttpRequests.UseIncrementalDelay = <span class="kw">true</span>;
+});</pre>
+        </li>
+        <li><strong>Idempotency:</strong> The CAML query filters for Status = "Pending" — if the function crashes at item 40,000 and restarts, it continues from where it left off, skipping already-archived items.</li>
+      </ol>
+      <p><strong>If the operation must be triggered from the browser by a user:</strong> Call an Azure Function HTTP endpoint that accepts the parameters and runs async. Return a job ID. The browser polls the job status — never the actual operation.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 9 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.9</div>
+    <div class="q">
+      <strong>SCENARIO — Complex Power Automate Approval:</strong> Build a multi-stage contract approval: Legal first, then parallel Finance &amp; Procurement if value &gt; £50K, then CEO if value &gt; £250K. Any rejection sends back to the submitter with the reason. A 48-hour reminder fires if any approver hasn't responded. The flow must be solution-aware and portable across Dev/UAT/Prod. What are the key design decisions?
+    </div>
+    <div class="a">
+      <p><strong>Architecture decisions:</strong></p>
+      <ol>
+        <li><strong>Solution-aware from day one.</strong> Create the flow inside a Dataverse solution. Use Connection References for SharePoint and Approvals connectors — these get remapped per environment during import. Never hardcode site URLs or user emails in the flow — use Environment Variables stored in the solution.</li>
+        <li><strong>Stage 1 — Legal (sequential):</strong>
+          <pre>Trigger: SharePoint "When an item is created or modified"
+  → Condition: ApprovalStatus eq 'Submitted'
+  → Start and wait for an approval (Legal approver from environment variable)
+  → Condition: outcome eq 'Approve'
+    → Yes: continue to Stage 2
+    → No: Update item (Status = Rejected, RejectionReason = response comments)
+         → Send email to submitter with rejection reason → Terminate</pre>
+        </li>
+        <li><strong>Stage 2 — Parallel (conditional):</strong>
+          <pre>Condition: ContractValue > 50000
+  → Yes: Parallel Branch
+    → Branch A: Approval to Finance
+    → Branch B: Approval to Procurement
+    → After both: check if BOTH approved (use "Everyone must approve" type)
+  → No: Skip to Stage 3 check</pre>
+        </li>
+        <li><strong>48-hour reminder (parallel branch inside each approval stage):</strong>
+          <pre>After "Start and wait for an approval":
+  Insert Parallel Branch BEFORE the approval action result is consumed:
+  → Delay: 48 hours
+  → Condition: Approval still pending? (check via Get approval action)
+  → Yes: Send reminder email to approver
+  This branch runs concurrently with the approval — it fires the reminder if no response in 48h</pre>
+        </li>
+        <li><strong>Environment portability:</strong>
+          <ul>
+            <li>Site URLs → Environment Variables (string type)</li>
+            <li>Approver emails → Environment Variables or fetched dynamically from a SharePoint Config list</li>
+            <li>Export as managed solution to Prod — managed prevents accidental editing in production</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="callout warn"><span class="tag">Trap to avoid</span> Using "Start and wait for an approval" with a fixed email address hard-coded in the flow. Fails on environment migration. Always parameterize approvers.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 10 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.10</div>
+    <div class="q">
+      <strong>DEEP CONCEPT — AngularJS $watch vs React useEffect:</strong> You're migrating an AngularJS controller that uses <code>$scope.$watch('project', handler, true)</code> — the third argument <code>true</code> enables deep equality comparison on a complex nested object. How do you replicate this in React without causing an infinite render loop?
+    </div>
+    <div class="a">
+      <p><strong>What AngularJS's deep watch does:</strong> It traverses the entire object tree on every digest cycle and fires <code class="inline">handler</code> only when any nested value actually changed (by value, not reference). It is expensive but prevents false positives.</p>
+      <p><strong>Why <code>useEffect([project])</code> fails:</strong> React compares dependencies by reference (<code class="inline">Object.is</code>). If <code class="inline">project</code> is an object created fresh on each render (e.g., from a selector or inline creation), the reference changes every cycle → infinite loop.</p>
+      <p><strong>Solution 1 — JSON.stringify comparison (simple, works for serialisable objects):</strong></p>
+      <pre><span class="kw">const</span> projectRef = <span class="fn">useRef</span>(project);
+<span class="fn">useEffect</span>(() =&gt; {
+  <span class="kw">if</span> (JSON.<span class="fn">stringify</span>(project) !== JSON.<span class="fn">stringify</span>(projectRef.current)) {
+    projectRef.current = project;
+    <span class="fn">handler</span>(project);
+  }
+});<span class="cmt">  // No dep array — runs every render, but only fires handler on actual change</span></pre>
+      <p><strong>Solution 2 — useMemo to stabilise the reference:</strong></p>
+      <pre><span class="kw">const</span> stableProject = <span class="fn">useMemo</span>(() =&gt; project, [project.id, project.status, project.name]);
+<span class="cmt">// Now useEffect only fires when id, status, or name actually change</span>
+<span class="fn">useEffect</span>(() =&gt; { <span class="fn">handler</span>(stableProject); }, [stableProject]);</pre>
+      <p><strong>Solution 3 — useDeepCompareEffect (third-party hook or custom):</strong></p>
+      <pre><span class="kw">function</span> <span class="fn">useDeepEffect</span>(fn, deps) {
+  <span class="kw">const</span> ref = <span class="fn">useRef</span>(deps);
+  <span class="kw">if</span> (!deps.<span class="fn">every</span>((d, i) =&gt; JSON.<span class="fn">stringify</span>(d) === JSON.<span class="fn">stringify</span>(ref.current[i]))) {
+    ref.current = deps;
+  }
+  <span class="fn">useEffect</span>(fn, [ref.current]);
+}</pre>
+      <div class="callout tip"><span class="tag">Key insight to demonstrate</span> React deliberately does not do deep equality — it is a performance choice. Deep comparison on every render defeats React's optimization model. The correct answer is to restructure state so that the relevant primitive values are the dependencies, not the whole object.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 11 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.11</div>
+    <div class="q">
+      <strong>SCENARIO — Deployment Rollback Under Pressure:</strong> You deployed an SPFx update at 9 AM. By 10 AM, 30 users have reported a critical bug — a button that submits a form does nothing. The fix will take at least 3 hours to develop and test. What do you do in the next 15 minutes?
+    </div>
+    <div class="a">
+      <p><strong>Do NOT try to fix it live. Rollback first.</strong></p>
+      <ol>
+        <li><strong>Retrieve the previous .sppkg</strong> from the Azure DevOps pipeline artifacts (this is why every build publishes its artifact — you have version N-1 available immediately).</li>
+        <li><strong>Re-upload to the tenant App Catalog:</strong>
+          <pre>m365 spo app add \
+  --filePath previous-version.sppkg \
+  --appCatalogUrl https://contoso.sharepoint.com/sites/appcatalog \
+  --overwrite
+m365 spo app deploy \
+  --name my-solution.sppkg \
+  --appCatalogUrl https://contoso.sharepoint.com/sites/appcatalog \
+  --skipFeatureDeployment</pre>
+        </li>
+        <li><strong>Verify on the affected page</strong> — hard refresh (<code class="inline">Ctrl+Shift+R</code>). Confirm the button works.</li>
+        <li><strong>Communicate</strong> — "Issue identified. Rolled back to previous version. Button works again. Root cause investigation underway. Fix ETA: [time]."</li>
+        <li><strong>Now develop the fix</strong> — on a branch, with proper testing, with the pipeline running before any re-deployment.</li>
+      </ol>
+      <p><strong>The lesson: if you have no previous .sppkg artifact, you cannot rollback.</strong> This is why the pipeline artifact step is not optional. Every production deployment must archive the .sppkg file.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 12 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.12</div>
+    <div class="q">
+      <strong>SCENARIO — PowerShell Script Fails Mid-Migration:</strong> You are running a PnP PowerShell script migrating 120,000 files overnight using the SharePoint Migration API. At 3 AM, after processing 70,000 files, the script throws a 429 Too Many Requests error and hangs. You wake up to this at 7 AM. Walk through your recovery.
+    </div>
+    <div class="a">
+      <p><strong>Immediate diagnosis:</strong></p>
+      <pre><span class="cmt"># Check where the script stopped — what was the last processed item?</span>
+<span class="cmt"># A well-written script logs progress to a CSV:</span>
+Import-Csv "C:\migration-log.csv" | Sort-Object Timestamp | Select-Object -Last 5</pre>
+      <p><strong>Recovery steps:</strong></p>
+      <ol>
+        <li><strong>Identify the 50,000 unprocessed files</strong> — compare source file list vs the migration log CSV. The delta is what's left.</li>
+        <li><strong>Wait for the throttle window to pass</strong> — Microsoft's 429 Retry-After header tells you how long. Typically 30–60 minutes for tenant-wide throttling. Do not retry immediately.</li>
+        <li><strong>Resume from checkpoint, not from the beginning:</strong>
+          <pre>$processed = Import-Csv "C:\migration-log.csv" | Select-Object -ExpandProperty FileName
+$allFiles = Get-PnPListItem -List "Documents" -PageSize 500 | Select-Object -ExpandProperty FieldValues
+
+$remaining = $allFiles | Where-Object { $processed -notcontains $_["FileLeafRef"] }
+<span class="cmt"># Migrate only $remaining</span></pre>
+        </li>
+        <li><strong>Add retry logic with exponential backoff for the remaining run:</strong>
+          <pre><span class="kw">function</span> Invoke-WithRetry {
+  param($ScriptBlock, $MaxRetries = 5)
+  $attempt = 0
+  <span class="kw">do</span> {
+    <span class="kw">try</span> { & $ScriptBlock; <span class="kw">return</span> }
+    <span class="kw">catch</span> {
+      $attempt++
+      $delay = [Math]::Pow(2, $attempt) * 10  <span class="cmt"># 20s, 40s, 80s...</span>
+      Start-Sleep -Seconds $delay
+    }
+  } <span class="kw">while</span> ($attempt -lt $MaxRetries)
+}</pre>
+        </li>
+      </ol>
+      <p><strong>Postmortem fix:</strong> Write migration scripts with checkpointing from day one — log each processed file with a timestamp. Never write a migration script that has no recovery path from partial failure.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 13 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.13</div>
+    <div class="q">
+      <strong>DEEP CONCEPT — Theming:</strong> Your SPFx web part looks correct in the default SharePoint theme. But when a site admin switches to a dark theme, your web part still shows a white background with white text — effectively invisible. What went wrong and how do you fix it permanently?
+    </div>
+    <div class="a">
+      <p><strong>Root cause:</strong> You hardcoded CSS colour values (<code class="inline">color: #333</code>, <code class="inline">background: #fff</code>) instead of using SharePoint's theme CSS custom properties (CSS variables). When the theme changes, the variables update but your hardcoded values do not.</p>
+      <p><strong>The correct approach — theme semantic slots:</strong></p>
+      <pre><span class="cmt">/* WRONG — hardcoded colours */</span>
+.container {
+  background-color: #ffffff;
+  color: #323130;
+}
+
+<span class="cmt">/* CORRECT — SharePoint theme variables */</span>
+.container {
+  background-color: "[theme:bodyBackground, default: #ffffff]";
+  color: "[theme:bodyText, default: #323130]";
+}</pre>
+      <p>SharePoint replaces the <code class="inline">[theme:...]</code> tokens at render time with the current theme's values. When the theme changes, the token values update automatically.</p>
+      <p><strong>Key semantic slots to know:</strong></p>
+      <table>
+        <thead><tr><th>Token</th><th>Usage</th></tr></thead>
+        <tbody>
+          <tr><td><code>bodyBackground</code></td><td>Page/card background</td></tr>
+          <tr><td><code>bodyText</code></td><td>Primary readable text</td></tr>
+          <tr><td><code>themePrimary</code></td><td>Brand accent colour (buttons, links)</td></tr>
+          <tr><td><code>neutralLight</code></td><td>Dividers, borders, subtle backgrounds</td></tr>
+          <tr><td><code>neutralSecondaryAlt</code></td><td>Secondary text, labels</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Runtime subscription (for dynamic theme changes without page reload):</strong></p>
+      <pre><span class="kw">const</span> themeProvider = context.serviceScope.<span class="fn">consume</span>(ThemeProvider.serviceKey);
+themeProvider.<span class="fn">themeChangedEvent</span>.<span class="fn">add</span>(<span class="kw">this</span>, (args) =&gt; {
+  <span class="kw">this</span>.<span class="fn">setState</span>({ currentTheme: args.theme });
+});</pre>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 14 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.14</div>
+    <div class="q">
+      <strong>SCENARIO — Estimation Challenge:</strong> A client shows you a SharePoint Designer approval workflow with 22 stages, 4 parallel branches, escalation paths, and integration with an SAP system via REST. They ask you to re-build it in Power Automate in 2 weeks. How do you respond?
+    </div>
+    <div class="a">
+      <p><strong>Do not say yes to the 2-week timeline on the spot.</strong> Here is the correct response pattern:</p>
+      <ol>
+        <li><strong>"Let me analyse the workflow first before I quote."</strong> Request access to the SPD workflow XML export and the SAP API documentation. Schedule a 2-hour technical workshop to map every branch, condition, and integration touchpoint.</li>
+        <li><strong>Decompose and estimate each part:</strong>
+          <ul>
+            <li>22 stages × (design + implement + test) = approx. 44–66 hours base</li>
+            <li>4 parallel branches: +20% complexity = +9–13 hours</li>
+            <li>SAP integration via REST: needs authentication design, error handling, retry logic = +16–24 hours</li>
+            <li>UAT with real approvers: +16 hours (depends on client responsiveness)</li>
+            <li>Buffer for client change requests mid-build: +20% = +17 hours</li>
+            <li><strong>Total honest estimate: 102–139 hours = 3–4 weeks with one developer</strong></li>
+          </ul>
+        </li>
+        <li><strong>Present the options:</strong>
+          <ul>
+            <li>Option A: Full rebuild in 3.5 weeks (recommended, full quality)</li>
+            <li>Option B: 2-week MVP with 18 of 22 stages, remaining 4 stages in week 3 (if 2 weeks is a hard constraint)</li>
+            <li>Option C: Add a second developer, parallelize stages 1-11 and 12-22, potentially hit 2.5 weeks</li>
+          </ul>
+        </li>
+      </ol>
+      <p><strong>What impresses here:</strong> You didn't guess. You decomposed. You presented trade-offs. You protected quality without just saying no. You gave the client a choice.</p>
+      <div class="callout warn"><span class="tag">Red flag answer</span> "Sure, 2 weeks sounds fine." The candidate is either lying or will be working nights and delivering broken code under pressure.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 15 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.15</div>
+    <div class="q">
+      <strong>DEEP CONCEPT — Node.js &amp; SPFx Build:</strong> A new developer joins the team and runs <code>gulp serve</code> after cloning the repo. They get this error: <em>"Error: ENOENT: no such file or directory, stat 'node_modules/@microsoft/sp-build-core-tasks'"</em>. They then run <code>npm install</code> and get 47 vulnerabilities. They run <code>npm audit fix --force</code>. Now <code>gulp serve</code> fails with a completely different error about Webpack version mismatch. What happened and how do you help them fix it?
+    </div>
+    <div class="a">
+      <p><strong>What happened, step by step:</strong></p>
+      <ol>
+        <li><strong>ENOENT error</strong> — they hadn't run <code class="inline">npm install</code> yet. The node_modules folder didn't exist. Normal first-run state.</li>
+        <li><strong>npm install</strong> — correct. This installs the exact versions from <code class="inline">package-lock.json</code>, including all SPFx toolchain dependencies.</li>
+        <li><strong>47 vulnerabilities</strong> — this is normal for SPFx projects. Many "vulnerabilities" are in development-only build tooling (Gulp plugins, Yeoman), not in any code that ships to the browser. <em>These are not production security vulnerabilities.</em></li>
+        <li><strong><code>npm audit fix --force</code> — this was the mistake.</strong> <code class="inline">--force</code> upgrades packages beyond the SemVer range defined in package.json to fix vulnerabilities, including major version upgrades. This upgraded Webpack from v4 (required by SPFx 1.16) to v5, which has breaking API changes. The SPFx build chain cannot use Webpack v5 with SPFx 1.16.</li>
+      </ol>
+      <p><strong>Fix:</strong></p>
+      <pre><span class="cmt"># Step 1: Restore the lockfile from git</span>
+git checkout package-lock.json
+
+<span class="cmt"># Step 2: Delete node_modules entirely</span>
+Remove-Item -Recurse -Force node_modules
+
+<span class="cmt"># Step 3: Clean npm cache</span>
+npm cache clean --force
+
+<span class="cmt"># Step 4: Reinstall from the clean lockfile</span>
+npm install
+
+<span class="cmt"># Step 5: Verify the build works</span>
+gulp build</pre>
+      <p><strong>Rule to enforce with the team:</strong> Never run <code class="inline">npm audit fix --force</code> on an SPFx project. If a vulnerability is in a devDependency that doesn't ship to production, it is not a production risk. Document this in the project README and CONTRIBUTING guide.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 16 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.16</div>
+    <div class="q">
+      <strong>SCENARIO — Responsive Web Part in Teams:</strong> Your SPFx web part renders correctly on a full SharePoint page. But when the same web part is added to a Microsoft Teams tab, the layout is completely broken — columns are overflowing, text is clipped, and a dropdown menu renders off-screen. Walk through your fix strategy.
+    </div>
+    <div class="a">
+      <p><strong>Why this happens:</strong> SharePoint pages give your web part a container that's typically 800–1200px wide. A Teams tab gives your web part a container that's the full Teams client width — which varies dramatically: Desktop Teams can be 400px wide (narrow mode), Teams mobile is 375px.</p>
+      <p><strong>Step 1 — Use the web part's container width, not window.innerWidth:</strong></p>
+      <pre><span class="cmt">// In the web part class — pass actual container width to React</span>
+<span class="kw">protected</span> <span class="fn">render</span>(): <span class="kw">void</span> {
+  ReactDom.<span class="fn">render</span>(
+    &lt;<span class="fn">MyComponent</span>
+      containerWidth={<span class="kw">this</span>.domElement.clientWidth}
+    /&gt;,
+    <span class="kw">this</span>.domElement
+  );
+}
+
+<span class="cmt">// Re-render on resize</span>
+<span class="kw">protected</span> <span class="fn">onAfterResize</span>(newWidth: <span class="kw">number</span>): <span class="kw">void</span> {
+  <span class="kw">this</span>.<span class="fn">render</span>();
+}</pre>
+      <p><strong>Step 2 — Responsive breakpoints in CSS modules:</strong></p>
+      <pre>.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+<span class="cmt">/* Teams narrow sidebar: under 500px */</span>
+@media (max-width: 500px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+<span class="cmt">/* Teams standard tab: 500–800px */</span>
+@media (max-width: 800px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}</pre>
+      <p><strong>Step 3 — Fix off-screen dropdown:</strong> Fluent UI's <code class="inline">Callout</code> and <code class="inline">Dropdown</code> components use a portal to render outside the web part DOM. In Teams, the viewport is smaller — set <code class="inline">calloutProps={{ calloutMaxHeight: 200, directionalHintFixed: false }}</code> to allow the dropdown to reposition itself.</p>
+      <p><strong>Step 4 — Test in Teams Developer Tool:</strong> Open the web part in Teams &rarr; resize the Teams window to its minimum width. Test at 375px, 500px, 768px, and 1200px.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 17 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.17</div>
+    <div class="q">
+      <strong>SCENARIO — Client Conflict: OOTB vs Custom:</strong> A client insists they need a custom SPFx web part to display a list of company news articles with filtering by department. You know the OOTB Highlighted Content web part + SharePoint News feature can do this with zero code. How do you handle this conversation?
+    </div>
+    <div class="a">
+      <p>This is as much a communication skill test as a technical one.</p>
+      <p><strong>What you do NOT do:</strong> Build the custom web part because the client asked. A consultant's job is to advise, not just execute.</p>
+      <p><strong>The conversation:</strong></p>
+      <ol>
+        <li><strong>Acknowledge the requirement, not the solution:</strong> "Help me understand what the experience should look like and what business problem it solves."</li>
+        <li><strong>Demo the OOTB capability:</strong> Set up the Highlighted Content web part filtered by a Department managed metadata column in under 10 minutes during the meeting. Show it live. "This is what zero additional development looks like."</li>
+        <li><strong>State the trade-offs honestly:</strong>
+          <ul>
+            <li>OOTB: free, Microsoft-maintained, available tomorrow, no deployment pipeline, no upgrade risk</li>
+            <li>Custom: £X development cost, requires deployment pipeline, your team owns maintenance forever, any SharePoint platform update may require rework</li>
+          </ul>
+        </li>
+        <li><strong>Let them decide with full information.</strong> "If the OOTB solution covers 95% of your need, I'd strongly recommend it. If there are specific requirements it genuinely cannot meet, tell me what those are and I'll build only what's necessary."</li>
+      </ol>
+      <p><strong>The senior move:</strong> Saving the client £5,000 of unnecessary development builds more trust than delivering what they asked for without questioning it. A client who trusts your judgment gives you harder, more interesting problems.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 18 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.18</div>
+    <div class="q">
+      <strong>DEEP CONCEPT — SPFx Extension vs Web Part:</strong> When would you use a ListView Command Set Extension instead of a web part to add a "Generate Report" button to a document library? What can each do that the other cannot?
+    </div>
+    <div class="a">
+      <table>
+        <thead>
+          <tr><th>Capability</th><th>Web Part</th><th>ListView Command Set</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Placed on a page by a user</td><td>Yes</td><td>No — always in the command bar</td></tr>
+          <tr><td>Access to selected items in a list view</td><td>No (must query separately)</td><td><strong>Yes — <code>event.selectedRows</code> gives the selected items directly</strong></td></tr>
+          <tr><td>Renders custom UI on the page</td><td>Yes — full React component</td><td>Dialogs only (Panel, Modal) on button click</td></tr>
+          <tr><td>Always visible on every list view</td><td>Only if added to a page</td><td><strong>Yes — appears automatically when solution is deployed</strong></td></tr>
+          <tr><td>Can hide/show based on selection</td><td>No</td><td><strong>Yes — <code>onListViewUpdated</code> lets you show/hide based on what's selected</strong></td></tr>
+          <tr><td>Works without page editing rights</td><td>No (user must be able to edit page)</td><td>Yes</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Answer for "Generate Report" button:</strong> Use a <strong>ListView Command Set</strong>. The user selects 5 documents, clicks "Generate Report", and the extension receives exactly those 5 document IDs in <code class="inline">event.selectedRows</code>. A web part cannot know which items the user has selected in the list view — it would have to re-query, with no guarantee of matching what's visually selected.</p>
+      <pre><span class="kw">public</span> <span class="fn">onExecute</span>(event: IListViewCommandSetExecuteEventParameters): <span class="kw">void</span> {
+  <span class="kw">if</span> (event.itemId === <span class="str">"GENERATE_REPORT"</span>) {
+    <span class="kw">const</span> selectedIds = event.selectedRows.<span class="fn">map</span>(r =&gt; r.<span class="fn">getValueByName</span>(<span class="str">"ID"</span>));
+    <span class="cmt">// Call Azure Function with selectedIds</span>
+  }
+}</pre>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 19 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.19</div>
+    <div class="q">
+      <strong>SCENARIO — Mentoring a Junior:</strong> A junior developer on your team has submitted a PR. The code works and passes all tests. But you spot three issues: (1) they're making 5 separate API calls that could be batched into 1, (2) they used <code>any</code> type in 4 places in TypeScript, and (3) they wrote a 200-line component that should be 3 components. How do you handle the code review without demoralising them?
+    </div>
+    <div class="a">
+      <p><strong>First: acknowledge what they got right.</strong> Never open a code review with corrections. "This works end-to-end, tests pass, and the overall structure makes sense. Nice work getting the happy path solid. I have three suggestions for making it production-grade — happy to walk through them together if that's helpful."</p>
+      <p><strong>How to frame each issue:</strong></p>
+      <ol>
+        <li><strong>Batching (performance):</strong> "These 5 calls fire in sequence — each waits for the previous one. On a slow connection this adds ~2 seconds to the load. Here's how to batch them with PnP JS's batch API — it sends all 5 in a single request. Want to pair on this for 10 minutes?" — Frame it as a tool they didn't know existed, not a mistake they made.</li>
+        <li><strong><code>any</code> type (TypeScript):</strong> "I see <code class="inline">any</code> in 4 places. I know <code class="inline">any</code> feels like it solves the type error quickly — it does, but it also turns off all TypeScript's checks for that variable. Here's the actual interface for this API response — replacing <code class="inline">any</code> with this took me 30 seconds and will catch real bugs in future." — Show, don't lecture.</li>
+        <li><strong>200-line component (maintainability):</strong> "This component is doing three distinct things: fetching data, filtering it, and rendering it. That's fine for now, but in 3 months when we need to reuse the filter logic somewhere else, or change the fetch mechanism, we'll touch this whole file. Let me show you the Single Responsibility pattern — how I'd split this into a container, a hook, and a presentational component." — Frame it as future-proofing, not criticism.</li>
+      </ol>
+      <p><strong>Don't block the PR for all three.</strong> Merge the PR, then create follow-up tasks. Blocking a working PR over style issues tells juniors their work is never good enough — it demoralises. Fix forward.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCENARIO 20 ═══════════════════ -->
+  <div class="qa">
+    <div class="q-num">SC 24.20</div>
+    <div class="q">
+      <strong>SCENARIO — Migration + Permissions Nightmare:</strong> Post-migration to SPO, users are reporting they can access documents they shouldn't — documents from other departments are visible in search results even though on-prem they were restricted. ShareGate reported permissions migrated successfully. What is happening?
+    </div>
+    <div class="a">
+      <p><strong>Most likely cause — SharePoint Search security trimming is not working correctly because of identity mismatch.</strong></p>
+      <p><strong>Investigation steps:</strong></p>
+      <ol>
+        <li><strong>Check if permissions actually migrated:</strong>
+          <pre>Connect-PnPOnline -Url $siteUrl -Interactive
+Get-PnPListItemPermission -List "Documents" -Identity 42
+<span class="cmt"># Does this show the correct restricted users only?</span></pre>
+        </li>
+        <li><strong>Check if the document's permissions show the right groups</strong> — if ShareGate mapped AD groups to AAD groups, verify those AAD groups have the correct members in Azure AD &rarr; Groups.</li>
+        <li><strong>Search indexing delay</strong> — if permissions were changed post-migration (e.g., via a script that ran after ShareGate), the search index may not have updated yet. Search security trimming uses the index, not live permissions. A re-crawl is needed:
+          <pre>Request-PnPReIndexList -Identity "Documents"</pre>
+          And wait for the search index to refresh (typically 15–60 minutes for SPO).
+        </li>
+        <li><strong>Check if Shared Links were migrated</strong> — ShareGate migrates Sharing Links. If an on-prem item had an "anyone with the link" sharing setting, that link comes with it to SPO. Users with old links bypass permission checks entirely.</li>
+        <li><strong>Check tenant-level sharing settings</strong> — in SPO Admin Center, verify the tenant sharing level hasn't been set to "Anyone" which overrides item permissions for search results.</li>
+      </ol>
+      <p><strong>The fix that's often overlooked:</strong> After any permission change at scale, run <code class="inline">Request-PnPReIndexSite</code> on the site and wait for the crawl. Without this, search results reflect old permissions for hours.</p>
+      <div class="callout tip"><span class="tag">Key distinction</span> There are two separate access checks in SharePoint: (1) direct navigation — live, real-time permission check; (2) search results — based on the search index snapshot, which can lag. Users can see items in search they can no longer access directly — or vice versa — until the index catches up.</div>
     </div>
   </div>
 
