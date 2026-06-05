@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power Platform — Scenario Interview Q&amp;A</title>
+<style>
+  :root {
+    --primary: #742774;
+    --primary-dark: #4f1a4f;
+    --accent: #c083c0;
+    --bg: #f3f2f1;
+    --card: #ffffff;
+    --text: #323130;
+    --text-muted: #605e5c;
+    --border: #edebe9;
+    --success: #107c10;
+    --tag-bg: #f5e6f5;
+    --tag-text: #4f1a4f;
+    --code-bg: #1e1e1e;
+    --code-text: #d4d4d4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+  header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, #9b3f9b 100%);
+    color: white; padding: 32px 40px 28px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.3px; }
+  header p { opacity: 0.85; font-size: 0.9rem; margin-top: 4px; }
+  .header-meta { display: flex; gap: 20px; margin-top: 12px; flex-wrap: wrap; }
+  .badge {
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px; padding: 3px 12px; font-size: 0.78rem; font-weight: 600;
+  }
+
+  .search-bar {
+    background: white; padding: 16px 40px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .search-bar input {
+    flex: 1; max-width: 480px; padding: 8px 14px; border: 1.5px solid var(--border);
+    border-radius: 6px; font-size: 0.9rem; outline: none; transition: border-color 0.2s;
+  }
+  .search-bar input:focus { border-color: var(--primary); }
+  .search-bar span { color: var(--text-muted); font-size: 0.85rem; }
+
+  .container { display: flex; min-height: calc(100vh - 140px); }
+
+  aside {
+    width: 250px; min-width: 250px; background: var(--card);
+    border-right: 1px solid var(--border); padding: 20px 0;
+    position: sticky; top: 120px; height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+  aside h3 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--text-muted); padding: 0 20px 8px; }
+  .nav-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 20px; font-size: 0.85rem; cursor: pointer;
+    border-left: 3px solid transparent; transition: all 0.15s;
+    color: var(--text-muted);
+  }
+  .nav-item:hover { background: var(--bg); color: var(--primary); }
+  .nav-item.active { border-left-color: var(--primary); background: var(--tag-bg);
+    color: var(--primary); font-weight: 600; }
+  .nav-item .count {
+    margin-left: auto; background: var(--bg); border-radius: 10px;
+    padding: 1px 7px; font-size: 0.72rem; font-weight: 700; color: var(--text-muted);
+  }
+
+  main { flex: 1; padding: 28px 36px; overflow-y: auto; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 2px solid var(--primary);
+  }
+  .section-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; color: white;
+  }
+  .section-header h2 { font-size: 1.25rem; font-weight: 700; color: var(--text); }
+  .section-header p { font-size: 0.82rem; color: var(--text-muted); }
+
+  .qa-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .qa-card:hover { box-shadow: 0 4px 12px rgba(116,39,116,0.12); }
+
+  .qa-question {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 16px 18px; cursor: pointer; user-select: none;
+  }
+  .q-num {
+    min-width: 28px; height: 28px; background: var(--primary);
+    color: white; border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .qa-question h4 { font-size: 0.92rem; font-weight: 600; color: var(--text); flex: 1; }
+  .qa-question .tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+  .tag {
+    background: var(--tag-bg); color: var(--tag-text);
+    border-radius: 4px; padding: 1px 7px; font-size: 0.7rem; font-weight: 600;
+  }
+  .tag.practical { background: #dff6dd; color: #107c10; }
+  .tag.theory { background: #fff4ce; color: #7a5f00; }
+  .tag.scenario { background: #fde7e9; color: #a4262c; }
+  .tag.advanced { background: #e6f0ff; color: #004578; }
+  .chevron { margin-left: auto; font-size: 0.9rem; transition: transform 0.25s; color: var(--text-muted); flex-shrink: 0; }
+  .qa-card.open .chevron { transform: rotate(180deg); }
+
+  .qa-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .qa-card.open .qa-answer { max-height: 5000px; }
+  .qa-answer-inner {
+    padding: 0 18px 18px 58px; font-size: 0.875rem;
+    border-top: 1px solid var(--border); color: var(--text);
+  }
+  .qa-answer-inner p { margin-top: 10px; }
+  .qa-answer-inner ul, .qa-answer-inner ol { padding-left: 18px; margin-top: 8px; }
+  .qa-answer-inner li { margin-bottom: 5px; }
+  .qa-answer-inner h5 { margin-top: 14px; margin-bottom: 4px; font-size: 0.85rem; color: var(--primary-dark); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  pre {
+    background: var(--code-bg); color: var(--code-text);
+    border-radius: 8px; padding: 14px 16px; margin-top: 10px;
+    font-family: 'Cascadia Code', 'Consolas', monospace; font-size: 0.78rem;
+    line-height: 1.6; overflow-x: auto;
+  }
+  code {
+    background: #f0f0f0; color: #742774; padding: 1px 5px;
+    border-radius: 3px; font-size: 0.82em;
+    font-family: 'Cascadia Code', 'Consolas', monospace;
+  }
+  pre code { background: none; color: inherit; padding: 0; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.82rem; }
+  th { background: var(--primary); color: white; padding: 8px 12px; text-align: left; font-weight: 600; }
+  td { padding: 7px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--bg); }
+
+  .callout {
+    border-left: 4px solid var(--primary); background: var(--tag-bg);
+    padding: 10px 14px; border-radius: 0 6px 6px 0; margin-top: 10px;
+    font-size: 0.84rem;
+  }
+  .callout.tip { border-color: var(--success); background: #dff6dd; }
+  .callout.warn { border-color: #d83b01; background: #fde7e9; }
+  .callout.info { border-color: #0078d4; background: #e1f0ff; }
+
+  .approach-box {
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; margin-top: 10px; background: #fafafa;
+  }
+  .approach-box .approach-title {
+    font-weight: 700; font-size: 0.82rem; color: var(--primary-dark);
+    margin-bottom: 6px;
+  }
+
+  #scrollTop {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--primary); color: white; border: none; border-radius: 50%;
+    width: 44px; height: 44px; font-size: 1.2rem; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: none;
+    align-items: center; justify-content: center;
+  }
+  #scrollTop.show { display: flex; }
+  .no-results { text-align: center; color: var(--text-muted); padding: 40px 0; font-size: 0.9rem; }
+
+  @media (max-width: 768px) {
+    aside { display: none; }
+    main { padding: 16px; }
+    header { padding: 20px 16px; }
+    .search-bar { padding: 10px 16px; }
+    .qa-answer-inner { padding-left: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Power Platform &mdash; Deep Scenario Interview Q&amp;A</h1>
+  <p>Canvas Apps &bull; Power Automate &bull; DLP &bull; ALM &bull; Governance &bull; SharePoint &bull; Security</p>
+  <div class="header-meta">
+    <span class="badge">Senior / Lead Level</span>
+    <span class="badge">26 Questions</span>
+    <span class="badge">9 Topic Areas</span>
+    <span class="badge">Multiple Solution Approaches Per Q</span>
+  </div>
+</header>
+
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Search questions..." oninput="filterQuestions()">
+  <span id="searchCount"></span>
+</div>
+
+<div class="container">
+  <aside>
+    <h3>Topics</h3>
+    <div class="nav-item active" onclick="showSection('canvas-layout',this)">&#127759; Canvas Layout &amp; Positioning <span class="count">3</span></div>
+    <div class="nav-item" onclick="showSection('forms-data',this)">&#128203; Forms &amp; Dynamic Data <span class="count">4</span></div>
+    <div class="nav-item" onclick="showSection('approvals',this)">&#9989; Approvals &amp; Licensing <span class="count">2</span></div>
+    <div class="nav-item" onclick="showSection('sharepoint',this)">&#128196; SharePoint Integration <span class="count">3</span></div>
+    <div class="nav-item" onclick="showSection('dlp',this)">&#128274; DLP &amp; Governance <span class="count">3</span></div>
+    <div class="nav-item" onclick="showSection('alm',this)">&#128640; ALM &amp; DevOps <span class="count">4</span></div>
+    <div class="nav-item" onclick="showSection('env-config',this)">&#9881; Environment Configuration <span class="count">3</span></div>
+    <div class="nav-item" onclick="showSection('connections',this)">&#128279; Connections &amp; Service Accounts <span class="count">2</span></div>
+    <div class="nav-item" onclick="showSection('security',this)">&#128272; Security &amp; Permissions <span class="count">2</span></div>
+  </aside>
+
+  <main id="mainContent">
+
+    <!-- ===== CANVAS LAYOUT ===== -->
+    <div id="canvas-layout" class="section active">
+      <div class="section-header">
+        <div class="section-icon">&#127759;</div>
+        <div><h2>Canvas App Layout &amp; Positioning</h2><p>Centering controls, relative placement, responsive design</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>How would you place a button or text input exactly in the center of the screen &mdash; both horizontally and vertically?</h4>
+          <div class="tags"><span class="tag practical">Practical</span><span class="tag scenario">Scenario</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Canvas Apps do not auto-center controls. You must use formulas based on <code>Parent.Width</code> and <code>Parent.Height</code>.</p>
+          <h5>Core Formulas</h5>
+          <pre><code>// Horizontal center
+X = (Parent.Width - Self.Width) / 2
+
+// Vertical center
+Y = (Parent.Height - Self.Height) / 2</code></pre>
+          <p><code>Self.Width</code> and <code>Self.Height</code> refer to the control's own dimensions. <code>Parent</code> is the screen or container the control lives in.</p>
+          <h5>Approach 1 &mdash; Direct X/Y formulas (classic)</h5>
+          <p>Set the X and Y properties of the control directly as shown above. Works for any control placed directly on a screen.</p>
+          <h5>Approach 2 &mdash; Responsive Layout Containers (modern, recommended)</h5>
+          <p>Use a <strong>Vertical or Horizontal Layout Container</strong>. Set container Width = <code>Parent.Width</code>, Height = <code>Parent.Height</code>. Set <code>JustifyContent = JustifyContent.Center</code> and <code>AlignItems = AlignItems.Center</code>. The container handles centering automatically without math.</p>
+          <h5>Approach 3 &mdash; AlignInContainer on child</h5>
+          <p>Inside a Layout Container, set the child control's <code>AlignInContainer</code> property to <code>AlignInContainer.Center</code>. No X/Y formulas needed at all.</p>
+          <div class="callout tip">For responsive design across devices, always prefer containers over hardcoded X/Y. Direct X/Y formulas do not adapt when the app runs at different resolutions or orientations.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>A button is already placed on screen. How do you position a text input immediately next to it, aligned on the same baseline?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Reference the button's properties directly in the text input's X and Y formulas. Assume the button is named <code>btnSubmit</code>.</p>
+          <h5>Place immediately to the right with top alignment</h5>
+          <pre><code>// TextInput X &mdash; 8px gap from right edge of button
+X = btnSubmit.X + btnSubmit.Width + 8
+
+// TextInput Y &mdash; top aligned to button
+Y = btnSubmit.Y</code></pre>
+          <h5>Vertically centered relative to the button (different heights)</h5>
+          <pre><code>Y = btnSubmit.Y + (btnSubmit.Height - Self.Height) / 2</code></pre>
+          <h5>Place immediately below</h5>
+          <pre><code>X = btnSubmit.X
+Y = btnSubmit.Y + btnSubmit.Height + 8</code></pre>
+          <div class="callout info">When one control references another's position, moving the button automatically repositions the text input. This is the Power Apps equivalent of anchoring. Never hardcode pixel values.</div>
+          <h5>Container approach (modern)</h5>
+          <p>Place both controls in a Horizontal Layout Container with Gap = 8. The container keeps them side by side and aligned with no formulas needed.</p>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>How would you design a Canvas App that works well on both phone and tablet without duplicating screens?</h4>
+          <div class="tags"><span class="tag advanced">Advanced</span><span class="tag scenario">Scenario</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <h5>Approach 1 &mdash; App.Width breakpoints</h5>
+          <pre><code>// Conditionally change a gallery width
+Width = If(App.Width &lt; 600, App.Width, App.Width * 0.5)
+
+// Show/hide a sidebar
+Visible = App.Width &gt;= 900</code></pre>
+          <h5>Approach 2 &mdash; Layout Containers (recommended)</h5>
+          <p>Disable <em>Scale to fit</em> and <em>Lock aspect ratio</em> in App settings. Use Horizontal and Vertical Layout Containers throughout. Set container Width = <code>Parent.Width</code>. Use <code>FillPortions</code> on children for proportional columns that reflow automatically.</p>
+          <h5>Approach 3 &mdash; Standard screen template pattern</h5>
+          <p>Build a reusable screen structure: header container (full width, fixed height), body container (fills remaining space), optional footer. Every screen uses this template as its base. Content inside the body self-adjusts to any screen dimension.</p>
+          <div class="callout tip">The golden rule for responsive Canvas Apps: no control should have a hardcoded X, Y, Width, or Height value. Every dimension should be derived from <code>Parent.Width</code>, <code>Parent.Height</code>, or another control's properties.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== FORMS & DYNAMIC DATA ===== -->
+    <div id="forms-data" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#128203;</div>
+        <div><h2>Forms &amp; Dynamic Data Modeling</h2><p>Edit Forms, repeating sections, role-based fields, complex data shapes</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>Single Edit Form with Submitter and Approver sections &mdash; how do you enforce role-based field visibility and editability based on SharePoint group membership?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag advanced">Advanced</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>The form itself has no awareness of user roles. You enforce roles through a group membership lookup at startup and then apply that result to each control's <code>Visible</code> and <code>DisplayMode</code> properties.</p>
+          <h5>Step 1 &mdash; Resolve role on App.OnStart</h5>
+          <pre><code>// Option A: Office 365 Groups connector
+Set(
+  gblIsApprover,
+  !IsEmpty(
+    Filter(
+      Office365Groups.ListGroupMembers("approver-group-id").value,
+      userPrincipalName = User().Email
+    )
+  )
+);
+
+// Option B: SharePoint Roles list (faster, no extra connector)
+Set(
+  gblIsApprover,
+  !IsEmpty(Filter('AppRoles', UserEmail = User().Email &amp;&amp; Role = "Approver"))
+);</code></pre>
+          <h5>Step 2 &mdash; Submitter section controls</h5>
+          <pre><code>// Visible: everyone sees it
+Visible = true
+
+// DisplayMode: submitters edit; approvers see read-only
+DisplayMode = If(gblIsApprover, DisplayMode.View, DisplayMode.Edit)</code></pre>
+          <h5>Step 3 &mdash; Approver section controls</h5>
+          <pre><code>// Visible: only approvers see this section
+Visible = gblIsApprover
+
+// DisplayMode: approvers can edit their own section
+DisplayMode = If(gblIsApprover, DisplayMode.Edit, DisplayMode.View)</code></pre>
+          <h5>Step 4 &mdash; Patch on submit (role-targeted)</h5>
+          <pre><code>If(
+  gblIsApprover,
+  Patch('Requests', Gallery1.Selected, {
+    ApproverComments: txtApproverComments.Text,
+    Status: drpStatus.Selected.Value
+  }),
+  Patch('Requests', Defaults('Requests'), {
+    Title: txtTitle.Text,
+    Description: txtDesc.Text
+  })
+);</code></pre>
+          <div class="callout warn">App-level visibility is UI enforcement only. A determined user can call SharePoint REST API directly and bypass the app. For true security, combine app-side role checks with SharePoint item-level permissions or column-level permissions so the data source enforces access independently.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">5</div>
+          <div><h4>A SharePoint-backed Canvas App needs to capture a dynamic, unknown number of addresses per employee (city + state each). How do you design the data model and repeating UI?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag advanced">Advanced</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Fixed SharePoint columns cannot hold a variable number of addresses. Three viable approaches:</p>
+          <h5>Approach 1 &mdash; Child SharePoint list (recommended for full CRUD)</h5>
+          <p>Create a separate <strong>Addresses</strong> list: <em>EmployeeID (Lookup)</em>, <em>City (text)</em>, <em>State (text)</em>, <em>Sequence (number)</em>. Use a Gallery inside the form for existing addresses with inline edit controls.</p>
+          <pre><code>// Load addresses when an employee is selected
+ClearCollect(colAddresses, Filter(Addresses, EmployeeID.Id = Gallery_Employees.Selected.ID));
+
+// Add new address
+Collect(colAddresses, {City: "", State: "", _isNew: true});
+
+// Save all
+ForAll(
+  colAddresses,
+  Patch(Addresses, Defaults(Addresses), {
+    EmployeeID: {Id: varEmployeeID},
+    City: City,
+    State: State
+  })
+);</code></pre>
+          <h5>Approach 2 &mdash; JSON in a single multi-line text column</h5>
+          <pre><code>// Save
+Patch(Employees, editItem, {
+  AddressesJSON: JSON(colAddresses, JSONFormat.IndentFour)
+});
+
+// Load
+ClearCollect(
+  colAddresses,
+  ForAll(
+    Table(ParseJSON(Gallery_Employees.Selected.AddressesJSON)),
+    {City: Text(ThisRecord.City), State: Text(ThisRecord.State)}
+  )
+);</code></pre>
+          <div class="callout warn">ParseJSON returns untyped objects. You must wrap with ForAll+Table and cast each field to its type. Avoid for large datasets or where you need delegation.</div>
+          <h5>Approach 3 &mdash; Dataverse child table (enterprise grade)</h5>
+          <p>Create an <em>Address</em> table in Dataverse with a Many-to-One relationship to <em>Employee</em>. Full relational integrity, delegation support, no serialization overhead. Preferred when Dataverse is already the backend.</p>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">6</div>
+          <div><h4>How do you implement a repeating section inside an Edit Form so users can add, edit, and reload a variable number of child records within the same form experience?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>The built-in Edit Form has no repeating section. Build it as a Collection + Gallery pattern placed alongside or below the form.</p>
+          <h5>Full pattern</h5>
+          <ol>
+            <li>On screen navigation, initialize: <code>ClearCollect(colRows, [])</code></li>
+            <li>For existing records, load from child list: <code>ClearCollect(colRows, Filter(ChildList, ParentID.Id = varParentID))</code></li>
+            <li>Place a <strong>Gallery</strong> bound to <code>colRows</code>. Each gallery row has text input controls for inline editing.</li>
+            <li>Bind each input to <code>ThisItem.FieldName</code>. On input change: <code>Patch(colRows, ThisItem, {FieldName: Self.Text})</code></li>
+            <li>Add Row button: <code>Collect(colRows, {City: "", State: "", _isNew: true})</code></li>
+            <li>Delete icon per row: <code>Remove(colRows, ThisItem)</code></li>
+            <li>On main form submit, write all rows to the child list:</li>
+          </ol>
+          <pre><code>// Remove stale rows then insert current collection
+RemoveIf(ChildList, ParentID.Id = varParentID);
+ForAll(
+  colRows,
+  Patch(ChildList, Defaults(ChildList), {
+    ParentID: {Id: varParentID},
+    City: City,
+    State: State
+  })
+);</code></pre>
+          <div class="callout tip">For large child record counts, track a <code>_rowID</code> field in the collection and only patch changed/new rows instead of deleting and reinserting all. This avoids unnecessary SharePoint API calls and respects throttling limits.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">7</div>
+          <div><h4>One SharePoint attachments column, but Submitter and Approver each need their own separate attachment control. How do you design this?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag advanced">Advanced</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <h5>Approach 1 &mdash; Filename prefix convention</h5>
+          <p>Prefix files with <code>SUBMITTER_</code> or <code>APPROVER_</code> at upload time. Filter the attachment gallery by prefix in each section.</p>
+          <pre><code>// Submitter gallery Items
+Filter(DataCardValue_Attachments.Attachments, StartsWith(Name, "SUBMITTER_"))
+
+// Approver gallery Items
+Filter(DataCardValue_Attachments.Attachments, StartsWith(Name, "APPROVER_"))</code></pre>
+          <div class="callout warn">Relies entirely on user discipline with naming. A misnamed file appears in the wrong section. Not reliable for production without enforced validation.</div>
+          <h5>Approach 2 &mdash; Two separate SharePoint document libraries (recommended)</h5>
+          <p>Create <em>SubmitterAttachments</em> and <em>ApproverAttachments</em> document libraries, each with a Lookup column back to the requests list item ID. Upload via the SharePoint Files connector. Each section's gallery filters by item ID in its respective library. This gives true separation with independent SharePoint permissions per library.</p>
+          <h5>Approach 3 &mdash; Power Automate + metadata stamping</h5>
+          <p>Upload all files to the single attachments column. A Power Automate flow (triggered on file upload) reads the uploader's SharePoint group membership and stamps a custom metadata column <em>UploadedByRole</em> (Submitter/Approver) on the file. The app gallery filters by this column.</p>
+          <h5>Approach 4 &mdash; Custom URL columns per role</h5>
+          <p>Store SharePoint file URLs in two separate multi-line text columns: <em>SubmitterFileURLs</em> and <em>ApproverFileURLs</em>. Upload files via the SharePoint Files connector and store the resulting URL in the appropriate column. Bypass the built-in Attachments control entirely.</p>
+          <div class="callout tip">Approach 2 (separate document libraries) is cleanest: true role separation, independent permissions, no naming conventions to enforce, and no metadata complexity.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== APPROVALS & LICENSING ===== -->
+    <div id="approvals" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#9989;</div>
+        <div><h2>Approvals &amp; Licensing</h2><p>License-free approval scenarios, flow-based approvals, email/Teams-only approvers</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">8</div>
+          <div><h4>Occasional approvers do not have a Power Apps license. How do you design an approval process so they can still approve, reject, and upload attachments without full app access?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag advanced">Advanced</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Power Automate Approvals only require an M365 license for the approver &mdash; no Power Apps license needed. This is the core design principle.</p>
+          <h5>Flow design</h5>
+          <ol>
+            <li>Submitter fills Canvas App and submits (triggers a flow via SharePoint item creation or a button).</li>
+            <li>Flow sends an <strong>Approval</strong> using <em>Start and wait for an approval</em>. Approver receives email and/or Teams card with Approve/Reject buttons.</li>
+            <li>Approver acts directly from email or Teams &mdash; no app visit required.</li>
+            <li>Flow captures the outcome and updates the SharePoint list.</li>
+          </ol>
+          <h5>Handling attachment uploads from license-free approvers</h5>
+          <div class="approach-box">
+            <div class="approach-title">Option A &mdash; Teams Adaptive Card with file input</div>
+            <p>Power Automate Adaptive Cards (v1.3+) support file upload in Teams. Include a file block in the card. The approver uploads directly in Teams. The flow receives the file and stores it to SharePoint.</p>
+          </div>
+          <div class="approach-box">
+            <div class="approach-title">Option B &mdash; SharePoint link in email</div>
+            <p>Include a direct link to the relevant SharePoint library in the approval email. Approver uploads directly (needs only SharePoint Contribute permission, not a Power Apps license). A separate flow or event monitors the library for new files.</p>
+          </div>
+          <div class="approach-box">
+            <div class="approach-title">Option C &mdash; Email reply with attachment</div>
+            <p>Configure approval to allow email reply. The approver replies with an attached file. An Outlook shared mailbox flow picks up the attachment and saves it to SharePoint.</p>
+          </div>
+          <div class="callout tip">Option A (Adaptive Card + Teams) gives the best UX. Option B is lowest-friction for organizations without heavy Teams adoption &mdash; requires only SharePoint access.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">9</div>
+          <div><h4>How do you retrieve an image stored in a SharePoint document library and embed it visibly in an email body for recipients who have no SharePoint access?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>A SharePoint link in the email will fail for users without access. You must embed the image inline as Base64 in the HTML email body.</p>
+          <h5>Flow design &mdash; Base64 inline image</h5>
+          <ol>
+            <li>Use <strong>SharePoint &mdash; Get file content</strong> to retrieve the image binary.</li>
+            <li>Use the <code>base64()</code> expression to convert: <code>base64(body('Get_file_content'))</code></li>
+            <li>Compose the email body HTML:</li>
+          </ol>
+          <pre><code>&lt;img src="data:image/png;base64,@{base64(body('Get_file_content'))}"
+     width="400" alt="Embedded image" /&gt;</code></pre>
+          <li>Use <strong>Send an email (V2)</strong> with <em>Is HTML: Yes</em> and the composed HTML as the body.</li>
+          <h5>Alternative &mdash; Azure Blob SAS URL</h5>
+          <p>For images over ~100KB, Base64 bloats email size. Instead, upload the image to Azure Blob Storage and generate a SAS (Shared Access Signature) URL with a short expiry (e.g., 48 hours). Embed the SAS URL directly in the img src. Recipients download the image from Azure rather than email payload.</p>
+          <pre><code>// Azure Blob Storage connector: "Create SAS URI by path"
+// Then embed in email:
+&lt;img src="@{body('Create_SAS_URI')['SignedUri']}" /&gt;</code></pre>
+          <div class="callout warn">Base64 images can make an email 30-40% larger than the original file. Use the SAS URL approach for anything over ~100KB or for bulk-sent emails where delivery size matters.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== SHAREPOINT INTEGRATION ===== -->
+    <div id="sharepoint" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#128196;</div>
+        <div><h2>SharePoint Integration</h2><p>Item-level permissions, delegation, list vs library, connectivity patterns</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">10</div>
+          <div><h4>A Canvas App gallery uses a SharePoint list with item-level permissions. Does the gallery automatically show only the items the user can access, or do you need extra filtering logic?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p><strong>Yes &mdash; the gallery automatically shows only permitted items.</strong> The SharePoint connector uses the logged-in user's OAuth token. SharePoint applies security trimming server-side and returns only items the user has at least Read access to. Power Apps does not receive the hidden items at all.</p>
+          <h5>Implications</h5>
+          <ul>
+            <li>No extra <code>Filter()</code> formula is required for basic item visibility.</li>
+            <li>Pagination, <code>LoadData</code>, and <code>Refresh</code> all respect the same permissions.</li>
+            <li>The user cannot determine how many items exist beyond what they can see.</li>
+          </ul>
+          <h5>Does Power Apps add extra security beyond SharePoint?</h5>
+          <p><strong>No.</strong> Power Apps is a UI layer. It relies entirely on SharePoint's permissions. The app adds no independent row-level security. A user who calls the SharePoint REST API directly (bypassing the app) gets exactly the same access &mdash; nothing more, nothing less.</p>
+          <div class="callout warn">If the app uses a <strong>service account connection</strong> instead of the logged-in user's credentials, item-level permissions are evaluated against the service account &mdash; not the end user. In this case the gallery would show ALL items the service account can access. You must then add explicit app-side filtering: <code>Filter(List, Author.Email = User().Email)</code></div>
+          <div class="callout tip">Always prefer delegated (per-user OAuth) connections for SharePoint in Canvas Apps. This leverages native SharePoint security trimming. Service account connections should only be used where delegated access is architecturally impossible, and must always have app-side row filtering layered on top.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">11</div>
+          <div><h4>How do you handle environment-specific SharePoint URLs and lists across Dev, QA, UAT, and Production in a Canvas App solution?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag advanced">Advanced</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <h5>Approach 1 &mdash; Environment Variables of type Data Source (OOB, recommended)</h5>
+          <p>Create an Environment Variable of type <em>Data Source</em> pointing to the SharePoint site and list. The Canvas App references the EV as its data source. On deployment, override the EV value in the deployment settings file for each target environment. The app automatically binds to the correct site without any code changes.</p>
+          <pre><code>// deployment-settings-qa.json
+{
+  "EnvironmentVariables": [
+    {
+      "SchemaName": "contoso_RequestsSite",
+      "Value": "https://contoso.sharepoint.com/sites/QA-Requests"
+    }
+  ]
+}</code></pre>
+          <h5>Approach 2 &mdash; PAC CLI settings file on import</h5>
+          <pre><code>pac solution import \
+  --path ./RequestsApp_managed.zip \
+  --settings-file ./env-qa-settings.json \
+  --managed</code></pre>
+          <h5>Approach 3 &mdash; SharePoint Config list as a runtime lookup</h5>
+          <p>Create a <em>Config</em> list common to all environments with Key/Value rows. On <code>App.OnStart</code>:</p>
+          <pre><code>Set(gblSPSiteURL, LookUp(Config, Key = "SPSiteURL", Value));</code></pre>
+          <p>Each environment's Config list has its own site URL value. No deployment scripting needed &mdash; the app reads the right URL at runtime.</p>
+          <div class="callout tip">Approach 1 (EV Data Source type) is the fully OOB approach introduced in 2022+. New projects should use this exclusively. Approach 3 is a practical fallback for teams without a full ALM pipeline in place yet.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">12</div>
+          <div><h4>What is delegation in Power Apps with SharePoint? What are the delegation limits and how do you work around them?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag scenario">Scenario</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p><strong>Delegation</strong> means the data source (SharePoint) executes the query server-side and returns only matching rows. Without delegation, Power Apps downloads up to 500 records (max 2000) client-side and filters locally &mdash; silently missing records outside that window.</p>
+          <h5>SharePoint delegation support</h5>
+          <table>
+            <tr><th>Operation</th><th>Delegable?</th></tr>
+            <tr><td>Filter equals (=) on text column</td><td>Yes</td></tr>
+            <tr><td>Filter Contains on text column</td><td>No</td></tr>
+            <tr><td>Filter on number / date (&lt;, &gt;, =)</td><td>Yes</td></tr>
+            <tr><td>Search() on indexed columns</td><td>Yes</td></tr>
+            <tr><td>Sort() on indexed columns</td><td>Yes</td></tr>
+            <tr><td>CountRows() on full table</td><td>No</td></tr>
+            <tr><td>In operator</td><td>No</td></tr>
+            <tr><td>Filter on Choice or Person columns</td><td>Partial</td></tr>
+          </table>
+          <h5>Workarounds</h5>
+          <ol>
+            <li><strong>Index columns</strong>: Add SharePoint column indexes on filtered/sorted columns. Enables Search() and Sort() delegation.</li>
+            <li><strong>Increase row limit</strong>: App Settings &rarr; Advanced &rarr; Data row limit up to 2000. Use cautiously on large lists.</li>
+            <li><strong>Power Automate pre-filter</strong>: Offload complex queries to a flow that returns exactly the needed records via HTTP response. Bypasses Power Apps delegation limits entirely.</li>
+            <li><strong>Migrate to Dataverse</strong>: Dataverse supports delegation for many more operations including <code>In</code>, complex multi-column filters, and computed fields.</li>
+          </ol>
+          <div class="callout warn">Non-delegable queries silently return incomplete data. Power Apps shows a yellow triangle delegation warning &mdash; never ignore this in production apps with more than 500 records.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== DLP & GOVERNANCE ===== -->
+    <div id="dlp" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#128274;</div>
+        <div><h2>DLP &amp; Governance</h2><p>Connector categories, blocking connectors, cross-boundary policies, endpoint filtering</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">13</div>
+          <div><h4>What are the DLP connector categories and how do you completely block a specific connector rather than just classifying it as non-business?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag scenario">Scenario</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Power Platform DLP policies organize connectors into three categories:</p>
+          <table>
+            <tr><th>Category</th><th>Meaning</th><th>Cross-boundary?</th></tr>
+            <tr><td><strong>Business</strong></td><td>Approved for corporate data</td><td>Can only connect to other Business connectors</td></tr>
+            <tr><td><strong>Non-Business (Personal)</strong></td><td>Allowed but isolated</td><td>Can only connect to other Non-Business connectors</td></tr>
+            <tr><td><strong>Blocked</strong></td><td>Cannot be used at all</td><td>N/A &mdash; usage is completely prevented</td></tr>
+          </table>
+          <h5>How to block a connector</h5>
+          <p>Move the connector to the <strong>Blocked</strong> category in the DLP policy. Any existing flows or apps using it are immediately <strong>suspended</strong>. New flows/apps cannot save if they use the connector.</p>
+          <div class="callout warn">Blocking a connector used by existing production flows is a breaking change. Run an impact analysis first: Power Platform Admin Center &rarr; Analytics &rarr; Connections, or use <code>Get-AdminPowerAppConnectorsForFlowEnvironment</code> PowerShell cmdlet to list all flows using the connector before blocking.</div>
+          <h5>Practical DLP connector assignments</h5>
+          <ul>
+            <li><strong>Business</strong>: SharePoint, Teams, Outlook, Dataverse, Azure services, approved internal APIs</li>
+            <li><strong>Blocked</strong>: Twitter/X, Gmail, Dropbox, consumer storage, HTTP (in most enterprise tenants)</li>
+            <li><strong>Non-Business</strong>: gray-area connectors pending review</li>
+          </ul>
+          <h5>The HTTP connector &mdash; special consideration</h5>
+          <p>The HTTP connector can call any URL and bypasses all other DLP connector classifications. In enterprise tenants it should be Blocked at the tenant level and only Unblocked in isolated Dev environments under a tightly scoped DLP policy with endpoint filtering applied.</p>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">14</div>
+          <div><h4>How do you configure DLP policies to prevent data from crossing between Business and Non-Business connector groups?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag advanced">Advanced</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>The cross-boundary enforcement is <strong>automatic</strong>. A flow or app cannot connect a Business connector to a Non-Business connector in the same action chain. Power Platform blocks this at design time (save fails) and at runtime.</p>
+          <h5>Design steps</h5>
+          <ol>
+            <li>Navigate to <strong>Power Platform Admin Center &rarr; Policies &rarr; New Policy</strong>.</li>
+            <li>Set scope: Tenant-wide or specific environments.</li>
+            <li>Assign all first-party Microsoft connectors to <strong>Business</strong>.</li>
+            <li>Move high-risk consumer connectors to <strong>Blocked</strong>.</li>
+            <li>Leave remaining connectors in <strong>Non-Business</strong> (default).</li>
+            <li>For HTTP / custom connectors in Business, apply <strong>endpoint filtering</strong> to restrict allowed URLs.</li>
+          </ol>
+          <h5>Endpoint filtering (advanced governance)</h5>
+          <pre><code>// Connector endpoint rule (configured in DLP policy)
+{
+  "connectorId": "/providers/Microsoft.PowerApps/apis/shared_http",
+  "endpointRules": [
+    { "order": 1, "behavior": "Allow", "endpoint": "https://api.internal.contoso.com/*" },
+    { "order": 2, "behavior": "Deny",  "endpoint": "*" }
+  ]
+}</code></pre>
+          <div class="callout info">Endpoint filtering on the HTTP connector is one of the most powerful governance controls. It restricts even the HTTP connector to approved internal endpoints and blocks all others, without blocking the connector entirely.</div>
+          <h5>Policy layering</h5>
+          <p>Apply the most restrictive policy at <strong>tenant level</strong>. Create environment-specific policies for Dev/sandbox environments that are <em>additive relaxations</em> &mdash; never less restrictive than tenant level. Multiple policies are evaluated with the most restrictive policy winning.</p>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">15</div>
+          <div><h4>How do you prevent developers from making direct changes in Production while still allowing urgent hotfixes for Power Apps and Power Automate?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag advanced">Advanced</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <h5>Standard control: remove customizer roles from Production</h5>
+          <p>Remove the <strong>System Customizer</strong> and <strong>Environment Maker</strong> security roles from all developer accounts in Production. Without these roles, developers cannot create or modify components through the UI.</p>
+          <h5>Managed Solutions + Managed Environments</h5>
+          <p>Deploy only <strong>Managed Solutions</strong> to Production. Managed solution components are read-only in the target environment. Any change must originate from a new managed solution deployment from Dev. Pair with <strong>Managed Environments</strong> for enhanced governance visibility.</p>
+          <h5>Power Platform Pipelines (OOB)</h5>
+          <p>Enable Pipelines in the Admin Center. Configure Production as a <em>target stage</em> with required approvals. Only pipeline-driven deployments can promote to Production. No side-channel manual imports.</p>
+          <h5>Hotfix process (without bypassing governance)</h5>
+          <ol>
+            <li>Create a Hotfix branch from the current Production solution export in source control.</li>
+            <li>Apply the fix in a dedicated Hotfix environment (or Dev).</li>
+            <li>Run an expedited pipeline: export &rarr; import to UAT &rarr; targeted smoke test &rarr; import to Production with emergency-change ticket approval.</li>
+            <li>Never make the fix directly in Production.</li>
+          </ol>
+          <div class="callout warn">Allowing even one "emergency" direct Production edit creates an unmanaged layer. The next managed solution deployment will behave unpredictably for components with unmanaged overrides. One exception always becomes the precedent for the next exception.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== ALM & DEVOPS ===== -->
+    <div id="alm" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#128640;</div>
+        <div><h2>ALM &amp; DevOps</h2><p>End-to-end ALM, deployment pipeline, solution layers, upgrade vs update</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">16</div>
+          <div><h4>Walk through your end-to-end ALM approach for deploying a Power Platform solution across Dev &rarr; QA &rarr; UAT &rarr; Production.</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag advanced">Advanced</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <h5>Environment strategy</h5>
+          <table>
+            <tr><th>Environment</th><th>Type</th><th>Solution type</th><th>Purpose</th></tr>
+            <tr><td>Development</td><td>Sandbox</td><td>Unmanaged</td><td>Active development</td></tr>
+            <tr><td>QA / Build validation</td><td>Sandbox</td><td>Managed</td><td>Integration &amp; regression testing</td></tr>
+            <tr><td>UAT</td><td>Sandbox</td><td>Managed</td><td>Business acceptance testing</td></tr>
+            <tr><td>Production</td><td>Production</td><td>Managed</td><td>Live system, components read-only</td></tr>
+          </table>
+          <h5>Pipeline steps</h5>
+          <ol>
+            <li><strong>Develop</strong>: All work in Dev environment in an unmanaged solution.</li>
+            <li><strong>Export + unpack</strong>: Export unmanaged, unpack to YAML/XML files via <code>pac solution unpack</code>. Commit to Git (Azure DevOps / GitHub). Pull request triggers CI.</li>
+            <li><strong>CI Build</strong>: Pack solution from source: <code>pac solution pack --zipfile ./output/Sol.zip --folder ./src</code>. Run Solution Checker. Fail pipeline on critical violations. Publish zip as artifact.</li>
+            <li><strong>Deploy to QA</strong>: Import managed solution with environment settings file. Activate flows. Run automated tests (Test Studio / Playwright).</li>
+            <li><strong>Deploy to UAT</strong>: Gated by QA lead approval in pipeline. Same steps, different settings file.</li>
+            <li><strong>Deploy to Production</strong>: Gated by business sign-off. Import managed solution. No direct edits ever. Increment solution version.</li>
+          </ol>
+          <h5>Key best practices</h5>
+          <ul>
+            <li>Connection references and environment variable values in environment-specific settings files, version-controlled but secrets in Key Vault only.</li>
+            <li>Solution Checker as a hard CI gate &mdash; fail on critical, warn on high.</li>
+            <li>Tag each commit with the solution version number.</li>
+            <li>Use Solution Upgrade (not plain Import) in QA/UAT/Prod to keep environments clean and drift-free.</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">17</div>
+          <div><h4>A developer makes direct changes in Production creating an unmanaged layer. What is the impact and how do you remediate it?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag advanced">Advanced</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <h5>What is an unmanaged layer?</h5>
+          <p>When a developer edits a component that was deployed as part of a managed solution, Power Platform creates an <strong>unmanaged customization layer</strong> on top of the managed layer. The unmanaged layer takes precedence over the managed layer for that component.</p>
+          <h5>Impact</h5>
+          <ul>
+            <li><strong>Deployment unpredictability</strong>: The next managed solution import may not apply changes for components with unmanaged overrides &mdash; the override layer persists silently.</li>
+            <li><strong>Drift</strong>: Production diverges from source control. What Git describes is no longer what is running.</li>
+            <li><strong>Solution removal failures</strong>: You cannot cleanly remove the managed solution while unmanaged layers exist on its components.</li>
+            <li><strong>Upgrade anomalies</strong>: Upgrade deployments may skip property changes for overridden components, causing regression bugs that are very hard to trace.</li>
+          </ul>
+          <h5>Remediation</h5>
+          <ol>
+            <li>Identify unmanaged layers: Solutions &rarr; [Solution] &rarr; select a component &rarr; <em>See solution layers</em>. Look for a layer at the top labelled <em>Active / Unmanaged</em>.</li>
+            <li>If the direct change was a valid fix, capture it in source control (re-implement in Dev, commit).</li>
+            <li>Remove the unmanaged layer via UI: Solutions &rarr; component &rarr; Solution layers &rarr; <em>Remove unmanaged layer</em>.</li>
+            <li>Re-deploy the managed solution from the pipeline to restore the known-good state.</li>
+          </ol>
+          <h5>Prevention</h5>
+          <ul>
+            <li>Remove System Customizer and Environment Maker roles from developer accounts in Production.</li>
+            <li>Use Managed Environments for enhanced admin visibility and governance.</li>
+            <li>Enable Power Platform Pipelines to make the pipeline the only supported deployment path.</li>
+            <li>Enable environment-level audit logging to alert on direct Production customizations.</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">18</div>
+          <div><h4>Can connection references be configured out of the box across environments in Power Platform ALM? How do you design that?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag scenario">Scenario</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p><strong>Yes &mdash; Connection References</strong> are the OOB mechanism. They abstract the actual connection (environment-specific) away from the flow/app logic (environment-agnostic).</p>
+          <h5>How they work</h5>
+          <ul>
+            <li>In Dev, create a Connection Reference and associate it with a Dev connection (e.g., your personal SharePoint connection).</li>
+            <li>Your flow uses the Connection Reference by logical name, never the connection directly.</li>
+            <li>When deployed to QA, the Connection Reference record deploys but has no bound connection. A QA admin binds it to the QA-specific connection.</li>
+            <li>Automating this binding via a settings file eliminates manual steps.</li>
+          </ul>
+          <h5>Automating connection reference binding</h5>
+          <pre><code>// deployment-settings.json
+{
+  "ConnectionReferences": [
+    {
+      "LogicalName": "contoso_CR_SharePoint",
+      "ConnectionId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline/connections/qa-conn-id",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+    }
+  ]
+}
+
+// Import command
+pac solution import \
+  --path ./Solution_managed.zip \
+  --settings-file ./deployment-settings-qa.json \
+  --managed</code></pre>
+          <h5>Design guidelines</h5>
+          <ul>
+            <li>One Connection Reference per connector per solution (not per flow). Multiple flows share one CR.</li>
+            <li>For service account connections, create dedicated service account connections in each environment and bind in the settings file.</li>
+            <li>Store Connection IDs in Azure DevOps variable groups per environment &mdash; never hardcoded in pipeline YAML.</li>
+          </ul>
+          <div class="callout tip">Connection References are the single most important ALM primitive for Power Automate. Without them, every flow breaks on deployment to a new environment. Always use Connection References from the first sprint of a project &mdash; retrofitting them is painful.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">19</div>
+          <div><h4>What is the difference between Solution Upgrade, Solution Update, and plain Solution Import in Power Platform?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Method</th><th>Behavior on existing components</th><th>Components removed from solution</th><th>When to use</th></tr>
+            <tr><td><strong>Import (overwrite)</strong></td><td>Updates matching components, adds new ones</td><td>Not removed &mdash; orphan remains</td><td>Initial deployment, additive incremental updates</td></tr>
+            <tr><td><strong>Update (Hold)</strong></td><td>Stages alongside old version; you manually apply</td><td>Not removed until Apply</td><td>When you need ability to roll back if Apply fails</td></tr>
+            <tr><td><strong>Upgrade (Stage + Apply)</strong></td><td>Applies immediately; old version removed</td><td>Deleted from the environment</td><td>When you want exact match with solution &mdash; no orphans</td></tr>
+          </table>
+          <div class="callout warn">Upgrade deletes components no longer in the solution. If another solution depends on one of those components the upgrade will fail. Always run a dependency check before upgrading in Production.</div>
+          <div class="callout tip">Use <strong>Upgrade</strong> (or Stage + Apply) for QA / UAT / Production pipelines. This keeps environments clean and prevents component drift over time. Use plain Import only in Dev where accumulation of components is acceptable.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== ENVIRONMENT CONFIGURATION ===== -->
+    <div id="env-config" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#9881;</div>
+        <div><h2>Environment Configuration</h2><p>Environment variables, settings files, secrets, cross-environment binding</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">20</div>
+          <div><h4>How do you configure environment-specific settings so each environment automatically binds to its own SharePoint lists, connections, and backend endpoints on deployment?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag advanced">Advanced</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <h5>Environment Variables &mdash; the OOB mechanism</h5>
+          <table>
+            <tr><th>EV Type</th><th>Use for</th></tr>
+            <tr><td>Text</td><td>Endpoint URLs, list names, tenant IDs, feature flags (text)</td></tr>
+            <tr><td>Boolean</td><td>Feature flags per environment</td></tr>
+            <tr><td>Secret</td><td>Credentials via Azure Key Vault reference (never plaintext)</td></tr>
+            <tr><td>Data Source</td><td>Directly bind SharePoint site / Dataverse table per environment</td></tr>
+          </table>
+          <h5>Deployment settings file structure</h5>
+          <pre><code>{
+  "EnvironmentVariables": [
+    {
+      "SchemaName": "contoso_SPSiteURL",
+      "Value": "https://contoso.sharepoint.com/sites/QA-Requests"
+    },
+    {
+      "SchemaName": "contoso_APIBaseURL",
+      "Value": "https://api-qa.contoso.com/v1"
+    }
+  ],
+  "ConnectionReferences": [
+    {
+      "LogicalName": "contoso_CR_SharePoint",
+      "ConnectionId": "qa-sharepoint-connection-id"
+    }
+  ]
+}</code></pre>
+          <h5>Secrets via Azure Key Vault</h5>
+          <pre><code>// EV of type Secret &mdash; references Key Vault, no plaintext in settings file
+{
+  "SchemaName": "contoso_APIKey",
+  "AzureKeyVaultReference": {
+    "KeyVaultUrl": "https://kv-contoso-qa.vault.azure.net",
+    "SecretName": "ExternalAPIKey"
+  }
+}</code></pre>
+          <div class="callout warn">Never store actual secret values in deployment settings files committed to Git. Always use Key Vault references or Azure DevOps secret variables injected at pipeline runtime.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">21</div>
+          <div><h4>After a managed solution import, flows are often in a draft (off) state. How do you automate flow activation in a pipeline?</h4>
+          <div class="tags"><span class="tag practical">Practical</span><span class="tag scenario">Scenario</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Managed solution imports deploy flows in a <strong>draft/suspended state</strong> by default. They must be activated post-import.</p>
+          <h5>Approach 1 &mdash; PAC CLI</h5>
+          <pre><code>// List flows
+pac flow list --environment [env-id]
+
+// Enable a specific flow
+pac flow enable --flow-id [flow-guid] --environment [env-id]</code></pre>
+          <h5>Approach 2 &mdash; PowerShell (Power Platform Admin module)</h5>
+          <pre><code>$flows = Get-AdminFlow -EnvironmentName $envId
+foreach ($flow in $flows) {
+    Enable-AdminFlow -EnvironmentName $envId -FlowName $flow.FlowName
+}</code></pre>
+          <h5>Approach 3 &mdash; Azure DevOps Power Platform Build Tools task</h5>
+          <p>Use the <strong>Power Platform Set Solution Component State</strong> build task after the import step. Configure it to enable all flows in the solution. This is the cleanest pipeline-native approach and requires no scripting.</p>
+          <div class="callout info">Flows with HTTP triggers (called by Canvas Apps) must be activated before the app can function. Always sequence: import solution &rarr; apply env variables &rarr; activate flows &rarr; publish Canvas App &rarr; smoke test.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">22</div>
+          <div><h4>When is scripting required vs. OOB Environment Variables + Connection References for environment-specific configuration?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Aspect</th><th>Environment Variables (OOB)</th><th>Scripting</th></tr>
+            <tr><td>Setup effort</td><td>Low &mdash; defined in solution, overridden in settings file</td><td>High &mdash; scripts must be maintained separately</td></tr>
+            <tr><td>Secrets</td><td>Supported via Key Vault reference</td><td>Risk of plaintext secrets in scripts</td></tr>
+            <tr><td>Canvas App data source</td><td>Full OOB support (Data Source EV type)</td><td>Cannot remap Canvas App data source without republishing</td></tr>
+            <tr><td>Version control</td><td>Settings files are in Git alongside solution</td><td>Scripts are separate artifacts to maintain</td></tr>
+          </table>
+          <h5>When scripting is still needed</h5>
+          <ul>
+            <li>Activating flows post-import (no OOB pipeline task in some toolchains).</li>
+            <li>Bulk-updating many EVs across a multi-tenant rollout.</li>
+            <li>Legacy solutions that predate Connection References and must be migrated.</li>
+            <li>Post-import data seeding (reference data, lookup tables) that belongs to the deploy process.</li>
+            <li>Complex Azure resource provisioning (Key Vault, App Registrations) that feeds into the EV values.</li>
+          </ul>
+          <div class="callout tip">New projects: start with EVs and CRs exclusively. Scripting is a legacy remediation tool or a supplement for pipeline orchestration tasks, not a primary configuration strategy.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== CONNECTIONS & SERVICE ACCOUNTS ===== -->
+    <div id="connections" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#128279;</div>
+        <div><h2>Connections &amp; Service Accounts</h2><p>Connection expiry, service principal design, resilience patterns, flow monitoring</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">23</div>
+          <div><h4>A Power Automate flow in Production uses a service account connection and the password expires. What happens and how do you prevent disruption?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag advanced">Advanced</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <h5>What happens when the service account password expires</h5>
+          <ul>
+            <li>All connections owned by that service account immediately show as <strong>broken / error state</strong>.</li>
+            <li>Flows using those connections are <strong>suspended</strong> &mdash; they stop running. In-flight runs fail with 401 Unauthorized errors.</li>
+            <li>Canvas Apps relying on those connections fail with connector errors at runtime.</li>
+            <li>Flow run history shows authentication failure entries &mdash; this is how you detect it after the fact.</li>
+          </ul>
+          <h5>Remediation steps</h5>
+          <ol>
+            <li>Reset the service account password in Azure AD / Entra ID.</li>
+            <li>Re-authenticate the broken connections in Power Platform Admin Center &rarr; Connections.</li>
+            <li>Manually re-enable any suspended flows (they do not auto-restart after connection repair).</li>
+            <li>Validate affected Canvas Apps are working again.</li>
+          </ol>
+          <h5>Prevention approaches</h5>
+          <div class="approach-box">
+            <div class="approach-title">Option A &mdash; App Registration / Service Principal (recommended)</div>
+            <p>Register an App Registration in Entra ID. Grant it required API permissions (SharePoint, Graph, etc.). Create a Power Platform connection using the Client ID and Client Secret. Secrets have configurable expiry, can be rotated without human credential management, and rotate policies can be automated.</p>
+          </div>
+          <div class="approach-box">
+            <div class="approach-title">Option B &mdash; Azure Key Vault secret rotation</div>
+            <p>Store the service account credential in Azure Key Vault with an auto-rotation policy. Build a monitor flow that checks connection health daily and alerts the team if any connection shows error state. This buys time to act before flow suspension.</p>
+          </div>
+          <div class="approach-box">
+            <div class="approach-title">Option C &mdash; Managed Identity (Azure Logic Apps Standard)</div>
+            <p>For flows running in Azure Logic Apps (Standard) tier, use Managed Identity. No credentials to manage &mdash; Azure handles authentication automatically and continuously. Best for organizations with hybrid Power Platform / Azure Logic Apps architectures.</p>
+          </div>
+          <div class="callout tip">The gold standard for enterprise: <strong>App Registration + Client Secret in Azure Key Vault with auto-rotation</strong>. This eliminates human password management entirely. For greenfield projects, design for service principals from day one &mdash; never use human service accounts for flows.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">24</div>
+          <div><h4>How do you monitor Power Automate flows in Production and get alerted when they fail?</h4>
+          <div class="tags"><span class="tag practical">Practical</span><span class="tag scenario">Scenario</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <h5>Approach 1 &mdash; Built-in failure notifications</h5>
+          <p>In each flow: <strong>Settings &rarr; Send failure notifications</strong>. Add email addresses. Simple, zero config, but limited &mdash; no custom context, no Teams integration, no batching.</p>
+          <h5>Approach 2 &mdash; Try/Catch scope pattern (recommended)</h5>
+          <p>Wrap flow logic in a <strong>Scope</strong> named <em>Try</em>. Add a <em>Catch</em> scope configured to run <em>only if Try has failed</em>. Inside Catch, send a rich Teams / email alert with error context:</p>
+          <pre><code>// Inside Catch scope
+{
+  "FlowName": "@{workflow().tags.flowDisplayName}",
+  "RunID": "@{workflow().run.name}",
+  "Error": "@{actions('Try').error.message}",
+  "Timestamp": "@{utcNow()}",
+  "TriggerInput": "@{triggerOutputs()}"
+}</code></pre>
+          <h5>Approach 3 &mdash; Azure Monitor + Log Analytics</h5>
+          <p>Enable Diagnostic Settings on the Power Platform environment (Managed Environments). Stream run history to Azure Log Analytics workspace. Create Azure Monitor alert rules for failed run counts exceeding thresholds. Gives centralized observability across all flows in all environments.</p>
+          <h5>Approach 4 &mdash; Admin Center Analytics</h5>
+          <p>Power Platform Admin Center &rarr; Analytics &rarr; Power Automate shows aggregated failure rates and top-failing flows. Best for weekly reviews and trend analysis, not real-time alerting.</p>
+          <div class="callout tip">Approach 2 (Try/Catch + Teams alert) is the most practical and works in any plan. Combine with a centralized <em>Operations</em> Teams channel where all critical flow alerts post. Approach 3 scales to enterprise-wide observability when you have many environments.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== SECURITY ===== -->
+    <div id="security" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#128272;</div>
+        <div><h2>Security &amp; Permissions</h2><p>SharePoint vs Dataverse security models, audit logging, row/column-level security</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">25</div>
+          <div><h4>What is the difference between the SharePoint security model and the Dataverse security model for Power Apps?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Aspect</th><th>SharePoint</th><th>Dataverse</th></tr>
+            <tr><td>Security model</td><td>Site / Library / Folder / Item ACLs</td><td>Business Units, Security Roles, Teams, Record sharing</td></tr>
+            <tr><td>Row-level security</td><td>Item-level permissions (manual or flow-managed)</td><td>Native: User / BU / Parent BU / Organization scope per privilege</td></tr>
+            <tr><td>Column-level security</td><td>Not supported natively</td><td>Field Security Profiles &mdash; column-level access control</td></tr>
+            <tr><td>API bypass</td><td>SharePoint REST API obeys SPO permissions</td><td>Dataverse enforces security roles on every API call including REST/SDK</td></tr>
+            <tr><td>Audit logging</td><td>Limited (file events via Purview)</td><td>Comprehensive: per table, column, and record change tracking</td></tr>
+            <tr><td>Best for</td><td>Document management, simple list apps</td><td>Enterprise apps with complex multi-role access, compliance requirements</td></tr>
+          </table>
+          <h5>Dataverse security roles &mdash; key concepts</h5>
+          <ul>
+            <li><strong>Scope levels per privilege</strong>: None &rarr; User &rarr; Business Unit &rarr; Parent BU &rarr; Organization. Applied per table and per action (Create, Read, Write, Delete, Append, Assign, Share).</li>
+            <li><strong>Minimum Access role</strong>: Every user needs at least the Basic User role to interact with Dataverse. Layer custom roles on top.</li>
+            <li><strong>Owner Teams (Entra ID groups)</strong>: Assign roles to groups for scalable, synchronized role management. Users automatically inherit roles via group membership.</li>
+            <li><strong>Field Security Profiles</strong>: Create a profile, assign it to specific roles, and mark columns as secured. Only users with the profile can read/write those columns.</li>
+          </ul>
+          <div class="callout info">For apps with sensitive data, regulatory requirements, or complex multi-role access, Dataverse is the correct data source choice. SharePoint is not designed for fine-grained record or column-level security at scale.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">26</div>
+          <div><h4>How would you implement audit logging in a Power Platform solution to track who viewed, changed, or deleted records &mdash; and how do you surface this to administrators?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span><span class="tag advanced">Advanced</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <h5>Dataverse audit logging (built-in)</h5>
+          <ol>
+            <li>Enable at environment level: <strong>Admin Center &rarr; Environment &rarr; Settings &rarr; Auditing &rarr; Enable auditing</strong>.</li>
+            <li>Enable per table: Table properties &rarr; Auditing = On.</li>
+            <li>Enable per column (optional): Column properties &rarr; Enable for auditing = On.</li>
+            <li>Access via UI: Model-driven app &rarr; Settings &rarr; Audit History (per record or global).</li>
+            <li>Access programmatically via the Dataverse <code>audit</code> table Web API.</li>
+          </ol>
+          <h5>Surfacing audit logs to admins</h5>
+          <pre><code>// Dataverse Web API &mdash; recent audit records
+GET [org]/api/data/v9.2/audits?
+  $select=createdon,useridname,operation,objecttypecode
+  &amp;$filter=createdon gt 2024-01-01
+  &amp;$orderby=createdon desc
+  &amp;$top=100</code></pre>
+          <p>Build a Model-Driven App view on the <code>audit</code> table with filtered views by table, user, date range, and operation type. This gives admins a searchable, exportable audit UI without custom development.</p>
+          <h5>Microsoft Purview integration (enterprise)</h5>
+          <p>Stream Dataverse audit logs to Microsoft Purview for long-term retention (up to 7 years), compliance reporting, and cross-service correlation with M365 workload events. Required for GDPR, ISO 27001, and HIPAA compliance in many organizations.</p>
+          <h5>SharePoint audit (limited)</h5>
+          <p>SharePoint audit events (file access, item modifications) are available in <strong>Microsoft Purview Audit Search</strong>. Limited to file/item-level events &mdash; no column-level change tracking. Access: Purview portal &rarr; Audit &rarr; Search &rarr; filter on SharePoint workload.</p>
+          <div class="callout warn">Dataverse audit log entries consume Dataverse storage and default to a 30-day retention period. Configure a retention policy appropriate to your compliance requirements. For anything beyond 30 days, archive to Azure Blob or stream to Purview before records expire.</div>
+        </div></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8679;</button>
+
+<script>
+function toggle(card) {
+  card.classList.toggle('open');
+}
+
+function showSection(id, navEl) {
+  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); s.style.display = ''; });
+  document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+  var sec = document.getElementById(id);
+  if (sec) sec.classList.add('active');
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function filterQuestions() {
+  var q = document.getElementById('searchInput').value.toLowerCase().trim();
+  var allCards = document.querySelectorAll('.qa-card');
+  var visible = 0;
+  if (!q) {
+    allCards.forEach(function(c) { c.style.display = ''; });
+    document.querySelectorAll('.section').forEach(function(s) { s.style.display = ''; s.classList.remove('active'); });
+    document.querySelector('.nav-item.active') || document.querySelectorAll('.nav-item')[0].classList.add('active');
+    showSection('canvas-layout', document.querySelectorAll('.nav-item')[0]);
+    document.getElementById('searchCount').textContent = '';
+    return;
+  }
+  document.querySelectorAll('.section').forEach(function(s) { s.style.display = 'block'; s.classList.remove('active'); });
+  allCards.forEach(function(card) {
+    var text = card.textContent.toLowerCase();
+    var match = text.indexOf(q) !== -1;
+    card.style.display = match ? '' : 'none';
+    if (match) { visible++; card.classList.add('open'); }
+  });
+  document.getElementById('searchCount').textContent = visible + ' result' + (visible !== 1 ? 's' : '');
+}
+
+window.addEventListener('scroll', function() {
+  var btn = document.getElementById('scrollTop');
+  if (window.scrollY > 300) btn.classList.add('show');
+  else btn.classList.remove('show');
+});
+</script>
+</body>
+</html>
