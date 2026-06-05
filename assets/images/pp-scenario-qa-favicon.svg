@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Power Platform Scenario Q&amp;A favicon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4f1a4f"/>
+      <stop offset="100%" stop-color="#742774"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="12" fill="url(#bg)"/>
+  <!-- Primary speech bubble -->
+  <rect x="9" y="11" width="33" height="22" rx="5" fill="#c083c0" opacity="0.9"/>
+  <polygon points="16,33 12,42 24,33" fill="#c083c0" opacity="0.9"/>
+  <!-- Q mark inside -->
+  <text x="26" y="27" text-anchor="middle" font-size="13" font-family="Segoe UI, Arial, sans-serif" font-weight="800" fill="#fff">Q</text>
+  <!-- Secondary bubble (A) -->
+  <rect x="27" y="32" width="28" height="18" rx="4.5" fill="#f5e6f5" opacity="0.95"/>
+  <polygon points="40,50 44,58 48,50" fill="#f5e6f5" opacity="0.95"/>
+  <!-- A mark inside -->
+  <text x="41" y="45" text-anchor="middle" font-size="10" font-family="Segoe UI, Arial, sans-serif" font-weight="800" fill="#742774">A</text>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Power Platform COE Governance favicon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0050a0"/>
+      <stop offset="100%" stop-color="#003a7a"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="12" fill="url(#bg)"/>
+  <!-- Pediment / roof -->
+  <polygon points="10,26 32,12 54,26" fill="none" stroke="#4a9eff" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Columns -->
+  <rect x="14" y="26" width="4" height="22" rx="1.5" fill="#4a9eff" opacity="0.9"/>
+  <rect x="23" y="26" width="4" height="22" rx="1.5" fill="#4a9eff" opacity="0.9"/>
+  <rect x="32" y="26" width="4" height="22" rx="1.5" fill="#4a9eff" opacity="0.9"/>
+  <rect x="41" y="26" width="4" height="22" rx="1.5" fill="#4a9eff" opacity="0.9"/>
+  <!-- Base -->
+  <rect x="10" y="48" width="44" height="4" rx="2" fill="#4a9eff"/>
+  <!-- COE label -->
+  <text x="32" y="60" text-anchor="middle" font-size="5.5" font-family="Segoe UI, Arial, sans-serif" font-weight="700" fill="#4a9eff" letter-spacing="0.5">COE</text>
+</svg>
