@@ -1,0 +1,2363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../assets/images/wellness-favicon.svg">
+<link rel="alternate icon" href="../favicon.ico">
+<title>Your Year of Better — A Healthy Lifestyle Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800;9..144,900&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1a3d2e;
+    --forest-deep: #0f2920;
+    --cream: #f5f1e8;
+    --cream-warm: #ede6d3;
+    --terracotta: #c85d3b;
+    --terracotta-deep: #a04727;
+    --sage: #8ba888;
+    --sage-light: #c5d3c0;
+    --charcoal: #2a2a2a;
+    --gold: #d4a857;
+    --muted: #6b6b5e;
+    --line: rgba(26, 61, 46, 0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    line-height: 1.7;
+    font-weight: 400;
+    overflow-x: hidden;
+  }
+
+  /* Decorative grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ========== HERO ========== */
+  .hero {
+    min-height: 100vh;
+    background: var(--forest);
+    color: var(--cream);
+    position: relative;
+    padding: 3rem 5vw 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, var(--terracotta) 0%, transparent 70%);
+    opacity: 0.25;
+    border-radius: 50%;
+  }
+
+  .hero-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    z-index: 2;
+    position: relative;
+  }
+
+  .hero-nav .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .hero-nav .logo-mark {
+    width: 28px; height: 28px;
+    border: 1.5px solid var(--cream);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  .hero-content {
+    z-index: 2;
+    position: relative;
+    margin-top: 6rem;
+    max-width: 1400px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--gold);
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(3rem, 9vw, 9rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 600;
+    color: var(--terracotta);
+  }
+
+  .hero-sub {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    font-weight: 300;
+    line-height: 1.5;
+    max-width: 650px;
+    color: rgba(245, 241, 232, 0.85);
+    margin-bottom: 3rem;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    border-top: 1px solid rgba(245, 241, 232, 0.2);
+    padding-top: 2rem;
+    margin-top: auto;
+    z-index: 2;
+    position: relative;
+  }
+
+  .hero-meta-item .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245, 241, 232, 0.6);
+    margin-bottom: 0.4rem;
+  }
+
+  .hero-meta-item .value {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+  }
+
+  /* Floating decoration */
+  .hero-deco {
+    position: absolute;
+    top: 50%;
+    right: 8%;
+    transform: translateY(-50%);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14rem;
+    font-weight: 200;
+    color: rgba(212, 168, 87, 0.08);
+    line-height: 1;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ========== LAYOUT ========== */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 5vw;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ========== TABLE OF CONTENTS ========== */
+  .toc-section {
+    background: var(--cream-warm);
+    padding: 6rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 30px; height: 1px;
+    background: var(--terracotta);
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 3rem;
+    color: var(--forest);
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+
+  .toc-item {
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    background: var(--cream-warm);
+    transition: all 0.4s ease;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .toc-item:hover {
+    background: var(--forest);
+    color: var(--cream);
+  }
+
+  .toc-item:hover .toc-num,
+  .toc-item:hover .toc-name {
+    color: var(--cream);
+  }
+
+  .toc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    transition: color 0.4s;
+  }
+
+  .toc-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--forest);
+    transition: color 0.4s;
+  }
+
+  /* ========== CONTENT SECTIONS ========== */
+  .section {
+    padding: 7rem 0;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+
+  .section.dark {
+    background: var(--forest);
+    color: var(--cream);
+  }
+
+  .section.dark .section-title { color: var(--cream); }
+  .section.dark .section-label { color: var(--gold); }
+  .section.dark .section-label::before { background: var(--gold); }
+
+  .section-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+    align-items: end;
+  }
+
+  .section-intro p {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .section.dark .section-intro p { color: rgba(245, 241, 232, 0.8); }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
+  }
+
+  .content-grid > * {
+    grid-column: 2 / 12;
+  }
+
+  .content-grid > .full {
+    grid-column: 1 / -1;
+  }
+
+  .content-grid > .narrow {
+    grid-column: 3 / 11;
+  }
+
+  /* Typography */
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 2rem;
+    line-height: 1.2;
+    margin: 3rem 0 1.5rem;
+    color: var(--forest);
+    letter-spacing: -0.01em;
+  }
+
+  .section.dark h3 { color: var(--cream); }
+
+  h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin: 2rem 0 1rem;
+    color: var(--terracotta-deep);
+  }
+
+  .section.dark h4 { color: var(--gold); }
+
+  p {
+    margin-bottom: 1.2rem;
+    font-size: 1.05rem;
+  }
+
+  strong { color: var(--forest); font-weight: 700; }
+  .section.dark strong { color: var(--gold); }
+
+  ul, ol {
+    margin: 1rem 0 1.5rem 1.5rem;
+  }
+
+  li {
+    margin-bottom: 0.6rem;
+    font-size: 1.05rem;
+  }
+
+  /* Pull quote */
+  .pullquote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.6rem, 3vw, 2.5rem);
+    line-height: 1.3;
+    color: var(--terracotta);
+    border-left: 3px solid var(--terracotta);
+    padding: 1rem 0 1rem 2rem;
+    margin: 3rem 0;
+  }
+
+  .section.dark .pullquote {
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+
+  /* Tables */
+  .table-wrap {
+    margin: 2.5rem 0;
+    overflow-x: auto;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    background: var(--cream);
+  }
+
+  .section.dark .table-wrap {
+    border-color: rgba(245, 241, 232, 0.15);
+  }
+  .section.dark table {
+    background: var(--forest-deep);
+    color: var(--cream);
+  }
+
+  thead {
+    background: var(--forest);
+    color: var(--cream);
+  }
+  .section.dark thead {
+    background: var(--terracotta);
+  }
+
+  th {
+    text-align: left;
+    padding: 1rem 1.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  td {
+    padding: 1rem 1.2rem;
+    border-top: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .section.dark td {
+    border-color: rgba(245, 241, 232, 0.1);
+  }
+
+  tbody tr:hover {
+    background: var(--cream-warm);
+  }
+  .section.dark tbody tr:hover {
+    background: rgba(212, 168, 87, 0.08);
+  }
+
+  /* Cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+
+  .card {
+    background: var(--cream-warm);
+    border: 1px solid var(--line);
+    padding: 2rem;
+    border-radius: 4px;
+    transition: transform 0.3s;
+  }
+
+  .card:hover { transform: translateY(-4px); }
+
+  .section.dark .card {
+    background: var(--forest-deep);
+    border-color: rgba(245, 241, 232, 0.1);
+  }
+
+  .card-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 3rem;
+    color: var(--terracotta);
+    line-height: 1;
+    margin-bottom: 1rem;
+    font-weight: 300;
+  }
+
+  .section.dark .card-num { color: var(--gold); }
+
+  .card h4 { margin-top: 0; }
+
+  /* Image styles */
+  .img-wrap {
+    margin: 3rem 0;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .img-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .img-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-top: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .img-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 3rem 0;
+  }
+
+  .img-grid-2 img {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  /* Stat bars */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+    margin: 3rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stat {
+    padding: 2rem 1.5rem;
+    border-right: 1px solid var(--line);
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 3rem;
+    font-weight: 400;
+    color: var(--terracotta);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .section.dark .stat-num { color: var(--gold); }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .section.dark .stat-label { color: rgba(245, 241, 232, 0.6); }
+
+  /* Recipe card */
+  .recipe {
+    background: var(--cream-warm);
+    border-left: 3px solid var(--terracotta);
+    padding: 2rem 2.5rem;
+    margin: 2rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .recipe h4 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: var(--forest);
+  }
+
+  /* Force readable text inside recipe cards even when section is dark */
+  .recipe,
+  .recipe p,
+  .section.dark .recipe,
+  .section.dark .recipe p {
+    color: var(--charcoal);
+  }
+  .section.dark .recipe strong { color: var(--forest); }
+
+  .recipe .macros {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--terracotta-deep);
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--line);
+    letter-spacing: 0.05em;
+  }
+
+  /* Highlight box */
+  .highlight {
+    background: var(--forest);
+    color: var(--cream);
+    padding: 3rem;
+    margin: 3rem 0;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .highlight::before {
+    content: '★';
+    position: absolute;
+    top: -20px; right: -20px;
+    font-size: 12rem;
+    color: rgba(212, 168, 87, 0.1);
+    font-family: 'Fraunces', serif;
+  }
+
+  .highlight h3 { color: var(--cream); margin-top: 0; }
+  .highlight strong { color: var(--gold); }
+
+  /* Tag */
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .tag.green { background: var(--sage-light); color: var(--forest); }
+  .tag.terra { background: rgba(200, 93, 59, 0.15); color: var(--terracotta-deep); }
+  .tag.gold { background: rgba(212, 168, 87, 0.2); color: #8a6d2c; }
+
+  /* Smoothie grid */
+  .smoothie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0 3rem;
+  }
+
+  .smoothie {
+    background: var(--cream);
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    padding: 1.8rem 1.8rem 1.6rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .smoothie:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(26, 61, 46, 0.10);
+    border-color: var(--terracotta);
+  }
+
+  .smoothie-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.6rem;
+    gap: 1rem;
+  }
+
+  .smoothie-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--terracotta);
+    line-height: 1;
+  }
+
+  .smoothie-volume {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--forest);
+    background: var(--sage-light);
+    padding: 0.35rem 0.7rem;
+    border-radius: 20px;
+    align-self: flex-start;
+    white-space: nowrap;
+  }
+
+  .smoothie-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--forest);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .smoothie-section {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin: 0.8rem 0 0.4rem;
+  }
+
+  .smoothie-ing {
+    font-size: 0.92rem;
+    color: var(--charcoal);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .smoothie-steps {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+    counter-reset: step;
+  }
+
+  .smoothie-steps li {
+    list-style: none;
+    counter-increment: step;
+    padding-left: 1.6rem;
+    position: relative;
+    margin-bottom: 0.4rem;
+  }
+
+  .smoothie-steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--terracotta);
+    font-weight: 500;
+    width: 1.2rem;
+    text-align: right;
+  }
+
+  .smoothie-tag {
+    margin-top: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--forest);
+    text-transform: uppercase;
+    padding-top: 0.9rem;
+    border-top: 1px dashed var(--line);
+  }
+
+  .smoothie-category {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 2rem;
+    color: var(--terracotta);
+    margin: 3.5rem 0 0.4rem;
+    font-weight: 300;
+    line-height: 1.2;
+  }
+
+  .smoothie-category-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--forest-deep);
+    color: var(--cream);
+    padding: 5rem 5vw 3rem;
+    text-align: center;
+  }
+
+  footer h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    color: var(--cream);
+  }
+
+  footer h2 em {
+    font-style: normal;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .disclaimer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: rgba(245, 241, 232, 0.5);
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(245, 241, 232, 0.15);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: 0.03em;
+    line-height: 1.6;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero h1, .hero-sub, .hero-eyebrow, .hero-meta {
+    animation: fadeUp 1s ease-out forwards;
+  }
+
+  .hero-eyebrow { animation-delay: 0.1s; opacity: 0; }
+  .hero h1 { animation-delay: 0.3s; opacity: 0; }
+  .hero-sub { animation-delay: 0.6s; opacity: 0; }
+  .hero-meta { animation-delay: 0.9s; opacity: 0; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .section-header { grid-template-columns: 1fr; gap: 2rem; }
+    .content-grid > * { grid-column: 1 / -1; }
+    .hero-deco { display: none; }
+    .img-grid-2 { grid-template-columns: 1fr; }
+    .section { padding: 4rem 0; }
+    .toc-section { padding: 4rem 0; }
+    .stat-row { grid-template-columns: 1fr 1fr; }
+    .stat:nth-child(2) { border-right: none; }
+    .stat { border-bottom: 1px solid var(--line); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== HERO ========== -->
+<header class="hero">
+  <nav class="hero-nav">
+    <div class="logo">
+      <div class="logo-mark">Y</div>
+      <span>Your Year of Better</span>
+    </div>
+    <div>2026 · One step at a time</div>
+  </nav>
+
+  <div class="hero-deco">wellness.</div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Start where you are</div>
+    <h1>The body<br>follows<br>the <em>habit</em>.</h1>
+    <p class="hero-sub">A warm, honest, no-judgment guide to feeling better in your body — losing weight, eating well, moving daily, quitting what's hurting you, and slowly becoming the person you've been meaning to be.</p>
+  </div>
+
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <div class="label">Inside</div>
+      <div class="value">14 parts</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="label">Time with it</div>
+      <div class="value">~30 minutes</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="label">For</div>
+      <div class="value">Beginner — Intermediate</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="label">Made for</div>
+      <div class="value">Anyone starting fresh</div>
+    </div>
+  </div>
+</header>
+
+<!-- ========== TOC ========== -->
+<section class="toc-section">
+  <div class="container">
+    <div class="section-label">Contents</div>
+    <h2 class="section-title">Choose where to <em>begin</em>.</h2>
+    <div class="toc-grid">
+      <a class="toc-item" href="#s1"><span class="toc-num">01 / 16</span><span class="toc-name">Mindset</span></a>
+      <a class="toc-item" href="#s2"><span class="toc-num">02 / 16</span><span class="toc-name">Core Principles</span></a>
+      <a class="toc-item" href="#s3"><span class="toc-num">03 / 16</span><span class="toc-name">What to Eat</span></a>
+      <a class="toc-item" href="#s4"><span class="toc-num">04 / 16</span><span class="toc-name">Weekly Meal Plan</span></a>
+      <a class="toc-item" href="#s5"><span class="toc-num">05 / 16</span><span class="toc-name">Recipes</span></a>
+      <a class="toc-item" href="#s6"><span class="toc-num">06 / 16</span><span class="toc-name">Smoothies for every goal</span></a>
+      <a class="toc-item" href="#s7"><span class="toc-num">07 / 16</span><span class="toc-name">Detox & Hydration</span></a>
+      <a class="toc-item" href="#s8"><span class="toc-num">08 / 16</span><span class="toc-name">Workouts</span></a>
+      <a class="toc-item" href="#s9"><span class="toc-num">09 / 16</span><span class="toc-name">Supplements</span></a>
+      <a class="toc-item" href="#s10"><span class="toc-num">10 / 16</span><span class="toc-name">Quit Smoking</span></a>
+      <a class="toc-item" href="#s11"><span class="toc-num">11 / 16</span><span class="toc-name">Cut Down Alcohol</span></a>
+      <a class="toc-item" href="#s12"><span class="toc-num">12 / 16</span><span class="toc-name">Lazy Cook Survival</span></a>
+      <a class="toc-item" href="#s13"><span class="toc-num">13 / 16</span><span class="toc-name">Sleep & Recovery</span></a>
+      <a class="toc-item" href="#s14"><span class="toc-num">14 / 16</span><span class="toc-name">Tracking Progress</span></a>
+      <a class="toc-item" href="#s15"><span class="toc-num">15 / 16</span><span class="toc-name">Shopping List</span></a>
+      <a class="toc-item" href="#s16"><span class="toc-num">16 / 16</span><span class="toc-name">Resources</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 01 MINDSET ========== -->
+<section class="section" id="s1">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 01</div>
+        <h2 class="section-title">Mindset<br>before <em>method</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>Before food, before workouts — fix the way you think about change. Most people fail not because the plan is wrong, but because they're trying to be a different person in 7 days.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <p>Start ridiculously small. A 10-minute walk beats a planned 1-hour gym session you skip. Don't aim for perfect — aim for <strong>"never two bad days in a row."</strong> One bad meal is a meal. Two bad weeks is a lifestyle.</p>
+
+        <p>Replace, don't remove. Swap soda for sparkling water with lemon. Swap the cigarette for a five-minute walk. Removing leaves a void; replacing fills it.</p>
+
+        <p class="pullquote">The "21 days to form a habit" thing is a myth. Real research says 60 to 90 days. Plan for the long road.</p>
+
+        <h3>Daily non-negotiables</h3>
+        <p>These five tiny commitments — kept every day — are worth more than any diet or training program. Stack them first.</p>
+
+        <div class="card-grid">
+          <div class="card"><div class="card-num">01</div><h4>Water First</h4><p>500 ml within 30 minutes of waking. Before tea, before coffee, before anything.</p></div>
+          <div class="card"><div class="card-num">02</div><h4>Move 20 Min</h4><p>Walk, stretch, dance, train — anything. Just move the body daily.</p></div>
+          <div class="card"><div class="card-num">03</div><h4>One Protein Meal</h4><p>At least one meal a day built around real protein. Eggs, paneer, fish, lentils.</p></div>
+          <div class="card"><div class="card-num">04</div><h4>Seven Hours Sleep</h4><p>Non-negotiable. Cap caffeine at 2 PM. Phone out of bed.</p></div>
+          <div class="card"><div class="card-num">05</div><h4>Screen Curfew</h4><p>No screens 30 minutes before bed. The body needs the signal that the day is over.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 02 CORE PRINCIPLES ========== -->
+<section class="section dark" id="s2">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 02</div>
+        <h2 class="section-title">The six<br><em>pillars</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>Health isn't one thing. It's the daily intersection of six basic systems. Neglect any one and the others compensate — badly.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="full">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Pillar</th><th>What it means</th><th>Daily target</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Nutrition</strong></td><td>Mostly whole foods, enough protein, plenty of fiber</td><td>1.6–2.2 g protein per kg body weight · 25–35 g fiber</td></tr>
+              <tr><td><strong>Movement</strong></td><td>A mix of cardio, strength, and walking</td><td>7,000–10,000 steps · 3–5 workouts/week</td></tr>
+              <tr><td><strong>Sleep</strong></td><td>Consistent bedtime, dark cool room</td><td>7–9 hours</td></tr>
+              <tr><td><strong>Hydration</strong></td><td>Water steadily across the day</td><td>30–35 ml per kg body weight (≈ 2.5–3.5 L)</td></tr>
+              <tr><td><strong>Stress</strong></td><td>Daily decompression — walks, breathwork, hobbies</td><td>10–20 minutes</td></tr>
+              <tr><td><strong>Sunlight</strong></td><td>Morning light to set the body clock</td><td>10–15 min within an hour of waking</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>The calorie reality</h3>
+        <p>Weight loss is energy in vs. energy out. There's no shortcut around it. Here's what works at each level of effort.</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-num">300–500</div><div class="stat-label">kcal/day mild deficit</div></div>
+          <div class="stat"><div class="stat-num">0.3–0.5</div><div class="stat-label">kg lost per week</div></div>
+          <div class="stat"><div class="stat-num">700–1000</div><div class="stat-label">kcal/day aggressive cut</div></div>
+          <div class="stat"><div class="stat-num">0.7–1.0</div><div class="stat-label">kg lost per week</div></div>
+        </div>
+
+        <p>Use a free app like MyFitnessPal, Cronometer, or HealthifyMe for the first two weeks — just to learn what portions actually look like. After that, you can eyeball it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 03 WHAT TO EAT ========== -->
+<section class="section" id="s3">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 03</div>
+        <h2 class="section-title">Build the<br><em>plate</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>Forget calorie counting for a moment. If every meal you eat follows this one rule, you'll lose weight and feel better — guaranteed.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+
+        <h3>The simple plate rule</h3>
+        <ul>
+          <li><strong>½ plate</strong> — vegetables (sabzi, salad, raw or cooked, any color)</li>
+          <li><strong>¼ plate</strong> — lean protein (chicken, fish, eggs, paneer, tofu, dal, rajma, chickpeas)</li>
+          <li><strong>¼ plate</strong> — complex carbs (brown rice, whole-wheat roti, dalia, millet roti, oats, sweet potato)</li>
+          <li><strong>1 thumb</strong> — healthy fats (ghee, mustard oil, groundnut oil, nuts, seeds)</li>
+        </ul>
+
+        <h3>Eat freely</h3>
+        <p>
+          <span class="tag green">palak &amp; greens</span>
+          <span class="tag green">cauliflower</span>
+          <span class="tag green">cabbage</span>
+          <span class="tag green">lauki, tinda, parwal</span>
+          <span class="tag green">tomatoes</span>
+          <span class="tag green">eggs</span>
+          <span class="tag green">local fish</span>
+          <span class="tag green">chicken breast</span>
+          <span class="tag green">dahi / hung curd</span>
+          <span class="tag green">paneer</span>
+          <span class="tag green">tofu</span>
+          <span class="tag green">dals &amp; rajma</span>
+          <span class="tag green">oats &amp; dalia</span>
+          <span class="tag green">millets</span>
+          <span class="tag green">sweet potato</span>
+          <span class="tag green">nuts, seeds, makhana</span>
+          <span class="tag green">ghee, mustard oil</span>
+        </p>
+
+        <h3>Eat sometimes</h3>
+        <p>
+          <span class="tag gold">whole-grain bread</span>
+          <span class="tag gold">full-fat dairy</span>
+          <span class="tag gold">dark chocolate 70%+</span>
+          <span class="tag gold">red meat</span>
+          <span class="tag gold">white rice</span>
+          <span class="tag gold">fruit juices</span>
+        </p>
+
+        <h3>Eat rarely</h3>
+        <p>
+          <span class="tag terra">refined sugar</span>
+          <span class="tag terra">white flour</span>
+          <span class="tag terra">deep-fried foods</span>
+          <span class="tag terra">sugary drinks</span>
+          <span class="tag terra">packaged snacks</span>
+          <span class="tag terra">alcohol</span>
+          <span class="tag terra">processed meats</span>
+        </p>
+
+        <div class="highlight">
+          <h3>The 10 must-have groceries</h3>
+          <p>Keep these in the kitchen at all times. Eighty percent of every healthy meal you'll ever cook comes from this list — all affordable and easily available across India.</p>
+          <ol style="margin-top: 1.5rem;">
+            <li>Eggs</li>
+            <li>Rolled oats or dalia (broken wheat)</li>
+            <li>Dahi / hung curd</li>
+            <li>Paneer / tofu / chicken breast</li>
+            <li>Dals (moong, masoor, chana, toor) + rajma</li>
+            <li>Palak + one more green (methi, bathua)</li>
+            <li>Seasonal fruit + bananas + lemons + amla when available</li>
+            <li>Peanuts, almonds, chia or flax seeds, makhana</li>
+            <li>Ghee + mustard oil (or groundnut oil)</li>
+            <li>Whole-wheat atta + brown rice + millets (bajra, ragi, jowar)</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 04 MEAL PLAN ========== -->
+<section class="section" id="s4">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 04</div>
+        <h2 class="section-title">Seven days,<br><em>decided</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>Roughly 1,600–1,800 kcal per day. Adjust up if you're bigger or more active, down if you're smaller or sedentary. The point: stop choosing what to eat. Just rotate.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="full">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Day</th><th>Breakfast</th><th>Lunch</th><th>Snack</th><th>Dinner</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Mon</strong></td><td>Veggie omelet (3 eggs) + 1 fruit</td><td>Grilled chicken or paneer + brown rice + salad</td><td>Greek yogurt + almonds</td><td>Lentil soup + 2 rotis + sautéed spinach</td></tr>
+              <tr><td><strong>Tue</strong></td><td>Vegetable upma or overnight oats with banana &amp; chia</td><td>Dalia (broken wheat) khichdi + chickpeas + veggies + 1 tsp ghee</td><td>1 apple + handful of peanuts</td><td>Tawa-grilled fish or paneer + sweet potato + lauki sabzi</td></tr>
+              <tr><td><strong>Wed</strong></td><td>Hung curd + banana + walnuts + jaggery</td><td>Chicken or rajma + brown rice + cucumber-onion salad</td><td>2 boiled eggs + carrots</td><td>Stir-fried veggies + paneer + 1 roti</td></tr>
+              <tr><td><strong>Thu</strong></td><td>Vegetable poha + milk</td><td>Dal + brown rice + bhindi/lauki + salad</td><td>Smoothie (see ch. 5)</td><td>Grilled chicken or tofu + roasted veggies</td></tr>
+              <tr><td><strong>Fri</strong></td><td>Besan cheela with veggies + 2 boiled eggs</td><td>Mixed salad with chicken/paneer + lemon + mustard oil dressing</td><td>Roasted chana + green tea</td><td>Veg curry + bajra/jowar roti + side salad</td></tr>
+              <tr><td><strong>Sat</strong></td><td>Protein smoothie + 2 boiled eggs</td><td>Home-made burger on whole-grain bun + salad</td><td>Dark chocolate (20g) + nuts</td><td>Light dinner: soup + grilled veggies</td></tr>
+              <tr><td><strong>Sun</strong></td><td>Masala oats + boiled eggs</td><td>Family meal — follow the plate rule</td><td>Fruit</td><td>Khichdi + curd + baked papad</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="pullquote">Eat protein in every meal. Fill half the plate with vegetables. Stop at 80% full. Last meal two to three hours before sleep.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 05 RECIPES ========== -->
+<section class="section dark" id="s5">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 05</div>
+        <h2 class="section-title">Recipes you'll<br>actually <em>repeat</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>Five categories: smoothies, high protein, high fiber, weight loss, and the "won't break" balanced plate. Each one is tested for taste-to-effort ratio.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+
+        <h3>Smoothies</h3>
+
+        <div class="recipe">
+          <h4>A · Green Detox Smoothie</h4>
+          <p>1 cup spinach · ½ cucumber · ½ green apple · ½ inch ginger · juice of ½ lemon · 1 cup water + ice. Blend.</p>
+          <div class="macros">~ 90 KCAL · MORNING STARTER</div>
+        </div>
+
+        <div class="recipe">
+          <h4>B · High-Protein Banana Smoothie</h4>
+          <p>1 scoop whey or plant protein (or ½ cup Greek yogurt + 2 tbsp peanut butter) · 1 banana · 1 cup milk · 1 tbsp chia seeds · pinch of cinnamon.</p>
+          <div class="macros">~ 350 KCAL · 30 G PROTEIN · POST-WORKOUT</div>
+        </div>
+
+        <div class="recipe">
+          <h4>C · Berry-Oats Weight-Loss Smoothie</h4>
+          <p>½ cup mixed berries (frozen is fine) · ¼ cup rolled oats · 1 tbsp flax seeds · ½ cup Greek yogurt · ½ cup water or milk.</p>
+          <div class="macros">~ 250 KCAL · 15 G PROTEIN · 8 G FIBER</div>
+        </div>
+
+        <div class="recipe">
+          <h4>D · Chocolate Peanut Power Smoothie</h4>
+          <p>1 scoop chocolate protein (or 2 tbsp cocoa + 1 banana) · 1 tbsp peanut butter · 1 cup milk · 1 tsp flax seeds · ice.</p>
+          <div class="macros">~ 380 KCAL · 30 G PROTEIN · MEAL REPLACEMENT</div>
+        </div>
+
+        <h3>High-protein meals</h3>
+
+        <div class="recipe">
+          <h4>Paneer or Tofu Bhurji</h4>
+          <p>200 g paneer or tofu, crumbled · 1 onion, 1 tomato, 1 chili, chopped · 1 tsp ginger-garlic paste · ½ tsp turmeric, ½ tsp garam masala, salt · 1 tsp olive oil or ghee. Sauté onion → ginger-garlic → tomato → spices → paneer. Two minutes. Serve with 1 whole-grain roti.</p>
+          <div class="macros">~ 350 KCAL · 28 G PROTEIN · 15 MINUTES</div>
+        </div>
+
+        <div class="recipe">
+          <h4>Chicken & Lentil One-Pot</h4>
+          <p>200 g chicken breast cubes · ½ cup moong dal (soaked 30 min) · 1 onion, 2 garlic, 1 tomato · turmeric, cumin, coriander, salt · 2 cups water. Pressure cook three whistles. Coriander + lemon to finish.</p>
+          <div class="macros">~ 400 KCAL · 45 G PROTEIN · 12 G FIBER · 2 SERVINGS</div>
+        </div>
+
+        <div class="recipe">
+          <h4>Egg White Veggie Scramble</h4>
+          <p>6 egg whites + 2 whole eggs · ½ cup chopped spinach, mushrooms, bell pepper · black pepper, salt, chili flakes · 1 tsp olive oil.</p>
+          <div class="macros">~ 250 KCAL · 30 G PROTEIN</div>
+        </div>
+
+        <h3>High-fiber meals</h3>
+
+        <div class="recipe">
+          <h4>Rajma-Dalia Bowl</h4>
+          <p>½ cup cooked rajma · ½ cup cooked dalia (broken wheat) or brown rice · 1 small chopped tomato · onion · coriander · juice of ½ lemon · 1 tsp olive oil or ghee · sprinkle of chaat masala.</p>
+          <div class="macros">~ 420 KCAL · 18 G PROTEIN · 14 G FIBER</div>
+        </div>
+
+        <div class="recipe">
+          <h4>Oats Veggie Cheela</h4>
+          <p>½ cup powdered oats · 2 tbsp besan · grated carrot, onion, coriander, chili · salt, ¼ tsp baking soda · water to make batter. Cook like a pancake, 1 tsp ghee.</p>
+          <div class="macros">~ 300 KCAL · 12 G PROTEIN · 8 G FIBER · 2 CHEELAS</div>
+        </div>
+
+        <h3>Weight-loss specific</h3>
+
+        <div class="recipe">
+          <h4>Cabbage Soup (Volume Eating)</h4>
+          <p>½ cabbage, 2 carrots, 2 tomatoes, 1 onion, 2 celery stalks, garlic, herbs, salt, pepper. Boil with 1.5 L water for 25 minutes.</p>
+          <div class="macros">~ 60 KCAL PER BOWL · HAVE BEFORE MAIN MEALS</div>
+        </div>
+
+        <div class="recipe">
+          <h4>Tandoori-Style Grilled Fish</h4>
+          <p>200 g rohu, basa, surmai, or any local fish · marinate: 2 tbsp curd, lemon, garlic-ginger paste, haldi, red chili, salt, garam masala, 1 tsp mustard oil. Pan-fry or tawa-grill 4 min/side. Side: steamed palak + lauki sabzi with garlic.</p>
+          <div class="macros">~ 320 KCAL · 35 G PROTEIN</div>
+        </div>
+
+        <p class="pullquote">The trick to a balanced diet you won't break: one protein + one veg + one carb + one sauce. If it tastes good, you'll repeat it. Season aggressively.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 06 SMOOTHIES ========== -->
+<section class="section" id="s6">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 06</div>
+        <h2 class="section-title">Smoothies, lassis<br>&amp; <em>sharbats</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>One glass, one purpose — built with ingredients you'll actually find at your local sabziwala and kirana store. Each recipe is sized for <strong>one person</strong>, with the final glass volume noted. Curd replaces yogurt. Banana and mango replace berries. Sattu and peanuts deliver protein at a fraction of the cost of whey.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="full">
+
+        <div class="highlight">
+          <h3>The universal method</h3>
+          <ol style="margin-top: 1.2rem;">
+            <li><strong>Liquid first</strong> — water, milk, buttermilk, or coconut water goes in first. Protects the blade.</li>
+            <li><strong>Soft ingredients next</strong> — banana, dahi (curd), soaked oats, nut butter, soaked sattu.</li>
+            <li><strong>Greens &amp; hard fruit</strong> — palak, lauki, carrot, apple.</li>
+            <li><strong>Frozen items &amp; ice last</strong> — they sit on top and get pulled down.</li>
+            <li><strong>Blend 45–60 seconds</strong> until smooth. Drink within 15 minutes for best taste.</li>
+          </ol>
+          <p style="margin-top: 1.2rem; font-size: 0.95rem;"><strong>Budget tip:</strong> hung curd = thick yogurt at a third the price. Just tie regular dahi in a clean cotton cloth, hang for 1 hour, water drains out. Use it like Greek yogurt anywhere.</p>
+        </div>
+
+        <!-- WEIGHT LOSS -->
+        <div class="smoothie-category">For weight loss.</div>
+        <div class="smoothie-category-sub">Low calorie · high fiber · keeps you full</div>
+        <div class="smoothie-grid">
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">01</div><div class="smoothie-volume">≈ 300 ml</div></div>
+            <div class="smoothie-name">Lauki-Pudina Slimmer</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">1 cup chopped lauki (bottle gourd, peeled, deseeded) · 8 mint leaves · ½ inch ginger · juice of ½ lemon · pinch of black salt · 200 ml chilled water · 2 ice cubes</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Peel lauki, scoop seeds out, chop into small cubes.</li>
+              <li>Add water to blender, then lauki, mint, ginger.</li>
+              <li>Squeeze in lemon, add black salt, then ice. Blend 60 seconds.</li>
+              <li>Strain through a sieve. Pour into a 300 ml glass. Drink on empty stomach.</li>
+            </ol>
+            <div class="smoothie-tag">~ 60 kcal · hydration + de-bloat</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">02</div><div class="smoothie-volume">≈ 250 ml</div></div>
+            <div class="smoothie-name">Cucumber-Jeera Cooler</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">½ cucumber (chopped) · ½ tsp roasted jeera powder · 8 mint leaves · ½ green apple · juice of 1 lemon · pinch of kala namak · 150 ml chilled water · ice</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Roast jeera in a dry pan for 30 sec, crush to powder.</li>
+              <li>Add water, cucumber, apple chunks, mint to blender.</li>
+              <li>Add lemon juice, jeera, kala namak, ice. Blend 50 seconds.</li>
+              <li>Pour into a glass. Best as an afternoon refresher.</li>
+            </ol>
+            <div class="smoothie-tag">~ 70 kcal · digestion + low cal</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">03</div><div class="smoothie-volume">≈ 250 ml</div></div>
+            <div class="smoothie-name">Green Tea + Tulsi Refresher</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">100 ml cooled green tea · ½ small banana · ½ cup pineapple chunks · 4 tulsi leaves · ½ inch ginger · 3 ice cubes</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Brew green tea with tulsi leaves, let it cool fully.</li>
+              <li>Add cooled tea, banana, pineapple, ginger to blender.</li>
+              <li>Add ice. Blend 45 seconds.</li>
+              <li>Pour into a glass. Drink mid-morning or pre-workout.</li>
+            </ol>
+            <div class="smoothie-tag">~ 130 kcal · gentle caffeine + antioxidants</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">04</div><div class="smoothie-volume">≈ 300 ml</div></div>
+            <div class="smoothie-name">Apple-Cinnamon Oats Filler</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">1 small apple (chopped) · 3 tbsp rolled oats · ¼ tsp dalchini (cinnamon) powder · ½ cup hung curd · 150 ml milk · 1 tsp jaggery (gur)</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Soak oats in milk for 5 minutes so they blend smoothly.</li>
+              <li>Add soaked oats + milk, then hung curd, apple, cinnamon, jaggery to blender.</li>
+              <li>Blend 60 seconds until creamy.</li>
+              <li>Pour into a glass. Great as a breakfast on rushed mornings.</li>
+            </ol>
+            <div class="smoothie-tag">~ 260 kcal · 12 g protein · blood-sugar friendly</div>
+          </div>
+        </div>
+
+        <!-- PROTEIN-RICH -->
+        <div class="smoothie-category">Protein-rich.</div>
+        <div class="smoothie-category-sub">Sattu, peanut, dahi · cheaper than whey, just as effective</div>
+        <div class="smoothie-grid">
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">05</div><div class="smoothie-volume">≈ 300 ml</div></div>
+            <div class="smoothie-name">Sattu Protein Sharbat</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">3 tbsp roasted sattu (chana flour) · 250 ml chilled water · juice of 1 lemon · ½ tsp roasted jeera powder · pinch of kala namak · 4 mint leaves · small pinch of red chili powder</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>In a glass or jar, dissolve sattu in 3 tbsp water — whisk into a smooth paste (this prevents lumps).</li>
+              <li>Add remaining water, lemon juice, jeera powder, salt, mint, chili.</li>
+              <li>Stir vigorously for 30 seconds (no blender needed) or pulse in blender 10 seconds.</li>
+              <li>Pour into a glass. Sip slowly — this is dense.</li>
+            </ol>
+            <div class="smoothie-tag">~ 180 kcal · 12 g protein · ₹5 per glass</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">06</div><div class="smoothie-volume">≈ 350 ml</div></div>
+            <div class="smoothie-name">Peanut-Banana Power Lassi</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">1 ripe banana · 1 tbsp peanut butter (or 2 tbsp roasted peanuts) · ½ cup hung curd · 200 ml milk · 1 tsp jaggery · pinch of cardamom (elaichi) powder</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>If using whole peanuts, dry-grind first to a coarse paste.</li>
+              <li>Add milk to blender, then curd, banana, peanut butter, jaggery, elaichi.</li>
+              <li>Blend 60 seconds until thick and creamy.</li>
+              <li>Pour into a tall glass. Drink post-workout or as breakfast.</li>
+            </ol>
+            <div class="smoothie-tag">~ 380 kcal · 18 g protein</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">07</div><div class="smoothie-volume">≈ 400 ml</div></div>
+            <div class="smoothie-name">Badam-Khajur Builder</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">10 almonds (soaked overnight, peeled) · 3 dates (khajur, pitted) · 1 small banana · 250 ml milk · 1 tsp flax seeds · ¼ tsp cardamom powder · pinch of saffron (optional)</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Soak almonds overnight (or in hot water 30 min). Peel the skins.</li>
+              <li>Add milk, almonds, dates, banana, flax seeds, cardamom to blender.</li>
+              <li>Blend 75 seconds — almonds need extra time.</li>
+              <li>Pour into a glass, top with a strand of saffron. Filling enough to be a meal.</li>
+            </ol>
+            <div class="smoothie-tag">~ 420 kcal · 14 g protein · meal replacement</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">08</div><div class="smoothie-volume">≈ 350 ml</div></div>
+            <div class="smoothie-name">Cocoa-Curd Recovery Shake</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">1 scoop whey or plant protein (or 3 tbsp sattu) · 1 tbsp cocoa powder · 1 banana · ½ cup curd · 200 ml milk · 1 tsp peanut butter · 3 ice cubes</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Add milk to blender, then curd, banana, cocoa, protein, peanut butter.</li>
+              <li>Add ice cubes. Blend 60 seconds.</li>
+              <li>Taste — add a tiny bit of jaggery if you want it sweeter.</li>
+              <li>Pour into a glass. Drink within 30 min of finishing a workout.</li>
+            </ol>
+            <div class="smoothie-tag">~ 380 kcal · 32 g protein</div>
+          </div>
+        </div>
+
+        <!-- GUT HEALTH -->
+        <div class="smoothie-category">For gut health.</div>
+        <div class="smoothie-category-sub">Probiotics from curd · enzymes · de-bloat</div>
+        <div class="smoothie-grid">
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">09</div><div class="smoothie-volume">≈ 300 ml</div></div>
+            <div class="smoothie-name">Masala Chaas</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">½ cup curd · 250 ml chilled water · ½ tsp roasted jeera powder · 4 curry leaves · ½ inch ginger (grated) · 1 green chili (optional) · pinch of black salt · 1 tbsp chopped coriander · 4 mint leaves</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Whisk curd with water until completely smooth.</li>
+              <li>Add to blender with all other ingredients.</li>
+              <li>Blend 30 seconds.</li>
+              <li>Strain into a glass. Drink with or after lunch for digestion.</li>
+            </ol>
+            <div class="smoothie-tag">~ 80 kcal · probiotics + cooling</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">10</div><div class="smoothie-volume">≈ 300 ml</div></div>
+            <div class="smoothie-name">Papaya-Curd Belly-Soother</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">1 cup ripe papaya (cubed) · ½ small banana · ½ cup curd · 1 tbsp flax seeds · juice of ½ lemon · 100 ml water · pinch of black salt</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Add water and curd to the blender, whisk to dissolve.</li>
+              <li>Add papaya, banana, flax seeds, lemon juice, black salt.</li>
+              <li>Blend 45 seconds.</li>
+              <li>Pour into a glass. Best on empty stomach — papain enzyme is at its strongest.</li>
+            </ol>
+            <div class="smoothie-tag">~ 220 kcal · enzymes + probiotics</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">11</div><div class="smoothie-volume">≈ 250 ml</div></div>
+            <div class="smoothie-name">Aam Panna</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">1 small raw mango (boiled, pulp scooped) · 1 tsp jaggery · ½ tsp roasted jeera powder · pinch of kala namak · 5 mint leaves · 200 ml chilled water · ice</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Boil the raw mango until soft (10 min), cool, peel and scoop pulp.</li>
+              <li>Add pulp, water, jaggery, jeera, salt, mint to blender.</li>
+              <li>Blend 40 seconds, add ice and blend again briefly.</li>
+              <li>Pour into a glass. Summer favorite — beats the heat and aids digestion.</li>
+            </ol>
+            <div class="smoothie-tag">~ 110 kcal · digestion + heatstroke prevention</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">12</div><div class="smoothie-volume">≈ 250 ml</div></div>
+            <div class="smoothie-name">Saunf-Curd Settler</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">½ cup curd · 150 ml water · 1 tsp soaked saunf (fennel seeds) · ½ tsp roasted jeera · 5 mint leaves · pinch of black salt · ½ tsp jaggery</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Soak fennel seeds in 2 tbsp warm water for 10 minutes.</li>
+              <li>Add curd, water, soaked saunf, jeera, mint, salt, jaggery to blender.</li>
+              <li>Blend 30 seconds.</li>
+              <li>Strain into a glass. Drink after a heavy or oily meal.</li>
+            </ol>
+            <div class="smoothie-tag">~ 90 kcal · digestion + breath-freshener</div>
+          </div>
+        </div>
+
+        <!-- HAIR, SKIN & GLOW -->
+        <div class="smoothie-category">For hair, skin &amp; glow.</div>
+        <div class="smoothie-category-sub">Beetroot, pomegranate, badam · vitamin C, iron, biotin</div>
+        <div class="smoothie-grid">
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">13</div><div class="smoothie-volume">≈ 250 ml</div></div>
+            <div class="smoothie-name">Anaar-Beetroot Glow</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">¼ small beetroot (grated) · ½ cup pomegranate seeds · ½ small apple · juice of ½ lemon · 150 ml water · 1 tsp jaggery · 2 ice cubes</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Grate beetroot finely (helps it blend).</li>
+              <li>Add water, beetroot, pomegranate, apple, lemon, jaggery to blender.</li>
+              <li>Add ice. Blend 70 seconds — strain for a smoother glass.</li>
+              <li>Pour into a glass. Iron + vitamin C for hair and skin.</li>
+            </ol>
+            <div class="smoothie-tag">~ 130 kcal · iron + antioxidants</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">14</div><div class="smoothie-volume">≈ 300 ml</div></div>
+            <div class="smoothie-name">Carrot-Haldi Sunshine</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">1 small carrot (chopped) · 1 orange (peeled, deseeded) · ½ inch ginger · ¼ tsp turmeric (haldi) · pinch of black pepper · 150 ml water · 1 tsp jaggery · ice</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Chop carrot small (or grate) — easier on the blender.</li>
+              <li>Add water, carrot, orange segments, ginger, haldi, pepper, jaggery.</li>
+              <li>Add ice. Blend 70 seconds. Strain if you prefer it smoother.</li>
+              <li>Pour into a glass. Black pepper boosts haldi absorption — don't skip it.</li>
+            </ol>
+            <div class="smoothie-tag">~ 130 kcal · beta-carotene · skin glow</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">15</div><div class="smoothie-volume">≈ 300 ml</div></div>
+            <div class="smoothie-name">Palak-Banana Shine</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">1 cup palak (spinach, washed) · 1 small banana · juice of ½ lemon · 1 tsp honey · 200 ml milk or water · 2 ice cubes</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Wash palak well (sand hides in the leaves).</li>
+              <li>Add milk, palak, banana, lemon juice, honey to blender.</li>
+              <li>Add ice. Blend 60 seconds until bright green and creamy.</li>
+              <li>Pour into a glass. Iron + folate for healthier hair.</li>
+            </ol>
+            <div class="smoothie-tag">~ 220 kcal · iron + folate</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">16</div><div class="smoothie-volume">≈ 350 ml</div></div>
+            <div class="smoothie-name">Badam-Khajur Hair Tonic</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">10 almonds (soaked, peeled) · 3 dates · 1 tsp methi seeds (soaked overnight) · 1 banana · 250 ml milk · ¼ tsp cardamom powder</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Soak almonds and methi seeds overnight in separate bowls.</li>
+              <li>Strain methi water (you can drink it separately for hair).</li>
+              <li>Add milk, almonds, soaked methi seeds, dates, banana, cardamom to blender.</li>
+              <li>Blend 75 seconds. Pour into a glass. Drink 3× per week for visible hair benefits.</li>
+            </ol>
+            <div class="smoothie-tag">~ 350 kcal · biotin + omega-3</div>
+          </div>
+        </div>
+
+        <!-- DETOX -->
+        <div class="smoothie-category">For detox &amp; cleansing.</div>
+        <div class="smoothie-category-sub">Greens · liver support · cooling for summer</div>
+        <div class="smoothie-grid">
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">17</div><div class="smoothie-volume">≈ 300 ml</div></div>
+            <div class="smoothie-name">Classic Hari Smoothie</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">1 cup palak · ½ cucumber · ½ green apple · ½ inch ginger · juice of ½ lemon · 200 ml water · 2 ice cubes</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Wash palak well. Chop cucumber and apple roughly.</li>
+              <li>Add water to blender, then palak, cucumber, apple, ginger, lemon juice.</li>
+              <li>Add ice. Blend 60 seconds.</li>
+              <li>Pour into a glass. Drink first thing on an empty stomach.</li>
+            </ol>
+            <div class="smoothie-tag">~ 90 kcal · morning starter</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">18</div><div class="smoothie-volume">≈ 250 ml</div></div>
+            <div class="smoothie-name">Kokum Sharbat</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">2 tbsp kokum syrup (or 4 soaked kokum petals + 1 tsp jaggery) · 200 ml chilled water · ¼ tsp roasted jeera powder · pinch of kala namak · 4 mint leaves · ice</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>If using whole kokum, soak in ½ cup hot water for 30 min, then mash.</li>
+              <li>Add kokum liquid (or syrup), water, jeera, salt, mint to a jug.</li>
+              <li>Stir well — no blender needed.</li>
+              <li>Pour over ice into a glass. Coastal Indian classic, perfect in summer.</li>
+            </ol>
+            <div class="smoothie-tag">~ 80 kcal · cooling + digestive</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">19</div><div class="smoothie-volume">≈ 300 ml</div></div>
+            <div class="smoothie-name">Lauki-Amla Cleanser</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">½ cup chopped lauki · 1 amla (Indian gooseberry, deseeded) · ½ inch ginger · ½ tsp honey · 200 ml water · ice</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Peel lauki, deseed amla, chop both small.</li>
+              <li>Add water, lauki, amla, ginger to blender.</li>
+              <li>Add honey and ice. Blend 70 seconds. Strain.</li>
+              <li>Pour into a glass. Highest natural vitamin C — drink within 5 minutes.</li>
+            </ol>
+            <div class="smoothie-tag">~ 70 kcal · vit. C + liver support</div>
+          </div>
+
+          <div class="smoothie">
+            <div class="smoothie-head"><div class="smoothie-num">20</div><div class="smoothie-volume">≈ 300 ml</div></div>
+            <div class="smoothie-name">Pudina-Nimbu Reset</div>
+            <div class="smoothie-section">Ingredients</div>
+            <p class="smoothie-ing">15 mint leaves · juice of 1 lemon · ½ cucumber · ½ green apple · 4 tulsi leaves · 200 ml water · 1 tsp honey · ice</p>
+            <div class="smoothie-section">Method</div>
+            <ol class="smoothie-steps">
+              <li>Wash mint and tulsi well.</li>
+              <li>Add water, cucumber, apple, mint, tulsi, lemon juice, honey to blender.</li>
+              <li>Add ice. Blend 50 seconds.</li>
+              <li>Pour into a glass. Great after a heavy night out or oily meal.</li>
+            </ol>
+            <div class="smoothie-tag">~ 90 kcal · liver-friendly</div>
+          </div>
+        </div>
+
+        <div class="highlight">
+          <h3>Indian-kitchen tips</h3>
+          <p style="margin-top: 1rem;"><strong>Substitutions that work everywhere:</strong> Greek yogurt → hung curd · almond milk → regular milk or coconut milk · honey → jaggery (gur) · berries → pomegranate, banana, papaya, mango · maple syrup → jaggery syrup · quinoa → dalia (broken wheat) or millet.</p>
+          <p style="margin-top: 1rem;"><strong>Pick four favorites</strong> — one weight-loss, one protein, one gut, one glow. Buy ingredients for those. Variety is great in theory but ruinous to grocery bills.</p>
+          <p style="margin-top: 1rem;"><strong>One smoothie a day, not three.</strong> Even healthy smoothies are calorie-dense. Replace one meal — don't add three drinks to your day.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 07 DETOX DRINKS ========== -->
+<section class="section" id="s7">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 07</div>
+        <h2 class="section-title">Drinks that<br>actually <em>help</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>Real talk: your liver and kidneys do the detoxing. No drink flushes toxins. What these drinks <em>do</em> is hydrate you, reduce inflammation, and replace soda or alcohol — which actually moves the needle.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="full">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Drink</th><th>Ingredients</th><th>When</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Morning nimbu-pani</strong></td><td>Warm water + juice of ½ lemon + pinch of salt</td><td>First thing AM</td><td>Hydration, vitamin C, gentle wake-up</td></tr>
+              <tr><td><strong>Jeera water</strong></td><td>1 tsp jeera boiled in 2 cups water, strained</td><td>Empty stomach</td><td>Digestion, reduces bloating</td></tr>
+              <tr><td><strong>Methi water</strong></td><td>1 tsp methi seeds soaked overnight in a glass of water</td><td>Empty stomach</td><td>Blood sugar, hair, gut</td></tr>
+              <tr><td><strong>Ajwain water</strong></td><td>½ tsp ajwain boiled in 1 cup water</td><td>After heavy meals</td><td>Gas, acidity, indigestion</td></tr>
+              <tr><td><strong>Haldi-adrak chai</strong></td><td>Ginger + ¼ tsp haldi + pinch of pepper + hot water + lemon</td><td>Mid-morning or evening</td><td>Anti-inflammatory, immunity</td></tr>
+              <tr><td><strong>Cucumber-mint water</strong></td><td>Cucumber + mint + lemon in 1 L water</td><td>Sip all day</td><td>Hydration without boredom</td></tr>
+              <tr><td><strong>Green tea</strong></td><td>Plain, or with tulsi/ginger/mint</td><td>2–3 cups/day</td><td>Antioxidants, mild fat oxidation</td></tr>
+              <tr><td><strong>ABC juice</strong></td><td>1 apple + 1 small beetroot + 1 carrot, juiced</td><td>3× per week</td><td>Iron, antioxidants, skin glow</td></tr>
+              <tr><td><strong>Nariyal pani</strong></td><td>Tender coconut water</td><td>Post-workout or hot afternoons</td><td>Natural electrolytes, low calorie</td></tr>
+              <tr><td><strong>Chaas</strong></td><td>Curd + water + jeera + black salt + curry leaves</td><td>With or after lunch</td><td>Cooling, probiotics, digestion</td></tr>
+              <tr><td><strong>Sattu drink</strong></td><td>2 tbsp sattu + water + lemon + black salt + jeera</td><td>Mid-morning</td><td>Protein + cooling + cheap</td></tr>
+              <tr><td><strong>Chia-lemon water</strong></td><td>1 tsp chia + lemon + water, soaked 15 min</td><td>Afternoon slump</td><td>Fiber, satiety</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Skip:</strong> packaged "detox" drinks at supermarkets. Most are sugar water with a fancy label. If it has a celebrity face on the bottle, put it back.</p>
+
+        <p><strong>Real talk on "detox":</strong> your liver and kidneys do the actual detoxing — no drink flushes toxins. What these drinks <em>do</em> is hydrate you, reduce inflammation, give you nutrients, and replace soda or alcohol. That's what actually moves the needle.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 07 WORKOUTS ========== -->
+<section class="section dark" id="s8">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 08</div>
+        <h2 class="section-title">Train like a<br><em>beginner</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>Three levers: walking (daily), strength training (3× per week — highest ROI for fat loss and body shape), and cardio (2× per week for heart health). That's it. Ignore everything else for now.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <h3>Weeks 1–2 · Foundation (no equipment)</h3>
+        <p>7,000 steps daily. Three 20-minute sessions a week. You can do all of this on a yoga mat at home.</p>
+        <ul>
+          <li>10 squats</li>
+          <li>10 knee push-ups</li>
+          <li>10 glute bridges</li>
+          <li>20-second plank</li>
+          <li>20 jumping jacks</li>
+        </ul>
+        <p>Rest 60 seconds. Three rounds. <strong>Bonus:</strong> add 5 rounds of surya namaskar in the morning for full-body warm-up + flexibility.</p>
+
+        <h3>Weeks 3–4 · Build</h3>
+        <p>8,000 steps daily. Three strength sessions + two brisk 30-minute walks. Bump the reps:</p>
+        <ul>
+          <li>15 squats</li>
+          <li>12 push-ups (full or incline against a wall)</li>
+          <li>15 glute bridges</li>
+          <li>30-second plank</li>
+          <li>12 lunges per leg</li>
+          <li>15 rows using a backpack filled with books or water bottles</li>
+        </ul>
+        <p>Three rounds. Rest 45 seconds.</p>
+
+        <h3>Weeks 5–8 · Real training</h3>
+        <p>10,000 steps daily. Four sessions a week, alternating A · B · C.</p>
+
+        <h4>Day A · Lower body &amp; core</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Exercise</th><th>Sets × Reps</th></tr></thead>
+            <tbody>
+              <tr><td>Goblet squat (hold a heavy backpack at chest)</td><td>4 × 12</td></tr>
+              <tr><td>Romanian deadlift (water jugs in each hand)</td><td>3 × 12</td></tr>
+              <tr><td>Reverse lunge</td><td>3 × 10 each leg</td></tr>
+              <tr><td>Glute bridge</td><td>3 × 15</td></tr>
+              <tr><td>Plank</td><td>3 × 45 sec</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Day B · Upper body &amp; core</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Exercise</th><th>Sets × Reps</th></tr></thead>
+            <tbody>
+              <tr><td>Push-ups</td><td>4 × max</td></tr>
+              <tr><td>Backpack row (one arm at a time, bent over)</td><td>4 × 12</td></tr>
+              <tr><td>Pike push-up (for shoulders)</td><td>3 × 8</td></tr>
+              <tr><td>Chair dips</td><td>3 × 10</td></tr>
+              <tr><td>Hollow body hold</td><td>3 × 30 sec</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Day C · Cardio + full body</h4>
+        <p>20 minutes brisk walk or jog (or 15 minutes skipping rope), then four rounds of: 15 squats + 10 push-ups + 30-second plank + 20 jumping jacks.</p>
+
+        <h3>Budget home setup (under ₹3,000)</h3>
+        <ul>
+          <li>Yoga mat — ₹400–600</li>
+          <li>Resistance band set — ₹300–500</li>
+          <li>One pair of 5kg adjustable dumbbells or a kettlebell — ₹1,500–2,500</li>
+          <li>Skipping rope — ₹150</li>
+        </ul>
+        <p>You can train hard for years on just this. No gym membership needed.</p>
+
+        <div class="highlight">
+          <h3>The four laws of fat loss training</h3>
+          <ol style="margin-top:1.5rem;">
+            <li><strong>Lift before cardio</strong> if doing both in one session.</li>
+            <li><strong>Progressive overload.</strong> Add one rep or a tiny bit of weight every week.</li>
+            <li><strong>Walk 10–15 minutes after meals.</strong> Surprisingly powerful for blood sugar — and very Indian-friendly (we're a walking culture).</li>
+            <li><strong>Don't "earn" food with workouts.</strong> Diet drives weight loss; training drives shape and strength.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 08 SUPPLEMENTS ========== -->
+<section class="section" id="s9">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 09</div>
+        <h2 class="section-title">Supplements,<br>filtered <em>honestly</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>None of these are mandatory. Food first, always — supplements only fill gaps. In India, reliable affordable brands include HealthKart, MuscleBlaze, GNC, Now Foods, Carbamide Forte, Wellbeing Nutrition, and Setu. Buy from official sites or marketplaces — counterfeits are everywhere. Talk to a doctor before starting, especially if you take medication.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="full">
+        <h3>Worth considering</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Supplement</th><th>Why</th><th>Dosage</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Vitamin D3</strong></td><td>Most people are deficient, especially indoor workers</td><td>1,000–2,000 IU/day (test first)</td></tr>
+              <tr><td><strong>Omega-3 (fish oil)</strong></td><td>Anti-inflammatory, brain, heart</td><td>1–2 g EPA+DHA/day</td></tr>
+              <tr><td><strong>Whey or plant protein</strong></td><td>When you can't hit protein from food. Cheap alternatives: sattu, peanut chikki, roasted chana, paneer.</td><td>1 scoop ≈ 25 g, post-workout</td></tr>
+              <tr><td><strong>Creatine monohydrate</strong></td><td>Most-researched supplement: strength, performance, even brain</td><td>3–5 g/day, every day</td></tr>
+              <tr><td><strong>Multivitamin</strong></td><td>Insurance, especially when in a calorie deficit</td><td>1 per day</td></tr>
+              <tr><td><strong>Magnesium glycinate</strong></td><td>Sleep, muscle recovery, stress</td><td>200–400 mg before bed</td></tr>
+              <tr><td><strong>Vitamin B12</strong></td><td>Important if vegetarian/vegan</td><td>500–1000 mcg/day or weekly shot</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Probably skip</h3>
+        <p>
+          <span class="tag terra">fat burners</span>
+          <span class="tag terra">detox teas</span>
+          <span class="tag terra">BCAAs</span>
+          <span class="tag terra">mass gainers</span>
+          <span class="tag terra">testosterone boosters</span>
+        </p>
+        <p>Fat burners are mostly caffeine and diuretics. Mass gainers are sugar with a small dose of protein — make your own with milk, oats, banana, and peanut butter. BCAAs are pointless if you already eat enough protein.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 09 QUIT SMOKING ========== -->
+<section class="section dark" id="s10">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 10</div>
+        <h2 class="section-title">Quit smoking,<br><em>in 30 days</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>Smoking is the single highest-impact thing to fix. The body starts repairing itself within minutes of your last cigarette.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <div class="stat-row">
+          <div class="stat"><div class="stat-num">20 min</div><div class="stat-label">Heart rate drops</div></div>
+          <div class="stat"><div class="stat-num">12 hr</div><div class="stat-label">CO normalizes</div></div>
+          <div class="stat"><div class="stat-num">2 wk</div><div class="stat-label">Lung function up</div></div>
+          <div class="stat"><div class="stat-num">1 yr</div><div class="stat-label">Heart risk halved</div></div>
+          <div class="stat"><div class="stat-num">10 yr</div><div class="stat-label">Lung cancer risk halved</div></div>
+        </div>
+
+        <h3>Days 1–3 · Prepare</h3>
+        <ul>
+          <li>Pick a quit date. Tell three people.</li>
+          <li>Throw away all cigarettes, lighters, ashtrays. Wash clothes that smell.</li>
+          <li>Identify your triggers — after meals, with tea, when stressed, when drinking.</li>
+          <li>Decide on a replacement for each trigger:
+            <ul>
+              <li>After meals → 5-minute walk + chewing gum</li>
+              <li>With tea → switch to green tea, hold the cup differently</li>
+              <li>Stress → 4-7-8 breathing (inhale 4 sec, hold 7, exhale 8)</li>
+              <li>Drinking → quit alcohol simultaneously for the first 30 days</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h3>Days 4–14 · The hard part</h3>
+        <p>Cravings peak around day 3–5 and each one lasts about 3–5 minutes. Set a 5-minute timer when one hits. Wait it out.</p>
+        <ul>
+          <li>Use nicotine replacement (patches, gum, lozenges) if needed — ask a doctor.</li>
+          <li>Drink lots of water. Suck on cinnamon sticks or chew cloves.</li>
+          <li>Exercise hard. Sweating reduces cravings.</li>
+          <li>No alcohol. It kills willpower.</li>
+        </ul>
+
+        <h3>Days 15–30 · Lock it in</h3>
+        <ul>
+          <li>Reward milestones with non-food rewards: a new shirt, a book, a movie.</li>
+          <li>Save the cigarette money in a visible jar. Watch it grow.</li>
+          <li>Join a community — Reddit r/stopsmoking, QuitNow app.</li>
+        </ul>
+
+        <p class="pullquote">You are now a non-smoker. Not "trying to quit." Practice saying it: <em>"I don't smoke."</em></p>
+
+        <p><strong>If you slip:</strong> one cigarette is a mistake. Going back to a pack is a choice. Get right back on day one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 10 ALCOHOL ========== -->
+<section class="section" id="s11">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 11</div>
+        <h2 class="section-title">Cut down on<br><em>alcohol</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>Alcohol = empty calories + worse sleep + worse decisions (food, smoking) + slower recovery. Two paths work; choose the one you can stick to.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <div class="card-grid">
+          <div class="card">
+            <h4>Path A · Moderation</h4>
+            <ul>
+              <li>Max 2–3 drinks, 1–2 days a week.</li>
+              <li>Never on consecutive days.</li>
+              <li>One glass of water between every drink.</li>
+              <li>Eat protein before drinking.</li>
+              <li>Stop ordering by default. Make every drink a deliberate choice.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Path B · 30/60/90 days sober</h4>
+            <ul>
+              <li>Easier than moderation for many people.</li>
+              <li>After 30 days: better sleep, clearer skin.</li>
+              <li>Easier weight loss, more money saved.</li>
+              <li>More mornings worth having.</li>
+              <li>You'll be surprised what you don't miss.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Replacement drinks for social situations</h3>
+        <p>
+          <span class="tag green">sparkling water + lime + bitters</span>
+          <span class="tag green">soda + cranberry + lime</span>
+          <span class="tag green">non-alcoholic beer</span>
+          <span class="tag green">mocktails (low sugar)</span>
+          <span class="tag green">kombucha</span>
+        </p>
+
+        <p>If you cannot stop after starting, or drink daily and feel dependent, that's not a willpower issue — it's a medical one. Talk to a doctor. There's no shame in it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 11 LAZY COOK ========== -->
+<section class="section dark" id="s12">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 12</div>
+        <h2 class="section-title">For the<br><em>lazy</em> cook.</h2>
+      </div>
+      <div class="section-intro">
+        <p>Be honest: laziness around food is the number one reason healthy eating fails. The fix isn't motivation. It's removing decisions and effort.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <h3>The five rules of lazy healthy eating</h3>
+        <div class="card-grid">
+          <div class="card"><div class="card-num">01</div><h4>Decide once</h4><p>Pick 3 breakfasts, 3 lunches, 3 dinners. Rotate. Stop choosing.</p></div>
+          <div class="card"><div class="card-num">02</div><h4>Cook in bulk</h4><p>One hour Sunday = four days of meals.</p></div>
+          <div class="card"><div class="card-num">03</div><h4>Pre-assemble parts</h4><p>Boiled eggs, cooked dal, chopped veg, cooked rice, hummus, yogurt — always ready.</p></div>
+          <div class="card"><div class="card-num">04</div><h4>Zero junk at home</h4><p>If it's not there, you can't eat it at 11 PM.</p></div>
+          <div class="card"><div class="card-num">05</div><h4>Order smart</h4><p>Subway sub, grilled chicken thali, sushi, salad bowl. Healthy takeout exists.</p></div>
+        </div>
+
+        <h3>5-minute meals · no cooking skill required</h3>
+        <ul>
+          <li>Greek yogurt + chopped fruit + nuts + honey</li>
+          <li>2 boiled eggs + whole-grain toast + tomato + pepper</li>
+          <li>Hummus + carrots + cucumber + 1 pita</li>
+          <li>Paneer + chopped tomato + olive oil + salt + pepper + 1 roti</li>
+          <li>Pre-cooked dal (microwave) + pre-cooked rice + frozen veg sautéed 5 min</li>
+        </ul>
+
+        <div class="highlight">
+          <h3>The 60-minute Sunday prep</h3>
+          <ol style="margin-top:1.5rem;">
+            <li>Boil 12 eggs → fridge.</li>
+            <li>Cook 2 cups brown rice or quinoa → fridge.</li>
+            <li>Cook a big pot of dal → fridge.</li>
+            <li>Chop a tub of salad veggies → fridge.</li>
+            <li>Roast a tray of veggies (broccoli, sweet potato, peppers, olive oil, salt) at 200°C for 25 min → fridge.</li>
+            <li>Grill 500 g chicken or marinate 500 g paneer/tofu → fridge.</li>
+          </ol>
+          <p style="margin-top:1.5rem;">You now have <strong>four days of mix-and-match healthy meals</strong> — assembled, not cooked.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 12 SLEEP ========== -->
+<section class="section" id="s13">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 13</div>
+        <h2 class="section-title">Sleep, stress<br>and <em>recovery</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>You can't out-train or out-diet bad sleep. If only one thing on this list gets your attention, make it this one.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <h3>Sleep checklist</h3>
+        <ul>
+          <li>Same bedtime, same wake time — even on weekends.</li>
+          <li>Cool, dark, quiet room. Blackout curtains help a lot.</li>
+          <li>No screens 30 minutes before bed. Read a physical book.</li>
+          <li>No caffeine after 2 PM.</li>
+          <li>No alcohol within 3 hours of bed.</li>
+          <li>Last meal 2–3 hours before bed.</li>
+          <li>Aim for 7–9 hours.</li>
+        </ul>
+
+        <h3>Stress decompression</h3>
+        <p>Cortisol is the fat-storage, craving-driving, sleep-wrecking hormone. Daily decompression keeps it in check.</p>
+        <ul>
+          <li>10-minute walk outdoors, phone away</li>
+          <li>5 minutes of box breathing (4-4-4-4)</li>
+          <li>Three-line journal: what went well, what I'm grateful for, tomorrow's #1 priority</li>
+          <li>One hobby with nothing to do with productivity</li>
+        </ul>
+
+        <h3>Recovery</h3>
+        <ul>
+          <li>One full rest day per week</li>
+          <li>Stretch 5–10 minutes daily</li>
+          <li>Foam rolling or self-massage if accessible</li>
+          <li>Sauna or hot showers — both help muscle recovery</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 13 TRACKING ========== -->
+<section class="section dark" id="s14">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 14</div>
+        <h2 class="section-title">Track only<br>what <em>matters</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>Don't track everything. Track these five things weekly. Anything more is noise.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <div class="card-grid">
+          <div class="card"><div class="card-num">01</div><h4>Weight</h4><p>Once a week, same day, same time, same clothes.</p></div>
+          <div class="card"><div class="card-num">02</div><h4>Waist</h4><p>Measured at the navel. Often moves before the scale does.</p></div>
+          <div class="card"><div class="card-num">03</div><h4>Photos</h4><p>Front, side, back. Same lighting, same clothes.</p></div>
+          <div class="card"><div class="card-num">04</div><h4>Strength</h4><p>Reps and weights should creep up week to week.</p></div>
+          <div class="card"><div class="card-num">05</div><h4>Energy & mood</h4><p>1 to 10 scale. The most honest indicator of all.</p></div>
+        </div>
+
+        <h3>Realistic timeline</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Time</th><th>What you'll notice</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Week 2</strong></td><td>Better sleep, more energy</td></tr>
+              <tr><td><strong>Week 4</strong></td><td>Clothes feel different, 1–2 kg down</td></tr>
+              <tr><td><strong>Week 8</strong></td><td>Visible body changes, strength clearly up</td></tr>
+              <tr><td><strong>Week 12</strong></td><td>Significant transformation</td></tr>
+              <tr><td><strong>Month 6</strong></td><td>People start asking what you're doing</td></tr>
+              <tr><td><strong>Year 1</strong></td><td>This is just who you are now</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 15 SHOPPING LIST ========== -->
+<section class="section" id="s15">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 15</div>
+        <h2 class="section-title">The starter<br><em>shopping list</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>Empty kitchen? Start here. Quantities below are sized for <strong>1–2 people for the first 2 weeks</strong>. Most spices and dry goods last 3–6 months. Fresh items (produce, dairy, meat) need a weekly top-up. Estimated total for the first big shop: <strong>₹3,500–4,500</strong>.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="full">
+
+        <div class="highlight">
+          <h3>How to use this list</h3>
+          <ol style="margin-top: 1.2rem;">
+            <li><strong>Day 1 (big shop):</strong> buy everything from "Pantry &amp; Dry Goods" and "Oils, Spices &amp; Sweeteners" at a kirana store or supermarket. These last weeks to months.</li>
+            <li><strong>Day 1 (fresh):</strong> grab the first week of fruits, vegetables, dairy, eggs, and meat/paneer.</li>
+            <li><strong>Every week after:</strong> top up only the fresh sections.</li>
+            <li><strong>Skip what you have</strong> — many homes already stock atta, salt, basic spices.</li>
+            <li><strong>Optional items</strong> are marked clearly — skip them if budget is tight or they aren't easily available.</li>
+          </ol>
+        </div>
+
+        <!-- ========== GRAINS & DALS ========== -->
+        <h3>Grains, dals &amp; pulses</h3>
+        <p>One-time shop. Most last 2–6 months in airtight containers.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Quantity</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Whole-wheat atta</td><td>2 kg</td><td>For rotis</td></tr>
+              <tr><td>Brown rice</td><td>1 kg</td><td>Or red/black rice</td></tr>
+              <tr><td>Rolled oats</td><td>500 g</td><td>Not instant. Quaker, Bagrry's, Saffola</td></tr>
+              <tr><td>Dalia (broken wheat)</td><td>500 g</td><td>Best breakfast porridge base</td></tr>
+              <tr><td>Poha (flattened rice)</td><td>500 g</td><td>5-min breakfast</td></tr>
+              <tr><td>Bajra or ragi flour</td><td>500 g</td><td>Pick one to start, alternate weekly</td></tr>
+              <tr><td>Besan (chickpea flour)</td><td>500 g</td><td>Cheelas, batters</td></tr>
+              <tr><td>Sattu (roasted chana flour)</td><td>500 g</td><td>Cheap protein hero</td></tr>
+              <tr><td>Moong dal (yellow)</td><td>500 g</td><td>Easiest to digest</td></tr>
+              <tr><td>Masoor dal (red)</td><td>500 g</td><td>Cooks fast, no soaking</td></tr>
+              <tr><td>Toor / arhar dal</td><td>500 g</td><td>Daily dal staple</td></tr>
+              <tr><td>Chana dal</td><td>500 g</td><td>Higher protein</td></tr>
+              <tr><td>Rajma (kidney beans)</td><td>500 g</td><td>Soak 8 hrs before cooking</td></tr>
+              <tr><td>Kala / kabuli chana</td><td>500 g</td><td>Chole, salads</td></tr>
+              <tr><td>Roasted chana</td><td>250 g</td><td>Snacking</td></tr>
+              <tr><td>Makhana (fox nuts)</td><td>100 g</td><td>Roast with ghee — guilt-free TV snack</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ========== OILS, SPICES & SWEETENERS ========== -->
+        <h3>Oils, spices &amp; sweeteners</h3>
+        <p>One-time shop. Spices last 6–12 months sealed.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Quantity</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Mustard oil</td><td>1 L</td><td>Main cooking oil</td></tr>
+              <tr><td>Groundnut / sunflower oil</td><td>500 ml</td><td>Backup, for milder dishes</td></tr>
+              <tr><td>Ghee</td><td>250 g</td><td>Use sparingly — 1–2 tsp/day</td></tr>
+              <tr><td>Olive oil (extra virgin)</td><td>250 ml — <em>optional</em></td><td>For salads only, not cooking</td></tr>
+              <tr><td>Jaggery (gur)</td><td>500 g</td><td>Replaces sugar in most things</td></tr>
+              <tr><td>Honey</td><td>250 g jar</td><td>Local raw honey if possible</td></tr>
+              <tr><td>Salt</td><td>1 kg</td><td>Iodized + rock salt for variety</td></tr>
+              <tr><td>Kala namak (black salt)</td><td>100 g</td><td>For chaas, chaat, raita</td></tr>
+              <tr><td>Haldi (turmeric)</td><td>100 g</td><td>—</td></tr>
+              <tr><td>Jeera (cumin seeds)</td><td>100 g</td><td>Whole, roast before use</td></tr>
+              <tr><td>Dhania powder (coriander)</td><td>100 g</td><td>—</td></tr>
+              <tr><td>Red chili powder</td><td>100 g</td><td>Kashmiri for color, regular for heat</td></tr>
+              <tr><td>Garam masala</td><td>50 g</td><td>Add at end of cooking</td></tr>
+              <tr><td>Chaat masala</td><td>50 g</td><td>For fruits, salads, raita</td></tr>
+              <tr><td>Black pepper</td><td>50 g</td><td>Whole, grind fresh ideally</td></tr>
+              <tr><td>Dalchini (cinnamon)</td><td>25 g sticks</td><td>—</td></tr>
+              <tr><td>Elaichi (cardamom)</td><td>25 g</td><td>Green</td></tr>
+              <tr><td>Saunf (fennel)</td><td>100 g</td><td>Digestive, mouth-freshener</td></tr>
+              <tr><td>Ajwain (carom)</td><td>50 g</td><td>For bloating</td></tr>
+              <tr><td>Methi seeds (fenugreek)</td><td>100 g</td><td>Soaked water for blood sugar + hair</td></tr>
+              <tr><td>Mustard seeds (rai)</td><td>100 g</td><td>For tadka</td></tr>
+              <tr><td>Bay leaves</td><td>10 leaves</td><td>—</td></tr>
+              <tr><td>Kasuri methi</td><td>25 g</td><td>Sabzi finisher</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ========== NUTS, SEEDS & DRY FRUITS ========== -->
+        <h3>Nuts, seeds &amp; dry fruits</h3>
+        <p>One-time shop. Store in fridge after opening for freshness.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Quantity</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Almonds (badam)</td><td>250 g</td><td>Soak 6–8 overnight daily</td></tr>
+              <tr><td>Raw peanuts</td><td>500 g</td><td>Cheap protein, snack roasted</td></tr>
+              <tr><td>Peanut butter</td><td>200 g jar</td><td>Unsweetened. Pintola, Alpino, MyFitness</td></tr>
+              <tr><td>Walnuts</td><td>100 g — <em>optional</em></td><td>Brain food, expensive</td></tr>
+              <tr><td>Dates (khajur)</td><td>250 g</td><td>Natural sweetener, hair, iron</td></tr>
+              <tr><td>Chia seeds</td><td>100 g</td><td>Big Bazaar, Amazon, kirana</td></tr>
+              <tr><td>Flax seeds (alsi)</td><td>250 g</td><td>Grind fresh for absorption</td></tr>
+              <tr><td>Sesame seeds (til)</td><td>100 g — <em>optional</em></td><td>Calcium, til chikki</td></tr>
+              <tr><td>Pumpkin seeds</td><td>100 g — <em>optional</em></td><td>Zinc, snacking</td></tr>
+              <tr><td>Raisins (kishmish)</td><td>100 g — <em>optional</em></td><td>Soaked = better digestion</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ========== FRESH PROTEINS & DAIRY ========== -->
+        <h3>Fresh proteins &amp; dairy</h3>
+        <p>Weekly top-up. Buy what you'll finish within the week.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Quantity / week</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Eggs</td><td>1–2 trays (30–60)</td><td>Fridge, lasts 3 weeks</td></tr>
+              <tr><td>Chicken breast</td><td>500 g – 1 kg</td><td>Portion + freeze immediately</td></tr>
+              <tr><td>Fish (rohu, basa, surmai)</td><td>500 g</td><td>Cook within 1–2 days, or freeze</td></tr>
+              <tr><td>Paneer</td><td>200–400 g</td><td>Use within 4–5 days</td></tr>
+              <tr><td>Tofu</td><td>200 g — <em>optional</em></td><td>Vegetarian protein alt</td></tr>
+              <tr><td>Milk (toned/full-fat)</td><td>3–4 L</td><td>500 ml/day average</td></tr>
+              <tr><td>Curd / dahi</td><td>500 g</td><td>Or set 1 L milk at home</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ========== VEGETABLES ========== -->
+        <h3>Vegetables (per week)</h3>
+        <p>Buy from a sabziwala every 4–5 days for freshness. Quantities for 1–2 people.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Quantity / week</th><th>Used in</th></tr></thead>
+            <tbody>
+              <tr><td>Onions</td><td>1 kg</td><td>Everything</td></tr>
+              <tr><td>Tomatoes</td><td>500 g</td><td>Curries, salads</td></tr>
+              <tr><td>Potatoes</td><td>500 g</td><td>Sparingly — boil/bake</td></tr>
+              <tr><td>Sweet potato (shakarkand)</td><td>500 g</td><td>Roasted, in bowls</td></tr>
+              <tr><td>Ginger</td><td>100 g</td><td>Smoothies, dal, tadka</td></tr>
+              <tr><td>Garlic</td><td>100 g</td><td>Everything savory</td></tr>
+              <tr><td>Green chilies</td><td>50 g</td><td>Tadka, chutney</td></tr>
+              <tr><td>Palak (spinach)</td><td>2 bunches</td><td>Sabzi, smoothies, dal palak</td></tr>
+              <tr><td>Methi or bathua</td><td>1 bunch — <em>seasonal</em></td><td>Paratha, sabzi</td></tr>
+              <tr><td>Lauki (bottle gourd)</td><td>1 small</td><td>Sabzi, smoothie</td></tr>
+              <tr><td>Cucumber</td><td>4–5</td><td>Salad, smoothie, raita</td></tr>
+              <tr><td>Carrots</td><td>500 g</td><td>Salad, smoothie, ABC juice</td></tr>
+              <tr><td>Beetroot</td><td>2 small</td><td>Glow smoothie, salad</td></tr>
+              <tr><td>Cauliflower or cabbage</td><td>1 small</td><td>Sabzi, stir-fry, soup</td></tr>
+              <tr><td>Bhindi or tinda</td><td>250 g</td><td>Sabzi</td></tr>
+              <tr><td>Bell pepper (shimla mirch)</td><td>2–3</td><td>Stir-fry, bhurji</td></tr>
+              <tr><td>Mushrooms</td><td>200 g — <em>optional</em></td><td>Omelets, stir-fry</td></tr>
+              <tr><td>Broccoli</td><td>1 small — <em>optional</em></td><td>Steamed side</td></tr>
+              <tr><td>Celery</td><td>1 small bunch — <em>optional</em></td><td>Detox smoothie</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ========== FRUITS ========== -->
+        <h3>Fruits (per week)</h3>
+        <p>Pick what's in season — it's cheaper and tastier. Avoid out-of-season imports.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Quantity / week</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Bananas</td><td>1 dozen</td><td>Cheapest energy, smoothies, snack</td></tr>
+              <tr><td>Apples</td><td>4–6</td><td>Travel-friendly snack</td></tr>
+              <tr><td>Lemons (nimbu)</td><td>6–8</td><td>Daily for water + chaas</td></tr>
+              <tr><td>Papaya</td><td>1 medium</td><td>Cuts into 4–5 days of breakfast</td></tr>
+              <tr><td>Seasonal fruit</td><td>2–3 pieces</td><td>Mango/guava/chiku/orange/pineapple</td></tr>
+              <tr><td>Pomegranate (anaar)</td><td>2</td><td>Iron, glow</td></tr>
+              <tr><td>Amla</td><td>4–6 — <em>seasonal</em></td><td>Murabba or fresh juice in winter</td></tr>
+              <tr><td>Raw mango</td><td>2 — <em>summer only</em></td><td>Aam panna</td></tr>
+              <tr><td>Watermelon / muskmelon</td><td>½ — <em>summer only</em></td><td>Hydration</td></tr>
+              <tr><td>Tender coconut</td><td>1–2 — <em>optional</em></td><td>Post-workout electrolytes</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ========== HERBS & MISC ========== -->
+        <h3>Fresh herbs &amp; pantry misc</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Quantity</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Coriander (dhania)</td><td>Small bunch weekly</td><td>Garnish, chutney</td></tr>
+              <tr><td>Mint (pudina)</td><td>Small bunch weekly</td><td>Smoothies, chaas, chutney</td></tr>
+              <tr><td>Curry leaves</td><td>Small bunch — fresh</td><td>For tadka, freeze extras</td></tr>
+              <tr><td>Tulsi plant</td><td>1 pot — <em>optional</em></td><td>Pluck leaves as needed for tea</td></tr>
+              <tr><td>Green tea bags</td><td>1 box (25 bags)</td><td>Lipton, Tetley, Organic India</td></tr>
+              <tr><td>Cocoa powder (unsweetened)</td><td>100 g</td><td>For protein smoothies</td></tr>
+              <tr><td>Whole-grain bread</td><td>1 loaf weekly</td><td>Multigrain, not "brown"</td></tr>
+              <tr><td>Papad (roast, don't fry)</td><td>1 packet</td><td>Occasional side</td></tr>
+              <tr><td>Kokum (dried)</td><td>50 g — <em>optional</em></td><td>For sharbat. Available in coastal stores</td></tr>
+              <tr><td>Saffron (kesar)</td><td>1 g — <em>optional, ₹250+</em></td><td>Pinch in milk/badam shake</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ========== EQUIPMENT ========== -->
+        <h3>One-time equipment</h3>
+        <p>Total cost: <strong>₹3,000–6,000.</strong> Buy once, use for years.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Why</th><th>Approx cost</th></tr></thead>
+            <tbody>
+              <tr><td>Blender / mixer-grinder</td><td>Smoothies, chutneys, batters. Use what you have first.</td><td>₹2,000–4,000</td></tr>
+              <tr><td>Set of 3 airtight containers (1 L)</td><td>Dal storage, prepped veggies</td><td>₹400</td></tr>
+              <tr><td>Glass storage jars (5 large)</td><td>Spices, dry goods</td><td>₹500</td></tr>
+              <tr><td>Non-stick pan</td><td>Eggs, cheelas, paneer bhurji</td><td>₹600</td></tr>
+              <tr><td>Sieve / strainer</td><td>For smoothies, juices, chaas</td><td>₹100</td></tr>
+              <tr><td>Tava / griddle</td><td>Rotis, grilled fish</td><td>Likely already have</td></tr>
+              <tr><td>Measuring cups + spoons</td><td>For first 2 weeks until you eyeball portions</td><td>₹200</td></tr>
+              <tr><td>Yoga mat</td><td>Home workouts + stretching</td><td>₹400–600</td></tr>
+              <tr><td>Resistance band set</td><td>5 levels of difficulty</td><td>₹300–500</td></tr>
+              <tr><td>5 kg dumbbells (pair) or 8 kg kettlebell</td><td>Strength training at home</td><td>₹1,500–2,500</td></tr>
+              <tr><td>Skipping rope</td><td>Cardio, anywhere</td><td>₹150</td></tr>
+              <tr><td>Bathroom weighing scale</td><td>Weekly tracking</td><td>₹600–1,000</td></tr>
+              <tr><td>Measuring tape</td><td>Waist measurement</td><td>₹50</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ========== OPTIONAL SUPPLEMENTS ========== -->
+        <h3>Optional supplements</h3>
+        <p>Add these only after the food basics are sorted. Buy from official sites or trusted marketplaces — counterfeits are rampant. <strong>Talk to a doctor first if you take medication.</strong></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Monthly need</th><th>Approx cost</th></tr></thead>
+            <tbody>
+              <tr><td>Whey or plant protein (1 kg tub)</td><td>1 tub lasts ~30 days</td><td>₹1,500–3,000</td></tr>
+              <tr><td>Creatine monohydrate (250 g)</td><td>~80 days</td><td>₹600–1,000</td></tr>
+              <tr><td>Vitamin D3 (60,000 IU sachet)</td><td>1 sachet/week × 8 weeks</td><td>₹150–250</td></tr>
+              <tr><td>Omega-3 (60 capsules)</td><td>1 bottle/month</td><td>₹400–800</td></tr>
+              <tr><td>Multivitamin</td><td>1 bottle/month</td><td>₹300–500</td></tr>
+              <tr><td>Magnesium glycinate</td><td>1 bottle/2 months</td><td>₹500–900</td></tr>
+              <tr><td>B12 (if vegetarian)</td><td>1 strip/month</td><td>₹100–200</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="highlight">
+          <h3>Estimated budget breakdown</h3>
+          <div class="stat-row" style="margin: 2rem 0 0;">
+            <div class="stat"><div class="stat-num">₹3.5K</div><div class="stat-label">First big shop (pantry + 1 week fresh)</div></div>
+            <div class="stat"><div class="stat-num">₹1.5K</div><div class="stat-label">Weekly top-ups (fresh items)</div></div>
+            <div class="stat"><div class="stat-num">₹4K</div><div class="stat-label">Equipment (one-time)</div></div>
+            <div class="stat"><div class="stat-num">₹2K</div><div class="stat-label">Supplements (monthly, optional)</div></div>
+          </div>
+          <p style="margin-top: 2rem;"><strong>Total for month 1:</strong> roughly ₹13,000–17,000 if you buy everything including equipment and supplements. From month 2 onwards, expect ₹6,000–9,000/month for food alone (1–2 people).</p>
+          <p style="margin-top: 1rem;"><strong>Cheaper alternative:</strong> skip supplements, use existing utensils, and you can run this whole plan on roughly <strong>₹5,000/month</strong> for food. Sattu and dals do most of the heavy lifting.</p>
+        </div>
+
+        <h3>Where to buy what</h3>
+        <ul>
+          <li><strong>Kirana store / supermarket</strong> — grains, dals, oils, spices, ghee, milk, paneer, eggs</li>
+          <li><strong>Local sabziwala</strong> — all fresh vegetables and seasonal fruits (cheapest + freshest)</li>
+          <li><strong>Local fruit vendor</strong> — bananas, papayas, seasonal fruits</li>
+          <li><strong>Mother Dairy / Amul booth</strong> — milk, curd, paneer</li>
+          <li><strong>Local meat/fish shop</strong> — chicken breast, fresh fish (visit early morning for best catch)</li>
+          <li><strong>Amazon / BigBasket / Blinkit</strong> — sattu, makhana, peanut butter, chia seeds, oats, supplements</li>
+          <li><strong>HealthKart, MuscleBlaze, Setu official sites</strong> — protein powder, creatine, vitamins</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 14 RESOURCES ========== -->
+<section class="section" id="s16">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Part 16</div>
+        <h2 class="section-title">Where to go<br><em>next</em>.</h2>
+      </div>
+      <div class="section-intro">
+        <p>The internet is noisy. Here's the short list — channels, apps, and references that are actually evidence-based and beginner-friendly.</p>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <h3>YouTube channels worth subscribing to</h3>
+        <ul>
+          <li><strong>Jeff Nippard</strong> — training science, no nonsense</li>
+          <li><strong>Athlean-X</strong> — training & form correction</li>
+          <li><strong>Yoga With Adriene</strong> — free yoga for beginners</li>
+          <li><strong>Fit Tuber</strong> — Indian healthy living</li>
+          <li><strong>Dr. Pal Manickam</strong> — Indian gut health & nutrition</li>
+          <li><strong>Andrew Huberman</strong> — sleep, light, science of habits</li>
+        </ul>
+
+        <h3>Apps</h3>
+        <div class="card-grid">
+          <div class="card"><h4>MyFitnessPal / HealthifyMe</h4><p>Food tracking. Use for 2 weeks then go by feel.</p></div>
+          <div class="card"><h4>Strong / Hevy</h4><p>Workout tracking. Logs your progressive overload automatically.</p></div>
+          <div class="card"><h4>Sleep Cycle</h4><p>Tracks sleep stages and wakes you in your light-sleep window.</p></div>
+          <div class="card"><h4>Headspace / Calm</h4><p>Meditation for beginners.</p></div>
+          <div class="card"><h4>QuitNow / Smoke Free</h4><p>Counts days clean, money saved, health benefits restored.</p></div>
+          <div class="card"><h4>Streaks</h4><p>Simple habit tracking. Five habits max — don't get fancy.</p></div>
+        </div>
+
+        <h3>Free reference websites</h3>
+        <ul>
+          <li><strong>examine.com</strong> — supplement & nutrition research, evidence-based</li>
+          <li><strong>nih.gov</strong> — official health information</li>
+          <li><strong>cdc.gov</strong> — smoking cessation resources</li>
+          <li><strong>who.int</strong> — general health guidelines</li>
+        </ul>
+
+        <h3>Charts to print and stick on your fridge</h3>
+        <p>Search and bookmark these:</p>
+        <ul>
+          <li>"Harvard Healthy Eating Plate"</li>
+          <li>"Indian thali balanced diet portion chart"</li>
+          <li>"Protein content of common foods chart"</li>
+          <li>"Waist-to-height ratio chart" (more useful than BMI)</li>
+          <li>"Bodyweight exercises form guide"</li>
+          <li>"Glycemic index chart of common foods"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <h2>Health is not<br>an event.<br>It's an <em>identity</em>.</h2>
+  <p style="max-width:600px;margin:0 auto;font-family:'Fraunces',serif;font-style:italic;font-size:1.2rem;color:rgba(245,241,232,0.75);">
+    Pick the three easiest things from this guide. Start tomorrow. Two weeks later, add two more. In six months you'll have rebuilt your entire lifestyle without ever feeling like you were on a "diet."
+  </p>
+
+  <p class="disclaimer">
+    This guide is general lifestyle information, not medical advice. Please talk to a doctor before making major changes to your diet, exercise, or supplement routine — especially if you have existing health conditions, take medication, or are pregnant. Your Year of Better · 2026
+  </p>
+</footer>
+
+</body>
+</html>
+
