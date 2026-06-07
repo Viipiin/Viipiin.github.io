@@ -1486,6 +1486,19 @@
     if(buf===seq){openVault();buf='';}
   });
 
+  // Mobile trigger: tap the hero heading 5 times within 2 s to open vault
+  (function(){
+    var tapEl=document.getElementById('hero-h1');
+    if(!tapEl)return;
+    var taps=0,tapTimer;
+    tapEl.addEventListener('touchend',function(){
+      taps++;
+      clearTimeout(tapTimer);
+      if(taps>=5){taps=0;openVault();}
+      else{tapTimer=setTimeout(function(){taps=0;},2000);}
+    });
+  }());
+
   document.getElementById('vk-close').addEventListener('click',closeVault);
   document.getElementById('vk-bd').addEventListener('click',closeVault);
   document.getElementById('vk-btn').addEventListener('click',tryUnlock);
