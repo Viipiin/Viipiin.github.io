@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <script>
-            (function(){
-                var saved = localStorage.getItem('theme');
-                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (saved === 'dark' || (!saved && prefersDark)) {
-                    document.documentElement.classList.add('dark-theme');
-                }
-            })();
-        </script>
+    <script>
+        (function(){
+            var saved = localStorage.getItem('theme');
+            var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (saved === 'dark' || (!saved && prefersDark)) {
+                document.documentElement.classList.add('dark-theme');
+            }
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resources - Vipin Kumar | Power Platform Architect</title>
@@ -21,7 +21,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="../assets/css/header-component.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
@@ -32,88 +32,67 @@
     <div id="headerContainer"></div>
 
     <main class="resources-main">
+
+        <!-- ── Hero ── -->
         <section class="resources-hero" aria-label="Resources intro">
             <div class="hero-bg-shape hero-bg-shape-1" aria-hidden="true"></div>
             <div class="hero-bg-shape hero-bg-shape-2" aria-hidden="true"></div>
+            <div class="hero-bg-shape hero-bg-shape-3" aria-hidden="true"></div>
             <div class="resources-hero-content">
                 <p class="eyebrow">Toolkit Hub</p>
                 <h1>Useful Resources</h1>
-                <p class="hero-copy">A practical collection of references, cheat sheets, and official documentation that I use regularly while designing Power Platform solutions.</p>
+                <p class="hero-copy">A practical collection of cheat sheets, interactive guides, architect articles, and official docs that I reach for while designing Power Platform solutions.</p>
             </div>
         </section>
 
-        <section class="featured-resource" aria-label="Featured resource">
-            <div class="featured-card">
-                <div class="featured-label">Featured</div>
-                <h2>Power Fx Formula Reference</h2>
-                <p>Complete canvas app formula cheat sheet — 150+ functions across 17 categories, delegation guide, 12 pattern recipes, live search, and inline interview hints. Print-ready.</p>
-                <div class="featured-actions">
-                    <a class="btn-primary" href="../resources/power-fx-cheat-sheet.html" target="_blank" rel="noopener noreferrer">Open Cheat Sheet</a>
-                    <a class="btn-secondary" href="../resources/power-fx-cheat-sheet.html" download>Download HTML</a>
-                </div>
+        <!-- ── Featured Cheat Sheets ── -->
+        <section aria-label="Featured cheat sheets">
+            <div class="res-section-header">
+                <span class="section-eyebrow teal">&#128196; Cheat Sheets</span>
+                <h2>Featured Tools</h2>
+                <p class="section-subtitle">Print-ready single-page references built for Power Platform professionals — open in browser or download.</p>
             </div>
-            <div class="featured-card">
-                <div class="featured-label">Featured</div>
-                <h2>PAC CLI Cheat Sheet</h2>
-                <p>Quickly navigate major Power Platform CLI command groups and shortcuts from one printable reference page.</p>
-                <div class="featured-actions">
-                    <a class="btn-primary" href="../resources/pac-cli-cheat-sheet.html" target="_blank" rel="noopener noreferrer">Open Cheat Sheet</a>
-                    <a class="btn-secondary" href="../resources/pac-cli-cheat-sheet.html" download>Download HTML</a>
+            <div class="featured-grid">
+
+                <div class="featured-card">
+                    <div class="featured-label">Featured</div>
+                    <h2>Power Fx Formula Reference</h2>
+                    <p>Complete canvas app formula cheat sheet — 150+ functions across 17 categories, delegation guide, 12 pattern recipes, live search, and inline interview hints. Print-ready.</p>
+                    <div class="featured-actions">
+                        <a class="btn-primary" href="../resources/power-fx-cheat-sheet.html" target="_blank" rel="noopener noreferrer">Open Cheat Sheet</a>
+                        <a class="btn-secondary" href="../resources/power-fx-cheat-sheet.html" download>Download HTML</a>
+                    </div>
                 </div>
-            </div>
-            <div class="featured-card">
-                <div class="featured-label">Featured</div>
-                <h2>Power Apps Code Apps Cheat Sheet</h2>
-                <p>One-page field guide for Code Apps: prerequisites, <code>pac code</code> CLI, <code>@microsoft/power-apps</code> SDK, VS Code workflow, data sources, deployment, troubleshooting, and copy-paste recipes &mdash; everything needed to build without leaving the page.</p>
-                <div class="featured-actions">
-                    <a class="btn-primary" href="../resources/code-apps-cheat-sheet.html" target="_blank" rel="noopener noreferrer">Open Cheat Sheet</a>
-                    <a class="btn-secondary" href="../resources/code-apps-cheat-sheet.html" download>Download HTML</a>
+
+                <div class="featured-card">
+                    <div class="featured-label">Featured</div>
+                    <h2>PAC CLI Cheat Sheet</h2>
+                    <p>Quickly navigate major Power Platform CLI command groups and shortcuts from one printable reference page.</p>
+                    <div class="featured-actions">
+                        <a class="btn-primary" href="../resources/pac-cli-cheat-sheet.html" target="_blank" rel="noopener noreferrer">Open Cheat Sheet</a>
+                        <a class="btn-secondary" href="../resources/pac-cli-cheat-sheet.html" download>Download HTML</a>
+                    </div>
                 </div>
+
+                <div class="featured-card">
+                    <div class="featured-label">Featured</div>
+                    <h2>Power Apps Code Apps Cheat Sheet</h2>
+                    <p>One-page field guide for Code Apps: prerequisites, <code>pac code</code> CLI, <code>@microsoft/power-apps</code> SDK, VS Code workflow, data sources, deployment, troubleshooting, and copy-paste recipes.</p>
+                    <div class="featured-actions">
+                        <a class="btn-primary" href="../resources/code-apps-cheat-sheet.html" target="_blank" rel="noopener noreferrer">Open Cheat Sheet</a>
+                        <a class="btn-secondary" href="../resources/code-apps-cheat-sheet.html" download>Download HTML</a>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- Interactive Study Guides Showcase -->
-        <section aria-label="Interactive study guides" style="padding:0 40px 56px; max-width:1200px; margin:0 auto;">
-            <style>
-                .guides-header { text-align:center; margin-bottom:32px; }
-                .guides-eyebrow { display:inline-block; background:#eef6ff; color:#0078d4; font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:4px 14px; border-radius:20px; margin-bottom:14px; }
-                .guides-header h2 { font-size:1.75rem; font-weight:700; color:#1a1a2e; margin:0 0 10px; }
-                .guides-header p { color:#64748b; font-size:0.93rem; max-width:540px; margin:0 auto; }
-                .guides-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-                @media (max-width:700px) { .guides-grid { grid-template-columns:1fr; } .guides-showcase-wrap { padding:0 16px 40px !important; } }
-                .guide-card { background:#fff; border:1px solid #e1e4e8; border-radius:16px; padding:28px; display:flex; flex-direction:column; gap:18px; box-shadow:0 4px 16px rgba(0,0,0,0.06); transition:box-shadow 0.2s, transform 0.2s; }
-                .guide-card:hover { box-shadow:0 8px 32px rgba(0,0,0,0.12); transform:translateY(-3px); }
-                .guide-card-env { border-top:4px solid #0078d4; }
-                .guide-card-git { border-top:4px solid #f05032; }
-                .guide-card-head { display:flex; align-items:flex-start; gap:16px; }
-                .guide-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; }
-                .guide-icon-env { background:linear-gradient(135deg,#0078d4 0%,#00b7c3 100%); }
-                .guide-icon-git { background:linear-gradient(135deg,#24292e 0%,#f05032 100%); }
-                .guide-badge { display:inline-block; font-size:0.68rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; padding:2px 9px; border-radius:4px; margin-bottom:6px; }
-                .guide-badge-env { background:#eef6ff; color:#0078d4; }
-                .guide-badge-git { background:#fff5f2; color:#f05032; }
-                .guide-card-head h3 { font-size:1.1rem; font-weight:700; color:#1a1a2e; margin:0 0 3px; }
-                .guide-card-head .guide-sub { font-size:0.8rem; color:#8492a6; }
-                .guide-desc { font-size:0.875rem; color:#444d56; line-height:1.65; margin:0; }
-                .guide-chips { display:flex; flex-wrap:wrap; gap:6px; }
-                .guide-chip { border-radius:5px; padding:3px 9px; font-size:0.71rem; font-weight:600; }
-                .guide-cta { display:inline-flex; align-items:center; gap:6px; text-decoration:none; padding:10px 22px; border-radius:9px; font-size:0.85rem; font-weight:700; margin-top:auto; transition:all 0.2s; }
-                .guide-cta-env { background:#0078d4; color:#fff; }
-                .guide-cta-env:hover { background:#005a9e; color:#fff; }
-                .guide-cta-git { background:#24292e; color:#fff; }
-                .guide-cta-git:hover { background:#f05032; color:#fff; }
-                .guide-stat-bar { display:flex; gap:20px; padding:12px 0; border-top:1px solid #f0f2f5; border-bottom:1px solid #f0f2f5; }
-                .guide-stat { display:flex; flex-direction:column; align-items:center; gap:2px; }
-                .guide-stat .num { font-size:1.3rem; font-weight:800; color:#1a1a2e; line-height:1; }
-                .guide-stat .lbl { font-size:0.68rem; font-weight:600; color:#8492a6; text-transform:uppercase; letter-spacing:0.05em; }
-                .guide-stat-env .num { color:#0078d4; }
-                .guide-stat-git .num { color:#f05032; }
-            </style>
-
-            <div class="guides-header">
-                <span class="guides-eyebrow">&#128218; Interactive Study Guides</span>
+        <!-- ── Interactive Study Guides ── -->
+        <section aria-label="Interactive study guides">
+            <div class="res-section-header">
+                <span class="section-eyebrow purple">&#128218; Interactive Study Guides</span>
                 <h2>Learn. Reference. Ship.</h2>
-                <p>In-depth visual guides built for Power Platform professionals — covering the technologies that power modern enterprise solutions.</p>
+                <p class="section-subtitle">In-depth visual guides built for Power Platform professionals — covering the technologies that power modern enterprise solutions.</p>
             </div>
 
             <div class="guides-grid">
@@ -121,7 +100,7 @@
                 <!-- Power Platform Environments Guide -->
                 <div class="guide-card guide-card-env">
                     <div class="guide-card-head">
-                        <div class="guide-icon guide-icon-env">&#127959;&#65039;</div>
+                        <div class="guide-icon guide-icon-env" aria-hidden="true">&#127959;&#65039;</div>
                         <div>
                             <span class="guide-badge guide-badge-env">Deep Dive</span>
                             <h3>Power Platform Environments</h3>
@@ -136,11 +115,11 @@
                     </div>
                     <p class="guide-desc">Complete reference covering all environment types, security model, lifecycle management, DLP policies, CoE setup, and governance strategy — with search, sticky sidebar, and 20+ accordion sections.</p>
                     <div class="guide-chips">
-                        <span class="guide-chip" style="background:#eef6ff;color:#0078d4;">Environment Strategy</span>
+                        <span class="guide-chip" style="background:#e0f5f4;color:#0d9488;">Environment Strategy</span>
                         <span class="guide-chip" style="background:#f0fff4;color:#165c27;">Security Roles</span>
                         <span class="guide-chip" style="background:#fff5e6;color:#b35900;">DLP Policies</span>
                         <span class="guide-chip" style="background:#f5f0ff;color:#5a32a3;">CoE Setup</span>
-                        <span class="guide-chip" style="background:#eef6ff;color:#0078d4;">ALM</span>
+                        <span class="guide-chip" style="background:#dbeafe;color:#1d4ed8;">ALM</span>
                     </div>
                     <a class="guide-cta guide-cta-env" href="PowerPlatform_Environments_Guide.html" target="_blank" rel="noopener noreferrer">Open Guide &#8594;</a>
                 </div>
@@ -148,7 +127,7 @@
                 <!-- Git & GitHub Study Guide -->
                 <div class="guide-card guide-card-git">
                     <div class="guide-card-head">
-                        <div class="guide-icon guide-icon-git">&#128025;</div>
+                        <div class="guide-icon guide-icon-git" aria-hidden="true">&#128025;</div>
                         <div>
                             <span class="guide-badge guide-badge-git">Beginner Friendly</span>
                             <h3>Git &amp; GitHub</h3>
@@ -166,7 +145,7 @@
                         <span class="guide-chip" style="background:#fff5f2;color:#f05032;">Branching</span>
                         <span class="guide-chip" style="background:#f0fff4;color:#165c27;">Real Scenarios</span>
                         <span class="guide-chip" style="background:#f5f0ff;color:#5a32a3;">Merge Conflicts</span>
-                        <span class="guide-chip" style="background:#eef6ff;color:#0366d6;">Commands Ref</span>
+                        <span class="guide-chip" style="background:#dbeafe;color:#0366d6;">Commands Ref</span>
                         <span class="guide-chip" style="background:#fff5e6;color:#b35900;">7-Day Plan</span>
                     </div>
                     <a class="guide-cta guide-cta-git" href="git-github-study-guide.html" target="_blank" rel="noopener noreferrer">Open Guide &#8594;</a>
@@ -175,36 +154,67 @@
             </div>
         </section>
 
+        <!-- ── Architect Perspectives ── -->
         <section class="writings-section" aria-label="Architect perspectives">
-            <h2>Architect Perspectives</h2>
-            <p class="writings-subtitle">Long-form thinking on decisions, trade-offs, and the craft of solution architecture.</p>
+            <div class="res-section-header">
+                <span class="section-eyebrow amber">&#9997;&#65039; Architect Perspectives</span>
+                <h2>Long-Form Thinking</h2>
+                <p class="section-subtitle">Decisions, trade-offs, and the craft of solution architecture — written for practitioners.</p>
+            </div>
             <div class="writings-grid">
-                
+
                 <div class="featured-card writing-card writing-card-orange">
-                    <div class="featured-label writing-label writing-label-orange">Architect Perspective</div>
+                    <div class="writing-label writing-label-orange">Architect Perspective</div>
                     <h2>Two Doors</h2>
                     <p>How an architect decides when the team is split. Decision factors, reversibility, the Plugin vs Power Automate worked example, and how to run the room.</p>
                     <div class="featured-actions">
                         <a class="btn-primary btn-orange" href="two-doors.html" target="_blank" rel="noopener noreferrer">Read the Article</a>
                     </div>
                 </div>
+
                 <div class="featured-card writing-card writing-card-purple">
-                    <div class="featured-label writing-label writing-label-purple">Architect Perspective</div>
+                    <div class="writing-label writing-label-purple">Architect Perspective</div>
                     <h2>Where the Gravity Lives</h2>
                     <p>An architect's field guide to choosing between Canvas and Model-Driven Power Apps — decision framework, scenarios, trade-offs, and hybrid patterns.</p>
                     <div class="featured-actions">
                         <a class="btn-primary btn-purple" href="where-the-gravity-lives.html" target="_blank" rel="noopener noreferrer">Read the Article</a>
                     </div>
                 </div>
+
             </div>
         </section>
 
-        <section class="resource-grid-wrap" aria-label="Reference links">
-            <h2>Official References</h2>
+        <!-- ── Official References ── -->
+        <section class="references-section" aria-label="Reference links">
+            <div class="res-section-header">
+                <span class="section-eyebrow">&#128279; Official References</span>
+                <h2>Official References</h2>
+                <p class="section-subtitle">Handpicked Microsoft Learn docs, GitHub resources, and official guides — filtered by topic so you land exactly where you need.</p>
+            </div>
+
+            <div class="filter-bar-wrap">
+                <div class="filter-bar" role="group" aria-label="Filter resources by category">
+                    <button class="filter-btn active" data-filter="all">All <span class="filter-count">26</span></button>
+                    <button class="filter-btn" data-filter="cli-tooling">CLI &amp; Tooling <span class="filter-count">1</span></button>
+                    <button class="filter-btn" data-filter="alm">ALM <span class="filter-count">2</span></button>
+                    <button class="filter-btn" data-filter="data-platform">Data Platform <span class="filter-count">2</span></button>
+                    <button class="filter-btn" data-filter="architecture">Architecture <span class="filter-count">3</span></button>
+                    <button class="filter-btn" data-filter="copilot-studio">Copilot Studio <span class="filter-count">2</span></button>
+                    <button class="filter-btn" data-filter="ai">AI &amp; Azure <span class="filter-count">3</span></button>
+                    <button class="filter-btn" data-filter="power-platform">Power Platform <span class="filter-count">2</span></button>
+                    <button class="filter-btn" data-filter="development">Development <span class="filter-count">1</span></button>
+                    <button class="filter-btn" data-filter="devops">DevOps <span class="filter-count">3</span></button>
+                    <button class="filter-btn" data-filter="governance">Governance <span class="filter-count">2</span></button>
+                    <button class="filter-btn" data-filter="security">Security <span class="filter-count">2</span></button>
+                    <button class="filter-btn" data-filter="certifications">Certifications <span class="filter-count">3</span></button>
+                    <button class="filter-btn" data-filter="ai-agents">AI Agents <span class="filter-count">6</span></button>
+                </div>
+            </div>
+
             <div class="resource-grid">
 
                 <!-- CLI & Tooling -->
-                <a class="resource-card" href="https://learn.microsoft.com/power-platform/developer/cli/reference" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="cli-tooling" href="https://learn.microsoft.com/power-platform/developer/cli/reference" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-teal">
@@ -221,7 +231,7 @@
                 </a>
 
                 <!-- ALM -->
-                <a class="resource-card" href="https://learn.microsoft.com/power-platform/alm/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="alm" href="https://learn.microsoft.com/power-platform/alm/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-blue">
@@ -237,7 +247,7 @@
                     <div class="card-cta"><span class="cta-badge">Read ALM Docs</span></div>
                 </a>
 
-                <a class="resource-card" href="https://learn.microsoft.com/power-platform/guidance/alm-accelerator/overview" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="alm" href="https://learn.microsoft.com/power-platform/guidance/alm-accelerator/overview" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-blue">
@@ -254,7 +264,7 @@
                 </a>
 
                 <!-- Data Platform -->
-                <a class="resource-card" href="https://learn.microsoft.com/en-us/power-platform/architecture/products/microsoft-dataverse" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="data-platform" href="https://learn.microsoft.com/en-us/power-platform/architecture/products/microsoft-dataverse" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-teal">
@@ -270,7 +280,7 @@
                     <div class="card-cta"><span class="cta-badge">Explore Dataverse</span></div>
                 </a>
 
-                <a class="resource-card" href="https://learn.microsoft.com/power-apps/developer/data-platform/webapi/overview" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="data-platform" href="https://learn.microsoft.com/power-apps/developer/data-platform/webapi/overview" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-teal">
@@ -287,7 +297,7 @@
                 </a>
 
                 <!-- Architecture -->
-                <a class="resource-card" href="https://learn.microsoft.com/power-platform/well-architected/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="architecture" href="https://learn.microsoft.com/power-platform/well-architected/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-blue">
@@ -303,7 +313,7 @@
                     <div class="card-cta"><span class="cta-badge">Open Well-Architected</span></div>
                 </a>
 
-                <a class="resource-card" href="https://learn.microsoft.com/en-us/power-platform/architecture/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="architecture" href="https://learn.microsoft.com/en-us/power-platform/architecture/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-blue">
@@ -319,7 +329,7 @@
                     <div class="card-cta"><span class="cta-badge">View Architecture Center</span></div>
                 </a>
 
-                <a class="resource-card" href="https://learn.microsoft.com/azure/well-architected/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="architecture" href="https://learn.microsoft.com/azure/well-architected/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-blue">
@@ -330,13 +340,13 @@
                                 <h3>Azure Well-Architected Framework</h3>
                             </div>
                         </div>
-                        <p class="card-desc">Broader cloud architecture best practices that complement Power Platform solution architecture decisions.</p>
+                        <p class="card-desc">Broader cloud architecture best practices that complement Power Platform solution design.</p>
                     </div>
                     <div class="card-cta"><span class="cta-badge">Explore Azure WAF</span></div>
                 </a>
 
                 <!-- Copilot Studio -->
-                <a class="resource-card" href="https://learn.microsoft.com/microsoft-copilot-studio/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="copilot-studio" href="https://learn.microsoft.com/microsoft-copilot-studio/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-purple">
@@ -344,7 +354,7 @@
                             </div>
                             <div class="card-title-group">
                                 <span class="card-eyebrow">Copilot Studio</span>
-                                <h3>Copilot Studio</h3>
+                                <h3>Copilot Studio Docs</h3>
                             </div>
                         </div>
                         <p class="card-desc">Build and manage copilots, topics, actions, and enterprise orchestration patterns.</p>
@@ -352,7 +362,7 @@
                     <div class="card-cta"><span class="cta-badge">Open Copilot Studio Docs</span></div>
                 </a>
 
-                <a class="resource-card" href="https://learn.microsoft.com/microsoft-copilot-studio/guidance/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="copilot-studio" href="https://learn.microsoft.com/microsoft-copilot-studio/guidance/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-purple">
@@ -369,7 +379,7 @@
                 </a>
 
                 <!-- AI -->
-                <a class="resource-card" href="https://learn.microsoft.com/ai-builder/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="ai" href="https://learn.microsoft.com/ai-builder/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-purple">
@@ -385,7 +395,7 @@
                     <div class="card-cta"><span class="cta-badge">Explore AI Builder</span></div>
                 </a>
 
-                <a class="resource-card" href="https://learn.microsoft.com/azure/ai-services/openai/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="ai" href="https://learn.microsoft.com/azure/ai-services/openai/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-purple">
@@ -401,7 +411,7 @@
                     <div class="card-cta"><span class="cta-badge">Explore Azure OpenAI Docs</span></div>
                 </a>
 
-                <a class="resource-card" href="https://learn.microsoft.com/azure/ai-services/responsible-use-of-ai-overview" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="ai" href="https://learn.microsoft.com/azure/ai-services/responsible-use-of-ai-overview" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-purple">
@@ -418,7 +428,7 @@
                 </a>
 
                 <!-- Power Platform products -->
-                <a class="resource-card" href="https://learn.microsoft.com/en-us/power-automate/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="power-platform" href="https://learn.microsoft.com/en-us/power-automate/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-teal">
@@ -434,7 +444,7 @@
                     <div class="card-cta"><span class="cta-badge">See Power Automate Docs</span></div>
                 </a>
 
-                <a class="resource-card" href="https://learn.microsoft.com/power-apps/developer/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="power-platform" href="https://learn.microsoft.com/power-apps/developer/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-teal">
@@ -451,7 +461,7 @@
                 </a>
 
                 <!-- Development -->
-                <a class="resource-card" href="https://learn.microsoft.com/power-apps/developer/component-framework/overview" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="development" href="https://learn.microsoft.com/power-apps/developer/component-framework/overview" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-teal">
@@ -468,7 +478,7 @@
                 </a>
 
                 <!-- DevOps -->
-                <a class="resource-card" href="https://learn.microsoft.com/power-platform/alm/pipelines" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="devops" href="https://learn.microsoft.com/power-platform/alm/pipelines" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-blue">
@@ -484,7 +494,7 @@
                     <div class="card-cta"><span class="cta-badge">Read Pipelines Docs</span></div>
                 </a>
 
-                <a class="resource-card" href="https://learn.microsoft.com/power-platform/alm/devops-build-tools" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="devops" href="https://learn.microsoft.com/power-platform/alm/devops-build-tools" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-blue">
@@ -500,7 +510,7 @@
                     <div class="card-cta"><span class="cta-badge">View Build Tools Docs</span></div>
                 </a>
 
-                <a class="resource-card" href="https://docs.github.com/actions" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="devops" href="https://docs.github.com/actions" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-blue">
@@ -517,7 +527,7 @@
                 </a>
 
                 <!-- Governance -->
-                <a class="resource-card" href="https://learn.microsoft.com/power-platform/guidance/coe/overview" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="governance" href="https://learn.microsoft.com/power-platform/guidance/coe/overview" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-amber">
@@ -533,7 +543,7 @@
                     <div class="card-cta"><span class="cta-badge">View CoE Guidance</span></div>
                 </a>
 
-                <a class="resource-card" href="https://learn.microsoft.com/power-platform/guidance/adoption/methodology" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="governance" href="https://learn.microsoft.com/power-platform/guidance/adoption/methodology" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-amber">
@@ -550,7 +560,7 @@
                 </a>
 
                 <!-- Security -->
-                <a class="resource-card" href="https://learn.microsoft.com/power-platform/admin/security/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="security" href="https://learn.microsoft.com/power-platform/admin/security/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-amber">
@@ -566,7 +576,7 @@
                     <div class="card-cta"><span class="cta-badge">Review Security Guidance</span></div>
                 </a>
 
-                <a class="resource-card" href="https://learn.microsoft.com/power-platform/admin/wp-data-loss-prevention" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="security" href="https://learn.microsoft.com/power-platform/admin/wp-data-loss-prevention" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-amber">
@@ -583,7 +593,7 @@
                 </a>
 
                 <!-- Certifications -->
-                <a class="resource-card" href="https://learn.microsoft.com/credentials/browse/?products=power-platform" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="certifications" href="https://learn.microsoft.com/credentials/browse/?products=power-platform" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-amber">
@@ -599,7 +609,7 @@
                     <div class="card-cta"><span class="cta-badge">Browse Certifications</span></div>
                 </a>
 
-                <a class="resource-card" href="https://learn.microsoft.com/credentials/browse/?products=azure&roles=ai-engineer" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="certifications" href="https://learn.microsoft.com/credentials/browse/?products=azure&roles=ai-engineer" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-amber">
@@ -615,7 +625,7 @@
                     <div class="card-cta"><span class="cta-badge">Browse AI Certifications</span></div>
                 </a>
 
-                <a class="resource-card" href="https://learn.github.com/credentials" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="certifications" href="https://learn.github.com/credentials" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-amber">
@@ -631,8 +641,8 @@
                     <div class="card-cta"><span class="cta-badge">View GitHub Certifications</span></div>
                 </a>
 
-                <!-- From microsoft.github.io/agent-resources -->
-                <a class="resource-card" href="https://microsoft.github.io/agent-resources/m365-copilot/" target="_blank" rel="noopener noreferrer">
+                <!-- AI Agents -->
+                <a class="resource-card" data-category="ai-agents" href="https://microsoft.github.io/agent-resources/m365-copilot/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-purple">
@@ -648,7 +658,7 @@
                     <div class="card-cta"><span class="cta-badge">M365 Copilot Resources</span></div>
                 </a>
 
-                <a class="resource-card" href="https://microsoft.github.io/agent-resources/copilot-studio/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="ai-agents" href="https://microsoft.github.io/agent-resources/copilot-studio/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-purple">
@@ -656,7 +666,7 @@
                             </div>
                             <div class="card-title-group">
                                 <span class="card-eyebrow">Copilot Studio</span>
-                                <h3>Create, Customize, and Launch AI Agents</h3>
+                                <h3>Create, Customize &amp; Launch AI Agents</h3>
                             </div>
                         </div>
                         <p class="card-desc">Resources to help you design, build, and deploy agents with Microsoft Copilot Studio.</p>
@@ -664,7 +674,7 @@
                     <div class="card-cta"><span class="cta-badge">Copilot Studio Resources</span></div>
                 </a>
 
-                <a class="resource-card" href="https://microsoft.github.io/agent-resources/microsoft-foundry/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="ai-agents" href="https://microsoft.github.io/agent-resources/microsoft-foundry/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-purple">
@@ -672,7 +682,7 @@
                             </div>
                             <div class="card-title-group">
                                 <span class="card-eyebrow">Azure AI Foundry</span>
-                                <h3>Build &amp; Deploy AI Models and AI Agents</h3>
+                                <h3>Build &amp; Deploy AI Models and Agents</h3>
                             </div>
                         </div>
                         <p class="card-desc">Resources to help you build, evaluate, and deploy AI models and agents with Microsoft Foundry.</p>
@@ -680,7 +690,7 @@
                     <div class="card-cta"><span class="cta-badge">Azure AI Foundry Resources</span></div>
                 </a>
 
-                <a class="resource-card" href="https://microsoft.github.io/agent-resources/develop-agents/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="ai-agents" href="https://microsoft.github.io/agent-resources/develop-agents/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-teal">
@@ -688,7 +698,7 @@
                             </div>
                             <div class="card-title-group">
                                 <span class="card-eyebrow">Agent Development</span>
-                                <h3>Build AI Agents with Code and SDKs</h3>
+                                <h3>Build AI Agents with Code &amp; SDKs</h3>
                             </div>
                         </div>
                         <p class="card-desc">SDKs, frameworks, protocols, and samples for developers building agents with Microsoft tools and the broader ecosystem.</p>
@@ -696,7 +706,7 @@
                     <div class="card-cta"><span class="cta-badge">Agent Developer Resources</span></div>
                 </a>
 
-                <a class="resource-card" href="https://microsoft.github.io/agent-resources/agent365/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="ai-agents" href="https://microsoft.github.io/agent-resources/agent365/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-blue">
@@ -707,12 +717,12 @@
                                 <h3>Manage AI Agents at Enterprise Scale</h3>
                             </div>
                         </div>
-                        <p class="card-desc">Resources to help you manage your entire agent workforce with control plane capabilities for enterprise AI operations.</p>
+                        <p class="card-desc">Manage your entire agent workforce with control plane capabilities for enterprise AI operations.</p>
                     </div>
                     <div class="card-cta"><span class="cta-badge">Agent 365 Resources</span></div>
                 </a>
 
-                <a class="resource-card" href="https://microsoft.github.io/AgentPlatformAdvisor/" target="_blank" rel="noopener noreferrer">
+                <a class="resource-card" data-category="ai-agents" href="https://microsoft.github.io/AgentPlatformAdvisor/" target="_blank" rel="noopener noreferrer">
                     <div class="card-body">
                         <div class="card-header">
                             <div class="card-icon icon-amber">
@@ -730,6 +740,7 @@
 
             </div>
         </section>
+
     </main>
 
     <footer class="resources-footer">
@@ -739,42 +750,70 @@
     <script src="../assets/js/clean-url.js"></script>
     <script src="../assets/js/header-component.js"></script>
     <script src="../assets/js/back-to-top.js"></script>
+
     <script>
+        /* ── Header ── */
         try {
             if (typeof window.HeaderComponent !== 'undefined') {
-                document.addEventListener('DOMContentLoaded', function() {
+                document.addEventListener('DOMContentLoaded', function () {
                     const headerConfig = {
-                        logo: {
-                            text: 'Viipiin',
-                            url: '../',
-                            showIcon: true
-                        },
+                        logo: { text: 'Viipiin', url: '../', showIcon: true },
                         navigation: [
                             { text: 'Portfolio', url: '../', active: false },
                             { text: 'Resources', url: 'resources', active: true },
                         ],
-                        cta: {
-                            text: 'LinkedIn',
-                            url: 'https://www.linkedin.com/in/viipiintyagi/',
-                            style: 'primary'
-                        },
+                        cta: { text: 'LinkedIn', url: 'https://www.linkedin.com/in/viipiintyagi/', style: 'primary' },
                         showSearch: false,
                         showThemeToggle: true,
                         showSocialLinks: true,
                         socialLinks: [
                             { platform: 'linkedin', url: 'https://www.linkedin.com/in/viipiintyagi/', icon: 'linkedin' },
-                            { platform: 'github', url: 'https://github.com/viipiin', icon: 'github' },
-                            { platform: 'twitter', url: 'https://twitter.com/theo365dev', icon: 'twitter' }
+                            { platform: 'github',   url: 'https://github.com/viipiin',               icon: 'github' },
+                            { platform: 'twitter',  url: 'https://twitter.com/theo365dev',           icon: 'twitter' }
                         ]
                     };
-
                     document.getElementById('headerContainer').innerHTML = HeaderComponent.createHeader(headerConfig);
                     HeaderComponent.init();
                 });
             }
-        } catch (error) {
-            console.log('Header component initialization error:', error);
-        }
+        } catch (e) { console.log('Header error:', e); }
+
+        /* ── Category Filter ── */
+        document.addEventListener('DOMContentLoaded', function () {
+            const btns  = document.querySelectorAll('.filter-btn');
+            const cards = document.querySelectorAll('.resource-card[data-category]');
+
+            btns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const filter = btn.dataset.filter;
+                    cards.forEach(card => {
+                        const show = filter === 'all' || card.dataset.category === filter;
+                        card.style.display = show ? '' : 'none';
+                    });
+                });
+            });
+
+            /* ── Scroll fade-in ── */
+            const fadeEls = document.querySelectorAll(
+                '.featured-card, .guide-card, .writing-card, .resource-card'
+            );
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.08 });
+
+            fadeEls.forEach((el, i) => {
+                el.classList.add('fade-in-up');
+                el.style.transitionDelay = `${(i % 6) * 60}ms`;
+                observer.observe(el);
+            });
+        });
     </script>
 </body>
 </html>
