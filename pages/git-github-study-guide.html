@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git &amp; GitHub Study Guide — Beginner to Confident</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f05032'/%3E%3Ccircle cx='10' cy='10' r='3' fill='white'/%3E%3Ccircle cx='22' cy='10' r='3' fill='white'/%3E%3Ccircle cx='10' cy='22' r='3' fill='white'/%3E%3Cline x1='10' y1='10' x2='22' y2='10' stroke='white' stroke-width='2'/%3E%3Cline x1='10' y1='10' x2='10' y2='22' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+<style>
+:root {
+  --primary: #24292e;
+  --primary-dark: #0d1117;
+  --primary-light: #f0f2f5;
+  --accent: #f05032;
+  --accent2: #6f42c1;
+  --bg: #f6f8fa;
+  --card: #ffffff;
+  --text: #24292e;
+  --text-muted: #6a737d;
+  --border: #e1e4e8;
+  --success: #22863a;
+  --success-bg: #dcffe4;
+  --warning: #b08800;
+  --warning-bg: #fff5b1;
+  --danger: #cb2431;
+  --danger-bg: #ffeef0;
+  --info-bg: #f1f8ff;
+  --tag-bg: #e8f4fd;
+  --tag-text: #0366d6;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; font-size: 15px; }
+
+#progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--accent), #f9826c); width: 0%; z-index: 9999; transition: width 0.1s; }
+
+.top-nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex; align-items: center; gap: 0;
+  height: 52px; overflow-x: auto;
+}
+.top-nav a { white-space: nowrap; padding: 0 14px; height: 52px; display: flex; align-items: center; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.top-nav a:hover, .top-nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+.top-nav .nav-logo { font-weight: 700; font-size: 0.9rem; color: var(--primary); margin-right: 12px; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+
+.hero { background: linear-gradient(135deg, #0d1117 0%, #24292e 40%, #3d4449 75%, #f05032 150%); color: white; padding: 64px 40px 56px; }
+.hero-inner { max-width: 900px; margin: 0 auto; }
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 4px 14px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 20px; }
+.hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.2; margin-bottom: 14px; }
+.hero p { font-size: 1.05rem; opacity: 0.88; max-width: 680px; margin-bottom: 28px; }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.hero-tag { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22); border-radius: 6px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; }
+.doc-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 8px; padding: 8px 16px; font-size: 0.8rem; }
+
+.search-strip { background: white; border-bottom: 1px solid var(--border); padding: 12px 40px; display: flex; align-items: center; gap: 10px; }
+.search-strip input { flex: 1; max-width: 520px; padding: 8px 14px 8px 36px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.88rem; outline: none; transition: border-color 0.2s; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236a737d' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 10px center; background-size: 16px; }
+.search-strip input:focus { border-color: var(--accent); }
+.search-count { font-size: 0.8rem; color: var(--text-muted); }
+
+.page-body { display: flex; max-width: 1400px; margin: 0 auto; }
+.sidebar { width: 230px; min-width: 230px; position: sticky; top: 52px; height: calc(100vh - 52px); overflow-y: auto; padding: 20px 0; border-right: 1px solid var(--border); background: var(--card); }
+.sidebar a { display: block; padding: 6px 20px; font-size: 0.82rem; color: var(--text-muted); text-decoration: none; border-left: 2px solid transparent; transition: all 0.15s; }
+.sidebar a:hover, .sidebar a.active { color: var(--accent); border-left-color: var(--accent); background: #fff5f2; }
+.sidebar .sidebar-group { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.8px; color: var(--text-muted); padding: 14px 20px 4px; text-transform: uppercase; }
+.main-content { flex: 1; padding: 40px; min-width: 0; }
+
+.section { margin-bottom: 56px; }
+.section-title { font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+.section-title .icon { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem; flex-shrink: 0; }
+.section-subtitle { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 24px; }
+.divider { height: 1px; background: var(--border); margin: 40px 0; }
+
+.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); }
+.card + .card { margin-top: 16px; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+.card h4 { font-size: 0.88rem; font-weight: 700; margin: 14px 0 6px; color: var(--text); }
+.card p { font-size: 0.88rem; color: #444d56; margin-bottom: 8px; }
+.card ul, .card ol { padding-left: 20px; font-size: 0.88rem; color: #444d56; }
+.card li { margin-bottom: 5px; }
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+th { background: var(--primary); color: white; padding: 10px 12px; text-align: left; font-weight: 600; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tr:nth-child(even) td { background: #fafbfc; }
+tr:hover td { background: var(--primary-light); }
+
+.chip { display: inline-flex; align-items: center; gap: 4px; background: var(--tag-bg); color: var(--tag-text); border-radius: 4px; padding: 2px 8px; font-size: 0.75rem; font-weight: 600; margin: 2px; }
+.chip.green { background: var(--success-bg); color: #165c27; }
+.chip.orange { background: #fff5e6; color: #b35900; }
+.chip.red { background: var(--danger-bg); color: #86181d; }
+.chip.purple { background: #f5f0ff; color: #5a32a3; }
+.chip.gray { background: #f1f2f3; color: #444d56; }
+
+.callout { border-radius: var(--radius); padding: 14px 18px; margin: 16px 0; display: flex; gap: 12px; align-items: flex-start; }
+.callout .callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.callout-info { background: var(--info-bg); border-left: 3px solid #0366d6; }
+.callout-warn { background: var(--warning-bg); border-left: 3px solid var(--warning); }
+.callout-success { background: var(--success-bg); border-left: 3px solid var(--success); }
+.callout-danger { background: var(--danger-bg); border-left: 3px solid var(--danger); }
+.callout p { font-size: 0.86rem; line-height: 1.55; }
+
+.accordion { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 8px; }
+.accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--card); cursor: pointer; font-weight: 600; font-size: 0.9rem; user-select: none; transition: background 0.15s; gap: 12px; }
+.accordion-header:hover { background: var(--primary-light); }
+.accordion-header .cmd-tag { font-family: 'Cascadia Code', Consolas, monospace; background: var(--primary); color: white; border-radius: 5px; padding: 2px 10px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+.accordion-header .acc-title { flex: 1; font-size: 0.88rem; }
+.accordion-header .chevron { transition: transform 0.25s; font-style: normal; flex-shrink: 0; color: var(--text-muted); }
+.accordion-header.open .chevron { transform: rotate(180deg); }
+.accordion-body { display: none; padding: 16px 18px; background: white; border-top: 1px solid var(--border); font-size: 0.86rem; }
+.accordion-body.open { display: block; }
+.accordion-body p { color: #444d56; margin-bottom: 8px; }
+.accordion-body ul { padding-left: 18px; color: #444d56; }
+.accordion-body li { margin-bottom: 4px; }
+
+pre { background: #0d1117; color: #c9d1d9; border-radius: 10px; padding: 16px 18px; margin: 10px 0; font-family: 'Cascadia Code', 'Consolas', 'Monaco', monospace; font-size: 0.8rem; line-height: 1.65; overflow-x: auto; }
+pre .cm { color: #8b949e; }
+pre .out { color: #56d364; }
+code { background: #f0f2f5; color: #e36209; padding: 2px 5px; border-radius: 3px; font-size: 0.82em; font-family: 'Cascadia Code', Consolas, monospace; }
+pre code { background: none; color: inherit; padding: 0; }
+
+.term-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.term-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; border-top: 3px solid var(--accent); box-shadow: var(--shadow); }
+.term-card .term-name { font-family: 'Cascadia Code', Consolas, monospace; font-size: 0.85rem; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+.term-card p { font-size: 0.82rem; color: #444d56; margin-bottom: 6px; }
+.term-card .analogy { font-size: 0.78rem; color: var(--text-muted); font-style: italic; background: var(--bg); padding: 6px 8px; border-radius: 6px; }
+
+.scenario-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 20px; overflow: hidden; box-shadow: var(--shadow); }
+.scenario-head { background: linear-gradient(90deg, var(--primary-dark), var(--primary)); color: white; padding: 14px 20px; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
+.scenario-label { background: rgba(240,80,50,0.35); border: 1px solid rgba(240,80,50,0.5); border-radius: 4px; padding: 2px 8px; font-size: 0.72rem; font-weight: 600; }
+.scenario-body { padding: 16px 20px; }
+.scenario-body p { font-size: 0.875rem; color: #444d56; margin-bottom: 10px; }
+
+.day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.day-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow); transition: box-shadow 0.2s, transform 0.2s; }
+.day-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.day-num { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 4px; }
+.day-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.day-card ul { padding-left: 16px; font-size: 0.82rem; color: #444d56; }
+.day-card li { margin-bottom: 4px; }
+
+.step-list { list-style: none; padding: 0; counter-reset: steps; }
+.step-list li { counter-increment: steps; display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; color: #444d56; }
+.step-list li:last-child { border-bottom: none; }
+.step-list li::before { content: counter(steps); min-width: 26px; height: 26px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+.mistake-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 14px; overflow: hidden; border-left: 4px solid var(--danger); box-shadow: var(--shadow); }
+.mistake-card .mh { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #fff8f8; }
+.mistake-card .mh h4 { font-size: 0.9rem; font-weight: 700; color: var(--danger); }
+.mistake-card .mb { padding: 12px 16px; font-size: 0.875rem; color: #444d56; border-top: 1px solid #ffd8d8; }
+.mistake-card .mb p { margin-bottom: 6px; }
+
+.cheat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; margin-top: 10px; }
+.cheat-item { background: #0d1117; border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
+.cheat-cmd { font-family: 'Cascadia Code', Consolas, monospace; font-size: 0.78rem; color: #79c0ff; font-weight: 700; }
+.cheat-desc { font-size: 0.76rem; color: #8b949e; }
+
+.bp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.bp-item { background: var(--success-bg); border-left: 3px solid var(--success); border-radius: var(--radius); padding: 12px 16px; }
+.bp-item h4 { font-size: 0.85rem; font-weight: 700; color: #165c27; margin-bottom: 4px; }
+.bp-item p { font-size: 0.82rem; color: var(--text-muted); }
+
+.flow-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 12px 0; font-size: 0.83rem; }
+.flow-box { background: var(--primary); color: white; border-radius: 6px; padding: 5px 12px; font-weight: 600; }
+.flow-arrow { color: var(--text-muted); font-size: 1rem; }
+.flow-box.accent { background: var(--accent); }
+
+#scrollTop { position: fixed; bottom: 24px; right: 24px; background: var(--primary); color: white; border: none; border-radius: 50%; width: 42px; height: 42px; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.25); display: none; align-items: center; justify-content: center; z-index: 999; }
+#scrollTop.show { display: flex; }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main-content { padding: 24px 16px; }
+  .term-grid { grid-template-columns: 1fr; }
+  .day-grid { grid-template-columns: 1fr; }
+  .bp-grid { grid-template-columns: 1fr; }
+  .hero { padding: 40px 20px 32px; }
+  .search-strip { padding: 10px 16px; }
+}
+@media (max-width: 600px) {
+  .top-nav { display: none; }
+  .card-grid { grid-template-columns: 1fr; }
+}
+@media print {
+  .top-nav, .sidebar, .search-strip, #progress-bar, #scrollTop { display: none; }
+  .main-content { padding: 0; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav class="top-nav">
+  <span class="nav-logo">&#9670; Git &amp; GitHub</span>
+  <a href="#intro">Intro</a>
+  <a href="#what-is-git">What is Git</a>
+  <a href="#what-is-github">GitHub</a>
+  <a href="#git-vs-github">Git vs GitHub</a>
+  <a href="#why-git">Why Git</a>
+  <a href="#terms">Key Terms</a>
+  <a href="#how-git-works">How It Works</a>
+  <a href="#setup">Setup</a>
+  <a href="#commands">Commands</a>
+  <a href="#scenarios">Scenarios</a>
+  <a href="#daily-dev">Daily Dev</a>
+  <a href="#daily-architect">Architect View</a>
+  <a href="#mistakes">Mistakes</a>
+  <a href="#merge-conflicts">Merge Conflicts</a>
+  <a href="#best-practices">Best Practices</a>
+  <a href="#faq">FAQ</a>
+  <a href="#seven-day">7-Day Plan</a>
+  <a href="#revision">Revision</a>
+</nav>
+
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-badge">&#9670; Developer &amp; Architect Study Guide</div>
+    <h1>Git &amp; GitHub<br>Complete Beginner Guide</h1>
+    <p>From zero to confident — everything you need to understand version control, collaborate with teams, and use Git fluently in real projects. Written in plain, friendly language.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">&#128193; Version Control</span>
+      <span class="hero-tag">&#127807; Branching</span>
+      <span class="hero-tag">&#129309; Collaboration</span>
+      <span class="hero-tag">&#128203; 18 Sections</span>
+      <span class="hero-tag">&#128197; 7-Day Plan</span>
+      <span class="hero-tag">&#9889; Cheat Sheet</span>
+    </div>
+    <div class="doc-badge">&#128216; Beginner to Professional &mdash; June 2026 &nbsp;|&nbsp; Practical examples for Power Platform, SharePoint &amp; web developers</div>
+  </div>
+</section>
+
+<div class="search-strip">
+  <input type="text" id="searchInput" placeholder="Search any term, command, or concept..." oninput="doSearch(this.value)">
+  <span class="search-count" id="searchCount"></span>
+</div>
+
+<div class="page-body">
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">Getting Started</div>
+  <a href="#intro">Introduction</a>
+  <a href="#what-is-git">What is Git?</a>
+  <a href="#what-is-github">What is GitHub?</a>
+  <a href="#git-vs-github">Git vs GitHub</a>
+  <a href="#why-git">Why Use Git?</a>
+  <div class="sidebar-group">Core Concepts</div>
+  <a href="#terms">Key Terms (18)</a>
+  <a href="#how-git-works">How Git Works</a>
+  <a href="#setup">First-Time Setup</a>
+  <div class="sidebar-group">Reference</div>
+  <a href="#commands">Commands (20)</a>
+  <a href="#scenarios">Real Scenarios</a>
+  <div class="sidebar-group">Workflows</div>
+  <a href="#daily-dev">Daily Dev Workflow</a>
+  <a href="#daily-architect">Architect Workflow</a>
+  <div class="sidebar-group">Mastery</div>
+  <a href="#mistakes">Common Mistakes</a>
+  <a href="#merge-conflicts">Merge Conflicts</a>
+  <a href="#best-practices">Best Practices</a>
+  <a href="#faq">FAQ</a>
+  <a href="#seven-day">7-Day Plan</a>
+  <a href="#revision">Final Revision</a>
+</aside>
+
+<main class="main-content">
+
+<!-- SECTION 1 — INTRO -->
+<section class="section" id="intro">
+  <div class="section-title"><div class="icon">&#128075;</div> Welcome &mdash; A Friendly Introduction</div>
+  <p class="section-subtitle">You are in the right place. This guide will make Git feel simple, practical, and approachable.</p>
+
+  <div class="card" style="border-top:3px solid var(--accent);margin-bottom:16px;">
+    <h3>Hello, Learner! &#128591;</h3>
+    <p>If you've heard words like <strong>Git, GitHub, commit, branch, merge</strong> and felt confused &mdash; that's completely normal. Almost every developer feels that way at the beginning.</p>
+    <p>Here's the good news: <strong>Git is not as scary as it looks.</strong> Once you understand what it does and why it exists, the commands start making sense naturally.</p>
+    <p>This guide is written like a patient teacher. No heavy jargon. No rushing. Just clear, friendly explanations with real-life examples.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid var(--success);">
+      <h4>&#9989; What This Guide Covers</h4>
+      <ul>
+        <li>What Git and GitHub actually are</li>
+        <li>Why Git is used in real projects</li>
+        <li>All important terms with simple analogies</li>
+        <li>Step-by-step workflows for common tasks</li>
+        <li>Most important commands with examples</li>
+        <li>Common beginner mistakes to avoid</li>
+        <li>7-day learning plan for real confidence</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid #6f42c1;">
+      <h4>&#128101; Who Is This For?</h4>
+      <ul>
+        <li>New developers starting with source control</li>
+        <li>Power Platform makers and app builders</li>
+        <li>SharePoint and D365 developers</li>
+        <li>Solution architects understanding team Git</li>
+        <li>Anyone who hears "push the PR" and wants to know what it means</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-success" style="margin-top:16px;">
+    <span class="callout-icon">&#128161;</span>
+    <p><strong>Reassurance:</strong> Senior developers with 10+ years of experience also forget Git commands and Google them. That's perfectly normal. The key is understanding the <em>concept</em>, not memorizing every flag.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2 — WHAT IS GIT -->
+<section class="section" id="what-is-git">
+  <div class="section-title"><div class="icon">&#128193;</div> What is Git?</div>
+  <p class="section-subtitle">A simple explanation of the tool that tracks every change you make to your code</p>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>Git in One Simple Sentence</h3>
+    <p><strong>Git is a tool that remembers every change you ever make to your files &mdash; like a time machine for your code.</strong></p>
+    <p>When you write code, you're constantly making changes &mdash; adding features, fixing bugs, removing old lines. Git keeps a complete history of all those changes so you can go back to any point in time.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>&#127979; A Real-Life Analogy: The School Notebook</h3>
+    <p>Imagine you're writing a big school project in a notebook.</p>
+    <ul>
+      <li>Every time you make a major edit, you take a photocopy of the notebook</li>
+      <li>You write the date and a note on the copy: <em>"Added introduction chapter &mdash; 12 May"</em></li>
+      <li>Later, if your teacher says the old version was better, you can pull out that old photocopy</li>
+      <li>You can also share copies with classmates who make their own edits</li>
+    </ul>
+    <p style="margin-top:8px;">Git does exactly this &mdash; but for code files, automatically, and much smarter.</p>
+    <div class="callout callout-info">
+      <span class="callout-icon">&#128204;</span>
+      <p>This is called <strong>Version Control</strong>. It means tracking versions (snapshots) of your files over time.</p>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>&#128260; When Something Breaks</h4>
+      <p>You add new code and suddenly the application crashes. With Git, say: "Take me back to yesterday's version" &mdash; in one command. No manual undo-ing needed.</p>
+    </div>
+    <div class="card">
+      <h4>&#128101; Team Collaboration</h4>
+      <p>Two people work on the same project simultaneously without overwriting each other. Git handles the merging intelligently.</p>
+    </div>
+    <div class="card">
+      <h4>&#129514; Safe Experimentation</h4>
+      <p>Create a separate <strong>branch</strong>. Experiment freely. If it goes wrong, delete the branch. Your main code is untouched.</p>
+    </div>
+    <div class="card">
+      <h4>&#128220; History &amp; Audit Trail</h4>
+      <p>See exactly who changed what and when &mdash; invaluable for debugging: <em>"Who changed this line and why?"</em></p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3 — WHAT IS GITHUB -->
+<section class="section" id="what-is-github">
+  <div class="section-title"><div class="icon">&#127760;</div> What is GitHub?</div>
+  <p class="section-subtitle">The online home for Git repositories &mdash; where teams collaborate, review, and share code</p>
+
+  <div class="card" style="border-top:3px solid var(--accent);margin-bottom:16px;">
+    <h3>GitHub in One Simple Sentence</h3>
+    <p><strong>GitHub is a website where you can store your Git repository online &mdash; so your team can access it, collaborate, and review code together.</strong></p>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>&#9925; Analogy: Google Drive for Code</h3>
+    <ul>
+      <li>You write a document on your laptop &rarr; that's your local file</li>
+      <li>You save it to Google Drive &rarr; now it's online, accessible, and shareable</li>
+    </ul>
+    <p style="margin-top:8px;">With code: write it with Git tracking locally &rarr; upload to GitHub &rarr; team can access, review, and contribute.</p>
+  </div>
+
+  <div class="card-grid" style="margin-bottom:16px;">
+    <div class="card" style="border-top:3px solid var(--success);">
+      <h4>&#128190; Backup</h4>
+      <p>If your laptop breaks, code is safe on GitHub. Just clone it again from anywhere.</p>
+    </div>
+    <div class="card" style="border-top:3px solid #0366d6;">
+      <h4>&#129309; Collaboration</h4>
+      <p>Multiple team members push changes; others pull them. All coordinated through GitHub.</p>
+    </div>
+    <div class="card" style="border-top:3px solid #6f42c1;">
+      <h4>&#128065;&#65039; Code Review</h4>
+      <p>Before code merges, teammates review it via <strong>Pull Requests</strong> &mdash; like a teacher checking homework before submission.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent);">
+      <h4>&#128640; Deployment</h4>
+      <p>GitHub Actions auto-deploys your app when you push code &mdash; like this very portfolio website!</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Local Machine vs GitHub</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Your Local Machine</th><th>GitHub (Online)</th></tr>
+        <tr><td>Code lives on your computer</td><td>Code lives on GitHub's servers</td></tr>
+        <tr><td>Only you can see it by default</td><td>You control access (public/private)</td></tr>
+        <tr><td>Works without internet</td><td>Requires internet to sync</td></tr>
+        <tr><td>Risky if computer breaks</td><td>Safe cloud backup</td></tr>
+        <tr><td>No collaboration features</td><td>Central point for team PRs, issues, actions</td></tr>
+      </table>
+    </div>
+    <div class="callout callout-info" style="margin-top:14px;">
+      <span class="callout-icon">&#128204;</span>
+      <p>GitHub is not the only platform. There's also <strong>GitLab</strong>, <strong>Bitbucket</strong>, and <strong>Azure DevOps Repos</strong>. They all work with Git. GitHub is the most popular one.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4 — GIT VS GITHUB -->
+<section class="section" id="git-vs-github">
+  <div class="section-title"><div class="icon">&#9878;&#65039;</div> Git vs GitHub</div>
+  <p class="section-subtitle">They sound similar but are very different things. Here's the definitive comparison.</p>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>The Simple Analogy</h3>
+    <ul>
+      <li><strong>Microsoft Word</strong> = the tool you use to write and edit a document (on your computer)</li>
+      <li><strong>Google Docs</strong> = the online platform where you store, share, and collaborate</li>
+    </ul>
+    <p style="margin-top:8px;">Similarly: <strong>Git</strong> = tool on your computer &nbsp;|&nbsp; <strong>GitHub</strong> = online platform for storing and collaborating on Git repos.</p>
+    <div class="callout callout-success" style="margin-top:12px;">
+      <span class="callout-icon">&#128161;</span>
+      <p>You can use Git <em>without</em> GitHub (work locally). But you can't use GitHub properly without Git &mdash; because GitHub hosts Git repositories.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Side-by-Side Comparison</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Git</th><th>GitHub</th></tr>
+        <tr><td>A tool (software)</td><td>A platform (website/service)</td></tr>
+        <tr><td>Installed on your computer</td><td>Runs in the cloud</td></tr>
+        <tr><td>Created by Linus Torvalds (2005)</td><td>Founded 2008, acquired by Microsoft 2018</td></tr>
+        <tr><td>Works completely offline</td><td>Requires internet</td></tr>
+        <tr><td>Tracks changes locally</td><td>Hosts repos for team access</td></tr>
+        <tr><td>Free and open source</td><td>Free for public repos; paid features for teams</td></tr>
+        <tr><td>Interact via terminal commands</td><td>Interact via web browser or GitHub Desktop</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5 — WHY GIT -->
+<section class="section" id="why-git">
+  <div class="section-title"><div class="icon">&#128161;</div> Why We Use Git in Real Projects</div>
+  <p class="section-subtitle">9 practical reasons that make Git essential for every developer and team</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>1. Track Code Changes</h4>
+      <p>Every change is recorded with timestamp and description. Always know what changed, who changed it, and when.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>2. Safe Rollback</h4>
+      <p>Spent all day on changes that broke everything? Go back to yesterday's version in one command.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>3. Team Collaboration</h4>
+      <p>5 developers, each on their own branch, merging back. Git combines everyone's work intelligently.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>4. Safe Experimentation</h4>
+      <p>Create a branch for risky work. Experiment freely. If it fails, delete the branch. Main code is untouched.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>5. Code Review via PRs</h4>
+      <p>Before code goes to main, team reviews it via Pull Requests. Catches bugs, maintains quality.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>6. Release Management</h4>
+      <p><code>main</code> for stable production, <code>develop</code> for ongoing work, <code>release/v2.0</code> for preparing releases. Very organized.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>7. Debugging with History</h4>
+      <p>A bug appeared that wasn't there last week? Use <code>git log</code> and <code>git diff</code> to pinpoint exactly which commit introduced it.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>8. Parallel Development</h4>
+      <p>5 developers working on 5 features simultaneously using separate branches &mdash; no waiting, no interference.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>9. Traceability &amp; Audit</h4>
+      <p>Finance, healthcare, and government software need proof of what changed and when. Git provides a complete, tamper-evident trail.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 6 — KEY TERMS -->
+<section class="section" id="terms">
+  <div class="section-title"><div class="icon">&#128218;</div> Basic Important Terms</div>
+  <p class="section-subtitle">Every Git term explained in plain language with real-life analogies &mdash; your Git dictionary</p>
+
+  <div class="term-grid">
+    <div class="term-card">
+      <div class="term-name">repository (repo)</div>
+      <p>A folder that Git is tracking. Contains all project files plus hidden Git history.</p>
+      <div class="analogy">&#127968; Like a house with a built-in security system recording everything that changes inside it.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">commit</div>
+      <p>A saved snapshot of your changes, permanently stored in Git history with a message.</p>
+      <div class="analogy">&#128247; Like taking a dated photograph of your notebook &mdash; "Saved with corrections &mdash; March 5".</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">branch</div>
+      <p>A parallel version of your code where you can work without affecting the main code.</p>
+      <div class="analogy">&#127807; Like a tree branch growing separately from the trunk &mdash; grow it, trim it, then reconnect it.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">merge</div>
+      <p>Combining changes from one branch into another. Git tries to do this automatically.</p>
+      <div class="analogy">&#129309; Like combining two drafts of an essay into one final version.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">clone</div>
+      <p>Downloading a complete copy of a repository from GitHub &mdash; including all history.</p>
+      <div class="analogy">&#128229; Like downloading a full Google Drive folder with all revision history to your laptop.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">push</div>
+      <p>Uploading your local commits to GitHub (the remote server).</p>
+      <div class="analogy">&#128228; Like syncing your offline work back to Google Drive so others can see your changes.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">pull</div>
+      <p>Downloading the latest changes from GitHub to your local machine.</p>
+      <div class="analogy">&#128229; Like refreshing Google Docs to see what teammates edited while you were away.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">fetch</div>
+      <p>Downloads updates from remote <em>without</em> merging. Just checks what's new.</p>
+      <div class="analogy">&#128064; Like glancing at a menu before ordering &mdash; you look, but don't take anything yet.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">origin</div>
+      <p>The default nickname for your remote repository on GitHub, set automatically when you clone.</p>
+      <div class="analogy">&#127968; Like your "home address" &mdash; it's where your remote code lives.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">checkout / switch</div>
+      <p>Moving to a different branch. <code>git switch branch-name</code> is the modern way.</p>
+      <div class="analogy">&#128682; Like going from one room to another &mdash; each room (branch) has different things in it.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">pull request (PR)</div>
+      <p>A proposal on GitHub to merge your branch into another. Others review before approving.</p>
+      <div class="analogy">&#128221; Like submitting a report for your manager to review before it goes to the client.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">merge conflict</div>
+      <p>When two people changed the same line of code differently and Git can't decide which to keep.</p>
+      <div class="analogy">&#9889; Like two people editing the same sentence simultaneously &mdash; someone must pick the final version.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">staging area</div>
+      <p>A preparation area where you select files before committing. Not all changes must go in one commit.</p>
+      <div class="analogy">&#128230; Like packing a box &mdash; add specific items (stage them), then seal it (commit). Don't have to pack everything at once.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">working directory</div>
+      <p>Your actual folder with project files where you make changes. What you see in your file explorer.</p>
+      <div class="analogy">&#128394;&#65039; Like the open notebook page where you're currently writing.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">remote</div>
+      <p>A version of your repository that lives online. You push to it and pull from it.</p>
+      <div class="analogy">&#9729;&#65039; The cloud backup of your project that the whole team can access.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">main / master</div>
+      <p>The primary branch &mdash; the stable, production-ready version. Modern repos use <code>main</code>.</p>
+      <div class="analogy">&#127795; The main trunk of the tree. All feature branches eventually merge back here.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">README</div>
+      <p>A file (README.md) explaining what the project is, how to install it, and how to use it.</p>
+      <div class="analogy">&#128203; Like the instruction manual that comes with a product.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">.gitignore</div>
+      <p>A file that tells Git which files or folders to <em>not</em> track (passwords, log files, build outputs).</p>
+      <div class="analogy">&#128683; Like a "Do Not Touch" list for Git &mdash; whatever you write inside it, Git ignores completely.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 7 — HOW GIT WORKS -->
+<section class="section" id="how-git-works">
+  <div class="section-title"><div class="icon">&#128260;</div> How Git Works &mdash; Step by Step</div>
+  <p class="section-subtitle">The complete flow from creating a project to sharing it with your team</p>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>The Three Stages of Git</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Stage</th><th>What It Means</th><th>Analogy</th></tr>
+        <tr><td><strong>Working Directory</strong></td><td>Files you are actively editing</td><td>Your open notebook where you write</td></tr>
+        <tr><td><strong>Staging Area</strong></td><td>Files selected to commit (prepared)</td><td>Items placed in a box, ready to seal</td></tr>
+        <tr><td><strong>Repository (History)</strong></td><td>Committed snapshots stored permanently</td><td>Sealed &amp; dated box in the archive</td></tr>
+      </table>
+    </div>
+    <div class="flow-strip" style="margin-top:14px;">
+      <span class="flow-box">Working Directory</span>
+      <span class="flow-arrow">&rarr;</span>
+      <span class="flow-box accent">git add</span>
+      <span class="flow-arrow">&rarr;</span>
+      <span class="flow-box">Staging Area</span>
+      <span class="flow-arrow">&rarr;</span>
+      <span class="flow-box accent">git commit</span>
+      <span class="flow-arrow">&rarr;</span>
+      <span class="flow-box">Local Repo</span>
+      <span class="flow-arrow">&rarr;</span>
+      <span class="flow-box accent">git push</span>
+      <span class="flow-arrow">&rarr;</span>
+      <span class="flow-box">GitHub</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Full Git Workflow &mdash; Start to Team Push</h3>
+    <ol class="step-list">
+      <li><div><strong>Create a project folder</strong><br><span style="color:var(--text-muted);font-size:0.82rem">Start with a regular folder: <code>my-project/</code></span></div></li>
+      <li><div><strong>Initialize Git</strong><br><pre><code>cd my-project
+git init</code></pre></div></li>
+      <li><div><strong>Create / edit files, then check status</strong><br><pre><code>git status</code></pre></div></li>
+      <li><div><strong>Stage the files</strong><br><pre><code>git add .           <span class="cm"># stage everything</span>
+git add index.html  <span class="cm"># or a specific file</span></code></pre></div></li>
+      <li><div><strong>Commit the snapshot</strong><br><pre><code>git commit -m "Add initial homepage structure"</code></pre></div></li>
+      <li><div><strong>Connect to GitHub</strong><br><pre><code>git remote add origin https://github.com/your-username/my-project.git</code></pre></div></li>
+      <li><div><strong>Push to GitHub</strong><br><pre><code>git push -u origin main</code></pre></div></li>
+      <li><div><strong>Create a feature branch</strong><br><pre><code>git switch -c feature/add-contact-form</code></pre></div></li>
+      <li><div><strong>Make changes, commit on branch, push</strong><br><pre><code>git add .
+git commit -m "Add contact form with validation"
+git push origin feature/add-contact-form</code></pre></div></li>
+      <li><div><strong>Create a Pull Request on GitHub</strong><br><span style="color:var(--text-muted);font-size:0.82rem">GitHub &rarr; your repo &rarr; "Compare &amp; pull request". Team reviews. Once approved, merge!</span></div></li>
+    </ol>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 8 — SETUP -->
+<section class="section" id="setup">
+  <div class="section-title"><div class="icon">&#9881;&#65039;</div> First-Time Setup</div>
+  <p class="section-subtitle">Install Git and configure it &mdash; do this once before your very first commit</p>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>Step 1 &mdash; Install Git</h3>
+    <ul>
+      <li><strong>Windows:</strong> Download from <code>git-scm.com</code> and run the installer</li>
+      <li><strong>Mac:</strong> Open Terminal &rarr; type <code>git --version</code> &rarr; macOS prompts to install if missing</li>
+      <li><strong>Linux (Ubuntu):</strong> <code>sudo apt install git</code></li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>Step 2 &mdash; Verify Installation</h3>
+    <pre><code>git --version
+<span class="out"># git version 2.43.0   &larr; means it's installed &#10003;</span></code></pre>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>Step 3 &mdash; Configure Your Identity</h3>
+    <p>Every commit is stamped with this information &mdash; your digital signature.</p>
+    <pre><code>git config --global user.name "Your Full Name"
+git config --global user.email "youremail@example.com"</code></pre>
+    <div class="callout callout-success" style="margin-top:12px;">
+      <span class="callout-icon">&#128161;</span>
+      <p><strong>Why --global?</strong> This setting applies to all Git projects on your computer. You only need to do this once.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>Step 4 &mdash; Verify &amp; Set Default Branch</h3>
+    <pre><code>git config --list                             <span class="cm"># see all settings</span>
+git config --global init.defaultBranch main  <span class="cm"># use 'main' as default</span></code></pre>
+  </div>
+
+  <div class="card">
+    <h3>Step 5 &mdash; Set Up SSH Key (Recommended)</h3>
+    <p>SSH keys let you push/pull without entering your password every time.</p>
+    <pre><code><span class="cm"># Generate SSH key (press Enter for defaults)</span>
+ssh-keygen -t ed25519 -C "youremail@example.com"
+
+<span class="cm"># Copy the public key</span>
+cat ~/.ssh/id_ed25519.pub</code></pre>
+    <p>Then: GitHub &rarr; Settings &rarr; SSH keys &rarr; Add new key &rarr; Paste the key.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 9 — COMMANDS -->
+<section class="section" id="commands">
+  <div class="section-title"><div class="icon">&#128203;</div> Git Commands Cheat Sheet</div>
+  <p class="section-subtitle">Every essential command &mdash; click to expand for full details, when to use, and real examples</p>
+
+  <div class="callout callout-info" style="margin-bottom:16px;">
+    <span class="callout-icon">&#128204;</span>
+    <p>Click any command to expand its full explanation. In daily work, you'll use 8&ndash;10 of these regularly. The rest you look up as needed.</p>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git --version</span><span class="acc-title">Check if Git is installed</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p><strong>What it does:</strong> Prints the installed Git version.</p>
+      <pre><code>git --version
+<span class="out"># Output: git version 2.43.0</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git config</span><span class="acc-title">Configure your Git identity and preferences</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p><strong>What it does:</strong> Sets your name, email, and other Git preferences. Run once during setup.</p>
+      <pre><code>git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+git config --list  <span class="cm"># see all settings</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git init</span><span class="acc-title">Initialize a new Git repository in a folder</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p><strong>What it does:</strong> Turns a normal folder into a Git-tracked repository. Creates a hidden <code>.git</code> folder.</p>
+      <pre><code>mkdir my-project
+cd my-project
+git init
+<span class="out"># Initialized empty Git repository in .../my-project/.git/</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git clone</span><span class="acc-title">Download an existing repository from GitHub</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p><strong>What it does:</strong> Downloads a full copy of a remote repository &mdash; all files and complete history.</p>
+      <pre><code>git clone https://github.com/username/project-name.git
+<span class="cm"># Creates a folder called "project-name" in your current directory</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git status</span><span class="acc-title">See what's changed in your working directory</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p><strong>What it does:</strong> Shows which files are modified, staged, or untracked. Your constant health check.</p>
+      <pre><code>git status
+<span class="out"># On branch main
+# Changes not staged for commit:
+#   modified:   index.html
+# Untracked files:
+#   style.css</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git add</span><span class="acc-title">Stage files for commit</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p><strong>What it does:</strong> Moves files from the working directory into the staging area. Run before <code>git commit</code>.</p>
+      <pre><code>git add index.html          <span class="cm"># add a specific file</span>
+git add .                   <span class="cm"># add ALL changed files</span>
+git add assets/css/         <span class="cm"># add an entire folder</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git commit</span><span class="acc-title">Save a snapshot of staged changes with a message</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p><strong>What it does:</strong> Creates a permanent snapshot in Git history. Commit frequently &mdash; every logical unit of work.</p>
+      <pre><code>git commit -m "Add navigation menu to header"
+
+<span class="cm"># Good: "Fix login bug when email has uppercase letters"
+# Bad:  "changes" or "fixed stuff"</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git log</span><span class="acc-title">View the commit history</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <pre><code>git log
+git log --oneline          <span class="cm"># compact one-line view</span>
+git log --oneline --graph  <span class="cm"># with branch visualization</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git diff</span><span class="acc-title">See exactly what changed line by line</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <pre><code>git diff                    <span class="cm"># changes in working directory</span>
+git diff --staged           <span class="cm"># changes that are staged</span>
+git diff main feature/nav   <span class="cm"># diff between two branches</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git branch</span><span class="acc-title">Create, list, or delete branches</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <pre><code>git branch                  <span class="cm"># list all local branches</span>
+git branch -a               <span class="cm"># list local + remote branches</span>
+git branch feature/login    <span class="cm"># create a new branch</span>
+git branch -d feature/login <span class="cm"># delete a branch (safe)</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git switch</span><span class="acc-title">Switch to a different branch (modern command)</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <pre><code>git switch main              <span class="cm"># go to main branch</span>
+git switch feature/login     <span class="cm"># go to existing branch</span>
+git switch -c feature/signup <span class="cm"># create AND switch to new branch</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git checkout</span><span class="acc-title">Switch branches or restore files (classic command)</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p>Older multi-purpose command &mdash; still widely used and valid.</p>
+      <pre><code>git checkout main            <span class="cm"># switch branch</span>
+git checkout -b feature/nav  <span class="cm"># create and switch</span>
+git checkout -- index.html   <span class="cm"># restore file from last commit</span></code></pre>
+      <div class="callout callout-success">
+        <span class="callout-icon">&#128161;</span>
+        <p>Use <code>git switch</code> for branches and <code>git restore</code> for files &mdash; cleaner and less confusing.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git merge</span><span class="acc-title">Merge one branch into the current branch</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <pre><code>git switch main
+git merge feature/login    <span class="cm"># merge feature into main</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git pull</span><span class="acc-title">Download &amp; merge latest changes from remote</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p><strong>When to use:</strong> Every morning before you start work. Always pull before pushing.</p>
+      <pre><code>git pull                   <span class="cm"># pull from default remote/branch</span>
+git pull origin main       <span class="cm"># explicitly pull main from origin</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git push</span><span class="acc-title">Upload your local commits to GitHub</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <pre><code>git push                        <span class="cm"># push current branch</span>
+git push origin main            <span class="cm"># push main to origin</span>
+git push origin feature/login   <span class="cm"># push a feature branch</span>
+git push -u origin main         <span class="cm"># push AND set upstream (first time)</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git fetch</span><span class="acc-title">Check for remote changes without merging</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <pre><code>git fetch origin
+git log origin/main --oneline  <span class="cm"># see what's new remotely</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git remote</span><span class="acc-title">Manage remote repository connections</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <pre><code>git remote -v                  <span class="cm"># see all remote connections</span>
+git remote add origin https://github.com/user/repo.git
+git remote remove origin       <span class="cm"># remove a remote</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git stash</span><span class="acc-title">Temporarily save work-in-progress without committing</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p>Use when an urgent bug comes in while you're mid-feature. Stash, fix the bug, then pop your stash back.</p>
+      <pre><code>git stash                  <span class="cm"># stash all current changes</span>
+git stash pop              <span class="cm"># restore the most recent stash</span>
+git stash list             <span class="cm"># see all stashes</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git reset</span><span class="acc-title">Undo commits or unstage files</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <div class="callout callout-warn">
+        <span class="callout-icon">&#9888;&#65039;</span>
+        <p><code>git reset --hard</code> permanently deletes changes. Not recommended for beginners on shared branches.</p>
+      </div>
+      <pre><code>git reset HEAD index.html  <span class="cm"># unstage a file (keep changes)</span>
+git reset --soft HEAD~1    <span class="cm"># undo last commit, keep staged</span>
+git reset --mixed HEAD~1   <span class="cm"># undo last commit, keep files</span></code></pre>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span class="cmd-tag">git revert</span><span class="acc-title">Safely undo a commit by creating a new "undo" commit</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p>Creates a new commit that undoes changes from a previous commit. History is preserved. <strong>Beginner-safe on shared branches.</strong></p>
+      <pre><code>git log --oneline
+<span class="out"># abc123 Add broken feature</span>
+
+git revert abc123   <span class="cm"># creates a new "undo" commit</span></code></pre>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 10 — SCENARIOS -->
+<section class="section" id="scenarios">
+  <div class="section-title"><div class="icon">&#127916;</div> Ready-to-Use Real Scenarios</div>
+  <p class="section-subtitle">Complete command sequences for the 6 most common real-world Git situations</p>
+
+  <div class="scenario-wrap">
+    <div class="scenario-head">&#128640; Scenario A: Starting a Brand New Project <span class="scenario-label">Beginner</span></div>
+    <div class="scenario-body">
+      <p>You want to start a new project and track it with Git from the beginning.</p>
+      <pre><code><span class="cm"># 1. Create the project folder</span>
+mkdir my-portfolio && cd my-portfolio
+
+<span class="cm"># 2. Initialize Git</span>
+git init
+
+<span class="cm"># 3. Create first file, stage and commit</span>
+echo "# My Portfolio" > README.md
+git add .
+git commit -m "Initial project setup with README"
+
+<span class="cm"># 4. Connect to GitHub (create repo on github.com first)</span>
+git remote add origin https://github.com/your-username/my-portfolio.git
+git push -u origin main</code></pre>
+    </div>
+  </div>
+
+  <div class="scenario-wrap">
+    <div class="scenario-head">&#128229; Scenario B: Downloading an Existing Project <span class="scenario-label">Beginner</span></div>
+    <div class="scenario-body">
+      <p>Your team has an existing project on GitHub and you need to work on it.</p>
+      <pre><code>git clone https://github.com/team/project-name.git
+cd project-name
+git branch -a
+git switch -c feature/my-changes</code></pre>
+    </div>
+  </div>
+
+  <div class="scenario-wrap">
+    <div class="scenario-head">&#9998;&#65039; Scenario C: Make a Change and Send to GitHub <span class="scenario-label">Daily Use</span></div>
+    <div class="scenario-body">
+      <pre><code>git status
+git diff
+git add index.html
+git commit -m "Update header navigation links"
+git push</code></pre>
+    </div>
+  </div>
+
+  <div class="scenario-wrap">
+    <div class="scenario-head">&#127807; Scenario D: Working on a Feature Branch <span class="scenario-label">Professional</span></div>
+    <div class="scenario-body">
+      <pre><code><span class="cm"># Get latest main</span>
+git switch main && git pull origin main
+
+<span class="cm"># Create feature branch</span>
+git switch -c feature/user-login
+
+<span class="cm"># Work... then commit and push</span>
+git add .
+git commit -m "Add user login form and validation"
+git push origin feature/user-login
+
+<span class="cm"># On GitHub &rarr; create Pull Request &rarr; team reviews &rarr; merge</span></code></pre>
+    </div>
+  </div>
+
+  <div class="scenario-wrap">
+    <div class="scenario-head">&#128260; Scenario E: Pulling Latest from Team Repository <span class="scenario-label">Daily Use</span></div>
+    <div class="scenario-body">
+      <pre><code>git switch main
+git pull origin main
+
+<span class="cm"># Update your feature branch too</span>
+git switch feature/my-feature
+git merge main   <span class="cm"># bring main's updates into your branch</span></code></pre>
+    </div>
+  </div>
+
+  <div class="scenario-wrap">
+    <div class="scenario-head">&#128280; Scenario F: Fixing a Mistake Using Git History <span class="scenario-label">Recovery</span></div>
+    <div class="scenario-body">
+      <pre><code><span class="cm"># Option 1: Undo last commit but keep files</span>
+git reset --soft HEAD~1
+
+<span class="cm"># Option 2: Safely revert a specific commit (recommended)</span>
+git log --oneline
+git revert abc1234
+
+<span class="cm"># Option 3: Restore a single file to last commit</span>
+git restore index.html</code></pre>
+      <div class="callout callout-success">
+        <span class="callout-icon">&#128161;</span>
+        <p>Always use <code>git revert</code> for undoing on shared/team branches. Safe, doesn't rewrite history.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 11 — DAILY DEV -->
+<section class="section" id="daily-dev">
+  <div class="section-title"><div class="icon">&#9728;&#65039;</div> Daily Workflow for a Developer</div>
+  <p class="section-subtitle">Build healthy Git habits &mdash; a simple daily routine that keeps you and your team happy</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid var(--success);">
+      <h4>&#127773; Morning &mdash; Start of Day</h4>
+      <ol style="padding-left:16px;font-size:0.85rem;color:#444d56;">
+        <li style="margin-bottom:6px;">Pull latest: <code>git switch main &amp;&amp; git pull origin main</code></li>
+        <li style="margin-bottom:6px;">Create/switch to your branch: <code>git switch -c feature/todays-task</code></li>
+        <li style="margin-bottom:6px;">Check state: <code>git status</code> (should be clean)</li>
+      </ol>
+    </div>
+    <div class="card" style="border-top:3px solid #0366d6;">
+      <h4>&#128187; During Work</h4>
+      <ol style="padding-left:16px;font-size:0.85rem;color:#444d56;">
+        <li style="margin-bottom:6px;">Commit small &amp; often: <code>git add . &amp;&amp; git commit -m "..."</code></li>
+        <li style="margin-bottom:6px;">Check often: <code>git status</code> and <code>git diff</code></li>
+        <li style="margin-bottom:6px;">Urgent work? <code>git stash</code> &rarr; fix &rarr; <code>git stash pop</code></li>
+      </ol>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent);">
+      <h4>&#127750; End of Day</h4>
+      <ol style="padding-left:16px;font-size:0.85rem;color:#444d56;">
+        <li style="margin-bottom:6px;">Commit all finished work with a clear message</li>
+        <li style="margin-bottom:6px;">Push branch to GitHub: <code>git push origin feature/...</code></li>
+        <li style="margin-bottom:6px;">Create a PR on GitHub if feature is complete</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="callout callout-success" style="margin-top:16px;">
+    <span class="callout-icon">&#11088;</span>
+    <p><strong>Golden Rules:</strong> Pull before you push. Commit often, commit small. Write meaningful messages. Never work directly on main. Push before end of day &mdash; it's your backup.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 12 — ARCHITECT -->
+<section class="section" id="daily-architect">
+  <div class="section-title"><div class="icon">&#127959;&#65039;</div> Architect &amp; Senior Developer Workflow</div>
+  <p class="section-subtitle">How experienced professionals use Git differently &mdash; strategy, oversight, and governance</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid var(--primary);">
+      <h4>&#128065;&#65039; Reviewing Pull Requests</h4>
+      <pre><code>git fetch origin
+git switch feature/dev-login
+<span class="cm"># test it, then:</span>
+git switch main</code></pre>
+    </div>
+    <div class="card" style="border-top:3px solid var(--primary);">
+      <h4>&#128220; Understanding History</h4>
+      <pre><code>git log --oneline --graph --all
+git log --author="Dev Name"
+git blame src/auth/login.js</code></pre>
+    </div>
+    <div class="card" style="border-top:3px solid var(--primary);">
+      <h4>&#128698; Release Management</h4>
+      <pre><code>git switch -c release/v2.1.0 develop
+git switch main
+git merge release/v2.1.0
+git tag v2.1.0
+git push origin main --tags</code></pre>
+    </div>
+    <div class="card" style="border-top:3px solid var(--primary);">
+      <h4>&#128737;&#65039; Branch Strategy &amp; Governance</h4>
+      <ul>
+        <li>Set branch protection rules (require PR reviews)</li>
+        <li>Enforce commit message conventions</li>
+        <li>GitHub Actions for CI/CD auto-testing on every PR</li>
+        <li>Monitor stale branches and open PRs</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <h3>Branch Strategy Reference</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Branch</th><th>Purpose</th><th>Who Merges</th></tr>
+        <tr><td><code>main</code></td><td>Production-ready code only</td><td>Architect / Lead</td></tr>
+        <tr><td><code>develop</code></td><td>Integration branch for ongoing work</td><td>Lead Developer</td></tr>
+        <tr><td><code>feature/*</code></td><td>Individual feature work</td><td>Developers via PR</td></tr>
+        <tr><td><code>release/*</code></td><td>Preparing for release</td><td>Release Manager</td></tr>
+        <tr><td><code>hotfix/*</code></td><td>Emergency production fixes</td><td>Architect</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 13 — MISTAKES -->
+<section class="section" id="mistakes">
+  <div class="section-title"><div class="icon">&#9888;&#65039;</div> Common Mistakes Beginners Make</div>
+  <p class="section-subtitle">Learn from others &mdash; avoid these 8 pitfalls before they bite you</p>
+
+  <div class="mistake-card">
+    <div class="mh"><h4>&#10060; Committing Directly to Main</h4></div>
+    <div class="mb">
+      <p>Making all changes on <code>main</code> instead of creating a feature branch. Fix: <code>git switch -c feature/my-task</code> &mdash; always, no matter how small the task.</p>
+    </div>
+  </div>
+  <div class="mistake-card">
+    <div class="mh"><h4>&#10060; Forgetting to Pull Before Starting Work</h4></div>
+    <div class="mb">
+      <p>Your code becomes outdated. Fix: Make <code>git pull</code> the very first command every morning, before writing a single line.</p>
+    </div>
+  </div>
+  <div class="mistake-card">
+    <div class="mh"><h4>&#10060; Vague or Bad Commit Messages</h4></div>
+    <div class="mb">
+      <pre><code><span class="cm"># &#10060; Bad</span>  git commit -m "changes"
+<span class="cm"># &#10003; Good</span>  git commit -m "Fix mobile login button not responding on iOS 17"</code></pre>
+    </div>
+  </div>
+  <div class="mistake-card">
+    <div class="mh"><h4>&#10060; Committing Passwords or API Keys</h4></div>
+    <div class="mb">
+      <p>Once pushed to a public repo, secrets are exposed forever &mdash; even if deleted later (they're still in history). Fix: Add <code>.env</code> to <code>.gitignore</code> before your first commit.</p>
+    </div>
+  </div>
+  <div class="mistake-card">
+    <div class="mh"><h4>&#10060; Panicking During a Merge Conflict</h4></div>
+    <div class="mb">
+      <p>Conflicts are normal. They're just Git asking which version of a line to keep. Open the file, pick the right version, remove the markers, commit. See Section 14.</p>
+    </div>
+  </div>
+  <div class="mistake-card">
+    <div class="mh"><h4>&#10060; Forgetting .gitignore</h4></div>
+    <div class="mb">
+      <pre><code><span class="cm"># Example .gitignore</span>
+node_modules/
+.env
+dist/
+*.log
+.DS_Store</code></pre>
+      <p>Use <a href="https://gitignore.io" target="_blank">gitignore.io</a> to generate one for your tech stack.</p>
+    </div>
+  </div>
+  <div class="mistake-card">
+    <div class="mh"><h4>&#10060; Pushing Unfinished Work to Main</h4></div>
+    <div class="mb">
+      <p>Always push to a feature branch. Only merge to main via Pull Request after testing and review.</p>
+    </div>
+  </div>
+  <div class="mistake-card">
+    <div class="mh"><h4>&#10060; Confusing Git and GitHub</h4></div>
+    <div class="mb">
+      <p>Git = tool on your machine. GitHub = website for hosting. You can commit locally without internet. Internet is only needed when pushing or pulling from GitHub.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 14 — MERGE CONFLICTS -->
+<section class="section" id="merge-conflicts">
+  <div class="section-title"><div class="icon">&#128256;</div> Merge Conflicts &mdash; Explained Simply</div>
+  <p class="section-subtitle">They look scary. They're actually just Git asking you a question.</p>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>What Is a Merge Conflict?</h3>
+    <p>A merge conflict happens when <strong>two different people edited the same line in the same file</strong> and Git can't decide which version to keep. Git is smart enough to merge most changes automatically. When it literally cannot decide, it stops and asks YOU.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>What Does a Conflict Look Like?</h3>
+    <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+&lt;h1&gt;Welcome to My Portfolio&lt;/h1&gt;
+=======
+&lt;h1&gt;Hello, I'm a Developer!&lt;/h1&gt;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/new-hero-text</code></pre>
+    <ul style="margin-top:10px;font-size:0.88rem;color:#444d56;">
+      <li><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> &rarr; Your current branch's version</li>
+      <li><code>=======</code> &rarr; Divider between the two versions</li>
+      <li><code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> &rarr; The incoming branch's version</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>How to Resolve &mdash; Step by Step</h3>
+    <ol class="step-list">
+      <li>Don't panic. Open the conflicting file.</li>
+      <li>Read both versions. Decide which is correct (or combine them).</li>
+      <li>Delete the conflict markers and leave only the correct code.</li>
+      <li>Save the file.</li>
+      <li><pre><code>git add index.html
+git commit -m "Resolve merge conflict in hero heading"</code></pre></li>
+    </ol>
+  </div>
+
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid #0366d6;">
+      <h4>VS Code</h4>
+      <p>Shows conflicts with "Accept Current", "Accept Incoming", "Accept Both" buttons &mdash; no manual marker removal needed.</p>
+    </div>
+    <div class="card" style="border-top:3px solid #6f42c1;">
+      <h4>GitHub Web Editor</h4>
+      <p>Can resolve simple conflicts directly in the browser during a Pull Request.</p>
+    </div>
+  </div>
+  <div class="callout callout-success" style="margin-top:14px;">
+    <span class="callout-icon">&#128161;</span>
+    <p><strong>Best Prevention:</strong> Pull before you push, merge main into your branch regularly, and keep branches short-lived. The longer a branch lives, the more conflicts accumulate.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 15 — BEST PRACTICES -->
+<section class="section" id="best-practices">
+  <div class="section-title"><div class="icon">&#9989;</div> Best Practices</div>
+  <p class="section-subtitle">Simple habits that make you a professional Git user from day one</p>
+
+  <div class="bp-grid">
+    <div class="bp-item"><h4>&#9989; Commit Often, Commit Small</h4><p>Small commits = easy history, easy bug-finding, easy to revert. Don't wait until you've written 500 lines.</p></div>
+    <div class="bp-item"><h4>&#9989; Write Meaningful Commit Messages</h4><p>Format: verb + what + context. "Fix calculation bug in invoice total" beats "changes" every time.</p></div>
+    <div class="bp-item"><h4>&#9989; Always Use Branches</h4><p>Main should always be deployable. Never work directly on it. One branch per feature or bug fix.</p></div>
+    <div class="bp-item"><h4>&#9989; Pull Before You Push</h4><p>Always pull the latest before pushing yours. Prevents conflicts and protects others' work.</p></div>
+    <div class="bp-item"><h4>&#9989; Never Commit Secrets</h4><p>Always put <code>.env</code> in <code>.gitignore</code>. Once a secret is in history, it's considered compromised.</p></div>
+    <div class="bp-item"><h4>&#9989; Write a README</h4><p>Explain: what it does, how to set it up, how to run it. Future you will thank present you.</p></div>
+    <div class="bp-item"><h4>&#9989; Set Up .gitignore at Start</h4><p>Before your first commit. Use <a href="https://gitignore.io" target="_blank" style="color:var(--accent);">gitignore.io</a> to generate the right entries.</p></div>
+    <div class="bp-item"><h4>&#9989; Keep Branches Short-Lived</h4><p>The longer a branch lives without merging, the more conflicts accumulate. Break large features into smaller PRs.</p></div>
+    <div class="bp-item"><h4>&#9989; Use git revert on Shared Branches</h4><p>Never use <code>git reset --hard</code> on shared branches. Use <code>git revert</code> &mdash; safe, preserves history.</p></div>
+    <div class="bp-item"><h4>&#9989; Use Git History as a Superpower</h4><p><code>git log</code>, <code>git diff</code>, <code>git blame</code>. When something breaks, they help pinpoint exactly what changed.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 16 — FAQ -->
+<section class="section" id="faq">
+  <div class="section-title"><div class="icon">&#10067;</div> Beginner FAQ</div>
+  <p class="section-subtitle">Honest answers to the questions every beginner is afraid to ask</p>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span style="font-size:1.1rem;">&#128551;</span><span class="acc-title">Is Git difficult to learn?</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p>Git feels difficult at first because many commands are introduced all at once. But in daily work you use only 8&ndash;10 commands repeatedly. Once those become habit (usually 2&ndash;3 weeks), Git feels automatic. The hardest part is the first 3 days.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span style="font-size:1.1rem;">&#127760;</span><span class="acc-title">Do I need GitHub to use Git?</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p>No! Git works completely offline. You can create repos, commit, branch, and merge entirely locally. GitHub is only needed when you want to share code with others, back it up online, or collaborate as a team.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span style="font-size:1.1rem;">&#8617;&#65039;</span><span class="acc-title">Can I undo mistakes in Git?</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p>Yes! This is one of Git's biggest strengths. Use <code>git revert</code> to safely undo commits. Use <code>git reset</code> to unstage files. Use <code>git restore</code> to discard working directory changes. The only hard-to-undo situation is <code>git reset --hard</code> after you've lost uncommitted work &mdash; which is why committing frequently matters.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span style="font-size:1.1rem;">&#128165;</span><span class="acc-title">What if I commit wrong code?</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p>Not pushed yet: <code>git reset --soft HEAD~1</code> undoes the commit but keeps your files. Already pushed: <code>git revert [commit-id]</code> creates a new commit that reverses the changes. Never use <code>git push --force</code> on a shared branch.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span style="font-size:1.1rem;">&#128465;&#65039;</span><span class="acc-title">What if I accidentally deleted a file?</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p>Deleted and not committed yet: <code>git restore deleted-file.js</code> brings it back instantly. Already committed the deletion: <code>git revert [commit-id]</code> will bring the file back. Git almost never truly loses your data if you've been committing regularly.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span style="font-size:1.1rem;">&#127807;</span><span class="acc-title">Why are branches useful?</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p>Branches let you work on new things without risking your stable code. Think of them as parallel universes. If an experiment works, you merge it. If it fails, delete the branch &mdash; nothing is lost. In teams, branches allow multiple developers to work simultaneously without interfering with each other.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span style="font-size:1.1rem;">&#128561;</span><span class="acc-title">I got a merge conflict &mdash; am I in trouble?</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p>Not at all! Merge conflicts are completely normal. It's just Git saying "two people changed the same line &mdash; please tell me which version to keep." Open the file, pick the right version, delete the conflict markers, save, stage, and commit. See Section 14 for the full walkthrough.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <span style="font-size:1.1rem;">&#128737;&#65039;</span><span class="acc-title">What is the safest beginner workflow?</span><i class="chevron">&#9660;</i>
+    </div>
+    <div class="accordion-body">
+      <p>1. Pull from main every morning. 2. Create a new branch for each task. 3. Commit often with clear messages. 4. Push your branch at end of day. 5. Create a PR when done. 6. Never use <code>--force</code>. 7. Use <code>git revert</code> for undoing, not <code>git reset --hard</code>.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 17 — 7-DAY PLAN -->
+<section class="section" id="seven-day">
+  <div class="section-title"><div class="icon">&#128197;</div> 7-Day Learning Plan</div>
+  <p class="section-subtitle">One week from zero to confident &mdash; a practical daily plan for beginners</p>
+
+  <div class="callout callout-success" style="margin-bottom:20px;">
+    <span class="callout-icon">&#128161;</span>
+    <p><strong>How to Follow This Plan:</strong> Spend 30&ndash;60 minutes each day. Actually type the commands &mdash; don't just read. Create a practice folder on your computer. By Day 7 you'll be doing real Git workflows confidently.</p>
+  </div>
+
+  <div class="day-grid">
+    <div class="day-card">
+      <div class="day-num">Day 1</div>
+      <h4>&#129504; Understand the Concepts</h4>
+      <ul>
+        <li>Read Sections 1&ndash;4 of this guide</li>
+        <li>Understand Git vs GitHub</li>
+        <li>Read Section 6 &mdash; all key terms</li>
+        <li>No commands yet &mdash; just read and understand</li>
+      </ul>
+    </div>
+    <div class="day-card">
+      <div class="day-num">Day 2</div>
+      <h4>&#9881;&#65039; Setup Git</h4>
+      <ul>
+        <li>Install Git on your computer</li>
+        <li>Run <code>git --version</code></li>
+        <li>Configure name and email</li>
+        <li>Create a GitHub account (free)</li>
+      </ul>
+    </div>
+    <div class="day-card">
+      <div class="day-num">Day 3</div>
+      <h4>&#128230; Init, Add, Commit</h4>
+      <ul>
+        <li>Create a practice folder</li>
+        <li>Run <code>git init</code></li>
+        <li>Create 2&ndash;3 files</li>
+        <li>Practice <code>git add</code> and <code>git commit</code></li>
+        <li>Make 5 commits today</li>
+      </ul>
+    </div>
+    <div class="day-card">
+      <div class="day-num">Day 4</div>
+      <h4>&#127760; GitHub Push &amp; Pull</h4>
+      <ul>
+        <li>Create a repo on GitHub</li>
+        <li>Connect with <code>git remote add</code></li>
+        <li>Push your Day 3 commits</li>
+        <li>Edit a file on GitHub.com</li>
+        <li>Pull changes to your local machine</li>
+      </ul>
+    </div>
+    <div class="day-card">
+      <div class="day-num">Day 5</div>
+      <h4>&#127807; Branching</h4>
+      <ul>
+        <li>Create a new branch <code>feature/test</code></li>
+        <li>Make changes and commit on the branch</li>
+        <li>Switch back to main</li>
+        <li>Observe main is unchanged</li>
+        <li>Push the branch to GitHub</li>
+      </ul>
+    </div>
+    <div class="day-card">
+      <div class="day-num">Day 6</div>
+      <h4>&#128256; Merge &amp; Conflicts</h4>
+      <ul>
+        <li>Merge your feature branch into main</li>
+        <li>Intentionally create a conflict</li>
+        <li>Resolve it in VS Code</li>
+        <li>Commit the resolved conflict</li>
+      </ul>
+    </div>
+    <div class="day-card">
+      <div class="day-num">Day 7</div>
+      <h4>&#127919; Real Project Workflow</h4>
+      <ul>
+        <li>Start a mini real project</li>
+        <li>Follow Section 11 &mdash; Daily Workflow</li>
+        <li>Create a PR on GitHub and merge it</li>
+        <li>Practice <code>git stash</code></li>
+        <li>Review your full commit history</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-info" style="margin-top:20px;">
+    <span class="callout-icon">&#128204;</span>
+    <p><strong>After 7 Days:</strong> Weeks 2&ndash;3 &mdash; use Git for every project. Month 2 &mdash; interactive rebase, cherry-pick. Month 3 &mdash; CI/CD with GitHub Actions, branch protection, full PR workflows.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 18 — REVISION -->
+<section class="section" id="revision">
+  <div class="section-title"><div class="icon">&#127919;</div> Final Revision &mdash; Quick Recap &amp; Confidence Builder</div>
+  <p class="section-subtitle">Everything you need to remember, in one place. You're ready.</p>
+
+  <div class="card" style="margin-bottom:16px;border-top:3px solid var(--accent);">
+    <h3>&#127937; Quick Recap</h3>
+    <ul>
+      <li><strong>Git</strong> = tool on your computer that tracks code changes over time (offline, local)</li>
+      <li><strong>GitHub</strong> = website that hosts Git repos for team collaboration (online)</li>
+      <li><strong>Commit</strong> = a saved snapshot of your changes with a message</li>
+      <li><strong>Branch</strong> = a parallel version of your code for safe experimentation</li>
+      <li><strong>Pull Request</strong> = proposal to merge your branch, reviewed by team on GitHub</li>
+      <li><strong>Core Flow:</strong> Edit &rarr; <code>git add</code> &rarr; <code>git commit</code> &rarr; <code>git push</code></li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>&#9889; If You Remember Only These 10 Commands...</h3>
+    <div class="cheat-grid">
+      <div class="cheat-item"><span class="cheat-cmd">git init</span><span class="cheat-desc">Start tracking a folder</span></div>
+      <div class="cheat-item"><span class="cheat-cmd">git clone &lt;url&gt;</span><span class="cheat-desc">Download a project from GitHub</span></div>
+      <div class="cheat-item"><span class="cheat-cmd">git status</span><span class="cheat-desc">See what changed (use constantly)</span></div>
+      <div class="cheat-item"><span class="cheat-cmd">git add .</span><span class="cheat-desc">Stage all changes</span></div>
+      <div class="cheat-item"><span class="cheat-cmd">git commit -m "msg"</span><span class="cheat-desc">Save a snapshot with message</span></div>
+      <div class="cheat-item"><span class="cheat-cmd">git push</span><span class="cheat-desc">Upload commits to GitHub</span></div>
+      <div class="cheat-item"><span class="cheat-cmd">git pull</span><span class="cheat-desc">Download latest from GitHub</span></div>
+      <div class="cheat-item"><span class="cheat-cmd">git switch -c &lt;name&gt;</span><span class="cheat-desc">Create and move to new branch</span></div>
+      <div class="cheat-item"><span class="cheat-cmd">git merge &lt;branch&gt;</span><span class="cheat-desc">Merge branch into current</span></div>
+      <div class="cheat-item"><span class="cheat-cmd">git log --oneline</span><span class="cheat-desc">See compact commit history</span></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>&#128203; Full Mini Cheat Sheet</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Command</th><th>What It Does</th></tr>
+        <tr><td><code>git init</code></td><td>Initialize new repo</td></tr>
+        <tr><td><code>git clone &lt;url&gt;</code></td><td>Download repo from GitHub</td></tr>
+        <tr><td><code>git status</code></td><td>See changed / staged / untracked files</td></tr>
+        <tr><td><code>git add .</code></td><td>Stage all changes</td></tr>
+        <tr><td><code>git commit -m "msg"</code></td><td>Commit with message</td></tr>
+        <tr><td><code>git log --oneline</code></td><td>View compact history</td></tr>
+        <tr><td><code>git diff</code></td><td>See exact line changes</td></tr>
+        <tr><td><code>git push</code></td><td>Upload to GitHub</td></tr>
+        <tr><td><code>git pull</code></td><td>Download from GitHub</td></tr>
+        <tr><td><code>git branch</code></td><td>List branches</td></tr>
+        <tr><td><code>git switch -c &lt;name&gt;</code></td><td>Create + switch to new branch</td></tr>
+        <tr><td><code>git switch &lt;name&gt;</code></td><td>Switch to existing branch</td></tr>
+        <tr><td><code>git merge &lt;branch&gt;</code></td><td>Merge branch into current</td></tr>
+        <tr><td><code>git stash</code></td><td>Temporarily save work</td></tr>
+        <tr><td><code>git stash pop</code></td><td>Restore stashed work</td></tr>
+        <tr><td><code>git revert &lt;id&gt;</code></td><td>Safely undo a commit</td></tr>
+        <tr><td><code>git remote -v</code></td><td>Show remote connections</td></tr>
+        <tr><td><code>git remote add origin &lt;url&gt;</code></td><td>Connect to GitHub remote</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3>&#127947;&#65039; Practice Exercise &mdash; Do This Right Now</h3>
+    <pre><code><span class="cm"># 1. Create a practice project</span>
+mkdir git-practice && cd git-practice && git init
+
+<span class="cm"># 2. Create and commit 3 files</span>
+echo "Hello World" > hello.txt
+git add hello.txt && git commit -m "Add hello.txt"
+
+echo "Notes here" > notes.txt
+git add notes.txt && git commit -m "Add notes.txt"
+
+echo "# My Practice Project" > README.md
+git add README.md && git commit -m "Add README"
+
+<span class="cm"># 3. Create a branch and add a file</span>
+git switch -c feature/add-about
+echo "About me: I'm learning Git!" > about.txt
+git add about.txt && git commit -m "Add about page content"
+
+<span class="cm"># 4. Merge back to main</span>
+git switch main && git merge feature/add-about
+
+<span class="cm"># 5. View your history</span>
+git log --oneline
+
+<span class="out"># &#127881; Congratulations &mdash; you just completed a real Git workflow!</span></code></pre>
+  </div>
+
+  <div class="card">
+    <h3>&#128218; Recommended Next Steps</h3>
+    <ul>
+      <li><a href="https://learngitbranching.js.org/" target="_blank" rel="noopener" style="color:var(--accent);">learngitbranching.js.org</a> &mdash; interactive visual Git learning (highly recommended)</li>
+      <li><a href="https://ohshitgit.com/" target="_blank" rel="noopener" style="color:var(--accent);">ohshitgit.com</a> &mdash; practical fixes for common Git mistakes</li>
+      <li><a href="https://gitignore.io" target="_blank" rel="noopener" style="color:var(--accent);">gitignore.io</a> &mdash; generate .gitignore for any tech stack</li>
+      <li><a href="https://docs.github.com/en/get-started" target="_blank" rel="noopener" style="color:var(--accent);">GitHub Getting Started Docs</a></li>
+    </ul>
+    <div class="callout callout-success" style="margin-top:14px;">
+      <span class="callout-icon">&#127775;</span>
+      <p><strong>Final Words:</strong> Git becomes natural with repetition. Every professional developer felt confused at first. Start using Git today for every project, no matter how small. Within a month it will feel like breathing. You've got this! &#128170;</p>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+<script>
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop || document.body.scrollTop;
+  const total = doc.scrollHeight - doc.clientHeight;
+  document.getElementById('progress-bar').style.width = (scrolled / total * 100) + '%';
+  const sections = document.querySelectorAll('section[id]');
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  document.querySelectorAll('.top-nav a, .sidebar a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+  });
+  document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 300);
+});
+
+function toggleAccordion(header) {
+  const body = header.nextElementSibling;
+  const isOpen = header.classList.contains('open');
+  header.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+function doSearch(q) {
+  q = q.trim().toLowerCase();
+  const count = document.getElementById('searchCount');
+  document.querySelectorAll('.main-content p, .main-content li, .main-content td, .main-content h2, .main-content h3, .main-content h4').forEach(el => el.style.background = '');
+  if (!q) { count.textContent = ''; return; }
+  let found = 0;
+  document.querySelectorAll('.main-content p, .main-content li, .main-content td, .main-content h2, .main-content h3, .main-content h4').forEach(el => {
+    if (el.textContent.toLowerCase().includes(q)) { el.style.background = '#fff5b1'; found++; }
+  });
+  count.textContent = found ? found + ' matches' : 'No matches';
+}
+</script>
+</body>
+</html>

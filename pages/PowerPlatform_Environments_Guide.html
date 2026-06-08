@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power Platform Environments – Master Guide</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230078d4'/%3E%3Ccircle cx='16' cy='12' r='5' fill='white' opacity='.9'/%3E%3Ccircle cx='8' cy='22' r='4' fill='white' opacity='.7'/%3E%3Ccircle cx='24' cy='22' r='4' fill='white' opacity='.7'/%3E%3C/svg%3E">
+<style>
+:root {
+  --primary: #0078d4;
+  --primary-dark: #005a9e;
+  --primary-light: #deecf9;
+  --accent: #00b7c3;
+  --accent2: #8764b8;
+  --bg: #f3f2f1;
+  --card: #ffffff;
+  --text: #201f1e;
+  --text-muted: #605e5c;
+  --border: #edebe9;
+  --success: #107c10;
+  --success-bg: #dff6dd;
+  --warning: #d83b01;
+  --warning-bg: #fed9cc;
+  --info-bg: #f0f6ff;
+  --tag-bg: #e8f4fd;
+  --tag-text: #005a9e;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; font-size: 15px; }
+
+#progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); width: 0%; z-index: 9999; transition: width 0.1s; }
+
+.top-nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex; align-items: center; gap: 0;
+  height: 52px; overflow-x: auto;
+}
+.top-nav a { white-space: nowrap; padding: 0 14px; height: 52px; display: flex; align-items: center; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.top-nav a:hover, .top-nav a.active { color: var(--primary); border-bottom-color: var(--primary); }
+.top-nav .nav-logo { font-weight: 700; font-size: 0.9rem; color: var(--primary); margin-right: 12px; white-space: nowrap; }
+
+.hero { background: linear-gradient(135deg, #003a6c 0%, #005a9e 45%, #0078d4 80%, #00b7c3 100%); color: white; padding: 64px 40px 56px; }
+.hero-inner { max-width: 900px; margin: 0 auto; }
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 14px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 20px; }
+.hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.2; margin-bottom: 14px; }
+.hero p { font-size: 1.05rem; opacity: 0.88; max-width: 680px; margin-bottom: 28px; }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.hero-tag { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; }
+.doc-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 16px; font-size: 0.8rem; }
+
+.search-strip { background: white; border-bottom: 1px solid var(--border); padding: 12px 40px; display: flex; align-items: center; gap: 10px; }
+.search-strip input { flex: 1; max-width: 520px; padding: 8px 14px 8px 36px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.88rem; outline: none; transition: border-color 0.2s; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23605e5c' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 10px center; background-size: 16px; }
+.search-strip input:focus { border-color: var(--primary); }
+.search-count { font-size: 0.8rem; color: var(--text-muted); }
+
+.page-body { display: flex; max-width: 1400px; margin: 0 auto; }
+.sidebar { width: 230px; min-width: 230px; position: sticky; top: 52px; height: calc(100vh - 52px); overflow-y: auto; padding: 20px 0; border-right: 1px solid var(--border); background: var(--card); }
+.sidebar a { display: block; padding: 6px 20px; font-size: 0.82rem; color: var(--text-muted); text-decoration: none; border-left: 2px solid transparent; transition: all 0.15s; }
+.sidebar a:hover, .sidebar a.active { color: var(--primary); border-left-color: var(--primary); background: var(--primary-light); }
+.sidebar .sidebar-group { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.8px; color: var(--text-muted); padding: 14px 20px 4px; text-transform: uppercase; }
+.main-content { flex: 1; padding: 40px; min-width: 0; }
+
+.section { margin-bottom: 56px; }
+.section-title { font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+.section-title .icon { width: 32px; height: 32px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem; flex-shrink: 0; }
+.section-subtitle { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 24px; }
+.divider { height: 1px; background: var(--border); margin: 40px 0; }
+
+.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); }
+.card + .card { margin-top: 16px; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.env-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); transition: box-shadow 0.2s, transform 0.2s; }
+.env-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.env-card-header { padding: 18px 20px 14px; color: white; }
+.env-card-body { padding: 16px 20px; }
+.env-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.env-card p { font-size: 0.82rem; opacity: 0.9; }
+
+.env-default { background: linear-gradient(135deg, #605e5c, #323130); }
+.env-production { background: linear-gradient(135deg, #005a9e, #0078d4); }
+.env-sandbox { background: linear-gradient(135deg, #008272, #00b7c3); }
+.env-trial { background: linear-gradient(135deg, #8764b8, #c239b3); }
+.env-developer { background: linear-gradient(135deg, #d83b01, #ff8c00); }
+.env-teams { background: linear-gradient(135deg, #464eb8, #6264a7); }
+.env-managed { background: linear-gradient(135deg, #004b50, #107c10); }
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+th { background: var(--primary); color: white; padding: 10px 12px; text-align: left; font-weight: 600; white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tr:nth-child(even) td { background: #faf9f8; }
+tr:hover td { background: var(--primary-light); }
+.check { color: var(--success); font-weight: 700; }
+.cross { color: var(--warning); font-weight: 700; }
+.partial { color: #797673; }
+
+.chip { display: inline-flex; align-items: center; gap: 4px; background: var(--tag-bg); color: var(--tag-text); border-radius: 4px; padding: 2px 8px; font-size: 0.75rem; font-weight: 600; margin: 2px; }
+.chip.green { background: var(--success-bg); color: #054b05; }
+.chip.orange { background: var(--warning-bg); color: #611200; }
+.chip.purple { background: #f0ebf8; color: #5c2d91; }
+.chip.gray { background: #edebe9; color: #323130; }
+.chip.teal { background: #e0f8f7; color: #004b50; }
+
+.callout { border-radius: var(--radius); padding: 14px 18px; margin: 16px 0; display: flex; gap: 12px; align-items: flex-start; }
+.callout .callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.callout-info { background: var(--info-bg); border-left: 3px solid var(--primary); }
+.callout-warn { background: var(--warning-bg); border-left: 3px solid var(--warning); }
+.callout-success { background: var(--success-bg); border-left: 3px solid var(--success); }
+.callout-purple { background: #f0ebf8; border-left: 3px solid var(--accent2); }
+.callout p { font-size: 0.86rem; line-height: 1.55; }
+
+.accordion { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 8px; }
+.accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--card); cursor: pointer; font-weight: 600; font-size: 0.9rem; user-select: none; transition: background 0.15s; }
+.accordion-header:hover { background: var(--primary-light); }
+.accordion-header .chevron { transition: transform 0.25s; font-style: normal; }
+.accordion-header.open .chevron { transform: rotate(180deg); }
+.accordion-body { display: none; padding: 16px 18px; background: white; border-top: 1px solid var(--border); font-size: 0.86rem; }
+.accordion-body.open { display: block; }
+
+.tab-strip { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 20px; overflow-x: auto; }
+.tab-btn { padding: 10px 18px; font-size: 0.84rem; font-weight: 600; color: var(--text-muted); border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap; }
+.tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+.tab-btn:hover { color: var(--primary); background: var(--primary-light); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.env-deep { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 24px; box-shadow: var(--shadow); }
+.env-deep-header { padding: 20px 24px; color: white; display: flex; align-items: center; gap: 14px; }
+.env-deep-header h2 { font-size: 1.2rem; font-weight: 700; }
+.env-deep-header .env-icon { font-size: 1.8rem; }
+.env-deep-header p { font-size: 0.84rem; opacity: 0.9; margin-top: 2px; }
+.env-deep-body { padding: 24px; }
+.deep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.deep-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.deep-box { background: var(--bg); border-radius: var(--radius); padding: 14px 16px; }
+.deep-box h4 { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 8px; }
+.deep-box ul { padding-left: 16px; font-size: 0.84rem; }
+.deep-box ul li { margin-bottom: 4px; }
+.deep-box p { font-size: 0.84rem; }
+
+.strategy-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow); }
+.strategy-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+
+.dtree { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; }
+.dt-question { font-weight: 700; font-size: 1rem; margin-bottom: 14px; }
+.dt-options { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.dt-btn { padding: 8px 18px; border-radius: 6px; border: 1.5px solid var(--primary); background: white; color: var(--primary); font-size: 0.86rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.dt-btn:hover, .dt-btn.selected { background: var(--primary); color: white; }
+.dt-result { background: var(--success-bg); border: 1px solid var(--success); border-radius: var(--radius); padding: 16px 20px; margin-top: 16px; display: none; }
+.dt-result.show { display: block; }
+.dt-result h3 { color: var(--success); font-size: 1rem; margin-bottom: 6px; }
+.dt-back { margin-top: 10px; font-size: 0.82rem; color: var(--primary); cursor: pointer; text-decoration: underline; }
+
+.matrix-wrap { overflow-x: auto; }
+.matrix-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.matrix-table th { background: var(--primary); color: white; padding: 8px 10px; text-align: center; font-weight: 600; white-space: nowrap; }
+.matrix-table th:first-child { text-align: left; min-width: 160px; }
+.matrix-table td { padding: 7px 10px; border: 1px solid var(--border); text-align: center; }
+.matrix-table td:first-child { text-align: left; font-weight: 600; background: #faf9f8; }
+.matrix-table tr:hover td { background: var(--primary-light); }
+
+.bp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.bp-item { background: var(--success-bg); border-left: 3px solid var(--success); border-radius: var(--radius); padding: 12px 16px; }
+.bp-item h4 { font-size: 0.85rem; font-weight: 700; color: #054b05; margin-bottom: 4px; }
+.bp-item p { font-size: 0.82rem; color: var(--text-muted); }
+.ap-item { background: var(--warning-bg); border-left: 3px solid var(--warning); border-radius: var(--radius); padding: 12px 16px; }
+.ap-item h4 { font-size: 0.85rem; font-weight: 700; color: #611200; margin-bottom: 4px; }
+.ap-item p { font-size: 0.82rem; color: var(--text-muted); }
+
+.scenario-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.scenario-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; box-shadow: var(--shadow); transition: box-shadow 0.2s; }
+.scenario-card:hover { box-shadow: var(--shadow-lg); }
+.scenario-card h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 6px; }
+.scenario-card .rec-badge { display: inline-block; background: var(--primary); color: white; font-size: 0.75rem; font-weight: 700; border-radius: 4px; padding: 2px 8px; margin-bottom: 6px; }
+.scenario-card p { font-size: 0.8rem; color: var(--text-muted); }
+
+.checklist li { list-style: none; padding: 6px 0 6px 28px; font-size: 0.86rem; position: relative; border-bottom: 1px solid var(--border); }
+.checklist li::before { content: '\2713'; position: absolute; left: 4px; color: var(--success); font-weight: 700; }
+
+.ref-list a { color: var(--primary); text-decoration: none; font-size: 0.86rem; }
+.ref-list a:hover { text-decoration: underline; }
+.ref-list li { padding: 4px 0; }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main-content { padding: 24px 16px; }
+  .deep-grid, .deep-grid-3, .bp-grid { grid-template-columns: 1fr; }
+  .hero { padding: 40px 20px 32px; }
+  .search-strip { padding: 10px 16px; }
+}
+@media (max-width: 600px) {
+  .card-grid { grid-template-columns: 1fr; }
+  .scenario-grid { grid-template-columns: 1fr; }
+  .top-nav { display: none; }
+}
+@media print {
+  .top-nav, .sidebar, .search-strip, #progress-bar { display: none; }
+  .main-content { padding: 0; }
+  .env-deep { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<nav class="top-nav">
+  <span class="nav-logo">&#9670; PP Environments</span>
+  <a href="#overview">Overview</a>
+  <a href="#comparison">Comparison</a>
+  <a href="#deep-dive">Deep Dive</a>
+  <a href="#roles">Role Matrix</a>
+  <a href="#dataverse">Dataverse &amp; Security</a>
+  <a href="#trial">Trials</a>
+  <a href="#developer">Developer Env</a>
+  <a href="#teams">Dataverse for Teams</a>
+  <a href="#managed">Managed Envs</a>
+  <a href="#strategy">Strategy Patterns</a>
+  <a href="#decision">Decision Guide</a>
+  <a href="#bestpractices">Best Practices</a>
+  <a href="#architecture">Architecture</a>
+  <a href="#summary">Summary</a>
+</nav>
+
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-badge">&#9670; Power Platform Master Reference</div>
+    <h1>Power Platform Environments<br>Master Guide</h1>
+    <p>The complete reference for architects, administrators, makers, and developers. Understand every environment type, when to use each, how they affect governance, security, and ALM — and make the right choice every time.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">&#128736; Architecture</span>
+      <span class="hero-tag">&#128274; Governance</span>
+      <span class="hero-tag">&#128260; ALM</span>
+      <span class="hero-tag">&#128272; Security</span>
+      <span class="hero-tag">&#9881; Maker Enablement</span>
+      <span class="hero-tag">&#128202; Decision Guide</span>
+    </div>
+    <div class="doc-badge">&#128203; Documentation-aligned: June 2026 &nbsp;|&nbsp; Verify licensing details against current Microsoft documentation</div>
+  </div>
+</section>
+
+<div class="search-strip">
+  <input type="text" id="searchInput" placeholder="Search environments, features, roles..." oninput="doSearch(this.value)">
+  <span class="search-count" id="searchCount"></span>
+</div>
+
+<div class="page-body">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">Introduction</div>
+  <a href="#overview">Executive Summary</a>
+  <a href="#comparison">Quick Comparison</a>
+  <div class="sidebar-group">Environment Types</div>
+  <a href="#env-default">Default</a>
+  <a href="#env-production">Production</a>
+  <a href="#env-sandbox">Sandbox</a>
+  <a href="#env-trial">Trial</a>
+  <a href="#env-developer">Developer</a>
+  <a href="#env-teams">Dataverse for Teams</a>
+  <a href="#env-managed">Managed Envs</a>
+  <div class="sidebar-group">Deep Analysis</div>
+  <a href="#roles">Role &amp; Capability Matrix</a>
+  <a href="#dataverse">Dataverse &amp; Security</a>
+  <a href="#trial">Trial Deep Dive</a>
+  <a href="#developer">Developer Deep Dive</a>
+  <a href="#teams">Teams Deep Dive</a>
+  <a href="#managed">Managed Deep Dive</a>
+  <div class="sidebar-group">Planning</div>
+  <a href="#strategy">Strategy Patterns</a>
+  <a href="#decision">Decision Guide</a>
+  <a href="#bestpractices">Best Practices</a>
+  <a href="#architecture">Architecture Guide</a>
+  <a href="#summary">Summary &amp; Checklist</a>
+</aside>
+
+<main class="main-content">
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="section" id="overview">
+  <div class="section-title"><div class="icon">&#128196;</div> Executive Summary</div>
+  <p class="section-subtitle">What environments are, why they matter, and the foundational concepts every practitioner must understand.</p>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:10px;">What is a Power Platform Environment?</h3>
+    <p style="font-size:0.88rem;margin-bottom:10px;">A <strong>Power Platform environment</strong> is a container that stores, manages, and shares your organization's business data, apps, flows, chatbots, and connections. Every Power Platform resource — whether a Canvas App, a Power Automate flow, or a Dataverse table — exists within exactly one environment.</p>
+    <p style="font-size:0.88rem;">Environments act as security, governance, and lifecycle boundaries. They control who can see what, where data lives, what policies apply, and how solutions move from development to production.</p>
+  </div>
+
+  <div class="card-grid" style="margin-bottom:20px;">
+    <div class="card" style="border-top:3px solid var(--primary);">
+      <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:6px;">&#128272; Security Boundary</h4>
+      <p style="font-size:0.82rem;">Access to an environment is controlled by roles. Without an explicit role assignment, tenant users cannot access another environment's resources. Security groups can restrict who can even access the environment.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent);">
+      <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:6px;">&#128260; ALM Boundary</h4>
+      <p style="font-size:0.82rem;">Solutions are exported from one environment and imported to another. A healthy ALM strategy uses separate Dev, Test/UAT, and Production environments. You cannot have ALM without environment discipline.</p>
+    </div>
+    <div class="card" style="border-top:3px solid #8764b8;">
+      <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:6px;">&#128274; Governance Boundary</h4>
+      <p style="font-size:0.82rem;">Data Loss Prevention (DLP) policies are applied at the tenant or environment level. Different environments can have different DLP policies, enabling you to permit premium connectors in controlled zones and restrict them elsewhere.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--success);">
+      <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:6px;">&#127758; Data Residency</h4>
+      <p style="font-size:0.82rem;">Each environment is tied to a geographic region. Data stored in Dataverse within that environment stays in the selected region. This is critical for compliance, data sovereignty, and regulatory requirements.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">&#9888;</span>
+    <p><strong>Common misconception:</strong> Many organizations treat the Default environment as a general-purpose workspace. The Default environment is accessible to all licensed users in the tenant and should never host sensitive business applications or production data.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- QUICK COMPARISON -->
+<section class="section" id="comparison">
+  <div class="section-title"><div class="icon">&#9733;</div> Quick Comparison Overview</div>
+  <p class="section-subtitle">Side-by-side view of all environment types across key attributes.</p>
+
+  <div class="card-grid" style="margin-bottom:28px;">
+    <div class="env-card"><div class="env-card-header env-default"><h3>Default</h3><p>Auto-created, tenant-wide</p></div><div class="env-card-body"><span class="chip gray">Permanent</span><span class="chip teal">Dataverse Optional</span><span class="chip orange">Not for Production</span></div></div>
+    <div class="env-card"><div class="env-card-header env-production"><h3>Production</h3><p>Live workloads, real users</p></div><div class="env-card-body"><span class="chip green">Permanent</span><span class="chip teal">Dataverse Supported</span><span class="chip green">Production Ready</span></div></div>
+    <div class="env-card"><div class="env-card-header env-sandbox"><h3>Sandbox</h3><p>Dev, Test, UAT, training</p></div><div class="env-card-body"><span class="chip green">Permanent</span><span class="chip teal">Dataverse Supported</span><span class="chip green">Reset / Copy</span></div></div>
+    <div class="env-card"><div class="env-card-header env-trial"><h3>Trial</h3><p>Short-lived exploration</p></div><div class="env-card-body"><span class="chip orange">Temporary 30 days</span><span class="chip teal">Dataverse Supported</span><span class="chip gray">Convertible</span></div></div>
+    <div class="env-card"><div class="env-card-header env-developer"><h3>Developer</h3><p>Personal development env</p></div><div class="env-card-body"><span class="chip gray">Semi-permanent</span><span class="chip teal">Dataverse Included</span><span class="chip orange">Solo Use Only</span></div></div>
+    <div class="env-card"><div class="env-card-header env-teams"><h3>Dataverse for Teams</h3><p>Lightweight, Teams-native</p></div><div class="env-card-body"><span class="chip gray">Teams-lifecycle</span><span class="chip teal">Limited Dataverse</span><span class="chip orange">Teams Users Only</span></div></div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Attribute</th>
+          <th>Default</th>
+          <th>Production</th>
+          <th>Sandbox</th>
+          <th>Trial</th>
+          <th>Developer</th>
+          <th>Dataverse for Teams</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Intended Purpose</strong></td><td>Tenant fallback</td><td>Live workloads</td><td>Dev/Test/UAT</td><td>Exploration/PoC</td><td>Personal dev</td><td>Teams collaboration</td></tr>
+        <tr><td><strong>Permanent?</strong></td><td class="check">Yes</td><td class="check">Yes</td><td class="check">Yes</td><td class="cross">No (30 days)</td><td class="partial">Yes*</td><td class="partial">Until Team deleted</td></tr>
+        <tr><td><strong>Dataverse Supported?</strong></td><td class="partial">Optional</td><td class="check">Yes</td><td class="check">Yes</td><td class="check">Yes</td><td class="check">Yes (included)</td><td class="partial">Limited subset</td></tr>
+        <tr><td><strong>Good for Production?</strong></td><td class="cross">No</td><td class="check">Yes</td><td class="cross">No</td><td class="cross">No</td><td class="cross">No</td><td class="cross">No</td></tr>
+        <tr><td><strong>Good for Development?</strong></td><td class="cross">No</td><td class="cross">No</td><td class="check">Yes</td><td class="partial">PoC only</td><td class="check">Yes</td><td class="partial">Simple apps</td></tr>
+        <tr><td><strong>Can be Reset?</strong></td><td class="cross">No</td><td class="cross">No</td><td class="check">Yes</td><td class="cross">No</td><td class="cross">No</td><td class="cross">No</td></tr>
+        <tr><td><strong>Can be Copied?</strong></td><td class="cross">No</td><td class="check">Yes</td><td class="check">Yes</td><td class="cross">No</td><td class="cross">No</td><td class="cross">No</td></tr>
+        <tr><td><strong>Convert to Production?</strong></td><td class="cross">No</td><td>N/A</td><td class="check">Yes</td><td class="check">Yes</td><td class="cross">No</td><td class="partial">Upgrade path</td></tr>
+        <tr><td><strong>Managed Env Eligible?</strong></td><td class="check">Yes</td><td class="check">Yes</td><td class="check">Yes</td><td class="cross">No</td><td class="cross">No</td><td class="cross">No</td></tr>
+        <tr><td><strong>Typical Owner</strong></td><td>Tenant Admin</td><td>Business Unit / CoE</td><td>Dev Team / CoE</td><td>Individual</td><td>Individual Developer</td><td>Team Owner</td></tr>
+        <tr><td><strong>Governance Level</strong></td><td>Low (open)</td><td>High</td><td>Medium-High</td><td>Very Low</td><td>Low</td><td>Low-Medium</td></tr>
+        <tr><td><strong>Full ALM Support?</strong></td><td class="cross">No</td><td class="check">Yes</td><td class="check">Yes</td><td class="partial">Limited</td><td class="check">Yes</td><td class="cross">No</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DEEP DIVE -->
+<section class="section" id="deep-dive">
+  <div class="section-title"><div class="icon">&#128270;</div> Deep Dive: Each Environment Type</div>
+  <p class="section-subtitle">Detailed breakdown of every environment type — capabilities, limitations, admin controls, and real-world guidance.</p>
+
+  <!-- DEFAULT -->
+  <div class="env-deep" id="env-default">
+    <div class="env-deep-header env-default">
+      <span class="env-icon">&#9632;</span>
+      <div><h2>Default Environment</h2><p>The automatically created tenant-wide environment. Every licensed user has access.</p></div>
+    </div>
+    <div class="env-deep-body">
+      <div class="tab-strip">
+        <button class="tab-btn active" onclick="switchTab(this,'def-overview')">Overview</button>
+        <button class="tab-btn" onclick="switchTab(this,'def-capabilities')">Capabilities</button>
+        <button class="tab-btn" onclick="switchTab(this,'def-limitations')">Limitations</button>
+        <button class="tab-btn" onclick="switchTab(this,'def-governance')">Governance</button>
+      </div>
+      <div id="def-overview" class="tab-panel active">
+        <div class="deep-grid">
+          <div class="deep-box"><h4>Definition</h4><p>Automatically created when the first user signs up for a Microsoft 365 or Dynamics 365 license in a tenant. There is exactly one Default environment per tenant. It cannot be deleted.</p></div>
+          <div class="deep-box"><h4>Who Creates It?</h4><p>Automatically provisioned by Microsoft. No admin action required. Named "[TenantName] (default)".</p></div>
+          <div class="deep-box"><h4>Who Has Access?</h4><p>Every licensed user in the tenant automatically has the <em>Environment Maker</em> role. This means any licensed user can create apps and flows here without explicit role assignment.</p></div>
+          <div class="deep-box"><h4>Dataverse</h4><p>Dataverse can be added to the Default environment, but is not present by default. Once added, it cannot be removed without recreating the environment (which is impossible for Default).</p></div>
+        </div>
+        <div class="callout callout-warn" style="margin-top:16px;">
+          <span class="callout-icon">&#9888;</span>
+          <p><strong>Enterprise Risk:</strong> Because all licensed users are Environment Makers by default, the Default environment can quickly become a sprawl zone. This is the single most common Power Platform governance failure in enterprises.</p>
+        </div>
+      </div>
+      <div id="def-capabilities" class="tab-panel">
+        <div class="deep-grid-3">
+          <div class="deep-box"><h4>What Makers Can Do</h4><ul><li>Create Canvas Apps</li><li>Create Power Automate flows</li><li>Create Copilot Studio bots (verify licensing)</li><li>Use standard connectors</li><li>Share apps with colleagues</li></ul></div>
+          <div class="deep-box"><h4>What Env Admins Can Do</h4><ul><li>Manage environment settings</li><li>Apply DLP policies at environment level</li><li>Remove maker roles (with care)</li><li>Enable Managed Environments</li><li>Review analytics via admin center</li></ul></div>
+          <div class="deep-box"><h4>What Tenant Admins Can Do</h4><ul><li>Enable/disable Managed Environments</li><li>Apply tenant-wide DLP policies</li><li>Rename the environment</li><li>Restrict who can be Environment Maker via tenant settings</li><li>Block user access (via security group — Verify in current docs)</li></ul></div>
+        </div>
+      </div>
+      <div id="def-limitations" class="tab-panel">
+        <ul style="font-size:0.86rem;padding-left:18px;">
+          <li style="margin-bottom:6px;">Cannot be deleted or permanently removed</li>
+          <li style="margin-bottom:6px;">Cannot be reset (unlike Sandbox)</li>
+          <li style="margin-bottom:6px;">Cannot be copied to another environment</li>
+          <li style="margin-bottom:6px;">All licensed users are automatically Environment Makers — cannot restrict without tenant-level policy changes</li>
+          <li style="margin-bottom:6px;">Poor choice for ALM — no proper dev/test/prod lifecycle</li>
+          <li style="margin-bottom:6px;">Managed Environments requires additional licensing (Verify in current Microsoft documentation)</li>
+          <li style="margin-bottom:6px;">Dataverse capacity counts against tenant allocation</li>
+        </ul>
+      </div>
+      <div id="def-governance" class="tab-panel">
+        <div class="callout callout-info">
+          <span class="callout-icon">&#128161;</span>
+          <p><strong>Governance Recommendation:</strong> In most enterprise deployments, the Default environment should be treated as a "citizen developer playground." Apply a restrictive DLP policy that blocks premium and sensitive connectors. Enable Managed Environments to gain usage insights and sharing controls.</p>
+        </div>
+        <div class="deep-grid" style="margin-top:14px;">
+          <div class="deep-box"><h4>Best For</h4><ul><li>Exploring Power Platform capabilities</li><li>Personal productivity flows (non-sensitive)</li><li>Tenant-level integration scenarios</li><li>Learning and training environments</li></ul></div>
+          <div class="deep-box"><h4>Avoid When</h4><ul><li>Building enterprise or departmental apps</li><li>Storing sensitive or regulated data</li><li>Requiring ALM, versioning, or deployment pipelines</li><li>Apps need to be owned by a team, not an individual</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTION -->
+  <div class="env-deep" id="env-production">
+    <div class="env-deep-header env-production">
+      <span class="env-icon">&#128200;</span>
+      <div><h2>Production Environment</h2><p>For live business applications serving real users and real data.</p></div>
+    </div>
+    <div class="env-deep-body">
+      <div class="tab-strip">
+        <button class="tab-btn active" onclick="switchTab(this,'prod-overview')">Overview</button>
+        <button class="tab-btn" onclick="switchTab(this,'prod-capabilities')">Capabilities</button>
+        <button class="tab-btn" onclick="switchTab(this,'prod-limitations')">Limitations</button>
+        <button class="tab-btn" onclick="switchTab(this,'prod-governance')">Governance</button>
+      </div>
+      <div id="prod-overview" class="tab-panel active">
+        <div class="deep-grid">
+          <div class="deep-box"><h4>Definition</h4><p>A purpose-built environment for live workloads. Applications here serve real users, process real business data, and must meet uptime, security, and compliance requirements.</p></div>
+          <div class="deep-box"><h4>Who Creates It?</h4><p>Power Platform Admin or Global Admin. Requires available environment capacity in the tenant (based on licensing). Creation can be restricted to admins via tenant policy.</p></div>
+          <div class="deep-box"><h4>Dataverse</h4><p>Dataverse can be added at creation or later. With Dataverse, you gain full security model (business units, security roles, column-level security), backups, and enterprise ALM support.</p></div>
+          <div class="deep-box"><h4>Lifecycle</h4><p>Permanent. Backed up automatically (daily and on-demand with Dataverse). Can be copied to a Sandbox. Cannot be reset. Convert a Sandbox to Production after promotion.</p></div>
+        </div>
+      </div>
+      <div id="prod-capabilities" class="tab-panel">
+        <div class="deep-grid-3">
+          <div class="deep-box"><h4>What Makers Can Do</h4><ul><li>Build and publish Canvas Apps</li><li>Create Model-driven Apps</li><li>Build Power Automate flows</li><li>Create Copilot Studio bots</li><li>Use solutions for ALM</li><li>Use premium and custom connectors</li></ul></div>
+          <div class="deep-box"><h4>What Env Admins Can Do</h4><ul><li>Manage security roles</li><li>Create/restore backups</li><li>Copy environment to Sandbox</li><li>Manage environment settings</li><li>Install Dynamics 365 apps (if licensed)</li><li>Apply environment-level DLP overrides</li></ul></div>
+          <div class="deep-box"><h4>What Tenant Admins Can Do</h4><ul><li>Enable Managed Environments</li><li>Apply tenant DLP policies</li><li>Delete environment</li><li>Transfer ownership</li><li>View all environments in admin center</li><li>Manage environment capacity</li></ul></div>
+        </div>
+      </div>
+      <div id="prod-limitations" class="tab-panel">
+        <ul style="font-size:0.86rem;padding-left:18px;">
+          <li style="margin-bottom:6px;">Requires appropriate licenses for users (per-app, per-user, or Dynamics 365)</li>
+          <li style="margin-bottom:6px;">Environment count limited by tenant license allocation (Verify in current Microsoft documentation)</li>
+          <li style="margin-bottom:6px;">Cannot be reset without data loss</li>
+          <li style="margin-bottom:6px;">Dynamics 365 apps require specific licensing</li>
+          <li style="margin-bottom:6px;">Dataverse storage counts against tenant allocation</li>
+        </ul>
+        <div class="callout callout-success" style="margin-top:12px;">
+          <span class="callout-icon">&#9989;</span>
+          <p><strong>Best Practice:</strong> Never develop directly in Production. Always promote solutions from Sandbox through an ALM pipeline using Solutions and Deployment Pipelines or Azure DevOps / GitHub Actions.</p>
+        </div>
+      </div>
+      <div id="prod-governance" class="tab-panel">
+        <div class="deep-grid">
+          <div class="deep-box"><h4>Best For</h4><ul><li>Enterprise applications with real users</li><li>Business-critical workflows and automation</li><li>Regulated data (with proper Dataverse security)</li><li>Dynamics 365 workloads</li><li>Solutions requiring SLA and uptime guarantees</li></ul></div>
+          <div class="deep-box"><h4>Avoid When</h4><ul><li>Building or testing — use Sandbox</li><li>Proof of concept work — use Trial or Developer</li><li>Short-term demos — use Trial</li><li>Individual learning — use Developer or Default</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SANDBOX -->
+  <div class="env-deep" id="env-sandbox">
+    <div class="env-deep-header env-sandbox">
+      <span class="env-icon">&#128736;</span>
+      <div><h2>Sandbox Environment</h2><p>The essential environment for development, testing, UAT, and training.</p></div>
+    </div>
+    <div class="env-deep-body">
+      <div class="tab-strip">
+        <button class="tab-btn active" onclick="switchTab(this,'sbox-overview')">Overview</button>
+        <button class="tab-btn" onclick="switchTab(this,'sbox-capabilities')">Capabilities</button>
+        <button class="tab-btn" onclick="switchTab(this,'sbox-alm')">ALM &amp; Lifecycle</button>
+        <button class="tab-btn" onclick="switchTab(this,'sbox-governance')">Governance</button>
+      </div>
+      <div id="sbox-overview" class="tab-panel active">
+        <div class="deep-grid">
+          <div class="deep-box"><h4>Definition</h4><p>A non-production environment designed for development, testing, user acceptance testing (UAT), and training. Can be reset to a clean state — ideal for test cycles and onboarding.</p></div>
+          <div class="deep-box"><h4>Key Differentiator</h4><p>Sandbox is the only environment type that can be <strong>reset</strong> (wiped and rebuilt) and <strong>copied</strong> from a Production or another Sandbox. This makes it the cornerstone of ALM.</p></div>
+          <div class="deep-box"><h4>Can Be Converted</h4><p>A Sandbox can be converted to a Production environment — enabling promotion of a fully tested environment without data re-migration. A key pattern in enterprise ALM.</p></div>
+          <div class="deep-box"><h4>Dataverse</h4><p>Full Dataverse support. Backups can be taken and restored. Can receive copies from Production. Supports all solution types and Dynamics 365 apps (if licensed).</p></div>
+        </div>
+      </div>
+      <div id="sbox-capabilities" class="tab-panel">
+        <div class="deep-grid-3">
+          <div class="deep-box"><h4>Maker &amp; Dev Experience</h4><ul><li>Full Canvas, Model-driven, Code app support</li><li>Power Automate flows with all connector types</li><li>Copilot Studio bots</li><li>Premium and custom connectors</li><li>Solution-based development (recommended)</li><li>ALM via Deployment Pipelines</li></ul></div>
+          <div class="deep-box"><h4>Admin Operations</h4><ul><li>Reset environment (wipes all data and customizations)</li><li>Copy from Production to Sandbox</li><li>Convert Sandbox to Production</li><li>Backup and restore</li><li>Install Dynamics 365 apps (if licensed)</li></ul></div>
+          <div class="deep-box"><h4>Governance Controls</h4><ul><li>Assign security groups to restrict access</li><li>Apply environment-specific DLP policies</li><li>Enable Managed Environments</li><li>Monitor with CoE Starter Kit</li></ul></div>
+        </div>
+      </div>
+      <div id="sbox-alm" class="tab-panel">
+        <div class="callout callout-info">
+          <span class="callout-icon">&#128260;</span>
+          <p><strong>Recommended ALM Pattern:</strong> Developer Env (individual) &#8594; Sandbox Dev &#8594; Sandbox Test/UAT &#8594; Production. Solutions are exported from each stage and imported to the next via Deployment Pipelines or CI/CD automation.</p>
+        </div>
+        <div class="deep-grid" style="margin-top:14px;">
+          <div class="deep-box"><h4>Reset Use Case</h4><p>When a sprint or release cycle completes, the Sandbox Dev environment can be reset and refreshed with a copy of Production — giving developers a clean, realistic dataset for the next cycle.</p></div>
+          <div class="deep-box"><h4>Copy Use Case</h4><p>Before a major release, copy Production to a Sandbox UAT environment. Testers verify the new release against a near-identical copy of production data — without risking the live environment.</p></div>
+        </div>
+      </div>
+      <div id="sbox-governance" class="tab-panel">
+        <div class="deep-grid">
+          <div class="deep-box"><h4>Best For</h4><ul><li>Development (all types)</li><li>Integration testing</li><li>User Acceptance Testing (UAT)</li><li>Training environments</li><li>Performance testing with production data copies</li></ul></div>
+          <div class="deep-box"><h4>Avoid When</h4><ul><li>Serving real end users with live data</li><li>Long-running stable integrations (use Production)</li><li>Extremely cost-sensitive scenarios (Dataverse storage counts)</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRIAL -->
+  <div class="env-deep" id="env-trial">
+    <div class="env-deep-header env-trial">
+      <span class="env-icon">&#9200;</span>
+      <div><h2>Trial Environment</h2><p>Time-limited environments for exploration, PoC, and evaluation. Two types: Standard and Subscription-based.</p></div>
+    </div>
+    <div class="env-deep-body">
+      <div class="deep-grid">
+        <div class="deep-box"><h4>Standard Trial (Self-Service)</h4><ul><li>Created by any licensed user (if self-service allowed)</li><li>Expires after 30 days</li><li>Can be extended once (Verify in current Microsoft documentation)</li><li>Dataverse included</li><li>Cannot be converted to Production directly</li></ul></div>
+        <div class="deep-box"><h4>Subscription-Based Trial</h4><ul><li>Created from tenant-level trial subscription</li><li>Typically 30 days tied to trial license</li><li>Admin controlled — not self-service</li><li>Can be converted to Production</li><li>Full Dynamics 365 apps accessible</li><li>More appropriate for formal PoC / evaluation</li></ul></div>
+      </div>
+      <div class="callout callout-warn" style="margin-top:14px;">
+        <span class="callout-icon">&#9888;</span>
+        <p><strong>Architectural Warning:</strong> Trial environments should never be used for any workload that users will depend on beyond the evaluation period. When a trial expires, <strong>all data and apps in that environment are permanently deleted</strong> unless converted or extended.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEVELOPER -->
+  <div class="env-deep" id="env-developer">
+    <div class="env-deep-header env-developer">
+      <span class="env-icon">&#128187;</span>
+      <div><h2>Developer Environment</h2><p>A personal, free Dataverse environment for individual developers. Not for production or shared workloads.</p></div>
+    </div>
+    <div class="env-deep-body">
+      <div class="deep-grid">
+        <div class="deep-box"><h4>Key Facts</h4><ul><li>Created via the Power Apps Developer Plan (free)</li><li>Each developer gets their own personal environment</li><li>Includes Dataverse with limited capacity (~1GB)</li><li>Supports premium connectors for development</li><li>Not intended for multi-user collaboration</li></ul></div>
+        <div class="deep-box"><h4>What It Unlocks</h4><ul><li>Full solution development and ALM tooling</li><li>Dataverse tables, model-driven apps</li><li>Power Automate with premium connectors</li><li>Copilot Studio (verify licensing)</li><li>Source control integration (Azure DevOps, GitHub)</li></ul></div>
+        <div class="deep-box"><h4>Limitations</h4><ul><li>Cannot be shared as a collaboration space</li><li>Cannot be used for production workloads</li><li>May be reclaimed if inactive (Verify in current Microsoft documentation)</li><li>Limited Dataverse capacity</li></ul></div>
+        <div class="deep-box"><h4>Managed Env Eligibility</h4><p>Developer environments are <strong>not eligible</strong> for Managed Environments. This reinforces their purpose as personal development environments, not governed enterprise environments.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATAVERSE FOR TEAMS -->
+  <div class="env-deep" id="env-teams">
+    <div class="env-deep-header env-teams">
+      <span class="env-icon">&#128101;</span>
+      <div><h2>Dataverse for Teams Environment</h2><p>Auto-created within Microsoft Teams. Lightweight Dataverse subset for Teams-native apps.</p></div>
+    </div>
+    <div class="env-deep-body">
+      <div class="deep-grid">
+        <div class="deep-box"><h4>Creation</h4><p>Automatically created when a Team owner creates their first Power App, flow, or Copilot Studio bot inside a Microsoft Teams channel using the Power Apps app in Teams.</p></div>
+        <div class="deep-box"><h4>Security Model</h4><p>Mapped directly to the Microsoft Team. Team Owners get admin rights. Team Members are standard users. Team Guests have limited access. No traditional Environment Maker/Admin roles.</p></div>
+        <div class="deep-box"><h4>What It Supports</h4><ul><li>Canvas Apps (Teams-embedded)</li><li>Power Automate flows</li><li>Dataverse for Teams tables</li><li>Copilot Studio bots for Teams</li><li>Standard connectors only</li></ul></div>
+        <div class="deep-box"><h4>What It Does NOT Support</h4><ul><li>Model-driven apps</li><li>Premium connectors (without upgrade)</li><li>Custom connectors</li><li>Dynamics 365 apps</li><li>Full Dataverse capabilities</li><li>Full ALM via solutions</li></ul></div>
+      </div>
+      <div class="callout callout-purple" style="margin-top:14px;">
+        <span class="callout-icon">&#128161;</span>
+        <p><strong>Upgrade Path:</strong> When a Dataverse for Teams environment outgrows its limits, it can be upgraded to a full Dataverse (Production) environment. This unlocks premium connectors, Model-driven apps, ALM, and the full Dataverse security model — but requires appropriate licensing.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MANAGED ENVIRONMENTS -->
+  <div class="env-deep" id="env-managed">
+    <div class="env-deep-header env-managed">
+      <span class="env-icon">&#128274;</span>
+      <div><h2>Managed Environments</h2><p>A premium governance layer — not a separate environment type. Enabled on top of existing environments.</p></div>
+    </div>
+    <div class="env-deep-body">
+      <div class="callout callout-info" style="margin-bottom:16px;">
+        <span class="callout-icon">&#128161;</span>
+        <p><strong>Important Distinction:</strong> Managed Environments is NOT a standalone environment type. It is a premium governance capability that can be <em>enabled</em> on Default, Production, and Sandbox environments. It requires Power Platform Premium licensing (Verify in current Microsoft documentation).</p>
+      </div>
+      <div class="deep-grid-3">
+        <div class="deep-box"><h4>Governance Features</h4><ul><li>Weekly digest emails to admins</li><li>Maker welcome content / onboarding</li><li>Sharing limits (restrict sharing to security groups)</li><li>Solution checker enforcement</li><li>Data policies (additional controls)</li><li>IP firewall (Verify current availability)</li></ul></div>
+        <div class="deep-box"><h4>Admin Benefits</h4><ul><li>Deep usage analytics per environment</li><li>Understand who built what and when</li><li>Enforce solution checker policies before deployment</li><li>Visibility into connector usage</li><li>Maker-facing guidance and guardrails</li></ul></div>
+        <div class="deep-box"><h4>When to Enable</h4><ul><li>Enterprise or departmental production environments</li><li>Default environment governance</li><li>CoE-governed Sandbox environments</li><li>Environments with sensitive data</li><li>When maker sprawl is a concern</li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ROLE & CAPABILITY MATRIX -->
+<section class="section" id="roles">
+  <div class="section-title"><div class="icon">&#128101;</div> Role &amp; Capability Matrix</div>
+  <p class="section-subtitle">What each persona can do. <span class="chip">D365 = Requires Dynamics 365 license</span> <span class="chip green">&#10003; Full capability</span> <span class="chip gray">~ Partial / conditional</span> <span class="chip orange">&#10007; Not available</span></p>
+
+  <div class="matrix-wrap">
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>Capability</th>
+          <th>App Maker</th>
+          <th>Env Maker</th>
+          <th>Env Admin</th>
+          <th>Sys Customizer</th>
+          <th>Sys Admin</th>
+          <th>PP Admin</th>
+          <th>Global Admin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Create Canvas Apps</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Create Power Automate Flows</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Create Dataverse Tables</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="partial">~</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Manage Dataverse Data (all records)</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="partial">~</td><td class="partial">~</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Manage Environment Users</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Assign Dataverse Security Roles</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="partial">~</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Backup / Restore Environment</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Reset Environment</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Copy Environment</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Apply DLP Policies</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Enable Managed Environments</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Install D365 Apps</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="check">D365</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="check">D365</td><td class="check">D365</td></tr>
+        <tr><td>Use Premium Connectors</td><td class="partial">~ License</td><td class="partial">~ License</td><td class="partial">~ License</td><td class="partial">~ License</td><td class="partial">~ License</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Create &amp; Manage Solutions</td><td class="partial">~</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Run Deployment Pipelines (ALM)</td><td class="cross">&#10007;</td><td class="partial">~</td><td class="check">&#10003;</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Delete Environment</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="cross">&#10007;</td><td class="cross">&#10007;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-warn" style="margin-top:16px;">
+    <span class="callout-icon">&#9888;</span>
+    <p><strong>Key Distinction:</strong> <strong>Environment Admin</strong> can back up, copy, and reset environments, but cannot apply tenant-level DLP policies or enable Managed Environments — those require Power Platform Admin or Global Admin. <strong>System Administrator</strong> (Dataverse security role) has full control over Dataverse data and schema, but has no environment management capability outside Dataverse.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DATAVERSE & SECURITY -->
+<section class="section" id="dataverse">
+  <div class="section-title"><div class="icon">&#128274;</div> Dataverse Dependency &amp; Security Model</div>
+  <p class="section-subtitle">How Dataverse changes everything — roles, capabilities, security, and behavior.</p>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px;">Environments With vs. Without Dataverse</h3>
+    <div class="deep-grid">
+      <div class="deep-box"><h4>Without Dataverse</h4><ul><li>Canvas Apps use SharePoint, SQL, Excel, or external data sources</li><li>Power Automate flows run against external connectors</li><li>No Dataverse security roles — only environment roles apply</li><li>No model-driven apps possible</li><li>No Dynamics 365 apps</li><li>Limited governance and data management</li></ul></div>
+      <div class="deep-box"><h4>With Dataverse</h4><ul><li>Dataverse acts as the central data store within the environment</li><li>Full security model: business units, security roles, teams, column-level security, field-level security</li><li>Model-driven apps and Dynamics 365 apps become available</li><li>Audit logging, encryption, data retention policies</li><li>Backups managed at environment level</li><li>Solutions with Dataverse table dependencies fully supported</li></ul></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px;">Role Hierarchy: Critical Distinctions</h3>
+    <div class="deep-grid-3">
+      <div class="deep-box" style="border-left:3px solid var(--primary);">
+        <h4>Environment Roles</h4>
+        <p style="margin-bottom:8px;font-size:0.82rem;">Assigned in Power Platform Admin Center. Control who can access and what they can build in the environment.</p>
+        <ul style="font-size:0.82rem;padding-left:14px;"><li><strong>Environment Admin</strong> — full env management</li><li><strong>Environment Maker</strong> — create resources (apps, flows)</li></ul>
+      </div>
+      <div class="deep-box" style="border-left:3px solid var(--accent2);">
+        <h4>Dataverse Security Roles</h4>
+        <p style="margin-bottom:8px;font-size:0.82rem;">Assigned within Dataverse. Control access to data records, tables, and schema.</p>
+        <ul style="font-size:0.82rem;padding-left:14px;"><li><strong>System Administrator</strong> — full Dataverse control</li><li><strong>System Customizer</strong> — modify schema, no full data access</li><li><strong>Basic User</strong> — read own records</li><li>Custom roles — any granularity</li></ul>
+      </div>
+      <div class="deep-box" style="border-left:3px solid var(--warning);">
+        <h4>Common Mistake</h4>
+        <p style="font-size:0.82rem;">Assigning <strong>Environment Admin</strong> does NOT give <strong>System Administrator</strong> in Dataverse — these are independent role systems. A user with Environment Admin but no Dataverse security role cannot read or modify Dataverse records. Both must be assigned explicitly.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAccordion(this)">Why Environment Maker is Not Enough for Dataverse Work <span class="chevron">&#9660;</span></div>
+    <div class="accordion-body">
+      <p style="margin-bottom:8px;">Environment Maker grants the ability to <em>create</em> Power Platform resources within an environment. However, it does not grant any Dataverse security role. A user with only Environment Maker role can create a Canvas App that connects to a Dataverse table, but will receive an access denied error when the app tries to read data — unless they are also assigned a Dataverse security role with the appropriate table read permission.</p>
+      <p>For developers building model-driven apps or working directly with Dataverse tables, they need at minimum the <strong>System Customizer</strong> role (to create/modify tables) or a custom role with the appropriate privileges.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAccordion(this)">Security in Dataverse for Teams vs. Full Dataverse <span class="chevron">&#9660;</span></div>
+    <div class="accordion-body">
+      <p style="margin-bottom:8px;">In <strong>Dataverse for Teams</strong>, security is inherited from the Microsoft Teams structure. Team Owners get elevated privileges, Team Members get standard access, and Team Guests get limited read access. Traditional Dataverse security roles and business units are not available.</p>
+      <p>In <strong>full Dataverse</strong>, the security model is significantly more granular — supporting business units, security roles, field-level security, record-level sharing, teams with role assignments, and column-level security. When upgrading a Dataverse for Teams environment to full Dataverse, a migration path is required to re-establish the security model.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TRIAL DEEP DIVE -->
+<section class="section" id="trial">
+  <div class="section-title"><div class="icon">&#9200;</div> Trial Environments — Deep Dive</div>
+
+  <div class="card-grid" style="margin-bottom:20px;">
+    <div class="card" style="border-top:3px solid #8764b8;">
+      <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:10px;">Standard Trial (Self-Service)</h3>
+      <table style="width:100%;font-size:0.82rem;border-collapse:collapse;">
+        <tr><th scope="row" style="padding:4px 0;font-weight:600;color:var(--text-muted);text-align:left;">Created by:</th><td>Any licensed user (if self-service allowed)</td></tr>
+        <tr><th scope="row" style="padding:4px 0;font-weight:600;color:var(--text-muted);text-align:left;">Duration:</th><td>30 days</td></tr>
+        <tr><th scope="row" style="padding:4px 0;font-weight:600;color:var(--text-muted);text-align:left;">Extendable?</th><td>Once (Verify current policy)</td></tr>
+        <tr><th scope="row" style="padding:4px 0;font-weight:600;color:var(--text-muted);text-align:left;">Convert to Prod?</th><td>No direct conversion</td></tr>
+        <tr><th scope="row" style="padding:4px 0;font-weight:600;color:var(--text-muted);text-align:left;">On expiry:</th><td>Environment + all data deleted</td></tr>
+        <tr><th scope="row" style="padding:4px 0;font-weight:600;color:var(--text-muted);text-align:left;">Best for:</th><td>Individual exploration, learning</td></tr>
+      </table>
+    </div>
+    <div class="card" style="border-top:3px solid var(--primary);">
+      <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:10px;">Subscription-Based Trial (Admin-Controlled)</h3>
+      <table style="width:100%;font-size:0.82rem;border-collapse:collapse;">
+        <tr><th scope="row" style="padding:4px 0;font-weight:600;color:var(--text-muted);text-align:left;">Created by:</th><td>Power Platform Admin or Global Admin</td></tr>
+        <tr><th scope="row" style="padding:4px 0;font-weight:600;color:var(--text-muted);text-align:left;">Duration:</th><td>30 days (tied to trial subscription)</td></tr>
+        <tr><th scope="row" style="padding:4px 0;font-weight:600;color:var(--text-muted);text-align:left;">Extendable?</th><td>Via subscription extension (Verify)</td></tr>
+        <tr><th scope="row" style="padding:4px 0;font-weight:600;color:var(--text-muted);text-align:left;">Convert to Prod?</th><td>Yes — before expiry</td></tr>
+        <tr><th scope="row" style="padding:4px 0;font-weight:600;color:var(--text-muted);text-align:left;">On expiry:</th><td>Environment deleted unless converted</td></tr>
+        <tr><th scope="row" style="padding:4px 0;font-weight:600;color:var(--text-muted);text-align:left;">Best for:</th><td>Formal PoC, structured evaluation</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">&#9888;</span>
+    <p><strong>Architectural Anti-Pattern:</strong> Using a trial environment for a production workload is one of the most dangerous governance failures. When the trial expires, the environment and all data are deleted. Always migrate solution and data to a Production environment before the trial expires.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DEVELOPER DEEP DIVE -->
+<section class="section" id="developer">
+  <div class="section-title"><div class="icon">&#128187;</div> Developer Environment — Deep Dive</div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">&#127381; Why It Exists</h4>
+      <p style="font-size:0.83rem;">The Developer Plan provides a free, personal development environment that allows professional developers to build, test, and learn with Power Platform — including premium connectors and Dataverse — without consuming corporate environment capacity or requiring paid licenses for the development phase.</p>
+    </div>
+    <div class="card">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">&#128101; Collaboration Implications</h4>
+      <p style="font-size:0.83rem;">Developer environments are <em>personal</em>. While another user can be invited, the environment is designed for a single developer's workflow. For team-based development, use a dedicated Sandbox environment with proper access controls and shared solutions in source control.</p>
+    </div>
+    <div class="card">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">&#128202; Capacity</h4>
+      <p style="font-size:0.83rem;">Storage capacity is limited (~1GB Dataverse). Not suitable for large datasets. If the developer needs to work with realistic production-scale data, a Sandbox copy of Production is more appropriate.</p>
+    </div>
+    <div class="card">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">&#9989; Perfect When</h4>
+      <ul style="font-size:0.83rem;padding-left:16px;"><li>Building and testing solutions before committing to Sandbox</li><li>Learning Power Platform capabilities independently</li><li>Developing connectors or integrations in isolation</li><li>Contributing to open-source Power Platform community solutions</li></ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TEAMS DEEP DIVE -->
+<section class="section" id="teams">
+  <div class="section-title"><div class="icon">&#128101;</div> Dataverse for Teams Environment — Deep Dive</div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:12px;">Lifecycle Tied to the Team</h3>
+    <p style="font-size:0.85rem;margin-bottom:10px;">A Dataverse for Teams environment is created when the first Power App or flow is built inside a Microsoft Teams team. Its lifecycle is directly tied to the Team — if the Team is deleted, the associated environment and all its data are also deleted after a retention period.</p>
+    <div class="deep-grid">
+      <div class="deep-box"><h4>Ideal Use Cases</h4><ul><li>Simple team productivity apps</li><li>Departmental data collection (non-critical)</li><li>Small-scale automation for Teams workflows</li><li>Rapid prototyping by business users</li><li>Apps used exclusively within one Microsoft Team</li></ul></div>
+      <div class="deep-box"><h4>Warning Signs — Time to Upgrade</h4><ul><li>App needs to be used outside the Teams context</li><li>Data volume approaching capacity limits</li><li>Need for model-driven apps or Dynamics 365</li><li>Need for premium connectors</li><li>Need for advanced security roles</li><li>Need for full ALM pipeline</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MANAGED ENVIRONMENTS DEEP DIVE -->
+<section class="section" id="managed">
+  <div class="section-title"><div class="icon">&#128272;</div> Managed Environments — Deep Dive</div>
+
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid var(--success);">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">Sharing Controls</h4>
+      <p style="font-size:0.83rem;">Restrict Canvas App sharing to security groups only. Prevent makers from sharing apps broadly across the tenant. Enforce maker onboarding — makers see custom welcome content when they enter a Managed Environment for the first time.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--primary);">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">Solution Checker Enforcement</h4>
+      <p style="font-size:0.83rem;">Require solutions to pass the Solution Checker (which identifies security, reliability, and performance issues) before they can be deployed. This catches issues early and improves solution quality across the organization.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent2);">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">Weekly Admin Digest</h4>
+      <p style="font-size:0.83rem;">Admins receive a weekly email summarizing new apps, flows, makers, and connections created in the environment. This provides passive visibility without requiring active monitoring — a critical tool for governance at scale.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent);">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">Licensing Requirement</h4>
+      <p style="font-size:0.83rem;">Managed Environments require Power Platform Premium per-user or per-flow licensing, or Managed Environments standalone licensing. <em>Verify current licensing requirements in official Microsoft documentation.</em></p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STRATEGY PATTERNS -->
+<section class="section" id="strategy">
+  <div class="section-title"><div class="icon">&#128260;</div> Environment Strategy Patterns</div>
+  <p class="section-subtitle">Proven patterns for common organizational scenarios.</p>
+
+  <div class="card-grid">
+    <div class="strategy-card">
+      <h3><span>&#128100;</span> Solo Maker Learning Path</h3>
+      <p style="font-size:0.82rem;margin-bottom:8px;">Use Default or Developer environment for learning. When building something real, request a dedicated Sandbox.</p>
+      <span class="chip green">Low Governance</span><span class="chip gray">Developer Plan</span>
+    </div>
+    <div class="strategy-card">
+      <h3><span>&#128194;</span> Small Departmental App</h3>
+      <p style="font-size:0.82rem;margin-bottom:8px;">One Sandbox for development, one Production. Restrict access via security groups. Use solutions for deployment.</p>
+      <span class="chip">Sandbox &#8594; Production</span><span class="chip green">Solutions</span>
+    </div>
+    <div class="strategy-card">
+      <h3><span>&#127970;</span> Enterprise ALM Strategy</h3>
+      <p style="font-size:0.82rem;margin-bottom:8px;">Dev &#8594; Test &#8594; UAT &#8594; Production pipeline. CI/CD via Azure DevOps or GitHub Actions. Managed Environments on Production.</p>
+      <span class="chip purple">Full ALM</span><span class="chip green">Managed Envs</span>
+    </div>
+    <div class="strategy-card">
+      <h3><span>&#128101;</span> Teams-First Lightweight Solution</h3>
+      <p style="font-size:0.82rem;margin-bottom:8px;">Start in Dataverse for Teams. Plan upgrade path to full Production if usage grows. No premium connectors initially.</p>
+      <span class="chip teal">Teams Env</span><span class="chip gray">Upgrade Path Planned</span>
+    </div>
+    <div class="strategy-card">
+      <h3><span>&#128202;</span> Proof of Concept</h3>
+      <p style="font-size:0.82rem;margin-bottom:8px;">Use subscription-based Trial or Developer environment. Set a deadline. Convert or export before expiry.</p>
+      <span class="chip orange">Trial / Dev Env</span><span class="chip">Time-boxed</span>
+    </div>
+    <div class="strategy-card">
+      <h3><span>&#128736;</span> Regulated Production Workload</h3>
+      <p style="font-size:0.82rem;margin-bottom:8px;">Production with Managed Environments enabled. Security groups restrict access. DLP policy. Audit logging. BU-level security. Full ALM pipeline.</p>
+      <span class="chip green">Production</span><span class="chip purple">Managed Envs</span><span class="chip">DLP</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DECISION GUIDE -->
+<section class="section" id="decision">
+  <div class="section-title"><div class="icon">&#127919;</div> Decision Guide</div>
+  <p class="section-subtitle">Answer the question below to get an environment recommendation.</p>
+
+  <div class="dtree" id="dtree">
+    <div class="dt-question">What is the primary purpose of this environment?</div>
+    <div class="dt-options">
+      <button class="dt-btn" onclick="dt_select('learning',this)">Learning / Personal Exploration</button>
+      <button class="dt-btn" onclick="dt_select('poc',this)">Proof of Concept / Demo</button>
+      <button class="dt-btn" onclick="dt_select('dev',this)">Development / Testing</button>
+      <button class="dt-btn" onclick="dt_select('prod',this)">Production Workload</button>
+      <button class="dt-btn" onclick="dt_select('teams',this)">Teams-embedded App</button>
+    </div>
+    <div class="dt-result" id="dt-result">
+      <h3 id="dt-rec-title">Recommendation</h3>
+      <p id="dt-rec-body" style="font-size:0.86rem;margin-top:6px;"></p>
+      <p id="dt-rec-caution" style="font-size:0.83rem;margin-top:8px;color:var(--warning);font-weight:600;"></p>
+      <div class="dt-back" role="button" tabindex="0" onclick="dt_reset()" onkeydown="if(event.key==='Enter'||event.key===' ')dt_reset()">&#8592; Start over</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BEST PRACTICES & ANTI-PATTERNS -->
+<section class="section" id="bestpractices">
+  <div class="section-title"><div class="icon">&#9989;</div> Best Practices &amp; Anti-Patterns</div>
+
+  <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px;color:var(--success);">&#9989; Best Practices</h3>
+  <div class="bp-grid" style="margin-bottom:28px;">
+    <div class="bp-item"><h4>Use Solutions for All Deployments</h4><p>Never deploy individual components. Always use Solutions — they capture dependencies and enable proper ALM.</p></div>
+    <div class="bp-item"><h4>Separate Dev, Test, and Production</h4><p>At minimum, maintain a Sandbox for development/testing and a Production environment for live users. Promote solutions via Solutions.</p></div>
+    <div class="bp-item"><h4>Apply Security Groups to Environments</h4><p>Restrict who can access each environment by associating a Microsoft Entra security group. Prevents unauthorized access and sprawl.</p></div>
+    <div class="bp-item"><h4>Use Managed Environments on Production</h4><p>Enable Managed Environments on production and default environments to gain visibility, enforce policies, and get weekly admin digests.</p></div>
+    <div class="bp-item"><h4>Plan Environment Naming Conventions</h4><p>Use consistent naming: [Org]-[Workload]-[Stage] (e.g., Contoso-HRApps-Prod). This enables easier governance at scale.</p></div>
+    <div class="bp-item"><h4>Apply DLP Policies by Environment Tier</h4><p>Default and non-governed environments should have restrictive DLP. Production environments for approved workloads can have specific connector permissions scoped to their needs.</p></div>
+  </div>
+
+  <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px;color:var(--warning);">&#9888; Anti-Patterns &amp; Common Mistakes</h3>
+  <div class="bp-grid">
+    <div class="ap-item"><h4>Using Default for Enterprise Apps</h4><p>The Default environment has no meaningful access control by default. Every licensed user is an Environment Maker. Never host real business apps here.</p></div>
+    <div class="ap-item"><h4>Developing Directly in Production</h4><p>Changes made directly in Production are untested, unversioned, and risky. Even small changes can break live apps for all users. Always use a Sandbox.</p></div>
+    <div class="ap-item"><h4>Relying on Trial for Real Workloads</h4><p>When a trial expires, the environment and all data are permanently deleted. This has caused real data loss incidents. Never use Trial for anything users depend on.</p></div>
+    <div class="ap-item"><h4>Ignoring Dataverse Security Role Differences</h4><p>Assigning "Environment Admin" without a Dataverse security role leaves users unable to access Dataverse data. These are two separate security systems.</p></div>
+    <div class="ap-item"><h4>Overusing Dataverse for Teams</h4><p>Dataverse for Teams is great for simple, Teams-embedded apps. When requirements grow, organizations that didn't plan an upgrade path face a painful migration.</p></div>
+    <div class="ap-item"><h4>Not Planning ALM from Day One</h4><p>Retrofitting ALM into a mature Power Platform deployment is extremely difficult. Design your environment strategy before the first app goes live.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ARCHITECTURE GUIDE -->
+<section class="section" id="architecture">
+  <div class="section-title"><div class="icon">&#128736;</div> Architecture &amp; Governance Recommendations</div>
+  <p class="section-subtitle">Architect-level guidance for enterprise Power Platform environment strategy.</p>
+
+  <div class="card-grid" style="margin-bottom:20px;">
+    <div class="card">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">&#127758; Regional Considerations</h4>
+      <p style="font-size:0.83rem;">Choose environment regions based on data residency requirements. For EU/UK regulated data, select EU or UK regions. For latency-sensitive apps, choose a region close to users. Region cannot be changed after environment creation.</p>
+    </div>
+    <div class="card">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">&#128101; Security Group Strategy</h4>
+      <p style="font-size:0.83rem;">Associate one Microsoft Entra security group per environment. Use nested groups for role hierarchy. Example: PP-ENV-HRApps-Prod (parent) containing sub-groups for Admins, Makers, and Users.</p>
+    </div>
+    <div class="card">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">&#128274; DLP Strategy</h4>
+      <p style="font-size:0.83rem;">Apply a tenant-wide baseline DLP policy blocking all premium connectors by default. Then create environment-specific override policies for approved production environments. The most restrictive applicable policy wins.</p>
+    </div>
+    <div class="card">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">&#128196; Solution Strategy</h4>
+      <p style="font-size:0.83rem;">Use one solution per business application or workload. Use publisher prefixes consistently (e.g., contoso_). Use layered solutions: base components + customization layer. Store solution source in version control.</p>
+    </div>
+    <div class="card">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">&#9878; Centralize vs. Decentralize</h4>
+      <p style="font-size:0.83rem;">Centralized (CoE model): Admin team owns all environments. Best for regulated industries. Decentralized: Business units own their environments with central oversight. Best for agile organizations. Hybrid is most common at scale.</p>
+    </div>
+    <div class="card">
+      <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">&#127970; Business Unit Isolation</h4>
+      <p style="font-size:0.83rem;">Isolate high-sensitivity business units via separate environments with their own DLP policies and security groups. Use separate environments for HR, Finance, and Legal workloads rather than sharing one Production environment.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAccordion(this)">Environment Naming Convention — Recommended Pattern <span class="chevron">&#9660;</span></div>
+    <div class="accordion-body">
+      <p style="margin-bottom:8px;">Format: <code style="background:#f3f2f1;padding:2px 6px;border-radius:4px;">[OrgPrefix]-[Workload/Department]-[Stage]</code></p>
+      <ul style="font-size:0.84rem;padding-left:16px;">
+        <li>Contoso-HRApps-Dev</li>
+        <li>Contoso-HRApps-Test</li>
+        <li>Contoso-HRApps-Prod</li>
+        <li>Contoso-Finance-Sandbox</li>
+        <li>Contoso-Default (the tenant default)</li>
+        <li>Contoso-CoE-Governance (CoE Starter Kit environment)</li>
+      </ul>
+      <p style="margin-top:8px;font-size:0.84rem;">Consistent naming enables filtering, reporting, and policy management in the Power Platform Admin Center and CoE Starter Kit at scale.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAccordion(this)">CoE Starter Kit — Why Every Enterprise Needs It <span class="chevron">&#9660;</span></div>
+    <div class="accordion-body">
+      <p style="margin-bottom:8px;">The <strong>Power Platform Center of Excellence (CoE) Starter Kit</strong> is a set of apps, flows, and dashboards that provide visibility and governance across your entire tenant. It shows which apps and flows exist in which environments, who created them, when they were last modified, and what connectors they use.</p>
+      <p>Without the CoE Starter Kit, Power Platform admins are essentially blind to what's happening across environments. It should be deployed into a dedicated CoE Governance environment (typically a Sandbox) and is a foundational governance investment for any organization with more than a handful of Power Platform users.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FINAL SUMMARY -->
+<section class="section" id="summary">
+  <div class="section-title"><div class="icon">&#9733;</div> Summary: Which Environment Should I Choose?</div>
+
+  <div class="scenario-grid" style="margin-bottom:28px;">
+    <div class="scenario-card"><div class="rec-badge">Learning</div><h4>I want to explore Power Platform</h4><p>Use your <strong>Developer environment</strong> (free Developer Plan) or the <strong>Default environment</strong> for simple experiments.</p></div>
+    <div class="scenario-card"><div class="rec-badge" style="background:var(--accent);">PoC</div><h4>I need a time-limited proof of concept</h4><p>Use a <strong>Subscription-based Trial</strong> environment. Plan a conversion path if the PoC succeeds.</p></div>
+    <div class="scenario-card"><div class="rec-badge" style="background:#008272;">Dev/Test</div><h4>I need to build and test a solution</h4><p>Use a <strong>Sandbox</strong> environment. Separate Dev and Test environments for mature ALM.</p></div>
+    <div class="scenario-card"><div class="rec-badge" style="background:var(--primary-dark);">Production</div><h4>I need to deploy for real users</h4><p>Use a <strong>Production</strong> environment. Enable Managed Environments. Restrict via security group.</p></div>
+    <div class="scenario-card"><div class="rec-badge" style="background:#464eb8;">Teams</div><h4>My app only needs to work in Teams</h4><p>Use <strong>Dataverse for Teams</strong>. Plan upgrade path if requirements grow beyond Teams boundaries.</p></div>
+    <div class="scenario-card"><div class="rec-badge" style="background:var(--accent2);">Personal Dev</div><h4>I'm a developer building solutions solo</h4><p>Use a <strong>Developer environment</strong>. Includes full Dataverse and premium connectors at no extra cost.</p></div>
+    <div class="scenario-card"><div class="rec-badge" style="background:var(--success);">Enterprise</div><h4>I need full ALM and enterprise governance</h4><p>Dev Sandbox &#8594; Test Sandbox &#8594; Production, with Managed Environments, DLP policies, and CI/CD via Deployment Pipelines.</p></div>
+    <div class="scenario-card"><div class="rec-badge" style="background:#d83b01;">Training</div><h4>I need a training environment</h4><p>Use a <strong>Sandbox</strong> that can be <em>reset</em> after each training cohort — delivering a clean state every time.</p></div>
+  </div>
+
+  <div class="card" style="border-top:3px solid var(--primary);">
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:14px;">&#9989; Final Governance Checklist</h3>
+    <ul class="checklist">
+      <li>Every environment has a named owner and a defined purpose</li>
+      <li>Security groups are assigned to restrict environment access</li>
+      <li>DLP policies are applied — at minimum, the tenant-wide baseline</li>
+      <li>Production environments have Managed Environments enabled</li>
+      <li>All solutions use a consistent publisher prefix and naming convention</li>
+      <li>No production apps exist in the Default environment</li>
+      <li>ALM pipelines exist for all production-bound workloads</li>
+      <li>Trial environments have a defined expiry and conversion plan</li>
+      <li>Developer environments are not used for shared or production workloads</li>
+      <li>Dataverse for Teams environments have an upgrade path documented</li>
+      <li>Environment Admin and System Administrator roles are assigned separately</li>
+      <li>Region is correctly set for data residency compliance</li>
+      <li>Environment sprawl is monitored via CoE Starter Kit or admin analytics</li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- REFERENCE NOTES -->
+<section class="section" id="references">
+  <div class="section-title"><div class="icon">&#128196;</div> Reference Notes</div>
+  <div class="callout callout-warn" style="margin-bottom:16px;">
+    <span class="callout-icon">&#9888;</span>
+    <p><strong>Disclaimer:</strong> Licensing, capacity limits, feature availability, and role behavior in Power Platform can change with Microsoft product updates. Always verify the details in this guide against the current official Microsoft documentation before making architectural decisions. Specific numbers (storage limits, trial durations, role names) are subject to change.</p>
+  </div>
+  <ul class="ref-list" style="padding-left:0;list-style:none;">
+    <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: Types of Power Platform environments — learn.microsoft.com/power-platform/admin/environments-overview</li>
+    <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: Create and manage environments — learn.microsoft.com/power-platform/admin/create-environment</li>
+    <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: Dataverse security model — learn.microsoft.com/power-platform/admin/wp-security</li>
+    <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: Managed Environments overview — learn.microsoft.com/power-platform/admin/managed-environment-overview</li>
+    <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: Power Apps Developer Plan — learn.microsoft.com/power-apps/maker/developer-plan</li>
+    <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: Dataverse for Teams — learn.microsoft.com/power-apps/teams/overview-data-platform</li>
+    <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: DLP policies — learn.microsoft.com/power-platform/admin/wp-data-loss-prevention</li>
+    <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: ALM with Power Platform — learn.microsoft.com/power-platform/alm/overview-alm</li>
+    <li style="padding:5px 0;">&#128279; Microsoft Learn: Power Platform CoE Starter Kit — learn.microsoft.com/power-platform/guidance/coe/starter-kit</li>
+  </ul>
+</section>
+
+</main>
+</div>
+
+<script>
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop || document.body.scrollTop;
+  const total = doc.scrollHeight - doc.clientHeight;
+  document.getElementById('progress-bar').style.width = (scrolled / total * 100) + '%';
+  const sections = document.querySelectorAll('section[id]');
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  document.querySelectorAll('.top-nav a, .sidebar a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+  });
+});
+
+function switchTab(btn, panelId) {
+  const strip = btn.closest('.tab-strip');
+  strip.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const deepBody = strip.closest('.env-deep-body');
+  deepBody.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(panelId).classList.add('active');
+}
+
+function toggleAccordion(header) {
+  const body = header.nextElementSibling;
+  const isOpen = header.classList.contains('open');
+  header.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+function doSearch(q) {
+  q = q.trim().toLowerCase();
+  const count = document.getElementById('searchCount');
+  document.querySelectorAll('.main-content p, .main-content li, .main-content td, .main-content h2, .main-content h3, .main-content h4').forEach(el => el.style.background = '');
+  if (!q) { count.textContent = ''; return; }
+  let found = 0;
+  document.querySelectorAll('.main-content p, .main-content li, .main-content td, .main-content h2, .main-content h3, .main-content h4').forEach(el => {
+    if (el.textContent.toLowerCase().includes(q)) { el.style.background = '#fff3cd'; found++; }
+  });
+  count.textContent = found ? found + ' matches' : 'No matches';
+}
+
+const dtData = {
+  learning: { rec: 'Recommended: Developer Environment or Default Environment', body: 'The Developer Plan (free) gives you a personal Dataverse environment with premium connectors for learning and building skills. For quick experiments without setup, use the Default environment.', caution: 'Caution: Default environment is accessible to all tenant users. Do not store sensitive data there.' },
+  poc: { rec: 'Recommended: Subscription-Based Trial Environment', body: 'A subscription-based trial gives 30 days with full feature access and can be converted to Production if the PoC succeeds. Plan the conversion path before the trial expires.', caution: 'Caution: All data and apps are permanently deleted when a trial expires. Set a reminder 2 weeks before expiry.' },
+  dev: { rec: 'Recommended: Sandbox Environment', body: 'Sandbox is purpose-built for development and testing. It supports reset (clean state), copy from Production, full ALM, and conversion to Production. Use separate Sandbox environments for Dev and Test/UAT stages.', caution: 'Tip: Never develop directly in Production. Always use Sandbox with Solutions for ALM.' },
+  prod: { rec: 'Recommended: Production Environment', body: 'Create a dedicated Production environment. Enable Managed Environments. Assign a security group to restrict access. Apply appropriate DLP policies. Promote solutions from Sandbox via Deployment Pipelines.', caution: 'Caution: Production environments require proper licensing for all users. Plan Dataverse storage capacity.' },
+  teams: { rec: 'Recommended: Dataverse for Teams Environment', body: 'If your app only needs to work within a specific Microsoft Team, Dataverse for Teams is the right starting point. It requires no additional licensing and is created automatically from Teams.', caution: 'Caution: Plan an upgrade path to full Production/Dataverse if requirements grow — premium connectors, model-driven apps, or users outside the Team.' }
+};
+
+function dt_select(val, btn) {
+  document.querySelectorAll('.dt-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const data = dtData[val];
+  document.getElementById('dt-rec-title').textContent = data.rec;
+  document.getElementById('dt-rec-body').textContent = data.body;
+  document.getElementById('dt-rec-caution').textContent = data.caution;
+  document.getElementById('dt-result').classList.add('show');
+}
+
+function dt_reset() {
+  document.getElementById('dt-result').classList.remove('show');
+  document.querySelectorAll('.dt-btn').forEach(b => b.classList.remove('selected'));
+}
+</script>
+</body>
+</html>

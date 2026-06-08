@@ -72,6 +72,109 @@
             </div>
         </section>
 
+        <!-- Interactive Study Guides Showcase -->
+        <section aria-label="Interactive study guides" style="padding:0 40px 56px; max-width:1200px; margin:0 auto;">
+            <style>
+                .guides-header { text-align:center; margin-bottom:32px; }
+                .guides-eyebrow { display:inline-block; background:#eef6ff; color:#0078d4; font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:4px 14px; border-radius:20px; margin-bottom:14px; }
+                .guides-header h2 { font-size:1.75rem; font-weight:700; color:#1a1a2e; margin:0 0 10px; }
+                .guides-header p { color:#64748b; font-size:0.93rem; max-width:540px; margin:0 auto; }
+                .guides-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+                @media (max-width:700px) { .guides-grid { grid-template-columns:1fr; } .guides-showcase-wrap { padding:0 16px 40px !important; } }
+                .guide-card { background:#fff; border:1px solid #e1e4e8; border-radius:16px; padding:28px; display:flex; flex-direction:column; gap:18px; box-shadow:0 4px 16px rgba(0,0,0,0.06); transition:box-shadow 0.2s, transform 0.2s; }
+                .guide-card:hover { box-shadow:0 8px 32px rgba(0,0,0,0.12); transform:translateY(-3px); }
+                .guide-card-env { border-top:4px solid #0078d4; }
+                .guide-card-git { border-top:4px solid #f05032; }
+                .guide-card-head { display:flex; align-items:flex-start; gap:16px; }
+                .guide-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; }
+                .guide-icon-env { background:linear-gradient(135deg,#0078d4 0%,#00b7c3 100%); }
+                .guide-icon-git { background:linear-gradient(135deg,#24292e 0%,#f05032 100%); }
+                .guide-badge { display:inline-block; font-size:0.68rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; padding:2px 9px; border-radius:4px; margin-bottom:6px; }
+                .guide-badge-env { background:#eef6ff; color:#0078d4; }
+                .guide-badge-git { background:#fff5f2; color:#f05032; }
+                .guide-card-head h3 { font-size:1.1rem; font-weight:700; color:#1a1a2e; margin:0 0 3px; }
+                .guide-card-head .guide-sub { font-size:0.8rem; color:#8492a6; }
+                .guide-desc { font-size:0.875rem; color:#444d56; line-height:1.65; margin:0; }
+                .guide-chips { display:flex; flex-wrap:wrap; gap:6px; }
+                .guide-chip { border-radius:5px; padding:3px 9px; font-size:0.71rem; font-weight:600; }
+                .guide-cta { display:inline-flex; align-items:center; gap:6px; text-decoration:none; padding:10px 22px; border-radius:9px; font-size:0.85rem; font-weight:700; margin-top:auto; transition:all 0.2s; }
+                .guide-cta-env { background:#0078d4; color:#fff; }
+                .guide-cta-env:hover { background:#005a9e; color:#fff; }
+                .guide-cta-git { background:#24292e; color:#fff; }
+                .guide-cta-git:hover { background:#f05032; color:#fff; }
+                .guide-stat-bar { display:flex; gap:20px; padding:12px 0; border-top:1px solid #f0f2f5; border-bottom:1px solid #f0f2f5; }
+                .guide-stat { display:flex; flex-direction:column; align-items:center; gap:2px; }
+                .guide-stat .num { font-size:1.3rem; font-weight:800; color:#1a1a2e; line-height:1; }
+                .guide-stat .lbl { font-size:0.68rem; font-weight:600; color:#8492a6; text-transform:uppercase; letter-spacing:0.05em; }
+                .guide-stat-env .num { color:#0078d4; }
+                .guide-stat-git .num { color:#f05032; }
+            </style>
+
+            <div class="guides-header">
+                <span class="guides-eyebrow">&#128218; Interactive Study Guides</span>
+                <h2>Learn. Reference. Ship.</h2>
+                <p>In-depth visual guides built for Power Platform professionals — covering the technologies that power modern enterprise solutions.</p>
+            </div>
+
+            <div class="guides-grid">
+
+                <!-- Power Platform Environments Guide -->
+                <div class="guide-card guide-card-env">
+                    <div class="guide-card-head">
+                        <div class="guide-icon guide-icon-env">&#127959;&#65039;</div>
+                        <div>
+                            <span class="guide-badge guide-badge-env">Deep Dive</span>
+                            <h3>Power Platform Environments</h3>
+                            <p class="guide-sub">Master Reference Guide</p>
+                        </div>
+                    </div>
+                    <div class="guide-stat-bar">
+                        <div class="guide-stat guide-stat-env"><span class="num">20+</span><span class="lbl">Sections</span></div>
+                        <div class="guide-stat guide-stat-env"><span class="num">5</span><span class="lbl">Env Types</span></div>
+                        <div class="guide-stat guide-stat-env"><span class="num">DLP</span><span class="lbl">Policies</span></div>
+                        <div class="guide-stat guide-stat-env"><span class="num">ALM</span><span class="lbl">Strategy</span></div>
+                    </div>
+                    <p class="guide-desc">Complete reference covering all environment types, security model, lifecycle management, DLP policies, CoE setup, and governance strategy — with search, sticky sidebar, and 20+ accordion sections.</p>
+                    <div class="guide-chips">
+                        <span class="guide-chip" style="background:#eef6ff;color:#0078d4;">Environment Strategy</span>
+                        <span class="guide-chip" style="background:#f0fff4;color:#165c27;">Security Roles</span>
+                        <span class="guide-chip" style="background:#fff5e6;color:#b35900;">DLP Policies</span>
+                        <span class="guide-chip" style="background:#f5f0ff;color:#5a32a3;">CoE Setup</span>
+                        <span class="guide-chip" style="background:#eef6ff;color:#0078d4;">ALM</span>
+                    </div>
+                    <a class="guide-cta guide-cta-env" href="PowerPlatform_Environments_Guide.html" target="_blank" rel="noopener noreferrer">Open Guide &#8594;</a>
+                </div>
+
+                <!-- Git & GitHub Study Guide -->
+                <div class="guide-card guide-card-git">
+                    <div class="guide-card-head">
+                        <div class="guide-icon guide-icon-git">&#128025;</div>
+                        <div>
+                            <span class="guide-badge guide-badge-git">Beginner Friendly</span>
+                            <h3>Git &amp; GitHub</h3>
+                            <p class="guide-sub">Complete Study Guide</p>
+                        </div>
+                    </div>
+                    <div class="guide-stat-bar">
+                        <div class="guide-stat guide-stat-git"><span class="num">18</span><span class="lbl">Sections</span></div>
+                        <div class="guide-stat guide-stat-git"><span class="num">20</span><span class="lbl">Commands</span></div>
+                        <div class="guide-stat guide-stat-git"><span class="num">7</span><span class="lbl">Day Plan</span></div>
+                        <div class="guide-stat guide-stat-git"><span class="num">6</span><span class="lbl">Scenarios</span></div>
+                    </div>
+                    <p class="guide-desc">From zero to confident — key terms with real-life analogies, 20 commands, hands-on scenarios, merge conflict resolution, best practices, and a 7-day plan. Written for developers and Power Platform professionals.</p>
+                    <div class="guide-chips">
+                        <span class="guide-chip" style="background:#fff5f2;color:#f05032;">Branching</span>
+                        <span class="guide-chip" style="background:#f0fff4;color:#165c27;">Real Scenarios</span>
+                        <span class="guide-chip" style="background:#f5f0ff;color:#5a32a3;">Merge Conflicts</span>
+                        <span class="guide-chip" style="background:#eef6ff;color:#0366d6;">Commands Ref</span>
+                        <span class="guide-chip" style="background:#fff5e6;color:#b35900;">7-Day Plan</span>
+                    </div>
+                    <a class="guide-cta guide-cta-git" href="git-github-study-guide.html" target="_blank" rel="noopener noreferrer">Open Guide &#8594;</a>
+                </div>
+
+            </div>
+        </section>
+
         <section class="writings-section" aria-label="Architect perspectives">
             <h2>Architect Perspectives</h2>
             <p class="writings-subtitle">Long-form thinking on decisions, trade-offs, and the craft of solution architecture.</p>
