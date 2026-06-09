@@ -313,7 +313,7 @@ Do not rush.
 Do not assume knowledge.
 Explain everything from zero.
 Use simple analogies repeatedly where helpful.
-
+Final Governance Checklist
 ## Important Restriction
 Do NOT make the study guide sound like copied official documentation.
 Do NOT make it too formal.

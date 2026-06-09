@@ -1448,6 +1448,7 @@
   }
   function lockVault(){
     unlocked=false;
+    localStorage.removeItem('vk_tok');
     login.style.display='block';
     content.style.display='none';
     lockBtn.style.display='none';
@@ -1457,6 +1458,7 @@
   }
   function revealContent(){
     unlocked=true;
+    localStorage.setItem('vk_tok',JSON.stringify({k:VH,e:Date.now()+28800000}));
     login.style.display='none';
     content.style.display='block';
     content.classList.add('vk-content-in');
