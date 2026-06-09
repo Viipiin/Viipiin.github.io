@@ -1,0 +1,2124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Microsoft Power Platform DLP Policies Deep Dive: Beginner to Architect Guide</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230078d4'/%3E%3Cpath d='M20 16h24a6 6 0 0 1 6 6v21a5 5 0 0 1-5 5H29l-9 8V22a6 6 0 0 1 6-6z' fill='white'/%3E%3Cpath d='M28 28h14M28 35h10' stroke='%230078d4' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --primary:#0078d4;
+      --primary-dark:#005a9e;
+      --primary-light:#deecf9;
+      --accent:#00b7c3;
+      --accent2:#8764b8;
+      --success:#107c10;
+      --success-bg:#dff6dd;
+      --warning:#d83b01;
+      --warning-bg:#fed9cc;
+      --danger:#a4262c;
+      --danger-bg:#fde7e9;
+      --info-bg:#f3f9fd;
+      --bg:#f3f2f1;
+      --card:#ffffff;
+      --text:#201f1e;
+      --muted:#605e5c;
+      --border:#edebe9;
+      --tag-bg:#eef6fc;
+      --shadow:0 2px 12px rgba(0,0,0,.08);
+      --shadow-lg:0 8px 28px rgba(0,0,0,.14);
+      --shadow-xl:0 16px 48px rgba(0,0,0,.18);
+      --radius:10px;
+      --radius-lg:16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeInLeft{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    @keyframes drawPath{to{stroke-dashoffset:0}}
+    @keyframes countPop{0%{transform:scale(1)}40%{transform:scale(1.2)}100%{transform:scale(1)}}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px}
+    a{color:var(--primary);text-decoration:none}
+    a:hover{text-decoration:underline}
+    img,svg{max-width:100%}
+    #progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--accent2));width:0;z-index:9999;transition:width .1s;box-shadow:0 0 8px rgba(0,183,195,.45)}
+    .back-top{position:fixed;bottom:28px;right:28px;width:46px;height:46px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 18px rgba(0,120,212,.4);transition:all .25s;z-index:998;opacity:0;pointer-events:none;transform:translateY(12px)}
+    .back-top.visible{opacity:1;pointer-events:all;transform:translateY(0)}
+    .back-top:hover{background:var(--primary-dark);transform:translateY(-3px)}
+    .top-nav{position:sticky;top:0;z-index:160;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);display:flex;align-items:center;gap:0;height:54px;padding:0 24px;border-bottom:1px solid var(--border);overflow-x:auto}
+    .nav-logo{font-weight:700;color:var(--primary);margin-right:16px;white-space:nowrap;font-size:.88rem}
+    .top-nav a{display:flex;align-items:center;height:54px;padding:0 12px;color:var(--muted);font-size:.79rem;font-weight:600;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s}
+    .top-nav a:hover,.top-nav a.active{color:var(--primary);border-bottom-color:var(--primary);text-decoration:none}
+    .hero{background:linear-gradient(-45deg,#03244d,#005a9e,#0078d4,#006cbf,#003d7a,#0078d4);background-size:400% 400%;animation:gradientShift 14s ease infinite;color:#fff;padding:68px 36px 58px;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;right:-100px;top:-80px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.12) 0%,transparent 70%);animation:floatY 8s ease-in-out infinite}
+    .hero::after{content:'';position:absolute;left:-60px;bottom:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(0,183,195,.15) 0%,transparent 70%);animation:floatY 11s ease-in-out infinite reverse}
+    .hero-inner{max-width:980px;margin:0 auto;position:relative;z-index:1}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.3px;margin-bottom:18px;animation:fadeInLeft .6s ease both}
+    .hero h1{font-size:clamp(1.9rem,3.8vw,3.1rem);line-height:1.12;margin-bottom:14px;animation:fadeInUp .6s ease .1s both}
+    .hero p{max-width:840px;font-size:1.04rem;opacity:.92;margin-bottom:22px;animation:fadeInUp .6s ease .2s both}
+    .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 22px;animation:fadeInUp .6s ease .3s both}
+    .tag{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-weight:700;font-size:.78rem;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);transition:background .2s}
+    .tag:hover{background:rgba(255,255,255,.22)}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-top:26px;animation:fadeInUp .6s ease .35s both}
+    .hero-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:18px 18px 16px;box-shadow:0 10px 30px rgba(0,0,0,.18);transition:background .25s}
+    .hero-card:hover{background:rgba(255,255,255,.15)}
+    .hero-card h3{font-size:.94rem;font-weight:700;margin-bottom:8px}
+    .hero-card ul{padding-left:18px;font-size:.88rem}
+    .hero-card li{margin:6px 0}
+    .meta-strip{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:18px;font-size:.8rem;animation:fadeInUp .6s ease .45s both}
+    .meta-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);padding:7px 12px;border-radius:8px;transition:background .2s}
+    .meta-chip:hover{background:rgba(255,255,255,.2)}
+    .search-strip{display:flex;align-items:center;gap:12px;padding:12px 36px;background:#fff;border-bottom:1px solid var(--border)}
+    .search-strip input{flex:1;max-width:550px;padding:10px 14px 10px 38px;border:1.5px solid var(--border);border-radius:8px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23605e5c' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center #fff;outline:none;font-size:.9rem;transition:border-color .2s,box-shadow .2s}
+    .search-strip input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,120,212,.12)}
+    .search-count{font-size:.82rem;color:var(--muted)}
+    .page-body{display:flex;max-width:1480px;margin:0 auto}
+    .sidebar{width:252px;min-width:252px;background:var(--card);border-right:1px solid var(--border);position:sticky;top:54px;height:calc(100vh - 54px);overflow:auto;padding:20px 0}
+    .sidebar-group{padding:12px 20px 4px;text-transform:uppercase;font-size:.68rem;font-weight:800;letter-spacing:.9px;color:var(--muted)}
+    .sidebar a{display:block;padding:7px 20px;color:var(--muted);font-size:.82rem;border-left:2px solid transparent;transition:all .18s}
+    .sidebar a:hover,.sidebar a.active{background:var(--primary-light);border-left-color:var(--primary);color:var(--primary);text-decoration:none}
+    .main{flex:1;min-width:0;padding:34px 36px 80px}
+    section.section{margin-bottom:60px}
+    .section-title{display:flex;align-items:center;gap:10px;font-size:1.55rem;font-weight:800;margin-bottom:6px}
+    .section-title .icon{width:34px;height:34px;border-radius:10px;background:var(--primary);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;flex-shrink:0;box-shadow:0 4px 12px rgba(0,120,212,.25)}
+    .section-subtitle{font-size:.93rem;color:var(--muted);margin-bottom:22px;max-width:1000px}
+    .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:44px 0}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow);transition:box-shadow .25s}
+    .card:hover{box-shadow:var(--shadow-lg)}
+    .card + .card{margin-top:16px}
+    .card h3{font-size:1rem;margin-bottom:10px}
+    .card p{font-size:.9rem}
+    .grid{display:grid;gap:16px}
+    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .mini-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease}
+    .mini-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .mini-card h4{font-size:.9rem;margin-bottom:8px}
+    .mini-card p,.mini-card li{font-size:.84rem;color:var(--muted)}
+    .mini-card ul{padding-left:16px}
+    .kpi{padding:18px;border-radius:16px;background:linear-gradient(160deg,#fff,#f7fbff);border:1px solid var(--border);box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+    .kpi:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+    .kpi .num{font-size:1.6rem;font-weight:900;color:var(--primary);display:block;line-height:1.1}
+    .kpi .lbl{font-size:.82rem;color:var(--muted);margin-top:4px}
+    .callout{display:flex;gap:12px;padding:14px 16px;border-radius:12px;border-left:4px solid var(--primary);margin:16px 0}
+    .callout .ico{font-size:1.1rem;flex-shrink:0}
+    .callout p{font-size:.88rem}
+    .callout.info{background:var(--info-bg);border-left-color:var(--primary)}
+    .callout.warn{background:var(--warning-bg);border-left-color:var(--warning)}
+    .callout.success{background:var(--success-bg);border-left-color:var(--success)}
+    .callout.danger{background:var(--danger-bg);border-left-color:var(--danger)}
+    .chip{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;font-size:.76rem;font-weight:700;margin:2px 6px 2px 0;background:var(--tag-bg);color:var(--primary-dark)}
+    .chip.green{background:var(--success-bg);color:#035803}
+    .chip.orange{background:var(--warning-bg);color:#7a2200}
+    .chip.purple{background:#f3eef9;color:#5c2d91}
+    .chip.gray{background:#efefef;color:#3b3a39}
+    .chip.red{background:var(--danger-bg);color:#7f1d1d}
+    .chip.teal{background:#e6f9fb;color:#005f6b}
+    .tab-strip{display:flex;gap:6px;overflow:auto;border-bottom:2px solid var(--border);margin-bottom:18px}
+    .tab-btn{padding:10px 15px;border:none;background:none;border-bottom:2px solid transparent;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;transition:color .2s,background .2s}
+    .tab-btn.active{color:var(--primary);border-bottom-color:var(--primary)}
+    .tab-btn:hover{background:var(--primary-light)}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block;animation:fadeInUp .3s ease}
+    .accordion{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;transition:box-shadow .25s}
+    .accordion:hover{box-shadow:var(--shadow)}
+    .accordion + .accordion{margin-top:10px}
+    .accordion-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;font-weight:700;font-size:.9rem;background:#fff;cursor:pointer;transition:background .2s;user-select:none}
+    .accordion-header:hover{background:var(--primary-light)}
+    .accordion-header.open{background:var(--primary-light);color:var(--primary)}
+    .acc-chevron{display:inline-block;transition:transform .35s cubic-bezier(.4,0,.2,1);font-size:.78rem;opacity:.7}
+    .accordion-header.open .acc-chevron{transform:rotate(180deg)}
+    .accordion-body{max-height:0;overflow:hidden;display:block !important;padding:0 16px;border-top:none;transition:max-height .4s cubic-bezier(.4,0,.2,1),padding .3s ease}
+    .accordion-body.open{max-height:2000px;padding:16px;border-top:1px solid var(--border)}
+    .accordion-body p,.accordion-body li{font-size:.87rem;color:#353433}
+    .accordion-body ul{padding-left:18px}
+    .table-wrap{overflow:auto;border-radius:12px;box-shadow:var(--shadow)}
+    table{width:100%;border-collapse:collapse;font-size:.84rem}
+    th{background:var(--primary);color:#fff;text-align:left;padding:11px 13px;font-weight:700;white-space:nowrap}
+    td{padding:10px 13px;border-bottom:1px solid var(--border);vertical-align:top}
+    tr:nth-child(even) td{background:#faf9f8}
+    tr:hover td{background:var(--primary-light)}
+    .ok{color:var(--success);font-weight:800}
+    .no{color:var(--danger);font-weight:800}
+    .maybe{color:#797673;font-weight:700}
+    .note-box{background:#101820;color:#e8f4ff;border-radius:12px;padding:18px;font-family:var(--mono);font-size:.82rem;overflow:auto;line-height:1.8;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+    .checklist{list-style:none;padding-left:0}
+    .checklist li{position:relative;padding:8px 0 8px 30px;border-bottom:1px solid var(--border);font-size:.87rem;transition:background .2s}
+    .checklist li:hover{background:var(--primary-light);border-radius:6px}
+    .checklist li::before{content:'✓';position:absolute;left:6px;color:var(--success);font-weight:800}
+    .warning-list li::before{content:'!';color:var(--warning)}
+    .metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .scenario-card,.trouble-card,.play-card,.qa-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+    .scenario-card:hover,.play-card:hover,.qa-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .scenario-card h4,.play-card h4,.qa-card h4{font-size:.92rem;margin-bottom:8px}
+    .scenario-card p,.play-card p,.qa-card p{font-size:.84rem;color:var(--muted)}
+    .scenario-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+    .process{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px}
+    .step{position:relative;background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 16px 16px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+    .step:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+    .step .step-no{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:10px;box-shadow:0 3px 10px rgba(0,120,212,.28)}
+    .step h4{font-size:.9rem;margin-bottom:6px}
+    .step p,.step li{font-size:.83rem;color:var(--muted)}
+    .step ul{padding-left:16px}
+    .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .badge{display:inline-flex;align-items:center;gap:6px;background:#f6f8fa;border:1px solid var(--border);padding:4px 10px;border-radius:999px;font-size:.76rem;font-weight:700;color:#3a3938}
+    .svg-card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+    .flowchart{display:flex;flex-wrap:wrap;gap:14px;align-items:stretch;justify-content:flex-start}
+    .flow-node{min-width:155px;flex:1;background:#fff;border:1px solid var(--border);padding:14px;border-radius:14px;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+    .flow-node:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+    .flow-node h4{font-size:.88rem;margin-bottom:6px;color:var(--primary)}
+    .flow-node p{font-size:.81rem;color:var(--muted)}
+    .arrow{display:flex;align-items:center;color:var(--primary);font-size:1.6rem;font-weight:900;flex-shrink:0}
+    .scorecard{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .compare-col{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+    .compare-col h4{font-size:.92rem;margin-bottom:10px}
+    .compare-col ul{padding-left:18px}
+    .compare-col li{font-size:.84rem;color:var(--muted);margin:5px 0}
+    .footer-note{font-size:.8rem;color:var(--muted)}
+    .sticky-anchor{scroll-margin-top:72px}
+    .interview-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+    .interview-nav button{border:1px solid var(--primary);background:#fff;color:var(--primary);padding:8px 14px;border-radius:999px;font-weight:700;cursor:pointer;transition:all .2s}
+    .interview-nav button.active,.interview-nav button:hover{background:var(--primary);color:#fff;box-shadow:0 3px 12px rgba(0,120,212,.28)}
+    .pill{font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:999px;background:#eef6fc;color:var(--primary-dark)}
+    .glossary-item{padding:12px 0;border-bottom:1px solid var(--border)}
+    .glossary-item h4{font-size:.9rem;margin-bottom:4px}
+    .glossary-item p{font-size:.84rem;color:var(--muted)}
+    /* === CONNECTOR MATRIX === */
+    .conn-matrix-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+    .conn-group-col{background:#faf9f8;border-radius:12px;padding:12px}
+    .group-label{padding:8px 12px;border-radius:8px;font-weight:700;font-size:.82rem;text-align:center;margin-bottom:10px}
+    .conn-item{padding:8px 12px;border-radius:8px;margin:5px 0;font-size:.83rem;cursor:pointer;border:1.5px solid var(--border);background:#fff;transition:all .2s;user-select:none;display:flex;align-items:center;gap:6px}
+    .conn-item::before{content:'○';font-size:.7rem;color:var(--muted);transition:all .2s;flex-shrink:0}
+    .conn-item:hover{border-color:var(--primary);transform:scale(1.02)}
+    .conn-item.selected::before{content:'●'}
+    .conn-item.selected[data-group="business"]{background:#dff6dd;border-color:#107c10;color:#054b05;font-weight:700}
+    .conn-item.selected[data-group="business"]::before{color:#054b05}
+    .conn-item.selected[data-group="nonbusiness"]{background:#f0ece7;border-color:#8a8886;color:#201f1e;font-weight:700}
+    .conn-item.selected[data-group="blocked"]{background:#fde7e9;border-color:#a4262c;color:#a4262c;font-weight:700}
+    .matrix-result{background:var(--info-bg);border:1px solid var(--border);border-radius:12px;padding:14px;min-height:66px;margin:8px 0;transition:all .3s ease}
+    .result-allowed{background:#dff6dd;border:1.5px solid #107c10;border-radius:10px;padding:14px;font-size:.87rem;animation:fadeInUp .3s ease}
+    .result-denied{background:#fde7e9;border:1.5px solid #a4262c;border-radius:10px;padding:14px;font-size:.87rem;animation:fadeInUp .3s ease}
+    .matrix-clear-btn{margin-top:8px;padding:7px 16px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:.82rem;transition:all .2s}
+    .matrix-clear-btn:hover{border-color:var(--primary);color:var(--primary)}
+    /* === COE STYLES === */
+    .coe-highlight{border:2px solid var(--primary);border-radius:var(--radius-lg);padding:24px;background:linear-gradient(135deg,#f0f6ff,#fff)}
+    .coe-tool-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);border-top:3px solid var(--primary);transition:transform .2s,box-shadow .2s}
+    .coe-tool-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+    .coe-tool-card h4{font-size:.9rem;margin-bottom:6px}
+    .coe-tool-card p{font-size:.83rem;color:var(--muted)}
+    .maturity-track{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:16px}
+    .maturity-level{border-radius:12px;padding:14px 10px;text-align:center;border:2px solid var(--border);background:#fff;transition:all .2s;cursor:default}
+    .maturity-level:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+    .maturity-level.level-1{border-color:#d83b01}
+    .maturity-level.level-2{border-color:#f5a623}
+    .maturity-level.level-3{border-color:#0078d4}
+    .maturity-level.level-4{border-color:#107c10}
+    .maturity-level.level-5{border-color:#8764b8;background:linear-gradient(160deg,#f3eef9,#fff)}
+    .maturity-num{font-size:1.8rem;font-weight:900;display:block;margin-bottom:6px;line-height:1}
+    .maturity-level.level-1 .maturity-num{color:#d83b01}
+    .maturity-level.level-2 .maturity-num{color:#c48a00}
+    .maturity-level.level-3 .maturity-num{color:#0078d4}
+    .maturity-level.level-4 .maturity-num{color:#107c10}
+    .maturity-level.level-5 .maturity-num{color:#8764b8}
+    .maturity-level h4{font-size:.78rem;font-weight:700;margin-bottom:4px}
+    .maturity-level p{font-size:.72rem;color:var(--muted)}
+    .coe-workflow-step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+    .coe-workflow-step:last-child{border-bottom:none}
+    .coe-step-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;margin-top:2px}
+    .coe-step-content h4{font-size:.88rem;font-weight:700;margin-bottom:4px}
+    .coe-step-content p{font-size:.83rem;color:var(--muted)}
+    .ref-link{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:.87rem;transition:padding .18s,color .18s}
+    .ref-link:hover{padding-left:6px;color:var(--primary)}
+    .ref-link:last-child{border-bottom:none}
+    /* === SCROLL REVEAL === */
+    .will-reveal{transition:opacity .55s ease,transform .55s ease}
+    .will-reveal.hidden{opacity:0;transform:translateY(22px)}
+    @media (max-width:1050px){
+      .sidebar{display:none}
+      .main{padding:24px 16px 60px}
+      .hero{padding:52px 20px 40px}
+      .search-strip{padding:10px 16px}
+      .hero-grid,.grid-4,.grid-3,.grid-2,.metric-grid,.scorecard,.conn-matrix-wrap,.maturity-track{grid-template-columns:1fr}
+    }
+    @media (max-width:720px){
+      .top-nav{display:none}
+      .flowchart{flex-direction:column;align-items:stretch}
+      .arrow{transform:rotate(90deg);justify-content:center}
+      .scenario-grid{grid-template-columns:1fr}
+      .hero p{font-size:.96rem}
+      .back-top{bottom:16px;right:16px;width:40px;height:40px;font-size:1rem}
+    }
+    @media print{
+      #progress-bar,.top-nav,.sidebar,.search-strip,.back-top{display:none !important}
+      body{background:#fff}
+      .main{padding:0}
+      .card,.mini-card,.scenario-card,.play-card,.qa-card,.svg-card,.step{break-inside:avoid}
+      a{color:#000;text-decoration:none}
+      .hero{animation:none !important}
+    }
+  </style>
+</head>
+<body>
+  <script>!function(){var K='dmtwdjIwMjU=',n=Date.now();try{var d=JSON.parse(localStorage.getItem('vk_tok')||'');if(d&&d.k===K&&d.e>n)return}catch(e){}location.replace('../index.html')}();</script>
+  <div id="progress-bar"></div>
+  <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+  <nav class="top-nav" aria-label="Primary">
+    <span class="nav-logo">◆ Power Platform DLP Guide</span>
+    <a href="#hero">Intro</a>
+    <a href="#quickstart">5 Min</a>
+    <a href="#foundations">Foundations</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#behavior">Core Rules</a>
+    <a href="#advanced">Advanced</a>
+    <a href="#strategy">Strategy</a>
+    <a href="#runbook">Runbook</a>
+    <a href="#scenarios">Scenarios</a>
+    <a href="#mistakes">Anti-Patterns</a>
+    <a href="#troubleshooting">Troubleshoot</a>
+    <a href="#coe" style="color:var(--accent2);font-weight:800;">CoE Kit</a>
+    <a href="#interview">Interview</a>
+    <a href="#playbook">Playbook</a>
+    <a href="#summary">Summary</a>
+    <a href="#references">Refs</a>
+  </nav>
+
+  <header class="hero sticky-anchor" id="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">◆ Governance Deep Dive · Beginner to Architect</div>
+      <h1>Microsoft Power Platform DLP Policies Deep Dive:<br/>Beginner to Architect Guide</h1>
+      <p>Data Policies (including DLP policies) are among the most important guardrails in Power Platform. They reduce the risk of accidental data exposure, shape which connectors can be used together, influence maker experience, and support — but do not replace — your broader environment, security, and compliance architecture.</p>
+      <div class="tag-row" aria-label="Audience badges">
+        <span class="tag">🟦 Beginner</span>
+        <span class="tag">🛠 Admin</span>
+        <span class="tag">🏗 Architect</span>
+        <span class="tag">🎯 Interview Prep</span>
+        <span class="tag">📘 Runbook</span>
+      </div>
+      <div class="hero-grid">
+        <div class="hero-card">
+          <h3>What you'll learn</h3>
+          <ul>
+            <li>What DLP / Data Policies are, where they apply, and what they do not govern</li>
+            <li>How connector grouping, policy scope, inheritance, and the “most restrictive policy wins” principle work</li>
+            <li>How to design policies for default, sandbox, and production environments without crushing maker productivity</li>
+            <li>How endpoint filtering, tenant isolation, custom connectors, and Copilot Studio fit into governance</li>
+            <li>How to implement, test, communicate, troubleshoot, and defend DLP choices in interviews and stakeholder conversations</li>
+          </ul>
+        </div>
+        <div class="hero-card">
+          <h3>Who should read this</h3>
+          <ul>
+            <li>Power Platform makers who need a clean explanation of connector rules</li>
+            <li>Admins and CoE teams managing governance at environment or tenant level</li>
+            <li>Solution / Power Platform Architects designing secure enterprise patterns</li>
+            <li>Candidates preparing for architect, admin, developer, or governance interview rounds</li>
+          </ul>
+        </div>
+      </div>
+      <div class="meta-strip">
+        <span class="meta-chip">📄 Single-file offline HTML</span>
+        <span class="meta-chip">🧭 Microsoft-style layout</span>
+        <span class="meta-chip">📝 Includes diagrams, runbooks, scenarios, and interview kits</span>
+        <span class="meta-chip">⚠ Always validate latest Microsoft Learn docs before production rollout</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="search-strip">
+    <input id="searchInput" type="text" placeholder="Search sections, concepts, connectors, scenarios..." oninput="doSearch(this.value)" aria-label="Search in page" />
+    <span class="search-count" id="searchCount"></span>
+  </div>
+
+  <div class="page-body">
+    <aside class="sidebar" aria-label="Section navigation">
+      <div class="sidebar-group">Overview</div>
+      <a href="#hero">Hero / Intro</a>
+      <a href="#quickstart">DLP in 5 Minutes</a>
+      <a href="#myths">Myth vs Fact</a>
+      <div class="sidebar-group">Core Learning</div>
+      <a href="#foundations">Foundational Concepts</a>
+      <a href="#architecture">Detailed Architecture</a>
+      <a href="#behavior">Core Rules of Behavior</a>
+      <a href="#advanced">Advanced Capabilities</a>
+      <div class="sidebar-group">Governance</div>
+      <a href="#strategy">How to Design a DLP Strategy</a>
+      <a href="#runbook">Implementation Runbook</a>
+      <a href="#scenarios">Scenarios & Case Studies</a>
+      <a href="#mistakes">Common Mistakes</a>
+      <a href="#troubleshooting">Troubleshooting Guide</a>
+      <div class="sidebar-group">Investigation</div>
+      <a href="#coe" style="color:var(--accent2);font-weight:700;">CoE Starter Kit</a>
+      <div class="sidebar-group">Career Prep</div>
+      <a href="#interview">Interview Preparation Kit</a>
+      <a href="#playbook">Architect Playbook</a>
+      <a href="#summary">Summary / Takeaways</a>
+      <a href="#glossary">Glossary</a>
+      <a href="#references">References</a>
+    </aside>
+
+    <main class="main">
+      <section class="section sticky-anchor" id="quickstart">
+        <div class="section-title"><span class="icon">⚡</span> DLP in 5 Minutes</div>
+        <p class="section-subtitle">Fast orientation for busy readers. This section gives you the minimum viable understanding before you go deep.</p>
+
+        <div class="metric-grid" style="margin-bottom:18px;">
+          <div class="kpi"><div class="num">1</div><div class="lbl">Goal: reduce accidental data exposure and unsafe connector mixing</div></div>
+          <div class="kpi"><div class="num">2</div><div class="lbl">Scopes: tenant-level and environment-level</div></div>
+          <div class="kpi"><div class="num">3</div><div class="lbl">Groups: Business, Non-business, Blocked</div></div>
+          <div class="kpi"><div class="num">∞</div><div class="lbl">Broader controls still needed beyond DLP</div></div>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>Quick summary</h3>
+            <ul style="padding-left:18px; font-size:.88rem;">
+              <li><strong>What it is:</strong> Data Policies (including DLP policies) are connector governance rules set in the Power Platform admin center.</li>
+              <li><strong>Why it matters:</strong> They help stop business data from being combined with risky or unauthorized connectors.</li>
+              <li><strong>Where it applies:</strong> Power Apps, Power Automate, and Microsoft Copilot Studio use these controls in different ways.</li>
+              <li><strong>Core mechanism:</strong> Connectors are classified into <em>Business</em>, <em>Non-business</em>, or <em>Blocked</em> groups.</li>
+              <li><strong>How policy precedence works:</strong> If multiple policies apply, the most restrictive effective outcome wins.</li>
+              <li><strong>Not the same as everything else:</strong> DLP is not equivalent to environment security, Dataverse security roles, IP firewall, tenant isolation, or conditional access.</li>
+            </ul>
+            <div class="callout info"><span class="ico">💡</span><p><strong>Beginner analogy:</strong> Think of DLP like seating rules at a business dinner. People from the same approved group can sit together. Some people can sit at any regular table. Others are not allowed into the room at all. But the seating chart does <em>not</em> replace the building's locks, badge access, CCTV, or guest policies.</p></div>
+          </div>
+          <div class="svg-card" aria-label="Quick architecture diagram">
+            <h3 style="margin-bottom:12px;">Architecture snapshot</h3>
+            <svg viewBox="0 0 700 320" role="img" aria-label="DLP overview diagram showing policies, groups, and maker experience">
+              <defs>
+                <linearGradient id="g-tenant" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#003d7a"/><stop offset="100%" stop-color="#0078d4"/>
+                </linearGradient>
+                <linearGradient id="g-env" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#0078d4"/><stop offset="100%" stop-color="#2b88d8"/>
+                </linearGradient>
+                <filter id="sf" x="-10%" y="-10%" width="120%" height="120%">
+                  <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.1"/>
+                </filter>
+                <marker id="arr-b" markerWidth="9" markerHeight="7" refX="7" refY="3.5" orient="auto">
+                  <polygon points="0 0,8 3.5,0 7" fill="#0078d4"/>
+                </marker>
+                <marker id="arr-g" markerWidth="9" markerHeight="7" refX="7" refY="3.5" orient="auto">
+                  <polygon points="0 0,8 3.5,0 7" fill="#107c10"/>
+                </marker>
+                <marker id="arr-r" markerWidth="9" markerHeight="7" refX="7" refY="3.5" orient="auto">
+                  <polygon points="0 0,8 3.5,0 7" fill="#a4262c"/>
+                </marker>
+                <marker id="arr-m" markerWidth="9" markerHeight="7" refX="7" refY="3.5" orient="auto">
+                  <polygon points="0 0,8 3.5,0 7" fill="#605e5c"/>
+                </marker>
+              </defs>
+              <!-- Tenant Policy -->
+              <rect x="14" y="26" width="190" height="72" rx="14" fill="url(#g-tenant)" filter="url(#sf)"/>
+              <text x="109" y="53" fill="white" font-size="14" text-anchor="middle" font-weight="800">Tenant Data Policy</text>
+              <text x="109" y="72" fill="rgba(255,255,255,.85)" font-size="11" text-anchor="middle">Baseline · All environments</text>
+              <text x="109" y="87" fill="rgba(255,255,255,.7)" font-size="10" text-anchor="middle">Set by Tenant Admins</text>
+              <!-- Environment Policy -->
+              <rect x="14" y="128" width="190" height="72" rx="14" fill="white" stroke="#0078d4" stroke-width="2" filter="url(#sf)"/>
+              <text x="109" y="155" fill="#0078d4" font-size="14" text-anchor="middle" font-weight="800">Environment Policy</text>
+              <text x="109" y="174" fill="#605e5c" font-size="11" text-anchor="middle">Additional restrictions</text>
+              <text x="109" y="189" fill="#605e5c" font-size="10" text-anchor="middle">Cannot weaken tenant policy</text>
+              <!-- Most restrictive badge -->
+              <rect x="24" y="220" width="172" height="28" rx="8" fill="#fff4e0" stroke="#d4a017" stroke-width="1.5"/>
+              <text x="110" y="238" fill="#7a5c00" font-size="10.5" text-anchor="middle" font-weight="700">⚡ Most Restrictive Result Wins</text>
+              <!-- Arrows to groups -->
+              <path d="M204 62 L272 97" stroke="#0078d4" stroke-width="2" marker-end="url(#arr-b)" fill="none" stroke-dasharray="5,3"/>
+              <path d="M204 164 L272 164" stroke="#0078d4" stroke-width="2" marker-end="url(#arr-b)" fill="none" stroke-dasharray="5,3"/>
+              <path d="M204 164 L272 230" stroke="#a4262c" stroke-width="1.5" marker-end="url(#arr-r)" fill="none" stroke-dasharray="4,3" opacity=".5"/>
+              <!-- Groups -->
+              <rect x="276" y="58" width="142" height="58" rx="12" fill="#dff6dd" stroke="#107c10" stroke-width="1.5" filter="url(#sf)"/>
+              <text x="347" y="80" fill="#054b05" font-size="14" text-anchor="middle" font-weight="700">Business</text>
+              <text x="347" y="97" fill="#054b05" font-size="10" text-anchor="middle">SharePoint · Teams · Dataverse</text>
+              <text x="347" y="109" fill="#054b05" font-size="10" text-anchor="middle">Can mix together ✓</text>
+              <rect x="276" y="135" width="142" height="58" rx="12" fill="#f3f2f1" stroke="#8a8886" stroke-width="1.5" filter="url(#sf)"/>
+              <text x="347" y="157" fill="#201f1e" font-size="14" text-anchor="middle" font-weight="700">Non-business</text>
+              <text x="347" y="174" fill="#605e5c" font-size="10" text-anchor="middle">Gmail · Twitter · Dropbox</text>
+              <text x="347" y="186" fill="#605e5c" font-size="10" text-anchor="middle">Can mix together ✓</text>
+              <rect x="276" y="212" width="142" height="54" rx="12" fill="#fde7e9" stroke="#a4262c" stroke-width="1.5" filter="url(#sf)"/>
+              <text x="347" y="234" fill="#a4262c" font-size="14" text-anchor="middle" font-weight="700">Blocked</text>
+              <text x="347" y="251" fill="#a4262c" font-size="10" text-anchor="middle">Cannot be used ✗</text>
+              <!-- Cross-group denial indicator -->
+              <line x1="318" y1="116" x2="318" y2="135" stroke="#d83b01" stroke-width="2" stroke-dasharray="3,2"/>
+              <text x="360" y="128" fill="#d83b01" font-size="9" font-weight="700">Mixed = Denied</text>
+              <!-- Arrows to outcomes -->
+              <path d="M418 87 L484 87" stroke="#107c10" stroke-width="2" marker-end="url(#arr-g)" fill="none"/>
+              <path d="M418 164 L484 164" stroke="#605e5c" stroke-width="2" marker-end="url(#arr-m)" fill="none"/>
+              <path d="M418 239 L484 239" stroke="#a4262c" stroke-width="2" marker-end="url(#arr-r)" fill="none"/>
+              <!-- Outcome boxes -->
+              <rect x="486" y="55" width="198" height="66" rx="12" fill="white" stroke="#d6e8f5" stroke-width="1.5" filter="url(#sf)"/>
+              <text x="585" y="78" font-size="13" text-anchor="middle" font-weight="700" fill="#201f1e">Apps &amp; Flows</text>
+              <text x="585" y="96" font-size="10" text-anchor="middle" fill="#605e5c">Design-time + runtime enforcement</text>
+              <text x="585" y="112" font-size="10" text-anchor="middle" fill="#107c10">Save / Publish validation ✓</text>
+              <rect x="486" y="135" width="198" height="58" rx="12" fill="white" stroke="#d6e8f5" stroke-width="1.5" filter="url(#sf)"/>
+              <text x="585" y="158" font-size="13" text-anchor="middle" font-weight="700" fill="#201f1e">Copilot Studio Agents</text>
+              <text x="585" y="176" font-size="10" text-anchor="middle" fill="#605e5c">Channels · Actions · Publish</text>
+              <text x="585" y="190" font-size="10" text-anchor="middle" fill="#0078d4">Policy enforced at publish ✓</text>
+              <rect x="486" y="207" width="198" height="64" rx="12" fill="#fde7e9" stroke="#a4262c" stroke-width="1.5" filter="url(#sf)"/>
+              <text x="585" y="230" font-size="13" text-anchor="middle" font-weight="700" fill="#a4262c">Policy Violation</text>
+              <text x="585" y="248" font-size="10" text-anchor="middle" fill="#a4262c">Flow suspended · Connection disabled</text>
+              <text x="585" y="264" font-size="10" text-anchor="middle" fill="#a4262c">Save / publish error shown to maker</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="table-wrap" style="margin-top:18px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>Simple answer</th>
+                <th>Architect answer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>What does DLP control?</strong></td>
+                <td>Which connectors are allowed, blocked, or allowed to work together.</td>
+                <td>It is a connector-based governance control that shapes design-time and runtime behavior across selected environments.</td>
+              </tr>
+              <tr>
+                <td><strong>Where can I scope it?</strong></td>
+                <td>Tenant or environment.</td>
+                <td>Tenant policies can include/exclude environments; environment policies target a single environment and cannot override tenant-wide restrictions.</td>
+              </tr>
+              <tr>
+                <td><strong>What if two policies apply?</strong></td>
+                <td>The stricter result wins.</td>
+                <td>Effective evaluation fragments connector capabilities according to all applicable policies; planned simplicity matters.</td>
+              </tr>
+              <tr>
+                <td><strong>What does it not replace?</strong></td>
+                <td>Security roles, auth, network controls, ALM, compliance processes.</td>
+                <td>DLP is one layer in a control stack, not a full exfiltration or data access architecture by itself.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="myths">
+        <div class="section-title"><span class="icon">🧠</span> Myth vs Fact</div>
+        <p class="section-subtitle">Quick correction of common misunderstandings before they become governance problems.</p>
+        <div class="scorecard">
+          <div class="compare-col">
+            <h4>Myths</h4>
+            <ul>
+              <li>“Business” means safe; “Non-business” means bad.</li>
+              <li>Environment-level DLP can override tenant-wide DLP.</li>
+              <li>DLP controls the exact database, tenant, subnet, and user behavior for every connector.</li>
+              <li>If a maker saved an app before a policy change, runtime will never be affected.</li>
+              <li>Custom connectors are outside governance because they are enterprise-built.</li>
+            </ul>
+          </div>
+          <div class="compare-col">
+            <h4>Facts</h4>
+            <ul>
+              <li>The labels are categories used to define allowed combinations, not morality ratings.</li>
+              <li>Tenant restrictions remain effective; environment-level policies cannot weaken them.</li>
+              <li>DLP is connector-aware first; finer endpoint or tenant controls require additional features and controls.</li>
+              <li>Policy changes can disable connections or suspend assets after enforcement propagates.</li>
+              <li>Custom connectors are often higher risk because they can wrap unknown APIs and exfiltrate data.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="foundations">
+        <div class="section-title"><span class="icon">📚</span> Foundational Concepts</div>
+        <p class="section-subtitle">Every concept below includes beginner language, architect context, an example, a common pitfall, and an interview angle.</p>
+
+        <div class="tab-strip" role="tablist" aria-label="Foundational learning tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'f-tab-1')">Connector vs Connection</button>
+          <button class="tab-btn" onclick="switchTab(this,'f-tab-2')">Groups & Scope</button>
+          <button class="tab-btn" onclick="switchTab(this,'f-tab-3')">Precedence & Latency</button>
+          <button class="tab-btn" onclick="switchTab(this,'f-tab-4')">Impact on Makers & Assets</button>
+        </div>
+
+        <div class="tab-panel active" id="f-tab-1">
+          <div class="grid grid-2">
+            <div class="mini-card">
+              <h4>What is a connector?</h4>
+              <p><strong>Definition:</strong> A connector is the reusable Power Platform wrapper around a service or API.</p>
+              <p><strong>Why it matters:</strong> DLP primarily reasons about connectors and their actions/capabilities.</p>
+              <p><strong>Example:</strong> SharePoint, SQL Server, Dropbox, HTTP, Outlook, and a custom HR API connector are all connectors.</p>
+              <p><strong>Common pitfall:</strong> Treating a connector like a single endpoint or single account.</p>
+              <p><strong>Interview angle:</strong> “A connector is the service integration surface; DLP classifies or restricts connectors, not merely people.”</p>
+            </div>
+            <div class="mini-card">
+              <h4>What is a connection?</h4>
+              <p><strong>Definition:</strong> A connection is the saved authenticated relationship a maker creates when they use a connector.</p>
+              <p><strong>Architect note:</strong> Policies are connector-aware, but enforcement can disable or break existing connections after policy evaluation.</p>
+              <p><strong>Example:</strong> A maker uses the SharePoint connector and signs in to create a connection to SharePoint.</p>
+              <p><strong>Common pitfall:</strong> Saying “DLP controls all connections directly.” It controls connector usage rules and can make violating connections inactive, but it does not magically understand every security context behind the connection.</p>
+              <p><strong>Interview angle:</strong> “Connector = capability; connection = authenticated instance.”</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="f-tab-2">
+          <div class="grid grid-2">
+            <div class="mini-card">
+              <h4>Business / Non-business / Blocked</h4>
+              <p><strong>Beginner explanation:</strong> These are three policy groups that decide which connectors can be used together.</p>
+              <ul>
+                <li><strong>Business:</strong> Can mix with Business</li>
+                <li><strong>Non-business:</strong> Can mix with Non-business</li>
+                <li><strong>Blocked:</strong> Cannot be used where the policy applies</li>
+              </ul>
+              <p><strong>Common mistake:</strong> Thinking Business means “safe” and Non-business means “unsafe.” They are labels only.</p>
+            </div>
+            <div class="mini-card">
+              <h4>Tenant-wide vs environment-level</h4>
+              <p><strong>Beginner explanation:</strong> Some policies affect many environments, some affect only one.</p>
+              <p><strong>Architect insight:</strong> Tenant-level gives you centralized governance. Environment-level works well for single-environment exception cases or custom connector classification, but complexity grows if overused.</p>
+              <p><strong>Example:</strong> Baseline restrictive policy for all environments except approved production environments, then targeted business-unit policies for selected production environments.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="f-tab-3">
+          <div class="grid grid-2">
+            <div class="mini-card">
+              <h4>Inheritance and precedence</h4>
+              <p><strong>Beginner explanation:</strong> If more than one policy applies, Power Platform uses the strictest result.</p>
+              <p><strong>Architect insight:</strong> There is no simplistic “one policy overrides another” hierarchy that makes planning easy. Applicable policies are evaluated together, and the effective connector space can become fragmented quickly.</p>
+              <p><strong>Example:</strong> If tenant policy blocks Dropbox, no environment policy can make Dropbox available in that environment.</p>
+            </div>
+            <div class="mini-card">
+              <h4>Design-time vs runtime and propagation delay</h4>
+              <p><strong>Design-time:</strong> What makers can add, save, configure, or publish.</p>
+              <p><strong>Runtime:</strong> What already-built assets can actually execute.</p>
+              <p><strong>Latency:</strong> Policy changes may take time to fully propagate. Environments with many resources can take longer.</p>
+              <p><strong>Common mistake:</strong> Assuming a policy update is instant and harmless.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="f-tab-4">
+          <div class="grid grid-2">
+            <div class="mini-card">
+              <h4>Impact on makers</h4>
+              <p>Makers can see connector blocks, save failures, publish failures, or message banners if a resource violates policy. In Copilot Studio, violations can stop publishing and surface detailed error files.</p>
+              <p><strong>Real-world example:</strong> A maker tries to build SharePoint + Gmail flow and receives a policy violation because the connectors are split across Business and Non-business.</p>
+            </div>
+            <div class="mini-card">
+              <h4>Impact on existing apps, flows, and agents</h4>
+              <p>Assets built before a policy change can be broken later if the effective policy now blocks the connector, action, endpoint, or cross-tenant connection pattern that the asset relies on.</p>
+              <p><strong>Interview angle:</strong> “I always plan DLP changes with impact analysis, staged rollout, maker communication, and a rollback window.”</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout warn"><span class="ico">⚠</span><p><strong>Architect warning:</strong> Power Platform governance often fails not because admins lack DLP, but because they mistake DLP for comprehensive security. DLP is powerful, but it must align with environment strategy, identity/access design, Dataverse security, ALM, monitoring, and change control.</p></div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Concept</th>
+                <th>Beginner explanation</th>
+                <th>Architect insight</th>
+                <th>Practical example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Connector</td>
+                <td>Integration capability to a service</td>
+                <td>Primary DLP object for grouping, action control, endpoint control, and enforcement</td>
+                <td>SharePoint connector</td>
+              </tr>
+              <tr>
+                <td>Connection</td>
+                <td>Saved sign-in/authenticated link</td>
+                <td>Existing connections can be disabled/inactivated when policy enforcement finds a violation</td>
+                <td>SharePoint connection with maker credentials</td>
+              </tr>
+              <tr>
+                <td>Policy scope</td>
+                <td>Where the policy applies</td>
+                <td>Central design lever: tenant baseline vs environment specialization</td>
+                <td>All envs except selected prod</td>
+              </tr>
+              <tr>
+                <td>Latency</td>
+                <td>Enforcement can take time</td>
+                <td>Change windows and validation matter because runtime breakage can appear after save</td>
+                <td>Flow works now, fails in an hour after propagation</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="architecture">
+        <div class="section-title"><span class="icon">🏗</span> Detailed Architecture of DLP in Power Platform</div>
+        <p class="section-subtitle">How DLP fits into environments, makers, admins, apps, flows, agents, Dataverse, custom connectors, ALM, auditing, tenant isolation, and the Power Platform admin center.</p>
+
+        <div class="grid grid-2" style="margin-bottom:16px;">
+          <div class="card">
+            <h3>DLP in the governance stack</h3>
+            <ul style="padding-left:18px; font-size:.86rem;">
+              <li><strong>Environment strategy:</strong> DLP makes more sense when environments have clear purposes such as default, developer, shared productivity, sandbox, UAT, and production.</li>
+              <li><strong>Security model:</strong> Environment permissions, Dataverse security roles, security groups, guest access choices, and identity controls continue to matter.</li>
+              <li><strong>ALM:</strong> Policies must be validated throughout Dev → Test → UAT → Prod because a solution that passes in dev can fail in prod under a stricter policy.</li>
+              <li><strong>Compliance and monitoring:</strong> DLP supports exfiltration reduction, but monitoring, auditing, and review cycles close the loop.</li>
+            </ul>
+            <div class="badge-row">
+              <span class="badge">Power Platform admin center</span>
+              <span class="badge">Environment strategy</span>
+              <span class="badge">ALM</span>
+              <span class="badge">Custom connectors</span>
+              <span class="badge">Copilot Studio</span>
+            </div>
+          </div>
+          <div class="svg-card">
+            <h3 style="margin-bottom:12px;">Governance architecture diagram</h3>
+            <svg viewBox="0 0 780 410" role="img" aria-label="Detailed architecture diagram of DLP in Power Platform governance stack">
+              <defs>
+                <linearGradient id="ga-t" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#003578"/><stop offset="100%" stop-color="#005a9e"/></linearGradient>
+                <linearGradient id="ga-a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#005a9e"/><stop offset="100%" stop-color="#0078d4"/></linearGradient>
+                <linearGradient id="ga-e" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6b4fa8"/><stop offset="100%" stop-color="#8764b8"/></linearGradient>
+                <filter id="sf2" x="-8%" y="-8%" width="116%" height="116%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/></filter>
+              </defs>
+              <!-- Background panel -->
+              <rect x="10" y="10" width="760" height="390" rx="18" fill="#f9fbfd" stroke="#d8e7f4" stroke-width="1.5"/>
+              <!-- Top row: Roles -->
+              <rect x="30" y="28" width="185" height="70" rx="13" fill="url(#ga-t)" filter="url(#sf2)"/>
+              <text x="122" y="54" text-anchor="middle" fill="white" font-size="13" font-weight="800">Tenant Admins</text>
+              <text x="122" y="72" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="10.5">Baseline policy · Tenant isolation</text>
+              <text x="122" y="87" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="9.5">CoE oversight · Connector catalogue</text>
+              <rect x="293" y="28" width="196" height="70" rx="13" fill="url(#ga-a)" filter="url(#sf2)"/>
+              <text x="391" y="54" text-anchor="middle" fill="white" font-size="13" font-weight="800">Power Platform Admin Center</text>
+              <text x="391" y="72" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="10.5">Data Policies · Monitoring · DLP SDK</text>
+              <text x="391" y="87" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="9.5">Endpoint filtering · Tenant isolation settings</text>
+              <rect x="559" y="28" width="185" height="70" rx="13" fill="url(#ga-e)" filter="url(#sf2)"/>
+              <text x="651" y="54" text-anchor="middle" fill="white" font-size="13" font-weight="800">Environment Admins</text>
+              <text x="651" y="72" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="10.5">Local policies · Custom connectors</text>
+              <text x="651" y="87" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="9.5">Exception management</text>
+              <!-- Connecting lines — roles to admin center -->
+              <line x1="215" y1="63" x2="293" y2="63" stroke="#0078d4" stroke-width="2.5" stroke-dasharray="5,3"/>
+              <line x1="489" y1="63" x2="559" y2="63" stroke="#8764b8" stroke-width="2.5" stroke-dasharray="5,3"/>
+              <!-- Admin center to environments -->
+              <line x1="391" y1="98" x2="391" y2="156" stroke="#0078d4" stroke-width="2.5"/>
+              <!-- Environment row -->
+              <rect x="30" y="156" width="155" height="62" rx="12" fill="#fff" stroke="#d83b01" stroke-width="2" filter="url(#sf2)"/>
+              <text x="107" y="180" text-anchor="middle" fill="#b14600" font-size="12.5" font-weight="800">Default Env</text>
+              <text x="107" y="198" text-anchor="middle" fill="#605e5c" font-size="10">Most restrictive baseline</text>
+              <text x="107" y="210" text-anchor="middle" fill="#d83b01" font-size="9">⚠ Highest sprawl risk</text>
+              <rect x="205" y="156" width="155" height="62" rx="12" fill="#fff" stroke="#c48a00" stroke-width="1.5" filter="url(#sf2)"/>
+              <text x="282" y="180" text-anchor="middle" fill="#201f1e" font-size="12.5" font-weight="800">Dev / Sandbox</text>
+              <text x="282" y="198" text-anchor="middle" fill="#605e5c" font-size="10">Permissive for development</text>
+              <text x="282" y="210" text-anchor="middle" fill="#605e5c" font-size="9">Validate policy assumptions</text>
+              <rect x="380" y="156" width="155" height="62" rx="12" fill="#fff" stroke="#107c10" stroke-width="2" filter="url(#sf2)"/>
+              <text x="457" y="180" text-anchor="middle" fill="#054b05" font-size="12.5" font-weight="800">Production</text>
+              <text x="457" y="198" text-anchor="middle" fill="#605e5c" font-size="10">Business-approved only</text>
+              <text x="457" y="210" text-anchor="middle" fill="#107c10" font-size="9">Tightest controls</text>
+              <rect x="555" y="156" width="155" height="62" rx="12" fill="#fff" stroke="#8764b8" stroke-width="1.5" filter="url(#sf2)"/>
+              <text x="632" y="180" text-anchor="middle" fill="#5c2d91" font-size="12.5" font-weight="800">Agent Environments</text>
+              <text x="632" y="198" text-anchor="middle" fill="#605e5c" font-size="10">Copilot Studio governance</text>
+              <text x="632" y="210" text-anchor="middle" fill="#8764b8" font-size="9">Channels · Knowledge · Actions</text>
+              <!-- H-line connecting environments -->
+              <line x1="391" y1="156" x2="107" y2="156" stroke="#0078d4" stroke-width="1.5" stroke-dasharray="4,3" opacity=".5"/>
+              <line x1="391" y1="156" x2="632" y2="156" stroke="#0078d4" stroke-width="1.5" stroke-dasharray="4,3" opacity=".5"/>
+              <!-- Assets row -->
+              <rect x="30" y="268" width="135" height="54" rx="10" fill="#dff6dd" stroke="#107c10" stroke-width="1.5" filter="url(#sf2)"/>
+              <text x="97" y="291" text-anchor="middle" fill="#054b05" font-size="13" font-weight="700">Apps</text>
+              <text x="97" y="307" text-anchor="middle" fill="#054b05" font-size="10">Canvas · Model-driven</text>
+              <rect x="185" y="268" width="130" height="54" rx="10" fill="#f0f6ff" stroke="#0078d4" stroke-width="1.5" filter="url(#sf2)"/>
+              <text x="250" y="291" text-anchor="middle" fill="#005a9e" font-size="13" font-weight="700">Flows</text>
+              <text x="250" y="307" text-anchor="middle" fill="#005a9e" font-size="10">Cloud · Desktop</text>
+              <rect x="335" y="268" width="135" height="54" rx="10" fill="#f3eef9" stroke="#8764b8" stroke-width="1.5" filter="url(#sf2)"/>
+              <text x="402" y="291" text-anchor="middle" fill="#5c2d91" font-size="13" font-weight="700">Agents</text>
+              <text x="402" y="307" text-anchor="middle" fill="#5c2d91" font-size="10">Copilot Studio</text>
+              <rect x="490" y="268" width="155" height="54" rx="10" fill="#fff7e6" stroke="#d83b01" stroke-width="1.5" filter="url(#sf2)"/>
+              <text x="567" y="291" text-anchor="middle" fill="#b14600" font-size="13" font-weight="700">Custom Connectors</text>
+              <text x="567" y="307" text-anchor="middle" fill="#b14600" font-size="10">High governance burden</text>
+              <rect x="662" y="268" width="108" height="54" rx="10" fill="#fff3cc" stroke="#c48a00" stroke-width="1.5" filter="url(#sf2)"/>
+              <text x="716" y="291" text-anchor="middle" fill="#7a5800" font-size="13" font-weight="700">CoE Tools</text>
+              <text x="716" y="307" text-anchor="middle" fill="#7a5800" font-size="10">Visibility · Impact</text>
+              <!-- Vertical lines env → assets -->
+              <line x1="107" y1="218" x2="97" y2="268" stroke="#107c10" stroke-width="2"/>
+              <line x1="282" y1="218" x2="250" y2="268" stroke="#0078d4" stroke-width="2"/>
+              <line x1="457" y1="218" x2="402" y2="268" stroke="#8764b8" stroke-width="2"/>
+              <line x1="632" y1="218" x2="567" y2="268" stroke="#d83b01" stroke-width="2"/>
+              <!-- ALM arrow label -->
+              <text x="391" y="252" text-anchor="middle" fill="#0078d4" font-size="9.5" font-weight="700">ALM: Dev → Test → UAT → Prod</text>
+              <!-- CoE connection -->
+              <line x1="716" y1="268" x2="716" y2="156" stroke="#c48a00" stroke-width="1.5" stroke-dasharray="4,2" opacity=".7"/>
+              <text x="728" y="220" fill="#7a5800" font-size="8.5" font-weight="700" transform="rotate(90,728,220)">CoE monitors</text>
+              <!-- DLP label annotation -->
+              <rect x="180" y="348" width="400" height="30" rx="8" fill="rgba(0,120,212,.07)" stroke="rgba(0,120,212,.2)" stroke-width="1"/>
+              <text x="380" y="366" text-anchor="middle" fill="#0078d4" font-size="10.5" font-weight="700">DLP Policy applies to: all connector usage inside Apps, Flows, and Agents</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="mini-card">
+            <h4>Role of the Power Platform admin center</h4>
+            <p>The admin center is where admins create/edit policies, scope them, classify connectors, configure endpoint filtering, and manage related controls like tenant isolation and error settings. It is the operating console for governance, not just a configuration screen.</p>
+          </div>
+          <div class="mini-card">
+            <h4>Tenant admins vs environment admins</h4>
+            <p>Tenant admins define broad strategy, baseline policies, and cross-environment controls. Environment admins handle local governance, selected exception patterns, and environment operations. Over-decentralization leads to inconsistency; over-centralization can slow delivery.</p>
+          </div>
+          <div class="mini-card">
+            <h4>Default environment governance</h4>
+            <p>The default environment is where weak governance causes massive sprawl. Most organizations should apply a restrictive baseline there, especially against personal mail, social, generic HTTP, risky storage, and unmanaged custom connectors.</p>
+          </div>
+          <div class="mini-card">
+            <h4>Dataverse considerations</h4>
+            <p>DLP does not replace Dataverse security roles, business units, row/column permissions, audit settings, or environment security groups. A connector can be allowed while the user still lacks data privileges.</p>
+          </div>
+          <div class="mini-card">
+            <h4>ALM relationship</h4>
+            <p>Policies must be included in release readiness. A solution that uses SQL + Outlook in dev may fail in UAT/prod if Outlook is grouped differently or SQL endpoints are filtered there.</p>
+          </div>
+          <div class="mini-card">
+            <h4>Monitoring and auditing</h4>
+            <p>Use admin monitoring, CoE patterns, policy review reports, and cross-tenant reports to understand impact before and after changes. Governance without observability becomes guesswork.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="behavior">
+        <div class="section-title"><span class="icon">🧩</span> Core Rules of DLP Behavior</div>
+        <p class="section-subtitle">This is the implementation-heavy section: how grouping works, what combinations fail, how makers experience violations, and where architects frequently get surprised.</p>
+
+        <div class="table-wrap" style="margin-bottom:18px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Connector combination matrix</th>
+                <th>Business</th>
+                <th>Non-business</th>
+                <th>Blocked</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Business</strong></td>
+                <td class="ok">Allowed</td>
+                <td class="no">Denied</td>
+                <td class="no">Denied</td>
+              </tr>
+              <tr>
+                <td><strong>Non-business</strong></td>
+                <td class="no">Denied</td>
+                <td class="ok">Allowed</td>
+                <td class="no">Denied</td>
+              </tr>
+              <tr>
+                <td><strong>Blocked</strong></td>
+                <td class="no">Denied</td>
+                <td class="no">Denied</td>
+                <td class="no">Denied</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>How connector grouping works</h3>
+            <ul style="padding-left:18px; font-size:.86rem;">
+              <li>A resource can use multiple connectors from the same allowed category.</li>
+              <li>A resource cannot mix Business and Non-business connectors in the same app/flow/agent scenario governed by policy.</li>
+              <li>Blocked connectors cannot be used where that policy applies.</li>
+              <li>New connector default group matters: what happens to connectors introduced after the policy is created?</li>
+              <li>Unblockable connectors exist; governance planning must recognize those boundaries.</li>
+            </ul>
+            <div class="callout info"><span class="ico">🛈</span><p><strong>Architect note:</strong> The fewer overlapping policies you apply to one environment, the easier it is to reason about maker outcomes and to explain failures.</p></div>
+          </div>
+          <div class="card">
+            <h3>What commonly breaks</h3>
+            <ul style="padding-left:18px; font-size:.86rem;">
+              <li>Flows combining SharePoint/Dataverse with Gmail, Twitter, Dropbox, generic HTTP, or custom connector paths that were never approved.</li>
+              <li>Assets that were built before a new policy or stricter grouping went live.</li>
+              <li>SQL scenarios where endpoint filtering is introduced but connections rely on dynamic values.</li>
+              <li>Copilot Studio agents where channels, knowledge sources, HTTP requests, or no-auth publication patterns are blocked.</li>
+            </ul>
+            <div class="callout warn"><span class="ico">⚠</span><p><strong>Design-time vs runtime:</strong> A flow might still be editable or visible, but if the relevant connection is disabled or the policy now suspends the flow, actual execution fails later.</p></div>
+          </div>
+        </div>
+
+        <div class="svg-card" style="margin-top:18px;">
+          <h3 style="margin-bottom:12px;">Decision tree: can these connectors be used together?</h3>
+          <div class="flowchart" aria-label="Connector decision tree">
+            <div class="flow-node"><h4>1. Is any connector blocked?</h4><p>If yes, the answer is <strong>No</strong> unless the policy scope does not apply to that environment.</p></div>
+            <div class="arrow">→</div>
+            <div class="flow-node"><h4>2. Are the remaining connectors in the same group?</h4><p>If yes, usually <strong>Yes</strong>.</p></div>
+            <div class="arrow">→</div>
+            <div class="flow-node"><h4>3. Different groups?</h4><p>If Business + Non-business mix exists, <strong>No</strong>.</p></div>
+            <div class="arrow">→</div>
+            <div class="flow-node"><h4>4. Any extra granular controls?</h4><p>Action control, endpoint filtering, tenant isolation, or Copilot-specific rules may still block the design.</p></div>
+          </div>
+        </div>
+
+        <div class="svg-card" style="margin-top:18px;" aria-label="Interactive connector compatibility checker">
+          <h3 style="margin-bottom:6px;">Interactive Connector Compatibility Explorer</h3>
+          <p style="font-size:.86rem;color:var(--muted);margin-bottom:16px;">Click connectors to select them, then see instantly whether they can be used together in the same app or flow under a typical DLP policy.</p>
+          <div class="conn-matrix-wrap">
+            <div class="conn-group-col">
+              <div class="group-label" style="background:#dff6dd;color:#054b05;border:1px solid #107c10;">Business</div>
+              <div class="conn-item" data-group="business" onclick="selectConnector(this)">SharePoint</div>
+              <div class="conn-item" data-group="business" onclick="selectConnector(this)">Dataverse</div>
+              <div class="conn-item" data-group="business" onclick="selectConnector(this)">Microsoft Teams</div>
+              <div class="conn-item" data-group="business" onclick="selectConnector(this)">Outlook (M365)</div>
+              <div class="conn-item" data-group="business" onclick="selectConnector(this)">SQL Server</div>
+              <div class="conn-item" data-group="business" onclick="selectConnector(this)">OneDrive for Business</div>
+            </div>
+            <div class="conn-group-col">
+              <div class="group-label" style="background:#f3f2f1;color:#3b3a39;border:1px solid #8a8886;">Non-business</div>
+              <div class="conn-item" data-group="nonbusiness" onclick="selectConnector(this)">Gmail</div>
+              <div class="conn-item" data-group="nonbusiness" onclick="selectConnector(this)">Twitter / X</div>
+              <div class="conn-item" data-group="nonbusiness" onclick="selectConnector(this)">Dropbox</div>
+              <div class="conn-item" data-group="nonbusiness" onclick="selectConnector(this)">Google Drive</div>
+              <div class="conn-item" data-group="nonbusiness" onclick="selectConnector(this)">Facebook</div>
+            </div>
+            <div class="conn-group-col">
+              <div class="group-label" style="background:#fde7e9;color:#a4262c;border:1px solid #a4262c;">Blocked</div>
+              <div class="conn-item" data-group="blocked" onclick="selectConnector(this)">Generic HTTP</div>
+              <div class="conn-item" data-group="blocked" onclick="selectConnector(this)">RSS Feed</div>
+              <div class="conn-item" data-group="blocked" onclick="selectConnector(this)">Unreviewed Custom API</div>
+            </div>
+          </div>
+          <div class="matrix-result" id="matrixResult">
+            <p style="color:var(--muted);font-size:.86rem;text-align:center;padding:8px 0;">Select connectors above to check if they can work together</p>
+          </div>
+          <button class="matrix-clear-btn" onclick="clearMatrix()">Clear selection</button>
+        </div>
+
+        <div class="note-box" style="margin-top:18px;">
+IF connector is Blocked THEN maker cannot add/use it where policy applies.
+IF connector A is Business AND connector B is Non-business THEN the app/flow/agent cannot legally combine them.
+IF tenant policy blocks a connector THEN environment policy cannot reopen it.
+IF endpoint filtering denies a static SQL/HTTP/Blob/SMTP endpoint THEN maker gets a policy error.
+IF tenant isolation blocks outbound cross-tenant connection THEN valid credentials alone do not help.
+IF policy changes arrive after asset creation THEN runtime may fail even if the asset existed before.
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="advanced">
+        <div class="section-title"><span class="icon">🛡</span> Advanced DLP Capabilities and Related Controls</div>
+        <p class="section-subtitle">These controls provide more targeted governance than simple connector grouping. Always validate current GA/Preview status against the latest Microsoft Learn documentation.</p>
+
+        <div class="accordion">
+          <div class="accordion-header" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAccordion(this)">Connector endpoint filtering <span class="pill">Preview</span> <span>▾</span></div>
+          <div class="accordion-body">
+            <p><strong>What it is:</strong> Endpoint filtering lets admins allow or deny specific endpoints for supported connectors instead of just allowing or blocking the whole connector.</p>
+            <p><strong>How it works conceptually:</strong> You maintain an ordered allow/deny list per supported connector. A wildcard final rule such as <code>*</code> ends the chain. Order matters.</p>
+            <p><strong>Where it helps:</strong> SQL Server to approved server/database patterns only; HTTP limited to approved domains/paths; SMTP to approved mail relay; specific Blob storage accounts only.</p>
+            <p><strong>Typical supported connectors:</strong> HTTP, HTTP with Microsoft Entra ID, HTTP Webhook, SQL Server, Azure Blob Storage, SMTP, and desktop automation-related connectors called out in current documentation.</p>
+            <p><strong>Limitations:</strong> Static values are key. Dynamic runtime-generated endpoints, variables, environment variables, or some dynamic binding patterns can bypass or avoid evaluation depending on connector behavior. This makes design review and testing critical.</p>
+            <p><strong>Architect guidance:</strong> Use it for high-risk generic endpoints—not as a replacement for strong environment separation, API governance, or secrets strategy.</p>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAccordion(this)">Tenant isolation / cross-tenant restrictions <span>▾</span></div>
+          <div class="accordion-body">
+            <p><strong>What problem it solves:</strong> Restricts movement of data to/from external Microsoft Entra-secured tenants for supported connector authentication scenarios.</p>
+            <p><strong>How it differs from grouping:</strong> Connector grouping is about safe combinations; tenant isolation is about cross-tenant connection direction and target tenant allowance.</p>
+            <p><strong>Inbound vs outbound:</strong> Outbound means your tenant users connecting to data sources in another tenant. Inbound means external tenant users establishing connections into your tenant's data sources in Power Platform contexts.</p>
+            <p><strong>Pitfalls:</strong> Existing cross-tenant solutions can break. Allow lists and reporting matter. Some connectors have documented limitations or exceptions, so validate each dependency.</p>
+            <p><strong>When to use it:</strong> Mergers, partner collaboration, subsidiaries, regulated workloads, or data sovereignty programs where Entra-based connector movement across tenants must be governed.</p>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAccordion(this)">Custom connectors and DLP <span>▾</span></div>
+          <div class="accordion-body">
+            <p><strong>Why they are risky:</strong> A custom connector can be a compliant enterprise integration — or a tunnel to an unknown API. Risk depends on API purpose, auth model, ownership, secrets handling, and downstream data handling.</p>
+            <p><strong>Governance strategy:</strong> Require registration, business owner, technical owner, data classification, endpoint documentation, authentication model, test evidence, support contact, and change log.</p>
+            <p><strong>Approval pattern:</strong> Sandbox first, review in governance board/CAB, classify in DLP, then promote to approved production environments only.</p>
+            <p><strong>Safe usage pattern:</strong> Prefer reviewed enterprise APIs, enforce environment-specific use, document secrets management, and monitor usage. Never treat “custom” as automatically trusted.</p>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAccordion(this)">Copilot Studio / agents and DLP <span>▾</span></div>
+          <div class="accordion-body">
+            <p><strong>Why this matters:</strong> Agents can combine organizational knowledge, channels, HTTP requests, actions, event triggers, and external services. That makes policy alignment critical.</p>
+            <p><strong>What can be governed:</strong> Authentication approach, channels, knowledge source types, HTTP requests, skills, event triggers, and connector-based tools.</p>
+            <p><strong>Enforcement considerations:</strong> Misaligned policies can block publishing or break working agents. Operational impact can be immediate for agent makers and users in environments where enforcement applies.</p>
+            <p><strong>Architect takeaway:</strong> Treat agent policies as part of the same environment strategy and not as a separate experiment outside governance.</p>
+          </div>
+        </div>
+        <div class="accordion">
+          <div class="accordion-header" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAccordion(this)">Admin automation / SDK / PowerShell <span>▾</span></div>
+          <div class="accordion-body">
+            <p><strong>When to automate:</strong> Large tenants, repeated environment onboarding, complex exceptions, reporting, drift detection, policy-as-code, or rollout orchestration.</p>
+            <p><strong>Use cases:</strong> Bulk classify connectors, create/update policies, export current policy state, set DLP error links/contact info, generate cross-tenant reports, and reconcile custom connector inventory.</p>
+            <p><strong>Change-control guidance:</strong> Store source policy definitions, document target environments, test in lower tiers, and obtain security sign-off before production policy changes.</p>
+            <p><strong>Validate support status:</strong> Validate current module capabilities and GA/Preview status against the latest Microsoft Learn documentation.</p>
+          </div>
+        </div>
+
+        <div class="table-wrap" style="margin-top:18px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Control</th>
+                <th>Purpose</th>
+                <th>Strong use case</th>
+                <th>Limitation / caveat</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Standard DLP grouping</td>
+                <td>Safe connector combinations</td>
+                <td>Default environment baseline</td>
+                <td>Connector-aware, not full endpoint-aware</td>
+              </tr>
+              <tr>
+                <td>Endpoint filtering</td>
+                <td>Allow/deny specific connector endpoints</td>
+                <td>Restrict SQL, HTTP, Blob, SMTP targets</td>
+                <td>Preview caveats; dynamic endpoint limitations</td>
+              </tr>
+              <tr>
+                <td>Tenant isolation</td>
+                <td>Limit cross-tenant Entra-based connections</td>
+                <td>Subsidiary/partner or regulated cross-tenant control</td>
+                <td>Connector/auth-scope limitations; allow-list planning needed</td>
+              </tr>
+              <tr>
+                <td>Custom connector classification</td>
+                <td>Govern enterprise-wrapped APIs</td>
+                <td>Approved internal integration catalog</td>
+                <td>Risk depends on endpoint design and governance rigor</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="strategy">
+        <div class="section-title"><span class="icon">🗺</span> How to Design a DLP Strategy</div>
+        <p class="section-subtitle">Enterprise strategy is not “block random connectors.” It is deliberate design that balances data risk, environment purpose, and maker productivity.</p>
+
+        <div class="grid grid-3" style="margin-bottom:16px;">
+          <div class="mini-card">
+            <h4>1) Assess business data risk</h4>
+            <p>Map data domains: HR, Finance, Legal, Sales, Customer Support, regulated or sovereign data, partner data, operational telemetry, and public/reference data. Risk-based governance is stronger than connector-brand-based governance.</p>
+          </div>
+          <div class="mini-card">
+            <h4>2) Identify trusted vs untrusted connectors</h4>
+            <p>Trusted means approved for the intended environment and data class. Untrusted may mean personal mail, public social, generic HTTP, unmanaged storage, or unknown custom APIs.</p>
+          </div>
+          <div class="mini-card">
+            <h4>3) Align policies to environment strategy</h4>
+            <p>Default/shared environments should be more restrictive. Approved production environments can be more specific, not simply more permissive.</p>
+          </div>
+          <div class="mini-card">
+            <h4>4) Avoid overblocking</h4>
+            <p>Blocking too much too early drives shadow IT, stalled pilots, and bypass behavior. Start with a baseline, then approve well-justified exceptions through governance.</p>
+          </div>
+          <div class="mini-card">
+            <h4>5) Define ownership and review cadence</h4>
+            <p>Every policy needs an owner, documented purpose, review cycle, exception log, and communication path for makers.</p>
+          </div>
+          <div class="mini-card">
+            <h4>6) Institutionalize change management</h4>
+            <p>Treat DLP changes like production changes: test, rehearse, communicate, monitor, and retain rollback options.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>Sample governance operating model</h3>
+            <ul style="padding-left:18px; font-size:.86rem;">
+              <li><strong>Policy Owner:</strong> Power Platform Governance Lead / Architect</li>
+              <li><strong>Approvers:</strong> Security architect, data owner, business owner, platform operations lead</li>
+              <li><strong>Implementers:</strong> Power Platform admins / automation pipeline</li>
+              <li><strong>Review cycle:</strong> Quarterly baseline review; monthly change review for high-risk environments</li>
+              <li><strong>Exception handling:</strong> Time-bound approval, explicit expiry, documented reason, compensating controls</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Sample policy naming conventions</h3>
+            <ul style="padding-left:18px; font-size:.86rem;">
+              <li><code>Tenant-Baseline-DefaultAndShared-v1</code></li>
+              <li><code>Prod-HR-ApprovedConnectors-v3</code></li>
+              <li><code>UAT-Finance-Validation-v2</code></li>
+              <li><code>Exception-PartnerSharePoint-CrossTenant-v1</code></li>
+            </ul>
+            <p style="margin-top:10px; font-size:.86rem;">Include purpose, scope, and revision history in the name or associated documentation — especially when multiple teams operate in the same tenant.</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px;">
+          <h3>Sample policy design workshop agenda</h3>
+          <ol style="padding-left:18px; font-size:.86rem;">
+            <li>Business use-case overview and data classification</li>
+            <li>Environment mapping (Default / Dev / Test / Prod / Agent envs)</li>
+            <li>Connector inventory, including custom connectors and generic HTTP needs</li>
+            <li>Cross-tenant requirements and external collaboration mapping</li>
+            <li>Target-state connector grouping matrix</li>
+            <li>Exception requests, risk acceptance, and compensating controls</li>
+            <li>Pilot plan, validation criteria, communication, and rollback strategy</li>
+          </ol>
+        </div>
+
+        <div class="table-wrap" style="margin-top:18px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Decision question</th>
+                <th>If answer is Yes</th>
+                <th>If answer is No</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Does the environment handle sensitive business data?</td>
+                <td>Prefer tenant-controlled baseline + targeted approved connector list</td>
+                <td>Use restrictive shared productivity pattern</td>
+              </tr>
+              <tr>
+                <td>Is external or cross-tenant access necessary?</td>
+                <td>Evaluate tenant isolation, allow lists, and partner-specific exceptions</td>
+                <td>Keep cross-tenant restrictions tight</td>
+              </tr>
+              <tr>
+                <td>Do you need HTTP/SQL/Blob/SMTP with specific targets?</td>
+                <td>Assess endpoint filtering and static endpoint limitations</td>
+                <td>Avoid unnecessary complexity</td>
+              </tr>
+              <tr>
+                <td>Are custom connectors required?</td>
+                <td>Use approval model + documentation + environment scoping</td>
+                <td>Prefer vetted prebuilt connectors first</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="runbook">
+        <div class="section-title"><span class="icon">🧪</span> Step-by-Step Implementation Guide</div>
+        <p class="section-subtitle">Treat this like a runbook. Each step lists objective, actions, owner, risks, and outputs.</p>
+
+        <div class="process">
+          <div class="step"><div class="step-no">1</div><h4>Assess environments</h4><p><strong>Objective:</strong> Understand current environment landscape.</p><ul><li>Inventory default, dev, test, UAT, production, and agent environments</li><li>Note purpose, owners, region, sensitivity, and current maker population</li></ul><p><strong>Owner:</strong> Admin / Architect</p><p><strong>Risk:</strong> Missing “shadow” environments</p><p><strong>Output:</strong> Environment inventory</p></div>
+          <div class="step"><div class="step-no">2</div><h4>Inventory connectors</h4><p><strong>Objective:</strong> Discover actual usage.</p><ul><li>List prebuilt, custom, and generic connectors in active assets</li><li>Identify high-risk categories and cross-tenant patterns</li></ul><p><strong>Owner:</strong> Admin / CoE</p><p><strong>Risk:</strong> Blind spots in unmanaged assets</p><p><strong>Output:</strong> Connector inventory</p></div>
+          <div class="step"><div class="step-no">3</div><h4>Identify business-critical data sources</h4><p><strong>Objective:</strong> Flag what must never leak.</p><ul><li>Classify HR, finance, legal, customer, and regulated stores</li><li>Map approved integrations</li></ul><p><strong>Owner:</strong> Data owner / Security</p><p><strong>Risk:</strong> Misclassification</p><p><strong>Output:</strong> Data risk map</p></div>
+          <div class="step"><div class="step-no">4</div><h4>Define governance principles</h4><p><strong>Objective:</strong> Set standards before policy creation.</p><ul><li>Baseline rules for default/shared environments</li><li>Exception process and approval path</li></ul><p><strong>Owner:</strong> Architect / Governance board</p><p><strong>Risk:</strong> Principles too vague</p><p><strong>Output:</strong> Governance standard</p></div>
+          <div class="step"><div class="step-no">5</div><h4>Create draft policy matrix</h4><p><strong>Objective:</strong> Map groups and restrictions.</p><ul><li>Business vs Non-business vs Blocked</li><li>Define defaults for new connectors</li></ul><p><strong>Owner:</strong> Architect</p><p><strong>Risk:</strong> Over-fragmented policy set</p><p><strong>Output:</strong> Draft matrix</p></div>
+          <div class="step"><div class="step-no">6</div><h4>Validate with stakeholders</h4><p><strong>Objective:</strong> Avoid governance surprises.</p><ul><li>Security review</li><li>Business approval</li><li>Support model confirmation</li></ul><p><strong>Owner:</strong> Governance lead</p><p><strong>Risk:</strong> Late objections</p><p><strong>Output:</strong> Approved draft</p></div>
+          <div class="step"><div class="step-no">7</div><h4>Create pilot policy</h4><p><strong>Objective:</strong> Test with real patterns but limited blast radius.</p><ul><li>Target a sandbox or controlled environment</li><li>Apply contact/help settings for DLP errors</li></ul><p><strong>Owner:</strong> Admin</p><p><strong>Risk:</strong> Poor test coverage</p><p><strong>Output:</strong> Pilot policy</p></div>
+          <div class="step"><div class="step-no">8</div><h4>Test sample apps / flows / agents</h4><p><strong>Objective:</strong> Validate both allowed and denied behavior.</p><ul><li>Positive tests</li><li>Negative tests</li><li>Runtime revalidation</li></ul><p><strong>Owner:</strong> QA / Maker champions</p><p><strong>Risk:</strong> Only design-time verified</p><p><strong>Output:</strong> Test evidence</p></div>
+          <div class="step"><div class="step-no">9</div><h4>Roll out in phases</h4><p><strong>Objective:</strong> Controlled production change.</p><ul><li>Pilot → review → expand</li><li>Communicate to makers before enforcement</li></ul><p><strong>Owner:</strong> Admin / Change manager</p><p><strong>Risk:</strong> Broad outage</p><p><strong>Output:</strong> Rollout plan</p></div>
+          <div class="step"><div class="step-no">10</div><h4>Monitor and optimize</h4><p><strong>Objective:</strong> Keep governance current.</p><ul><li>Track violations / support tickets / exceptions</li><li>Review connector additions and shadow patterns</li></ul><p><strong>Owner:</strong> CoE / Platform ops</p><p><strong>Risk:</strong> Policy drift</p><p><strong>Output:</strong> Updated policy backlog</p></div>
+        </div>
+
+        <div class="grid grid-2" style="margin-top:18px;">
+          <div class="card">
+            <h3>Pre-implementation checklist</h3>
+            <ul class="checklist">
+              <li>Environment inventory confirmed and owners identified</li>
+              <li>Connector usage baseline captured</li>
+              <li>Critical business data sources classified</li>
+              <li>Default group for new connectors consciously chosen</li>
+              <li>Pilot environment selected</li>
+              <li>Rollback or temporary exemption plan available</li>
+              <li>Maker communication drafted</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Post-implementation validation checklist</h3>
+            <ul class="checklist">
+              <li>Expected allowed combinations still work</li>
+              <li>Expected denied combinations are truly denied</li>
+              <li>Runtime validation completed for scheduled flows and agent publishing</li>
+              <li>Support/help links visible in error messages if configured</li>
+              <li>Exceptions documented with expiry date</li>
+              <li>Policy owner and next review date recorded</li>
+              <li>Lessons learned logged for next rollout</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout success"><span class="ico">✅</span><p><strong>Rollback advice:</strong> If a policy causes unexpected production impact, you need a preapproved change-back path, not a debate. Be ready to revert the policy scope, reclassify a connector, temporarily exclude an environment, or re-enable a prior validated policy version while root cause analysis continues.</p></div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="scenarios">
+        <div class="section-title"><span class="icon">🌍</span> Real-World Scenarios and Case Studies</div>
+        <p class="section-subtitle">Ten practical scenarios. Use these for project design reviews, teaching sessions, or interview prep.</p>
+        <div class="scenario-grid" id="scenarioGrid"></div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="mistakes">
+        <div class="section-title"><span class="icon">🚫</span> Common Mistakes / Anti-Patterns</div>
+        <p class="section-subtitle">These mistakes appear repeatedly in enterprise programs and interviews.</p>
+        <div class="scenario-grid" id="antiPatternGrid"></div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="troubleshooting">
+        <div class="section-title"><span class="icon">🩺</span> Troubleshooting Guide</div>
+        <p class="section-subtitle">Use this when an app, flow, or agent suddenly stops working, or when makers report policy errors they do not understand.</p>
+
+        <div class="svg-card" style="margin-bottom:18px;">
+          <h3 style="margin-bottom:12px;">Troubleshooting flow</h3>
+          <div class="flowchart">
+            <div class="flow-node"><h4>Symptom appears</h4><p>Save failure, publish failure, blocked connector, suspended flow, broken connection</p></div>
+            <div class="arrow">→</div>
+            <div class="flow-node"><h4>Identify environment</h4><p>Which environment? Which policies apply? Recent changes?</p></div>
+            <div class="arrow">→</div>
+            <div class="flow-node"><h4>Check dependency type</h4><p>Connector group, endpoint rule, tenant isolation, custom connector, agent feature?</p></div>
+            <div class="arrow">→</div>
+            <div class="flow-node"><h4>Validate root cause</h4><p>Review policy, connection state, run history, designer error details</p></div>
+            <div class="arrow">→</div>
+            <div class="flow-node"><h4>Resolve & prevent</h4><p>Fix policy, update asset, document exception, communicate change</p></div>
+          </div>
+        </div>
+
+        <div id="troubleshootList"></div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="coe">
+        <div class="section-title"><span class="icon">🏛</span> CoE Starter Kit: DLP Investigation &amp; Governance</div>
+        <p class="section-subtitle">The Center of Excellence (CoE) Starter Kit is Microsoft's free, open-source governance toolkit for Power Platform. It gives admins the visibility and investigation tools to make informed DLP decisions — and to understand the real-world impact of any policy change <em>before</em> it happens.</p>
+
+        <div class="callout info"><span class="ico">💡</span><p><strong>Key insight:</strong> DLP without CoE is governance without visibility. The CoE Starter Kit transforms DLP from reactive crisis management into proactive, risk-based governance. They are designed to work together.</p></div>
+
+        <!-- What is CoE -->
+        <div class="card" style="margin-top:18px;">
+          <h3>What is the Power Platform CoE Starter Kit?</h3>
+          <div class="grid grid-2">
+            <div>
+              <p style="font-size:.88rem;margin-bottom:12px;">The CoE Starter Kit is a collection of Power Platform solutions (apps, flows, dashboards, tables) maintained by Microsoft and published on GitHub. It helps organizations across four strategic pillars:</p>
+              <div class="grid grid-2" style="gap:10px;">
+                <div class="coe-tool-card" style="border-top-color:#0078d4;">
+                  <h4>👁 Visibility</h4>
+                  <p>Full inventory of environments, apps, flows, connectors, and makers across the entire tenant.</p>
+                </div>
+                <div class="coe-tool-card" style="border-top-color:#107c10;">
+                  <h4>🛡 Governance</h4>
+                  <p>Policy management, DLP impact analysis, compliance workflows, app quarantine, and exception tracking.</p>
+                </div>
+                <div class="coe-tool-card" style="border-top-color:#8764b8;">
+                  <h4>🌱 Nurture</h4>
+                  <p>Maker training, community management, adoption tracking, and guided governance for citizen developers.</p>
+                </div>
+                <div class="coe-tool-card" style="border-top-color:#d83b01;">
+                  <h4>⚙ Establish</h4>
+                  <p>ALM Accelerator, environment strategy, solution lifecycle management, and automated onboarding.</p>
+                </div>
+              </div>
+              <div class="callout success" style="margin-top:12px;"><span class="ico">📦</span><p>Free &amp; open-source at <strong>github.com/microsoft/coe-starter-kit</strong> — deployed as managed solutions in a dedicated admin environment.</p></div>
+            </div>
+            <div>
+              <svg viewBox="0 0 360 280" role="img" aria-label="CoE Starter Kit ecosystem diagram">
+                <defs>
+                  <linearGradient id="coe-g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#005a9e"/><stop offset="100%" stop-color="#0078d4"/></linearGradient>
+                  <filter id="coe-sf"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/></filter>
+                </defs>
+                <!-- Center: Admin Center -->
+                <rect x="115" y="100" width="130" height="80" rx="14" fill="url(#coe-g1)" filter="url(#coe-sf)"/>
+                <text x="180" y="128" text-anchor="middle" fill="white" font-size="11" font-weight="800">Power Platform</text>
+                <text x="180" y="144" text-anchor="middle" fill="white" font-size="11" font-weight="800">Admin Center</text>
+                <text x="180" y="162" text-anchor="middle" fill="rgba(255,255,255,.8)" font-size="9">Policies · Settings</text>
+                <!-- Top: CoE Core -->
+                <rect x="115" y="14" width="130" height="56" rx="12" fill="#dff6dd" stroke="#107c10" stroke-width="1.5" filter="url(#coe-sf)"/>
+                <text x="180" y="36" text-anchor="middle" fill="#054b05" font-size="11" font-weight="700">CoE Core Components</text>
+                <text x="180" y="52" text-anchor="middle" fill="#054b05" font-size="9">Sync engine · Inventory</text>
+                <text x="180" y="64" text-anchor="middle" fill="#054b05" font-size="9">Dataverse tables · Power BI</text>
+                <!-- Left: Governance -->
+                <rect x="6" y="112" width="98" height="56" rx="12" fill="#f3eef9" stroke="#8764b8" stroke-width="1.5" filter="url(#coe-sf)"/>
+                <text x="55" y="134" text-anchor="middle" fill="#5c2d91" font-size="10" font-weight="700">Governance</text>
+                <text x="55" y="149" text-anchor="middle" fill="#5c2d91" font-size="8.5">DLP Impact Analysis</text>
+                <text x="55" y="162" text-anchor="middle" fill="#5c2d91" font-size="8.5">Compliance Center</text>
+                <!-- Right: ALM -->
+                <rect x="256" y="112" width="98" height="56" rx="12" fill="#fff7e6" stroke="#d83b01" stroke-width="1.5" filter="url(#coe-sf)"/>
+                <text x="305" y="134" text-anchor="middle" fill="#b14600" font-size="10" font-weight="700">ALM Accelerator</text>
+                <text x="305" y="149" text-anchor="middle" fill="#b14600" font-size="8.5">Solution pipelines</text>
+                <text x="305" y="162" text-anchor="middle" fill="#b14600" font-size="8.5">Env promotion</text>
+                <!-- Bottom: Nurture -->
+                <rect x="115" y="208" width="130" height="56" rx="12" fill="#f0f6ff" stroke="#0078d4" stroke-width="1.5" filter="url(#coe-sf)"/>
+                <text x="180" y="230" text-anchor="middle" fill="#005a9e" font-size="10" font-weight="700">Nurture Components</text>
+                <text x="180" y="245" text-anchor="middle" fill="#005a9e" font-size="8.5">Maker training · Community</text>
+                <text x="180" y="258" text-anchor="middle" fill="#005a9e" font-size="8.5">Adoption dashboards</text>
+                <!-- Connecting lines -->
+                <line x1="180" y1="70" x2="180" y2="100" stroke="#107c10" stroke-width="2"/>
+                <line x1="104" y1="140" x2="115" y2="140" stroke="#8764b8" stroke-width="2"/>
+                <line x1="245" y1="140" x2="256" y2="140" stroke="#d83b01" stroke-width="2"/>
+                <line x1="180" y1="180" x2="180" y2="208" stroke="#0078d4" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key DLP tools -->
+        <h3 style="font-size:1.05rem;font-weight:800;margin:24px 0 12px;">Key CoE Tools for DLP Governance</h3>
+        <div class="grid grid-3">
+          <div class="coe-tool-card" style="border-top-color:#d83b01;">
+            <h4>🔍 DLP Impact Analysis App</h4>
+            <p>The <strong>most critical CoE tool for DLP</strong>. Before changing any policy, run this app to see exactly which apps and flows would break, and which makers to notify. Prevents surprise outages.</p>
+          </div>
+          <div class="coe-tool-card" style="border-top-color:#0078d4;">
+            <h4>📊 Connector Usage Report (Power BI)</h4>
+            <p>Shows which connectors are actually used across all apps and flows in the tenant. Essential for understanding the real connector landscape before designing policies.</p>
+          </div>
+          <div class="coe-tool-card" style="border-top-color:#107c10;">
+            <h4>🗂 Environment &amp; DLP Report</h4>
+            <p>Cross-references all environments with their current DLP policies. Highlights environments with no policy, over-permissive policies, or policy gaps that need attention.</p>
+          </div>
+          <div class="coe-tool-card" style="border-top-color:#8764b8;">
+            <h4>✅ Compliance Center</h4>
+            <p>Tracks whether apps and flows have a documented business owner, risk classification, and compliance attestation. Drives the governance conversation with makers.</p>
+          </div>
+          <div class="coe-tool-card" style="border-top-color:#a4262c;">
+            <h4>🔒 Admin | App Quarantine</h4>
+            <p>Allows admins to quarantine non-compliant apps — restricting access while notifying owners to remediate. Part of the enforcement workflow when DLP alone is insufficient.</p>
+          </div>
+          <div class="coe-tool-card" style="border-top-color:#c48a00;">
+            <h4>🔧 Custom Connector Registry</h4>
+            <p>Inventory of all custom connectors with endpoint, owner, data classification, and approval status. Bridges the gap between DLP policy and real-world connector governance.</p>
+          </div>
+        </div>
+
+        <!-- DLP Impact Analysis deep dive -->
+        <div class="coe-highlight" style="margin-top:22px;">
+          <h3 style="margin-bottom:10px;">DLP Impact Analysis — Use Before Every Policy Change</h3>
+          <div class="grid grid-2">
+            <div>
+              <p style="font-size:.88rem;margin-bottom:10px;">The DLP Impact Analysis app is part of the CoE Governance component. Before you reclassify a connector, change a policy scope, or block a connector category, this tool tells you:</p>
+              <ul style="padding-left:18px;font-size:.86rem;line-height:1.8;">
+                <li><strong>Which apps</strong> use the connector being reclassified</li>
+                <li><strong>Which flows</strong> would stop working after the change</li>
+                <li><strong>Which makers</strong> need to be notified and when</li>
+                <li><strong>Which environments</strong> are most affected</li>
+                <li><strong>Blast radius estimate</strong> before you commit the change</li>
+              </ul>
+              <div class="callout danger" style="margin-top:12px;"><span class="ico">⛔</span><p><strong>Rule:</strong> Never change a DLP policy in production without first running DLP Impact Analysis. This is the difference between planned governance and accidental outages.</p></div>
+            </div>
+            <div>
+              <div class="card" style="border-left:4px solid var(--primary);">
+                <h3>How to use DLP Impact Analysis</h3>
+                <ol style="padding-left:18px;font-size:.86rem;line-height:2;">
+                  <li>Open the <strong>CoE Governance Admin App</strong></li>
+                  <li>Navigate to <strong>DLP Impact Analysis</strong></li>
+                  <li>Select the target <strong>environment(s)</strong></li>
+                  <li>Choose the <strong>connector</strong> you plan to reclassify or block</li>
+                  <li>Select the <strong>proposed new group</strong> (e.g., move from Business → Blocked)</li>
+                  <li>Review the <strong>impact list</strong>: apps, flows, makers affected</li>
+                  <li><strong>Export the report</strong> and notify makers before making the change</li>
+                  <li>Apply the policy change in the <strong>Admin Center</strong></li>
+                  <li>Monitor for support tickets and verify in CoE dashboards</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Investigation workflow -->
+        <div class="card" style="margin-top:22px;">
+          <h3 style="margin-bottom:16px;">DLP Investigation Workflow Using CoE</h3>
+          <div class="coe-workflow-step">
+            <div class="coe-step-num">1</div>
+            <div class="coe-step-content">
+              <h4>Discover — Run connector inventory</h4>
+              <p>Trigger the CoE sync engine to refresh the tenant inventory. Review the Connector Usage Power BI report to see which connectors are actively used, in which environments, and by how many makers. This is your baseline before any policy decision.</p>
+            </div>
+          </div>
+          <div class="coe-workflow-step">
+            <div class="coe-step-num">2</div>
+            <div class="coe-step-content">
+              <h4>Identify risk — Cross-reference with DLP policies</h4>
+              <p>Use the Environment &amp; DLP Report to find environments with missing policies, over-permissive classifications, or high-risk connectors (HTTP, custom, personal email) in Business group where they should not be.</p>
+            </div>
+          </div>
+          <div class="coe-workflow-step">
+            <div class="coe-step-num">3</div>
+            <div class="coe-step-content">
+              <h4>Analyse — Run DLP Impact Analysis before any change</h4>
+              <p>For each proposed policy change, run the DLP Impact Analysis app. Understand the blast radius, identify affected makers and assets, and export the impact list for stakeholder review and maker communication.</p>
+            </div>
+          </div>
+          <div class="coe-workflow-step">
+            <div class="coe-step-num">4</div>
+            <div class="coe-step-content">
+              <h4>Communicate — Notify makers before enforcement</h4>
+              <p>Use the CoE notification flows to email affected makers with the policy change details, timeline, what will break, and how they can request an exception through the governance process.</p>
+            </div>
+          </div>
+          <div class="coe-workflow-step">
+            <div class="coe-step-num">5</div>
+            <div class="coe-step-content">
+              <h4>Enforce — Apply the DLP policy change</h4>
+              <p>Make the policy change in the Power Platform Admin Center during an approved change window. Apply staged rollout where possible — pilot environment first, then broader rollout after validation.</p>
+            </div>
+          </div>
+          <div class="coe-workflow-step">
+            <div class="coe-step-num">6</div>
+            <div class="coe-step-content">
+              <h4>Monitor — Track compliance via CoE dashboards</h4>
+              <p>After enforcement, use CoE Power BI dashboards to monitor for new DLP violations, support ticket spikes, non-compliant apps, and connector usage changes. Check the compliance center for attestation status.</p>
+            </div>
+          </div>
+          <div class="coe-workflow-step">
+            <div class="coe-step-num">7</div>
+            <div class="coe-step-content">
+              <h4>Remediate — Handle non-compliant assets</h4>
+              <p>Use the compliance process to require makers to update or justify non-compliant apps. Quarantine assets that remain non-compliant beyond the remediation window. Document exceptions with expiry dates and compensating controls.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Governance Maturity -->
+        <div class="card" style="margin-top:22px;">
+          <h3>DLP Governance Maturity Model with CoE</h3>
+          <p style="font-size:.87rem;color:var(--muted);margin-bottom:4px;">Where is your organisation on the DLP governance journey?</p>
+          <div class="maturity-track">
+            <div class="maturity-level level-1">
+              <span class="maturity-num">1</span>
+              <h4>Reactive</h4>
+              <p>No CoE. DLP changes cause surprise outages. No maker communication. Governance is ad hoc.</p>
+            </div>
+            <div class="maturity-level level-2">
+              <span class="maturity-num">2</span>
+              <h4>Aware</h4>
+              <p>CoE Core installed. Basic Power BI reports available. Connector inventory exists but not yet acted on.</p>
+            </div>
+            <div class="maturity-level level-3">
+              <span class="maturity-num">3</span>
+              <h4>Proactive</h4>
+              <p>DLP Impact Analysis used before every policy change. Compliance Center active. Makers receive advance notice.</p>
+            </div>
+            <div class="maturity-level level-4">
+              <span class="maturity-num">4</span>
+              <h4>Optimised</h4>
+              <p>Automated governance, policy-as-code, continuous monitoring, documented exceptions with expiry, regular review cadence.</p>
+            </div>
+            <div class="maturity-level level-5">
+              <span class="maturity-num">5</span>
+              <h4>Transformative</h4>
+              <p>CoE + ALM + DLP + environment strategy fully integrated. Zero undocumented exceptions. Governance is a competitive enabler, not a blocker.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Getting started -->
+        <div class="grid grid-2" style="margin-top:22px;">
+          <div class="card">
+            <h3>Prerequisites to Deploy CoE</h3>
+            <ul class="checklist">
+              <li>Dedicated admin environment (no solutions, not shared)</li>
+              <li>Power Platform or tenant admin permissions</li>
+              <li>Service account for the sync engine (no MFA prompts)</li>
+              <li>Azure AD / Entra ID app registration for API access</li>
+              <li>Azure storage account (some components)</li>
+              <li>Power BI Pro licence for dashboard access</li>
+              <li>Approval to create environments and install solutions</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Quick Setup Path for DLP Focus</h3>
+            <ol style="padding-left:18px;font-size:.86rem;line-height:2.1;">
+              <li>Download CoE Starter Kit from GitHub</li>
+              <li>Deploy <strong>Core Components</strong> to admin environment</li>
+              <li>Run first full sync (allow several hours for large tenants)</li>
+              <li>Import <strong>Power BI template</strong> and connect to Dataverse</li>
+              <li>Deploy <strong>Governance Components</strong></li>
+              <li>Configure DLP Impact Analysis and notification settings</li>
+              <li>Run first DLP Impact Analysis report</li>
+              <li>Schedule quarterly review cycle</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- CoE Data Tables -->
+        <div class="table-wrap" style="margin-top:22px;">
+          <table>
+            <thead>
+              <tr><th>CoE Dataverse Table</th><th>What it stores</th><th>DLP relevance</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>admin_Environment</code></td><td>All environments with metadata, owners, regions, purpose</td><td>Scope mapping for policy design and gap analysis</td></tr>
+              <tr><td><code>admin_App</code> / <code>admin_CanvasApp</code></td><td>Canvas and model-driven app inventory with connector data</td><td>Identify apps that use connectors being reclassified</td></tr>
+              <tr><td><code>admin_Flow</code></td><td>Cloud flows with connector references and run metadata</td><td>Find flows that would break under a proposed policy change</td></tr>
+              <tr><td><code>admin_Connector</code></td><td>All connectors used across the tenant including custom</td><td>Connector inventory for classification and risk review</td></tr>
+              <tr><td><code>admin_DLPImpactAnalysis</code></td><td>Output of the DLP Impact Analysis tool per proposed change</td><td>Pre-change blast radius report for stakeholder sign-off</td></tr>
+              <tr><td><code>admin_MakerActivity</code></td><td>Maker productivity and usage patterns</td><td>Identify active makers affected by governance changes</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- CoE References -->
+        <div class="callout warn" style="margin-top:18px;"><span class="ico">⚠</span><p>CoE Starter Kit evolves rapidly. Always check the latest release notes at <strong>github.com/microsoft/coe-starter-kit/releases</strong> before deployment. Some features require specific Power Platform licence tiers.</p></div>
+        <div class="card" style="margin-top:14px;">
+          <h3 style="margin-bottom:12px;">CoE Official References</h3>
+          <div class="ref-link"><span>📘</span><a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/starter-kit" target="_blank" rel="noopener">CoE Starter Kit overview — Microsoft Learn</a></div>
+          <div class="ref-link"><span>🔍</span><a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/dlp-impact-analysis" target="_blank" rel="noopener">DLP Impact Analysis with CoE — Microsoft Learn</a></div>
+          <div class="ref-link"><span>🏗</span><a href="https://learn.microsoft.com/en-us/power-platform/guidance/adoption/coe" target="_blank" rel="noopener">Establish a CoE for Power Platform — Microsoft Learn</a></div>
+          <div class="ref-link"><span>📦</span><a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/setup" target="_blank" rel="noopener">Set up the CoE Starter Kit — Microsoft Learn</a></div>
+          <div class="ref-link"><span>🔗</span><a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/governance-components" target="_blank" rel="noopener">Governance Components in CoE — Microsoft Learn</a></div>
+          <div class="ref-link"><span>🚀</span><a href="https://learn.microsoft.com/en-us/power-platform/guidance/alm-accelerator/overview" target="_blank" rel="noopener">ALM Accelerator overview — Microsoft Learn</a></div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="interview">
+        <div class="section-title"><span class="icon">🎤</span> Power Platform DLP Interview Preparation Kit</div>
+        <p class="section-subtitle">This kit includes 25 beginner questions, 25 architect-level questions, 15 scenario questions, and 10 trick questions with strong sample answers.</p>
+
+        <div class="card" style="margin-bottom:18px;">
+          <h3>How to answer like an architect</h3>
+          <div class="grid grid-2">
+            <div class="mini-card">
+              <h4>Use these patterns</h4>
+              <ul>
+                <li>Explain scope first: tenant vs environment</li>
+                <li>Call out “most restrictive policy wins”</li>
+                <li>Separate design-time and runtime impact</li>
+                <li>Explain what DLP does not replace</li>
+                <li>Mention testing, communication, and change management</li>
+                <li>Tie policy design to environment strategy and data classification</li>
+              </ul>
+            </div>
+            <div class="mini-card">
+              <h4>Avoid these weak statements</h4>
+              <ul>
+                <li>“Business connectors are safe connectors.”</li>
+                <li>“Environment policy overrides tenant policy.”</li>
+                <li>“DLP completely prevents all data exfiltration.”</li>
+                <li>“If nothing breaks in designer, runtime is fine.”</li>
+                <li>“Custom connectors are fine because we built them.”</li>
+                <li>“Default environment is okay for production if users are careful.”</li>
+              </ul>
+            </div>
+          </div>
+          <div class="badge-row" style="margin-top:12px;">
+            <span class="badge">connector-aware</span>
+            <span class="badge">scope</span>
+            <span class="badge">precedence</span>
+            <span class="badge">design-time vs runtime</span>
+            <span class="badge">change management</span>
+            <span class="badge">governance operating model</span>
+          </div>
+        </div>
+
+        <div class="interview-nav" role="tablist" aria-label="Interview categories">
+          <button class="active" onclick="showInterviewSet(this,'beginnerSet')">25 Beginner Questions</button>
+          <button onclick="showInterviewSet(this,'architectSet')">25 Architect Questions</button>
+          <button onclick="showInterviewSet(this,'scenarioSet')">15 Scenario Questions</button>
+          <button onclick="showInterviewSet(this,'trickSet')">10 Trick Questions</button>
+        </div>
+        <div id="beginnerSet"></div>
+        <div id="architectSet" style="display:none"></div>
+        <div id="scenarioSet" style="display:none"></div>
+        <div id="trickSet" style="display:none"></div>
+
+        <div class="card" style="margin-top:18px;">
+          <h3>Rapid-fire revision bullets</h3>
+          <ul style="padding-left:18px; font-size:.86rem; columns:2; column-gap:24px;">
+            <li>Data Policies and DLP are closely related official terms in current docs.</li>
+            <li>Policies act at tenant or environment level, not user level.</li>
+            <li>Business / Non-business are labels, not trust ratings.</li>
+            <li>Blocked means not usable where that policy applies.</li>
+            <li>Most restrictive effective result wins.</li>
+            <li>Connectors and connections are not the same thing.</li>
+            <li>Policy changes can impact both design-time and runtime.</li>
+            <li>Latency matters; full enforcement is not always instant.</li>
+            <li>DLP does not replace Dataverse security or environment security groups.</li>
+            <li>Endpoint filtering is more granular than connector grouping.</li>
+            <li>Tenant isolation is different from standard DLP grouping.</li>
+            <li>Custom connectors require explicit governance.</li>
+            <li>Copilot Studio is subject to policy enforcement.</li>
+            <li>Default environment should be heavily governed.</li>
+            <li>DLP without maker communication causes avoidable support load.</li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="playbook">
+        <div class="section-title"><span class="icon">🧭</span> Architect Playbook: How to Answer DLP Questions in Real Projects</div>
+        <p class="section-subtitle">Leadership-oriented sample responses for real stakeholder conversations.</p>
+        <div class="scenario-grid" id="playbookGrid"></div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="summary">
+        <div class="section-title"><span class="icon">⭐</span> Summary / Key Takeaways</div>
+        <p class="section-subtitle">Use this section as your final revision sheet and project sanity check.</p>
+
+        <div class="grid grid-3">
+          <div class="card">
+            <h3>10 key takeaways</h3>
+            <ul style="padding-left:18px; font-size:.86rem;">
+              <li>DLP/Data Policies are core Power Platform governance controls.</li>
+              <li>They govern connector use and combinations, not all security behaviors.</li>
+              <li>Tenant baseline + environment strategy beats ad hoc environment politics.</li>
+              <li>Most restrictive effective policy wins.</li>
+              <li>Plan for both design-time and runtime impact.</li>
+              <li>Default environments require strong baseline controls.</li>
+              <li>Custom connectors need formal approval and documentation.</li>
+              <li>Endpoint filtering and tenant isolation solve different, more specific problems.</li>
+              <li>Copilot Studio belongs inside governance, not outside it.</li>
+              <li>Testing, communication, and rollback are mandatory for production changes.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>What beginners must remember</h3>
+            <ul style="padding-left:18px; font-size:.86rem;">
+              <li>Connector ≠ Connection</li>
+              <li>Business and Non-business are labels</li>
+              <li>Blocked means unavailable where policy applies</li>
+              <li>If two policies apply, the stricter outcome wins</li>
+              <li>DLP is not the only security control</li>
+            </ul>
+            <h3 style="margin-top:14px;">What architects must remember</h3>
+            <ul style="padding-left:18px; font-size:.86rem;">
+              <li>Simple policy architecture is easier to support</li>
+              <li>Environment strategy and DLP strategy must be designed together</li>
+              <li>Exception management is part of governance maturity</li>
+              <li>Lower-tier validation must mirror production realities</li>
+              <li>Policy changes without telemetry are operationally reckless</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Validate in every project</h3>
+            <ul class="checklist">
+              <li>Which environments are involved?</li>
+              <li>What data classes are in scope?</li>
+              <li>Which connectors and custom APIs are required?</li>
+              <li>Any external or cross-tenant data movement?</li>
+              <li>Any generic HTTP/SQL/Blob/SMTP targets?</li>
+              <li>Any Copilot Studio channel, auth, or knowledge-source needs?</li>
+              <li>Who owns the policy and exception path?</li>
+              <li>How will makers be informed?</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="glossary">
+        <div class="section-title"><span class="icon">📖</span> Glossary</div>
+        <p class="section-subtitle">Short definitions for quick recall.</p>
+        <div class="card">
+          <div class="glossary-item"><h4>Connector</h4><p>Power Platform integration surface for a service or API.</p></div>
+          <div class="glossary-item"><h4>Connection</h4><p>Saved authenticated relationship used by an app, flow, or agent.</p></div>
+          <div class="glossary-item"><h4>Data Policy / DLP Policy</h4><p>Power Platform policy controlling connector availability and safe combinations.</p></div>
+          <div class="glossary-item"><h4>Endpoint filtering</h4><p>Granular allow/deny control for specific endpoints on supported connectors.</p></div>
+          <div class="glossary-item"><h4>Tenant isolation</h4><p>Cross-tenant restriction for supported Entra-based connections in Power Platform.</p></div>
+          <div class="glossary-item"><h4>Most restrictive policy wins</h4><p>When multiple policies apply, the effective result is the stricter one.</p></div>
+          <div class="glossary-item"><h4>Design-time vs runtime</h4><p>Designer/save/publish experience vs actual execution behavior after deployment.</p></div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="section sticky-anchor" id="references">
+        <div class="section-title"><span class="icon">🔗</span> References</div>
+        <p class="section-subtitle">Official Microsoft documentation only. Always validate the latest Microsoft Learn documentation before production rollout.</p>
+        <div class="callout warn"><span class="ico">⚠</span><p>Preview features, supported connector lists, licensing details, and operational behavior can change. Validate the current GA/Preview status before using any advanced or production control.</p></div>
+        <div class="card">
+          <ul style="list-style:none; padding-left:0; font-size:.87rem;">
+            <li style="padding:8px 0;border-bottom:1px solid var(--border);"><a href="https://learn.microsoft.com/en-us/power-platform/admin/wp-data-loss-prevention" target="_blank" rel="noopener">Data policies - Power Platform</a></li>
+            <li style="padding:8px 0;border-bottom:1px solid var(--border);"><a href="https://learn.microsoft.com/en-us/power-platform/admin/prevent-data-loss" target="_blank" rel="noopener">Manage data policies - Power Platform</a></li>
+            <li style="padding:8px 0;border-bottom:1px solid var(--border);"><a href="https://learn.microsoft.com/en-us/power-platform/guidance/adoption/dlp-strategy" target="_blank" rel="noopener">Implement a data policy strategy - Power Platform</a></li>
+            <li style="padding:8px 0;border-bottom:1px solid var(--border);"><a href="https://learn.microsoft.com/en-us/power-platform/admin/connector-endpoint-filtering" target="_blank" rel="noopener">Connector endpoint filtering (preview) - Power Platform</a></li>
+            <li style="padding:8px 0;border-bottom:1px solid var(--border);"><a href="https://learn.microsoft.com/en-us/power-platform/admin/cross-tenant-restrictions" target="_blank" rel="noopener">Restrict cross-tenant inbound and outbound access - Power Platform</a></li>
+            <li style="padding:8px 0;border-bottom:1px solid var(--border);"><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-data-loss-prevention" target="_blank" rel="noopener">Configure data policies for agents - Microsoft Copilot Studio</a></li>
+            <li style="padding:8px 0;border-bottom:1px solid var(--border);"><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-dlp-troubleshooting" target="_blank" rel="noopener">Troubleshoot data policy enforcement for Copilot Studio</a></li>
+            <li style="padding:8px 0;border-bottom:1px solid var(--border);"><a href="https://learn.microsoft.com/en-us/power-platform/admin/data-loss-prevention-sdk" target="_blank" rel="noopener">Microsoft Power Platform data policy SDK</a></li>
+            <li style="padding:8px 0;border-bottom:1px solid var(--border);"><a href="https://learn.microsoft.com/en-us/power-automate/guidance/coding-guidelines/prevent-data-exfiltration" target="_blank" rel="noopener">Prevent unauthorized transfer of data - Power Automate guidance</a></li>
+            <li style="padding:8px 0;"><a href="https://learn.microsoft.com/en-us/power-platform/admin/security/identity-access-management" target="_blank" rel="noopener">Identity and access management - Power Platform</a></li>
+          </ul>
+          <p class="footer-note" style="margin-top:14px;">This page is designed for offline study and project use. Recheck documentation before implementation because platform behavior evolves over time.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const scenarios = [
+      {
+        title:'SharePoint + Outlook + Gmail conflict',
+        badge:'Connector grouping',
+        context:'Team wants a flow that reads a SharePoint list, emails internal stakeholders by Outlook, and also sends a copy to Gmail for a personal mailbox.',
+        risk:'Business data exfiltration to personal email.',
+        incorrect:'Put SharePoint and Gmail in the same allowed group “because the manager needs convenience.”',
+        correct:'Keep SharePoint/Outlook together in Business and classify Gmail as Non-business or Blocked in shared environments.',
+        outcome:'Internal notifications work, personal forwarding is denied.',
+        interview:'Explain that DLP should support approved business processes, not personal bypass channels.'
+      },
+      {
+        title:'Dataverse + Dropbox issue',
+        badge:'Default/prod governance',
+        context:'Maker wants to export customer records from Dataverse to Dropbox.',
+        risk:'Sensitive data leaving approved enterprise stores to unmanaged file storage.',
+        incorrect:'Allow Dropbox in the same group as Dataverse for all environments.',
+        correct:'Block or separate Dropbox in default/shared environments; if a file exchange is truly required, create an approved enterprise storage pattern instead.',
+        outcome:'Customer data stays in governed stores.',
+        interview:'Mention that DLP is an exfiltration reduction guardrail and that storage choice should align with enterprise controls.'
+      },
+      {
+        title:'SQL Server with endpoint filtering need',
+        badge:'Endpoint filtering',
+        context:'A production flow can use SQL Server but only against approved server/database combinations.',
+        risk:'Maker accidentally or intentionally points the connector to an unexpected server/database.',
+        incorrect:'Allow the SQL connector broadly and trust makers to choose the right server.',
+        correct:'Use SQL Server endpoint filtering for approved static targets and verify that dynamic patterns do not undermine the design.',
+        outcome:'Designers can connect only to approved SQL endpoints, subject to current feature limitations.',
+        interview:'Call out that generic connector allowance is often too broad for enterprise production.'
+      },
+      {
+        title:'Default environment governance problem',
+        badge:'Default environment',
+        context:'Many informal apps in the default environment use social and consumer connectors.',
+        risk:'Sprawl, unknown ownership, and accidental data combinations.',
+        incorrect:'Leave default environment mostly open because it is “just for small stuff.”',
+        correct:'Apply a restrictive tenant baseline to the default environment and steer serious solutions to managed dev/test/prod environments.',
+        outcome:'Citizen development continues with guardrails; business apps move to proper environments.',
+        interview:'State that default environment should be treated as a high-risk shared zone.'
+      },
+      {
+        title:'HR data leaking through personal email/social connector',
+        badge:'Sensitive data',
+        context:'HR maker wants automated candidate communications via personal email or social channel because it is faster to set up.',
+        risk:'Regulatory, privacy, and reputational impact.',
+        incorrect:'Approve the connector based on convenience without business owner sign-off.',
+        correct:'Use approved enterprise messaging/email channels only and keep HR data sources in restricted environments with tight DLP.',
+        outcome:'Auditability and controlled communication path.',
+        interview:'Explain that DLP must align with both data sensitivity and business-approved communication channels.'
+      },
+      {
+        title:'Cross-tenant SharePoint data movement',
+        badge:'Tenant isolation',
+        context:'A solution needs to read SharePoint in a partner tenant from your tenant.',
+        risk:'Uncontrolled cross-tenant data movement.',
+        incorrect:'Assume normal credentials are enough and DLP grouping alone handles it.',
+        correct:'Assess tenant isolation, allowed directions, allow lists, and whether this pattern belongs in Power Platform at all.',
+        outcome:'Cross-tenant movement is explicit, controlled, and documented.',
+        interview:'Distinguish tenant isolation from ordinary connector grouping.'
+      },
+      {
+        title:'Custom connector with unknown API risk',
+        badge:'Custom connector',
+        context:'A project proposes a custom connector to an externally hosted API with unclear data retention rules.',
+        risk:'Data could exit to an unmanaged system behind a “business-looking” connector.',
+        incorrect:'Classify the custom connector as Business without review because it belongs to a project team.',
+        correct:'Require endpoint documentation, data owner sign-off, auth review, sandbox validation, and scoped production approval.',
+        outcome:'Custom connector becomes trusted only after governance review.',
+        interview:'Say custom connectors need stronger governance, not less.'
+      },
+      {
+        title:'Copilot Studio agent calling external services',
+        badge:'Agent governance',
+        context:'An agent uses public website knowledge plus HTTP actions to call external APIs.',
+        risk:'Data mixing, unsafe publication, and broad external reach.',
+        incorrect:'Treat agents as separate from Power Platform DLP because they are “AI features.”',
+        correct:'Classify agent-related connectors, channels, HTTP, and knowledge sources under DLP and test enforcement before production publishing.',
+        outcome:'Agent becomes aligned with environment governance.',
+        interview:'Mention that Copilot Studio now participates in policy enforcement and must be part of the same governance story.'
+      },
+      {
+        title:'Teams environment implications',
+        badge:'Environment strategy',
+        context:'A department builds inside Teams first, then asks for premium connectors and broader rollout.',
+        risk:'Underestimating growth path and security needs.',
+        incorrect:'Keep stretching the original Teams-first design despite new enterprise requirements.',
+        correct:'Plan an upgrade or migration path to a governed full environment once needs exceed the original lightweight scope.',
+        outcome:'Reduced technical debt and clearer governance fit.',
+        interview:'Explain environment strategy first, then DLP fit.'
+      },
+      {
+        title:'Production vs sandbox policy mismatch',
+        badge:'ALM',
+        context:'Solution works in sandbox but fails in production after deployment.',
+        risk:'Release delays and confused support teams.',
+        incorrect:'Test only functional behavior, not production policy alignment.',
+        correct:'Mirror policy assumptions or validate solution dependencies against production DLP before go-live.',
+        outcome:'Predictable promotion across environments.',
+        interview:'Strong answer links DLP with release discipline and environment parity.'
+      }
+    ];
+
+    const antiPatterns = [
+      {title:'Treating DLP as the only security control', why:'DLP is one layer, not the full architecture.', symptoms:'Teams claim “we have DLP so we are secure.”', fix:'Pair DLP with identity, environment security, Dataverse security, ALM, monitoring, and compliance controls.', architect:'Frame DLP as an exfiltration-reduction guardrail, not a universal shield.'},
+      {title:'One policy for every environment without strategy', why:'Different environments serve different purposes.', symptoms:'Either everything is blocked or sensitive prod remains too open.', fix:'Use tenant baseline plus targeted policies aligned to environment purpose.', architect:'Policy design should reflect environment strategy.'},
+      {title:'Blocking too much too early', why:'Causes frustration and bypass behavior.', symptoms:'Makers ask for ad hoc exceptions to do basic work.', fix:'Start with risk-based baseline and expand via controlled exception patterns.', architect:'Optimize for governed productivity, not just denial.'},
+      {title:'Ignoring custom connectors', why:'They can hide risky APIs behind enterprise branding.', symptoms:'No inventory, no owners, unclear endpoints.', fix:'Approve, document, classify, monitor, and scope them carefully.', architect:'Custom connectors should have a service catalog workflow.'},
+      {title:'Not documenting exceptions', why:'Temporary exceptions become permanent blind spots.', symptoms:'Nobody remembers why Gmail or HTTP was allowed in one environment.', fix:'Create time-bound approvals with owner, expiry, and control rationale.', architect:'No undocumented exceptions in mature governance.'},
+      {title:'Confusing connectors with connections', why:'It creates poor diagnosis and inaccurate interview answers.', symptoms:'People say “allow this connection in policy.”', fix:'Use correct vocabulary; understand both policy and runtime effects.', architect:'Precise terms improve root-cause analysis.'},
+      {title:'Misunderstanding Business vs Non-business labels', why:'The label names are often overinterpreted.', symptoms:'Arguments about “moral” naming instead of allowed combinations.', fix:'Teach that grouping semantics matter more than the label names.', architect:'Focus on data movement boundaries.'},
+      {title:'Changing policies without testing', why:'Runtime impacts can be delayed and severe.', symptoms:'Flows fail after-hours; users escalate unexpectedly.', fix:'Pilot, stage, communicate, validate, and retain rollback option.', architect:'Policy changes are production changes.'},
+      {title:'Ignoring maker communication', why:'Silent governance changes look like random platform instability.', symptoms:'Support tickets surge after change window.', fix:'Publish policy summaries, contact routes, and rollout notices.', architect:'Governance includes human enablement.'},
+      {title:'Assuming tenant isolation covers all DLP needs', why:'It solves a different problem.', symptoms:'Cross-tenant restricted but risky same-tenant connectors still open.', fix:'Use tenant isolation alongside DLP where needed.', architect:'Separate the “who/where” question from the “which connectors together” question.'}
+    ];
+
+    const troubleshooting = [
+      {symptom:'App or flow stopped working after policy change', cause:'Connector now violates grouping or connection was inactivated during enforcement.', steps:['Check recent policy changes and environment scope','Identify connectors in the resource','Review connection status and flow run history'], resolution:'Reclassify if approved, move asset to correct environment, or redesign connector usage.', prevention:'Impact analysis before rollout and staged validation.'},
+      {symptom:'Connector not available to maker', cause:'Connector is blocked, classified incompatibly, or excluded by scope.', steps:['Check applicable policies','Search connector classification','Confirm environment and default group assumptions'], resolution:'Update policy if business-approved or redirect maker to appropriate environment.', prevention:'Publish approved connector catalog for each environment tier.'},
+      {symptom:'Policy conflict confusion', cause:'Multiple policies apply and effective result is stricter than expected.', steps:['List all policies applicable to environment','Compare connector groups across them','Document effective outcome'], resolution:'Simplify policy architecture or adjust scope.', prevention:'Minimize overlapping policies per environment.'},
+      {symptom:'Maker receives policy violation message', cause:'Resource mixes Business and Non-business, uses blocked connector, or violates granular control.', steps:['Inspect error message/detail download','Check exact connector/action/endpoint','Confirm policy owner and intended design'], resolution:'Move connectors to same approved group only if business-approved or redesign.', prevention:'Maker enablement and design review patterns.'},
+      {symptom:'Existing resource unexpectedly impacted', cause:'Runtime evaluation now blocks prior design after propagation.', steps:['Validate when policy changed vs when failure started','Review resource dependencies','Check whether connection was disabled'], resolution:'Restore prior policy temporarily or remediate resource.', prevention:'Change windows, communications, and rollback.'},
+      {symptom:'Endpoint filtering mismatch', cause:'Endpoint format/order incorrect, or connector uses dynamic endpoint values.', steps:['Review ordered rules','Confirm exact endpoint representation','Check if static vs dynamic behavior applies'], resolution:'Correct rules or redesign to use governed/static patterns.', prevention:'Document exact endpoint formats and test all forms.'},
+      {symptom:'Cross-tenant connection issue', cause:'Tenant isolation blocks inbound or outbound connection.', steps:['Confirm tenant isolation status','Check allow list direction','Review whether connector/auth model is in scope'], resolution:'Add approved tenant exception or redesign collaboration path.', prevention:'Run cross-tenant reports before isolation rollout.'},
+      {symptom:'Custom connector blocked or unusable', cause:'Not classified where needed or policy does not approve it in that environment.', steps:['Find connector name/host URL mapping','Check environment-specific policy','Verify approval status'], resolution:'Classify through approved governance process.', prevention:'Maintain central custom connector registry.'},
+      {symptom:'Environment-specific behavior confusion', cause:'Maker tested in sandbox/default but deployed to prod with different rules.', steps:['Compare environment policies','List connector dependencies per environment','Review ALM path'], resolution:'Align lower-tier test with production rules or document exceptions.', prevention:'Environment parity for policy assumptions.'},
+      {symptom:'Copilot Studio agent data policy issue', cause:'Blocked channel, knowledge source, HTTP, auth mode, skill, connector tool, or trigger.', steps:['Review agent error details file','Check channel/auth/tool configuration','Confirm environment policy scope'], resolution:'Update policy if appropriate or reconfigure the agent.', prevention:'Include agent scenarios in policy test packs.'}
+    ];
+
+    const playbook = [
+      {title:'Project manager asks for “quick DLP setup”', answer:'“We can move fast, but not blind. I will start with a baseline policy that protects default/shared environments, identify the connectors your solution actually needs, pilot the design in a controlled environment, and roll it out with a rollback plan. Quick setup is fine; ungoverned setup is not.”'},
+      {title:'Security team asks for data exfiltration controls', answer:'“DLP is part of the answer, especially for connector combinations, endpoint controls, and cross-tenant restrictions. But I will pair it with environment strategy, identity/access controls, Dataverse security, and monitoring so we are not pretending one control solves everything.”'},
+      {title:'Business asks why Gmail/Twitter/Dropbox is blocked', answer:'“Those connectors create an easy path for business data to leave approved corporate systems. If there is a legitimate use case, we will assess the data class, environment, and compensating controls before allowing anything.”'},
+      {title:'Maker asks why their flow no longer works', answer:'“A recent policy evaluation likely found a connector combination or endpoint that is no longer compliant in this environment. I will help identify the exact dependency, determine whether the design belongs in a different environment or needs redesign, and document the resolution.”'},
+      {title:'Auditor asks how data movement is controlled', answer:'“We use Data Policies to govern which connectors can be used together, block unapproved connectors, and apply targeted restrictions by environment. For specific exfiltration patterns, we supplement with endpoint filtering, tenant isolation, and broader access/security controls.”'},
+      {title:'Enterprise architect asks how DLP fits broader security', answer:'“DLP is our connector-layer governance. It complements — but does not replace — environment segmentation, Dataverse access design, identity and access controls, ALM, logging, and operational governance.”'},
+      {title:'CoE asks how to operationalize governance', answer:'“Define baseline policies, catalogue approved connectors, document exceptions, automate reporting where practical, communicate with makers, and schedule regular reviews. Governance becomes scalable when policy management is repeatable and observable.”'}
+    ];
+
+    const beginnerQuestions = [
+      ['What is DLP in Power Platform?','It is a connector governance control used to reduce accidental data exposure by deciding which connectors are available and which connectors can be used together.'],
+      ['Why does DLP matter?','Because low-code tools make integration easy, and DLP helps prevent organizational data from being mixed with risky or unapproved services.'],
+      ['What is an official alternative term to DLP in current docs?','Microsoft documentation also uses the broader term “Data Policies,” which includes DLP-related controls.'],
+      ['What is a connector?','A connector is the integration layer for a service or API, such as SharePoint or SQL Server.'],
+      ['What is a connection?','A connection is the saved authenticated relationship a maker creates when using a connector.'],
+      ['Are connector and connection the same?','No. The connector is the capability; the connection is the authenticated instance.'],
+      ['What are the three main connector groups?','Business, Non-business, and Blocked.'],
+      ['Can Business and Non-business connectors be used together?','No, not in the same governed app/flow/agent where policy applies.'],
+      ['What does Blocked mean?','The connector cannot be used where that policy applies.'],
+      ['Are Business connectors inherently safe?','No. “Business” is just a label that defines allowed grouping behavior.'],
+      ['Where can DLP be applied?','At tenant level or environment level.'],
+      ['Can policies be applied per user?','No, not as a standard DLP scope.'],
+      ['What happens if more than one policy applies?','The effective result is the most restrictive outcome.'],
+      ['Does DLP only affect new apps and flows?','No. Existing resources can also be affected after policy evaluation.'],
+      ['What is design-time impact?','What the maker can add, save, configure, or publish in the designer.'],
+      ['What is runtime impact?','What happens when existing apps, flows, or agents actually run after policy enforcement.'],
+      ['Can policy changes take time to apply?','Yes. Propagation and enforcement are not always instantaneous.'],
+      ['Does DLP replace security roles?','No. Dataverse and environment security remain separate concerns.'],
+      ['What is the default group for new connectors?','It is configurable at policy level and should be chosen deliberately.'],
+      ['Why is the default environment important in DLP discussions?','Because it is often the biggest source of maker sprawl and accidental risky combinations.'],
+      ['What is endpoint filtering?','A more granular control that allows or denies specific endpoints for supported connectors.'],
+      ['Is endpoint filtering always GA?','Not necessarily. Validate current GA/Preview status in the latest Microsoft Learn docs.'],
+      ['What is tenant isolation?','A control for cross-tenant Entra-based connections in Power Platform.'],
+      ['Do Copilot Studio agents follow data policies?','Yes, policy enforcement applies and can block publishing or functionality.'],
+      ['What is the shortest architect-style definition of DLP?','A connector-centric governance control that reduces unsafe data movement patterns across Power Platform environments.']
+    ];
+
+    const architectQuestions = [
+      ['How do you explain DLP to a non-technical stakeholder?','I describe it as a rulebook that determines which business systems can safely exchange data inside Power Platform, while making it clear that this rulebook is only one part of the total security model.'],
+      ['How do you design DLP for a multi-environment enterprise?','Start with environment strategy, apply a tenant baseline for shared/default environments, then define targeted approved connector policies for production or business-unit environments with a formal exception process.'],
+      ['Can environment-level DLP override tenant-wide DLP?','No. Environment-level policies cannot weaken tenant-wide restrictions; effective outcomes remain subject to the most restrictive result.'],
+      ['Why do you prefer few policies per environment?','Because overlapping policies fragment connector space, increase support complexity, and make maker outcomes harder to predict and explain.'],
+      ['How do you handle connector exceptions?','Through a documented, time-bound exception workflow with business justification, risk assessment, compensating controls, and owner approval.'],
+      ['What is your baseline policy pattern for shared environments?','Usually restrict to Microsoft 365 and approved standard enterprise services, block or separate risky consumer and generic connectors, and keep the default environment especially tight.'],
+      ['How do DLP and ALM interact?','A solution must be validated against destination environment policies; otherwise a release that works in dev can fail in UAT or production.'],
+      ['How do you discuss design-time versus runtime in a policy review?','I explain whether makers will be blocked in the designer, whether existing assets could be suspended or fail later, and what propagation delay can mean operationally.'],
+      ['What are the limits of DLP?','It is connector-aware first; it does not replace environment access controls, Dataverse security, network restrictions, endpoint-specific governance for all connectors, or business process approvals.'],
+      ['How do you govern custom connectors?','I require inventory, ownership, endpoint documentation, auth review, data classification, sandbox testing, and environment-specific approval before production use.'],
+      ['How do you approach endpoint filtering?','Only where the connector class is too broad for production and where I can validate supported static endpoint behavior and operational limitations.'],
+      ['When would you use tenant isolation?','When cross-tenant Entra-based connector movement must be restricted or explicitly allow-listed, such as in subsidiary, partner, or regulated scenarios.'],
+      ['How do you manage maker productivity while maintaining control?','By providing approved environment patterns, publishing connector guidance, using pilots, and creating a responsive exception process instead of blanket denials.'],
+      ['How do you communicate DLP changes?','I publish the scope, rationale, effective date, affected environments, help channel, and rollback window before enforcement.'],
+      ['What would you monitor after rollout?','Violation trends, support tickets, cross-tenant report findings, blocked connector demand, and unexpected runtime failures.'],
+      ['How do you handle default environment governance?','Treat it as high risk, apply restrictive baseline controls, and route serious solutions to governed environments.'],
+      ['How does DLP fit with Dataverse security?','DLP controls connector patterns; Dataverse security controls data access inside Dataverse. Both are necessary and independent.'],
+      ['What is your policy naming strategy?','Names should reflect scope, environment or business area, and revision so that operations teams can manage changes cleanly.'],
+      ['How do you explain the phrase “most restrictive policy wins”?','If any applicable policy denies a combination or blocks a connector, that stricter outcome governs what the maker can do.'],
+      ['What is a sign that a DLP architecture is too complex?','Frequent policy conflicts, maker confusion, excessive environment-specific exceptions, and support teams that cannot explain why something is blocked.'],
+      ['How do you treat Copilot Studio in governance?','As a first-class citizen of environment governance, including connector, channel, auth, knowledge-source, HTTP, and event-trigger considerations.'],
+      ['How do you use PowerShell or SDK in DLP management?','For reporting, bulk changes, policy-as-code, environment onboarding, error settings, and repeatable governance operations.'],
+      ['How do you design for regional or sovereignty needs?','Use environment strategy and identity/access patterns first, then align DLP to the data movement risks in those environments.'],
+      ['What governance anti-pattern do you correct most often?','Teams using DLP as justification for skipping broader security architecture or for leaving the default environment unmanaged.'],
+      ['What is your strongest interview summary for DLP architecture?','DLP should be simple, environment-aligned, risk-based, observable, and operationalized through testing, change control, and clear maker communication.']
+    ];
+
+    const scenarioQuestions = [
+      ['A flow using SharePoint and Dropbox stopped after policy update. What do you check first?','I check the environment, applicable policies, recent policy changes, current connector grouping, and whether the Dropbox connection was disabled or the combination is no longer allowed.'],
+      ['How would you design DLP for HR production?','Restricted production environment, approved business connectors only, tight default/shared baseline elsewhere, documented exception path, and controlled custom connector usage if needed.'],
+      ['Your company needs partner-tenant SharePoint integration. What is your thought process?','I separate connector grouping from cross-tenant control, evaluate tenant isolation and allow-list requirements, validate business need, and test the exact supported pattern.'],
+      ['A maker wants HTTP in default environment. What do you do?','Challenge the business need, assess risk, consider endpoint filtering if appropriate in a controlled environment, and usually avoid broad HTTP allowance in default/shared environments.'],
+      ['A custom connector is already in production but undocumented. What now?','Immediately inventory it, identify owner and endpoint behavior, assess data exposure, classify it formally, and decide whether to keep, redesign, or remove it.'],
+      ['A solution passes in dev but fails in prod. How do you explain this to leadership?','Different environment policies create different effective connector rules. Governance must be part of release validation, not an afterthought.'],
+      ['A business team says DLP is slowing delivery. How do you respond?','I explain the risk rationale and propose a faster, governed path: pilot, approved connector catalog, exception process, and environment strategy that empowers delivery safely.'],
+      ['An agent cannot publish after a policy change. What is your root-cause checklist?','Check channel, authentication mode, knowledge sources, HTTP usage, tools, skills, triggers, and the detailed policy error file in the affected environment.'],
+      ['How would you handle a request to allow Gmail in one environment only?','Understand the use case, data involved, environment purpose, safer alternatives, approval owner, and whether an exception with expiry is acceptable.'],
+      ['Finance wants SQL production access but only to one database. What control is relevant?','Endpoint filtering is the likely candidate, subject to supported connector behavior and current feature status.'],
+      ['A maker says “it worked yesterday.” What is your response?','I would check for policy changes, connection state changes, and whether delayed enforcement has now reached the resource.'],
+      ['What would you ask before allowing a custom connector?','What API does it call, who owns it, what data leaves, how is auth handled, what environments need it, and what monitoring or fallback exists?'],
+      ['How do you handle DLP for a citizen developer program?','Restrictive default baseline, approved shared environment(s), clear connector catalog, education, and an exception path backed by governance.'],
+      ['How do you prepare interview-ready answers for DLP?','Lead with scope, grouping, precedence, limitations, runtime impact, and governance design rather than only UI steps.'],
+      ['How would you answer an auditor asking whether DLP prevents all leakage?','I would say it significantly reduces unsafe connector patterns, but full data protection also depends on identity, environment controls, access design, and operational governance.']
+    ];
+
+    const trickQuestions = [
+      ['If a connector is in Business, does that make it secure?','No. The label only defines combination behavior in the policy.'],
+      ['Can environment-level DLP make a tenant-blocked connector available?','No.'],
+      ['Does DLP always know whether a connector points to dev, test, or prod backend?','No. Standard DLP is connector-aware, not inherently endpoint/environment-aware for every scenario.'],
+      ['Do existing flows ignore new DLP policies because they were created earlier?','No. Existing resources can be impacted after policy enforcement.'],
+      ['Is a connection the same as a connector?','No.'],
+      ['If tenant isolation is enabled, do you no longer need DLP grouping?','No. They solve different problems.'],
+      ['Can custom connectors be trusted more because they are internal?','Not automatically.'],
+      ['If a maker can save a flow, does that guarantee runtime success?','No.'],
+      ['Is blocking everything a mature DLP strategy?','No. It is often just immature governance with poor productivity design.'],
+      ['Can Copilot Studio be ignored in DLP planning because it is “AI”?','No. It has specific policy enforcement patterns that must be governed.']
+    ];
+
+    function makeAccordion(items){
+      return items.map((item, idx) => `
+        <div class="accordion">
+          <div class="accordion-header" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAccordion(this)">${idx+1}. ${item[0]} <span>▾</span></div>
+          <div class="accordion-body"><p><strong>Sample answer:</strong> ${item[1]}</p></div>
+        </div>
+      `).join('');
+    }
+
+    function renderScenarioCards(){
+      const wrap = document.getElementById('scenarioGrid');
+      wrap.innerHTML = scenarios.map(s => `
+        <article class="scenario-card">
+          <div class="chip">${s.badge}</div>
+          <h4>${s.title}</h4>
+          <p><strong>Context:</strong> ${s.context}</p>
+          <p style="margin-top:8px;"><strong>Risk:</strong> ${s.risk}</p>
+          <p style="margin-top:8px;"><strong>Incorrect approach:</strong> ${s.incorrect}</p>
+          <p style="margin-top:8px;"><strong>Correct DLP design:</strong> ${s.correct}</p>
+          <p style="margin-top:8px;"><strong>Expected outcome:</strong> ${s.outcome}</p>
+          <p style="margin-top:8px;"><strong>Interview answer summary:</strong> ${s.interview}</p>
+        </article>
+      `).join('');
+    }
+
+    function renderAntiPatterns(){
+      const wrap = document.getElementById('antiPatternGrid');
+      wrap.innerHTML = antiPatterns.map(a => `
+        <article class="scenario-card">
+          <div class="chip red">Anti-pattern</div>
+          <h4>${a.title}</h4>
+          <p><strong>Why it is a mistake:</strong> ${a.why}</p>
+          <p style="margin-top:8px;"><strong>Symptoms:</strong> ${a.symptoms}</p>
+          <p style="margin-top:8px;"><strong>Fix:</strong> ${a.fix}</p>
+          <p style="margin-top:8px;"><strong>Architect recommendation:</strong> ${a.architect}</p>
+        </article>
+      `).join('');
+    }
+
+    function renderTroubleshooting(){
+      const wrap = document.getElementById('troubleshootList');
+      wrap.innerHTML = troubleshooting.map(t => `
+        <div class="accordion">
+          <div class="accordion-header" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAccordion(this)">${t.symptom} <span>▾</span></div>
+          <div class="accordion-body">
+            <p><strong>Probable cause:</strong> ${t.cause}</p>
+            <p style="margin-top:8px;"><strong>Diagnosis steps:</strong></p>
+            <ul>${t.steps.map(s => `<li>${s}</li>`).join('')}</ul>
+            <p style="margin-top:8px;"><strong>Resolution:</strong> ${t.resolution}</p>
+            <p style="margin-top:8px;"><strong>Prevention:</strong> ${t.prevention}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderPlaybook(){
+      const wrap = document.getElementById('playbookGrid');
+      wrap.innerHTML = playbook.map(p => `
+        <article class="play-card">
+          <div class="chip purple">Stakeholder conversation</div>
+          <h4>${p.title}</h4>
+          <p>${p.answer}</p>
+        </article>
+      `).join('');
+    }
+
+    function renderInterviews(){
+      document.getElementById('beginnerSet').innerHTML = makeAccordion(beginnerQuestions);
+      document.getElementById('architectSet').innerHTML = makeAccordion(architectQuestions);
+      document.getElementById('scenarioSet').innerHTML = makeAccordion(scenarioQuestions);
+      document.getElementById('trickSet').innerHTML = makeAccordion(trickQuestions);
+    }
+
+    /* === INTERACTIVE CONNECTOR MATRIX === */
+    let selectedConnectors = [];
+    function selectConnector(el) {
+      el.classList.toggle('selected');
+      const group = el.dataset.group;
+      const name = el.textContent.trim();
+      const idx = selectedConnectors.findIndex(c => c.name === name);
+      if (idx > -1) selectedConnectors.splice(idx, 1);
+      else selectedConnectors.push({ name, group });
+      updateMatrixResult();
+    }
+    function updateMatrixResult() {
+      const result = document.getElementById('matrixResult');
+      if (!result) return;
+      if (selectedConnectors.length < 2) {
+        result.innerHTML = '<p style="color:var(--muted);font-size:.86rem;text-align:center;padding:8px 0;">Select 2 or more connectors to check compatibility</p>';
+        result.style.background = 'var(--info-bg)';
+        return;
+      }
+      const groups = [...new Set(selectedConnectors.map(c => c.group))];
+      const hasBlocked = groups.includes('blocked');
+      const hasBiz = groups.includes('business');
+      const hasNonBiz = groups.includes('nonbusiness');
+      const names = selectedConnectors.map(c => `<strong>${c.name}</strong>`).join(' + ');
+      if (hasBlocked) {
+        result.innerHTML = `<div class="result-denied">🚫 <strong>Not Allowed</strong><br><span style="font-size:.83rem;">One or more selected connectors (${names}) are in the <strong>Blocked</strong> group and cannot be used in this environment at all.</span></div>`;
+      } else if (hasBiz && hasNonBiz) {
+        result.innerHTML = `<div class="result-denied">🚫 <strong>Not Allowed — Cross-group mix</strong><br><span style="font-size:.83rem;">${names} span <strong>Business</strong> and <strong>Non-business</strong> groups. DLP policy denies their combination in the same app or flow.</span></div>`;
+      } else {
+        const grpLabel = hasBiz ? 'Business' : 'Non-business';
+        result.innerHTML = `<div class="result-allowed">✅ <strong>Allowed</strong><br><span style="font-size:.83rem;">${names} are all in the <strong>${grpLabel}</strong> group and can be used together in the same app or flow under this policy.</span></div>`;
+      }
+    }
+    function clearMatrix() {
+      selectedConnectors = [];
+      document.querySelectorAll('.conn-item').forEach(el => el.classList.remove('selected'));
+      updateMatrixResult();
+    }
+
+    /* === SMOOTH ACCORDION (max-height) === */
+    function toggleAccordion(header) {
+      const body = header.nextElementSibling;
+      const open = header.classList.contains('open');
+      header.classList.toggle('open', !open);
+      body.classList.toggle('open', !open);
+    }
+
+    function switchTab(btn, panelId){
+      const strip = btn.closest('.tab-strip');
+      strip.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const section = strip.parentElement;
+      section.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(panelId).classList.add('active');
+    }
+
+    function showInterviewSet(btn, id){
+      document.querySelectorAll('.interview-nav button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      ['beginnerSet','architectSet','scenarioSet','trickSet'].forEach(x => document.getElementById(x).style.display = (x === id ? 'block' : 'none'));
+    }
+
+    function doSearch(q){
+      q = q.trim().toLowerCase();
+      const count = document.getElementById('searchCount');
+      const nodes = document.querySelectorAll('.main p, .main li, .main td, .main h2, .main h3, .main h4, .main .accordion-header');
+      nodes.forEach(n => n.style.background = '');
+      if(!q){count.textContent=''; return;}
+      let found = 0;
+      nodes.forEach(n => {
+        if(n.textContent.toLowerCase().includes(q)){
+          n.style.background = '#fff3cd';
+          found++;
+        }
+      });
+      count.textContent = found ? `${found} matches` : 'No matches';
+    }
+
+    window.addEventListener('scroll', () => {
+      const doc = document.documentElement;
+      const scrolled = doc.scrollTop || document.body.scrollTop;
+      const total = doc.scrollHeight - doc.clientHeight;
+      document.getElementById('progress-bar').style.width = (scrolled / total * 100) + '%';
+      const sections = document.querySelectorAll('section[id], header[id]');
+      let cur = '';
+      sections.forEach(s => { if(window.scrollY >= s.offsetTop - 120) cur = s.id; });
+      document.querySelectorAll('.top-nav a, .sidebar a').forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+      });
+    });
+
+    renderScenarioCards();
+    renderAntiPatterns();
+    renderTroubleshooting();
+    renderPlaybook();
+    renderInterviews();
+
+    /* === UPGRADE ACCORDION CHEVRONS === */
+    document.querySelectorAll('.accordion-header').forEach(h => {
+      const last = h.lastElementChild;
+      if (last && (last.textContent === '▾' || last.textContent.trim() === '▾')) {
+        last.className = 'acc-chevron';
+        last.textContent = '▾';
+      }
+    });
+
+    /* === KPI COUNTER ANIMATION === */
+    function animateKPI(el) {
+      const numEl = el.querySelector('.num');
+      if (!numEl || numEl.dataset.animated) return;
+      numEl.dataset.animated = 'true';
+      const raw = numEl.textContent.trim();
+      const n = parseInt(raw, 10);
+      if (isNaN(n) || n <= 1) return;
+      const duration = 900;
+      const step = duration / 16;
+      let current = 0;
+      const inc = n / step;
+      const timer = setInterval(() => {
+        current += inc;
+        if (current >= n) { current = n; clearInterval(timer); }
+        numEl.textContent = Math.floor(current);
+      }, 16);
+    }
+
+    /* === SCROLL REVEAL + KPI + BACK-TO-TOP === */
+    function initScrollBehaviours() {
+      /* Back to top */
+      const btn = document.getElementById('backTop');
+      window.addEventListener('scroll', () => {
+        if (btn) btn.classList.toggle('visible', window.scrollY > 400);
+      }, { passive: true });
+
+      /* Reveal observer */
+      const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.remove('hidden');
+          if (entry.target.classList.contains('kpi')) animateKPI(entry.target);
+          revealObs.unobserve(entry.target);
+        });
+      }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+
+      /* Apply to cards */
+      const targets = document.querySelectorAll(
+        '.card:not(.no-reveal), .mini-card, .kpi, .step, .coe-tool-card, .maturity-level, .scenario-card, .play-card'
+      );
+      targets.forEach((el, i) => {
+        el.classList.add('will-reveal', 'hidden');
+        el.style.transitionDelay = `${(i % 5) * 0.07}s`;
+        revealObs.observe(el);
+      });
+    }
+
+    /* Run after first paint so dynamic content is rendered */
+    requestAnimationFrame(() => setTimeout(initScrollBehaviours, 80));
+  </script>
+</body>
+</html>
