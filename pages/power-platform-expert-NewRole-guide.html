@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>!function(){var K='dmtwdjIwMjU=',n=Date.now();try{var d=JSON.parse(localStorage.getItem('vk_tok')||'');if(d&&d.k===K&&d.e>n)return}catch(e){}location.replace('../index.html')}();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power Platform Expert — New Role Field Guide</title>
+<meta name="description" content="Practical field guide for a Power Platform Expert/Governance/CoE/ALM role. Covers governance, ALM, pipelines, DLP, citizen developer, 30-60-90 day plan, checklists, and more.">
+<style>
+/* ─── DESIGN TOKENS ──────────────────────────────────────────── */
+:root {
+  --bg:       #0a0f1e;
+  --bg2:      #0e1629;
+  --card:     #111c30;
+  --card2:    #162236;
+  --card3:    #1c2d42;
+  --border:   #1e3050;
+  --border2:  #243a5c;
+  --accent:   #38bdf8;
+  --accent2:  #a78bfa;
+  --accent3:  #34d399;
+  --accent4:  #fbbf24;
+  --accent5:  #f87171;
+  --accent6:  #fb923c;
+  --accent7:  #f472b6;
+  --text:     #e2eaf6;
+  --text2:    #b8ccdf;
+  --muted:    #7a93b0;
+  --muted2:   #4d6a87;
+  --sidebar-w: 268px;
+  --topbar-h:  56px;
+  --radius:   10px;
+  --radius-lg: 16px;
+  --shadow:   0 4px 28px rgba(0,0,0,.45);
+  --transition: .22s ease;
+}
+.lm {
+  --bg:#f5f7fa; --bg2:#eef1f7; --card:#fff; --card2:#f5f7fa; --card3:#eef1f7;
+  --border:#d1dbe8; --border2:#bbc9da; --text:#0e1829; --text2:#2a3d54;
+  --muted:#5a738a; --muted2:#8097af;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:15px}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.72;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+ul,ol{padding-left:1.4rem}
+li{margin-bottom:.28rem}
+code{font-family:'Cascadia Code','Fira Code',monospace;font-size:.88em;background:rgba(56,189,248,.1);color:var(--accent);padding:2px 6px;border-radius:4px;border:1px solid rgba(56,189,248,.18)}
+pre{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;overflow-x:auto;font-family:'Cascadia Code','Fira Code',monospace;font-size:.84em;line-height:1.6}
+pre code{background:none;border:none;padding:0;color:var(--text2)}
+strong{color:var(--text);font-weight:700}
+h2{font-size:1.7rem;font-weight:800;color:var(--text);margin-bottom:.5rem}
+h3{font-size:1.18rem;font-weight:700;color:var(--text);margin-bottom:.4rem}
+h4{font-size:1rem;font-weight:700;color:var(--text2);margin-bottom:.3rem}
+p{margin-bottom:.8rem;color:var(--text2)}
+
+/* ─── APP SHELL ──────────────────────────────────────────────── */
+.app{display:flex;min-height:100vh}
+.sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:200;transition:transform var(--transition);scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.sb-head{padding:18px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.sb-logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.sb-title{font-size:.82rem;font-weight:700;color:var(--text);line-height:1.3}
+.sb-title span{display:block;font-size:.7rem;color:var(--muted);font-weight:400}
+.sb-search{padding:12px 14px;border-bottom:1px solid var(--border)}
+.sb-search input{width:100%;background:var(--card);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;color:var(--text);font-size:.8rem;outline:none;transition:border-color var(--transition)}
+.sb-search input::placeholder{color:var(--muted2)}
+.sb-search input:focus{border-color:var(--accent)}
+.sb-section{padding:10px 14px 4px;font-size:.66rem;font-weight:700;color:var(--muted2);letter-spacing:.08em;text-transform:uppercase}
+.sb-link{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:.8rem;color:var(--text2);border-left:3px solid transparent;transition:all var(--transition);cursor:pointer;text-decoration:none}
+.sb-link:hover{background:var(--card);color:var(--text);border-left-color:var(--border2);text-decoration:none}
+.sb-link.active{background:rgba(56,189,248,.08);color:var(--accent);border-left-color:var(--accent);font-weight:600}
+.sb-link .n{width:22px;height:18px;border-radius:4px;background:var(--card2);font-size:.65rem;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-link.active .n{background:rgba(56,189,248,.15);color:var(--accent)}
+.topbar{display:none;position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--bg2);border-bottom:1px solid var(--border);z-index:300;align-items:center;padding:0 16px;gap:12px}
+.topbar-title{font-size:.9rem;font-weight:700;flex:1}
+.hamburger{background:none;border:1px solid var(--border2);border-radius:6px;padding:5px 8px;cursor:pointer;color:var(--text);font-size:1.1rem}
+.main-wrap{margin-left:var(--sidebar-w);flex:1;min-width:0}
+.content{max-width:880px;margin:0 auto;padding:40px 28px 100px}
+
+/* ─── HERO ───────────────────────────────────────────────────── */
+.hero{background:linear-gradient(135deg,#050c1e 0%,#0a1a38 40%,#0d2248 70%,#061120 100%);padding:64px 40px 52px;text-align:center;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 60%,rgba(56,189,248,.14) 0%,transparent 55%),radial-gradient(ellipse at 80% 30%,rgba(167,139,250,.1) 0%,transparent 55%)}
+.hero-eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;position:relative}
+.hero h1{font-size:2.5rem;font-weight:900;letter-spacing:-.5px;margin-bottom:14px;position:relative;background:linear-gradient(120deg,var(--accent) 0%,var(--accent2) 50%,var(--accent3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+.hero-sub{font-size:1rem;color:var(--muted);max-width:680px;margin:0 auto 22px;position:relative}
+.badge-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;position:relative;margin-bottom:22px}
+.badge{display:inline-block;border-radius:20px;padding:4px 14px;font-size:.73rem;font-weight:700;border:1px solid;letter-spacing:.02em}
+.badge-sky{background:rgba(56,189,248,.12);border-color:rgba(56,189,248,.35);color:var(--accent)}
+.badge-violet{background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.35);color:var(--accent2)}
+.badge-emerald{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.35);color:var(--accent3)}
+.badge-amber{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.35);color:var(--accent4)}
+.badge-red{background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.35);color:var(--accent5)}
+.badge-orange{background:rgba(251,146,60,.12);border-color:rgba(251,146,60,.35);color:var(--accent6)}
+.hero-kpi{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative}
+.kpi-box{background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:var(--radius);padding:10px 20px;text-align:center}
+.kpi-box .kn{font-size:1.6rem;font-weight:900;color:var(--accent);display:block;line-height:1}
+.kpi-box .kl{font-size:.7rem;color:var(--muted);display:block;margin-top:3px}
+
+/* ─── SECTION HEADER ─────────────────────────────────────────── */
+.section-hdr{display:flex;align-items:flex-start;gap:14px;border-bottom:2px solid var(--border);padding-bottom:16px;margin-bottom:28px}
+.sec-num{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:900;flex-shrink:0}
+.sec-num.c1{background:rgba(56,189,248,.15);color:var(--accent)}
+.sec-num.c2{background:rgba(167,139,250,.15);color:var(--accent2)}
+.sec-num.c3{background:rgba(52,211,153,.15);color:var(--accent3)}
+.sec-num.c4{background:rgba(251,191,36,.15);color:var(--accent4)}
+.sec-num.c5{background:rgba(248,113,113,.15);color:var(--accent5)}
+.sec-num.c6{background:rgba(251,146,60,.15);color:var(--accent6)}
+.sec-num.c7{background:rgba(244,114,182,.15);color:var(--accent7)}
+.sec-title{font-size:1.5rem;font-weight:800;line-height:1.2}
+.sec-sub{font-size:.85rem;color:var(--muted);margin-top:3px}
+.guide-section{margin-bottom:80px;padding-top:8px;scroll-margin-top:20px}
+
+/* ─── CALLOUTS ───────────────────────────────────────────────── */
+.callout{border-radius:var(--radius);padding:14px 18px;margin:16px 0;border-left:4px solid;font-size:.9rem}
+.callout p:last-child{margin-bottom:0}
+.callout-tip{background:rgba(56,189,248,.08);border-color:var(--accent)}
+.callout-arch{background:rgba(167,139,250,.08);border-color:var(--accent2)}
+.callout-warn{background:rgba(251,191,36,.08);border-color:var(--accent4)}
+.callout-danger{background:rgba(248,113,113,.08);border-color:var(--accent5)}
+.callout-success{background:rgba(52,211,153,.08);border-color:var(--accent3)}
+.callout-pm{background:rgba(251,146,60,.08);border-color:var(--accent6)}
+.callout-interview{background:rgba(244,114,182,.08);border-color:var(--accent7)}
+.callout-label{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:5px;display:block}
+.callout-tip .callout-label{color:var(--accent)}
+.callout-arch .callout-label{color:var(--accent2)}
+.callout-warn .callout-label{color:var(--accent4)}
+.callout-danger .callout-label{color:var(--accent5)}
+.callout-success .callout-label{color:var(--accent3)}
+.callout-pm .callout-label{color:var(--accent6)}
+.callout-interview .callout-label{color:var(--accent7)}
+
+/* ─── CARDS ──────────────────────────────────────────────────── */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:16px 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;transition:border-color var(--transition),transform var(--transition)}
+.card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.card-icon{font-size:1.5rem;margin-bottom:8px}
+.card h4{margin-bottom:6px}
+.card p{font-size:.85rem;color:var(--muted);margin-bottom:0}
+.card-accent{border-left:3px solid var(--accent)}
+.card-violet{border-left:3px solid var(--accent2)}
+.card-green{border-left:3px solid var(--accent3)}
+.card-amber{border-left:3px solid var(--accent4)}
+.card-red{border-left:3px solid var(--accent5)}
+
+/* ─── DO/DON'T ───────────────────────────────────────────────── */
+.do-dont{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+@media(max-width:600px){.do-dont{grid-template-columns:1fr}}
+.do-box,.dont-box{border-radius:var(--radius);padding:16px;font-size:.88rem}
+.do-box{background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.25)}
+.dont-box{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25)}
+.do-box h4{color:var(--accent3);margin-bottom:8px}
+.dont-box h4{color:var(--accent5);margin-bottom:8px}
+.do-box ul,.dont-box ul{color:var(--text2)}
+
+/* ─── ACCORDION ──────────────────────────────────────────────── */
+.accordion{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin:8px 0;overflow:hidden}
+.acc-btn{width:100%;text-align:left;background:none;border:none;padding:14px 18px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;color:var(--text);font-weight:600;font-size:.92rem;transition:background var(--transition)}
+.acc-btn:hover{background:var(--card2)}
+.acc-btn .acc-icon{transition:transform var(--transition);color:var(--muted);font-size:.8rem;flex-shrink:0}
+.acc-btn.open .acc-icon{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;display:block;transition:max-height .42s cubic-bezier(.4,0,.2,1)}
+.acc-body.open{max-height:4000px}
+.acc-inner{padding:4px 18px 18px;font-size:.9rem;color:var(--text2)}
+.acc-inner p{margin-bottom:.6rem}
+.acc-inner ul,.acc-inner ol{color:var(--text2);margin-bottom:.6rem}
+
+/* ─── TABLE ──────────────────────────────────────────────────── */
+.table-wrap{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th{background:var(--card2);color:var(--text);font-weight:700;padding:10px 14px;text-align:left;border:1px solid var(--border)}
+td{padding:9px 14px;border:1px solid var(--border);color:var(--text2)}
+tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+
+/* ─── CHECKLIST ──────────────────────────────────────────────── */
+.checklist{list-style:none;padding:0;margin:12px 0}
+.checklist li{display:flex;align-items:flex-start;gap:9px;padding:6px 0;font-size:.88rem;color:var(--text2);border-bottom:1px solid rgba(255,255,255,.04)}
+.checklist li:last-child{border-bottom:none}
+.chk{width:18px;height:18px;border-radius:4px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;font-size:.7rem;color:var(--accent3)}
+
+/* ─── MATURITY ───────────────────────────────────────────────── */
+.maturity-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:16px 0}
+.mat-level{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 8px;text-align:center}
+.mat-num{font-size:1.4rem;font-weight:900;display:block;line-height:1;margin-bottom:4px}
+.mat-label{font-size:.68rem;font-weight:700;display:block;margin-bottom:4px}
+.mat-desc{font-size:.67rem;color:var(--muted);line-height:1.4}
+.mat-level.l1 .mat-num{color:var(--accent5)}.mat-level.l1{border-color:rgba(248,113,113,.3)}
+.mat-level.l2 .mat-num{color:var(--accent6)}.mat-level.l2{border-color:rgba(251,146,60,.3)}
+.mat-level.l3 .mat-num{color:var(--accent4)}.mat-level.l3{border-color:rgba(251,191,36,.3)}
+.mat-level.l4 .mat-num{color:var(--accent3)}.mat-level.l4{border-color:rgba(52,211,153,.3)}
+.mat-level.l5 .mat-num{color:var(--accent)}.mat-level.l5{border-color:rgba(56,189,248,.3)}
+
+/* ─── PHASE / ROADMAP ────────────────────────────────────────── */
+.phase-list{position:relative;padding-left:28px;margin:16px 0}
+.phase-list::before{content:'';position:absolute;left:10px;top:6px;bottom:6px;width:2px;background:var(--border2)}
+.phase{position:relative;margin-bottom:22px}
+.phase::before{content:'';position:absolute;left:-22px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.phase:nth-child(2)::before{background:var(--accent2)}
+.phase:nth-child(3)::before{background:var(--accent3)}
+.phase:nth-child(4)::before{background:var(--accent4)}
+.phase h4{color:var(--text);font-size:.95rem}
+.phase-meta{font-size:.75rem;color:var(--muted);margin-bottom:5px}
+.phase ul{font-size:.87rem;color:var(--text2)}
+
+/* ─── TABS ───────────────────────────────────────────────────── */
+.tabs-wrap{margin:16px 0}
+.tab-bar{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:16px;flex-wrap:wrap}
+.tab-btn{background:none;border:none;padding:9px 16px;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all var(--transition)}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-pane{display:none;font-size:.9rem;color:var(--text2)}
+.tab-pane.active{display:block}
+
+/* ─── LEVEL TAG ──────────────────────────────────────────────── */
+.level{display:inline-block;border-radius:4px;padding:2px 9px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.level-beginner{background:rgba(52,211,153,.15);color:var(--accent3)}
+.level-intermediate{background:rgba(56,189,248,.15);color:var(--accent)}
+.level-advanced{background:rgba(167,139,250,.15);color:var(--accent2)}
+.level-critical{background:rgba(248,113,113,.15);color:var(--accent5)}
+
+/* ─── INFO ROW ───────────────────────────────────────────────── */
+.info-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+@media(max-width:600px){.info-row{grid-template-columns:1fr}}
+.info-block{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.info-block h4{font-size:.88rem;margin-bottom:8px}
+
+/* ─── QUICK READ ─────────────────────────────────────────────── */
+.quick-read{background:var(--card2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:20px 24px;margin:20px 0}
+.quick-read .qr-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent3);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.quick-read h3{font-size:1.05rem;margin-bottom:10px;color:var(--text)}
+.quick-read ul{font-size:.88rem;color:var(--text2)}
+
+/* ─── BACK TO TOP / THEME ────────────────────────────────────── */
+.back-top{position:fixed;bottom:28px;right:28px;width:42px;height:42px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;color:#fff;font-size:1.1rem;display:none;align-items:center;justify-content:center;z-index:500;box-shadow:0 4px 16px rgba(56,189,248,.4);transition:opacity var(--transition)}
+.back-top.visible{display:flex}
+.theme-btn{position:fixed;top:12px;right:14px;background:var(--card);border:1px solid var(--border2);border-radius:8px;padding:6px 10px;cursor:pointer;color:var(--text);font-size:.8rem;z-index:400;transition:all var(--transition)}
+.theme-btn:hover{border-color:var(--accent)}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────── */
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main-wrap{margin-left:0}
+  .topbar{display:flex}
+  .content{padding-top:calc(var(--topbar-h) + 24px)}
+  .hero{padding:80px 20px 40px}
+  .hero h1{font-size:1.8rem}
+  .maturity-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:500px){
+  .card-grid{grid-template-columns:1fr}
+  .maturity-grid{grid-template-columns:1fr 1fr}
+  .hero-kpi{flex-direction:column;align-items:center}
+}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:150}
+.sb-overlay.open{display:block}
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar">
+  <button class="hamburger" id="hamburger" aria-label="Open navigation">☰</button>
+  <span class="topbar-title">PP Expert Field Guide</span>
+</div>
+<div class="sb-overlay" id="sbOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sb-head">
+    <div class="sb-logo">🏗️</div>
+    <div class="sb-title">PP Expert Guide<span>New Role Handbook</span></div>
+  </div>
+  <div class="sb-search">
+    <input type="text" id="sbSearch" placeholder="Search sections…" autocomplete="off">
+  </div>
+  <p class="sb-section">Getting Started</p>
+  <a class="sb-link" href="#s1"><span class="n">1</span>Overview</a>
+  <a class="sb-link" href="#s2"><span class="n">2</span>My Role</a>
+  <a class="sb-link" href="#s3"><span class="n">3</span>What Success Looks Like</a>
+  <p class="sb-section">Governance &amp; CoE</p>
+  <a class="sb-link" href="#s4"><span class="n">4</span>Governance Fundamentals</a>
+  <a class="sb-link" href="#s5"><span class="n">5</span>CoE / Enablement</a>
+  <a class="sb-link" href="#s6"><span class="n">6</span>Citizen Developer Program</a>
+  <p class="sb-section">ALM &amp; Deployment</p>
+  <a class="sb-link" href="#s7"><span class="n">7</span>ALM Foundations</a>
+  <a class="sb-link" href="#s8"><span class="n">8</span>Deployment Architecture</a>
+  <a class="sb-link" href="#s9"><span class="n">9</span>Power Platform Pipelines</a>
+  <a class="sb-link" href="#s10"><span class="n">10</span>DevOps / PAC CLI / PS</a>
+  <p class="sb-section">Practical Config</p>
+  <a class="sb-link" href="#s11"><span class="n">11</span>Env Vars &amp; Connections</a>
+  <a class="sb-link" href="#s12"><span class="n">12</span>Canvas Apps &amp; Flows</a>
+  <a class="sb-link" href="#s13"><span class="n">13</span>Dev / Test / UAT / Prod</a>
+  <p class="sb-section">Reference</p>
+  <a class="sb-link" href="#s14"><span class="n">14</span>Tips &amp; Tricks</a>
+  <a class="sb-link" href="#s15"><span class="n">15</span>Cheat Sheets</a>
+  <a class="sb-link" href="#s16"><span class="n">16</span>Checklists &amp; Templates</a>
+  <a class="sb-link" href="#s17"><span class="n">17</span>Troubleshooting</a>
+  <a class="sb-link" href="#s18"><span class="n">18</span>Anti-Patterns</a>
+  <p class="sb-section">Growth</p>
+  <a class="sb-link" href="#s19"><span class="n">19</span>30-60-90 Day Plan</a>
+  <a class="sb-link" href="#s20"><span class="n">20</span>Next Actions</a>
+  <a class="sb-link" href="#s21"><span class="n">21</span>Content Map</a>
+  <a class="sb-link" href="#s22"><span class="n">22</span>Gaps to Fill</a>
+  <a class="sb-link" href="#s23"><span class="n">23</span>References</a>
+</aside>
+
+<div class="main-wrap">
+  <div class="hero">
+    <p class="hero-eyebrow">🏗️ Power Platform Expert · Field Guide</p>
+    <h1>New Role Handbook</h1>
+    <p class="hero-sub">Your practical companion for operating as a Power Platform Expert, Governance Lead, CoE contributor, ALM specialist, and Delivery Advisor — from Day 1 to long-term impact.</p>
+    <div class="badge-row">
+      <span class="badge badge-sky">Governance</span>
+      <span class="badge badge-violet">CoE &amp; Enablement</span>
+      <span class="badge badge-emerald">ALM &amp; Pipelines</span>
+      <span class="badge badge-amber">Citizen Developer</span>
+      <span class="badge badge-orange">Canvas &amp; Flows</span>
+      <span class="badge badge-red">Anti-Patterns</span>
+    </div>
+    <div class="hero-kpi">
+      <div class="kpi-box"><span class="kn">23</span><span class="kl">Sections</span></div>
+      <div class="kpi-box"><span class="kn">12+</span><span class="kl">Checklists</span></div>
+      <div class="kpi-box"><span class="kn">30+</span><span class="kl">Anti-Patterns</span></div>
+      <div class="kpi-box"><span class="kn">90</span><span class="kl">Day Plan</span></div>
+    </div>
+  </div>
+
+  <div class="content">
+
+<!-- ════ S1: OVERVIEW ════ -->
+<section class="guide-section" id="s1">
+  <div class="section-hdr">
+    <div class="sec-num c1">1</div>
+    <div><div class="sec-title">Overview</div><div class="sec-sub">What this guide is and how to use it</div></div>
+  </div>
+  <div class="quick-read">
+    <div class="qr-label">⚡ Quick Read</div>
+    <h3>This guide in one sentence</h3>
+    <p>A practical, opinionated field manual that gives you everything you need to operate confidently in a Power Platform Expert / Governance / CoE / ALM role from day one — without searching ten different Microsoft docs pages mid-meeting.</p>
+  </div>
+  <h3>Purpose</h3>
+  <p>You are stepping into a role that spans governance, enablement, ALM, deployment, and team coaching. Each of those areas has depth. This guide consolidates the most critical knowledge into one place, organized for quick lookup in the field.</p>
+  <div class="card-grid">
+    <div class="card card-accent"><div class="card-icon">🗺️</div><h4>Field Reference</h4><p>Use section by section as you encounter each topic — governance conversations, ALM design, pipeline decisions, troubleshooting.</p></div>
+    <div class="card card-violet"><div class="card-icon">🎯</div><h4>Role Readiness</h4><p>The 30-60-90 day plan (section 19) gives you a time-boxed sequence for learning, practising, and delivering impact.</p></div>
+    <div class="card card-green"><div class="card-icon">📋</div><h4>Checklists First</h4><p>When time is short, jump to section 16. Checklists surface the most important questions without reading the full depth.</p></div>
+    <div class="card card-amber"><div class="card-icon">⚡</div><h4>Cheat Sheets</h4><p>Section 15 holds quick-reference cards for environment variables, connection references, solution strategy, and DLP.</p></div>
+  </div>
+  <h3>How this guide relates to your other pages</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Topic</th><th>This Guide</th><th>Existing Deep-Dive Page</th></tr></thead>
+      <tbody>
+        <tr><td>DLP Policies</td><td>Strategy, checklists, anti-patterns</td><td>DLP Policies Deep Dive Guide</td></tr>
+        <tr><td>CoE &amp; Governance</td><td>Operating model, CoE structure</td><td>COE Governance Study Guide</td></tr>
+        <tr><td>Environment Strategy</td><td>Dev/Test/UAT/Prod model, env vars</td><td>Power Platform Environments Guide</td></tr>
+        <tr><td>Scenario Q&amp;A</td><td>Architect talking points, PM conversations</td><td>PP Scenario Interview Q&amp;A</td></tr>
+        <tr><td>Use Cases</td><td>When to / not to use Power Platform</td><td>PP 75 Use Cases</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-tip">
+    <span class="callout-label">💡 How to read this guide</span>
+    <p>New to the role? Read sections 1–3, then follow the 30-60-90 plan in section 19. Need a specific answer fast? Use the sidebar search or jump directly to the section. Checklists in section 16, cheat sheets in section 15.</p>
+  </div>
+</section>
+
+<!-- ════ S2: MY ROLE ════ -->
+<section class="guide-section" id="s2">
+  <div class="section-hdr">
+    <div class="sec-num c2">2</div>
+    <div><div class="sec-title">My Role in This Project</div><div class="sec-sub">Responsibilities, boundaries, and stakeholder map</div></div>
+  </div>
+  <h3>Role Summary</h3>
+  <p>You are the primary Power Platform Expert on this project. Your remit is wider than "developer" — you define how Power Platform is <em>used correctly</em> across the delivery team and the business.</p>
+  <div class="card-grid">
+    <div class="card card-accent"><div class="card-icon">🛡️</div><h4>Governance Advisor</h4><p>Define DLP strategy, environment structure, naming standards, and guardrails that protect the tenant without blocking makers.</p></div>
+    <div class="card card-violet"><div class="card-icon">🏛️</div><h4>CoE / Enablement Lead</h4><p>Launch or contribute to the Center of Excellence — intake processes, standards, community, and training programme.</p></div>
+    <div class="card card-green"><div class="card-icon">🔁</div><h4>ALM &amp; Deployment Advisor</h4><p>Define solution packaging model, pipeline strategy, release governance, and deployment standards.</p></div>
+    <div class="card card-amber"><div class="card-icon">🌱</div><h4>Citizen Dev Enabler</h4><p>Design the maker onboarding programme, risk tiers, approval model, and support boundaries for citizen developers.</p></div>
+    <div class="card card-red"><div class="card-icon">🤝</div><h4>Team Maturity Coach</h4><p>Uplift the team's Power Platform knowledge, introduce best practices, and drive adoption of standards over time.</p></div>
+    <div class="card card-accent"><div class="card-icon">⚙️</div><h4>Automation &amp; DevOps</h4><p>Lead PAC CLI, PowerShell, and Azure DevOps usage for automated deployments, solution checker, and reporting.</p></div>
+  </div>
+  <h3>Stakeholder Map</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Stakeholder</th><th>What They Need From You</th><th>Your Key Message</th></tr></thead>
+      <tbody>
+        <tr><td>Project Manager</td><td>Delivery confidence, no surprises</td><td>"Governance is built in from the start, not retro-fitted"</td></tr>
+        <tr><td>Technical Lead / Architect</td><td>Architecture alignment, ALM discipline</td><td>"Solutions-based ALM, environment strategy, no direct prod edits"</td></tr>
+        <tr><td>Platform Admin</td><td>Governance policies, DLP config, monitoring</td><td>"Admin centre is the control tower — we need joint ownership"</td></tr>
+        <tr><td>Citizen Developers</td><td>Clear guardrails, fast approvals, training</td><td>"We enable you, not block you — here is the intake process"</td></tr>
+        <tr><td>Security / Compliance</td><td>Data controls, DLP evidence, audit trail</td><td>"DLP policies, Managed Environments, CoE monitoring = your audit story"</td></tr>
+        <tr><td>Business Owners</td><td>Confidence, productivity, risk management</td><td>"Power Platform is governed — here is how we protect your data"</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-warn">
+    <span class="callout-label">⚠️ Scope Boundary</span>
+    <ul>
+      <li>You are <strong>not</strong> the sole developer — you set standards, the team builds within them</li>
+      <li>You are <strong>not</strong> a Power BI or D365 architect (unless explicitly scoped in)</li>
+      <li>You are <strong>not</strong> responsible for Azure AD / Entra ID security model — partner with the tenant admin</li>
+      <li>You are <strong>not</strong> the tenant admin — you <em>advise</em> the admin; the admin implements</li>
+    </ul>
+  </div>
+  <h3>Day 1 Questions to Ask</h3>
+  <ul class="checklist">
+    <li><span class="chk">✓</span>Who is the Power Platform tenant admin? Who has Environment Admin rights?</li>
+    <li><span class="chk">✓</span>What environments exist today? Are there DLP policies in place?</li>
+    <li><span class="chk">✓</span>Is the CoE Starter Kit installed? If yes, in which environment? By whom?</li>
+    <li><span class="chk">✓</span>How are solutions structured today? Managed or unmanaged downstream?</li>
+    <li><span class="chk">✓</span>Are Power Platform Pipelines in use? Azure DevOps? Both? Neither?</li>
+    <li><span class="chk">✓</span>What licences are available — Standard, Premium, Developer?</li>
+    <li><span class="chk">✓</span>Are citizen developers active today? What are they building?</li>
+    <li><span class="chk">✓</span>What are the biggest pain points the team or admin wants solved?</li>
+  </ul>
+</section>
+
+<!-- ════ S3: WHAT SUCCESS LOOKS LIKE ════ -->
+<section class="guide-section" id="s3">
+  <div class="section-hdr">
+    <div class="sec-num c3">3</div>
+    <div><div class="sec-title">What Success Looks Like</div><div class="sec-sub">Outcomes, KPIs, and maturity targets</div></div>
+  </div>
+  <div class="quick-read">
+    <div class="qr-label">⚡ Quick Read</div>
+    <h3>Success in three sentences</h3>
+    <p>Governance is in place before makers hit problems. ALM is consistent and repeatable, not heroic. The team builds faster and with more confidence because standards are clear, not because someone reviews every line.</p>
+  </div>
+  <h3>Success Outcomes by Horizon</h3>
+  <div class="tabs-wrap">
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="t30">30 Days</button>
+      <button class="tab-btn" data-tab="t60">60 Days</button>
+      <button class="tab-btn" data-tab="t90">90 Days</button>
+      <button class="tab-btn" data-tab="t180">6 Months</button>
+    </div>
+    <div class="tab-pane active" id="t30">
+      <ul>
+        <li>Tenant audit complete — environments, DLP, existing apps/flows documented</li>
+        <li>Quick wins identified and at least 2 delivered (naming standards, DLP review)</li>
+        <li>Key stakeholders mapped and initial trust established</li>
+        <li>ALM baseline agreed — solution structure, unmanaged vs managed decision</li>
+        <li>CoE install decision made (install, enhance, or operate without toolkit)</li>
+        <li>First governance conversation with the platform admin held</li>
+      </ul>
+    </div>
+    <div class="tab-pane" id="t60">
+      <ul>
+        <li>DLP policy design reviewed and updated if needed</li>
+        <li>Environment strategy documented and agreed with delivery lead</li>
+        <li>At least one pipeline (Power Platform or Azure DevOps) operational for a real delivery stream</li>
+        <li>Citizen developer intake process published (even if simple)</li>
+        <li>Solution packaging standard in place and being followed</li>
+        <li>At least one governance checkpoint embedded in the delivery rhythm</li>
+      </ul>
+    </div>
+    <div class="tab-pane" id="t90">
+      <ul>
+        <li>Full ALM pipeline operational Dev → Test → UAT → Prod</li>
+        <li>CoE monitoring reports running (even basic ones)</li>
+        <li>Team upskilled on solutions, connection references, environment variables</li>
+        <li>Standards documented and published internally</li>
+        <li>Citizen developer first cohort onboarded with training completed</li>
+        <li>Governance charter or operating model v1 published</li>
+      </ul>
+    </div>
+    <div class="tab-pane" id="t180">
+      <ul>
+        <li>Managed Environments assessed and rollout decision made</li>
+        <li>Regular governance review cadence established (monthly/quarterly)</li>
+        <li>App inventory visible and owned — no "ghost apps" in production</li>
+        <li>Deployment is automated and repeatable, not manual</li>
+        <li>Makers self-serve with documented process and templates</li>
+        <li>Leadership trust established — you are the go-to for all PP governance questions</li>
+      </ul>
+    </div>
+  </div>
+  <h3>Governance Maturity Model</h3>
+  <div class="maturity-grid">
+    <div class="mat-level l1"><span class="mat-num">L1</span><span class="mat-label">Ad Hoc</span><span class="mat-desc">No DLP, no ALM, no standards. Anything goes. High risk.</span></div>
+    <div class="mat-level l2"><span class="mat-num">L2</span><span class="mat-label">Controlled</span><span class="mat-desc">Some rules exist but inconsistent. Known admin. Basic DLP.</span></div>
+    <div class="mat-level l3"><span class="mat-num">L3</span><span class="mat-label">Standardised</span><span class="mat-desc">DLP in place, ALM followed, naming standards, intake process active.</span></div>
+    <div class="mat-level l4"><span class="mat-num">L4</span><span class="mat-label">Governed</span><span class="mat-desc">CoE operating, pipelines automated, monitoring dashboards, CoE cadence.</span></div>
+    <div class="mat-level l5"><span class="mat-num">L5</span><span class="mat-label">Optimised</span><span class="mat-desc">Measurable outcomes, maker community thriving, continuous improvement cycle.</span></div>
+  </div>
+  <div class="callout callout-pm">
+    <span class="callout-label">🗣️ PM Talking Point</span>
+    <p>When asked "how is governance going?" — show the maturity model. Tell them where you started (L1/L2) and where you are now. Quantify: "We went from no DLP policy to two policies covering all environments in 3 weeks. We now have full ALM across Dev/Test/UAT."</p>
+  </div>
+  <div class="callout callout-arch">
+    <span class="callout-label">🏗️ Architect Note</span>
+    <p>Don't aim for L5 on day one. A sustainable jump from L1→L3 in 90 days is excellent. L4 within 6 months is architect-level delivery. Document the maturity state at intake and revisit quarterly.</p>
+  </div>
+  <h3>KPIs Worth Tracking</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>KPI</th><th>Why It Matters</th><th>Baseline Source</th></tr></thead>
+      <tbody>
+        <tr><td>% apps in solutions</td><td>ALM hygiene — unpackaged apps cannot be deployed safely</td><td>CoE Starter Kit / PPAC inventory</td></tr>
+        <tr><td>DLP policy coverage</td><td>All environments must have at least one active policy</td><td>Power Platform Admin Centre</td></tr>
+        <tr><td>Flow owners using service accounts</td><td>Personal-account flows break on job change</td><td>CoE Flow report</td></tr>
+        <tr><td>Release lead time (Dev→Prod)</td><td>Lower = better ALM pipeline efficiency</td><td>Pipeline run history</td></tr>
+        <tr><td>Active makers</td><td>Shows citizen developer programme traction</td><td>CoE Maker report</td></tr>
+        <tr><td>Non-compliant connectors in use</td><td>Risk indicator for DLP and licensing</td><td>CoE Connector report</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════ S4: GOVERNANCE FUNDAMENTALS ════ -->
+<section class="guide-section" id="s4">
+  <div class="section-hdr">
+    <div class="sec-num c4">4</div>
+    <div><div class="sec-title">Governance Fundamentals</div><div class="sec-sub">DLP, environments, admin model, standards, and compliance</div></div>
+  </div>
+  <div class="quick-read">
+    <div class="qr-label">⚡ Quick Read</div>
+    <h3>Governance in one sentence</h3>
+    <p>Governance is the set of policies, processes, and guardrails that allow an organisation to benefit from Power Platform at scale — without creating data risk, technical debt, or unmanaged sprawl.</p>
+  </div>
+
+  <h3>The Governance Pillars</h3>
+  <div class="card-grid">
+    <div class="card card-accent"><div class="card-icon">🌍</div><h4>Environment Strategy</h4><p>Right environment for the right purpose. Default, Developer, Sandbox, UAT, Production — each with clear ownership and DLP coverage.</p></div>
+    <div class="card card-amber"><div class="card-icon">🔒</div><h4>DLP / Data Policies</h4><p>Connector grouping rules that control what data sources can combine in apps and flows. First line of data exfiltration defence.</p></div>
+    <div class="card card-violet"><div class="card-icon">👥</div><h4>Roles &amp; Responsibilities</h4><p>Tenant Admin vs Environment Admin vs Maker vs User. Clear ownership prevents governance gaps and duplicate effort.</p></div>
+    <div class="card card-green"><div class="card-icon">📊</div><h4>Monitoring &amp; Visibility</h4><p>CoE kit reports, admin centre analytics, capacity, and inventory. You cannot govern what you cannot see.</p></div>
+    <div class="card card-red"><div class="card-icon">🏗️</div><h4>ALM &amp; Solutions</h4><p>Solution-based packaging, managed downstream, no direct prod edits. ALM is governance for the development lifecycle.</p></div>
+    <div class="card card-orange"><div class="card-icon">📋</div><h4>Standards &amp; Naming</h4><p>Naming conventions, solution naming, flow naming, connector documentation — makes the tenant auditable and maintainable.</p></div>
+  </div>
+
+  <h3>DLP Strategy Summary</h3>
+  <p><span class="level level-critical">Critical</span> DLP policies control which connectors can be used together in the same app or flow. Every environment needs at least one active policy. See the DLP Policies Deep Dive Guide for full depth.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Concept</th><th>What It Means</th><th>Architect Guidance</th></tr></thead>
+      <tbody>
+        <tr><td>Business group</td><td>Connectors approved for enterprise data use (SharePoint, Dataverse, Teams)</td><td>Only trusted, approved connectors belong here</td></tr>
+        <tr><td>Non-business group</td><td>Connectors approved for non-sensitive use (Planner, MSN Weather)</td><td>Low-risk connectors that don't touch business data</td></tr>
+        <tr><td>Blocked group</td><td>Connectors not permitted in this policy scope</td><td>Start here for consumer connectors (Gmail, Dropbox, Twitter)</td></tr>
+        <tr><td>Tenant-wide policy</td><td>Applies to all environments unless overridden by a stricter env policy</td><td>Use for baseline "floor" coverage — block all consumer connectors</td></tr>
+        <tr><td>Environment policy</td><td>Applies only to a specific environment — can be more restrictive</td><td>Use for sensitive environments (Prod, Finance, HR)</td></tr>
+        <tr><td>Most restrictive wins</td><td>When multiple policies apply, the combination that is most restrictive is enforced</td><td>Design policies in layers — tenant floor + env-specific refinement</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-tip">
+    <span class="callout-label">💡 DLP Quick Design</span>
+    <p><strong>Tenant policy:</strong> Business = {SharePoint, Dataverse, Teams, Outlook, OneDrive}. Block = {Gmail, Dropbox, Twitter, Facebook, Instagram}. Non-business = everything else.<br>
+    <strong>Production env policy:</strong> Business = {SharePoint, Dataverse, Teams, SQL Server}. Block = everything else. This layered approach gives you a tenant safety net AND environment-specific hardening.</p>
+  </div>
+
+  <h3>Environment Strategy Framework</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Environment Type</th><th>Purpose</th><th>DLP</th><th>Managed</th><th>Who Deploys</th></tr></thead>
+      <tbody>
+        <tr><td>Default</td><td>Individual exploration — NOT for production workloads</td><td>Restrictive tenant policy</td><td>No</td><td>Any maker</td></tr>
+        <tr><td>Developer (per-maker)</td><td>Individual dev sandbox — Microsoft-licensed</td><td>Permissive dev policy</td><td>No</td><td>Maker only</td></tr>
+        <tr><td>Shared Dev</td><td>Team development, integration testing</td><td>Dev policy</td><td>No</td><td>Dev team via pipeline</td></tr>
+        <tr><td>Test / QA</td><td>Functional testing with test data</td><td>Production-equivalent policy</td><td>Yes</td><td>Pipeline only</td></tr>
+        <tr><td>UAT</td><td>Business acceptance testing</td><td>Production-equivalent policy</td><td>Yes</td><td>Pipeline only (admin approval)</td></tr>
+        <tr><td>Production</td><td>Live workloads, real data</td><td>Most restrictive policy</td><td>Yes</td><td>Pipeline only (CAB approval)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Governance Roles &amp; Responsibilities</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Role</th><th>Responsibilities</th><th>Who Holds It</th></tr></thead>
+      <tbody>
+        <tr><td>Tenant Admin (Global / PP Admin)</td><td>DLP policies, environment creation, licensing, Managed Environments, CoE oversight</td><td>Central IT / Platform team</td></tr>
+        <tr><td>Environment Admin</td><td>Security roles, connector policies for that env, solution deployment</td><td>Delivery team lead or platform admin</td></tr>
+        <tr><td>Solution Architect / PP Expert</td><td>Architecture standards, ALM design, governance design, technical standards</td><td>You</td></tr>
+        <tr><td>Maker / Citizen Developer</td><td>Build within standards, follow intake process, own app quality</td><td>Business unit makers</td></tr>
+        <tr><td>CoE Lead</td><td>Run CoE cadence, publish standards, manage community, track KPIs</td><td>You or dedicated CoE owner</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Governance Operating Model</h3>
+  <div class="phase-list">
+    <div class="phase"><h4>Intake &amp; Review</h4><p class="phase-meta">Ongoing</p><ul><li>All new app/flow requests go through an intake form (even lightweight)</li><li>Risk tier assigned — Low / Medium / High</li><li>Environment assigned based on tier</li></ul></div>
+    <div class="phase"><h4>Standards &amp; Templates</h4><p class="phase-meta">Month 1–2</p><ul><li>Naming conventions published for solutions, apps, flows, env vars</li><li>Starter templates provided (solution template, flow template)</li><li>DLP design documented and shared with admin</li></ul></div>
+    <div class="phase"><h4>Review &amp; Cadence</h4><p class="phase-meta">Monthly</p><ul><li>Monthly governance review — inventory, DLP coverage, orphan apps</li><li>CoE report reviewed — active makers, high-usage apps, connector risk</li><li>Exception log reviewed and resolved</li></ul></div>
+    <div class="phase"><h4>Continuous Improvement</h4><p class="phase-meta">Quarterly</p><ul><li>Maturity assessment vs prior quarter</li><li>Policy updates based on new connectors or business needs</li><li>Maker feedback incorporated into standards updates</li></ul></div>
+  </div>
+
+  <div class="callout callout-arch">
+    <span class="callout-label">🏗️ Architect Note</span>
+    <p>Governance is not only about the CoE Starter Kit. The kit is an accelerator — it provides a set of pre-built flows and apps for visibility. Governance itself is the <em>people, process, standards, and communication model</em> around it. A mature tenant can have excellent governance with minimal tooling if the processes and ownership are clear.</p>
+  </div>
+
+  <h3>Managed Environments</h3>
+  <p><span class="level level-advanced">Advanced</span> Managed Environments is a premium feature that adds governance controls to specific environments. Requires per-app or per-user P2 licensing, or Managed Environment add-on.</p>
+  <div class="do-dont">
+    <div class="do-box"><h4>✅ When to use Managed Environments</h4><ul>
+      <li>Production environments with sensitive data</li>
+      <li>Environments requiring maker welcome message and usage insights</li>
+      <li>Weekly digest email for admins on tenant activity</li>
+      <li>Solution checker enforcement on import</li>
+      <li>Sharing limits (e.g. max 20 people per canvas app)</li>
+    </ul></div>
+    <div class="dont-box"><h4>❌ When NOT to start with Managed Environments</h4><ul>
+      <li>Developer environments (over-controls individual sandboxes)</li>
+      <li>Organisations without premium licensing budget</li>
+      <li>As a substitute for proper DLP policies — it's additive, not a replacement</li>
+    </ul></div>
+  </div>
+
+  <h3>Naming Convention Starter</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Asset</th><th>Pattern</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Solution</td><td><code>[OrgPrefix]_[Domain]_[Purpose]_[v{N}]</code></td><td><code>ACME_HR_LeaveManagement_v2</code></td></tr>
+        <tr><td>Canvas App</td><td><code>[OrgPrefix]-[Function]-App</code></td><td><code>ACME-TimeEntry-App</code></td></tr>
+        <tr><td>Cloud Flow</td><td><code>[OrgPrefix]-[Trigger]-[Action]-Flow</code></td><td><code>ACME-NewItem-SendApproval-Flow</code></td></tr>
+        <tr><td>Environment Variable</td><td><code>[OrgPrefix]_[Scope]_[Name]</code></td><td><code>ACME_Prod_SharePointSiteURL</code></td></tr>
+        <tr><td>Connection Reference</td><td><code>[OrgPrefix]-[Connector]-[Env]-CR</code></td><td><code>ACME-SharePoint-Prod-CR</code></td></tr>
+        <tr><td>Environment</td><td><code>[OrgPrefix]-[Purpose]-[Region]</code></td><td><code>ACME-Production-UKS</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════ S5: COE / ENABLEMENT ════ -->
+<section class="guide-section" id="s5">
+  <div class="section-hdr">
+    <div class="sec-num c5">5</div>
+    <div><div class="sec-title">CoE / Enablement</div><div class="sec-sub">Center of Excellence structure, Starter Kit, operating cadence</div></div>
+  </div>
+  <div class="quick-read">
+    <div class="qr-label">⚡ Quick Read</div>
+    <h3>What a CoE actually is</h3>
+    <p>A CoE is <em>not</em> a tool installation. It is a <strong>people + process + tooling model</strong> that enables an organisation to gain value from Power Platform sustainably. The CoE Starter Kit is a Microsoft open-source accelerator — a useful starting point, not the whole operating model.</p>
+  </div>
+
+  <h3>CoE vs. No CoE</h3>
+  <div class="do-dont">
+    <div class="do-box"><h4>✅ With a CoE</h4><ul>
+      <li>Visibility into who is building what, in which environment</li>
+      <li>Standards published and accessible — makers don't guess</li>
+      <li>Intake process — business ideas are assessed and matched to the right tooling</li>
+      <li>Training and community — makers improve over time</li>
+      <li>Governance cadence — regular review, proactive risk management</li>
+      <li>Escalation path — makers know who to call when they're stuck</li>
+    </ul></div>
+    <div class="dont-box"><h4>❌ Without a CoE</h4><ul>
+      <li>Apps proliferate in the default environment with no oversight</li>
+      <li>No one knows what's in production or who owns it</li>
+      <li>Personal account connections in critical flows — break on staff changes</li>
+      <li>No DLP strategy — any connector can be used with any other</li>
+      <li>Citizen developers blocked by IT or fully uncontrolled — neither is good</li>
+      <li>No handover process for apps built by departing staff</li>
+    </ul></div>
+  </div>
+
+  <h3>Core CoE Team Structure</h3>
+  <div class="card-grid">
+    <div class="card card-accent"><div class="card-icon">👑</div><h4>Executive Sponsor</h4><p>Senior leader who champions Power Platform. Provides air cover for governance decisions and budget for licensing/tooling.</p></div>
+    <div class="card card-violet"><div class="card-icon">🏛️</div><h4>CoE Lead / PP Expert</h4><p>Runs the CoE — that's you. Owns the operating model, standards, cadence, and maker community.</p></div>
+    <div class="card card-green"><div class="card-icon">⚙️</div><h4>Platform Admin</h4><p>Implements governance decisions in the Admin Centre. Manages environments, DLP, licensing, and monitoring.</p></div>
+    <div class="card card-amber"><div class="card-icon">🌟</div><h4>Champions Network</h4><p>Power users and enthusiastic makers in each business unit. Multipliers for standards adoption and peer support.</p></div>
+    <div class="card card-red"><div class="card-icon">🛡️</div><h4>Security / Compliance Rep</h4><p>Ensures DLP and data governance aligns with organisational security policy and audit requirements.</p></div>
+  </div>
+
+  <h3>CoE Starter Kit — What It Is and Isn't</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Component</th><th>What It Does</th><th>Important Caveat</th></tr></thead>
+      <tbody>
+        <tr><td>Core Components (Setup &amp; Admin)</td><td>Syncs tenant inventory — environments, apps, flows, connectors, makers — into Dataverse</td><td>Requires a premium environment + Dataverse. Daily sync via Cloud Flows. Can be resource intensive.</td></tr>
+        <tr><td>Governance Components</td><td>Compliance emails, DLP violation notifications, maker welcome flows, archival workflows</td><td>Not all governance flows are needed on day one. Pick the ones that address your actual gaps.</td></tr>
+        <tr><td>Nurture Components</td><td>Maker onboarding, community apps, training challenge, maker portal</td><td>Optional. Very useful for large-scale citizen developer programmes.</td></tr>
+        <tr><td>ALM Accelerator</td><td>Azure DevOps pipeline templates for solution export/import, solution checker, branching</td><td>Excellent starting point for Azure DevOps ALM. Requires some configuration for your tenant.</td></tr>
+        <tr><td>Power BI Dashboard</td><td>Tenant inventory, capacity, usage, DLP analytics</td><td>Requires Power BI Pro. Provides the admin visibility layer.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-warn">
+    <span class="callout-label">⚠️ CoE Starter Kit Warning</span>
+    <p>The CoE Starter Kit requires careful setup — it uses multiple Cloud Flows and apps that need service principal or admin credentials. Treat it as a reference implementation, not a plug-and-play install. Always validate the latest Microsoft Learn setup guide before deploying. Plan for a dedicated CoE environment with Dataverse.</p>
+  </div>
+
+  <h3>CoE Operating Cadence</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Cadence</th><th>Activities</th><th>Who</th></tr></thead>
+      <tbody>
+        <tr><td>Weekly</td><td>Review new app/flow registrations, triage support tickets, check DLP violation alerts</td><td>CoE Lead + Admin</td></tr>
+        <tr><td>Monthly</td><td>Governance review: inventory, orphan apps, DLP coverage, KPI dashboard review</td><td>CoE Lead + Admin + Champions</td></tr>
+        <tr><td>Quarterly</td><td>Maturity assessment, policy review, community event, new standards publication, training calendar</td><td>Full CoE team + Executive Sponsor</td></tr>
+        <tr><td>Annually</td><td>Strategy refresh, licensing review, CoE charter review, roadmap update</td><td>CoE Lead + Sponsor + IT Leadership</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>CoE Intake Process (Lightweight)</h3>
+  <p>Even a simple intake process is better than none. The goal is to ensure new Power Platform work is <em>visible, assessed, and correctly resourced</em> before the first line of no-code is written.</p>
+  <div class="phase-list">
+    <div class="phase"><h4>1. Request Submission</h4><p class="phase-meta">Day 0</p><ul><li>Maker or business owner submits request via form (Microsoft Form, SharePoint list, or CoE portal)</li><li>Captures: business need, data involved, users affected, expected outcome</li></ul></div>
+    <div class="phase"><h4>2. Triage &amp; Risk Assessment</h4><p class="phase-meta">Within 2 business days</p><ul><li>CoE Lead reviews submission</li><li>Assigns risk tier: Low (personal productivity) / Medium (team workflow) / High (sensitive data, external users)</li><li>Recommends: Power Platform / pro-dev / existing tooling</li></ul></div>
+    <div class="phase"><h4>3. Environment &amp; DLP Assignment</h4><p class="phase-meta">Same day as triage</p><ul><li>Assigns appropriate environment based on risk tier</li><li>Confirms DLP policy coverage for connectors needed</li><li>Provides solution template and naming guide</li></ul></div>
+    <div class="phase"><h4>4. Build &amp; Review</h4><p class="phase-meta">During development</p><ul><li>Maker builds in assigned environment following standards</li><li>Architecture review for Medium/High tier apps before deployment</li><li>Solution checker run before any promotion</li></ul></div>
+  </div>
+
+  <h3>KPIs for CoE Success</h3>
+  <div class="card-grid">
+    <div class="card card-green"><div class="card-icon">📈</div><h4>Active Makers</h4><p>Number of makers who have built at least one app or flow in the last 90 days. Target: growing month-on-month.</p></div>
+    <div class="card card-accent"><div class="card-icon">🏗️</div><h4>Apps in Solutions</h4><p>% of production apps packaged in a solution. Target: 100% in production, 80%+ overall.</p></div>
+    <div class="card card-amber"><div class="card-icon">📋</div><h4>Intake Compliance</h4><p>% of new apps/flows that went through the intake process. Target: 95% within 90 days of CoE launch.</p></div>
+    <div class="card card-violet"><div class="card-icon">🌱</div><h4>Champion Network</h4><p>Number of active champions across business units. Target: at least one per major department.</p></div>
+  </div>
+
+  <div class="callout callout-interview">
+    <span class="callout-label">🎯 Interview / Stakeholder Talking Point</span>
+    <p>When asked "what is a CoE?" — say: <em>"A Center of Excellence is an operating model — not a tool installation. It combines governance policies, enablement processes, community building, standards publication, and regular cadence to ensure Power Platform delivers value at scale without creating risk. The CoE Starter Kit is a useful accelerator, but the real CoE is the people and process around it."</em></p>
+  </div>
+</section>
+
+<!-- ════ S6: CITIZEN DEVELOPER PROGRAM ════ -->
+<section class="guide-section" id="s6">
+  <div class="section-hdr">
+    <div class="sec-num c6">6</div>
+    <div><div class="sec-title">Citizen Developer Program</div><div class="sec-sub">Onboarding, risk tiers, approval model, and support boundaries</div></div>
+  </div>
+  <div class="quick-read">
+    <div class="qr-label">⚡ Quick Read</div>
+    <h3>Citizen development in one sentence</h3>
+    <p>Citizen development works in enterprise when guardrails <em>enable</em> rather than block — clear risk tiers, approved environments, intake process, training, and escalation to pro-dev teams when needed.</p>
+  </div>
+
+  <h3>What Citizen Development Means in a Controlled Enterprise</h3>
+  <p>Citizen development is <strong>not</strong> "anyone can build anything anywhere." In a well-governed enterprise it means: <em>authorised business users can build low-risk productivity apps and flows within approved environments, using pre-approved connectors, following published standards, with a clear escalation path for complex or high-risk use cases.</em></p>
+
+  <h3>App Risk Tiers</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tier</th><th>Description</th><th>Examples</th><th>Environment</th><th>Review Required</th></tr></thead>
+      <tbody>
+        <tr><td><span class="level level-beginner">Low</span></td><td>Personal productivity, single user or small team, no sensitive data</td><td>Personal task tracker, meeting notes collector</td><td>Default or Developer</td><td>None (self-serve)</td></tr>
+        <tr><td><span class="level level-intermediate">Medium</span></td><td>Team workflow, SharePoint/Teams data, department scope</td><td>Leave request, expense tracker, asset register</td><td>Shared Dev → UAT → Prod</td><td>CoE review before prod</td></tr>
+        <tr><td><span class="level level-advanced">High</span></td><td>Sensitive data, external users, Dataverse, cross-system integration</td><td>Customer portal, HR data processing, finance workflows</td><td>Dedicated dev env → full ALM pipeline</td><td>Architecture review + security sign-off</td></tr>
+        <tr><td><span class="level level-critical">Critical</span></td><td>Regulated data, compliance scope, production-critical processes</td><td>Payroll, GDPR-subject data, audit-required flows</td><td>Full managed environment pipeline</td><td>Architecture board + security + legal</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Maker Onboarding Pathway</h3>
+  <div class="phase-list">
+    <div class="phase"><h4>Step 1 — Apply</h4><p class="phase-meta">Day 1</p><ul><li>Maker submits onboarding form (team, department, role, use case intent)</li><li>Manager approval captured</li></ul></div>
+    <div class="phase"><h4>Step 2 — Learn</h4><p class="phase-meta">Days 1–5</p><ul><li>Mandatory: Microsoft Learn Fundamentals path (PL-900 equivalent)</li><li>Organisation-specific: internal standards guide, naming conventions</li><li>Optional: Power Automate, Power Apps, Copilot Studio modules</li></ul></div>
+    <div class="phase"><h4>Step 3 — Build in Sandbox</h4><p class="phase-meta">Days 5–14</p><ul><li>Access to Developer or shared Sandbox environment</li><li>Provided with starter solution template</li><li>First build reviewed by CoE Champion in their team</li></ul></div>
+    <div class="phase"><h4>Step 4 — Publish with Oversight</h4><p class="phase-meta">Week 3+</p><ul><li>Medium/High tier apps go through intake + architecture review before production deployment</li><li>CoE Lead signs off solution packaging and DLP compliance</li><li>Maker added to champions email list</li></ul></div>
+  </div>
+
+  <h3>When NOT to Use Power Platform</h3>
+  <div class="callout callout-warn">
+    <span class="callout-label">⚠️ Governance Guardrail — Redirect to Pro-Dev</span>
+    <p>Citizen developer tools are not appropriate for every use case. Escalate to professional development when any of these apply:</p>
+    <ul>
+      <li>Complex data transformations or large-scale data migrations</li>
+      <li>External-facing portals requiring custom authentication or branding beyond Power Pages</li>
+      <li>Performance-sensitive applications with hundreds of concurrent users</li>
+      <li>Regulated processes requiring full audit trail, digital signature, or legal non-repudiation</li>
+      <li>Custom API development or low-level system integrations</li>
+      <li>Machine learning model training (use Azure ML or AI Foundry, not AI Builder for model training at scale)</li>
+    </ul>
+  </div>
+
+  <h3>Support Boundaries</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Support Level</th><th>Who Provides</th><th>For What</th></tr></thead>
+      <tbody>
+        <tr><td>Self-service</td><td>Microsoft Learn, internal documentation</td><td>Standard features, how-to queries</td></tr>
+        <tr><td>Peer support</td><td>Champions network, Teams community channel</td><td>Day-to-day build questions, formula help, connector guidance</td></tr>
+        <tr><td>CoE support</td><td>CoE Lead / PP Expert</td><td>Governance questions, environment/DLP issues, architecture advice</td></tr>
+        <tr><td>Platform admin</td><td>Tenant Admin / Environment Admin</td><td>Licensing, environment creation, DLP changes, capacity</td></tr>
+        <tr><td>Pro-dev escalation</td><td>Development team / architects</td><td>High/Critical tier apps, custom connectors, complex integrations</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Champions Programme</h3>
+  <p>Champions are active, enthusiastic makers who act as local points of contact for Power Platform in their business unit. They are not full-time — they spend 10–20% of their time on community activities.</p>
+  <ul class="checklist">
+    <li><span class="chk">✓</span>Identify potential champions early — look for proactive makers who are already helping colleagues</li>
+    <li><span class="chk">✓</span>Provide champions with advance notice of new features and standards before broader rollout</li>
+    <li><span class="chk">✓</span>Run a monthly champions call — share updates, gather field feedback, celebrate wins</li>
+    <li><span class="chk">✓</span>Recognise champions publicly — internal newsletter, leadership shout-outs, LinkedIn recognition</li>
+    <li><span class="chk">✓</span>Give champions a simple escalation path to the CoE for issues beyond their scope</li>
+  </ul>
+</section>
+
+<!-- ════ S7: ALM FOUNDATIONS ════ -->
+<section class="guide-section" id="s7">
+  <div class="section-hdr">
+    <div class="sec-num c7">7</div>
+    <div><div class="sec-title">ALM Foundations</div><div class="sec-sub">Solutions, versioning, managed vs unmanaged, deployment standards</div></div>
+  </div>
+  <div class="quick-read">
+    <div class="qr-label">⚡ Quick Read</div>
+    <h3>ALM in one sentence</h3>
+    <p>Solutions are the unit of ALM in Power Platform. Everything that matters must be <em>in</em> a solution, exported as <em>managed</em> to downstream environments, and deployed via a <em>pipeline</em> — never edited directly in production.</p>
+  </div>
+
+  <h3>Why ALM Matters</h3>
+  <div class="card-grid">
+    <div class="card card-accent"><div class="card-icon">🔁</div><h4>Repeatability</h4><p>The same solution can be deployed to any environment reliably — not manually recreated each time.</p></div>
+    <div class="card card-green"><div class="card-icon">🕵️</div><h4>Traceability</h4><p>Every change has an origin — source control shows who changed what and why. Auditors love this.</p></div>
+    <div class="card card-amber"><div class="card-icon">↩️</div><h4>Rollback</h4><p>Managed solutions can be deleted to restore a prior state. Direct prod edits cannot be rolled back cleanly.</p></div>
+    <div class="card card-red"><div class="card-icon">🔒</div><h4>Production Integrity</h4><p>Managed solutions prevent direct edits in production — the only way to change is through a proper deployment.</p></div>
+  </div>
+
+  <h3>Solution Concepts</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Concept</th><th>Definition</th><th>Architect Guidance</th></tr></thead>
+      <tbody>
+        <tr><td>Solution</td><td>Container for Power Platform components — apps, flows, tables, choices, env vars, connection references</td><td>Every production workload must live inside a solution. No exceptions.</td></tr>
+        <tr><td>Unmanaged solution</td><td>Editable solution — used in development environments</td><td>Dev only. Never deploy an unmanaged solution to Test, UAT, or Prod.</td></tr>
+        <tr><td>Managed solution</td><td>Read-only solution deployed downstream — components cannot be edited in that environment</td><td>Always deploy managed to Test/UAT/Prod. Enforces production integrity.</td></tr>
+        <tr><td>Default solution</td><td>System solution that holds all components not explicitly added to a custom solution</td><td>Treat as a warning sign — components here are not properly managed.</td></tr>
+        <tr><td>Layers</td><td>Multiple managed solutions can be layered on top of each other in one environment</td><td>Avoid deep layering (3+ layers). Complex to manage, debug, and roll back.</td></tr>
+        <tr><td>Publisher</td><td>Metadata attached to a solution — defines the custom prefix for all components</td><td>Use a consistent, org-specific publisher prefix. Never use the default "cr" prefix in production.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Solution Segmentation Strategy</h3>
+  <div class="callout callout-tip">
+    <span class="callout-label">💡 Solution Segmentation Principle</span>
+    <p>Avoid one giant monolithic solution for an entire application portfolio. Separate by: (1) <strong>Domain</strong> — HR vs Finance vs Operations, (2) <strong>Layer</strong> — Core Data (Dataverse tables) separate from UI (apps/flows), (3) <strong>Deployment frequency</strong> — infrastructure components (tables, choices) deploy less often than UI components.</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Solution Type</th><th>Contains</th><th>Deploy Frequency</th></tr></thead>
+      <tbody>
+        <tr><td>Core / Data layer</td><td>Dataverse tables, choices, columns, relationships</td><td>Low — schema changes are infrequent and risky</td></tr>
+        <tr><td>Business Logic layer</td><td>Business rules, plugins, cloud flows (core automation)</td><td>Medium — changes with business requirements</td></tr>
+        <tr><td>UI / App layer</td><td>Canvas apps, model-driven app customisations</td><td>High — most frequent iteration target</td></tr>
+        <tr><td>Configuration layer</td><td>Environment variables, connection references, site map</td><td>Low to medium — env-specific values, not logic</td></tr>
+        <tr><td>Security layer</td><td>Security roles, field-level security profiles</td><td>Low — permissions rarely change</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Managed vs. Unmanaged — The Critical Rules</h3>
+  <div class="do-dont">
+    <div class="do-box"><h4>✅ DO — Managed Downstream</h4><ul>
+      <li>Export as managed before deploying to Test/UAT/Prod</li>
+      <li>Store the managed .zip in source control or pipeline artifact</li>
+      <li>Import managed — the environment will enforce read-only on components</li>
+      <li>Rollback by deleting the managed solution if needed</li>
+      <li>Use deployment settings file to pass env-specific values at import time</li>
+    </ul></div>
+    <div class="dont-box"><h4>❌ DON'T — Unmanaged Downstream</h4><ul>
+      <li>Do not export unmanaged and import into production</li>
+      <li>Do not let developers make direct edits in production environments</li>
+      <li>Do not deploy from the "default solution" — components are unmanaged and uncontrolled</li>
+      <li>Do not skip solution checker before import — quality gate matters</li>
+      <li>Do not layer 4+ managed solutions on the same environment — creates invisible merge issues</li>
+    </ul></div>
+  </div>
+
+  <h3>Versioning Strategy</h3>
+  <p>Semantic versioning is the standard: <code>Major.Minor.Patch.Build</code></p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Version Part</th><th>When to Increment</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Major</td><td>Breaking change, complete redesign, major new feature set</td><td>1.x.x → 2.0.0</td></tr>
+        <tr><td>Minor</td><td>New feature, new screen, new flow added</td><td>1.2.x → 1.3.0</td></tr>
+        <tr><td>Patch</td><td>Bug fix, minor label change, small formula update</td><td>1.2.3 → 1.2.4</td></tr>
+        <tr><td>Build</td><td>Pipeline build number — auto-incremented by CI/CD</td><td>1.2.4.100</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Healthy ALM Principles</h3>
+  <ul class="checklist">
+    <li><span class="chk">✓</span>All production components live inside a named, versioned solution with a custom publisher</li>
+    <li><span class="chk">✓</span>Dev environment uses unmanaged — all downstream environments receive managed</li>
+    <li><span class="chk">✓</span>Source control holds the exported unmanaged solution .zip (or unpacked source files)</li>
+    <li><span class="chk">✓</span>No one edits directly in UAT or Production — ever</li>
+    <li><span class="chk">✓</span>Environment variables used for all environment-specific values (URLs, IDs, keys)</li>
+    <li><span class="chk">✓</span>Connection references used for all connector-based components in solutions</li>
+    <li><span class="chk">✓</span>Solution checker run before every import to Test or above</li>
+    <li><span class="chk">✓</span>Deployment settings file defines env-specific values for each target environment</li>
+    <li><span class="chk">✓</span>Release notes and version history maintained with each deployment</li>
+  </ul>
+
+  <div class="callout callout-arch">
+    <span class="callout-label">🏗️ Architect Note — Current Team Situation</span>
+    <p>If the team currently has <strong>separate pipelines per form + unmanaged solutions + no premium licensing + connection/env variable challenges</strong>, the immediate priorities are: (1) Move to a shared solution per domain, (2) Fix connection references — every flow in a solution needs one, (3) Define environment variables for all URLs and site addresses, (4) Export as managed before deploying downstream. These four steps alone will dramatically improve ALM discipline before any pipeline investment.</p>
+  </div>
+</section>
+
+<!-- ════ S8: DEPLOYMENT ARCHITECTURE ════ -->
+<section class="guide-section" id="s8">
+  <div class="section-hdr">
+    <div class="sec-num c1">8</div>
+    <div><div class="sec-title">Deployment Architecture</div><div class="sec-sub">Release promotion, deployment patterns, and target-state model</div></div>
+  </div>
+
+  <h3>Recommended Enterprise Deployment Architecture</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Environment</th><th>Type</th><th>Solution State</th><th>Access</th><th>Deployment Gate</th></tr></thead>
+      <tbody>
+        <tr><td>Dev (shared)</td><td>Sandbox</td><td>Unmanaged (editable)</td><td>Dev team + makers</td><td>None — free iteration</td></tr>
+        <tr><td>Test / QA</td><td>Sandbox → Managed</td><td>Managed import</td><td>Testers + CoE</td><td>Automated pipeline (no approval)</td></tr>
+        <tr><td>UAT</td><td>Production-type</td><td>Managed import</td><td>Business testers</td><td>Pipeline + Business Owner approval</td></tr>
+        <tr><td>Production</td><td>Production</td><td>Managed import</td><td>End users (read-only model)</td><td>Pipeline + CAB / change approval</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Deployment Flow — Step by Step</h3>
+  <div class="phase-list">
+    <div class="phase"><h4>1. Develop in Dev</h4><p class="phase-meta">Unmanaged solution, free iteration</p><ul><li>All changes made in Dev environment only</li><li>Environment variables and connection references configured for Dev</li><li>Solution committed to source control on completion of feature</li></ul></div>
+    <div class="phase"><h4>2. Export and Package</h4><p class="phase-meta">Via pipeline or manually</p><ul><li>Export <em>unmanaged</em> for source control</li><li>Export <em>managed</em> for downstream deployment</li><li>Run Solution Checker — resolve all critical/high issues</li><li>Generate deployment settings file for target environment</li></ul></div>
+    <div class="phase"><h4>3. Deploy to Test</h4><p class="phase-meta">Automated — no approval</p><ul><li>Pipeline imports managed solution + deployment settings to Test</li><li>Automated smoke tests run (if defined)</li><li>Developer validates key scenarios</li></ul></div>
+    <div class="phase"><h4>4. Promote to UAT</h4><p class="phase-meta">Approval gate</p><ul><li>Same managed package deployed to UAT</li><li>Business owner / tester validates acceptance criteria</li><li>Sign-off captured (Teams approval, email, or pipeline gate)</li></ul></div>
+  </div>
+  <div class="phase-list">
+    <div class="phase"><h4>5. Deploy to Production</h4><p class="phase-meta">Change control gate</p><ul><li>CAB approval or change ticket raised and approved</li><li>Pipeline deploys to Production in defined maintenance window</li><li>Post-deployment validation — check app loads, key flows run</li><li>Release notes published and stakeholders notified</li></ul></div>
+  </div>
+
+  <h3>Deployment Settings File</h3>
+  <p>The deployment settings JSON file maps environment-specific values at import time — environment variables, connection references, and other config — without changing the solution itself.</p>
+  <pre><code>{
+  "EnvironmentVariables": [
+    {
+      "SchemaName": "acme_SharePointSiteURL",
+      "Value": "https://myorg.sharepoint.com/sites/ProdHR"
+    }
+  ],
+  "ConnectionReferences": [
+    {
+      "LogicalName": "acme_sharedsharepoint_xxxxxx",
+      "ConnectionId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline/connections/prod-sp-conn-id",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+    }
+  ]
+}</code></pre>
+  <div class="callout callout-tip">
+    <span class="callout-label">💡 One settings file per environment</span>
+    <p>Maintain a separate <code>deploymentsettings.Dev.json</code>, <code>deploymentsettings.Test.json</code>, <code>deploymentsettings.Prod.json</code>. Store in source control alongside the solution. Never hardcode connection IDs in the solution itself.</p>
+  </div>
+
+  <h3>Current Team Situation — Critique &amp; Remediation</h3>
+  <div class="callout callout-warn">
+    <span class="callout-label">⚠️ Current State Issues</span>
+    <p>If the team has: separate pipelines per Canvas form + associated Cloud workflows, unmanaged solution packaging, no premium licensing, challenges changing environment variables, and connection issues — here is the prioritised remediation plan:</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Issue</th><th>Root Cause</th><th>Fix</th><th>Timeline</th></tr></thead>
+      <tbody>
+        <tr><td>Separate pipeline per form</td><td>No shared solution structure, no domain grouping</td><td>Consolidate into domain solutions. One pipeline per domain, not per form.</td><td>Sprint 1–2</td></tr>
+        <tr><td>Unmanaged downstream</td><td>Lack of ALM awareness — teams deploy what they have</td><td>Train on managed vs unmanaged. Export managed before deploying to Test/UAT/Prod.</td><td>Immediate</td></tr>
+        <tr><td>No premium licensing</td><td>Licensing constraint — limits environments and premium connectors</td><td>Assess need. Developer plan for makers is free. Document which flows need premium connectors.</td><td>Assessment: Week 1</td></tr>
+        <tr><td>Env variable challenges</td><td>Not using env vars, or not providing deployment settings at import</td><td>Define env vars for every environment-specific value. Use deployment settings JSON at import.</td><td>Sprint 2–3</td></tr>
+        <tr><td>Connection issues post-deploy</td><td>Connection references not in solution, or not pre-mapped</td><td>Add connection reference to solution. Map at import using deployment settings file.</td><td>Sprint 2</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════ S9: POWER PLATFORM PIPELINES ════ -->
+<section class="guide-section" id="s9">
+  <div class="section-hdr">
+    <div class="sec-num c2">9</div>
+    <div><div class="sec-title">Power Platform Pipelines</div><div class="sec-sub">Native pipeline feature — when to use, advantages, limitations</div></div>
+  </div>
+
+  <h3>What Are Power Platform Pipelines?</h3>
+  <p>Power Platform Pipelines is a native feature in the Power Platform Admin Centre that provides a low-code deployment model — promoting solutions from Dev → Test → UAT → Prod through a configured pipeline without needing Azure DevOps or PAC CLI.</p>
+
+  <h3>When to Use Power Platform Pipelines</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Use When</th><th>Avoid When</th></tr></thead>
+      <tbody>
+        <tr><td>Team has no DevOps experience or tooling</td><td>Complex branching or multi-repo ALM strategy needed</td></tr>
+        <tr><td>Simpler deployment model needed fast (days, not weeks)</td><td>Automated testing, solution checker enforcement, PR validation required</td></tr>
+        <tr><td>Makers want to self-deploy with approvals</td><td>Solution needs to be unpacked and stored as individual files in Git</td></tr>
+        <tr><td>Organisation doesn't have Azure DevOps / GitHub licences</td><td>Enterprise governance requires full audit trail in Azure DevOps work items</td></tr>
+        <tr><td>Pilot or low-risk delivery stream</td><td>Complex deployment settings or multi-solution dependency chains</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Pipeline Setup Overview</h3>
+  <div class="phase-list">
+    <div class="phase"><h4>1. Create host environment</h4><p class="phase-meta">Admin Centre</p><ul><li>Dedicated environment for pipeline configuration — needs Dataverse</li><li>Requires Power Platform Pipeline licence (per environment premium or standalone)</li></ul></div>
+    <div class="phase"><h4>2. Configure pipeline</h4><p class="phase-meta">Admin Centre &gt; Pipelines</p><ul><li>Add source environment (Dev)</li><li>Add target stage environments (Test → UAT → Prod)</li><li>Enable deployment approvals per stage</li></ul></div>
+    <div class="phase"><h4>3. Deploy from Dev</h4><p class="phase-meta">Maker action</p><ul><li>From within the solution in Dev, click Deploy</li><li>Pipeline promotes managed solution to the next stage</li><li>Approver receives notification and approves/rejects</li></ul></div>
+  </div>
+
+  <div class="callout callout-arch">
+    <span class="callout-label">🏗️ Architect Note — Pipeline Licensing</span>
+    <p>Power Platform Pipelines require a <strong>host environment with Dataverse</strong>. The pipeline feature itself is included with Managed Environments (Premium). For organisations without Managed Environments, assess PAC CLI + Azure DevOps as a licensing-efficient alternative. As of the latest guidance — always validate current licensing at <code>aka.ms/PowerPlatformLicensing</code>.</p>
+  </div>
+
+  <h3>Advantages &amp; Limitations</h3>
+  <div class="do-dont">
+    <div class="do-box"><h4>✅ Advantages</h4><ul>
+      <li>Low-code — no YAML, no scripting knowledge required</li>
+      <li>Native to Power Platform Admin Centre</li>
+      <li>Built-in approval workflow</li>
+      <li>Automatic managed solution creation</li>
+      <li>Deployment history and rollback visibility</li>
+      <li>Works for makers, not just DevOps engineers</li>
+    </ul></div>
+    <div class="dont-box"><h4>❌ Limitations</h4><ul>
+      <li>No automated testing integration</li>
+      <li>Limited customisation of the pipeline steps</li>
+      <li>Requires host environment with Dataverse (licensing cost)</li>
+      <li>Not suitable for source control / Git-based ALM</li>
+      <li>Less visibility vs Azure DevOps pipeline run history</li>
+      <li>Cannot automate environment variable or connection reference mapping (manual or separate tooling needed)</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- ════ S10: DEVOPS / PAC CLI / POWERSHELL ════ -->
+<section class="guide-section" id="s10">
+  <div class="section-hdr">
+    <div class="sec-num c3">10</div>
+    <div><div class="sec-title">Azure DevOps / PAC CLI / PowerShell</div><div class="sec-sub">Decision matrix, automation patterns, and key commands</div></div>
+  </div>
+
+  <h3>Tooling Decision Matrix</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tooling</th><th>Best For</th><th>Requires</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Power Platform Pipelines</strong></td><td>Low-code promotion for makers, simple dev→prod pipelines, no DevOps knowledge</td><td>Managed Environments / Premium licensing</td></tr>
+        <tr><td><strong>Azure DevOps</strong></td><td>Enterprise ALM, Git-based source control, PR validation, automated testing, multi-solution deployments, audit trail</td><td>Azure DevOps organisation + service connections</td></tr>
+        <tr><td><strong>PAC CLI</strong></td><td>Local developer workflow — export, import, unpack, solution checker, auth management</td><td>Power Platform CLI installed locally or in pipeline agent</td></tr>
+        <tr><td><strong>PowerShell / PS SDK</strong></td><td>Automated governance reporting, bulk environment management, DLP policy exports, scheduled scripts</td><td>Microsoft.PowerApps.Administration.PowerShell module</td></tr>
+        <tr><td><strong>Build Tools (YAML tasks)</strong></td><td>Azure DevOps pipeline tasks for solution export/import without PowerShell scripting</td><td>Power Platform Build Tools Azure DevOps extension</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>PAC CLI — Key Commands</h3>
+  <pre><code># Authentication
+pac auth create --url https://org.crm11.dynamics.com
+
+# Solution export (unmanaged — for source control)
+pac solution export --path ./solutions/ACME_HR_v1.zip --name ACME_HR --managed false
+
+# Solution export (managed — for deployment)
+pac solution export --path ./releases/ACME_HR_v1_managed.zip --name ACME_HR --managed true
+
+# Unpack solution into source files (for Git)
+pac solution unpack --zipfile ./solutions/ACME_HR_v1.zip --folder ./src/ACME_HR
+
+# Pack solution from source files
+pac solution pack --zipfile ./solutions/ACME_HR_v1.zip --folder ./src/ACME_HR --packagetype Both
+
+# Import managed solution
+pac solution import --path ./releases/ACME_HR_v1_managed.zip --settings-file ./deploymentsettings.Prod.json
+
+# Solution checker
+pac solution check --path ./releases/ACME_HR_v1_managed.zip --geo UnitedKingdom</code></pre>
+
+  <h3>Azure DevOps Pipeline (YAML snippet — basic ALM)</h3>
+  <pre><code>trigger:
+  branches:
+    include: [ main ]
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  - group: PP-Prod-Variables   # Variable group holds connection string, URLs
+
+steps:
+- task: PowerPlatformToolInstaller@2
+  displayName: 'Install PAC CLI'
+
+- task: PowerPlatformExportSolution@2
+  displayName: 'Export managed solution'
+  inputs:
+    authenticationType: 'PowerPlatformSPN'
+    PowerPlatformSPN: 'PP-Dev-ServiceConnection'
+    SolutionName: 'ACME_HR'
+    SolutionOutputFile: '$(Build.ArtifactStagingDirectory)/ACME_HR_managed.zip'
+    Managed: true
+
+- task: PowerPlatformImportSolution@2
+  displayName: 'Import to Prod'
+  inputs:
+    authenticationType: 'PowerPlatformSPN'
+    PowerPlatformSPN: 'PP-Prod-ServiceConnection'
+    SolutionInputFile: '$(Build.ArtifactStagingDirectory)/ACME_HR_managed.zip'
+    UseDeploymentSettingsFile: true
+    DeploymentSettingsFile: '$(Build.SourcesDirectory)/deploymentsettings.Prod.json'</code></pre>
+
+  <h3>PowerShell — Governance Scripts</h3>
+  <pre><code># Install module (one-time)
+Install-Module -Name Microsoft.PowerApps.Administration.PowerShell
+
+# List all environments
+Get-AdminPowerAppEnvironment | Select DisplayName, EnvironmentName, Location
+
+# Export DLP policies to CSV
+Get-DlpPolicy | Export-Csv -Path ./dlp-policies.csv -NoTypeInformation
+
+# Get all apps in an environment
+Get-AdminPowerApp -EnvironmentName "your-env-id" | Select DisplayName, Owner, LastModifiedTime
+
+# Get all flows
+Get-AdminFlow -EnvironmentName "your-env-id" | Select DisplayName, State, CreatedBy</code></pre>
+
+  <div class="callout callout-tip">
+    <span class="callout-label">💡 Service Principal for Pipelines</span>
+    <p>Always use a <strong>service principal</strong> (App Registration + client secret) for pipeline authentication — never a personal account. Service principals don't expire with password changes, are auditable, and can be scoped to specific environments via environment-level admin roles.</p>
+  </div>
+
+  <h3>ALM Accelerator (CoE Starter Kit)</h3>
+  <p>The ALM Accelerator component of the CoE Starter Kit provides pre-built Azure DevOps pipeline templates for Power Platform. It includes: solution export, unpack, checker, import, and release. Use it as a starting point and customise for your organisation's branching and approval model. Reference: <a href="https://learn.microsoft.com/power-platform/guidance/alm-accelerator/overview" target="_blank" rel="noopener">Microsoft Learn — ALM Accelerator</a></p>
+</section>
+
+<!-- ════ S11: ENV VARS & CONNECTIONS ════ -->
+<section class="guide-section" id="s11">
+  <div class="section-hdr">
+    <div class="sec-num c4">11</div>
+    <div><div class="sec-title">Environment Variables &amp; Connection References</div><div class="sec-sub">The two config mechanisms every ALM-based deployment depends on</div></div>
+  </div>
+  <div class="quick-read">
+    <div class="qr-label">⚡ Quick Read</div>
+    <h3>Why they exist</h3>
+    <p><strong>Environment variables</strong> replace hardcoded URLs, IDs, and values so the same solution works in Dev, Test, and Prod without modification. <strong>Connection references</strong> allow flows and apps in a solution to use different actual connections per environment without changing the solution itself. Both are mandatory for professional ALM.</p>
+  </div>
+
+  <h3>Environment Variables</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Type</th><th>Use For</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Text</td><td>URLs, site names, email addresses, named identifiers</td><td>SharePoint site URL, list name</td></tr>
+        <tr><td>Number</td><td>Thresholds, timeouts, limits</td><td>Approval timeout hours = 48</td></tr>
+        <tr><td>Boolean</td><td>Feature flags, toggle switches</td><td>EnableEmailNotifications = true</td></tr>
+        <tr><td>JSON</td><td>Complex configuration objects</td><td>Environment-specific API endpoint config object</td></tr>
+        <tr><td>Data source</td><td>SharePoint site, Dataverse table reference</td><td>SharePoint site for a specific environment</td></tr>
+        <tr><td>Secret</td><td>API keys, passwords — stored in Azure Key Vault</td><td>External API key (never stored in plain text)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h4>Key Rules for Environment Variables</h4>
+  <ul class="checklist">
+    <li><span class="chk">✓</span>Add env var to the solution (not just created in the environment — it must be in the solution to deploy)</li>
+    <li><span class="chk">✓</span>Set a <em>current value</em> per environment — the solution holds the schema, the environment holds the value</li>
+    <li><span class="chk">✓</span>Reference in flows using the <code>environmentVariables</code> function — never hardcode the fallback value in production</li>
+    <li><span class="chk">✓</span>Use deployment settings JSON to supply values at import time for automated pipelines</li>
+    <li><span class="chk">✓</span>For secrets, always use the Azure Key Vault type — never put credentials in a text env var</li>
+  </ul>
+  <pre><code>// In Power Fx (Canvas App) — referencing an env var
+LookUp(EnvironmentVariableValues, SchemaName = "acme_SharePointSiteURL").Value
+
+// In Cloud Flow — use the environment variable directly
+// Add "Get environment variable value" action or reference @{variables('EnvVarName')}</code></pre>
+
+  <h3>Connection References</h3>
+  <p>A connection reference is a solution component that acts as a <em>pointer</em> to an actual connection. When a flow or app uses a connection reference, the actual connection can be different in each environment — the solution doesn't need to change.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Concept</th><th>What It Means</th></tr></thead>
+      <tbody>
+        <tr><td>Connection reference (schema)</td><td>Lives in the solution — names the connector type (e.g. "SharePoint")</td></tr>
+        <tr><td>Actual connection</td><td>Lives in the environment — the real authenticated connection (owned by a user or service principal)</td></tr>
+        <tr><td>Mapping at import</td><td>During import, the connection reference is mapped to the actual connection for that environment via deployment settings</td></tr>
+        <tr><td>Service account connections</td><td>Production flows must use service principal or service account connections — not personal accounts</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-danger">
+    <span class="callout-label">🚨 Critical Anti-Pattern</span>
+    <p>Flows in production owned by or connected via <strong>personal user accounts</strong> will break when that user changes their password, leaves, or has their licences changed. Always use a <strong>service account</strong> (licensed functional account) or <strong>service principal</strong> for production Cloud Flows.</p>
+  </div>
+
+  <h3>Common Environment Variable Mistakes</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Mistake</th><th>Symptom</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td>Hardcoded SharePoint URL in flow</td><td>Flow fails in Test because it points to Dev site</td><td>Create env var for the URL, reference it in the flow</td></tr>
+        <tr><td>Env var not in solution</td><td>Value exists in Dev but not in Test after import</td><td>Add env var to solution before exporting</td></tr>
+        <tr><td>Current value in solution export</td><td>Dev value deployed to Production</td><td>Use deployment settings to supply prod value at import — never rely on the exported current value</td></tr>
+        <tr><td>No env var for List Name</td><td>Flow hits wrong SharePoint list in Prod</td><td>Parameterise all names — not just URLs</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════ S12: CANVAS APPS & CLOUD FLOWS ════ -->
+<section class="guide-section" id="s12">
+  <div class="section-hdr">
+    <div class="sec-num c5">12</div>
+    <div><div class="sec-title">Canvas Apps &amp; Cloud Flows Best Practices</div><div class="sec-sub">Enterprise deployment patterns, ownership, and common mistakes</div></div>
+  </div>
+
+  <h3>Canvas App Enterprise Deployment Standards</h3>
+  <ul class="checklist">
+    <li><span class="chk">✓</span>Canvas app must be inside a solution — not created directly in an environment without a solution</li>
+    <li><span class="chk">✓</span>App name follows naming standard: <code>[Org]-[Function]-App</code></li>
+    <li><span class="chk">✓</span>All data connections use connection references — not direct connections</li>
+    <li><span class="chk">✓</span>All environment-specific URLs/IDs accessed via environment variables</li>
+    <li><span class="chk">✓</span>App published and solution exported (managed) before deploying downstream</li>
+    <li><span class="chk">✓</span>App description includes: purpose, owner, version, last reviewed date</li>
+    <li><span class="chk">✓</span>Delegation enabled for all data sources where collections exceed 500 records</li>
+    <li><span class="chk">✓</span>Error handling on all network/connector calls (<code>IfError</code>, <code>IsBlank</code>)</li>
+    <li><span class="chk">✓</span>App accessibility checked — screen reader labels, colour contrast, keyboard navigation</li>
+    <li><span class="chk">✓</span>Solution Checker run before import — no critical or high issues in production</li>
+  </ul>
+
+  <h3>Cloud Flow Enterprise Deployment Standards</h3>
+  <ul class="checklist">
+    <li><span class="chk">✓</span>Flow inside a solution — never build "my flows" (non-solution flows) for team/production use</li>
+    <li><span class="chk">✓</span>All connections via connection references in the solution</li>
+    <li><span class="chk">✓</span>Flow owned by or running as a service account — not a personal account</li>
+    <li><span class="chk">✓</span>Flow name follows standard: <code>[Org]-[Trigger]-[Action]-Flow</code></li>
+    <li><span class="chk">✓</span>Error handling: Scope actions with Configure run after set to handle failures</li>
+    <li><span class="chk">✓</span>Retry policy configured for connector actions where appropriate</li>
+    <li><span class="chk">✓</span>Run history retained — consider a separate logging flow or Dataverse logging table for critical flows</li>
+    <li><span class="chk">✓</span>DLP policy confirmed before adding connectors — Business + Non-Business combinations blocked</li>
+    <li><span class="chk">✓</span>Sensitive data not passed in flow names, email subjects, or logged to plain text</li>
+  </ul>
+
+  <h3>Packaging App + Associated Flows Together</h3>
+  <div class="callout callout-tip">
+    <span class="callout-label">💡 Packaging Rule</span>
+    <p>Canvas apps and their associated Cloud Flows must be in the <em>same solution</em> to deploy as a unit. If a flow is in a separate solution, it will not deploy atomically with the app and connection references will be unresolved on first import. Use the <em>solution dependency resolution</em> feature to identify cross-solution references before deploying.</p>
+  </div>
+
+  <h3>Troubleshooting Broken Connections Post-Deployment</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Symptom</th><th>Likely Cause</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td>Flow shows "Connection not found" after import</td><td>Connection reference not mapped in deployment settings</td><td>Update deployment settings file with correct connection ID for target env</td></tr>
+        <tr><td>Flow runs as wrong user</td><td>Connection reference mapped to personal account connection</td><td>Create service account connection in target env, re-map connection reference</td></tr>
+        <tr><td>Canvas app shows data source error</td><td>Data source pointing to Dev SharePoint/Dataverse</td><td>Check environment variable values in target environment — update current value</td></tr>
+        <tr><td>Flow is turned off after import</td><td>Normal — flows import as <em>off</em> when using managed solutions</td><td>Turn on flow manually in target env, or use pipeline post-deployment script to activate</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Service Account &amp; Service Principal Strategy</h3>
+  <div class="info-row">
+    <div class="info-block">
+      <h4>🧑‍💼 Service Account (Functional User)</h4>
+      <ul style="font-size:.85rem;color:var(--text2)">
+        <li>A licensed M365 account created for automation (e.g. <code>svc-pp-flows@org.com</code>)</li>
+        <li>Used for flows that require delegated permissions (SharePoint, Exchange)</li>
+        <li>Must have Power Automate Premium licence if using premium connectors</li>
+        <li>Password managed by IT with no individual ownership</li>
+        <li>MFA should use conditional access exclusion, not disabled</li>
+      </ul>
+    </div>
+    <div class="info-block">
+      <h4>🔑 Service Principal (App Registration)</h4>
+      <ul style="font-size:.85rem;color:var(--text2)">
+        <li>Azure AD app registration used for non-interactive authentication</li>
+        <li>Used for pipeline deployments (PAC CLI, Azure DevOps)</li>
+        <li>No licence required for deployment activities</li>
+        <li>Needs Power Platform role: Environment Maker or Admin in target envs</li>
+        <li>Client secret or certificate rotation must be managed</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ════ S13: DEV / TEST / UAT / PROD ════ -->
+<section class="guide-section" id="s13">
+  <div class="section-hdr">
+    <div class="sec-num c6">13</div>
+    <div><div class="sec-title">Dev / Test / UAT / Prod Model</div><div class="sec-sub">Environment-specific standards, ownership, and what "good" looks like</div></div>
+  </div>
+
+  <div class="tabs-wrap">
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="envDev">Dev</button>
+      <button class="tab-btn" data-tab="envTest">Test</button>
+      <button class="tab-btn" data-tab="envUAT">UAT</button>
+      <button class="tab-btn" data-tab="envProd">Production</button>
+    </div>
+    <div class="tab-pane active" id="envDev">
+      <h4>Development Environment</h4>
+      <ul>
+        <li><strong>Type:</strong> Sandbox (or shared Developer)</li>
+        <li><strong>Solution state:</strong> Unmanaged — free iteration allowed</li>
+        <li><strong>DLP:</strong> Permissive dev policy — allows more connectors for building/testing</li>
+        <li><strong>Data:</strong> Synthetic/test data only — no real business data</li>
+        <li><strong>Access:</strong> Dev team and makers — no business users</li>
+        <li><strong>Deployment direction:</strong> Source of all changes — promote to Test only via pipeline</li>
+        <li><strong>What good looks like:</strong> All in-progress work is in named solutions with custom publisher. Connection references and env vars configured. No components in the Default solution.</li>
+      </ul>
+    </div>
+    <div class="tab-pane" id="envTest">
+      <h4>Test / QA Environment</h4>
+      <ul>
+        <li><strong>Type:</strong> Sandbox</li>
+        <li><strong>Solution state:</strong> Managed import only</li>
+        <li><strong>DLP:</strong> Production-equivalent policy — mimics prod constraints</li>
+        <li><strong>Data:</strong> Representative test data (anonymised production data if needed)</li>
+        <li><strong>Access:</strong> Dev team and QA testers</li>
+        <li><strong>Deployment direction:</strong> Only receives from Dev via pipeline — no manual edits</li>
+        <li><strong>What good looks like:</strong> Automated deployment on Dev commit or sprint close. Solution Checker passes before import. Flows active and verified by dev team before handing to UAT.</li>
+      </ul>
+    </div>
+    <div class="tab-pane" id="envUAT">
+      <h4>UAT Environment</h4>
+      <ul>
+        <li><strong>Type:</strong> Production-type or Sandbox (depending on data sensitivity)</li>
+        <li><strong>Solution state:</strong> Managed import only</li>
+        <li><strong>DLP:</strong> Production-equivalent or exact production policy</li>
+        <li><strong>Data:</strong> Production-like data — may include real data with business user access</li>
+        <li><strong>Access:</strong> Business owners, super-users, acceptance testers</li>
+        <li><strong>Deployment direction:</strong> Receives from Test via pipeline, with business owner approval gate</li>
+        <li><strong>What good looks like:</strong> Business stakeholder formally signs off before release to Prod. Acceptance criteria defined before UAT entry. Release notes provided to testers.</li>
+      </ul>
+    </div>
+    <div class="tab-pane" id="envProd">
+      <h4>Production Environment</h4>
+      <ul>
+        <li><strong>Type:</strong> Production</li>
+        <li><strong>Solution state:</strong> Managed import only — no exceptions</li>
+        <li><strong>DLP:</strong> Most restrictive policy — hardened</li>
+        <li><strong>Data:</strong> Live business data — treat as highest sensitivity</li>
+        <li><strong>Access:</strong> End users only — no developer access to edit components</li>
+        <li><strong>Deployment direction:</strong> Receives from UAT via pipeline, with CAB / change approval</li>
+        <li><strong>What good looks like:</strong> Zero direct edits. Deployment via approved change only. Service account connections. Monitoring active. Post-deployment validation documented. Rollback plan defined before every release.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Environment Configuration Comparison</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Config Item</th><th>Dev</th><th>Test</th><th>UAT</th><th>Prod</th></tr></thead>
+      <tbody>
+        <tr><td>DLP Policy</td><td>Permissive</td><td>Prod-equivalent</td><td>Prod-equivalent</td><td>Strictest</td></tr>
+        <tr><td>Solution state</td><td>Unmanaged</td><td>Managed</td><td>Managed</td><td>Managed</td></tr>
+        <tr><td>Direct editing</td><td>✅ Allowed</td><td>❌ No</td><td>❌ No</td><td>❌ Never</td></tr>
+        <tr><td>Real data</td><td>❌ No</td><td>❌ No</td><td>⚠️ Limited</td><td>✅ Yes</td></tr>
+        <tr><td>Managed Environments</td><td>Optional</td><td>Recommended</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td>Service account connections</td><td>Optional</td><td>Recommended</td><td>Yes</td><td>Yes — mandatory</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════ S14: TIPS & TRICKS ════ -->
+<section class="guide-section" id="s14">
+  <div class="section-hdr">
+    <div class="sec-num c7">14</div>
+    <div><div class="sec-title">Tips, Tricks &amp; Practical Wisdom</div><div class="sec-sub">What architects watch for, quick wins, and how to talk to stakeholders</div></div>
+  </div>
+
+  <h3>Things Architects Watch For Immediately</h3>
+  <ul class="checklist">
+    <li><span class="chk">✓</span>Apps and flows in the <strong>Default solution</strong> — sign of unmanaged, ungoverned assets</li>
+    <li><span class="chk">✓</span>Flows owned by personal accounts — break on staff changes</li>
+    <li><span class="chk">✓</span>No DLP policy on the Default environment — it's where everyone experiments by default</li>
+    <li><span class="chk">✓</span>Hardcoded URLs and SharePoint site names in flows — environment portability breaks immediately</li>
+    <li><span class="chk">✓</span>Multiple unrelated workloads in one environment — governance, licensing, and rollback are harder</li>
+    <li><span class="chk">✓</span>"We test directly in production" — the most common sign of L1/L2 maturity</li>
+    <li><span class="chk">✓</span>Large number of inactive/orphaned apps — no governance, no lifecycle policy</li>
+    <li><span class="chk">✓</span>No connection references in solutions — env-specific connections will break on deploy</li>
+  </ul>
+
+  <h3>Quick Wins (Week 1–2)</h3>
+  <div class="card-grid">
+    <div class="card card-green"><div class="card-icon">🏆</div><h4>Naming Standards Doc</h4><p>Publish a one-page naming convention guide. Immediate value, zero cost, visible impact.</p></div>
+    <div class="card card-accent"><div class="card-icon">🔒</div><h4>Default Environment DLP Review</h4><p>Check and tighten the DLP policy on the Default environment — this is the highest-risk environment in most tenants.</p></div>
+    <div class="card card-amber"><div class="card-icon">📋</div><h4>App Inventory</h4><p>Use the CoE Starter Kit or PPAC to generate a list of all apps, flows, and their owners. Share with the admin.</p></div>
+    <div class="card card-violet"><div class="card-icon">🎓</div><h4>Team ALM Session</h4><p>Run a 45-minute session on managed vs unmanaged solutions. One session prevents months of bad habits.</p></div>
+  </div>
+
+  <h3>How to Speak to Different Stakeholders</h3>
+
+  <div class="accordion">
+    <button class="acc-btn">🧑‍💼 Project Manager — "Can we just deploy this quickly?" <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <p><strong>What they're really asking:</strong> Why does deployment take more than a few clicks?</p>
+      <p><strong>Your answer:</strong> "We can deploy quickly when the pipeline is set up correctly — and setting it up right once takes 2 days but saves us hours every sprint. Rushing deployment without ALM means we can't roll back if something breaks in production, we can't trace what changed, and we can't manage concurrent environments. The investment in the pipeline pays back within two sprints."</p>
+    </div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">🔐 Security Team — "How do you control data exfiltration?" <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <p><strong>Your answer:</strong> "We use three controls: (1) DLP policies that prevent mixing Business-approved connectors (SharePoint, Dataverse) with consumer connectors (Gmail, Dropbox) in the same app or flow, (2) Managed Environments which add sharing limits and weekly admin digests, (3) Tenant isolation settings to restrict cross-tenant data movement. These together provide the governance story for your audit requirements."</p>
+    </div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">🌱 Maker — "Why is my Gmail connector blocked?" <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <p><strong>Your answer:</strong> "Our DLP policy places Gmail in the Non-Business group because it's a personal consumer email service. If it were in the same group as SharePoint or Dataverse, a flow could silently copy business data to a personal Gmail account — which is a data loss risk. If you have a genuine business need for an external email service, we can review adding an approved corporate email connector. What are you trying to achieve? There may be an approved connector that does the same job."</p>
+    </div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">📊 Business Owner — "Why can't we make changes directly in production?" <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <p><strong>Your answer:</strong> "Direct production edits bypass every safety check we have — testing, UAT sign-off, change approval. They can't be rolled back cleanly. If something breaks after a direct edit, we can't identify the exact change or restore to the last known good state. The pipeline adds one extra step — test then deploy — but it gives you a production environment you can trust."</p>
+    </div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">🏢 Enterprise Architect — "How does DLP fit with our broader security model?" <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <p><strong>Your answer:</strong> "DLP policies in Power Platform are connector-aware data movement controls. They are complementary to — not a replacement for — Conditional Access, MIP/Purview labels, SharePoint permissions, and Defender. DLP prevents a user from accidentally or deliberately exfiltrating business data through an unapproved connector (e.g. sharing SharePoint data with a Dropbox flow). It doesn't replace identity-based access controls or encryption. The full governance story combines all of these layers."</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ════ S15: CHEAT SHEETS ════ -->
+<section class="guide-section" id="s15">
+  <div class="section-hdr">
+    <div class="sec-num c1">15</div>
+    <div><div class="sec-title">Cheat Sheets &amp; Quick Reference</div><div class="sec-sub">Environment variables, connection references, solution strategy, release governance</div></div>
+  </div>
+
+  <h3>Cheat Sheet: Environment Variables</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Task</th><th>How To</th></tr></thead>
+      <tbody>
+        <tr><td>Create an env var</td><td>Solution → New → More → Environment variable. Set schema name and type.</td></tr>
+        <tr><td>Add current value</td><td>In the environment: Solution → Open env var → Set current value</td></tr>
+        <tr><td>Reference in Canvas App</td><td><code>LookUp(EnvironmentVariableValues, SchemaName="prefix_VarName").Value</code></td></tr>
+        <tr><td>Reference in Cloud Flow</td><td>Use "Get environment variable" action, or direct reference in connector config</td></tr>
+        <tr><td>Supply via deployment settings</td><td>Add <code>EnvironmentVariables</code> array in deploymentsettings.json with SchemaName + Value</td></tr>
+        <tr><td>Check current value in Admin Centre</td><td>PPAC → Environments → [Env] → Resources → Environment Variables</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Cheat Sheet: Connection References</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Task</th><th>How To</th></tr></thead>
+      <tbody>
+        <tr><td>Create a connection reference</td><td>Solution → New → More → Connection Reference. Choose connector type.</td></tr>
+        <tr><td>Use in Cloud Flow</td><td>When adding a new connector action, select "Use a connection reference" instead of direct connection</td></tr>
+        <tr><td>Map at import via deployment settings</td><td>Add <code>ConnectionReferences</code> array in deploymentsettings.json with LogicalName + ConnectionId</td></tr>
+        <tr><td>Find ConnectionId for a connection</td><td>PPAC → Connections → Click connection → URL contains the connection ID</td></tr>
+        <tr><td>Verify mapping after import</td><td>In target env: Solution → Connection References → check each shows correct connection</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Cheat Sheet: Solution Strategy</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Question</th><th>Answer</th></tr></thead>
+      <tbody>
+        <tr><td>Should I use one solution for everything?</td><td>No — segment by domain and deployment layer (data / logic / UI)</td></tr>
+        <tr><td>Unmanaged or managed in Dev?</td><td>Unmanaged in Dev — always</td></tr>
+        <tr><td>Unmanaged or managed in Test/UAT/Prod?</td><td>Managed — always. Export managed from Dev, import managed downstream.</td></tr>
+        <tr><td>What publisher prefix should I use?</td><td>Org-specific prefix (e.g. <code>acme</code>) — never use <code>cr</code> (default) in production</td></tr>
+        <tr><td>What if a flow turns off after managed import?</td><td>Managed flows import as off — turn on manually or use pipeline post-step</td></tr>
+        <tr><td>How do I roll back a managed deployment?</td><td>Delete the managed solution in the environment — restores to previous layer or default state</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Cheat Sheet: Release Governance</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Stage</th><th>Gate</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td>Dev → Test</td><td>Solution Checker passes, developer validated</td><td>Developer</td></tr>
+        <tr><td>Test → UAT</td><td>Dev team sign-off, test case results documented</td><td>Tech Lead / CoE</td></tr>
+        <tr><td>UAT → Prod</td><td>Business owner sign-off, change ticket raised and approved</td><td>Business Owner + CAB</td></tr>
+        <tr><td>Post-Prod</td><td>Post-deployment validation completed, stakeholders notified</td><td>CoE Lead / Dev</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Cheat Sheet: DLP Quick Reference</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Concept</th><th>One-liner</th></tr></thead>
+      <tbody>
+        <tr><td>Business group</td><td>Connectors approved for enterprise data use — can share data with each other</td></tr>
+        <tr><td>Non-business group</td><td>Low-risk connectors — cannot be combined with Business connectors in same app/flow</td></tr>
+        <tr><td>Blocked group</td><td>Connectors that cannot be used at all in this policy scope</td></tr>
+        <tr><td>Most restrictive wins</td><td>When tenant + env policies both apply, the more restrictive combination is enforced</td></tr>
+        <tr><td>Connector endpoint filtering</td><td>GA — allows allow/deny rules on specific API endpoints within a connector (e.g. specific SharePoint URL)</td></tr>
+        <tr><td>Tenant isolation</td><td>Restricts cross-tenant connector authentication — stops data being sent to another org's tenant</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════ S16: CHECKLISTS & TEMPLATES ════ -->
+<section class="guide-section" id="s16">
+  <div class="section-hdr">
+    <div class="sec-num c2">16</div>
+    <div><div class="sec-title">Checklists &amp; Templates</div><div class="sec-sub">Governance, release, solution review, and environment checklists</div></div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-btn">📋 Governance Checklist (Tenant Setup) <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <ul class="checklist" style="margin:0">
+        <li><span class="chk">✓</span>Tenant admin identified and governance responsibilities agreed</li>
+        <li><span class="chk">✓</span>Environment inventory documented — purpose, owner, DLP policy for each</li>
+        <li><span class="chk">✓</span>DLP tenant-level policy created and reviewed</li>
+        <li><span class="chk">✓</span>Default environment DLP hardened — consumer connectors blocked</li>
+        <li><span class="chk">✓</span>Naming convention guide published</li>
+        <li><span class="chk">✓</span>Intake process documented and accessible to makers</li>
+        <li><span class="chk">✓</span>CoE install decision made and documented</li>
+        <li><span class="chk">✓</span>App inventory report available (CoE kit or PPAC analytics)</li>
+        <li><span class="chk">✓</span>Governance review cadence established (monthly)</li>
+        <li><span class="chk">✓</span>Exception management process defined</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-btn">🚀 Release Readiness Checklist <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <ul class="checklist" style="margin:0">
+        <li><span class="chk">✓</span>All components in a named, versioned solution with custom publisher</li>
+        <li><span class="chk">✓</span>Environment variables created and referenced (not hardcoded)</li>
+        <li><span class="chk">✓</span>Connection references added and mapped to solution</li>
+        <li><span class="chk">✓</span>Deployment settings file created for target environment</li>
+        <li><span class="chk">✓</span>Solution Checker run — no critical or high issues remaining</li>
+        <li><span class="chk">✓</span>Managed export created and stored</li>
+        <li><span class="chk">✓</span>Test completed in Test environment — developer sign-off</li>
+        <li><span class="chk">✓</span>UAT completed — business owner sign-off obtained</li>
+        <li><span class="chk">✓</span>Change ticket raised and approved (for Prod deployments)</li>
+        <li><span class="chk">✓</span>Release notes written — changes, version, date, deployer</li>
+        <li><span class="chk">✓</span>Rollback plan defined — what to do if prod deployment fails</li>
+        <li><span class="chk">✓</span>Post-deployment validation steps documented</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-btn">🌱 Citizen Developer Onboarding Checklist <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <ul class="checklist" style="margin:0">
+        <li><span class="chk">✓</span>Maker onboarding form submitted and manager approval received</li>
+        <li><span class="chk">✓</span>Microsoft Learn PL-900 (or equivalent) path completed</li>
+        <li><span class="chk">✓</span>Internal standards guide read and acknowledged</li>
+        <li><span class="chk">✓</span>Risk tier for intended use case assessed and agreed</li>
+        <li><span class="chk">✓</span>Environment access provisioned (correct environment for risk tier)</li>
+        <li><span class="chk">✓</span>Starter solution template provided</li>
+        <li><span class="chk">✓</span>First build reviewed by CoE Champion or CoE Lead</li>
+        <li><span class="chk">✓</span>Maker added to community Teams channel</li>
+        <li><span class="chk">✓</span>Escalation path communicated — who to contact for support</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-btn">🔁 ALM Solution Review Checklist <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <ul class="checklist" style="margin:0">
+        <li><span class="chk">✓</span>Solution name follows naming standard with custom publisher prefix</li>
+        <li><span class="chk">✓</span>No components in Default solution</li>
+        <li><span class="chk">✓</span>All flows inside solution using connection references (not direct connections)</li>
+        <li><span class="chk">✓</span>All environment-specific values in environment variables</li>
+        <li><span class="chk">✓</span>Solution version incremented and documented</li>
+        <li><span class="chk">✓</span>Solution description updated with change summary</li>
+        <li><span class="chk">✓</span>Solution Checker run — issues reviewed and resolved</li>
+        <li><span class="chk">✓</span>Managed solution export created for downstream deployment</li>
+        <li><span class="chk">✓</span>Deployment settings files updated for each target environment</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-btn">🏛️ CoE Launch Checklist <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <ul class="checklist" style="margin:0">
+        <li><span class="chk">✓</span>Executive sponsor identified and confirmed</li>
+        <li><span class="chk">✓</span>CoE team identified: CoE Lead, Platform Admin, Champions</li>
+        <li><span class="chk">✓</span>CoE environment created (dedicated, with Dataverse if using Starter Kit)</li>
+        <li><span class="chk">✓</span>CoE Starter Kit install decision made — install, or manual governance approach</li>
+        <li><span class="chk">✓</span>Governance charter drafted (purpose, scope, team, KPIs, cadence)</li>
+        <li><span class="chk">✓</span>Standards published (naming, DLP, ALM, intake process)</li>
+        <li><span class="chk">✓</span>Intake process form created and promoted to makers</li>
+        <li><span class="chk">✓</span>Community channel or Yammer group created</li>
+        <li><span class="chk">✓</span>Monthly governance review meeting scheduled</li>
+        <li><span class="chk">✓</span>First KPI baseline captured (apps, flows, makers, DLP coverage)</li>
+      </ul>
+    </div></div>
+  </div>
+</section>
+
+<!-- ════ S17: TROUBLESHOOTING ════ -->
+<section class="guide-section" id="s17">
+  <div class="section-hdr">
+    <div class="sec-num c3">17</div>
+    <div><div class="sec-title">Common Problems &amp; Troubleshooting</div><div class="sec-sub">Deployment failures, connection issues, DLP errors, and flow breaks</div></div>
+  </div>
+
+  <h3>Troubleshooting Index</h3>
+  <div class="accordion">
+    <button class="acc-btn">❌ Flow stopped working after a policy change <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <p><strong>Symptom:</strong> Flow that was running fine now fails with a DLP policy violation error.</p>
+      <p><strong>Cause:</strong> A new or updated DLP policy placed connectors used in this flow into different groups (Business vs Non-Business).</p>
+      <p><strong>Diagnosis:</strong> (1) Open flow in Power Automate, check error message for the blocked connector. (2) Review DLP policies for the environment in Admin Centre. (3) Identify which policy changed.</p>
+      <p><strong>Fix:</strong> Either: (a) Move the connector to the correct group in the DLP policy (requires admin), or (b) Rebuild the flow to only use connectors from the same DLP group, or (c) Use a different connector that is already in the required group. <em>Do not simply move all connectors to Business group to "fix" the error — assess the data risk first.</em></p>
+    </div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">❌ Connection not found after solution import <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <p><strong>Symptom:</strong> After importing a managed solution, flows show "connection not found" or "invalid connection".</p>
+      <p><strong>Cause:</strong> Connection references in the solution are not mapped to actual connections in the target environment.</p>
+      <p><strong>Fix:</strong> (1) In the target environment, open the solution and navigate to Connection References. (2) For each reference, click Edit and select the correct connection. (3) For automated pipelines, add the ConnectionReferences array to the deployment settings JSON file with the correct ConnectionId for the target environment. (4) Ensure the target connection is owned by a service account, not a personal account.</p>
+    </div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">❌ Environment variable shows Dev value in Production <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <p><strong>Symptom:</strong> Flow or app in Production is pointing to Dev SharePoint site or Dev API endpoint.</p>
+      <p><strong>Cause:</strong> The env var current value was included in the exported solution, or deployment settings were not used at import.</p>
+      <p><strong>Fix:</strong> (1) Immediately update the env var current value in Production to the correct value. (2) For the deployment pipeline, add EnvironmentVariables to the deployment settings JSON. (3) Remove the current value from the solution file before exporting — env var schema should not carry environment-specific values.</p>
+    </div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">❌ Solution import fails — "missing dependency" <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <p><strong>Cause:</strong> The solution depends on another solution component (Dataverse table, security role, custom connector) that does not exist in the target environment.</p>
+      <p><strong>Fix:</strong> (1) Use Solution Checker to identify missing dependencies before export. (2) Ensure dependencies are in a separate "core" solution deployed before the dependent solution. (3) Deploy in the correct order: Core → Business Logic → UI.</p>
+    </div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">❌ Managed flow imports as turned off <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <p><strong>Symptom:</strong> After deploying managed solution, flows in target environment are turned off.</p>
+      <p><strong>Cause:</strong> This is expected behaviour — managed flows import as off to prevent unintended execution in a new environment.</p>
+      <p><strong>Fix:</strong> (1) Manually turn on flows after import validation. (2) For automated pipelines, add a PAC CLI or PowerShell post-deployment step to activate flows: <code>pac flow activate --flow-id {id} --environment {env}</code> or use the Power Apps admin connector to activate programmatically.</p>
+    </div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">❌ App cannot be shared after managed import <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <p><strong>Cause:</strong> Managed Canvas Apps import without sharing configuration. Sharing must be reconfigured in the target environment.</p>
+      <p><strong>Fix:</strong> Share the app in Production with the appropriate security group. For Dataverse-based apps, ensure security roles are in the solution and assigned to users in the target environment. Consider a post-deployment runbook that documents sharing configuration per environment.</p>
+    </div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">❌ CoE Starter Kit flows failing / not syncing <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner">
+      <p><strong>Common causes:</strong> (1) Service principal credentials expired. (2) Admin permissions not correctly configured for the CoE environment. (3) Throttling — too many API calls during initial sync. (4) CoE solution version outdated — Microsoft regularly releases updates.</p>
+      <p><strong>Fix:</strong> (1) Check flow run history in the CoE environment for the specific failing flow. (2) Renew service principal credentials. (3) Re-run the CoE setup wizard. (4) Check the Microsoft Power Platform CoE Starter Kit GitHub for known issues and updates. (5) For initial sync throttling — stagger the flows or run outside business hours.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ════ S18: ANTI-PATTERNS ════ -->
+<section class="guide-section" id="s18">
+  <div class="section-hdr">
+    <div class="sec-num c4">18</div>
+    <div><div class="sec-title">Anti-Patterns</div><div class="sec-sub">What NOT to do — and why each pattern hurts</div></div>
+  </div>
+
+  <div class="accordion">
+    <button class="acc-btn">🚫 Building outside solutions <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner"><p><strong>Why it's wrong:</strong> Components outside solutions cannot be moved, versioned, or deployed as a unit. They cannot be managed with pipelines. They accumulate as ungoverned technical debt that cannot be retrospectively added to managed solutions without risk of data loss.</p><p><strong>Fix:</strong> Always create apps and flows inside a named solution. Create the solution first, then build inside it.</p></div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">🚫 Direct edits in production <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner"><p><strong>Why it's wrong:</strong> Breaks the ALM chain. Cannot be rolled back. Creates untraceable changes. Undermines the entire governance model. Creates a "shadow Dev" situation where Production drifts from source control.</p><p><strong>Fix:</strong> Enforce managed environment settings that prevent direct editing. Train the team. Add a governance policy. Use the pipeline.</p></div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">🚫 Personal accounts on production flows <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner"><p><strong>Why it's wrong:</strong> When the person leaves, changes their password, or loses a licence — every flow they own or that uses their connection breaks. This is one of the most common production incidents in Power Automate estates.</p><p><strong>Fix:</strong> Use a service account or service principal. Migrate existing personal-owned flows to service account ownership. Audit regularly via CoE Starter Kit flow reports.</p></div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">🚫 Hardcoded environment-specific values <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner"><p><strong>Why it's wrong:</strong> The solution only works in one environment. Deploying to Test or Prod requires manual editing of flows/apps after import — breaking the automated deployment model and introducing human error.</p><p><strong>Fix:</strong> Environment variables for all URLs, list names, IDs, and configuration values. One solution — many environments.</p></div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">🚫 Treating DLP as the only security control <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner"><p><strong>Why it's wrong:</strong> DLP prevents connector cross-grouping. It does not govern identity, prevent sharing, enforce data retention, manage permissions, or enforce MFA. Treating DLP as a complete security solution leaves major gaps in the security posture.</p><p><strong>Fix:</strong> Position DLP as one layer in a defence-in-depth model. Combine with Conditional Access, Purview labels, SharePoint permissions, and Managed Environments sharing controls.</p></div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">🚫 One policy for every environment — no strategy <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner"><p><strong>Why it's wrong:</strong> A single global policy either over-blocks (Dev team can't work) or under-protects (Prod has the same permissions as Dev sandboxes). Different environments have different risk profiles and need different policies.</p><p><strong>Fix:</strong> Layered DLP approach: permissive tenant floor + restrictive production environment policies. Dev policy allows broader experimentation. Prod policy locks to approved connectors only.</p></div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">🚫 Deploying unmanaged solutions downstream <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner"><p><strong>Why it's wrong:</strong> Unmanaged solutions allow direct editing in the target environment. This means Production can be changed without a pipeline. Rollback is not possible. Component ownership is unclear. This is the most common ALM anti-pattern in Power Platform teams.</p><p><strong>Fix:</strong> Export as managed. Always. Train every developer. Enforce via pipeline — the pipeline only deploys managed packages.</p></div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">🚫 No naming standards — "cr123_" prefixes everywhere <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner"><p><strong>Why it's wrong:</strong> The default "cr" publisher prefix creates anonymous component names. Components from different solutions become indistinguishable. Debugging, auditing, and refactoring become very painful.</p><p><strong>Fix:</strong> Define a custom publisher with a unique org-specific prefix before any solution is created for production. Components created under the default publisher cannot be easily re-named or re-published.</p></div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">🚫 Ignoring the Default environment <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner"><p><strong>Why it's wrong:</strong> Every user in the tenant has access to the Default environment. Without DLP, any connector can be used with any data. Without governance, it becomes a dumping ground for ad-hoc apps and flows that no one owns.</p><p><strong>Fix:</strong> Apply a restrictive DLP policy to the Default environment immediately. Consider enabling Managed Environments for it. Publish a clear message: "Default environment = personal productivity only. Team and production apps go through the intake process."</p></div></div>
+  </div>
+  <div class="accordion">
+    <button class="acc-btn">🚫 No rollback plan before production deployments <span class="acc-icon">▼</span></button>
+    <div class="acc-body"><div class="acc-inner"><p><strong>Why it's wrong:</strong> Every deployment to production carries risk. Without a rollback plan, when something breaks you are in a high-pressure situation with no pre-agreed recovery path.</p><p><strong>Fix:</strong> Before every production deployment: (1) Document the current production solution version. (2) Confirm the prior managed solution .zip is available to re-import. (3) Test the rollback procedure in UAT. (4) Include rollback steps in the change ticket.</p></div></div>
+  </div>
+</section>
+
+<!-- ════ S19: 30-60-90 DAY PLAN ════ -->
+<section class="guide-section" id="s19">
+  <div class="section-hdr">
+    <div class="sec-num c5">19</div>
+    <div><div class="sec-title">30-60-90 Day Learning &amp; Impact Plan</div><div class="sec-sub">What to learn, build, and prove in your first three months</div></div>
+  </div>
+
+  <div class="tabs-wrap">
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="d30">First 30 Days</button>
+      <button class="tab-btn" data-tab="d60">Days 31–60</button>
+      <button class="tab-btn" data-tab="d90">Days 61–90</button>
+    </div>
+
+    <div class="tab-pane active" id="d30">
+      <h3 style="margin-bottom:12px">First 30 Days — Listen, Learn, and Audit</h3>
+      <p><em>Your goal: build a complete picture of the current state without making big changes. Identify quick wins. Establish credibility through curiosity, not declarations.</em></p>
+      <h4>Week 1 — Orient</h4>
+      <ul>
+        <li>Meet the platform admin, delivery lead, PM, and at least one business stakeholder</li>
+        <li>Audit the tenant: environments, DLP policies, existing apps and flows</li>
+        <li>Understand the current deployment approach (manual, pipelines, ad-hoc?)</li>
+        <li>Identify the top 3 pain points from each stakeholder group</li>
+      </ul>
+      <h4>Week 2 — Document</h4>
+      <ul>
+        <li>Write the current-state governance summary (L1/L2/L3 assessment)</li>
+        <li>Document all environments with purpose, owner, DLP, and access model</li>
+        <li>Identify any immediate governance risks (Default env with no DLP, personal flows in prod)</li>
+        <li>Review existing solutions — are they managed downstream? Are connection references used?</li>
+      </ul>
+      <h4>Weeks 3–4 — Quick Wins</h4>
+      <ul>
+        <li>Publish naming conventions guide</li>
+        <li>Review and update Default environment DLP policy if needed</li>
+        <li>Propose ALM improvement (managed solutions, connection references, env vars) — one team session</li>
+        <li>Agree on CoE install decision with admin and delivery lead</li>
+      </ul>
+      <h4>Deliverables by Day 30</h4>
+      <ul>
+        <li>📄 Current-state tenant assessment document (1–2 pages)</li>
+        <li>📋 Environment inventory spreadsheet</li>
+        <li>🏷️ Naming convention guide published</li>
+        <li>🗺️ Stakeholder map with communication preferences</li>
+      </ul>
+    </div>
+
+    <div class="tab-pane" id="d60">
+      <h3 style="margin-bottom:12px">Days 31–60 — Build Standards and First Pipeline</h3>
+      <p><em>Your goal: move from audit to action. Get the first real ALM pipeline running. Publish governance standards. Begin maker enablement.</em></p>
+      <h4>ALM</h4>
+      <ul>
+        <li>Agree solution segmentation strategy with delivery team</li>
+        <li>Migrate at least one live solution to managed deployment model</li>
+        <li>Get first pipeline (Power Platform Pipelines or Azure DevOps) operational</li>
+        <li>Implement environment variables and connection references in at least one solution</li>
+      </ul>
+      <h4>Governance</h4>
+      <ul>
+        <li>DLP policy review complete — update if needed</li>
+        <li>Environment strategy agreed and documented</li>
+        <li>Exception management process defined</li>
+        <li>Governance review meeting scheduled (first one run)</li>
+      </ul>
+      <h4>Enablement</h4>
+      <ul>
+        <li>Intake process form created and published</li>
+        <li>Run first team ALM training session</li>
+        <li>Identify potential CoE champions in business units</li>
+      </ul>
+      <h4>Deliverables by Day 60</h4>
+      <ul>
+        <li>🔁 First operational deployment pipeline</li>
+        <li>📄 Environment strategy document</li>
+        <li>📋 Intake process form and guide</li>
+        <li>🎓 ALM training session delivered</li>
+      </ul>
+    </div>
+
+    <div class="tab-pane" id="d90">
+      <h3 style="margin-bottom:12px">Days 61–90 — Govern, Enable, and Measure</h3>
+      <p><em>Your goal: full ALM pipeline operational, CoE running, citizen developers onboarded, and KPIs reported to leadership.</em></p>
+      <h4>ALM &amp; Deployment</h4>
+      <ul>
+        <li>Full Dev → Test → UAT → Prod pipeline operational for at least one major workstream</li>
+        <li>All new solutions following managed deployment and connection reference standards</li>
+        <li>Post-deployment validation runbook written and followed</li>
+      </ul>
+      <h4>Governance &amp; CoE</h4>
+      <ul>
+        <li>CoE monitoring report running — first KPI dashboard presented to leadership</li>
+        <li>Governance charter v1 published</li>
+        <li>Monthly governance review cadence established and running</li>
+        <li>Exception log in place and reviewed</li>
+      </ul>
+      <h4>Citizen Development</h4>
+      <ul>
+        <li>First cohort of citizen developers onboarded (5–10 makers)</li>
+        <li>Champions network identified — first champions call run</li>
+        <li>Learning path published for makers</li>
+      </ul>
+      <h4>Personal Growth</h4>
+      <ul>
+        <li>PL-400 (Power Platform Developer) certification study in progress</li>
+        <li>CoE Starter Kit fully understood — can answer any question about it</li>
+        <li>Presented governance model to leadership at least once</li>
+      </ul>
+      <h4>Deliverables by Day 90</h4>
+      <ul>
+        <li>🏗️ Full ALM pipeline — Dev → Prod</li>
+        <li>📊 First CoE KPI report to leadership</li>
+        <li>📄 Governance charter v1</li>
+        <li>🌱 First citizen developer cohort onboarded</li>
+        <li>🏆 Maturity assessment: from L1/L2 to L3</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>What to Practise Hands-On</h3>
+  <ul class="checklist">
+    <li><span class="chk">✓</span>Create a solution with custom publisher, add an app and flow, export managed, import to another environment</li>
+    <li><span class="chk">✓</span>Set up an environment variable, reference it in a flow, supply its value via deployment settings JSON</li>
+    <li><span class="chk">✓</span>Create a connection reference, use it in a flow, map it via deployment settings</li>
+    <li><span class="chk">✓</span>Run PAC CLI: auth create, solution export, solution import, solution check</li>
+    <li><span class="chk">✓</span>Set up a Power Platform Pipeline between two environments</li>
+    <li><span class="chk">✓</span>Create a DLP policy in the Admin Centre — assign connectors to Business/Non-Business/Blocked groups</li>
+    <li><span class="chk">✓</span>Install and configure the CoE Starter Kit in a Developer environment</li>
+    <li><span class="chk">✓</span>Generate a flow ownership report using the CoE kit or PowerShell</li>
+  </ul>
+</section>
+
+<!-- ════ S20: RECOMMENDED NEXT ACTIONS ════ -->
+<section class="guide-section" id="s20">
+  <div class="section-hdr">
+    <div class="sec-num c6">20</div>
+    <div><div class="sec-title">Recommended Next Actions</div><div class="sec-sub">Prioritised actions for this week, this sprint, and this quarter</div></div>
+  </div>
+
+  <h3>This Week (Immediate)</h3>
+  <ul class="checklist">
+    <li><span class="chk">✓</span>Complete tenant audit — environments, DLP policies, app/flow inventory</li>
+    <li><span class="chk">✓</span>Identify the Default environment DLP policy — review and harden if needed</li>
+    <li><span class="chk">✓</span>Schedule 30-min meeting with the platform admin to align on governance responsibilities</li>
+    <li><span class="chk">✓</span>Review current solution packaging — are teams using managed solutions downstream?</li>
+    <li><span class="chk">✓</span>Draft the environment strategy document (even a single page)</li>
+  </ul>
+
+  <h3>This Sprint (Next 2 Weeks)</h3>
+  <ul class="checklist">
+    <li><span class="chk">✓</span>Publish naming convention guide — make it the first governance artefact makers see</li>
+    <li><span class="chk">✓</span>Run a 45-minute ALM session with the dev team on managed solutions + connection references</li>
+    <li><span class="chk">✓</span>Migrate at least one active solution to use environment variables for all hardcoded URLs</li>
+    <li><span class="chk">✓</span>Agree CoE install decision with admin and delivery lead</li>
+    <li><span class="chk">✓</span>Begin intake process form draft — even a simple Microsoft Form is better than none</li>
+  </ul>
+
+  <h3>This Quarter (Next 90 Days)</h3>
+  <ul class="checklist">
+    <li><span class="chk">✓</span>First ALM pipeline operational — Dev → Test → UAT → Prod for one workstream</li>
+    <li><span class="chk">✓</span>DLP policy design reviewed, updated, and documented for all environments</li>
+    <li><span class="chk">✓</span>CoE running — governance charter, cadence, and first KPI report</li>
+    <li><span class="chk">✓</span>Citizen developer cohort 1 onboarded with training completed</li>
+    <li><span class="chk">✓</span>Governance charter v1 presented to leadership</li>
+    <li><span class="chk">✓</span>Maturity baseline documented — share L1→L3 progress story with sponsor</li>
+  </ul>
+
+  <div class="callout callout-arch">
+    <span class="callout-label">🏗️ Architect Note — Sequencing</span>
+    <p>The most common mistake in this role is trying to do everything at once. Sequence matters: <strong>governance first</strong> (DLP + env strategy), then <strong>ALM next</strong> (solutions + pipeline), then <strong>enablement</strong> (CoE + citizen dev). You can't enable what you can't govern, and you can't govern what you haven't inventoried.</p>
+  </div>
+</section>
+
+<!-- ════ S21: IMPORTED / REUSED CONTENT MAP ════ -->
+<section class="guide-section" id="s21">
+  <div class="section-hdr">
+    <div class="sec-num c7">21</div>
+    <div><div class="sec-title">Imported / Reused Content Map</div><div class="sec-sub">Where this guide draws from existing pages</div></div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Topic Area</th><th>Source Page</th><th>How It's Used Here</th></tr></thead>
+      <tbody>
+        <tr><td>DLP Policies — deep dive</td><td>DLP Policies Deep Dive Guide</td><td>Section 4 summarises DLP strategy, connector groups, tenant vs env policy. Full depth → DLP guide.</td></tr>
+        <tr><td>CoE Starter Kit — full detail</td><td>COE Governance Study Guide</td><td>Section 5 covers CoE structure and operating model. CoE Kit full setup → COE Governance Study Guide.</td></tr>
+        <tr><td>Environment types and security model</td><td>Power Platform Environments Guide</td><td>Section 13 (Dev/Test/UAT/Prod) builds on environment types from the Environments Guide.</td></tr>
+        <tr><td>Scenario-based Q&amp;A and interview prep</td><td>PP Scenario Interview Q&amp;A</td><td>Section 14 (stakeholder talking points) aligns with the scenario Q&amp;A page — for deeper interview prep, reference that page.</td></tr>
+        <tr><td>Use case patterns</td><td>PP 75 Use Cases</td><td>Section 6 (citizen developer) references use case tiers — full patterns library in 75 Use Cases page.</td></tr>
+        <tr><td>ALM Accelerator setup</td><td>Not yet a dedicated page</td><td>Section 10 covers ALM Accelerator at a high level — identified as a gap for a future dedicated page.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════ S22: GAPS TO FILL NEXT ════ -->
+<section class="guide-section" id="s22">
+  <div class="section-hdr">
+    <div class="sec-num c1">22</div>
+    <div><div class="sec-title">Gaps to Fill Next</div><div class="sec-sub">Topics this guide covers lightly — candidates for future deep-dive pages</div></div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card card-amber">
+      <div class="card-icon">🔁</div>
+      <h4>ALM Accelerator Deep Dive</h4>
+      <p>Full step-by-step setup and configuration of the CoE ALM Accelerator with Azure DevOps. Pipeline template customisation, branching strategy, and approval model.</p>
+    </div>
+    <div class="card card-accent">
+      <div class="card-icon">🤖</div>
+      <h4>Copilot Studio Governance</h4>
+      <p>Agent DLP considerations, authentication model, channel governance, and CoE integration for Copilot Studio agent lifecycle management.</p>
+    </div>
+    <div class="card card-violet">
+      <div class="card-icon">🌐</div>
+      <h4>Power Pages Governance</h4>
+      <p>External-facing portal governance — authentication, WAF, CDN, licensing, and ALM for Power Pages sites.</p>
+    </div>
+    <div class="card card-green">
+      <div class="card-icon">📊</div>
+      <h4>Managed Environments Full Guide</h4>
+      <p>Complete guide to Managed Environments — sharing controls, maker welcome, weekly digest, solution checker enforcement, and licensing detail.</p>
+    </div>
+    <div class="card card-red">
+      <div class="card-icon">🔑</div>
+      <h4>Licensing Strategy Guide</h4>
+      <p>Practical guide to Power Platform licensing — per-app, per-user, Premium, Developer plan, Managed Environment add-on, and licence optimisation strategies.</p>
+    </div>
+    <div class="card card-orange">
+      <div class="card-icon">🛡️</div>
+      <h4>Tenant Isolation &amp; Cross-Tenant</h4>
+      <p>Deep dive on tenant isolation features, cross-tenant connector restrictions, and inbound/outbound data movement controls for enterprise multi-tenant scenarios.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════ S23: REFERENCES ════ -->
+<section class="guide-section" id="s23">
+  <div class="section-hdr">
+    <div class="sec-num c2">23</div>
+    <div><div class="sec-title">References &amp; Official Resources</div><div class="sec-sub">Microsoft Learn links, key GitHub repos, and community resources</div></div>
+  </div>
+
+  <div class="callout callout-warn">
+    <span class="callout-label">⚠️ Always validate against latest docs</span>
+    <p>Power Platform features evolve rapidly. Licensing, preview features, and GA status change frequently. Always verify current status at <strong>learn.microsoft.com/power-platform</strong> before production implementation.</p>
+  </div>
+
+  <h3>Governance &amp; DLP</h3>
+  <ul>
+    <li><a href="https://learn.microsoft.com/power-platform/admin/wp-data-loss-prevention" target="_blank" rel="noopener">Data loss prevention policies — Microsoft Learn</a></li>
+    <li><a href="https://learn.microsoft.com/power-platform/admin/managed-environment-overview" target="_blank" rel="noopener">Managed Environments overview — Microsoft Learn</a></li>
+    <li><a href="https://learn.microsoft.com/power-platform/admin/environments-overview" target="_blank" rel="noopener">Environments overview — Microsoft Learn</a></li>
+    <li><a href="https://learn.microsoft.com/power-platform/admin/cross-tenant-restrictions" target="_blank" rel="noopener">Tenant isolation / cross-tenant restrictions — Microsoft Learn</a></li>
+  </ul>
+
+  <h3>CoE Starter Kit</h3>
+  <ul>
+    <li><a href="https://learn.microsoft.com/power-platform/guidance/coe/starter-kit" target="_blank" rel="noopener">CoE Starter Kit overview — Microsoft Learn</a></li>
+    <li><a href="https://github.com/microsoft/coe-starter-kit" target="_blank" rel="noopener">CoE Starter Kit GitHub repository</a></li>
+    <li><a href="https://learn.microsoft.com/power-platform/guidance/coe/setup" target="_blank" rel="noopener">CoE Starter Kit setup guide — Microsoft Learn</a></li>
+  </ul>
+
+  <h3>ALM &amp; Pipelines</h3>
+  <ul>
+    <li><a href="https://learn.microsoft.com/power-platform/alm/" target="_blank" rel="noopener">ALM overview for Power Platform — Microsoft Learn</a></li>
+    <li><a href="https://learn.microsoft.com/power-platform/alm/pipelines" target="_blank" rel="noopener">Power Platform Pipelines — Microsoft Learn</a></li>
+    <li><a href="https://learn.microsoft.com/power-platform/guidance/alm-accelerator/overview" target="_blank" rel="noopener">ALM Accelerator overview — Microsoft Learn</a></li>
+    <li><a href="https://learn.microsoft.com/power-platform/alm/environment-variables-alm" target="_blank" rel="noopener">Environment variables in ALM — Microsoft Learn</a></li>
+    <li><a href="https://learn.microsoft.com/power-platform/alm/use-solution-explorer" target="_blank" rel="noopener">Connection references in solutions — Microsoft Learn</a></li>
+  </ul>
+
+  <h3>PAC CLI &amp; PowerShell</h3>
+  <ul>
+    <li><a href="https://learn.microsoft.com/power-platform/developer/cli/reference" target="_blank" rel="noopener">Power Platform CLI reference — Microsoft Learn</a></li>
+    <li><a href="https://learn.microsoft.com/power-platform/admin/powerapps-powershell" target="_blank" rel="noopener">PowerShell support for Power Platform — Microsoft Learn</a></li>
+    <li><a href="https://learn.microsoft.com/azure/devops/pipelines/tasks/reference/?view=azure-pipelines" target="_blank" rel="noopener">Power Platform Build Tools for Azure DevOps — Microsoft Learn</a></li>
+  </ul>
+
+  <h3>Citizen Developer &amp; Licensing</h3>
+  <ul>
+    <li><a href="https://learn.microsoft.com/power-platform/admin/power-platform-licensing-faq" target="_blank" rel="noopener">Power Platform licensing FAQ — Microsoft Learn</a></li>
+    <li><a href="https://learn.microsoft.com/power-apps/maker/dev-community-plan" target="_blank" rel="noopener">Power Apps Developer Plan — Microsoft Learn</a></li>
+    <li><a href="https://learn.microsoft.com/power-platform/guidance/adoption/admin-best-practices" target="_blank" rel="noopener">Admin best practices for adoption — Microsoft Learn</a></li>
+  </ul>
+
+  <div class="callout callout-success">
+    <span class="callout-label">✅ Guide Complete</span>
+    <p>You now have a complete field guide covering all 23 sections — from governance and CoE to ALM, pipelines, citizen developer, troubleshooting, anti-patterns, and your 30-60-90 day plan. Use the sidebar to navigate between sections, and the search box to jump to specific topics. Good luck in the role.</p>
+  </div>
+</section>
+
+  </div><!-- /.content -->
+</div><!-- /.main-wrap -->
+
+<button class="theme-btn" id="themeBtn" title="Toggle light/dark">☀️</button>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+<script>
+(function(){
+  var saved=localStorage.getItem('nr_theme');
+  if(saved==='light') document.body.classList.add('lm');
+  document.getElementById('themeBtn').addEventListener('click',function(){
+    document.body.classList.toggle('lm');
+    localStorage.setItem('nr_theme',document.body.classList.contains('lm')?'light':'dark');
+    this.textContent=document.body.classList.contains('lm')?'🌙':'☀️';
+  });
+  var sidebar=document.getElementById('sidebar');
+  var overlay=document.getElementById('sbOverlay');
+  document.getElementById('hamburger').addEventListener('click',function(){
+    sidebar.classList.toggle('open');overlay.classList.toggle('open');
+  });
+  overlay.addEventListener('click',function(){
+    sidebar.classList.remove('open');overlay.classList.remove('open');
+  });
+  var links=[].slice.call(document.querySelectorAll('.sb-link[href^="#"]'));
+  var sections=links.map(function(l){return document.querySelector(l.getAttribute('href'))}).filter(Boolean);
+  function onScroll(){
+    var y=window.scrollY+100;
+    var active=sections.reduce(function(a,s){return s.offsetTop<=y?s:a},sections[0]);
+    if(active) links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+active.id)});
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var bt=document.getElementById('backTop');
+  window.addEventListener('scroll',function(){bt.classList.toggle('visible',window.scrollY>400)},{passive:true});
+  document.querySelectorAll('.acc-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var open=this.classList.contains('open');
+      this.classList.toggle('open',!open);
+      this.nextElementSibling.classList.toggle('open',!open);
+    });
+  });
+  document.querySelectorAll('.tab-bar').forEach(function(bar){
+    bar.querySelectorAll('.tab-btn').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var t=this.dataset.tab,wrap=bar.closest('.tabs-wrap');
+        bar.querySelectorAll('.tab-btn').forEach(function(b){b.classList.toggle('active',b===btn)});
+        wrap.querySelectorAll('.tab-pane').forEach(function(p){p.classList.toggle('active',p.id===t)});
+      });
+    });
+  });
+  document.getElementById('sbSearch').addEventListener('input',function(){
+    var q=this.value.toLowerCase().trim();
+    document.querySelectorAll('.sb-link').forEach(function(l){l.style.display=(!q||l.textContent.toLowerCase().includes(q))?'':'none'});
+    document.querySelectorAll('.sb-section').forEach(function(s){
+      var ok=false,next=s.nextElementSibling;
+      while(next&&next.classList.contains('sb-link')){if(next.style.display!=='none')ok=true;next=next.nextElementSibling;}
+      s.style.display=(!q||ok)?'':'none';
+    });
+  });
+})();
+</script>
+</body>
+</html>
