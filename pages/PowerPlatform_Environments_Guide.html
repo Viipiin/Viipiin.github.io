@@ -226,6 +226,7 @@ tr:hover td { background: var(--primary-light); }
   <a href="#decision">Decision Guide</a>
   <a href="#bestpractices">Best Practices</a>
   <a href="#architecture">Architecture</a>
+  <a href="#prodsettings">Prod &amp; ALM Settings</a>
   <a href="#summary">Summary</a>
 </nav>
 
@@ -276,6 +277,7 @@ tr:hover td { background: var(--primary-light); }
   <a href="#decision">Decision Guide</a>
   <a href="#bestpractices">Best Practices</a>
   <a href="#architecture">Architecture Guide</a>
+  <a href="#prodsettings">Prod Settings &amp; ALM</a>
   <a href="#summary">Summary &amp; Checklist</a>
 </aside>
 
@@ -952,6 +954,457 @@ tr:hover td { background: var(--primary-light); }
       <p style="margin-bottom:8px;">The <strong>Power Platform Center of Excellence (CoE) Starter Kit</strong> is a set of apps, flows, and dashboards that provide visibility and governance across your entire tenant. It shows which apps and flows exist in which environments, who created them, when they were last modified, and what connectors they use.</p>
       <p>Without the CoE Starter Kit, Power Platform admins are essentially blind to what's happening across environments. It should be deployed into a dedicated CoE Governance environment (typically a Sandbox) and is a foundational governance investment for any organization with more than a handful of Power Platform users.</p>
     </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRODUCTION SETTINGS & ALM -->
+<section class="section" id="prodsettings">
+  <div class="section-title"><div class="icon">🔒</div> Production Environment Settings &amp; ALM Setup</div>
+  <p class="section-subtitle">Mandatory settings, security controls, and ALM configuration every production environment must have — covering both Power Platform Pipelines and Azure DevOps approaches.</p>
+
+  <!-- ── PART 1: PRODUCTION SECURITY & GOVERNANCE SETTINGS ── -->
+  <h3 style="font-size:1.05rem;font-weight:700;margin:0 0 16px;color:var(--primary);border-bottom:2px solid var(--primary-light);padding-bottom:8px;">
+    🛡️ Part 1 — Mandatory Production Governance &amp; Security Settings
+  </h3>
+
+  <div class="callout callout-warn" style="margin-bottom:20px;">
+    <span class="callout-icon">⚠️</span>
+    <p><strong>These are not optional.</strong> Each of these settings either prevents data loss, enforces access control, or enables rollback. Skipping any of them creates a governance or security gap that auditors, security teams, and the CoE will flag.</p>
+  </div>
+
+  <!-- SETTING 1: Managed Environments -->
+  <div class="card" style="border-left:4px solid var(--primary);margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <span style="background:var(--primary);color:white;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700;">REQUIRED</span>
+      <h4 style="font-size:1rem;font-weight:700;margin:0;">1. Enable Managed Environments</h4>
+    </div>
+    <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:10px;"><strong>Where:</strong> Power Platform Admin Centre → Environments → [Prod Env] → Enable Managed Environment</p>
+    <p style="font-size:0.88rem;margin-bottom:10px;">Managed Environments activates the governance layer on top of your production environment. It is the single most impactful switch you can enable on a production environment.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+      <div style="background:var(--info-bg);border-radius:6px;padding:12px;font-size:0.83rem;">
+        <strong style="display:block;margin-bottom:6px;color:var(--primary);">What it enables:</strong>
+        <ul style="padding-left:1.2rem;color:var(--text-muted);">
+          <li>Sharing limits for Canvas Apps (e.g. max 20 users, share only to security groups)</li>
+          <li>Solution checker enforcement on every solution import</li>
+          <li>Weekly digest email to admins with usage insights</li>
+          <li>Maker welcome message — makers see your governance guidance on first use</li>
+          <li>Usage insights — see which apps have no users (orphan detection)</li>
+          <li>IP firewall and IP cookie binding (additional security controls)</li>
+        </ul>
+      </div>
+      <div style="background:var(--warning-bg);border-radius:6px;padding:12px;font-size:0.83rem;">
+        <strong style="display:block;margin-bottom:6px;color:var(--warning);">Licensing requirement:</strong>
+        <ul style="padding-left:1.2rem;color:var(--text-muted);">
+          <li>Requires Power Platform Premium (per-user) or Managed Environment add-on per environment</li>
+          <li>Users of apps in a Managed Environment need Power Apps Premium or per-app licences</li>
+          <li>Always validate current licensing at <strong>aka.ms/PowerPlatformLicensing</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTING 2: Security Group Restriction -->
+  <div class="card" style="border-left:4px solid var(--primary);margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <span style="background:var(--primary);color:white;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700;">REQUIRED</span>
+      <h4 style="font-size:1rem;font-weight:700;margin:0;">2. Restrict Environment Access with a Security Group</h4>
+    </div>
+    <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:8px;"><strong>Where:</strong> PPAC → Environments → [Prod Env] → Edit → Restrict access to security group</p>
+    <p style="font-size:0.88rem;margin-bottom:8px;">Without a security group assignment, <strong>every licensed user in the tenant can access the production environment</strong>. This is a major governance gap.</p>
+    <div class="table-wrap" style="margin-top:10px;">
+      <table>
+        <thead><tr><th>Environment</th><th>Security Group</th><th>Members</th></tr></thead>
+        <tbody>
+          <tr><td>Production</td><td>SG-PP-Prod-Users</td><td>Business users who need app access</td></tr>
+          <tr><td>UAT</td><td>SG-PP-UAT-Testers</td><td>Testers, business owners, CoE lead</td></tr>
+          <tr><td>Dev</td><td>SG-PP-Dev-Team</td><td>Developers and makers only</td></tr>
+          <tr><td>CoE Governance</td><td>SG-PP-CoE-Admins</td><td>Platform admins and CoE leads only</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SETTING 3: DLP Policy -->
+  <div class="card" style="border-left:4px solid #d83b01;margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <span style="background:#d83b01;color:white;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700;">CRITICAL</span>
+      <h4 style="font-size:1rem;font-weight:700;margin:0;">3. Apply a Hardened DLP Policy</h4>
+    </div>
+    <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:8px;"><strong>Where:</strong> PPAC → Policies → Data Policies → Create or assign environment policy</p>
+    <p style="font-size:0.88rem;margin-bottom:12px;">Production environments need the most restrictive DLP policy. Use a layered approach: tenant baseline policy + environment-specific hardening policy.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Group</th><th>What Goes Here (Production)</th></tr></thead>
+        <tbody>
+          <tr><td><span class="chip green">Business</span></td><td>SharePoint, Dataverse, Teams, Outlook, OneDrive for Business, Azure AD, Approvals, SQL Server (if approved)</td></tr>
+          <tr><td><span class="chip orange">Non-Business</span></td><td>Low-risk, non-data-sensitive connectors only — typically very few in a hardened prod policy</td></tr>
+          <tr><td><span class="chip" style="background:#fde7f3;color:#8b0040;">Blocked</span></td><td>All consumer connectors: Gmail, Dropbox, Twitter/X, Facebook, Instagram, Google Sheets, personal OneDrive, RSS, and all unreviewed third-party connectors</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-info" style="margin-top:12px;">
+      <span class="callout-icon">ℹ️</span>
+      <p><strong>Most restrictive wins:</strong> When both a tenant-level and environment-level policy apply, the combination that is <em>most restrictive</em> is enforced. Design your tenant policy as a safety floor and your prod policy as a hardened ceiling.</p>
+    </div>
+  </div>
+
+  <!-- SETTING 4: Connector Endpoint Filtering -->
+  <div class="card" style="border-left:4px solid var(--accent2);margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <span style="background:var(--accent2);color:white;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700;">RECOMMENDED</span>
+      <h4 style="font-size:1rem;font-weight:700;margin:0;">4. Enable Connector Endpoint Filtering</h4>
+    </div>
+    <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:8px;"><strong>Where:</strong> PPAC → Policies → Data Policies → [Policy] → Connector configurations</p>
+    <p style="font-size:0.88rem;margin-bottom:8px;">Endpoint filtering lets you restrict a connector to specific URLs or endpoints. For example: allow SharePoint connector only to <code>https://yourorg.sharepoint.com</code> — blocking connections to external SharePoint tenants.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Connector</th><th>Endpoint Pattern</th><th>Rule Type</th></tr></thead>
+        <tbody>
+          <tr><td>SharePoint</td><td><code>https://yourorg.sharepoint.com/*</code></td><td>Allow (deny all others)</td></tr>
+          <tr><td>SQL Server</td><td><code>yourdbserver.database.windows.net</code></td><td>Allow (deny all others)</td></tr>
+          <tr><td>HTTP with Azure AD</td><td><code>https://api.yourorg.com/*</code></td><td>Allow (deny all others)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SETTING 5: Tenant Isolation -->
+  <div class="card" style="border-left:4px solid var(--accent2);margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <span style="background:var(--accent2);color:white;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700;">RECOMMENDED</span>
+      <h4 style="font-size:1rem;font-weight:700;margin:0;">5. Configure Tenant Isolation</h4>
+    </div>
+    <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:8px;"><strong>Where:</strong> PPAC → Policies → Tenant Isolation</p>
+    <p style="font-size:0.88rem;">Tenant isolation prevents connectors in your tenant from authenticating to <em>other organisations' tenants</em>. This stops data being silently routed to a personal or external tenant via an authenticated connector. Enable for all production environments in regulated industries.</p>
+    <ul style="font-size:0.85rem;color:var(--text-muted);padding-left:1.4rem;margin-top:8px;">
+      <li><strong>Inbound restriction:</strong> Blocks makers from external tenants connecting to your tenant's resources</li>
+      <li><strong>Outbound restriction:</strong> Blocks your makers from connecting to another organisation's tenant resources</li>
+      <li>You can add explicit <strong>allow-list exceptions</strong> for trusted partner tenants</li>
+    </ul>
+  </div>
+
+  <!-- SETTING 6: IP Firewall & Cookie Binding -->
+  <div class="card" style="border-left:4px solid var(--accent);margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <span style="background:var(--accent);color:white;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700;">ADVANCED</span>
+      <h4 style="font-size:1rem;font-weight:700;margin:0;">6. IP Firewall &amp; IP Cookie Binding (Managed Environments)</h4>
+    </div>
+    <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:8px;"><strong>Where:</strong> PPAC → Environments → [Prod Env] → Settings → IP Firewall / IP Cookie Binding</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.83rem;">
+      <div style="background:var(--info-bg);border-radius:6px;padding:12px;">
+        <strong style="display:block;margin-bottom:6px;">IP Firewall</strong>
+        <p style="color:var(--text-muted);">Restricts access to the environment to requests originating from specified IP ranges. Enforces network-level access control — users outside approved networks (e.g. corporate VPN or office IP ranges) cannot access production, even if authenticated.</p>
+      </div>
+      <div style="background:var(--info-bg);border-radius:6px;padding:12px;">
+        <strong style="display:block;margin-bottom:6px;">IP Cookie Binding</strong>
+        <p style="color:var(--text-muted);">Binds session cookies to the IP address used at login. Prevents session cookie theft and replay attacks — a stolen cookie cannot be used from a different IP address. Recommended for all production Dataverse environments handling sensitive data.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTING 7: Auditing & Monitoring -->
+  <div class="card" style="border-left:4px solid var(--primary);margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <span style="background:var(--primary);color:white;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700;">REQUIRED</span>
+      <h4 style="font-size:1rem;font-weight:700;margin:0;">7. Enable Audit Logging &amp; Monitoring</h4>
+    </div>
+    <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:10px;"><strong>Where:</strong> PPAC → Environments → [Prod Env] → Settings → Auditing</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Where to Enable</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Dataverse audit logging</td><td>PPAC → Environment Settings → Auditing → Start Auditing</td><td>Records every create/update/delete on Dataverse records — required for compliance and investigation</td></tr>
+          <tr><td>User access auditing</td><td>PPAC → Environment Settings → Auditing → Log access</td><td>Records who accessed what data and when</td></tr>
+          <tr><td>Microsoft Purview / M365 Unified Audit Log</td><td>M365 Admin Centre → Compliance → Audit</td><td>Cross-platform audit trail including Power Apps activity, flow runs, and data access</td></tr>
+          <tr><td>CoE Starter Kit usage monitoring</td><td>CoE environment — App &amp; Flow Analytics</td><td>Visibility into which apps are active, unused, or high-risk</td></tr>
+          <tr><td>PPAC Analytics</td><td>PPAC → Analytics → Capacity / Usage</td><td>Environment capacity, storage, and usage trends</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SETTING 8: Solution Checker Policy -->
+  <div class="card" style="border-left:4px solid var(--success);margin-bottom:32px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <span style="background:var(--success);color:white;border-radius:6px;padding:3px 10px;font-size:0.75rem;font-weight:700;">REQUIRED</span>
+      <h4 style="font-size:1rem;font-weight:700;margin:0;">8. Enforce Solution Checker on Import (Managed Environments)</h4>
+    </div>
+    <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:8px;"><strong>Where:</strong> PPAC → Environments → [Prod Env] → Managed Environment settings → Solution checker enforcement</p>
+    <p style="font-size:0.88rem;">When Solution Checker enforcement is enabled, every solution import to this environment is automatically scanned. You can configure the policy to <strong>warn</strong> (allow import but show issues) or <strong>block</strong> (reject imports with critical issues). Set production to <em>block</em> on critical issues.</p>
+    <div class="callout callout-success" style="margin-top:12px;">
+      <span class="callout-icon">✅</span>
+      <p>This is a quality gate that prevents low-quality or security-risky solutions from reaching production. Combined with pipeline-based pre-deployment checks, it creates defence-in-depth for solution quality.</p>
+    </div>
+  </div>
+
+  <!-- ── PART 2: ALM — POWER PLATFORM PIPELINES ── -->
+  <h3 style="font-size:1.05rem;font-weight:700;margin:0 0 16px;color:var(--accent);border-bottom:2px solid #e0f8f7;padding-bottom:8px;">
+    🔁 Part 2 — ALM with Power Platform Pipelines
+  </h3>
+
+  <div class="callout callout-info" style="margin-bottom:16px;">
+    <span class="callout-icon">ℹ️</span>
+    <p><strong>Power Platform Pipelines</strong> is the native low-code deployment feature. It promotes solutions from Dev → Test → UAT → Prod through a configured pipeline without needing Azure DevOps. Best for teams with limited DevOps experience or for faster initial ALM setup.</p>
+  </div>
+
+  <!-- Pipeline Setup Steps -->
+  <div class="card" style="margin-bottom:16px;">
+    <h4 style="font-size:0.95rem;font-weight:700;margin-bottom:14px;">Pipeline Setup — Step by Step</h4>
+    <div style="position:relative;padding-left:28px;">
+      <div style="position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:var(--border);"></div>
+
+      <div style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-23px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:2px solid white;box-shadow:0 0 0 2px var(--primary);"></div>
+        <strong style="font-size:0.88rem;display:block;margin-bottom:4px;color:var(--primary);">Step 1 — Create a dedicated Pipeline Host environment</strong>
+        <p style="font-size:0.83rem;color:var(--text-muted);">PPAC → Environments → New → type: Production or Sandbox. This environment hosts the pipeline configuration. It requires Dataverse. Name it clearly: <code>Contoso-PipelineHost</code>.</p>
+      </div>
+
+      <div style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-23px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid white;box-shadow:0 0 0 2px var(--accent);"></div>
+        <strong style="font-size:0.88rem;display:block;margin-bottom:4px;color:var(--accent);">Step 2 — Install the Deployment Pipeline Configuration app</strong>
+        <p style="font-size:0.83rem;color:var(--text-muted);">From the pipeline host environment, go to Power Platform Pipelines → Install the <em>Deployment Pipeline Configuration</em> app from AppSource into the host environment.</p>
+      </div>
+
+      <div style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-23px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--accent2);border:2px solid white;box-shadow:0 0 0 2px var(--accent2);"></div>
+        <strong style="font-size:0.88rem;display:block;margin-bottom:4px;color:var(--accent2);">Step 3 — Register source and target environments</strong>
+        <p style="font-size:0.83rem;color:var(--text-muted);">In the Deployment Pipeline Configuration app: add each environment (Dev, Test, UAT, Prod) as a registered environment. The host environment connects to them via the System Administrator role.</p>
+      </div>
+
+      <div style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-23px;top:4px;width:12px;height:12px;border-radius:50%;background:#107c10;border:2px solid white;box-shadow:0 0 0 2px #107c10;"></div>
+        <strong style="font-size:0.88rem;display:block;margin-bottom:4px;color:var(--success);">Step 4 — Create the pipeline and add stages</strong>
+        <p style="font-size:0.83rem;color:var(--text-muted);">Create a new Pipeline → Add stages in order: Dev (source) → Test → UAT → Production. Each stage maps to a registered environment. Enable <strong>Pre-deployment approvals</strong> on UAT and Production stages.</p>
+      </div>
+
+      <div style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-23px;top:4px;width:12px;height:12px;border-radius:50%;background:#ff8c00;border:2px solid white;box-shadow:0 0 0 2px #ff8c00;"></div>
+        <strong style="font-size:0.88rem;display:block;margin-bottom:4px;color:#d83b01;">Step 5 — Configure deployment settings (env vars &amp; connection refs)</strong>
+        <p style="font-size:0.83rem;color:var(--text-muted);">For each target environment, configure the <strong>Deployment Configuration</strong> record — mapping connection references to actual connections and setting environment variable values specific to that target. This replaces the manual deployment settings JSON used with PAC CLI.</p>
+      </div>
+
+      <div style="position:relative;">
+        <div style="position:absolute;left:-23px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--primary-dark);border:2px solid white;box-shadow:0 0 0 2px var(--primary-dark);"></div>
+        <strong style="font-size:0.88rem;display:block;margin-bottom:4px;color:var(--primary-dark);">Step 6 — Deploy from the solution</strong>
+        <p style="font-size:0.83rem;color:var(--text-muted);">In the Dev environment, open the solution → Deploy → Select pipeline → Select target stage. The pipeline exports managed, validates, and imports. Approvers are notified. The solution promotes automatically to the next stage on approval.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-bottom:32px;">
+    <table>
+      <thead><tr><th>Pipeline Capability</th><th>Available</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Pre-deployment approval</td><td><span class="check">✔</span></td><td>Per-stage — approver receives Teams/email notification</td></tr>
+        <tr><td>Managed solution export</td><td><span class="check">✔</span></td><td>Automatic — pipeline always deploys managed</td></tr>
+        <tr><td>Deployment history</td><td><span class="check">✔</span></td><td>Full history in the pipeline host environment</td></tr>
+        <tr><td>Connection reference mapping</td><td><span class="check">✔</span></td><td>Via Deployment Configuration in the host environment</td></tr>
+        <tr><td>Environment variable mapping</td><td><span class="check">✔</span></td><td>Via Deployment Configuration in the host environment</td></tr>
+        <tr><td>Source control integration</td><td><span class="cross">✘</span></td><td>Not built-in — use Azure DevOps for Git-based ALM</td></tr>
+        <tr><td>Automated testing</td><td><span class="cross">✘</span></td><td>No built-in test runner — use Azure DevOps for this</td></tr>
+        <tr><td>Custom deployment steps</td><td><span class="partial">~</span></td><td>Limited — extensibility via pipeline-related flows</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── PART 3: ALM — AZURE DEVOPS ── -->
+  <h3 style="font-size:1.05rem;font-weight:700;margin:0 0 16px;color:var(--accent2);border-bottom:2px solid #f0ebf8;padding-bottom:8px;">
+    ⚙️ Part 3 — ALM with Azure DevOps
+  </h3>
+
+  <div class="callout callout-purple" style="margin-bottom:16px;">
+    <span class="callout-icon">🏗️</span>
+    <p><strong>Azure DevOps</strong> provides enterprise-grade ALM: Git source control, branch strategies, PR validation, automated testing, solution checker enforcement, and full audit trail. Use it when your organisation has Azure DevOps licences and needs Git-based ALM, automated quality gates, or multi-solution dependency management.</p>
+  </div>
+
+  <!-- Prerequisite Setup -->
+  <div class="card" style="margin-bottom:16px;">
+    <h4 style="font-size:0.95rem;font-weight:700;margin-bottom:12px;">Prerequisites to Configure</h4>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:0.84rem;">
+      <div style="background:var(--info-bg);border-radius:8px;padding:14px;">
+        <strong style="display:block;margin-bottom:8px;color:var(--primary);">Azure DevOps</strong>
+        <ul style="padding-left:1.2rem;color:var(--text-muted);">
+          <li>Azure DevOps Organisation created</li>
+          <li>Project created per domain/workstream</li>
+          <li>Git repository initialised</li>
+          <li><strong>Power Platform Build Tools</strong> extension installed from Visual Studio Marketplace</li>
+          <li>Service connections created (one per environment)</li>
+        </ul>
+      </div>
+      <div style="background:var(--info-bg);border-radius:8px;padding:14px;">
+        <strong style="display:block;margin-bottom:8px;color:var(--primary);">Power Platform</strong>
+        <ul style="padding-left:1.2rem;color:var(--text-muted);">
+          <li>Service principal (App Registration) created in Azure AD</li>
+          <li>Service principal added as <strong>System Administrator</strong> or <strong>Deployment role</strong> in each target environment</li>
+          <li>Client secret generated and stored in Azure DevOps Library Variable Group (marked secret)</li>
+          <li>PAC CLI available on pipeline agent (auto-installed via Build Tools task)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service Connection Setup -->
+  <div class="card" style="margin-bottom:16px;">
+    <h4 style="font-size:0.95rem;font-weight:700;margin-bottom:10px;">Service Connection Setup (per environment)</h4>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">In Azure DevOps: Project Settings → Service Connections → New → <em>Power Platform</em> (added by Build Tools extension)</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Field</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Connection name</td><td><code>PP-Dev-Connection</code>, <code>PP-Test-Connection</code>, <code>PP-Prod-Connection</code></td></tr>
+          <tr><td>Server URL</td><td><code>https://yourorg.crm11.dynamics.com</code> (environment URL)</td></tr>
+          <tr><td>Tenant ID</td><td>Your Azure AD / Entra ID tenant ID (from Azure portal)</td></tr>
+          <tr><td>Application (client) ID</td><td>App registration client ID (service principal)</td></tr>
+          <tr><td>Client secret</td><td>Secret from App Registration — store in Variable Group, reference as <code>$(ClientSecret)</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pipeline Architecture -->
+  <div class="card" style="margin-bottom:16px;">
+    <h4 style="font-size:0.95rem;font-weight:700;margin-bottom:14px;">Recommended Pipeline Architecture (YAML)</h4>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;font-size:0.82rem;">
+      <div style="background:var(--success-bg);border:1px solid #a8d8a8;border-radius:8px;padding:12px;text-align:center;">
+        <strong style="display:block;margin-bottom:4px;color:var(--success);">CI Pipeline</strong>
+        <p style="color:var(--text-muted);">Trigger: PR to main<br>Export unmanaged → unpack → commit to Git → run Solution Checker</p>
+      </div>
+      <div style="background:var(--info-bg);border:1px solid #b8d4f0;border-radius:8px;padding:12px;text-align:center;">
+        <strong style="display:block;margin-bottom:4px;color:var(--primary);">CD Pipeline — Test</strong>
+        <p style="color:var(--text-muted);">Trigger: merge to main<br>Pack managed → deploy to Test → run automated checks</p>
+      </div>
+      <div style="background:#f0ebf8;border:1px solid #c8a8e0;border-radius:8px;padding:12px;text-align:center;">
+        <strong style="display:block;margin-bottom:4px;color:var(--accent2);">CD Pipeline — Prod</strong>
+        <p style="color:var(--text-muted);">Trigger: manual / release tag<br>Deploy to UAT (approval) → deploy to Prod (approval)</p>
+      </div>
+    </div>
+    <pre style="background:#1e1e1e;color:#d4d4d4;border-radius:8px;padding:16px;font-size:0.78rem;overflow-x:auto;line-height:1.6;"><code># azure-pipelines-deploy.yml — CD to Production
+trigger: none   # manual trigger only for prod
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  - group: PP-Prod-VarGroup   # holds ClientSecret, TenantId, ClientId
+
+stages:
+- stage: DeployToUAT
+  jobs:
+  - deployment: DeployUAT
+    environment: 'PowerPlatform-UAT'  # Azure DevOps Environment with approval
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: PowerPlatformToolInstaller@2
+            displayName: 'Install PAC CLI'
+
+          - task: PowerPlatformImportSolution@2
+            displayName: 'Import to UAT'
+            inputs:
+              authenticationType: 'PowerPlatformSPN'
+              PowerPlatformSPN: 'PP-UAT-Connection'
+              SolutionInputFile: '$(Pipeline.Workspace)/drop/ACME_HR_managed.zip'
+              UseDeploymentSettingsFile: true
+              DeploymentSettingsFile: '$(Build.SourcesDirectory)/settings/deploymentsettings.UAT.json'
+
+- stage: DeployToProd
+  dependsOn: DeployToUAT
+  jobs:
+  - deployment: DeployProd
+    environment: 'PowerPlatform-Production'  # Azure DevOps Environment with approval gate
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: PowerPlatformToolInstaller@2
+            displayName: 'Install PAC CLI'
+
+          - task: PowerPlatformImportSolution@2
+            displayName: 'Import to Production'
+            inputs:
+              authenticationType: 'PowerPlatformSPN'
+              PowerPlatformSPN: 'PP-Prod-Connection'
+              SolutionInputFile: '$(Pipeline.Workspace)/drop/ACME_HR_managed.zip'
+              UseDeploymentSettingsFile: true
+              DeploymentSettingsFile: '$(Build.SourcesDirectory)/settings/deploymentsettings.Prod.json'</code></pre>
+  </div>
+
+  <!-- Deployment Settings JSON -->
+  <div class="card" style="margin-bottom:16px;">
+    <h4 style="font-size:0.95rem;font-weight:700;margin-bottom:10px;">Deployment Settings File — deploymentsettings.Prod.json</h4>
+    <p style="font-size:0.84rem;color:var(--text-muted);margin-bottom:10px;">Store one file per environment in source control. This file maps environment variables and connection references at import time — the solution itself stays environment-agnostic.</p>
+    <pre style="background:#1e1e1e;color:#d4d4d4;border-radius:8px;padding:16px;font-size:0.78rem;overflow-x:auto;line-height:1.6;"><code>{
+  "EnvironmentVariables": [
+    {
+      "SchemaName": "acme_SharePointSiteURL",
+      "Value": "https://yourorg.sharepoint.com/sites/ProdHR"
+    },
+    {
+      "SchemaName": "acme_ApprovalTimeoutHours",
+      "Value": "48"
+    }
+  ],
+  "ConnectionReferences": [
+    {
+      "LogicalName": "acme_sharedsharepoint_xxxxxxxx",
+      "ConnectionId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline/connections/prod-sp-svc-conn",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+    },
+    {
+      "LogicalName": "acme_sharedapprovals_xxxxxxxx",
+      "ConnectionId": "/providers/Microsoft.PowerApps/apis/shared_approvals/connections/prod-approval-conn",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_approvals"
+    }
+  ]
+}</code></pre>
+    <div class="callout callout-info" style="margin-top:10px;">
+      <span class="callout-icon">💡</span>
+      <p>Find the <strong>LogicalName</strong> of a connection reference in the solution XML (<code>connectionreferences.xml</code> after unpacking). Find the <strong>ConnectionId</strong> in PPAC → Connections → click the connection → the URL contains the ID.</p>
+    </div>
+  </div>
+
+  <!-- ALM Decision Matrix -->
+  <div class="card" style="margin-bottom:16px;">
+    <h4 style="font-size:0.95rem;font-weight:700;margin-bottom:12px;">🔍 ALM Tool Decision Matrix</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Requirement</th><th>PP Pipelines</th><th>Azure DevOps</th><th>Both</th></tr></thead>
+        <tbody>
+          <tr><td>Quick initial ALM setup (days)</td><td><span class="check">✔ Best</span></td><td><span class="partial">~</span></td><td>—</td></tr>
+          <tr><td>No DevOps skills in the team</td><td><span class="check">✔ Best</span></td><td><span class="cross">✘</span></td><td>—</td></tr>
+          <tr><td>Git-based source control</td><td><span class="cross">✘</span></td><td><span class="check">✔ Best</span></td><td>—</td></tr>
+          <tr><td>PR validation and code review</td><td><span class="cross">✘</span></td><td><span class="check">✔ Best</span></td><td>—</td></tr>
+          <tr><td>Automated solution checker in CI</td><td><span class="cross">✘</span></td><td><span class="check">✔ Best</span></td><td>—</td></tr>
+          <tr><td>Automated testing in pipeline</td><td><span class="cross">✘</span></td><td><span class="check">✔ Best</span></td><td>—</td></tr>
+          <tr><td>Multi-solution dependency chain</td><td><span class="partial">~</span></td><td><span class="check">✔ Best</span></td><td>—</td></tr>
+          <tr><td>Maker self-deployment with approvals</td><td><span class="check">✔ Best</span></td><td><span class="partial">~</span></td><td>—</td></tr>
+          <tr><td>Enterprise full ALM maturity (L4/L5)</td><td><span class="partial">~</span></td><td>—</td><td><span class="check">✔ Best</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Production ALM Checklist -->
+  <div class="card" style="border-top:3px solid var(--success);">
+    <h4 style="font-size:0.95rem;font-weight:700;margin-bottom:12px;">✅ Production ALM Readiness Checklist</h4>
+    <ul class="checklist">
+      <li>All production components are inside named, versioned solutions with a custom publisher prefix</li>
+      <li>Solutions are exported as <strong>managed</strong> before deploying to Test/UAT/Prod — never unmanaged</li>
+      <li>Environment variables used for all environment-specific URLs, IDs, and configuration values</li>
+      <li>Connection references in the solution — all flows use connection references, not direct connections</li>
+      <li>Deployment settings file created and stored in source control for each target environment</li>
+      <li>Service account or service principal used for all production flow connections — no personal accounts</li>
+      <li>Solution Checker passes with no critical or high issues before import to Test or above</li>
+      <li>Pre-deployment approval gate configured on UAT and Production pipeline stages</li>
+      <li>Post-deployment validation steps documented and executed after every production release</li>
+      <li>Rollback procedure documented — prior managed solution .zip retained for each release</li>
+      <li>Release notes written with every deployment: version, changes, deployer, date</li>
+      <li>Production flows turned on and verified after managed solution import</li>
+      <li>No direct edits made in UAT or Production — all changes originate in Dev and flow through the pipeline</li>
+    </ul>
   </div>
 </section>
 
