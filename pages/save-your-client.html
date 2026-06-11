@@ -18,7 +18,18 @@
   --warn:#92400E;--warn-bg:#FFFBEB;--warn-bd:#FCD34D;
   --danger:#991B1B;--danger-bg:#FEF2F2;--danger-bd:#FCA5A5;
   --prem:#5B21B6;--prem-bg:#F5F3FF;--prem-bd:#C4B5FD;
+  --paper-3:#F5F4EF;
   --sb:268px;
+}
+[data-theme="dark"]{
+  --paper:#13111C;--paper-2:#1C1928;--ink:#EDEAF6;--ink-soft:#C9C4DC;
+  --muted:#948FA8;--rule:#2E2A40;--accent:#818CF8;--accent-2:#6366F1;
+  --accent-soft:rgba(99,102,241,.14);--accent-text:#A5B4FC;
+  --good:#6EE7B7;--good-bg:rgba(16,185,129,.1);--good-bd:rgba(110,231,183,.35);
+  --warn:#FCD34D;--warn-bg:rgba(245,158,11,.1);--warn-bd:rgba(252,211,77,.35);
+  --danger:#FCA5A5;--danger-bg:rgba(239,68,68,.1);--danger-bd:rgba(252,165,165,.35);
+  --prem:#C4B5FD;--prem-bg:rgba(139,92,246,.12);--prem-bd:rgba(196,181,253,.35);
+  --paper-3:#242038;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -104,7 +115,7 @@ pre code{background:none;padding:0;color:inherit;font-size:inherit}
 .tbl-wrap{margin:16px 0;overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:14px;background:var(--paper-2);border-radius:10px;overflow:hidden}
 th,td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--rule);vertical-align:top}
-th{font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);background:#F5F4EF}
+th{font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);background:var(--paper-3)}
 tr:last-child td{border-bottom:none}
 .tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;display:inline-block;white-space:nowrap;border:1px solid}
 .t-std{background:var(--good-bg);color:var(--good);border-color:var(--good-bd)}
@@ -134,7 +145,7 @@ tr:last-child td{border-bottom:none}
 .dt-q{padding:9px 13px;border-radius:7px;margin:6px 0;font-weight:600;background:var(--accent-soft);color:var(--accent-text);border:1px solid rgba(99,102,241,.2)}
 .dt-y{padding:7px 12px;border-radius:7px;margin:4px 0;background:var(--good-bg);color:var(--good);border:1px solid var(--good-bd);font-size:13px}
 .dt-n{padding:7px 12px;border-radius:7px;margin:4px 0;background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger-bd);font-size:13px}
-.dt-act{padding:7px 12px;border-radius:7px;margin:4px 0;background:#F5F4EF;color:var(--ink-soft);border:1px solid var(--rule);font-size:13px}
+.dt-act{padding:7px 12px;border-radius:7px;margin:4px 0;background:var(--paper-3);color:var(--ink-soft);border:1px solid var(--rule);font-size:13px}
 .dt-br{padding-left:22px;border-left:2px solid var(--rule);margin-left:6px}
 .dt-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:10px 0 3px}
 .cklist{list-style:none;padding:0;margin:10px 0}
@@ -161,9 +172,36 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
 #btt{position:fixed;bottom:26px;right:26px;width:40px;height:40px;border-radius:50%;background:var(--accent);color:white;border:none;font-size:17px;cursor:pointer;box-shadow:0 4px 16px rgba(67,56,202,.35);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50}
 #btt.vis{opacity:1;pointer-events:auto}
 #btt:hover{transform:translateY(-2px)}
+#prog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2),#A5B4FC);z-index:400}
+#thm{position:fixed;bottom:76px;right:26px;width:40px;height:40px;border-radius:50%;background:var(--paper-2);color:var(--ink);border:1px solid var(--rule);font-size:16px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;z-index:50;transition:transform .2s}
+#thm:hover{transform:translateY(-2px)}
+body,.sidebar,.mob-nav,table,.sum-card,.stat-card,.pc,.ib,.dtree,.acc-btn,.acc-body{transition:background-color .25s,color .25s,border-color .25s}
+.calc{background:var(--paper-2);border:1px solid var(--rule);border-radius:12px;padding:22px;margin:18px 0}
+.calc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.calc-f label{display:block;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.calc-f input{width:100%;padding:8px 10px;border:1px solid var(--rule);border-radius:7px;background:var(--paper);color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:14px;outline:none}
+.calc-f input:focus{border-color:var(--accent-2);box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.calc-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.calc-card{border:1px solid var(--rule);border-radius:10px;padding:14px 16px;background:var(--paper);position:relative}
+.calc-card.win{border-color:var(--good-bd);background:var(--good-bg)}
+.calc-card .cc-l{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.calc-card .cc-v{font-family:'Fraunces',Georgia,serif;font-size:26px;font-weight:600;color:var(--ink);margin:4px 0 2px}
+.calc-card.win .cc-v{color:var(--good)}
+.calc-card .cc-n{font-size:11.5px;color:var(--muted);line-height:1.45}
+.cc-win-tag{position:absolute;top:-9px;right:10px;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--good);color:#fff;padding:2px 8px;border-radius:10px}
+[data-theme="dark"] .cc-win-tag{color:#0B2E22}
+.calc-note{font-size:12.5px;color:var(--muted);margin:14px 0 0;line-height:1.5}
+.cklist li{cursor:pointer;user-select:none;transition:color .15s}
+.cklist li.done{color:var(--muted)}
+.cklist li.done::before{background:var(--accent);border-color:var(--accent)}
+.cklist li.done::after{content:'\2713';position:absolute;left:5px;top:14px;color:#fff;font-size:12px;font-weight:700;line-height:1}
+.ck-prog{font-size:11px;font-weight:700;color:var(--accent-text);background:var(--accent-soft);padding:2px 9px;border-radius:10px;margin-left:8px;vertical-align:2px}
+pre{position:relative}
+.copy-btn{position:absolute;top:8px;right:8px;background:#2D2948;color:#A5B4FC;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;opacity:.75;transition:opacity .15s}
+.copy-btn:hover{opacity:1}
 @media print{
   @page{size:A4 portrait;margin:14mm 12mm}
-  .sidebar,.mob-nav,#btt{display:none!important}
+  .sidebar,.mob-nav,#btt,#thm,#prog,.copy-btn{display:none!important}
   .layout{display:block;max-width:none}
   .content{padding:0!important}
   .section{padding:36px 0!important}
@@ -185,9 +223,12 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
   .two-col{grid-template-columns:1fr}
 }
 </style>
+<script>try{if(localStorage.getItem('pp_theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
 </head>
 <body>
 <script>!function(){if(location.hostname!=='viipiin.github.io')return;var K='dmtwdjIwMjU=',n=Date.now();try{var d=JSON.parse(localStorage.getItem('vk_tok')||'');if(d&&d.k===K&&d.e>n)return}catch(e){}location.replace('../index.html')}();</script>
+
+<div id="prog" aria-hidden="true"></div>
 
 <div class="mob-nav">
   <span class="mob-nav-title">Cost Optimization Playbook</span>
@@ -379,6 +420,21 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
           <div class="dt-act">YES (3+ apps) &rarr; Per-user license is likely more economical. Calculate the crossover point with current pricing.</div>
           <div class="dt-act">NO (1&ndash;2 apps) &rarr; Per-app license is almost always more economical per user. Do the math before purchasing.</div>
         </div>
+      </div>
+
+      <h3>Interactive Cost Estimator: Per-User vs Per-App vs Per-Flow</h3>
+      <p style="font-size:14.5px">Adjust the numbers for your scenario &mdash; the estimator instantly compares the three premium licensing strategies and highlights the cheapest valid option. Prices are editable so you can plug in current official pricing.</p>
+      <div class="calc" id="calc">
+        <div class="calc-grid">
+          <div class="calc-f"><label for="c-users">Users needing premium</label><input id="c-users" type="number" min="1" value="50" oninput="runCalc()"></div>
+          <div class="calc-f"><label for="c-apps">Premium apps per user</label><input id="c-apps" type="number" min="1" value="1" oninput="runCalc()"></div>
+          <div class="calc-f"><label for="c-flows">Shared premium flows</label><input id="c-flows" type="number" min="0" value="2" oninput="runCalc()"></div>
+          <div class="calc-f"><label for="c-pu">Per-user &#163;/month</label><input id="c-pu" type="number" min="0" step="0.1" value="16.40" oninput="runCalc()"></div>
+          <div class="calc-f"><label for="c-pa">Per-app &#163;/month</label><input id="c-pa" type="number" min="0" step="0.1" value="4.10" oninput="runCalc()"></div>
+          <div class="calc-f"><label for="c-pf">Per-flow &#163;/month</label><input id="c-pf" type="number" min="0" step="0.1" value="82.00" oninput="runCalc()"></div>
+        </div>
+        <div class="calc-out" id="calc-out" aria-live="polite"></div>
+        <p class="calc-note">&#9888;&#65039; Default prices are <strong>indicative placeholders</strong> &mdash; replace them with current figures from the <a href="https://learn.microsoft.com/en-us/power-platform/admin/pricing-billing-skus">official Microsoft pricing page</a> before using in any client conversation. Per-flow licenses the flow itself (not app access), so the per-flow figure only applies when the premium requirement is automation-only.</p>
       </div>
 
       <h3>Scoring Matrix: Architecture Choices vs Licensing Impact</h3>
@@ -1302,9 +1358,14 @@ steps:
 </div>
 
 <button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top" aria-label="Back to top">&#8593;</button>
+<button id="thm" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">&#127769;</button>
 
 <script>
-window.addEventListener('scroll',()=>document.getElementById('btt').classList.toggle('vis',scrollY>400));
+window.addEventListener('scroll',()=>{
+  document.getElementById('btt').classList.toggle('vis',scrollY>400);
+  const h=document.documentElement;
+  document.getElementById('prog').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+},{passive:true});
 document.addEventListener('click',e=>{
   const btn=e.target.closest('.acc-btn');
   if(!btn)return;
@@ -1345,6 +1406,88 @@ function filterPersona(p,btn){
     s.classList.add(s.dataset.persona.split(' ').includes(p)?'persona-match':'persona-dim');
   });
 }
+
+/* ---- Dark mode toggle (persisted) ---- */
+function toggleTheme(){
+  const r=document.documentElement;
+  const next=r.dataset.theme==='dark'?'light':'dark';
+  if(next==='dark')r.dataset.theme='dark';else delete r.dataset.theme;
+  try{localStorage.setItem('pp_theme',next)}catch(e){}
+  setThmIcon();
+}
+function setThmIcon(){
+  document.getElementById('thm').textContent=document.documentElement.dataset.theme==='dark'?'☀️':'\u{1F319}';
+}
+setThmIcon();
+
+/* ---- License cost estimator ---- */
+function runCalc(){
+  const v=id=>Math.max(0,parseFloat(document.getElementById(id).value)||0);
+  const fmt=n=>'£'+n.toLocaleString('en-GB',{maximumFractionDigits:0});
+  const users=v('c-users'),apps=v('c-apps'),flows=v('c-flows');
+  const perUser=users*v('c-pu')*12;
+  const perApp=users*Math.max(1,apps)*v('c-pa')*12;
+  const perFlow=flows>0?flows*v('c-pf')*12:NaN;
+  const opts=[
+    {l:'Per-User · annual',v:perUser,n:users+' users × unlimited apps'},
+    {l:'Per-App · annual',v:perApp,n:users+' users × '+Math.max(1,apps)+' app'+(apps>1?'s':'')+' each'},
+    {l:'Per-Flow · annual',v:perFlow,n:isNaN(perFlow)?'No flows entered':flows+' flow'+(flows>1?'s':'')+', unlimited users (automation-only)'}
+  ];
+  const valid=opts.filter(o=>!isNaN(o.v)&&o.v>0).map(o=>o.v);
+  const min=valid.length?Math.min(...valid):NaN;
+  document.getElementById('calc-out').innerHTML=opts.map(o=>{
+    const win=!isNaN(o.v)&&o.v===min;
+    return '<div class="calc-card'+(win?' win':'')+'">'+(win?'<span class="cc-win-tag">Cheapest</span>':'')+
+      '<div class="cc-l">'+o.l+'</div><div class="cc-v">'+(isNaN(o.v)?'—':fmt(o.v))+'</div><div class="cc-n">'+o.n+'</div></div>';
+  }).join('');
+}
+runCalc();
+
+/* ---- Interactive checklists (progress saved locally) ---- */
+const CK_KEY='svc_ck_v1';
+let ckState={};
+try{ckState=JSON.parse(localStorage.getItem(CK_KEY)||'{}')}catch(e){}
+function updCk(ul){
+  if(!ul._prog)return;
+  const t=ul.querySelectorAll('li').length,d=ul.querySelectorAll('li.done').length;
+  ul._prog.textContent=d+' / '+t;
+}
+document.querySelectorAll('.cklist').forEach((ul,i)=>{
+  const h=ul.previousElementSibling;
+  if(h&&h.tagName==='H3'){const s=document.createElement('span');s.className='ck-prog';h.appendChild(s);ul._prog=s;}
+  ul.querySelectorAll('li').forEach((li,j)=>{
+    const k=i+'-'+j;
+    li.setAttribute('role','checkbox');
+    li.setAttribute('tabindex','0');
+    if(ckState[k])li.classList.add('done');
+    li.setAttribute('aria-checked',li.classList.contains('done'));
+    const flip=()=>{
+      li.classList.toggle('done');
+      const on=li.classList.contains('done');
+      li.setAttribute('aria-checked',on);
+      if(on)ckState[k]=true;else delete ckState[k];
+      try{localStorage.setItem(CK_KEY,JSON.stringify(ckState))}catch(e){}
+      updCk(ul);
+    };
+    li.addEventListener('click',flip);
+    li.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();flip()}});
+  });
+  updCk(ul);
+});
+
+/* ---- Copy buttons on code blocks ---- */
+document.querySelectorAll('pre').forEach(p=>{
+  const b=document.createElement('button');
+  b.className='copy-btn';b.type='button';b.textContent='Copy';
+  b.addEventListener('click',()=>{
+    const c=p.querySelector('code');
+    navigator.clipboard.writeText(c?c.innerText:p.innerText).then(()=>{
+      b.textContent='Copied ✓';
+      setTimeout(()=>b.textContent='Copy',1600);
+    });
+  });
+  p.appendChild(b);
+});
 </script>
 </body>
 </html>
