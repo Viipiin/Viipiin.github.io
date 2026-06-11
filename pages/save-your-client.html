@@ -1,0 +1,1343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Power Platform Licensing Cost Optimization Playbook</title>
+<meta name="description" content="A comprehensive architect's guide to reducing Power Platform licensing cost responsibly — without compromising governance, security, or ALM maturity.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%234338CA'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-family='serif' font-size='40' fill='white' font-weight='bold'%3E%24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF8F3;--paper-2:#FFFFFF;--ink:#1A1826;--ink-soft:#2D2A3E;
+  --muted:#575464;--rule:#E8E4DB;--accent:#4338CA;--accent-2:#6366F1;
+  --accent-soft:#EEF2FF;--accent-text:#3730A3;
+  --good:#065F46;--good-bg:#ECFDF5;--good-bd:#6EE7B7;
+  --warn:#92400E;--warn-bg:#FFFBEB;--warn-bd:#FCD34D;
+  --danger:#991B1B;--danger-bg:#FEF2F2;--danger-bd:#FCA5A5;
+  --prem:#5B21B6;--prem-bg:#F5F3FF;--prem-bd:#C4B5FD;
+  --sb:268px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'Inter',-apple-system,system-ui,'Segoe UI',Roboto,sans-serif;font-size:17px;line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.layout{display:grid;grid-template-columns:var(--sb) 1fr;min-height:100vh;max-width:1180px;margin:0 auto}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;padding:28px 0;border-right:1px solid var(--rule);background:var(--paper);scrollbar-width:thin;scrollbar-color:var(--rule) transparent;z-index:10}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--rule);border-radius:2px}
+.sb-brand{padding:0 18px 20px;border-bottom:1px solid var(--rule);margin-bottom:14px}
+.sb-brand .lbl{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.sb-brand .nm{font-family:'Fraunces',Georgia,serif;font-size:14px;font-weight:600;color:var(--ink);line-height:1.3;margin-top:3px}
+.sb-search{padding:0 14px 14px}
+.sb-search input{width:100%;padding:7px 12px 7px 30px;border:1px solid var(--rule);border-radius:7px;background:var(--paper-2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%236B6878' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 9px center;font-size:13px;color:var(--ink);outline:none;font-family:inherit}
+.sb-search input:focus{border-color:var(--accent-2);box-shadow:0 0 0 3px rgba(99,102,241,.1)}
+.nav-link{display:flex;align-items:baseline;gap:5px;padding:6px 18px;font-size:12.5px;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:all .14s;line-height:1.35}
+.nav-link:hover{color:var(--ink);background:var(--accent-soft);border-left-color:var(--accent-2)}
+.nav-link.active{color:var(--accent-text);font-weight:600;border-left-color:var(--accent);background:var(--accent-soft)}
+.nav-num{font-size:9.5px;font-weight:700;color:var(--muted);min-width:18px;flex-shrink:0}
+.nav-link.active .nav-num{color:var(--accent)}
+.mob-nav{display:none;position:sticky;top:0;z-index:100;background:var(--paper);border-bottom:1px solid var(--rule);padding:11px 20px;justify-content:space-between;align-items:center}
+.mob-nav-title{font-size:13px;font-weight:600;color:var(--ink)}
+.mob-nav-btn{background:none;border:1px solid var(--rule);border-radius:6px;padding:6px 10px;font-size:13px;cursor:pointer;color:var(--ink);font-family:inherit}
+.drawer-ov{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.5)}
+.drawer-ov.open{display:block}
+.drawer-in{position:absolute;left:0;top:0;bottom:0;width:var(--sb);background:var(--paper);overflow-y:auto;padding:20px 0}
+.drawer-close{position:absolute;top:10px;right:10px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted)}
+.content{max-width:860px}
+.section{padding:68px 52px 52px;border-bottom:1px solid var(--rule)}
+.section:last-of-type{border-bottom:none}
+.sec-num{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:8px}
+h2{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-.015em;margin:0 0 18px}
+h3{font-family:'Inter',sans-serif;font-weight:700;font-size:18px;margin:32px 0 11px;letter-spacing:-.005em}
+h4{font-family:'Inter',sans-serif;font-weight:600;font-size:15px;margin:20px 0 7px;color:var(--ink-soft)}
+p{margin:0 0 18px}
+a{color:var(--accent-2);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+strong{font-weight:700;color:var(--ink)}
+em{color:var(--ink-soft)}
+code{font-family:'JetBrains Mono',monospace;font-size:.84em;background:rgba(67,56,202,.08);padding:2px 7px;border-radius:5px;color:var(--accent-text)}
+pre{background:#1E1B2E;color:#E2E0F0;border-radius:10px;padding:18px 20px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.65;margin:16px 0 20px}
+pre code{background:none;padding:0;color:inherit;font-size:inherit}
+.pre-lbl{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:#2D2948;color:#A5B4FC;padding:3px 10px;border-radius:5px 5px 0 0;margin-bottom:-4px;font-family:'Inter',sans-serif}
+.hero{background:linear-gradient(135deg,#1E1B4B 0%,#312E81 45%,#4338CA 100%);color:white;padding:72px 52px 64px;position:relative;overflow:hidden;border-bottom:none}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 75% 40%,rgba(99,102,241,.35) 0%,transparent 60%);pointer-events:none}
+.hero-ey{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(196,181,253,.9);margin-bottom:14px}
+.hero h1{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(34px,5vw,52px);line-height:1.07;letter-spacing:-.025em;margin:0 0 18px;color:white;font-variation-settings:"opsz" 144}
+.hero h1 em{font-style:italic;font-weight:400;color:#A5B4FC}
+.hero-sub{font-size:18px;line-height:1.6;color:rgba(255,255,255,.78);max-width:580px;margin:0 0 18px}
+.hero-note{font-size:13px;color:rgba(165,180,252,.85);padding:10px 16px;background:rgba(255,255,255,.08);border-radius:8px;border:1px solid rgba(165,180,252,.2);margin:0 0 30px;max-width:580px;line-height:1.55}
+.hero-note a{color:#A5B4FC}
+.hero-ctas{display:flex;gap:10px;flex-wrap:wrap}
+.cta-btn{padding:10px 20px;border-radius:8px;font-size:13.5px;font-weight:600;font-family:inherit;cursor:pointer;text-decoration:none;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.cta-p{background:white;color:var(--accent);border:none}
+.cta-p:hover{background:#EEF2FF;transform:translateY(-1px)}
+.cta-s{background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.25)}
+.cta-s:hover{background:rgba(255,255,255,.2)}
+.persona-bar{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 28px}
+.p-btn{padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:600;font-family:inherit;cursor:pointer;border:1px solid var(--rule);background:var(--paper-2);color:var(--muted);transition:all .14s}
+.p-btn:hover,.p-btn.active{background:var(--accent-soft);color:var(--accent-text);border-color:var(--accent-2)}
+.p-btn.active{font-weight:700}
+.callout{margin:20px 0;padding:14px 18px;border-radius:10px;border-left:3px solid;font-size:15px;line-height:1.6}
+.callout .cl{display:block;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:5px}
+.c-best{background:var(--good-bg);border-color:var(--good-bd);color:var(--good)}
+.c-best .cl{color:var(--good)}
+.c-prem{background:var(--prem-bg);border-color:var(--prem-bd);color:var(--prem)}
+.c-prem .cl{color:var(--prem)}
+.c-warn{background:var(--warn-bg);border-color:var(--warn-bd);color:var(--warn)}
+.c-warn .cl{color:var(--warn)}
+.c-anti{background:var(--danger-bg);border-color:var(--danger-bd);color:var(--danger)}
+.c-anti .cl{color:var(--danger)}
+.c-gov{background:var(--accent-soft);border-color:var(--accent-2);color:var(--accent-text)}
+.c-gov .cl{color:var(--accent-text)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin:20px 0 28px}
+.stat-card{background:var(--paper-2);border:1px solid var(--rule);border-radius:12px;padding:16px 18px}
+.sn{font-family:'Fraunces',Georgia,serif;font-size:34px;font-weight:600;color:var(--accent);line-height:1;display:block;margin-bottom:5px}
+.sl{font-size:13px;color:var(--muted);line-height:1.4}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0 24px}
+.sum-card{background:var(--paper-2);border:1px solid var(--rule);border-radius:12px;padding:18px}
+.sci{font-size:22px;margin-bottom:8px;display:block}
+.sum-card h4{margin:0 0 5px;font-size:14px;font-weight:700;color:var(--ink)}
+.sum-card p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.55}
+.tbl-wrap{margin:16px 0;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;background:var(--paper-2);border-radius:10px;overflow:hidden}
+th,td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);background:#F5F4EF}
+tr:last-child td{border-bottom:none}
+.tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;display:inline-block;white-space:nowrap;border:1px solid}
+.t-std{background:var(--good-bg);color:var(--good);border-color:var(--good-bd)}
+.t-prem{background:var(--prem-bg);color:var(--prem);border-color:var(--prem-bd)}
+.t-cust{background:var(--warn-bg);color:var(--warn);border-color:var(--warn-bd)}
+.t-bad{background:var(--danger-bg);color:var(--danger);border-color:var(--danger-bd)}
+.accordion{margin:12px 0;border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.acc-item{border-bottom:1px solid var(--rule)}
+.acc-item:last-child{border-bottom:none}
+.acc-btn{width:100%;text-align:left;padding:14px 16px;background:var(--paper-2);border:none;font-family:inherit;font-size:14.5px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .12s}
+.acc-btn:hover{background:var(--accent-soft)}
+.acc-btn.open{background:var(--accent-soft);color:var(--accent-text)}
+.acc-arr{font-size:11px;color:var(--muted);transition:transform .2s}
+.acc-btn.open .acc-arr{transform:rotate(180deg);color:var(--accent)}
+.acc-body{display:none;padding:4px 16px 16px;background:var(--paper-2);font-size:14.5px;line-height:1.65}
+.acc-body.open{display:block}
+.pc-grid{display:grid;gap:14px;margin:16px 0}
+.pc{background:var(--paper-2);border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.pc-head{padding:14px 18px 12px;border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:10px}
+.pc-icon{width:34px;height:34px;border-radius:8px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.pc-title{font-size:14.5px;font-weight:700;color:var(--ink)}
+.pc-body{padding:14px 18px}
+.pc-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.pc-mi{font-size:13px;line-height:1.5}
+.pc-ml{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.dtree{margin:20px 0;padding:24px;background:var(--paper-2);border:1px solid var(--rule);border-radius:12px;font-size:13.5px}
+.dt-q{padding:9px 13px;border-radius:7px;margin:6px 0;font-weight:600;background:var(--accent-soft);color:var(--accent-text);border:1px solid rgba(99,102,241,.2)}
+.dt-y{padding:7px 12px;border-radius:7px;margin:4px 0;background:var(--good-bg);color:var(--good);border:1px solid var(--good-bd);font-size:13px}
+.dt-n{padding:7px 12px;border-radius:7px;margin:4px 0;background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger-bd);font-size:13px}
+.dt-act{padding:7px 12px;border-radius:7px;margin:4px 0;background:#F5F4EF;color:var(--ink-soft);border:1px solid var(--rule);font-size:13px}
+.dt-br{padding-left:22px;border-left:2px solid var(--rule);margin-left:6px}
+.dt-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:10px 0 3px}
+.cklist{list-style:none;padding:0;margin:10px 0}
+.cklist li{padding:9px 0 9px 30px;position:relative;border-bottom:1px solid var(--rule);font-size:14.5px;line-height:1.5}
+.cklist li:last-child{border-bottom:none}
+.cklist li::before{content:'';position:absolute;left:0;top:13px;width:17px;height:17px;border:2px solid var(--rule);border-radius:4px;background:var(--paper-2)}
+ul.f{padding-left:0;list-style:none;margin:14px 0 20px}
+ul.f li{padding:9px 0 9px 22px;position:relative;border-bottom:1px solid var(--rule);font-size:15px;line-height:1.55}
+ul.f li:last-child{border-bottom:none}
+ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1px;background:var(--accent)}
+.ib{background:var(--paper-2);border:1px solid var(--rule);border-radius:9px;padding:14px 18px;margin:10px 0;font-size:14px;line-height:1.6}
+.ib-l{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;display:block}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.arch{background:#1E1B2E;color:#C4B5FD;border-radius:10px;padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;overflow-x:auto;margin:16px 0}
+.ornament{text-align:center;color:var(--rule);font-size:20px;letter-spacing:1em;margin:48px 0;user-select:none}
+.pill{display:inline-block;padding:2px 9px;border-radius:12px;font-size:11.5px;font-weight:600}
+.p-std{background:var(--good-bg);color:var(--good)}
+.p-prem{background:var(--prem-bg);color:var(--prem)}
+.p-cust{background:var(--warn-bg);color:var(--warn)}
+.badge{display:inline-block;padding:1px 7px;border-radius:4px;font-size:11px;font-weight:700;border:1px solid}
+.b-yes{background:var(--good-bg);color:var(--good);border-color:var(--good-bd)}
+.b-no{background:var(--danger-bg);color:var(--danger);border-color:var(--danger-bd)}
+.b-dep{background:var(--warn-bg);color:var(--warn);border-color:var(--warn-bd)}
+#btt{position:fixed;bottom:26px;right:26px;width:40px;height:40px;border-radius:50%;background:var(--accent);color:white;border:none;font-size:17px;cursor:pointer;box-shadow:0 4px 16px rgba(67,56,202,.35);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50}
+#btt.vis{opacity:1;pointer-events:auto}
+#btt:hover{transform:translateY(-2px)}
+@media print{
+  @page{size:A4 portrait;margin:14mm 12mm}
+  .sidebar,.mob-nav,#btt{display:none!important}
+  .layout{display:block;max-width:none}
+  .content{padding:0!important}
+  .section{padding:36px 0!important}
+  .hero{background:#1E1B4B!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-size:12px} pre{font-size:11px} a{color:inherit}
+}
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .mob-nav{display:flex}
+  .section{padding:52px 28px 40px}
+  .hero{padding:52px 28px 48px}
+}
+@media(max-width:600px){
+  .section{padding:40px 18px 32px}
+  .hero{padding:40px 18px 40px}
+  .pc-meta{grid-template-columns:1fr}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .two-col{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script>!function(){if(location.hostname!=='viipiin.github.io')return;var K='dmtwdjIwMjU=',n=Date.now();try{var d=JSON.parse(localStorage.getItem('vk_tok')||'');if(d&&d.k===K&&d.e>n)return}catch(e){}location.replace('../index.html')}();</script>
+
+<div class="mob-nav">
+  <span class="mob-nav-title">Cost Optimization Playbook</span>
+  <button class="mob-nav-btn" onclick="openDrawer()">&#9776; Sections</button>
+</div>
+<div class="drawer-ov" id="drawer" onclick="closeDrawerBg(event)" onkeydown="if(event.key==='Escape')closeDrawer()" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="drawer-in" id="drawer-in">
+    <button class="drawer-close" onclick="closeDrawer()" aria-label="Close navigation">&#x2715;</button>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <div class="lbl">Power Platform</div>
+      <div class="nm">Licensing Cost Optimization Playbook</div>
+    </div>
+    <div class="sb-search">
+      <input type="search" id="navq" placeholder="Search sections&hellip;" oninput="filterNav(this.value)" aria-label="Search guide sections">
+    </div>
+    <nav id="toc" aria-label="Guide sections">
+      <a href="#s1" class="nav-link"><span class="nav-num">S1</span>Overview</a>
+      <a href="#s2" class="nav-link"><span class="nav-num">S2</span>Executive Summary</a>
+      <a href="#s3" class="nav-link"><span class="nav-num">S3</span>What Increases Cost</a>
+      <a href="#s4" class="nav-link"><span class="nav-num">S4</span>Decision Framework</a>
+      <a href="#s5" class="nav-link"><span class="nav-num">S5</span>Connector Strategy</a>
+      <a href="#s6" class="nav-link"><span class="nav-num">S6</span>Storage Architecture</a>
+      <a href="#s7" class="nav-link"><span class="nav-num">S7</span>ALM: Pipelines vs DevOps</a>
+      <a href="#s8" class="nav-link"><span class="nav-num">S8</span>Identity Strategy</a>
+      <a href="#s9" class="nav-link"><span class="nav-num">S9</span>Cost-Saving Patterns</a>
+      <a href="#s10" class="nav-link"><span class="nav-num">S10</span>Premium Justified</a>
+      <a href="#s11" class="nav-link"><span class="nav-num">S11</span>Anti-Patterns</a>
+      <a href="#s12" class="nav-link"><span class="nav-num">S12</span>Scripts &amp; Automation</a>
+      <a href="#s13" class="nav-link"><span class="nav-num">S13</span>Client Conversation</a>
+      <a href="#s14" class="nav-link"><span class="nav-num">S14</span>Checklists</a>
+      <a href="#s15" class="nav-link"><span class="nav-num">S15</span>Scenario Walkthroughs</a>
+      <a href="#s16" class="nav-link"><span class="nav-num">S16</span>Resource Library</a>
+      <a href="#s17" class="nav-link"><span class="nav-num">S17</span>FAQ</a>
+      <a href="#s18" class="nav-link"><span class="nav-num">S18</span>Glossary</a>
+    </nav>
+  </aside>
+
+  <main class="content" id="main">
+
+    <!-- S1: HERO -->
+    <section class="hero" id="s1">
+      <div class="hero-ey">Architect's Playbook &middot; Power Platform &middot; 2026 Edition</div>
+      <h1>Power Platform Licensing<br><em>Cost Optimization</em> Playbook</h1>
+      <p class="hero-sub">How to reduce licensing cost responsibly &mdash; without compromising governance, security, ALM maturity, or end-user experience.</p>
+      <div class="hero-note">
+        &#9888;&#65039; <strong>All recommendations are compliance-aware.</strong> The goal is to optimize cost while staying fully compliant with Microsoft licensing terms and product guidance. Always validate final decisions against the <a href="https://learn.microsoft.com/en-us/power-platform/admin/pricing-billing-skus">current Microsoft licensing documentation</a> and your organization's agreement terms.
+      </div>
+      <div class="hero-ctas">
+        <a href="#s4" class="cta-btn cta-p">&rarr; Decision Matrix</a>
+        <a href="#s5" class="cta-btn cta-s">Compare Connectors</a>
+        <a href="#s12" class="cta-btn cta-s">View Scripts</a>
+        <a href="#s7" class="cta-btn cta-s">ALM Patterns</a>
+      </div>
+    </section>
+
+    <!-- S2: EXECUTIVE SUMMARY -->
+    <section class="section" id="s2">
+      <span class="sec-num">Section 2</span>
+      <h2>Executive Summary</h2>
+      <p><em>For client stakeholders, managers, and decision-makers who need the key points in three minutes.</em></p>
+      <div class="persona-bar">
+        <button class="p-btn active" onclick="filterPersona('all',this)">All Audiences</button>
+        <button class="p-btn" onclick="filterPersona('newbie',this)">Newbie</button>
+        <button class="p-btn" onclick="filterPersona('citizen',this)">Citizen Dev</button>
+        <button class="p-btn" onclick="filterPersona('prodev',this)">Pro Dev</button>
+        <button class="p-btn" onclick="filterPersona('architect',this)">Architect</button>
+        <button class="p-btn" onclick="filterPersona('stakeholder',this)">Stakeholder</button>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card"><span class="sn">5</span><span class="sl">License tiers most organizations over-buy unnecessarily</span></div>
+        <div class="stat-card"><span class="sn">3&times;</span><span class="sl">Typical cost multiplier when architecture ignores licensing</span></div>
+        <div class="stat-card"><span class="sn">60%</span><span class="sl">Of internal departmental apps could run on M365-included capabilities</span></div>
+        <div class="stat-card"><span class="sn">18</span><span class="sl">Architecture decision points that materially affect licensing spend</span></div>
+      </div>
+      <div class="callout c-gov">
+        <span class="cl">Governing Principle</span>
+        <strong>Cheapest is not always best.</strong> This guide repeatedly calls out scenarios where the "low cost" option creates hidden operational debt, security risk, or maintenance burden that costs more than the premium license it avoided. The goal is <em>right-sized licensing</em>, not minimum licensing.
+      </div>
+      <h3>The Three Root Causes of Licensing Overspend</h3>
+      <div class="card-grid">
+        <div class="sum-card"><span class="sci">&#128268;</span><h4>Wrong Connector Choices</h4><p>One premium connector in a flow forces premium licensing for every user who runs it. The single most common unexpected cost driver.</p></div>
+        <div class="sum-card"><span class="sci">&#128451;</span><h4>Unnecessary Dataverse</h4><p>Dataverse is often the right choice &mdash; but using it for simple list-style data when SharePoint would suffice adds avoidable per-user premium cost.</p></div>
+        <div class="sum-card"><span class="sci">&#127959;</span><h4>Architecture Without Licensing Awareness</h4><p>Elegant architectures built without licensing awareness force premium patterns that simpler, well-designed alternatives would avoid entirely.</p></div>
+      </div>
+      <h3>Right-Sizing is a Design Activity</h3>
+      <p>Licensing optimization is not a procurement exercise. It happens at the architecture table, before the first line of code is written. The correct question is not "can we afford this license?" &mdash; it is <strong>"does this architectural choice justify this license?"</strong></p>
+      <p>A properly designed Power Platform solution fits the licensing model to the requirement. A poorly designed one forces premium licensing on the cheapest possible requirements, then blames Microsoft pricing for the bill.</p>
+      <h3>What This Guide Covers</h3>
+      <ul class="f">
+        <li><strong>Decision Framework (S4)</strong> &mdash; Structured model: cheapest valid option first, premium only when justified</li>
+        <li><strong>Connector Strategy (S5)</strong> &mdash; How one connector choice changes the entire licensing equation</li>
+        <li><strong>Storage Architecture (S6)</strong> &mdash; SharePoint vs Dataverse vs SQL vs hybrid: cost and governance comparison</li>
+        <li><strong>ALM Strategy (S7)</strong> &mdash; Power Platform Pipelines vs Azure DevOps: when to use which</li>
+        <li><strong>Identity Strategy (S8)</strong> &mdash; Service accounts vs service principals vs managed identities</li>
+        <li><strong>Scripts &amp; Automation (S12)</strong> &mdash; Copy-paste PowerShell and PAC CLI examples</li>
+        <li><strong>Client Conversation Toolkit (S13)</strong> &mdash; Talking points for non-technical stakeholders</li>
+        <li><strong>18 Checklists &middot; 7 Scenario Walkthroughs &middot; Full FAQ &amp; Glossary</strong></li>
+      </ul>
+    </section>
+
+    <!-- S3: WHAT INCREASES COST -->
+    <section class="section" id="s3">
+      <span class="sec-num">Section 3</span>
+      <h2>What Actually Increases Cost in Power Platform?</h2>
+      <p>Understanding the cost drivers <em>before</em> making architecture decisions is the most reliable way to avoid surprise licensing bills.</p>
+      <div class="callout c-warn">
+        <span class="cl">Licensing Validation Required</span>
+        Prices and entitlements change. Validate all licensing specifics against the <a href="https://learn.microsoft.com/en-us/power-platform/admin/pricing-billing-skus">Power Platform pricing page</a> and the <a href="https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/bade/documents/products-and-services/en-us/bizapps/Power-Platform-Licensing-Guide-January-2026-PUB.pdf">Power Platform Licensing Guide (January 2026)</a> before presenting to clients.
+      </div>
+      <h3>1. Premium Connectors &mdash; The Cascade Effect</h3>
+      <p>The most common licensing trap. <strong>Any flow or app that uses even one premium connector requires a premium license for all users who interact with it.</strong> This is the cascade: one premium connector in a shared flow means every user of that flow needs a premium entitlement.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Examples</th><th>Type</th><th>License Required</th></tr></thead>
+          <tbody>
+            <tr><td>SharePoint, Teams, Outlook, OneDrive, Planner, Forms, Excel, Approvals, Notifications</td><td><span class="tag t-std">Standard</span></td><td>Included in M365 / base licenses &mdash; no premium needed</td></tr>
+            <tr><td>SQL Server, Dataverse, HTTP, ServiceNow, Salesforce, Azure Blob Storage, Adobe Sign, DocuSign</td><td><span class="tag t-prem">Premium</span></td><td>Requires Power Apps/Automate Premium, per-app, or per-flow license</td></tr>
+            <tr><td>Any connector you build yourself</td><td><span class="tag t-cust">Custom</span></td><td>Treated as premium &mdash; same licensing implications</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ib">
+        <span class="ib-l">Verify Connector Tier</span>
+        Full standard connector list: <a href="https://learn.microsoft.com/en-us/connectors/connector-reference/connector-reference-standard-connectors">learn.microsoft.com/standard-connectors</a> &mdash; Full premium list: <a href="https://learn.microsoft.com/en-us/connectors/connector-reference/connector-reference-premium-connectors">learn.microsoft.com/premium-connectors</a>. These lists update; verify before finalizing architecture.
+      </div>
+      <h3>2. Dataverse as the Backend</h3>
+      <p>Dataverse requires a Power Apps Premium license (or a Dynamics 365 license that includes Dataverse access). If you build a Canvas App backed by Dataverse and assign it to 50 users, all 50 need premium &mdash; even if the app is simple. This is not a reason to avoid Dataverse; it is a reason to confirm that Dataverse's capabilities (relational model, field-level security, advanced audit, business rules, plugins) are actually required before introducing it.</p>
+      <h3>3. Custom Connectors Are Premium</h3>
+      <p>Building a custom connector to avoid a specific premium connector does <strong>not</strong> save on licensing. Custom connectors are treated as premium and still require premium entitlement for all users. The primary benefit of a custom connector is API contract stability, not licensing reduction.</p>
+      <h3>4. Managed Environments</h3>
+      <p>Managed Environments unlock important governance features: solution checker enforcement, sharing controls, IP firewall, DLP policies, usage insights. However, they require that all active users in the environment have a qualifying premium license or a Managed Environments add-on. Enabling Managed Environments across all environments &mdash; including dev &mdash; before confirming license coverage creates compliance gaps. Source: <a href="https://learn.microsoft.com/en-us/power-platform/admin/managed-environment-licensing">Managed Environments licensing</a>.</p>
+      <h3>5. Per-User vs Per-App &mdash; The Over-Buy Problem</h3>
+      <p>Power Apps per-user grants unlimited apps. Power Apps per-app grants access to one specific app. For users who only ever need a single app, per-app is significantly cheaper. Organizations that blanket-assign per-user without analyzing actual app usage per user are a very common source of avoidable spend.</p>
+      <div class="callout c-gov">
+        <span class="cl">Architecture Action</span>
+        During design, map each user role to the number of Power Platform apps they need. Users needing only one app &rarr; per-app. Users with access to multiple apps &rarr; per-user may become cost-effective at around 3+ apps per user. Validate the crossover point with current official pricing.
+      </div>
+      <h3>6. Unattended / Process Automation</h3>
+      <p>Power Automate flows that run without human interaction (unattended RPA, scheduled flows using premium connectors) may require a per-flow license (a flat fee per flow per month). For high-volume automation with many flows, per-flow can be cost-effective vs per-user. This comparison requires a concrete flow count and user count &mdash; not a rule of thumb.</p>
+      <h3>7. Environment Sprawl</h3>
+      <p>Every Dataverse-enabled environment consumes Dataverse storage capacity. Unmanaged environments accumulate storage charges and introduce governance overhead. They also multiply: development environments become UAT sandboxes for other teams until storage costs appear on billing with no clear owner.</p>
+      <h3>8. The HTTP Connector</h3>
+      <p>The <code>HTTP</code> connector in Power Automate is premium. Any flow that makes a raw API call to an external service requires premium licensing for every user of that flow. This is consistently the least-expected cost driver in integration architectures. Evaluate whether a Logic App, APIM policy, or Azure Function can sit between Power Automate and the external API before defaulting to the HTTP connector.</p>
+      <h3>9. Orphaned Flow Ownership</h3>
+      <p>Flows owned by users who leave an organization stop running and become orphaned at account deactivation. Emergency license assignments or manual ownership transfers at offboarding carry real operational cost &mdash; and these incidents never appear in license budget forecasts. They appear in incident tickets on a Monday morning.</p>
+    </section>
+
+    <!-- S4: DECISION FRAMEWORK -->
+    <section class="section" id="s4">
+      <span class="sec-num">Section 4</span>
+      <h2>Decision Framework: Cheapest Valid Option First</h2>
+      <p>Before selecting any technology, connector, or data store, work through this decision tree. The principle: <strong>start with what M365 already gives you, escalate only when a genuine requirement forces it.</strong> "Architecturally elegant" is not a justification for premium. Business need is.</p>
+
+      <div class="callout c-gov">
+        <span class="cl">Core Principle</span>
+        Do not force premium just because it is the cleaner solution. Premium is justified when standard capabilities create <em>real</em> operational, security, or scalability risk &mdash; not merely because Dataverse or premium connectors feel more robust.
+      </div>
+
+      <h3>The Decision Tree</h3>
+      <div class="dtree">
+        <div class="dt-q">Q1 &mdash; Can this requirement be fully met with Microsoft 365 included capabilities?</div>
+        <div class="dt-br">
+          <div class="dt-lbl">YES &rarr;</div>
+          <div class="dt-y">&#10003; Use SharePoint, Teams, Outlook, Forms, Planner, OneDrive, Excel Online, Approvals. No premium license required. Stop here.</div>
+          <div class="dt-lbl">NO &rarr; Continue to Q2</div>
+        </div>
+        <div class="dt-q">Q2 &mdash; Is the data requirement simple enough for SharePoint Lists or Microsoft Lists?</div>
+        <div class="dt-br">
+          <div class="dt-y">&#10003; YES &mdash; &lt;30M items, no complex relational model, no field-level security, no plugins needed &rarr; Use SharePoint/Lists. Pair with standard connectors. No premium.</div>
+          <div class="dt-n">&#10007; NO &mdash; Need relational model, row-level security, complex audit, or &gt;30M rows &rarr; Dataverse is justified. Premium license required.</div>
+        </div>
+        <div class="dt-q">Q3 &mdash; Does the integration require a premium connector or the HTTP connector?</div>
+        <div class="dt-br">
+          <div class="dt-y">&#10003; NO &mdash; All connectors used are on the standard connector list &rarr; Standard license sufficient.</div>
+          <div class="dt-n">&#10007; YES &mdash; First ask: can the premium connector be wrapped in an Azure Function or Logic App behind a standard trigger? If still unavoidable &rarr; premium required for all users of that flow/app.</div>
+        </div>
+        <div class="dt-q">Q4 &mdash; Is this solution being built inside a Dynamics 365 context where licenses already exist?</div>
+        <div class="dt-br">
+          <div class="dt-y">&#10003; YES &mdash; Many Dynamics 365 licenses include Power Apps and Dataverse use rights. Verify entitlements for your specific D365 license tier &rarr; premium may already be covered.</div>
+          <div class="dt-n">&#10007; NO &mdash; Continue to per-user vs per-app analysis.</div>
+        </div>
+        <div class="dt-q">Q5 &mdash; Do all users need access to multiple premium Power Platform apps?</div>
+        <div class="dt-br">
+          <div class="dt-act">YES (3+ apps) &rarr; Per-user license is likely more economical. Calculate the crossover point with current pricing.</div>
+          <div class="dt-act">NO (1&ndash;2 apps) &rarr; Per-app license is almost always more economical per user. Do the math before purchasing.</div>
+        </div>
+      </div>
+
+      <h3>Scoring Matrix: Architecture Choices vs Licensing Impact</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Architecture Choice</th><th>Standard License OK?</th><th>Premium Required?</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Canvas App + SharePoint + standard connectors only</td><td><span class="badge b-yes">Yes</span></td><td>&mdash;</td><td>M365 users can use this; no additional license needed</td></tr>
+            <tr><td>Canvas App + Dataverse backend</td><td><span class="badge b-no">No</span></td><td><span class="badge b-dep">Premium</span></td><td>All users need Power Apps Premium or per-app</td></tr>
+            <tr><td>Power Automate + standard connectors only</td><td><span class="badge b-yes">Yes</span></td><td>&mdash;</td><td>M365 included; Seeded Power Automate for M365</td></tr>
+            <tr><td>Power Automate + any premium or HTTP connector</td><td><span class="badge b-no">No</span></td><td><span class="badge b-dep">Premium</span></td><td>All users of the flow need Power Automate Premium</td></tr>
+            <tr><td>Power Automate + custom connector</td><td><span class="badge b-no">No</span></td><td><span class="badge b-dep">Premium</span></td><td>Custom = premium; same as premium connector</td></tr>
+            <tr><td>Model-driven App (always uses Dataverse)</td><td><span class="badge b-no">No</span></td><td><span class="badge b-dep">Premium</span></td><td>Model-driven requires Dataverse; premium for all users</td></tr>
+            <tr><td>Power BI embedded in Teams (standard reports)</td><td><span class="badge b-yes">Yes</span></td><td>&mdash;</td><td>Power BI free is included in many M365 plans for basic viewing</td></tr>
+            <tr><td>Per-flow license for 1&ndash;3 unattended flows, many users</td><td>&mdash;</td><td><span class="badge b-dep">Per-flow</span></td><td>Often more economical than per-user for automation-only scenarios</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- S5: CONNECTOR STRATEGY -->
+    <section class="section" id="s5">
+      <span class="sec-num">Section 5</span>
+      <h2>Standard vs Premium vs Custom Connector Strategy</h2>
+      <p>Connector selection is the single highest-leverage licensing decision at the solution design stage. One wrong connector choice can turn a standard-licensed solution into a premium-licensed one for <em>all users</em>.</p>
+
+      <h3>The Fundamental Rule</h3>
+      <p>A Power Apps canvas app or a Power Automate flow takes the <strong>highest licensing tier of any single connector used in it</strong>. A flow using 10 standard connectors and 1 premium connector is a premium flow for all intents and purposes. There is no blending: the licensing tier is determined by the most premium component present.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Tier</th><th>Definition</th><th>License Needed</th><th>Example Connectors</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="pill p-std">Standard</span></td>
+              <td>Connectors included in Microsoft 365 and base Power Platform entitlements</td>
+              <td>M365 license (or base Power Apps/Automate seeded license)</td>
+              <td>SharePoint, Teams, Outlook, OneDrive, Forms, Planner, Excel Online, Approvals, Notifications, Power BI, Azure DevOps (basic), MSN Weather</td>
+            </tr>
+            <tr>
+              <td><span class="pill p-prem">Premium</span></td>
+              <td>Connectors that require a standalone Power Apps / Power Automate Premium license</td>
+              <td>Power Apps Premium, Power Automate Premium, per-app, or per-flow</td>
+              <td>SQL Server, Dataverse, HTTP, Azure Blob Storage, Azure Service Bus, ServiceNow, Salesforce, Zendesk, Adobe Sign, DocuSign, Stripe, SendGrid, GitHub (premium)</td>
+            </tr>
+            <tr>
+              <td><span class="pill p-cust">Custom</span></td>
+              <td>Connectors you build yourself to connect to APIs not covered by built-in connectors</td>
+              <td>Treated as premium &mdash; same requirements as premium connectors</td>
+              <td>Your internal APIs, third-party SaaS APIs not covered by existing connectors, internal microservices</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Cost Comparison Scenarios</h3>
+      <div class="pc-grid">
+        <div class="pc">
+          <div class="pc-head"><div class="pc-icon">&#128994;</div><div class="pc-title">Scenario A &mdash; M365-Centric Internal Approval App</div></div>
+          <div class="pc-body">
+            <p style="font-size:14px;margin:0 0 10px">An internal approval workflow for leave requests. Data stored in SharePoint, approvals via Teams adaptive cards.</p>
+            <div class="pc-meta">
+              <div class="pc-mi"><div class="pc-ml">Connectors Used</div>SharePoint (std), Teams (std), Outlook (std), Approvals (std)</div>
+              <div class="pc-mi"><div class="pc-ml">License Required</div>M365 included &mdash; no premium needed</div>
+              <div class="pc-mi"><div class="pc-ml">Annual Cost (50 users)</div>&#163;0 additional licensing</div>
+              <div class="pc-mi"><div class="pc-ml">Verdict</div><span class="tag t-std">Best Value</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="pc">
+          <div class="pc-head"><div class="pc-icon">&#128992;</div><div class="pc-title">Scenario B &mdash; Same App but with SQL Backend</div></div>
+          <div class="pc-body">
+            <p style="font-size:14px;margin:0 0 10px">Same approval workflow but an architect decides to use SQL Server as the backend instead of SharePoint.</p>
+            <div class="pc-meta">
+              <div class="pc-mi"><div class="pc-ml">Connectors Used</div>SQL Server (premium), Teams (std), Outlook (std)</div>
+              <div class="pc-mi"><div class="pc-ml">License Required</div>Power Apps Premium or per-app for all 50 users</div>
+              <div class="pc-mi"><div class="pc-ml">Annual Cost (50 users)</div>&#163;2,220&ndash;&#163;8,880+ additional (per-app vs per-user)</div>
+              <div class="pc-mi"><div class="pc-ml">Verdict</div><span class="tag t-bad">Avoidable Spend</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="pc">
+          <div class="pc-head"><div class="pc-icon">&#128308;</div><div class="pc-title">Scenario C &mdash; External API Integration with HTTP Connector</div></div>
+          <div class="pc-body">
+            <p style="font-size:14px;margin:0 0 10px">A flow that calls an external REST API to push data to a third-party system. Developer uses the HTTP connector directly in Power Automate.</p>
+            <div class="pc-meta">
+              <div class="pc-mi"><div class="pc-ml">Connectors Used</div>HTTP (premium), SharePoint (std)</div>
+              <div class="pc-mi"><div class="pc-ml">License Required</div>Power Automate Premium for all flow users</div>
+              <div class="pc-mi"><div class="pc-ml">Alternative</div>Route via Azure Function with a standard trigger, or per-flow license</div>
+              <div class="pc-mi"><div class="pc-ml">Verdict</div><span class="tag t-bad">Review Required</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout c-warn">
+        <span class="cl">Compliance Warning</span>
+        Custom connectors are treated as premium connectors by Microsoft licensing. Building a custom connector specifically to "avoid" using a named premium connector does not reduce the licensing requirement. Verify connector tier classification against the <a href="https://learn.microsoft.com/en-us/connectors/connector-reference/connector-reference-premium-connectors">official premium connector list</a> before design finalization.
+      </div>
+
+      <h3>Red-Flag Connector Patterns</h3>
+      <ul class="f">
+        <li><strong>HTTP connector in any user-triggered flow</strong> &mdash; forces premium for all users of that flow; evaluate per-flow license or rerouting via Azure Functions</li>
+        <li><strong>Dataverse connector in a simple list app</strong> &mdash; if the data has no relational requirements, SharePoint often suffices at zero additional license cost</li>
+        <li><strong>Mixing premium and non-premium connectors in shared flows</strong> &mdash; the single premium connector escalates the entire flow's licensing requirement for all users</li>
+        <li><strong>Using a premium connector in a flow that triggers hundreds of users</strong> &mdash; validate whether a per-flow license would be more economical than per-user for all 100+ users</li>
+      </ul>
+    </section>
+
+    <!-- S6: STORAGE ARCHITECTURE -->
+    <section class="section" id="s6">
+      <span class="sec-num">Section 6</span>
+      <h2>Storage &amp; Data Architecture Cost Optimization</h2>
+      <p>The data store you choose is one of the most significant licensing decisions in a Power Platform architecture. This section covers the cost, governance, scale, and ALM tradeoffs for each major option.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>License Cost Impact</th>
+              <th>Scale Ceiling</th>
+              <th>Security / Governance</th>
+              <th>ALM Friendly</th>
+              <th>Best For</th>
+              <th>Avoid When</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>SharePoint Lists</strong></td>
+              <td><span class="tag t-std">None (M365)</span></td>
+              <td>30M items/list; 5,000 row view threshold (manageable)</td>
+              <td>Item-level permissions, M365 groups, no field-level security</td>
+              <td><span class="badge b-yes">Yes</span></td>
+              <td>Internal business apps, &lt;30k rows, simple permissions, departmental use</td>
+              <td>Relational data, field-level security, transactional integrity required</td>
+            </tr>
+            <tr>
+              <td><strong>Microsoft Lists</strong></td>
+              <td><span class="tag t-std">None (M365)</span></td>
+              <td>Same as SharePoint &mdash; Lists is SharePoint</td>
+              <td>Same as SharePoint</td>
+              <td><span class="badge b-yes">Yes</span></td>
+              <td>Tracking, simple forms, team-scoped data; mobile-friendly Teams integration</td>
+              <td>Complex multi-table data, high volume concurrent writes</td>
+            </tr>
+            <tr>
+              <td><strong>Excel Online</strong></td>
+              <td><span class="tag t-std">None (M365)</span></td>
+              <td>~1M rows but performance degrades rapidly above 10k</td>
+              <td>File-level only; no row/column security</td>
+              <td><span class="badge b-no">Poor</span></td>
+              <td>Proof-of-concept only; static reference data</td>
+              <td><strong>Any production system.</strong> Concurrent edits corrupt data. Not suitable as a production database.</td>
+            </tr>
+            <tr>
+              <td><strong>Dataverse</strong></td>
+              <td><span class="tag t-prem">Premium Required</span></td>
+              <td>Millions of rows; enterprise scale</td>
+              <td>Row-level security, field-level security, advanced audit, business rules</td>
+              <td><span class="badge b-yes">Excellent</span></td>
+              <td>Enterprise apps, regulated data, complex security model, relational requirements, model-driven apps</td>
+              <td>Simple list data, small teams, no relational requirements &mdash; overpowered and overpriced for this</td>
+            </tr>
+            <tr>
+              <td><strong>Azure SQL / SQL Server</strong></td>
+              <td><span class="tag t-prem">Premium Required</span></td>
+              <td>Enterprise scale; excellent for high concurrent load</td>
+              <td>Row/column-level security, transparent encryption, Azure AD integration</td>
+              <td><span class="badge b-dep">Depends on DevOps setup</span></td>
+              <td>High-volume transactional systems, existing SQL estate, external developer integration, complex queries</td>
+              <td>Low-code citizen developer solutions; adds unnecessary complexity and DevOps requirements</td>
+            </tr>
+            <tr>
+              <td><strong>Azure Blob / Azure Storage</strong></td>
+              <td><span class="tag t-prem">Premium Required</span></td>
+              <td>Virtually unlimited</td>
+              <td>SAS tokens, Azure AD, immutable storage tiers</td>
+              <td><span class="badge b-dep">N/A</span></td>
+              <td>File storage, document libraries at scale, AI/ML pipelines, binary data</td>
+              <td>Structured relational data; not a database replacement</td>
+            </tr>
+            <tr>
+              <td><strong>Hybrid (SharePoint + Dataverse)</strong></td>
+              <td>Mixed &mdash; premium required for Dataverse portion</td>
+              <td>Combines both ceilings</td>
+              <td>Varies by layer</td>
+              <td><span class="badge b-dep">Complex</span></td>
+              <td>Apps where some data is simple (SharePoint) and some requires enterprise governance (Dataverse)</td>
+              <td>It introduces complexity; only justify if a clean single-store choice is genuinely impossible</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout c-best">
+        <span class="cl">Best Value Default</span>
+        <strong>Start with SharePoint Lists.</strong> For the majority of internal business apps &mdash; tracking, approvals, intake forms, lightweight CRM &mdash; SharePoint Lists is performant enough, secure enough, and costs nothing additional. Move to Dataverse only when a genuine technical requirement forces the upgrade.
+      </div>
+
+      <div class="callout c-prem">
+        <span class="cl">Premium Justified</span>
+        <strong>Use Dataverse when you need:</strong> relational integrity across multiple tables with referential constraints, row-level security beyond SharePoint item permissions, field-level security, business rules and rollup columns, plugin/workflow extensibility, or a model-driven Power Apps interface. These capabilities cannot be replicated in SharePoint without significant custom development that would cost more than the premium license.
+      </div>
+
+      <div class="callout c-anti">
+        <span class="cl">Anti-Pattern</span>
+        <strong>Never use Excel as a production database.</strong> Excel files in SharePoint or OneDrive are not databases. Concurrent editing causes data corruption. There is no transactional integrity. There is no audit trail. There is no conflict resolution. Use this only for PoC/demo scenarios, never in production &mdash; regardless of the licensing saving.
+      </div>
+    </section>
+
+    <!-- S7: ALM -->
+    <section class="section" id="s7">
+      <span class="sec-num">Section 7</span>
+      <h2>ALM &amp; Deployment Strategy: Power Platform Pipelines vs Azure DevOps</h2>
+      <p>Both Power Platform Pipelines and Azure DevOps Build Tools are supported ALM paths. Neither is universally better. The right choice depends on team composition, governance requirements, and the complexity of the solution.</p>
+
+      <h3>Power Platform Pipelines &mdash; When They Are Enough</h3>
+      <ul class="f">
+        <li>Citizen developer or maker-led projects where the team has no Azure DevOps expertise</li>
+        <li>Straightforward source &rarr; test &rarr; production deployment without conditional logic or external approvals</li>
+        <li>Solutions without code components (no plugins, PCF, Azure Functions as part of the release)</li>
+        <li>Small teams (&lt;5 makers) who need a governed promotion path without full DevOps overhead</li>
+        <li>Organizations that want Power Platform admins to own the pipeline configuration without developer involvement</li>
+      </ul>
+      <div class="callout c-gov">
+        <span class="cl">Important Prerequisite</span>
+        Power Platform Pipelines require a <strong>Dataverse database in the host environment</strong>. The pipeline host environment must have a Dataverse database provisioned &mdash; this consumes Dataverse storage capacity. Confirm that this storage is available before committing to Pipelines as your ALM strategy. Source: <a href="https://learn.microsoft.com/en-us/power-platform/alm/set-up-pipelines">Set up pipelines in Power Platform</a>.
+      </div>
+
+      <h3>Azure DevOps Build Tools &mdash; When They Are Better</h3>
+      <ul class="f">
+        <li>Professional developer teams with existing Azure DevOps investment and expertise</li>
+        <li>Solutions containing code components: plugins, custom PCF, Azure Functions, .NET assemblies</li>
+        <li>Multi-repo, multi-solution scenarios requiring conditional logic, branching strategies, or multi-stage pipelines</li>
+        <li>Enterprise compliance requirements for full pipeline audit, SAST/DAST integration, or custom approval gates</li>
+        <li>Solutions that integrate Power Platform deployment with Azure infrastructure deployment (infra + app in one pipeline)</li>
+        <li>Scenarios where automated solution checker enforcement before deployment is required</li>
+      </ul>
+
+      <h3>Architecture: Side-by-Side Comparison</h3>
+      <div class="arch">
+<span style="color:#FDE68A">Power Platform Pipelines</span>                    <span style="color:#FDE68A">Azure DevOps Build Tools</span>
+<span style="color:#6B7280">─────────────────────────────────</span>                <span style="color:#6B7280">─────────────────────────────────────</span>
+<span style="color:#6EE7B7">Dev Environment</span>                                    <span style="color:#6EE7B7">Feature Branch (Git)</span>
+       │                                                    │
+       │ (in-product deploy)                                │ pac solution export / pac solution clone
+       ▼                                                    ▼
+<span style="color:#93C5FD">Pipeline Host Env (Dataverse required)</span>              <span style="color:#93C5FD">Azure DevOps Pipeline</span>
+       │                                                    │  ├─ Solution Checker (optional)
+       │ Automated promotion                                │  ├─ Pack solution
+       ▼                                                    │  ├─ Deploy to Test
+<span style="color:#C4B5FD">Test Environment</span>                                    │  └─ Deploy to Production (with approval gate)
+       │                                                    ▼
+       │ (with approval gates)                        <span style="color:#C4B5FD">Production Environment</span>
+       ▼
+<span style="color:#C4B5FD">Production Environment</span>
+      </div>
+
+      <h3>Comparison Table</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Factor</th><th>PP Pipelines</th><th>Azure DevOps</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Setup complexity</strong></td><td>Low &mdash; in-product UI</td><td>High &mdash; YAML pipelines, service connections, environments</td></tr>
+            <tr><td><strong>Code component support</strong></td><td><span class="badge b-no">No</span></td><td><span class="badge b-yes">Yes</span></td></tr>
+            <tr><td><strong>Dataverse DB required</strong></td><td><span class="badge b-no">Yes (host env)</span></td><td><span class="badge b-yes">No</span></td></tr>
+            <tr><td><strong>Conditional pipeline logic</strong></td><td>Limited</td><td>Full YAML expressions</td></tr>
+            <tr><td><strong>Audit trail</strong></td><td>Deployment history in admin center</td><td>Full Azure DevOps audit + ADO logs</td></tr>
+            <tr><td><strong>Managed Environments recommended</strong></td><td>Yes (for full feature set)</td><td>Optional (but good practice)</td></tr>
+            <tr><td><strong>Citizen dev friendly</strong></td><td><span class="badge b-yes">Yes</span></td><td><span class="badge b-no">No</span></td></tr>
+            <tr><td><strong>Pro dev extensibility</strong></td><td>Limited</td><td>Full (PowerShell, PAC CLI, custom tasks)</td></tr>
+            <tr><td><strong>Cost</strong></td><td>Included with Power Platform (host env Dataverse capacity consumed)</td><td>Azure DevOps licensing + agent costs (free tier available)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Using Both Together</h3>
+      <p>A common pattern in enterprise organizations: use <strong>Azure DevOps for automated CI/CD</strong> (export, pack, validate, promote to test) and use <strong>Power Platform Pipelines for controlled production deployments</strong> with Power Platform admin approval gates. This gives pro devs the automation they need while giving Power Platform admins the governance control they require over production. Source: <a href="https://learn.microsoft.com/en-us/power-platform/alm/devops-build-tools">Power Platform Build Tools for Azure DevOps</a>.</p>
+
+      <div class="callout c-gov">
+        <span class="cl">Custom Host Pipelines</span>
+        Custom host pipelines (configure your own pipeline host environment rather than using the default) are available when multi-tenant governance or advanced isolation is needed. This is only justified for large enterprises managing many solutions across many environments. Source: <a href="https://learn.microsoft.com/en-us/power-platform/alm/custom-host-pipelines">Configure pipelines using a custom host</a>.
+      </div>
+    </section>
+
+    <!-- S8: IDENTITY STRATEGY -->
+    <section class="section" id="s8">
+      <span class="sec-num">Section 8</span>
+      <h2>Identity Strategy: Service Account vs Service Principal vs Application User vs Managed Identity</h2>
+      <p>The identity used to run automation and integrations has direct implications for security, governance, licensing, and operational resilience. This is one of the most commonly underspecified architectural decisions in Power Platform projects.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Identity Type</th><th>What It Is</th><th>License Needed</th><th>Best Use</th><th>Avoid When</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Human-owned account (user)</strong></td>
+              <td>A named user's M365/AAD account owns and runs flows/apps</td>
+              <td>Standard user license</td>
+              <td>Personal flows, development, low-criticality automation</td>
+              <td>Production critical flows &mdash; user leaves, flow dies. Shared credentials, governance nightmare.</td>
+            </tr>
+            <tr>
+              <td><strong>Service Account</strong></td>
+              <td>A shared named AAD user account (not tied to a person) used for automation</td>
+              <td>Requires a full user license (Power Platform license + M365)</td>
+              <td>Legacy integrations where service principal is not supported; quick setup when SP is unavailable</td>
+              <td>New builds &mdash; password rotation risk, MFA complexity, audit ambiguity ("which human did this?"), offboarding risk</td>
+            </tr>
+            <tr>
+              <td><strong>Service Principal</strong></td>
+              <td>An app registration in Azure AD with no human identity. Can be granted roles and access permissions.</td>
+              <td><strong>No user license required</strong> for Power Automate flows it owns. May need Dataverse application user setup.</td>
+              <td>CI/CD pipelines, Azure DevOps connections, ownership of critical production flows, ALM automation</td>
+              <td>Not supported for all Power Automate trigger types &mdash; check supported trigger list. Not ideal for user-delegated flows.</td>
+            </tr>
+            <tr>
+              <td><strong>Application User</strong></td>
+              <td>A Dataverse application user mapped to an Azure AD service principal. Provides non-interactive access to Dataverse.</td>
+              <td><strong>No user license required</strong> for Dataverse access &mdash; application users are non-licensed in Dataverse</td>
+              <td>Backend integrations reading/writing to Dataverse without a human user session, CI/CD, Azure Function-to-Dataverse</td>
+              <td>User-facing flows where delegated identity (acting as the user) is required for row-level security</td>
+            </tr>
+            <tr>
+              <td><strong>Managed Identity</strong></td>
+              <td>An automatically managed AAD identity tied to an Azure resource (Function App, Logic App, AKS, etc.). Credentials managed by Azure.</td>
+              <td>No additional license &mdash; tied to the Azure resource it runs on</td>
+              <td>Azure-side integrations (Azure Function to Dataverse, Azure Function to SharePoint, Logic App to Power Platform APIs)</td>
+              <td>Direct Power Automate flow ownership &mdash; managed identities cannot own Power Automate flows directly (use service principals instead)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>The Critical Licensing Note: Service Principals and Flows</h3>
+      <p>Service principals can own Power Automate cloud flows <strong>without requiring a per-user Power Automate license</strong>. This is officially supported and documented by Microsoft. This makes service principals the correct identity for critical production automation &mdash; the flow does not depend on a human user's license remaining active.</p>
+      <p>Source: <a href="https://learn.microsoft.com/en-us/power-automate/service-principal-support">Support for service principal owned flows</a> | <a href="https://learn.microsoft.com/en-us/power-platform/admin/manage-application-users">Manage application users in Power Platform admin center</a></p>
+
+      <div class="callout c-best">
+        <span class="cl">Best Practice Default</span>
+        <strong>Critical production flows should be owned by a service principal, not a named user.</strong> This removes the dependency on any individual's license, prevents orphaning when users leave, provides clean audit attribution, and aligns with least-privilege principles.
+      </div>
+
+      <h3>Identity Selection Decision Tree</h3>
+      <div class="dtree">
+        <div class="dt-q">Is this automation business-critical or unattended (no human interaction)?</div>
+        <div class="dt-br">
+          <div class="dt-lbl">YES &rarr;</div>
+          <div class="dt-q">Is this running inside Azure (Function App, Logic App, AKS)?</div>
+          <div class="dt-br">
+            <div class="dt-y">YES &rarr; Use Managed Identity on the Azure resource. No credential management needed.</div>
+            <div class="dt-n">NO (Power Automate / Dataverse) &rarr; Use Service Principal + Application User. No user license required for Dataverse access.</div>
+          </div>
+          <div class="dt-lbl">NO (human-triggered, personal, or low-criticality) &rarr;</div>
+          <div class="dt-q">Will this flow/app persist after the owner potentially leaves?</div>
+          <div class="dt-br">
+            <div class="dt-y">NO (truly personal, expected lifecycle = that user) &rarr; Named user ownership is acceptable.</div>
+            <div class="dt-n">YES (team or org-wide flow) &rarr; Use a service account OR migrate to service principal ownership. Service account is acceptable short-term; service principal is the long-term target.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Setting Up a Service Principal for Power Platform</h3>
+      <p>See Section 12 for practical PowerShell and PAC CLI examples. Official reference: <a href="https://learn.microsoft.com/en-us/power-platform/admin/powershell-create-service-principal">Creating a service principal using PowerShell</a> | <a href="https://learn.microsoft.com/en-us/power-platform/admin/powerplatform-api-create-service-principal">Creating a service principal using PAC CLI</a>.</p>
+
+      <div class="callout c-anti">
+        <span class="cl">Anti-Pattern</span>
+        <strong>Shared service accounts with weak or non-rotating passwords are a security and compliance liability.</strong> Service principals with certificate-based authentication (not client secrets) are the secure production pattern. Client secrets expire and rotate; certificates managed in Azure Key Vault are far more robust in enterprise scenarios.
+      </div>
+    </section>
+
+    <!-- S9: COST-SAVING PATTERNS -->
+    <section class="section" id="s9">
+      <span class="sec-num">Section 9</span>
+      <h2>Practical Cost-Saving Patterns</h2>
+      <p>These are concrete, repeatable architectural patterns that reduce licensing cost without compromising quality, governance, or security.</p>
+
+      <div class="pc-grid">
+        <div class="pc">
+          <div class="pc-head"><div class="pc-icon">&#127774;</div><div class="pc-title">Pattern 1 &mdash; Internal Approval App (M365-Only)</div></div>
+          <div class="pc-body">
+            <p style="font-size:13.5px;margin:0 0 8px">Leave requests, purchase approvals, IT access requests &mdash; all using SharePoint + standard connectors + Teams.</p>
+            <div class="pc-meta">
+              <div class="pc-mi"><div class="pc-ml">When to Use</div>Internal teams, &lt;30k rows, no relational data, no external integrations</div>
+              <div class="pc-mi"><div class="pc-ml">Why It Saves Cost</div>Zero additional licensing &mdash; all M365 included. SharePoint for data, Approvals connector for workflow.</div>
+              <div class="pc-mi"><div class="pc-ml">Risks</div>5,000-item view threshold in SharePoint (manageable with indexed columns). No field-level security.</div>
+              <div class="pc-mi"><div class="pc-ml">Governance Note</div>Add SharePoint site-level permissions. Use Power Platform DLP to restrict connectors to Standard-only for this environment.</div>
+            </div>
+          </div>
+        </div>
+        <div class="pc">
+          <div class="pc-head"><div class="pc-icon">&#128196;</div><div class="pc-title">Pattern 2 &mdash; Departmental Intake App (No Dataverse)</div></div>
+          <div class="pc-body">
+            <p style="font-size:13.5px;margin:0 0 8px">Intake forms for HR, facilities, or support desk. Data stored in Microsoft Lists. Notifications via Teams/Outlook.</p>
+            <div class="pc-meta">
+              <div class="pc-mi"><div class="pc-ml">When to Use</div>Single department, form-based data capture, simple reporting via Power BI free</div>
+              <div class="pc-mi"><div class="pc-ml">Why It Saves Cost</div>No premium connectors. Microsoft Lists is included in M365. Reports via Power BI connected to SharePoint data (standard connector).</div>
+              <div class="pc-mi"><div class="pc-ml">Risks</div>Limited reporting capability vs Dataverse native views. No business rules engine.</div>
+              <div class="pc-mi"><div class="pc-ml">Governance Note</div>Document the decision at design review: "Dataverse evaluated and not required because..."</div>
+            </div>
+          </div>
+        </div>
+        <div class="pc">
+          <div class="pc-head"><div class="pc-icon">&#128101;</div><div class="pc-title">Pattern 3 &mdash; Service Principal for Critical Production Flows</div></div>
+          <div class="pc-body">
+            <p style="font-size:13.5px;margin:0 0 8px">Any business-critical unattended flow (nightly sync, order processing, integration) owned by a service principal, not a named user.</p>
+            <div class="pc-meta">
+              <div class="pc-mi"><div class="pc-ml">When to Use</div>Production flows that must survive user offboarding; unattended automation; integration flows</div>
+              <div class="pc-mi"><div class="pc-ml">Why It Saves Cost</div>No user license required for SP-owned flows. Eliminates license-at-risk when users leave. Reduces emergency re-assignment incidents.</div>
+              <div class="pc-mi"><div class="pc-ml">Risks</div>Setup complexity higher than user-owned flows. Limited to supported trigger types &mdash; verify compatibility.</div>
+              <div class="pc-mi"><div class="pc-ml">Governance Note</div>Register SP in Azure AD. Create application user in Dataverse if Dataverse access needed. Assign least-privilege roles only.</div>
+            </div>
+          </div>
+        </div>
+        <div class="pc">
+          <div class="pc-head"><div class="pc-icon">&#9881;&#65039;</div><div class="pc-title">Pattern 4 &mdash; PP Pipelines Instead of Azure DevOps (Citizen Dev Teams)</div></div>
+          <div class="pc-body">
+            <p style="font-size:13.5px;margin:0 0 8px">Use built-in Power Platform Pipelines for solution promotion instead of standing up Azure DevOps pipelines for simple maker-led solutions.</p>
+            <div class="pc-meta">
+              <div class="pc-mi"><div class="pc-ml">When to Use</div>Maker-led projects, no code components, small teams, solutions without CI/CD complexity</div>
+              <div class="pc-mi"><div class="pc-ml">Why It Saves Cost</div>No Azure DevOps setup cost. Admin-controlled in Power Platform admin center. No DevOps agent costs for simple solutions.</div>
+              <div class="pc-mi"><div class="pc-ml">Risks</div>Requires Dataverse database in host environment (storage cost). Limited conditional logic vs full YAML pipelines.</div>
+              <div class="pc-mi"><div class="pc-ml">Governance Note</div>Manage Environments are recommended for the full pipeline feature set but may require premium license coverage for all users.</div>
+            </div>
+          </div>
+        </div>
+        <div class="pc">
+          <div class="pc-head"><div class="pc-icon">&#128274;</div><div class="pc-title">Pattern 5 &mdash; Application User for Azure-to-Dataverse Integration</div></div>
+          <div class="pc-body">
+            <p style="font-size:13.5px;margin:0 0 8px">Azure Function or Logic App writing to Dataverse using an application user (no interactive user session, no user license consumed).</p>
+            <div class="pc-meta">
+              <div class="pc-mi"><div class="pc-ml">When to Use</div>Backend data pipelines, Azure-side integration writing to Dataverse, system-to-system sync</div>
+              <div class="pc-mi"><div class="pc-ml">Why It Saves Cost</div>Application users in Dataverse do not consume user licenses. The Azure Function itself needs Azure consumption cost, not PP license.</div>
+              <div class="pc-mi"><div class="pc-ml">Risks</div>Application user acts with its configured roles &mdash; ensure least privilege. No per-row ownership delegation by default.</div>
+              <div class="pc-mi"><div class="pc-ml">Governance Note</div>Source: <a href="https://learn.microsoft.com/en-us/power-platform/admin/create-dataverseapplicationuser">Create a Dataverse application user</a></div>
+            </div>
+          </div>
+        </div>
+        <div class="pc">
+          <div class="pc-head"><div class="pc-icon">&#127758;</div><div class="pc-title">Pattern 6 &mdash; Standardize an Approved Connector Catalog</div></div>
+          <div class="pc-body">
+            <p style="font-size:13.5px;margin:0 0 8px">Publish a list of pre-approved connectors for each environment tier. Standard-only for departmental, premium-allowed only for enterprise environments with licensed users.</p>
+            <div class="pc-meta">
+              <div class="pc-mi"><div class="pc-ml">When to Use</div>Any organization with multiple teams building on Power Platform</div>
+              <div class="pc-mi"><div class="pc-ml">Why It Saves Cost</div>Prevents accidental premium connector use in standard-licensed environments. Prevents license non-compliance by design.</div>
+              <div class="pc-mi"><div class="pc-ml">Risks</div>Over-restriction can block legitimate business needs. Catalog needs a review process for exceptions.</div>
+              <div class="pc-mi"><div class="pc-ml">Governance Note</div>Enforce via DLP policies in Power Platform admin center. Document the approved catalog in your CoE guidance.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S10: PREMIUM JUSTIFIED -->
+    <section class="section" id="s10">
+      <span class="sec-num">Section 10</span>
+      <h2>Premium is Justified When&hellip;</h2>
+      <p>This section is as important as any cost-saving guidance. A guide that only focuses on cost reduction without acknowledging when premium is the correct choice is not credible &mdash; and architects who recommend premium-avoidance in the wrong scenarios create expensive technical debt.</p>
+
+      <div class="callout c-prem">
+        <span class="cl">Premium Justified</span>
+        Premium licensing is justified when the alternative would create technical debt, security risk, operational fragility, or ongoing maintenance burden whose total cost exceeds the premium license. "It's cheaper up front" is never a complete cost analysis.
+      </div>
+
+      <div class="accordion">
+        <div class="acc-item">
+          <button class="acc-btn">Enterprise Data Model Requiring Dataverse <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body">
+            <p>When a solution requires a relational data model with multiple tables, referential integrity, complex queries across entities, field-level security, advanced audit trails, or business rules that execute on data changes &mdash; Dataverse is the correct choice. Attempting to replicate this in SharePoint creates a fragile, unsupported workaround with higher maintenance cost than the premium license.</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">Advanced Security Requirements <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body">
+            <p>Field-level security (restricting specific columns from specific users), row-level security based on team/business unit hierarchy, and advanced audit logging that cannot be compromised in regulated environments &mdash; these require Dataverse. SharePoint item-level permissions are not equivalent for regulated data scenarios.</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">Transactional Scale and Concurrent Write Volume <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body">
+            <p>When a solution handles high concurrent writes (hundreds per minute), requires ACID transactional guarantees, or must handle tens of millions of records with complex filters and sorts &mdash; Dataverse or Azure SQL is appropriate. SharePoint's performance at high concurrency is not guaranteed and not the right tool for high-throughput transactional systems.</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">Complex External System Integration <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body">
+            <p>When integrating with SAP, Salesforce, ServiceNow, or other enterprise SaaS platforms &mdash; the premium connector for that platform often provides a battle-tested, Microsoft-maintained integration with robust error handling, authentication, and pagination. Building a workaround via Azure Functions to avoid the premium connector frequently results in significantly more development and maintenance cost.</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">Mission-Critical Enterprise Automation <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body">
+            <p>High-value automation processes (purchase order processing, customer onboarding, financial reconciliation) where reliability, observability, and auditability must be demonstrably production-grade. Per-flow licensing for these scenarios provides a flat, predictable cost for the automation regardless of user count, and justifies the investment vs per-user at scale.</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">Long-Term TCO Favors Premium <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body">
+            <p>A SharePoint-based workaround maintained by developers costs developer time every time SharePoint changes, every time the list schema needs to evolve, and every time a relational query grows more complex. After 18 months of maintenance cost on a "free" SharePoint solution, the premium Dataverse license may be cheaper in total cost. Always model the 3-year TCO, not just the year-one license cost.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S11: ANTI-PATTERNS -->
+    <section class="section" id="s11">
+      <span class="sec-num">Section 11</span>
+      <h2>Anti-Patterns, False Savings &amp; Red Flags</h2>
+      <p>These are patterns that appear to save cost but create operational risk, security liability, or technical debt that outweighs the licensing saving. An architect who recommends these patterns is not saving the client money &mdash; they are deferring cost to a harder-to-recover-from future problem.</p>
+
+      <div class="callout c-anti">
+        <span class="cl">Anti-Pattern</span>
+        <strong>Excel as a Production Database.</strong> No concurrent write protection. No transactional integrity. No audit trail. No conflict resolution. Files become corrupted under simultaneous editing. Absolute ceiling: proof-of-concept and demos only. Never in production, regardless of the licensing saving. This is the most common false economy in the Power Platform ecosystem.
+      </div>
+
+      <div class="callout c-anti">
+        <span class="cl">Anti-Pattern</span>
+        <strong>Unsupported Tricks to Avoid Premium Licensing.</strong> Building workarounds specifically designed to avoid triggering premium licensing requirements &mdash; such as chaining flows in unsupported ways, using internal connector APIs not exposed in the official connector &mdash; is not cost optimization. It is license avoidance and violates Microsoft's product terms. These patterns break without warning on product updates and are not supportable.
+      </div>
+
+      <div class="callout c-anti">
+        <span class="cl">Anti-Pattern</span>
+        <strong>Building a Custom Connector to Avoid a Premium Connector.</strong> Custom connectors are also premium. This achieves nothing on the licensing front while adding a connector maintenance burden. The only reason to build a custom connector is API contract control &mdash; not licensing savings.
+      </div>
+
+      <div class="callout c-anti">
+        <span class="cl">Anti-Pattern</span>
+        <strong>Using Personal User Accounts for Critical Production Automation.</strong> When the flow owner's account is disabled, the flow stops. In production this is a P1 incident. Service principals exist precisely to solve this problem.
+      </div>
+
+      <div class="callout c-anti">
+        <span class="cl">Anti-Pattern</span>
+        <strong>No Environment Strategy.</strong> Every project in the default environment. No dev/test/prod separation. No solution management. When something breaks in production, nobody knows what changed or when. The "cost saving" of not setting up environments is routinely paid back in incident recovery costs.
+      </div>
+
+      <div class="callout c-anti">
+        <span class="cl">Anti-Pattern</span>
+        <strong>Buying Per-User Premium for Everyone Without Usage Analysis.</strong> Before purchasing per-user for your entire organization, map which users actually need premium capabilities. Users who only access M365-backed standard apps may not need premium at all. Users who need only one premium app may be better served by per-app licensing. This analysis takes hours and can save thousands per year.
+      </div>
+
+      <div class="callout c-anti">
+        <span class="cl">Anti-Pattern</span>
+        <strong>Unmanaged Solutions in Production.</strong> Solutions not in a managed deployment are mutable by any maker in the environment. Changes bypass ALM, bypass testing, and bypass approval gates. This is not a licensing issue but a governance issue that directly multiplies operational cost through incident frequency.
+      </div>
+
+      <div class="callout c-anti">
+        <span class="cl">Anti-Pattern</span>
+        <strong>Storing Secrets in Flow Variables or SharePoint Lists.</strong> Client IDs, client secrets, API keys in plain text in flow configuration or SharePoint lists. Use Azure Key Vault (accessible via custom connector or Azure Function) or environment variables with secret handling. The security remediation of a secret leak costs far more than the infrastructure for proper secret management.
+      </div>
+
+      <div class="callout c-warn">
+        <span class="cl">False Economy</span>
+        <strong>Cheap Today, Expensive Tomorrow.</strong> The most insidious cost pattern: a solution that costs less up front but accumulates a growing maintenance, rework, and incident-response burden. Common examples: SharePoint-based relational data that outgrows its design, service account flows that break at every offboarding cycle, unmanaged environments that proliferate until storage costs exceed the Dataverse license that would have governed them.
+      </div>
+    </section>
+
+    <!-- S12: SCRIPTS & AUTOMATION -->
+    <section class="section" id="s12">
+      <span class="sec-num">Section 12</span>
+      <h2>Scripts, Automation &amp; Setup Tips</h2>
+      <div class="callout c-warn">
+        <span class="cl">Important Disclaimer</span>
+        All code examples below are <strong>samples only</strong>. Validate in your own tenant before production use. Replace all placeholder values (TENANT_ID, APP_ID, etc.) with your actual values. Manage secrets and certificates to enterprise standards &mdash; never hardcode secrets in scripts. Apply least-privilege principle to all assigned roles.
+      </div>
+
+      <h3>UI / Admin Center Step-by-Step Tips</h3>
+      <ul class="f">
+        <li><strong>Create a non-default environment with Dataverse:</strong> Power Platform Admin Center &rarr; Environments &rarr; New &rarr; select type "Sandbox" or "Production" &rarr; enable Dataverse &rarr; set region and currency</li>
+        <li><strong>Enable Managed Environments:</strong> Admin Center &rarr; Environments &rarr; select environment &rarr; Edit Managed Environments &rarr; toggle on. Confirm all active users have qualifying licenses first.</li>
+        <li><strong>Set DLP policies:</strong> Admin Center &rarr; Data Policies &rarr; New Policy &rarr; set connector classification (Standard / Premium / Blocked) by environment scope</li>
+        <li><strong>Create an Application User:</strong> Admin Center &rarr; Environments &rarr; select environment &rarr; Settings &rarr; Users + Permissions &rarr; Application Users &rarr; New App User &rarr; select your App Registration</li>
+        <li><strong>Manage pipeline deployments:</strong> Power Apps / Power Automate maker portal &rarr; Solutions &rarr; select solution &rarr; Pipelines tab &rarr; configure stages and deploy</li>
+      </ul>
+
+      <h3>PowerShell / PAC CLI Automation Tips</h3>
+
+      <div class="pre-lbl">PowerShell &mdash; Register a Service Principal for Power Platform</div>
+      <pre><code># Requires: Install-Module -Name Microsoft.PowerApps.Administration.PowerShell
+# SAMPLE ONLY - validate in your tenant before use
+
+# Step 1: Authenticate as a Power Platform admin
+Add-PowerAppsAccount
+
+# Step 2: Register the service principal
+# Replace APP_ID with your Azure AD App Registration application ID
+New-PowerAppManagementApp -ApplicationId "YOUR_APP_ID_HERE"
+
+# Verify registration
+Get-PowerAppManagementApp | Where-Object { $_.ApplicationId -eq "YOUR_APP_ID_HERE" }
+
+# Reference: https://learn.microsoft.com/en-us/power-platform/admin/powershell-create-service-principal</code></pre>
+
+      <div class="pre-lbl">PAC CLI &mdash; Create Application User via Power Platform API</div>
+      <pre><code># Requires: PAC CLI installed (https://learn.microsoft.com/en-us/power-platform/developer/cli/introduction)
+# SAMPLE ONLY
+
+# Authenticate
+pac auth create --environment https://YOUR_ORG.crm.dynamics.com
+
+# Create application user in an environment
+# Replace values with your actual tenant/app/environment IDs
+pac admin assign-user \
+  --environment YOUR_ENVIRONMENT_ID \
+  --application-id YOUR_APP_ID \
+  --role "System Administrator"   # use least-privilege role in practice
+
+# Reference: https://learn.microsoft.com/en-us/power-platform/admin/powerplatform-api-create-service-principal</code></pre>
+
+      <div class="pre-lbl">PowerShell &mdash; Enable Managed Environments</div>
+      <pre><code># SAMPLE ONLY - confirm all users have qualifying licenses before enabling
+# Enabling Managed Environments on an environment without licensed users = compliance gap
+
+Set-AdminPowerAppEnvironmentGovernanceConfiguration `
+  -EnvironmentName "YOUR_ENVIRONMENT_ID" `
+  -UpdatedGovernanceConfiguration @{
+    protectionLevel = "Standard"  # or "Premium" for full Managed Env features
+  }
+
+# Reference: https://learn.microsoft.com/en-us/power-platform/admin/managed-environment-overview</code></pre>
+
+      <div class="pre-lbl">Azure DevOps &mdash; Service Principal Authentication for Power Platform Build Tools</div>
+      <pre><code># In your Azure DevOps pipeline YAML - SAMPLE ONLY
+# Uses a service connection configured with a service principal
+
+steps:
+- task: PowerPlatformToolInstaller@2
+  displayName: 'Install Power Platform Build Tools'
+
+- task: PowerPlatformExportSolution@2
+  displayName: 'Export Solution'
+  inputs:
+    authenticationType: 'PowerPlatformSPN'        # Service Principal auth
+    PowerPlatformSPN: 'YOUR_SERVICE_CONNECTION'   # Configure in ADO project settings
+    SolutionName: 'YourSolutionName'
+    SolutionOutputFile: '$(Build.ArtifactStagingDirectory)/YourSolution.zip'
+    Managed: false
+
+# Reference: https://learn.microsoft.com/en-us/power-platform/alm/devops-build-tools
+# ADO SP auth: https://learn.microsoft.com/en-us/azure/devops/integrate/get-started/authentication/service-principal-managed-identity</code></pre>
+    </section>
+
+    <!-- S13: CLIENT CONVERSATION -->
+    <section class="section" id="s13">
+      <span class="sec-num">Section 13</span>
+      <h2>Client Conversation Toolkit</h2>
+      <p>These are ready-to-use talking points for architect, PM, and advisory conversations with clients who question licensing decisions.</p>
+
+      <div class="accordion">
+        <div class="acc-item">
+          <button class="acc-btn">"Why do we need this premium license?" <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body">
+            <p><strong>Recommended response:</strong> "This license is required because [specific connector / Dataverse / feature] is being used in your solution. I have reviewed the architecture and this is the cheapest license that covers the functionality your business requires. We evaluated [standard alternative] first, but it [specific reason why it was insufficient]. I can walk you through the decision if that would help."</p>
+            <p><strong>What not to say:</strong> "Microsoft requires it" without context, or "It's only [price]" without acknowledging the cost concern.</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">"Can't we just do this with SharePoint?" <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body">
+            <p><strong>If SharePoint genuinely works:</strong> "Yes, we can and we should. For this requirement &mdash; [simple intake form / approval workflow / departmental tracker] &mdash; SharePoint with standard Power Platform connectors is the right tool. It costs nothing additional if you have M365."</p>
+            <p><strong>If SharePoint genuinely doesn't work:</strong> "SharePoint is a great fit for simpler list-based data. For this solution, we need [relational integrity / field-level security / high concurrency / complex queries] which SharePoint does not support at the required level. Here's what would happen if we tried to force it into SharePoint: [specific failure mode]. The Dataverse premium license cost is actually cheaper than the rework we'd be doing in 12 months."</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">"What if we avoid Dataverse?" <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body">
+            <p>"That's a fair question &mdash; and we always start by asking it ourselves. For this solution, the requirement that makes Dataverse necessary is [specific requirement]. Without Dataverse, we would need to build [custom workaround description], which would cost approximately [developer days] more to build and [ongoing effort] to maintain. Over a 3-year horizon, Dataverse is the cheaper option. I'm happy to show you the analysis."</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">"Why not just use a shared account instead of a service principal?" <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body">
+            <p>"A shared account would work today, but it creates risk we'd rather avoid. When the person who created the account leaves, or the password expires, or the account gets flagged in a security audit &mdash; the automation stops. That's a production incident. A service principal is a non-human identity that doesn't depend on any person staying in the organization. It's also the identity pattern Microsoft recommends for this scenario. The setup takes a few hours; the protection is permanent."</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">How to position governance as a cost saver <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body">
+            <p>"Every environment without governance eventually becomes someone's emergency. The cost of poor governance shows up as: incident response time when a critical flow breaks, developer rework when data models are wrong, storage bills from unconstrained environment growth, and compliance findings from audits. Investing in governance now &mdash; proper environments, DLP policies, solution management, identity strategy &mdash; is the cheapest way to run Power Platform long-term. Governance is not overhead; it is insurance against much larger costs."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S14: CHECKLISTS -->
+    <section class="section" id="s14">
+      <span class="sec-num">Section 14</span>
+      <h2>Checklists</h2>
+
+      <h3>&#10003; Licensing Review Checklist</h3>
+      <ul class="cklist">
+        <li>Map every connector used to its tier (standard / premium / custom) using the official connector reference lists</li>
+        <li>Confirm that all users interacting with premium flows/apps have the required license type</li>
+        <li>Evaluate per-app vs per-user: calculate the break-even at current pricing for your user counts</li>
+        <li>Identify any flows using HTTP connector &mdash; evaluate per-flow license vs per-user</li>
+        <li>Confirm Managed Environment license coverage before enabling Managed Environments</li>
+        <li>Validate Dataverse storage allocation is sufficient for planned environments</li>
+        <li>Check if any Dynamics 365 licenses already in use cover Power Platform entitlements</li>
+      </ul>
+
+      <h3>&#10003; Connector Selection Checklist</h3>
+      <ul class="cklist">
+        <li>Identify the data source and target for each integration point</li>
+        <li>Check the standard connector list first &mdash; use standard if available</li>
+        <li>If premium connector seems needed, ask: can an Azure Function or Logic App sit in front of this to avoid the connector?</li>
+        <li>Document connector selection rationale at design review ("standard evaluated, premium justified because...")</li>
+        <li>Add connector selection to DLP policy review for the target environment</li>
+        <li>Never use a custom connector to circumvent premium licensing &mdash; it is still premium</li>
+      </ul>
+
+      <h3>&#10003; Environment Setup Checklist</h3>
+      <ul class="cklist">
+        <li>Define environment strategy: how many environments, what purpose, what solutions live where</li>
+        <li>Confirm each environment has a named owner and a defined lifecycle</li>
+        <li>Apply DLP policies at environment creation, not as an afterthought</li>
+        <li>Confirm Dataverse database is only provisioned where actually required (storage cost)</li>
+        <li>Document which environments are Managed Environments and confirm license coverage</li>
+        <li>Set environment-level admin access; restrict default environment from production use</li>
+      </ul>
+
+      <h3>&#10003; Service Identity Checklist</h3>
+      <ul class="cklist">
+        <li>Identify all production flows and their current owners</li>
+        <li>Flag any flows owned by named users that are business-critical or unattended</li>
+        <li>Create service principals for critical automation flows</li>
+        <li>Create application users in Dataverse for backend integration (non-interactive)</li>
+        <li>Assign least-privilege roles to all service principals and application users</li>
+        <li>Store client secrets / certificates in Azure Key Vault; never in flow variables or lists</li>
+        <li>Document service principal IDs and role assignments in your solution documentation</li>
+      </ul>
+
+      <h3>&#10003; Pre-Client Proposal Checklist</h3>
+      <ul class="cklist">
+        <li>Have you mapped each solution component to its required license tier?</li>
+        <li>Have you evaluated per-app vs per-user for the proposed user counts?</li>
+        <li>Have you documented why Dataverse is or isn't required?</li>
+        <li>Have you validated connector choices against the official standard/premium connector lists?</li>
+        <li>Have you identified the identity strategy for all automation components?</li>
+        <li>Have you included a 3-year TCO estimate, not just year-one license cost?</li>
+        <li>Does the proposal include an environment and ALM strategy?</li>
+      </ul>
+    </section>
+
+    <!-- S15: SCENARIOS -->
+    <section class="section" id="s15">
+      <span class="sec-num">Section 15</span>
+      <h2>Scenario Walkthroughs</h2>
+
+      <h3>Scenario 1 &mdash; Small Internal Team App</h3>
+      <div class="ib">
+        <span class="ib-l">Requirement</span>
+        A 15-person facilities team needs an app to log maintenance requests, assign them to technicians, and track completion.
+      </div>
+      <div class="two-col">
+        <div class="ib"><span class="ib-l">Low-Cost Option</span>Canvas App + SharePoint List + Power Automate (standard connectors) + Teams notifications. Estimated additional license cost: &#163;0 (M365 included). Build time: 3&ndash;5 days.</div>
+        <div class="ib"><span class="ib-l">When Premium Becomes Necessary</span>If advanced auditing, field-level security on job details, or SLA tracking with complex rules is needed &rarr; Dataverse + per-app or per-user license for 15 users.</div>
+      </div>
+      <div class="callout c-best"><span class="cl">Recommendation</span>Start with SharePoint. Ship fast. Revisit in 6 months if requirements grow. Do not pre-build complexity.</div>
+
+      <h3>Scenario 2 &mdash; Departmental Approval Workflow</h3>
+      <div class="ib"><span class="ib-l">Requirement</span>50-person HR department needs a leave approval workflow with manager email approval and SharePoint audit log.</div>
+      <div class="two-col">
+        <div class="ib"><span class="ib-l">Low-Cost Option</span>Power Automate + SharePoint (list for leave records) + Approvals connector + Outlook connector. All standard. Zero additional licensing for M365 users.</div>
+        <div class="ib"><span class="ib-l">When Premium Becomes Necessary</span>If integration with SAP HR or Workday is required for leave balance sync &rarr; premium connector or custom connector required. Per-flow license likely most economical.</div>
+      </div>
+
+      <h3>Scenario 3 &mdash; Enterprise Solution with External API Integration</h3>
+      <div class="ib"><span class="ib-l">Requirement</span>200-user customer service team needs a Canvas App with Dataverse backend, integrating with Salesforce for customer data and ServiceNow for ticketing.</div>
+      <div class="two-col">
+        <div class="ib"><span class="ib-l">Recommended Architecture</span>Canvas App + Dataverse + Salesforce connector (premium) + ServiceNow connector (premium). Per-user premium for all 200 users. Service principal owns integration flows.</div>
+        <div class="ib"><span class="ib-l">Risk Notes</span>Dataverse justified by relational data model and field-level security. Premium connectors justified by enterprise integration complexity. Workarounds would cost more. 3-year TCO favors premium.</div>
+      </div>
+      <div class="callout c-prem"><span class="cl">Premium Justified</span>This scenario genuinely requires premium. Trying to avoid it via custom connectors or SharePoint workarounds adds months of development and fragile maintenance burden.</div>
+
+      <h3>Scenario 4 &mdash; Regulated Environment</h3>
+      <div class="ib"><span class="ib-l">Requirement</span>Financial services organization, 100 users, app handling customer financial data. Must meet data residency, audit, and access control requirements.</div>
+      <div class="two-col">
+        <div class="ib"><span class="ib-l">Required Architecture</span>Managed Environment, Dataverse with field-level security and audit enabled, service principal for all automation, IP firewall, DLP policies enforced, solutions only via managed deployment. Premium required for all users.</div>
+        <div class="ib"><span class="ib-l">Cost Optimization Within Premium</span>Evaluate per-app vs per-user for users accessing only one app. Evaluate per-flow for unattended automation flows. Confirm D365 license entitlements before buying standalone Power Apps licenses.</div>
+      </div>
+
+      <h3>Scenario 5 &mdash; M365-First Low-Cost Alternative</h3>
+      <div class="ib"><span class="ib-l">Requirement</span>Department wants to replace a spreadsheet-based tracker for 30 people. Basic CRUD, view all records, simple filter.</div>
+      <div class="two-col">
+        <div class="ib"><span class="ib-l">Zero-Cost Path</span>Microsoft Lists (Teams-integrated) + Power Automate (standard connectors for notifications). Cost: &#163;0. Build: 1 day. Supports 30 concurrent users easily at this data volume.</div>
+        <div class="ib"><span class="ib-l">Common Mistake to Avoid</span>Building a Canvas App backed by Dataverse for this requirement. Adds &#163;2,220&ndash;&#163;8,880+ per year in licenses for functionality Microsoft Lists provides for free.</div>
+      </div>
+    </section>
+
+    <!-- S16: RESOURCE LIBRARY -->
+    <section class="section" id="s16">
+      <span class="sec-num">Section 16</span>
+      <h2>Resource Library</h2>
+      <p>All primary sources are official Microsoft documentation. Secondary/community sources are clearly labeled.</p>
+
+      <h3>Licensing &amp; Pricing</h3>
+      <ul class="f">
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/pricing-billing-skus">Power Platform Pricing &amp; Licensing Overview &mdash; Microsoft Learn</a></li>
+        <li><a href="https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/bade/documents/products-and-services/en-us/bizapps/Power-Platform-Licensing-Guide-January-2026-PUB.pdf">Power Platform Licensing Guide (January 2026 PDF) &mdash; Microsoft</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/managed-environment-licensing">Managed Environments Licensing &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/managed-environment-overview">Managed Environments Overview &mdash; Microsoft Learn</a></li>
+      </ul>
+
+      <h3>Connectors</h3>
+      <ul class="f">
+        <li><a href="https://learn.microsoft.com/en-us/connectors/connector-reference/connector-reference-standard-connectors">Standard Connectors Reference &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/connectors/connector-reference/connector-reference-premium-connectors">Premium Connectors Reference &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/connectors/custom-connectors/">Custom Connectors Overview &mdash; Microsoft Learn</a></li>
+      </ul>
+
+      <h3>ALM &amp; Pipelines</h3>
+      <ul class="f">
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/alm/pipelines">Overview of Pipelines in Power Platform &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/alm/set-up-pipelines">Set Up Pipelines in Power Platform &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/alm/custom-host-pipelines">Configure Pipelines Using a Custom Host &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/alm/devops-build-tools">Power Platform Build Tools for Azure DevOps &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/alm/devops-build-tool-tasks">Power Platform Build Tools Tasks &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/shows/devops-lab/how-to-deploy-power-platform-with-azure-devops">How to Deploy Power Platform with Azure DevOps (Video) &mdash; Microsoft DevOps Lab</a></li>
+      </ul>
+
+      <h3>Identity &amp; Service Principals</h3>
+      <ul class="f">
+        <li><a href="https://learn.microsoft.com/en-us/power-automate/service-principal-support">Support for Service Principal Owned Flows &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/manage-application-users">Manage Application Users &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/create-dataverseapplicationuser">Create a Dataverse Application User &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/powershell-create-service-principal">Creating a Service Principal Using PowerShell &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/powerplatform-api-create-service-principal">Creating a Service Principal Using PAC CLI &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-automate/dataverse/manage-dataverse-connections">Manage Dataverse Connections / Service Principal Connections &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/devops/integrate/get-started/authentication/service-principal-managed-identity?view=azure-devops">Use Service Principals and Managed Identities in Azure DevOps &mdash; Microsoft Learn</a></li>
+      </ul>
+
+      <h3>PAC CLI</h3>
+      <ul class="f">
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/introduction">Power Platform CLI Overview &mdash; Microsoft Learn</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/admin">Power Platform CLI Admin Reference &mdash; Microsoft Learn</a></li>
+      </ul>
+    </section>
+
+    <!-- S17: FAQ -->
+    <section class="section" id="s17">
+      <span class="sec-num">Section 17</span>
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="accordion">
+        <div class="acc-item">
+          <button class="acc-btn">Does using SharePoint always avoid premium licensing? <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body"><p>Not necessarily. Using SharePoint as a data store with <strong>only standard connectors</strong> in your flows and apps does avoid premium. However, if any other connector in the same flow is premium (e.g., HTTP, SQL, ServiceNow), the entire flow becomes premium-requiring regardless of SharePoint's inclusion. SharePoint itself is a standard connector &mdash; it is the other connectors in the same solution that determine the tier.</p></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">Do custom connectors require premium licensing? <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body"><p>Yes. Custom connectors are classified as premium by Microsoft licensing. Any flow or app that uses a custom connector requires premium licensing for all users interacting with that flow or app, regardless of what other connectors are used. Custom connectors are not a way to avoid premium licensing.</p></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">Is Dataverse always premium? <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body"><p>The Dataverse <strong>connector</strong> is premium, yes. This means apps and flows connecting to Dataverse require premium licensing for users. However, if users have a qualifying Dynamics 365 license that includes Dataverse use rights, the Power Apps/Automate premium entitlement may already be covered. Always check whether existing D365 licenses grant the required entitlements before purchasing standalone Power Platform premium licenses.</p></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">Do all users need premium licenses in a Managed Environment? <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body"><p>Yes &mdash; <strong>all active users</strong> in a Managed Environment need a qualifying premium Power Apps or Power Automate license (or the Managed Environments add-on). "Active users" means users who run apps or flows within that environment. Users who only view reports in Power BI in the same environment are not necessarily counted. Validate the exact definition with the <a href="https://learn.microsoft.com/en-us/power-platform/admin/managed-environment-licensing">official Managed Environment licensing documentation</a> before enabling.</p></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">When should I choose Pipelines over Azure DevOps? <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body"><p>Choose Power Platform Pipelines when: your team is primarily makers/citizen developers with no DevOps expertise, your solution has no code components (no plugins, PCF, Azure Functions), your deployment flow is straightforward (dev &rarr; test &rarr; prod), and you prefer an in-product UI for deployment over YAML pipelines. Choose Azure DevOps when: you have code components, complex branching/conditional logic, existing ADO investment, or enterprise compliance audit requirements.</p></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">Can a service principal own a Power Automate flow? <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body"><p>Yes. Microsoft officially supports service principal ownership of Power Automate cloud flows. Not all trigger types are supported &mdash; check the <a href="https://learn.microsoft.com/en-us/power-automate/service-principal-support">official documentation</a> for supported trigger types. Service principal-owned flows do not require a per-user Power Automate license for the service principal itself.</p></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">Does a service principal need a user license? <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body"><p>No. Service principals are non-human identities and do not require Power Apps or Power Automate per-user licenses. Application users in Dataverse (mapped to service principals) also do not consume user licenses in Dataverse. This is one of the key licensing benefits of using service principals for automation.</p></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">Is Power Platform Pipelines data counted in Dataverse capacity? <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body"><p>The pipeline host environment requires a Dataverse database, and that database consumes Dataverse storage from your tenant's allocation. The deployment history and pipeline configuration stored in the host environment does count against your Dataverse storage. This should be factored into your storage capacity planning when choosing Pipelines as your ALM tool. Source: <a href="https://learn.microsoft.com/en-us/power-platform/alm/set-up-pipelines">Set up pipelines in Power Platform</a>.</p></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">What is the safest low-cost starting architecture for internal business apps? <span class="acc-arr">&#9660;</span></button>
+          <div class="acc-body"><p>The safest low-cost baseline: <strong>Canvas App + SharePoint Lists + Power Automate using standard connectors only + Teams for notifications and approvals</strong>. This uses only M365-included capabilities, costs nothing additional for M365 licensed users, handles the majority of internal business app requirements, and can be upgraded to Dataverse or premium connectors later if requirements grow. Start here and escalate only when a genuine technical requirement forces the upgrade.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S18: GLOSSARY -->
+    <section class="section" id="s18">
+      <span class="sec-num">Section 18</span>
+      <h2>Glossary</h2>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Standard Connector</strong></td><td>A connector that is included in Microsoft 365 and base Power Platform license entitlements. Using only standard connectors in a flow or app does not require a premium license. Examples: SharePoint, Teams, Outlook, Planner, Forms, OneDrive, Approvals.</td></tr>
+            <tr><td><strong>Premium Connector</strong></td><td>A connector that requires a standalone Power Apps Premium, Power Automate Premium, per-app, or per-flow license. A single premium connector in a flow requires premium licensing for all users of that flow. Examples: SQL Server, Dataverse, HTTP, Salesforce, ServiceNow.</td></tr>
+            <tr><td><strong>Custom Connector</strong></td><td>A connector built by you to connect Power Platform to an API not covered by built-in connectors. Treated as premium for licensing purposes regardless of what API it connects to.</td></tr>
+            <tr><td><strong>Dataverse</strong></td><td>Microsoft's enterprise relational database platform built into the Power Platform. Provides relational data model, row- and field-level security, business rules, plugins, and advanced audit. Requires premium licensing for all users of any app or flow that accesses it via the Dataverse connector.</td></tr>
+            <tr><td><strong>Managed Environment</strong></td><td>A Power Platform environment with additional governance controls enabled: solution checker enforcement, sharing controls, IP firewall, weekly digest, usage insights. Requires all active users to have a qualifying premium license or Managed Environments add-on.</td></tr>
+            <tr><td><strong>Power Platform Pipelines</strong></td><td>A built-in ALM tool within Power Platform for promoting solutions between environments (dev &rarr; test &rarr; production). Requires a Dataverse database in the host environment. Best suited for maker-led teams with no code components.</td></tr>
+            <tr><td><strong>Application User</strong></td><td>A non-interactive user identity in Dataverse mapped to an Azure AD service principal. Used for backend system-to-Dataverse integration without consuming a user license. Does not require a Power Apps license.</td></tr>
+            <tr><td><strong>Service Principal</strong></td><td>An Azure Active Directory application identity (not tied to any human user) used for machine-to-machine authentication. Can own Power Automate flows without a per-user license. Recommended for critical production automation.</td></tr>
+            <tr><td><strong>Managed Identity</strong></td><td>An automatically managed AAD identity attached to an Azure resource (Function App, Logic App, VM, etc.). Credentials are managed by Azure &mdash; no secrets to rotate. Preferred identity for Azure-side integrations calling into Power Platform or Dataverse.</td></tr>
+            <tr><td><strong>Service Account</strong></td><td>A shared named AAD user account (not tied to a person) used for automation. Requires a full user license (including Power Platform entitlements). Acceptable as a short-term workaround; service principals are the recommended long-term replacement due to better security and no license dependency.</td></tr>
+            <tr><td><strong>Per-App License</strong></td><td>A Power Apps license that grants a user access to one specific app. More cost-effective than per-user when a user needs access to only one or two apps. Typically ~3&ndash;5&times; cheaper per user per app than per-user, at low app counts.</td></tr>
+            <tr><td><strong>Per-User License</strong></td><td>A Power Apps or Power Automate license that grants a user unlimited access to all apps/flows (within the plan). More cost-effective than per-app when a user accesses three or more apps. Validate the break-even point with current pricing.</td></tr>
+            <tr><td><strong>Per-Flow License</strong></td><td>A Power Automate license that covers a specific number of flows (typically 5) at a flat monthly cost, regardless of how many users trigger them. Often the most economical option for high-user-count, low-flow-count automation scenarios &mdash; e.g., 200 users triggering 2 shared premium flows.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="section" style="padding:48px 52px 56px" id="sfooter">
+      <div style="border-top:1px solid var(--rule);padding-top:36px">
+        <p style="font-size:13px;color:var(--muted);margin:0 0 8px"><strong style="color:var(--ink)">Power Platform Licensing Cost Optimization Playbook</strong> &middot; Architect's Edition 2026</p>
+        <p style="font-size:13px;color:var(--muted);margin:0 0 8px">Last reviewed: June 2026. Validate all licensing information against the current <a href="https://learn.microsoft.com/en-us/power-platform/admin/pricing-billing-skus">Microsoft Power Platform pricing documentation</a>.</p>
+        <p style="font-size:13px;color:var(--muted);margin:0 0 8px"><strong style="color:var(--ink)">Disclaimer:</strong> This guide is for architectural guidance only. It does not constitute official Microsoft licensing advice. Licensing terms change; always consult the official Microsoft licensing guide and your Microsoft account team for final licensing decisions.</p>
+        <p style="font-size:13px;color:var(--muted);margin:0"><strong style="color:var(--ink)">How to use this guide:</strong> Navigate by section via the left sidebar. Use the persona filter at the top of Section 2 to highlight content for your role. Use the checklists in Section 14 for project reviews. Use the scenario walkthroughs in Section 15 for client advisory conversations.</p>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top" aria-label="Back to top">&#8593;</button>
+
+<script>
+window.addEventListener('scroll',()=>document.getElementById('btt').classList.toggle('vis',scrollY>400));
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('.acc-btn');
+  if(!btn)return;
+  const isOpen=btn.classList.contains('open');
+  btn.classList.toggle('open',!isOpen);
+  const body=btn.nextElementSibling;
+  if(body&&body.classList.contains('acc-body'))body.classList.toggle('open',!isOpen);
+});
+const secs=document.querySelectorAll('section[id],footer[id]');
+const links=document.querySelectorAll('#toc .nav-link');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));});
+},{threshold:0.15});
+secs.forEach(s=>obs.observe(s));
+function openDrawer(){
+  const d=document.getElementById('drawer');
+  const inner=document.getElementById('drawer-in');
+  d.classList.add('open');
+  if(!inner.querySelector('.nav-link')){
+    const nav=document.getElementById('toc').cloneNode(true);
+    nav.querySelectorAll('.nav-link').forEach(l=>l.addEventListener('click',closeDrawer));
+    inner.appendChild(nav);
+  }
+}
+function closeDrawer(){document.getElementById('drawer').classList.remove('open')}
+function closeDrawerBg(e){if(e.target===document.getElementById('drawer'))closeDrawer()}
+function filterNav(q){
+  document.querySelectorAll('#toc .nav-link').forEach(l=>{
+    l.style.display=l.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';
+  });
+}
+function filterPersona(p,btn){
+  document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
