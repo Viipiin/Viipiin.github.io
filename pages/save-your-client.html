@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -46,8 +46,10 @@ body{background:var(--paper);color:var(--ink);font-family:'Inter',-apple-system,
 .drawer-in{position:absolute;left:0;top:0;bottom:0;width:var(--sb);background:var(--paper);overflow-y:auto;padding:20px 0}
 .drawer-close{position:absolute;top:10px;right:10px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted)}
 .content{max-width:860px}
-.section{padding:68px 52px 52px;border-bottom:1px solid var(--rule)}
+.section{padding:68px 52px 52px;border-bottom:1px solid var(--rule);transition:opacity .28s,box-shadow .18s}
 .section:last-of-type{border-bottom:none}
+.persona-match{box-shadow:inset 0 0 0 3px var(--accent-2);background:rgba(99,102,241,.035)!important}
+.persona-dim{opacity:.32}
 .sec-num{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:8px}
 h2{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-.015em;margin:0 0 18px}
 h3{font-family:'Inter',sans-serif;font-weight:700;font-size:18px;margin:32px 0 11px;letter-spacing:-.005em}
@@ -247,7 +249,7 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
     </section>
 
     <!-- S2: EXECUTIVE SUMMARY -->
-    <section class="section" id="s2">
+    <section class="section" id="s2" data-persona="all stakeholder newbie">
       <span class="sec-num">Section 2</span>
       <h2>Executive Summary</h2>
       <p><em>For client stakeholders, managers, and decision-makers who need the key points in three minutes.</em></p>
@@ -292,7 +294,7 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
     </section>
 
     <!-- S3: WHAT INCREASES COST -->
-    <section class="section" id="s3">
+    <section class="section" id="s3" data-persona="all stakeholder architect newbie">
       <span class="sec-num">Section 3</span>
       <h2>What Actually Increases Cost in Power Platform?</h2>
       <p>Understanding the cost drivers <em>before</em> making architecture decisions is the most reliable way to avoid surprise licensing bills.</p>
@@ -339,7 +341,7 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
     </section>
 
     <!-- S4: DECISION FRAMEWORK -->
-    <section class="section" id="s4">
+    <section class="section" id="s4" data-persona="architect prodev citizen">
       <span class="sec-num">Section 4</span>
       <h2>Decision Framework: Cheapest Valid Option First</h2>
       <p>Before selecting any technology, connector, or data store, work through this decision tree. The principle: <strong>start with what M365 already gives you, escalate only when a genuine requirement forces it.</strong> "Architecturally elegant" is not a justification for premium. Business need is.</p>
@@ -398,7 +400,7 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
     </section>
 
     <!-- S5: CONNECTOR STRATEGY -->
-    <section class="section" id="s5">
+    <section class="section" id="s5" data-persona="all prodev architect newbie">
       <span class="sec-num">Section 5</span>
       <h2>Standard vs Premium vs Custom Connector Strategy</h2>
       <p>Connector selection is the single highest-leverage licensing decision at the solution design stage. One wrong connector choice can turn a standard-licensed solution into a premium-licensed one for <em>all users</em>.</p>
@@ -487,7 +489,7 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
     </section>
 
     <!-- S6: STORAGE ARCHITECTURE -->
-    <section class="section" id="s6">
+    <section class="section" id="s6" data-persona="architect prodev">
       <span class="sec-num">Section 6</span>
       <h2>Storage &amp; Data Architecture Cost Optimization</h2>
       <p>The data store you choose is one of the most significant licensing decisions in a Power Platform architecture. This section covers the cost, governance, scale, and ALM tradeoffs for each major option.</p>
@@ -590,7 +592,7 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
     </section>
 
     <!-- S7: ALM -->
-    <section class="section" id="s7">
+    <section class="section" id="s7" data-persona="architect prodev citizen">
       <span class="sec-num">Section 7</span>
       <h2>ALM &amp; Deployment Strategy: Power Platform Pipelines vs Azure DevOps</h2>
       <p>Both Power Platform Pipelines and Azure DevOps Build Tools are supported ALM paths. Neither is universally better. The right choice depends on team composition, governance requirements, and the complexity of the solution.</p>
@@ -665,7 +667,7 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
     </section>
 
     <!-- S8: IDENTITY STRATEGY -->
-    <section class="section" id="s8">
+    <section class="section" id="s8" data-persona="architect prodev">
       <span class="sec-num">Section 8</span>
       <h2>Identity Strategy: Service Account vs Service Principal vs Application User vs Managed Identity</h2>
       <p>The identity used to run automation and integrations has direct implications for security, governance, licensing, and operational resilience. This is one of the most commonly underspecified architectural decisions in Power Platform projects.</p>
@@ -751,7 +753,7 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
     </section>
 
     <!-- S9: COST-SAVING PATTERNS -->
-    <section class="section" id="s9">
+    <section class="section" id="s9" data-persona="architect citizen prodev">
       <span class="sec-num">Section 9</span>
       <h2>Practical Cost-Saving Patterns</h2>
       <p>These are concrete, repeatable architectural patterns that reduce licensing cost without compromising quality, governance, or security.</p>
@@ -833,7 +835,7 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
     </section>
 
     <!-- S10: PREMIUM JUSTIFIED -->
-    <section class="section" id="s10">
+    <section class="section" id="s10" data-persona="stakeholder architect prodev">
       <span class="sec-num">Section 10</span>
       <h2>Premium is Justified When&hellip;</h2>
       <p>This section is as important as any cost-saving guidance. A guide that only focuses on cost reduction without acknowledging when premium is the correct choice is not credible &mdash; and architects who recommend premium-avoidance in the wrong scenarios create expensive technical debt.</p>
@@ -884,7 +886,7 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
     </section>
 
     <!-- S11: ANTI-PATTERNS -->
-    <section class="section" id="s11">
+    <section class="section" id="s11" data-persona="all newbie citizen stakeholder">
       <span class="sec-num">Section 11</span>
       <h2>Anti-Patterns, False Savings &amp; Red Flags</h2>
       <p>These are patterns that appear to save cost but create operational risk, security liability, or technical debt that outweighs the licensing saving. An architect who recommends these patterns is not saving the client money &mdash; they are deferring cost to a harder-to-recover-from future problem.</p>
@@ -936,7 +938,7 @@ ul.f li::before{content:'';position:absolute;left:0;top:19px;width:12px;height:1
     </section>
 
     <!-- S12: SCRIPTS & AUTOMATION -->
-    <section class="section" id="s12">
+    <section class="section" id="s12" data-persona="prodev architect">
       <span class="sec-num">Section 12</span>
       <h2>Scripts, Automation &amp; Setup Tips</h2>
       <div class="callout c-warn">
@@ -1021,7 +1023,7 @@ steps:
     </section>
 
     <!-- S13: CLIENT CONVERSATION -->
-    <section class="section" id="s13">
+    <section class="section" id="s13" data-persona="architect stakeholder">
       <span class="sec-num">Section 13</span>
       <h2>Client Conversation Toolkit</h2>
       <p>These are ready-to-use talking points for architect, PM, and advisory conversations with clients who question licensing decisions.</p>
@@ -1063,7 +1065,7 @@ steps:
     </section>
 
     <!-- S14: CHECKLISTS -->
-    <section class="section" id="s14">
+    <section class="section" id="s14" data-persona="architect prodev citizen">
       <span class="sec-num">Section 14</span>
       <h2>Checklists</h2>
 
@@ -1122,7 +1124,7 @@ steps:
     </section>
 
     <!-- S15: SCENARIOS -->
-    <section class="section" id="s15">
+    <section class="section" id="s15" data-persona="all newbie citizen stakeholder">
       <span class="sec-num">Section 15</span>
       <h2>Scenario Walkthroughs</h2>
 
@@ -1168,7 +1170,7 @@ steps:
     </section>
 
     <!-- S16: RESOURCE LIBRARY -->
-    <section class="section" id="s16">
+    <section class="section" id="s16" data-persona="architect prodev">
       <span class="sec-num">Section 16</span>
       <h2>Resource Library</h2>
       <p>All primary sources are official Microsoft documentation. Secondary/community sources are clearly labeled.</p>
@@ -1217,7 +1219,7 @@ steps:
     </section>
 
     <!-- S17: FAQ -->
-    <section class="section" id="s17">
+    <section class="section" id="s17" data-persona="all newbie citizen">
       <span class="sec-num">Section 17</span>
       <h2>Frequently Asked Questions</h2>
 
@@ -1262,7 +1264,7 @@ steps:
     </section>
 
     <!-- S18: GLOSSARY -->
-    <section class="section" id="s18">
+    <section class="section" id="s18" data-persona="newbie citizen">
       <span class="sec-num">Section 18</span>
       <h2>Glossary</h2>
       <div class="tbl-wrap">
@@ -1337,6 +1339,11 @@ function filterNav(q){
 function filterPersona(p,btn){
   document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  document.querySelectorAll('.section[data-persona]').forEach(s=>{
+    s.classList.remove('persona-match','persona-dim');
+    if(p==='all')return;
+    s.classList.add(s.dataset.persona.split(' ').includes(p)?'persona-match':'persona-dim');
+  });
 }
 </script>
 </body>
