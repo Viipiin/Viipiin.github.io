@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../js/vault.js"></script>
+  <link rel="stylesheet" href="../css/base.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Power Platform ALM Guide — Viipiin Vault</title>
+  <link rel="icon" href="../favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <style>
+    :root {
+      --navy:#0f172a;--sky:#0ea5e9;--sky-lt:#f0f9ff;
+      --amber:#f59e0b;--amber-lt:#fffbeb;
+      --red:#ef4444;--red-lt:#fef2f2;
+      --green:#22c55e;--green-lt:#f0fdf4;
+      --bg:#f8fafc;--card:#fff;--border:#e2e8f0;
+      --text:#1e293b;--muted:#64748b;--sw:242px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh}
+    #prog{position:fixed;top:0;left:0;height:3px;background:var(--sky);width:0%;z-index:9999;transition:width .1s linear}
+    #sidebar{width:var(--sw);min-height:100vh;background:var(--navy);position:fixed;top:0;left:0;overflow-y:auto;display:flex;flex-direction:column;z-index:100;padding-bottom:2rem}
+    #sb-head{padding:1.2rem 1rem .9rem;border-bottom:1px solid rgba(255,255,255,.08)}
+    #sb-head h2{color:#fff;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;line-height:1.3}
+    #sb-head span{color:var(--sky);font-size:.68rem;display:block;margin-top:.2rem}
+    #sb-search{padding:.65rem 1rem;border-bottom:1px solid rgba(255,255,255,.08)}
+    #search{width:100%;padding:.42rem .65rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#fff;font-size:.78rem;outline:none;font-family:inherit}
+    #search::placeholder{color:rgba(255,255,255,.33)}
+    #search:focus{border-color:var(--sky);background:rgba(255,255,255,.1)}
+    #nav-list{list-style:none;padding:.4rem 0}
+    #nav-list li a{display:flex;align-items:center;gap:.45rem;padding:.48rem .9rem;color:rgba(255,255,255,.62);font-size:.76rem;text-decoration:none;border-left:3px solid transparent;transition:all .15s;line-height:1.3}
+    #nav-list li a:hover{color:#fff;background:rgba(255,255,255,.05)}
+    #nav-list li a.active{color:var(--sky);border-left-color:var(--sky);background:rgba(14,165,233,.08)}
+    .nav-ico{font-size:.9rem;flex-shrink:0;width:1.1rem;text-align:center}
+    .nn{margin-left:auto;background:rgba(255,255,255,.1);color:rgba(255,255,255,.45);font-size:.63rem;padding:1px 5px;border-radius:10px;min-width:1.3rem;text-align:center}
+    .active .nn{background:rgba(14,165,233,.2);color:var(--sky)}
+    #main{margin-left:var(--sw);flex:1;padding:2rem 2.5rem;max-width:1000px}
+    .section{margin-bottom:4rem;scroll-margin-top:1.5rem}
+    .sec-hdr{display:flex;align-items:baseline;gap:.7rem;border-bottom:2px solid var(--sky);padding-bottom:.5rem;margin-bottom:1.75rem}
+    .sec-num{color:var(--sky);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+    .sec-hdr h2{font-size:1.35rem;font-weight:700;color:var(--text)}
+    h3{font-size:1.02rem;font-weight:600;color:var(--text);margin:1.5rem 0 .65rem;padding-left:.6rem;border-left:3px solid var(--sky)}
+    h4{font-size:.85rem;font-weight:600;color:var(--muted);margin:1.2rem 0 .45rem;text-transform:uppercase;letter-spacing:.04em}
+    p{margin-bottom:.75rem;line-height:1.7;font-size:.92rem}
+    .tw{overflow-x:auto;margin:1rem 0;border-radius:8px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+    table{width:100%;border-collapse:collapse;font-size:.86rem}
+    thead th{background:var(--navy);color:#fff;padding:.58rem .85rem;text-align:left;font-size:.76rem;font-weight:600;letter-spacing:.03em;position:sticky;top:0}
+    tbody tr:nth-child(odd){background:var(--card)}
+    tbody tr:nth-child(even){background:#f1f5f9}
+    tbody tr:hover{background:#e0f2fe}
+    td{padding:.52rem .85rem;vertical-align:top;line-height:1.5}
+    td:first-child{font-weight:500}
+    .cb-do,.cb-warn,.cb-anti,.cb-tip{border-radius:6px;padding:.82rem 1rem;margin:.85rem 0;font-size:.9rem;line-height:1.65;border-left:4px solid}
+    .cb-do{background:var(--green-lt);border-color:var(--green)}
+    .cb-warn{background:var(--amber-lt);border-color:var(--amber)}
+    .cb-anti{background:var(--red-lt);border-color:var(--red)}
+    .cb-tip{background:var(--sky-lt);border-color:var(--sky)}
+    .cb-do strong{color:#15803d}.cb-warn strong{color:#92400e}.cb-anti strong{color:#b91c1c}.cb-tip strong{color:#0369a1}
+    .cb-do strong,.cb-warn strong,.cb-anti strong,.cb-tip strong{display:block;margin-bottom:.2rem;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+    .mw{display:flex;justify-content:center;margin:1.5rem 0}
+    .mw .mermaid{max-width:700px;width:100%}
+    details{margin:1rem 0;border-radius:7px;border:1px solid var(--border);overflow:hidden}
+    summary{padding:.62rem 1rem;background:#f1f5f9;cursor:pointer;font-size:.84rem;font-weight:600;color:var(--text);list-style:none;display:flex;align-items:center;gap:.5rem;user-select:none}
+    summary::-webkit-details-marker{display:none}
+    summary::before{content:'▶';font-size:.62rem;transition:transform .2s;color:var(--muted)}
+    details[open] summary::before{transform:rotate(90deg)}
+    details pre{margin:0;max-height:480px;overflow-y:auto}
+    details pre code{font-family:'JetBrains Mono','Cascadia Code',monospace;font-size:.8rem}
+    ol,ul{padding-left:1.4rem;margin:.5rem 0 1rem}
+    li{margin-bottom:.35rem;font-size:.9rem;line-height:1.6}
+    .check-list{list-style:none;padding-left:0}
+    .check-list li{padding:.28rem 0;border-bottom:1px solid var(--border);display:flex;gap:.6rem;align-items:flex-start}
+    .check-list li:last-child{border-bottom:none}
+    .check-list li .ci{color:var(--sky);font-size:1rem;flex-shrink:0;line-height:1}
+    .steps{counter-reset:step;list-style:none;padding:0}
+    .steps li{counter-increment:step;display:flex;gap:.75rem;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.9rem;line-height:1.6}
+    .steps li:last-child{border-bottom:none}
+    .steps li::before{content:counter(step);min-width:1.6rem;height:1.6rem;background:var(--sky);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;margin-top:.1rem}
+    .badge{display:inline-block;padding:1px 7px;border-radius:10px;font-size:.72rem;font-weight:600;margin:0 2px}
+    .bg{background:#dcfce7;color:#15803d}
+    .br{background:#fee2e2;color:#b91c1c}
+    .ba{background:#fef3c7;color:#92400e}
+    .bs{background:#e0f2fe;color:#0369a1}
+    .dd-table{width:100%;border-collapse:collapse;font-size:.87rem;margin:1rem 0;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+    .dd-table thead th{background:var(--navy);color:#fff;padding:.6rem 1rem;font-size:.76rem;letter-spacing:.04em;text-align:left}
+    .dd-table td{padding:.55rem 1rem;vertical-align:top;line-height:1.5}
+    .dd-table tr:nth-child(odd) td{background:var(--card)}
+    .dd-table tr:nth-child(even) td{background:#f8fafc}
+    .dd-table td:first-child{border-right:1px solid var(--border)}
+    #btt{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:#fff;border:none;border-radius:50%;width:2.4rem;height:2.4rem;font-size:.95rem;cursor:pointer;opacity:0;transition:opacity .2s;z-index:200}
+    #btt.show{opacity:1}
+    #btt:hover{background:var(--sky)}
+    @media print{#sidebar,#prog,#btt{display:none!important}#main{margin-left:0;padding:1rem;max-width:100%}details{display:block}}
+    @media(max-width:768px){#sidebar{transform:translateX(-100%)}#main{margin-left:0;padding:1rem}}
+  </style>
+</head>
+<body>
+
+<div id="prog"></div>
+
+<nav id="sidebar">
+  <div id="sb-head">
+    <h2>Power Platform ALM</h2>
+    <span>Enterprise Reference · 11 Sections</span>
+  </div>
+  <div id="sb-search">
+    <input type="text" id="search" placeholder="🔍 Search guide…" autocomplete="off">
+  </div>
+  <ul id="nav-list">
+    <li><a href="#s1"><span class="nav-ico">🎯</span>ALM Toolchain Choice<span class="nn">3</span></a></li>
+    <li><a href="#s2"><span class="nav-ico">💀</span>Foundation Decisions<span class="nn">6</span></a></li>
+    <li><a href="#s3"><span class="nav-ico">🌐</span>Environment Architecture<span class="nn">6</span></a></li>
+    <li><a href="#s4"><span class="nav-ico">🔀</span>Multi-Dev Source Control<span class="nn">8</span></a></li>
+    <li><a href="#s5"><span class="nav-ico">⚙️</span>Azure DevOps ALM<span class="nn">5</span></a></li>
+    <li><a href="#s6"><span class="nav-ico">🚀</span>PP Pipelines<span class="nn">6</span></a></li>
+    <li><a href="#s7"><span class="nav-ico">🧪</span>Testing &amp; Quality Gates<span class="nn">5</span></a></li>
+    <li><a href="#s8"><span class="nav-ico">🔐</span>Config &amp; Secrets<span class="nn">4</span></a></li>
+    <li><a href="#s9"><span class="nav-ico">↩️</span>Rollback Strategy<span class="nn">4</span></a></li>
+    <li><a href="#s10"><span class="nav-ico">🤖</span>Copilot Studio ALM<span class="nn">5</span></a></li>
+    <li><a href="#s11"><span class="nav-ico">✅</span>ALM Decision Cards<span class="nn">15</span></a></li>
+  </ul>
+</nav>
+
+<main id="main">
+
+  <section id="s1" class="section">
+    <div class="sec-hdr"><span class="sec-num">Section 1</span><h2>Choosing Your ALM Toolchain</h2></div>
+
+    <h3>Toolchain Comparison</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Dimension</th><th>PP Pipelines</th><th>ADO + PAC CLI</th><th>ALM Accelerator</th><th>Hybrid</th></tr></thead>
+      <tbody>
+        <tr><td>Team type fit</td><td>Citizen-dev / low-code</td><td>Pro-dev, DevOps engineers</td><td>Pro-dev + CoE adoption</td><td>Mixed pro-dev + makers</td></tr>
+        <tr><td>Governance maturity needed</td><td>Low — UI-driven approvals</td><td>High — pipeline-as-code, gate policies</td><td>High — CoE Starter Kit prereq</td><td>Medium</td></tr>
+        <tr><td>Multi-dev support</td><td>Basic (single branch, no PR flow)</td><td>Full (branching, PRs, unpack diffs)</td><td>Full (built on ADO)</td><td>Good — ADO for CI, PP for CD</td></tr>
+        <tr><td>Automation depth</td><td>Low–medium (UI + Power Automate trigger)</td><td>Full (YAML pipelines, PAC CLI, scripts)</td><td>Full (pre-built pipelines)</td><td>Medium–high</td></tr>
+        <tr><td>Licensing cost</td><td>Managed Environments required on target stages</td><td>ADO compute + agent costs</td><td>ADO + CoE Starter Kit setup overhead</td><td>ADO + Managed Env on prod only</td></tr>
+        <tr><td>Rollback capability</td><td>UI redeploy of prior version</td><td>Artifact-based, scriptable, tag-driven</td><td>Artifact-based</td><td>Partial — depends on which stage</td></tr>
+        <tr><td>Skill barrier</td><td>Low — makers can operate it</td><td>High — YAML, service principals, PAC CLI</td><td>Very high — CoE Starter Kit setup is complex</td><td>Medium</td></tr>
+        <tr><td>Regulated environment fit</td><td>Limited — no audit log export, no external secret injection</td><td>Full — approval gates, audit, Key Vault, compliance policies</td><td>Full</td><td>Partial — depends on config</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Decision Tree</h3>
+    <div class="mw"><div class="mermaid">
+flowchart TD
+    A["Is the team citizen-dev or pro-dev?"] --> B["Citizen-dev / makers\nprimarily"]
+    A --> C["Pro-dev / mixed team"]
+    B --> D["✅ Power Platform Pipelines\nStart here — plan ADO migration\nat 5+ devs or compliance need"]
+    C --> E["Does the team have ADO / YAML skills?"]
+    E --> F["No ADO skills"] --> G["Start with PP Pipelines\n⚠️ Plan ADO migration at scale"]
+    E --> H["Yes — ADO capable"]
+    H --> I["Compliance / regulated environment?"]
+    I --> J["Yes — finance, govt,\naudit required"] --> K["✅ Azure DevOps + PAC CLI\nFull YAML pipeline, Key Vault,\napproval gates"]
+    I --> L["No compliance gate"]
+    L --> M["Team &gt; 5 devs or\ncomplex branching?"]
+    M --> N["Yes"] --> K
+    M --> O["No"] --> P["✅ Hybrid\nPP Pipelines for CD\nADO for solution checker CI"]
+    </div></div>
+
+    <h3>Client Recommendation Matrix</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Scenario</th><th>PP Pipelines</th><th>ADO + PAC CLI</th><th>ALM Accelerator</th><th>Hybrid</th></tr></thead>
+      <tbody>
+        <tr><td>3-dev team, no DevOps experience, Canvas Apps + Flows only</td><td>✅ Best fit</td><td>⚠️ Overkill for team size</td><td>❌ Setup complexity too high</td><td>⚠️ Adds ADO overhead unnecessarily</td></tr>
+        <tr><td>10+ pro-devs, Canvas + MDA + PCF plugins, regulated financial services</td><td>❌ Insufficient governance</td><td>✅ Only viable option</td><td>⚠️ If CoE already deployed</td><td>❌ Compliance gaps</td></tr>
+        <tr><td>Large enterprise, existing ADO pipelines, CoE Starter Kit already deployed</td><td>⚠️ Parallel to ADO — creates confusion</td><td>✅ Primary</td><td>✅ If team wants pre-built pipelines</td><td>⚠️ Redundant if full ADO exists</td></tr>
+        <tr><td>Startup, Copilot Studio bot MVP, 2-month deadline, 2 makers</td><td>✅ Fastest path</td><td>❌ Deadline risk — setup time too high</td><td>❌ Not suitable for MVP pace</td><td>⚠️ May work if one ADO-skilled dev available</td></tr>
+        <tr><td>Government agency, Power Platform + Azure integration, full audit trail required</td><td>❌ Audit trail insufficient</td><td>✅ Only option meeting requirements</td><td>⚠️ If procurement allows CoE Starter Kit</td><td>❌ Audit gaps in PP Pipeline stages</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="cb-warn">
+      <strong>⚠️ Outgrowing PP Pipelines Mid-Project</strong>
+      If you start with PP Pipelines and later migrate to ADO, expect: (1) no existing YAML pipelines — build from scratch; (2) no unpacked solution history in git — start fresh from current state; (3) teams need retraining on PAC CLI + branching model; (4) environment variable and connection reference configs must be re-mapped to deployment settings files. <strong>Plan the migration boundary at project start</strong> — agree the trigger criteria (team size, compliance event, first rollback failure) before you begin, not after a crisis.
+    </div>
+  </section>
+
+  <section id="s2" class="section">
+    <div class="sec-hdr"><span class="sec-num">Section 2</span><h2>The 6 Foundation Decisions That Determine Project Failure or Success</h2></div>
+    <p style="font-size:.9rem;color:var(--muted);margin-bottom:1.5rem">Structural correctness must be established <strong>before</strong> you write a single pipeline. Each decision below is a project-killer if deferred.</p>
+
+    <h3>2a — Managed vs Unmanaged Solution Layers</h3>
+    <p>Every Dataverse environment maintains two solution layers: <strong>managed</strong> (read-only, deployed from upstream) and <strong>unmanaged</strong> (editable, the developer's working layer). The managed layer is what ALM deploys. The unmanaged layer is what developers create in.</p>
+
+    <div class="cb-anti">
+      <strong>❌ Anti-Pattern — Unmanaged Layer Corruption</strong>
+      Importing an <em>unmanaged</em> solution to Test/UAT/Prod creates an editable working layer in a downstream environment. When a managed solution is then deployed on top, the two layers conflict silently: the managed layer wins for <em>reads</em>, but the unmanaged layer persists and resurfaces when the managed solution is deleted or downgraded. This silently destroys ALM repeatability — environment state can no longer be explained by source control alone.
+    </div>
+
+    <div class="cb-do">
+      <strong>✅ Rule — Managed Solutions ONLY in Test / Stage / Prod</strong>
+      Enforce this via pipeline service principal permissions: the service principal that deploys solutions should be the <em>only</em> identity with import rights in Test/Stage/Prod. Revoke maker import permissions on those environments. Use <code>pac solution import --managed</code> in all CD stages.
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>Upgrade Behaviour</th><th>Stage-and-Upgrade</th><th>Update</th></tr></thead>
+      <tbody>
+        <tr><td>How it works</td><td>Imports new version as a holding solution, then upgrades atomically</td><td>Applies delta changes directly on existing solution</td></tr>
+        <tr><td>Deleted components</td><td>Removed cleanly from the environment</td><td>Left as unmanaged orphans — stay in environment silently</td></tr>
+        <tr><td>Rollback safety</td><td>Safer — holding solution can be deleted if upgrade fails</td><td>No rollback point once applied</td></tr>
+        <tr><td>Recommended for</td><td>All production deployments — default for CD pipelines</td><td>Quick hotfixes only, with awareness of orphan risk</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2b — Solution Segmentation Strategy</h3>
+    <div class="cb-anti">
+      <strong>❌ Anti-Pattern — The Monolith Solution</strong>
+      One solution containing all components (tables, apps, flows, PCF, connectors) creates unresolvable merge conflicts, impossible independent deployments, and cascading failures when any component breaks.
+    </div>
+    <div class="cb-do">
+      <strong>✅ Recommended — 3-Layer Solution Architecture</strong>
+      <code>01-CoreData</code> → <code>02-SharedComponents</code> → <code>03-AppName</code>. Each layer depends on the one above. Deploy in order; never deploy App before CoreData is stable.
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>Solution Layer</th><th>Contains</th><th>Deployment frequency</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td>01-CoreData</td><td>Dataverse tables, columns, relationships, choices, security roles</td><td>Low — schema changes only</td><td>Lead architect / DBA</td></tr>
+        <tr><td>02-SharedComponents</td><td>PCF controls, custom connectors, shared environment variables, connection references, shared canvas components</td><td>Medium</td><td>Senior pro-dev</td></tr>
+        <tr><td>03-AppName</td><td>Canvas apps, model-driven apps, cloud flows, app-specific env vars, sitemap</td><td>High — every sprint</td><td>Feature team</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tw"><table>
+      <thead><tr><th>Segmentation helps when…</th><th>Segmentation adds complexity when…</th></tr></thead>
+      <tbody>
+        <tr><td>Multiple teams deploy independently</td><td>Single developer owns everything</td></tr>
+        <tr><td>Schema and app have different release cadences</td><td>All components always deploy together</td></tr>
+        <tr><td>Shared PCF/connectors used by multiple apps</td><td>MVP / prototype — segmenting too early</td></tr>
+        <tr><td>Regulated environment requires per-layer approval gates</td><td>Team lacks ALM discipline to maintain dependency order</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2c — Publisher Prefix and Naming Conventions</h3>
+    <div class="cb-anti">
+      <strong>❌ Anti-Pattern — Using the Default <code>new_</code> Publisher</strong>
+      The default publisher prefix <code>new_</code> is shared across all environments, all tenants, and all solutions. It cannot be changed after a component is created without recreating the component. Using it in enterprise projects makes component ownership impossible to determine and creates naming collisions.
+    </div>
+    <p>Publisher prefix must be agreed and locked <strong>before any component is created</strong>. Recommended format: <code>[clientcode]</code> — 3–5 lowercase letters, no underscores in the prefix itself. Example: <code>contoso</code> → components will be <code>contoso_tablename</code>, <code>contoso_columnname</code>.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Artefact</th><th>Naming Convention</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Publisher prefix</td><td><code>[clientcode]</code> — 3–5 chars, lowercase</td><td><code>capp</code></td></tr>
+        <tr><td>Solution</td><td><code>[ClientCode]_[Layer]_[Purpose]</code></td><td><code>Capp_01_CoreData</code></td></tr>
+        <tr><td>Environment variable</td><td><code>capp_[ContextOrApp]_[VariableName]</code></td><td><code>capp_Invoicing_SharePointSiteUrl</code></td></tr>
+        <tr><td>Connection reference</td><td><code>capp_[ConnectorDisplayName]_[Context]</code></td><td><code>capp_SharePoint_Invoicing</code></td></tr>
+        <tr><td>Canvas app</td><td><code>[ClientCode] [AppName] App</code></td><td><code>Capp Invoicing App</code></td></tr>
+        <tr><td>Cloud flow</td><td><code>[ClientCode] | [AppContext] | [Trigger] → [Action]</code></td><td><code>Capp | Invoicing | Invoice Created → Notify Finance</code></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2d — Managed Environments and Licensing</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Managed Environment Feature</th><th>What it unlocks</th><th>Licensing impact</th></tr></thead>
+      <tbody>
+        <tr><td>Power Platform Pipelines (target stages)</td><td>Required for Test/Stage/Prod to be pipeline targets</td><td>Managed Environment required on each target — included in Power Apps Premium / per-app plan</td></tr>
+        <tr><td>DLP policy enforcement (enhanced)</td><td>HTTP connector classification, connector action-level policies</td><td>Part of Managed Environment — no additional cost</td></tr>
+        <tr><td>Weekly admin digest</td><td>Environment usage, unused resources, app activity</td><td>Included</td></tr>
+        <tr><td>IP firewall</td><td>Restrict Dataverse access by IP range</td><td>Included in Managed Environment</td></tr>
+        <tr><td>Solution checker enforcement</td><td>Block import if solution checker violations exceed threshold</td><td>Included</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="cb-tip">
+      <strong>💡 Licensing Precision — End Users in Managed Environments</strong>
+      Users of apps in a Managed Environment do <strong>not</strong> need a separate Managed Environment licence — that applies to the environment itself, not users. However: if the app uses premium connectors (SharePoint via custom connector, Dataverse, etc.), each end user needs <strong>Power Apps Premium</strong> (or per-app plan). One Power Apps Premium licence covers both the app and any Power Automate flows triggered by it in that app context. Standard/seeded scenarios (Office 365 connector, basic SharePoint, Teams) do not require premium for end users.
+    </div>
+    <div class="cb-warn">
+      <strong>⚠️ Licensing is Subject to Microsoft Change</strong>
+      Validate all licensing assumptions with your Microsoft account team before project start. Microsoft has changed licensing boundaries multiple times — assumptions made at proposal stage may not hold at go-live.
+    </div>
+    <p><strong>Which environments should be Managed?</strong> Target stages for PP Pipelines (Test, Stage, Prod) must be Managed. Individual developer environments typically do not need to be Managed — this avoids per-developer overhead and allows unrestricted experimentation.</p>
+
+    <h3>2e — Component Merge Compatibility</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Component Type</th><th>Merges cleanly in git</th><th>Conflict-prone</th><th>Ownership rule recommended</th></tr></thead>
+      <tbody>
+        <tr><td>Canvas app</td><td>⚠️ Partially — YAML unpack helps but complex formulas conflict</td><td>High if multiple devs edit same screen</td><td>✅ One owner per app — feature branches only</td></tr>
+        <tr><td>Model-driven form</td><td>❌ XML diff is noisy; section-level changes conflict often</td><td>Very high</td><td>✅ One owner per form — coordinate changes via PR</td></tr>
+        <tr><td>Sitemap</td><td>❌ Single XML file — last-write-wins without discipline</td><td>High</td><td>✅ One owner — treat as infrastructure, not feature work</td></tr>
+        <tr><td>Cloud flow</td><td>⚠️ JSON diff — readable but nested action changes conflict</td><td>Medium</td><td>✅ One owner per flow — no parallel edits</td></tr>
+        <tr><td>Environment variable (definition)</td><td>✅ Small XML file — merges cleanly</td><td>Low</td><td>No strict ownership needed</td></tr>
+        <tr><td>Connection reference</td><td>✅ Clean — generated from connector metadata</td><td>Low</td><td>No strict ownership needed</td></tr>
+        <tr><td>PCF control</td><td>✅ Standard code files — normal git merge</td><td>Low if well-modularised</td><td>Standard PR process</td></tr>
+        <tr><td>Plugin assembly</td><td>✅ Binary tracked by hash — no line-level conflict</td><td>Low</td><td>Standard PR process</td></tr>
+        <tr><td>Dataverse table / column</td><td>✅ Schema XML — merges cleanly at column level</td><td>Low</td><td>Coordinate schema changes in sprint planning</td></tr>
+        <tr><td>Ribbon / command bar</td><td>❌ Complex XML — minimal diff context, high conflict risk</td><td>Very high</td><td>✅ One owner — treat as release-level change</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2f — Naming and Governance Baseline Checklist</h3>
+    <p>All 10 items must be in place before any pipeline is created:</p>
+    <ul class="check-list">
+      <li><span class="ci">☐</span> Publisher prefix agreed, documented, and locked — <em>all</em> team members know it, no exceptions</li>
+      <li><span class="ci">☐</span> Solution segmentation strategy defined — at least CoreData / SharedComponents / App layers agreed</li>
+      <li><span class="ci">☐</span> Naming conventions table published and distributed (solution, env var, connection ref, flow, app)</li>
+      <li><span class="ci">☐</span> Individual dev environments provisioned — one per developer, no shared dev environment</li>
+      <li><span class="ci">☐</span> Target environments (Test, Stage, Prod) created as Managed Environments if PP Pipelines is the toolchain</li>
+      <li><span class="ci">☐</span> Service principal (app registration) created for pipeline deployments — System Administrator scoped per environment</li>
+      <li><span class="ci">☐</span> DLP policies applied to all environments — including individual dev environments</li>
+      <li><span class="ci">☐</span> Security groups created and linked to each environment — no direct user assignment to environments</li>
+      <li><span class="ci">☐</span> Source control repository initialised with solution unpack structure — at least one baseline commit of each solution in its starting state</li>
+      <li><span class="ci">☐</span> Component ownership matrix agreed — who owns which form, app, flow (prevents parallel edits on conflict-prone components)</li>
+    </ul>
+  </section>
+
+  <section id="s3" class="section">
+    <div class="sec-hdr"><span class="sec-num">Section 3</span><h2>Environment Chain Architecture</h2></div>
+
+    <h3>Environment Flow Diagram</h3>
+    <div class="mw"><div class="mermaid">
+flowchart LR
+    subgraph DEV["Dev Environments (×10)"]
+      d1["Dev-1\nDeveloper Sandbox\nNot Managed\nOwner: Individual Dev"]
+      d2["Dev-2 … Dev-10\n(same pattern)"]
+    end
+    subgraph BUILD["Build / Validate"]
+      b1["Build Env\nSandbox\nNot Managed\nOwner: Pipeline SP only\nNo human users"]
+    end
+    subgraph UAT["Test / UAT"]
+      t1["Test\nSandbox → Managed\nOwner: QA Lead\nSG: sg-pp-test"]
+    end
+    subgraph STG["Stage"]
+      s1["Stage\nProduction-type\nManaged\nOwner: Release Manager\nSG: sg-pp-stage"]
+    end
+    subgraph PROD["Production"]
+      p1["Production\nProduction\nManaged\nOwner: Platform Admin\nSG: sg-pp-prod"]
+    end
+    DEV -->|"pac solution export\n→ unpack → PR"| BUILD
+    BUILD -->|"Managed artifact\n(CI pipeline)"| UAT
+    UAT -->|"Manual approval\n(Release Manager)"| STG
+    STG -->|"Manual approval\n(Change Board)"| PROD
+    </div></div>
+
+    <h3>Environment Inventory Table</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Environment</th><th>Type</th><th>Managed</th><th>Owner</th><th>Security Group</th><th>Purpose</th><th>Solution type allowed</th></tr></thead>
+      <tbody>
+        <tr><td>Dev-1 … Dev-10</td><td>Developer Sandbox</td><td>❌ No</td><td>Individual developer</td><td>sg-pp-dev-[name]</td><td>Individual development and experimentation</td><td>Unmanaged only</td></tr>
+        <tr><td>Build / Validate</td><td>Sandbox</td><td>❌ No</td><td>DevOps / Platform team</td><td>Service principal only — no human users</td><td>ADO CI: export, unpack, solution checker, pack managed artifact. <em>Never</em> used by humans.</td><td>Managed (import for validation) + Unmanaged (export source)</td></tr>
+        <tr><td>Test / UAT</td><td>Sandbox (promote to Managed)</td><td>✅ Yes</td><td>QA Lead</td><td>sg-pp-test (QA team + stakeholders)</td><td>Functional testing, UAT, regression. First environment where managed solutions land.</td><td>Managed only</td></tr>
+        <tr><td>Stage / Pre-Prod</td><td>Production-type</td><td>✅ Yes</td><td>Release Manager</td><td>sg-pp-stage (release manager + approvers)</td><td>Production-mirror smoke test, performance validation, final stakeholder sign-off</td><td>Managed only</td></tr>
+        <tr><td>Production</td><td>Production</td><td>✅ Yes</td><td>Platform Admin</td><td>sg-pp-prod (end users via app access + admin group)</td><td>Live service — zero experimental changes</td><td>Managed only</td></tr>
+        <tr><td>PP Pipeline Host</td><td>Sandbox (separate)</td><td>✅ Yes</td><td>Platform Admin</td><td>Admin-only</td><td>PP Pipelines only: hosts the Deployment Pipeline Configuration app, pipeline records and stage definitions. Not a deployment target itself.</td><td>N/A — not a deployment target</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Pipeline Host Environment (PP Pipelines only)</h3>
+    <p>When using Power Platform Pipelines, a dedicated <strong>host environment</strong> must be provisioned. This environment: installs the <em>Deployment Pipeline Configuration</em> app, defines pipeline records (stage order, approvers, delegated deployment settings), must be Managed, and must be <strong>separate</strong> from all deployment target environments. The host environment does not receive solution deployments — it only orchestrates them. Typically owned by the Platform Admin team with strictly controlled access.</p>
+
+    <h3>Build/Validation Environment (ADO only)</h3>
+    <div class="cb-tip">
+      <strong>💡 Build Environment Design</strong>
+      The build environment exists solely for the CI pipeline service principal. It is used to: (1) export the latest solution state if building from environment rather than source, (2) run solution checker via PAC CLI, (3) validate that the unpacked source compiles into a valid managed solution. <strong>No human should have maker access</strong> to this environment — its state is entirely controlled by the pipeline. Refresh it periodically (delete + recreate) to avoid accumulated state drift.
+    </div>
+
+    <h3>Region and Data Residency</h3>
+    <p>All environments in the chain should be in the <strong>same Azure geography</strong> as Production unless there is a specific regulatory reason (e.g., UAT in a different region for data isolation testing). Cross-region deployments add latency to pipeline runs and can cause connector availability differences. For EU data residency requirements: ensure all environments — including individual dev environments — are provisioned in the EU geography from day one. Migrating environments across geographies is not supported; it requires environment recreation.</p>
+
+    <h3>Security Group Recommendations</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Environment</th><th>Security Group Membership</th><th>Principle Applied</th></tr></thead>
+      <tbody>
+        <tr><td>Dev-[name]</td><td>Individual developer only (+ Platform Admin)</td><td>Complete isolation — no cross-dev environment access</td></tr>
+        <tr><td>Build / Validate</td><td>Service principal only — no human users in SG</td><td>Pipeline-owned environment; human access defeats its purpose</td></tr>
+        <tr><td>Test / UAT</td><td>QA team + UAT business stakeholders (read/test access)</td><td>Testers need app access, not maker access</td></tr>
+        <tr><td>Stage</td><td>Release manager + approvers + senior stakeholders</td><td>Minimal — only those validating go/no-go decision</td></tr>
+        <tr><td>Production</td><td>End users (app access) + Platform Admin (system admin)</td><td>End users via app roles, never environment roles</td></tr>
+        <tr><td>PP Pipeline Host</td><td>Platform Admin only</td><td>Configuration changes must be controlled and audited</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="s4" class="section">
+    <div class="sec-hdr"><span class="sec-num">Section 4</span><h2>How 10 Developers Merge Without Breaking Each Other</h2></div>
+
+    <div class="cb-tip">
+      <strong>💡 Core Principle</strong>
+      Source control is the single source of truth — not environments. If it is not in git, it does not exist. Environments are ephemeral; git history is permanent.
+    </div>
+
+    <div class="cb-anti">
+      <strong>❌ Anti-Pattern — "Sync Environments" as a Merge Strategy</strong>
+      "Just copy from Dev-3 to Test" is not ALM. Environment sync bypasses code review, loses history, cannot be rolled back, cannot be diffed, and breaks the moment two developers make conflicting changes. The only safe promotion path is: source control → pipeline artifact → managed deployment.
+    </div>
+
+    <h3>Unpacked Solutions in Git</h3>
+    <p><code>pac solution unpack --zipfile MySolution.zip --folder ./src/MySolution --processCanvasApps</code> decomposes the solution zip into individual files per component: one XML file per table, one JSON per flow, one YAML per canvas screen. This enables:</p>
+    <ul>
+      <li>Line-level diffs in PRs — reviewers can see exactly what changed in a form, flow, or app</li>
+      <li>Merge conflict resolution at the component level instead of binary zip conflicts</li>
+      <li>Solution checker as a PR gate (run against unpacked source)</li>
+      <li><code>pac solution pack --folder ./src/MySolution --zipfile MySolution_managed.zip --managed</code> rebuilds the deployable artifact from source</li>
+    </ul>
+    <div class="cb-warn">
+      <strong>⚠️ Always Use <code>--processCanvasApps</code></strong>
+      Without this flag, canvas apps remain as a single binary MSAPP file — undiffable and unresolvable in merge conflicts. Always unpack with this flag; the YAML-per-screen format is the only mergeable form.
+    </div>
+
+    <h3>Branching Model — GitFlow Lite</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Branch</th><th>Purpose</th><th>Who pushes to it</th><th>Protected</th></tr></thead>
+      <tbody>
+        <tr><td><code>main</code></td><td>Mirrors Production — every commit is a tagged release</td><td>Release pipeline only (service principal)</td><td>✅ Yes — no direct push</td></tr>
+        <tr><td><code>release/vX.Y</code></td><td>Release candidate — stabilisation and hotfixes only</td><td>Release manager via merge from develop</td><td>✅ Yes — PRs only</td></tr>
+        <tr><td><code>develop</code></td><td>Integration branch — completed features merged here, triggers CI</td><td>Merged PRs from feature branches</td><td>✅ Yes — PRs only</td></tr>
+        <tr><td><code>feature/[ticket]-[desc]</code></td><td>Individual developer's working branch</td><td>Developer directly</td><td>❌ No</td></tr>
+        <tr><td><code>hotfix/[desc]</code></td><td>Emergency fix branched from main, merged to main AND backported to develop</td><td>Developer + release manager</td><td>❌ No (fast-track PR process)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="cb-tip">
+      <strong>💡 Trunk-Based Development — When It Works for Power Platform</strong>
+      Trunk-based (all devs commit to <code>main</code> via short-lived branches) works only when: team is ≤ 3 devs, all components are low-conflict-risk (no canvas apps, no MDA forms), and the team has discipline for feature flags. For 10-dev teams with canvas apps and model-driven forms, GitFlow Lite is safer.
+    </div>
+
+    <h3>Git Branching Diagram</h3>
+    <div class="mw"><div class="mermaid">
+gitGraph
+   commit id: "baseline"
+   branch develop
+   checkout develop
+   branch feature/INV-101-invoice-form
+   checkout feature/INV-101-invoice-form
+   commit id: "export + unpack invoice form"
+   commit id: "fix validation formula"
+   checkout develop
+   merge feature/INV-101-invoice-form id: "PR merge ✅"
+   branch feature/INV-102-flow-notify
+   checkout feature/INV-102-flow-notify
+   commit id: "export + unpack notify flow"
+   checkout develop
+   merge feature/INV-102-flow-notify id: "PR merge ✅"
+   branch release/v1.2
+   checkout release/v1.2
+   commit id: "bump version 1.2.0"
+   checkout main
+   merge release/v1.2 id: "v1.2 → Prod" tag: "v1.2.0"
+   checkout develop
+   merge release/v1.2 id: "backport"
+    </div></div>
+
+    <h3>PR Process</h3>
+    <div class="tw"><table>
+      <thead><tr><th>PR Check</th><th>Who / What runs it</th><th>Pass criteria</th></tr></thead>
+      <tbody>
+        <tr><td>Solution unpacked correctly</td><td>CI pipeline — <code>pac solution pack</code> on PR branch</td><td>Pack succeeds with no errors</td></tr>
+        <tr><td>Solution Checker</td><td>CI pipeline — <code>pac solution check</code></td><td>Zero High or Critical violations</td></tr>
+        <tr><td>Unpack diff review</td><td>Human reviewer — reads component-level diff in PR</td><td>Reviewer confirms changes match ticket scope</td></tr>
+        <tr><td>Component ownership</td><td>Human reviewer — checks ownership matrix</td><td>No component modified by unauthorized developer</td></tr>
+        <tr><td>Naming conventions</td><td>Human reviewer</td><td>New components follow publisher prefix and naming table</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Day in the Life — Developer</h3>
+    <ol class="steps">
+      <li>Pull latest <code>develop</code>: <code>git pull origin develop</code></li>
+      <li>Create feature branch: <code>git checkout -b feature/[ticket]-[short-desc]</code></li>
+      <li>Make changes in personal dev environment (Dev-[name])</li>
+      <li>Export solution: <code>pac solution export --name MySolution --path ./MySolution.zip --managed false</code></li>
+      <li>Unpack: <code>pac solution unpack --zipfile MySolution.zip --folder ./src/MySolution --processCanvasApps</code></li>
+      <li>Review diff: <code>git diff</code> — confirm only expected files changed</li>
+      <li>Commit and push: <code>git add src/MySolution/ &amp;&amp; git commit -m "feat([ticket]): description" &amp;&amp; git push origin feature/[ticket]-[short-desc]</code></li>
+      <li>Open PR to <code>develop</code> — link ticket, describe what changed and why</li>
+      <li>Address review comments, re-export if changes needed in dev env</li>
+    </ol>
+
+    <h3>Day in the Life — Release Manager</h3>
+    <ol class="steps">
+      <li>Confirm all feature PRs for the sprint are merged to <code>develop</code></li>
+      <li>Create release branch: <code>git checkout -b release/vX.Y origin/develop</code></li>
+      <li>Bump solution version in solution.xml: <code>Version="X.Y.Z.build"</code></li>
+      <li>PR release branch to <code>main</code> — triggers build pipeline</li>
+      <li>Build pipeline: pack managed artifact → publish to ADO Artifacts / pipeline run artifact</li>
+      <li>CD pipeline Stage 1: deploy to Test — run automated post-deploy checks — approve or reject</li>
+      <li>CD pipeline Stage 2: manual approval gate → deploy to Stage → smoke test checklist</li>
+      <li>CD pipeline Stage 3: Change Board approval → deploy to Prod → post-deploy verification → tag release: <code>git tag v1.2.0</code></li>
+      <li>Backport release branch to <code>develop</code>: <code>git merge release/vX.Y</code></li>
+    </ol>
+
+    <h3>Hotfix Strategy</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Step</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>1. Branch from main</td><td><code>git checkout -b hotfix/[desc] main</code> — NOT from develop (avoid pulling in unreleased sprint work)</td></tr>
+        <tr><td>2. Make fix</td><td>Export from production-mirroring environment, unpack, commit</td></tr>
+        <tr><td>3. Fast-track PR</td><td>Senior dev review only — abbreviated checklist, no full UAT cycle</td></tr>
+        <tr><td>4. Deploy to Prod</td><td>Merge hotfix → main → tag → trigger CD pipeline directly to Prod (skip Test/Stage if approved by Change Board)</td></tr>
+        <tr><td>5. Backport to develop</td><td><code>git merge hotfix/[desc]</code> into develop — mandatory, prevents regression in next sprint</td></tr>
+        <tr><td>6. Delete hotfix branch</td><td>After backport confirmed</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Component Ownership Model</h3>
+    <p>Assign ownership before sprint planning, not during. Each conflict-prone component (canvas app, MDA form, sitemap, ribbon) has exactly one owner at any time. Ownership can transfer between sprints via explicit handoff. Two developers should never be in the same component in the same sprint without a coordination protocol (e.g., one owns screens A–C, other owns screens D–F with no cross-screen formula dependencies).</p>
+
+    <h3>Dataverse Git Integration (Native — 2024+)</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Feature</th><th>PAC CLI Unpack</th><th>Dataverse Git Integration</th></tr></thead>
+      <tbody>
+        <tr><td>How it works</td><td>Manual export → unpack → commit cycle</td><td>Direct sync from environment to git repo via Power Platform admin centre</td></tr>
+        <tr><td>File format</td><td>PAC-proprietary XML/JSON/YAML</td><td>Native Dataverse YAML format (different schema)</td></tr>
+        <tr><td>CI/CD integration</td><td>Full — PAC CLI pack in pipeline</td><td>Limited — still maturing; pack-from-Dataverse-YAML not fully in PAC CLI as of 2024</td></tr>
+        <tr><td>Best for</td><td>Pro-dev teams with ADO pipelines — production-grade today</td><td>Citizen-dev teams wanting environment → git without CLI; teams willing to adopt the new format early</td></tr>
+        <tr><td>Recommendation</td><td>✅ Use for any team with existing ADO/PAC CLI investment</td><td>⚠️ Evaluate per project — promising but verify current GA status before committing</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="s5" class="section">
+    <div class="sec-hdr"><span class="sec-num">Section 5</span><h2>Azure DevOps ALM: Setup to Production</h2></div>
+
+    <h3>5a — Prerequisites &amp; Service Principal Setup</h3>
+    <ol class="steps">
+      <li><strong>App registration in Entra ID</strong> — create a new app registration (no redirect URI needed). Note the Application (client) ID and Tenant ID. Generate a client secret (store in Key Vault — never in pipeline YAML).</li>
+      <li><strong>Dataverse application user</strong> — in each target environment (Build, Test, Stage, Prod): Power Platform Admin Centre → Settings → Users → Application Users → New → paste the App ID. Assign role: <strong>System Administrator</strong>. Scope this per-environment — the SP should have no higher org-level role than needed.</li>
+      <li><strong>ADO service connection</strong> — in ADO Project Settings → Service Connections → New → <em>Power Platform</em> type. Enter: Server URL (environment URL), Tenant ID, Application ID, Client Secret. Test connection before saving. Create one service connection per environment (not one shared connection for all).</li>
+      <li><strong>Variable groups</strong> — create one variable group per environment (e.g., <code>vg-pp-test</code>, <code>vg-pp-prod</code>) containing: <code>ServiceConnectionName</code>, <code>EnvironmentUrl</code>, <code>SolutionName</code>. Link to Azure Key Vault for secrets — client secrets and API keys must never be stored as plain ADO variables.</li>
+      <li><strong>PAC CLI vs Power Platform Build Tools</strong> — use PAC CLI tasks (<code>microsoft/powerplatform-actions</code> or inline <code>pac</code> commands via script task). Build Tools tasks exist but are less flexible and lag behind PAC CLI features. If using Build Tools, note: <em>Pack Solution</em> = <code>pac solution pack</code>, <em>Import Solution</em> = <code>pac solution import</code>.</li>
+      <li><strong>Agent pool</strong> — Microsoft-hosted (<code>ubuntu-latest</code> or <code>windows-latest</code>) is sufficient for most projects. Use self-hosted when: private network Dataverse access is required, custom tooling (specific PAC CLI version, internal scripts) must be pre-installed, or pipeline run minutes are a cost concern at scale.</li>
+    </ol>
+
+    <h3>5b — Repository Structure</h3>
+    <details>
+      <summary>📁 Recommended folder layout</summary>
+      <pre><code class="language-bash">repo-root/
+├── solutions/
+│   ├── Capp_01_CoreData/
+│   │   └── src/                  # pac solution unpack output
+│   │       ├── Entities/
+│   │       ├── OptionSets/
+│   │       └── Other/
+│   ├── Capp_02_SharedComponents/
+│   │   └── src/
+│   └── Capp_03_InvoicingApp/
+│       └── src/
+│           ├── CanvasApps/       # --processCanvasApps unpacked screens
+│           ├── Workflows/        # cloud flows as JSON
+│           └── Other/
+├── pipelines/
+│   ├── templates/
+│   │   ├── solution-checker.yml
+│   │   ├── pack-managed.yml
+│   │   └── deploy-stage.yml
+│   ├── ci-pr-validate.yml        # triggers on PR to develop
+│   ├── ci-build.yml              # triggers on merge to develop/release
+│   └── cd-deploy.yml             # multi-stage CD
+├── config/
+│   ├── test/
+│   │   └── deployment-settings.json
+│   ├── stage/
+│   │   └── deployment-settings.json
+│   └── prod/
+│       └── deployment-settings.json
+└── scripts/
+    ├── pack-solution.ps1
+    ├── bump-version.ps1
+    └── post-deploy-validate.ps1</code></pre>
+    </details>
+
+    <h3>5c — CI Pipeline Design</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Stage</th><th>Task</th><th>Tool</th><th>Key decision</th></tr></thead>
+      <tbody>
+        <tr><td>Trigger</td><td>PR to <code>develop</code> or push to <code>release/*</code></td><td>ADO trigger YAML</td><td>PR gate: solution checker only. Build gate: full pack + artifact.</td></tr>
+        <tr><td>Pack (validate)</td><td><code>pac solution pack --folder src/MySolution --zipfile out/MySolution.zip</code></td><td>PAC CLI script task</td><td><strong>Build from source</strong> — never re-export from dev environment in CI. Source is the truth.</td></tr>
+        <tr><td>Solution Checker</td><td><code>pac solution check --path out/MySolution.zip --outputDirectory checker-results --geo [region]</code></td><td>PAC CLI</td><td>Fail pipeline if any High or Critical rule violations. Medium/Low = warning only.</td></tr>
+        <tr><td>Version increment</td><td>Edit <code>solution.xml</code> Major.Minor.Patch.Build — inject ADO <code>$(Build.BuildId)</code> as build number</td><td>PowerShell script</td><td>Semantic version in solution XML — enables rollback to specific build artifact.</td></tr>
+        <tr><td>Pack managed</td><td><code>pac solution pack --managed --folder src/MySolution --zipfile out/MySolution_managed.zip</code></td><td>PAC CLI</td><td>Only managed solution artifacts go downstream — never unmanaged.</td></tr>
+        <tr><td>Publish artifact</td><td>Publish <code>out/</code> + <code>config/</code> as pipeline artifact named <code>drop-[SolutionName]</code></td><td>ADO PublishPipelineArtifact task</td><td>Artifact includes deployment settings files for all downstream stages.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>5d — CD Pipeline Design (Multi-Stage)</h3>
+    <p>Deployment settings files (<code>config/[stage]/deployment-settings.json</code>) inject environment-specific values for connection references and environment variables at deploy time — the same managed artifact deploys everywhere; only the settings file changes.</p>
+    <div class="tw"><table>
+      <thead><tr><th>CD Stage</th><th>Steps</th><th>Approval</th><th>On failure</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Stage 1 — Test</strong></td><td>Download artifact → <code>pac solution import --managed --deploymentSettingsFile config/test/deployment-settings.json --activatePlugins</code> → run <code>post-deploy-validate.ps1</code> (env var check, connection ref status, flow state)</td><td>Auto-approve (or 1-hour window for QA team to reject)</td><td>Pipeline fails → notify QA lead → artifact stays in Test for investigation</td></tr>
+        <tr><td><strong>Stage 2 — Stage</strong></td><td>Manual approval gate (Release Manager) → deploy with stage deployment settings → smoke test checklist validation</td><td>Release Manager must approve — 48h timeout</td><td>Reject → investigation → fix in next build — no rollback unless QA sign-off</td></tr>
+        <tr><td><strong>Stage 3 — Production</strong></td><td>Change Board approval gate → deploy with prod deployment settings → post-deploy checklist → tag git commit <code>v[version]</code></td><td>Change Board + Release Manager dual approval</td><td>Hotfix-forward by default; rollback only if data-safe (see Section 9)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="cb-tip">
+      <strong>💡 Deployment Settings — Connection Reference &amp; Env Var Injection</strong>
+      The <code>deployment-settings.json</code> file maps connection reference logical names to pre-created connection IDs in each environment, and maps environment variable schema names to their target values. Without this, flows and apps break after deployment because they cannot resolve connections to environment-specific resources. Generate the template once with <code>pac solution create-settings --solution-zip MySolution.zip --settings-file deployment-settings.json</code> then fill in the values per environment.
+    </div>
+
+    <h3>5e — YAML Pipeline Examples</h3>
+    <details>
+      <summary>📄 Example 1 — PR Validation Pipeline (solution checker gate)</summary>
+      <pre><code class="language-yaml"># ci-pr-validate.yml — triggers on PR to develop
+trigger: none
+pr:
+  branches:
+    include: [develop, release/*]
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - group: vg-pp-build   # contains SolutionName, BuildEnvUrl
+
+steps:
+  - task: PowerShell@2
+    displayName: Install PAC CLI
+    inputs:
+      targetType: inline
+      script: dotnet tool install --global Microsoft.PowerApps.CLI.Tool
+      # Build Tools equivalent: use PowerPlatformToolInstaller task
+
+  - task: PowerShell@2
+    displayName: Pack solution from source
+    inputs:
+      targetType: inline
+      script: |
+        pac solution pack `
+          --folder $(Build.SourcesDirectory)/solutions/$(SolutionName)/src `
+          --zipfile $(Build.ArtifactStagingDirectory)/$(SolutionName).zip
+
+  - task: PowerShell@2
+    displayName: Run Solution Checker
+    inputs:
+      targetType: inline
+      script: |
+        pac solution check `
+          --path $(Build.ArtifactStagingDirectory)/$(SolutionName).zip `
+          --outputDirectory $(Build.ArtifactStagingDirectory)/checker `
+          --geo Europe
+        # Parse results — fail if High or Critical violations found
+        $results = Get-Content "$(Build.ArtifactStagingDirectory)/checker/*.sarif" | ConvertFrom-Json
+        $critical = $results.runs.results | Where-Object { $_.level -in @('error','warning') -and $_.properties.severity -in @('High','Critical') }
+        if ($critical.Count -gt 0) { Write-Error "Solution Checker: $($critical.Count) High/Critical violations"; exit 1 }
+      # Build Tools equivalent: PowerPlatformCheckerTask
+
+  - task: PublishTestResults@2
+    displayName: Publish checker results
+    inputs:
+      testResultsFormat: NUnit
+      testResultsFiles: '**/checker/*.xml'
+      failTaskOnFailedTests: true</code></pre>
+    </details>
+
+    <details>
+      <summary>📄 Example 2 — Build Pipeline (pack managed artifact)</summary>
+      <pre><code class="language-yaml"># ci-build.yml — triggers on merge to develop or release/*
+trigger:
+  branches:
+    include: [develop, release/*]
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - group: vg-pp-build
+
+steps:
+  - task: PowerShell@2
+    displayName: Install PAC CLI
+    inputs:
+      targetType: inline
+      script: dotnet tool install --global Microsoft.PowerApps.CLI.Tool
+
+  - task: PowerShell@2
+    displayName: Bump build version in solution.xml
+    inputs:
+      targetType: inline
+      script: |
+        $xmlPath = "$(Build.SourcesDirectory)/solutions/$(SolutionName)/src/Other/Solution.xml"
+        [xml]$xml = Get-Content $xmlPath
+        $ver = $xml.ImportExportXml.SolutionManifest.Version
+        $parts = $ver -split '\.'
+        $parts[3] = "$(Build.BuildId)"
+        $xml.ImportExportXml.SolutionManifest.Version = $parts -join '.'
+        $xml.Save($xmlPath)
+        Write-Host "Version bumped to $($parts -join '.')"
+
+  - task: PowerShell@2
+    displayName: Pack managed solution
+    inputs:
+      targetType: inline
+      script: |
+        pac solution pack `
+          --folder $(Build.SourcesDirectory)/solutions/$(SolutionName)/src `
+          --zipfile $(Build.ArtifactStagingDirectory)/$(SolutionName)_managed.zip `
+          --managed
+        # Build Tools equivalent: PowerPlatformPackSolution task
+
+  - task: CopyFiles@2
+    displayName: Copy deployment settings
+    inputs:
+      SourceFolder: $(Build.SourcesDirectory)/config
+      Contents: '**/deployment-settings.json'
+      TargetFolder: $(Build.ArtifactStagingDirectory)/config
+
+  - task: PublishPipelineArtifact@1
+    displayName: Publish drop artifact
+    inputs:
+      targetPath: $(Build.ArtifactStagingDirectory)
+      artifact: drop-$(SolutionName)</code></pre>
+    </details>
+
+    <details>
+      <summary>📄 Example 3 — Release Pipeline (multi-stage with approval gates)</summary>
+      <pre><code class="language-yaml"># cd-deploy.yml — triggered by successful ci-build run
+trigger: none
+resources:
+  pipelines:
+    - pipeline: build
+      source: ci-build
+      trigger: true
+
+stages:
+  - stage: DeployTest
+    displayName: Deploy to Test
+    variables: [group: vg-pp-test]
+    jobs:
+      - deployment: DeployToTest
+        environment: pp-test   # ADO environment with no approvals (auto)
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: PowerShell@2
+                  displayName: Import to Test
+                  inputs:
+                    targetType: inline
+                    script: |
+                      pac auth create --url $(EnvironmentUrl) --applicationId $(AppId) --clientSecret $(ClientSecret) --tenant $(TenantId)
+                      pac solution import `
+                        --path $(Pipeline.Workspace)/drop-$(SolutionName)/$(SolutionName)_managed.zip `
+                        --deploymentSettingsFile $(Pipeline.Workspace)/drop-$(SolutionName)/config/test/deployment-settings.json `
+                        --managed --activatePlugins --publishChanges
+                      # Build Tools equivalent: PowerPlatformImportSolution task
+                - task: PowerShell@2
+                  displayName: Post-deploy validation
+                  inputs:
+                    targetType: filePath
+                    filePath: $(Pipeline.Workspace)/drop-$(SolutionName)/scripts/post-deploy-validate.ps1
+                    arguments: -EnvUrl $(EnvironmentUrl) -AppId $(AppId) -Secret $(ClientSecret) -TenantId $(TenantId)
+
+  - stage: DeployStage
+    displayName: Deploy to Stage
+    dependsOn: DeployTest
+    variables: [group: vg-pp-stage]
+    jobs:
+      - deployment: DeployToStage
+        environment: pp-stage   # ADO environment with manual approval configured
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: PowerShell@2
+                  displayName: Import to Stage
+                  inputs:
+                    targetType: inline
+                    script: |
+                      pac auth create --url $(EnvironmentUrl) --applicationId $(AppId) --clientSecret $(ClientSecret) --tenant $(TenantId)
+                      pac solution import `
+                        --path $(Pipeline.Workspace)/drop-$(SolutionName)/$(SolutionName)_managed.zip `
+                        --deploymentSettingsFile $(Pipeline.Workspace)/drop-$(SolutionName)/config/stage/deployment-settings.json `
+                        --managed --activatePlugins --publishChanges --upgradeAsyncWaitTimeout 600
+
+  - stage: DeployProd
+    displayName: Deploy to Production
+    dependsOn: DeployStage
+    variables: [group: vg-pp-prod]
+    jobs:
+      - deployment: DeployToProd
+        environment: pp-prod   # ADO environment — dual approver group configured
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: PowerShell@2
+                  displayName: Import to Production
+                  inputs:
+                    targetType: inline
+                    script: |
+                      pac auth create --url $(EnvironmentUrl) --applicationId $(AppId) --clientSecret $(ClientSecret) --tenant $(TenantId)
+                      pac solution import `
+                        --path $(Pipeline.Workspace)/drop-$(SolutionName)/$(SolutionName)_managed.zip `
+                        --deploymentSettingsFile $(Pipeline.Workspace)/drop-$(SolutionName)/config/prod/deployment-settings.json `
+                        --managed --activatePlugins --publishChanges --upgradeAsyncWaitTimeout 900
+                - task: PowerShell@2
+                  displayName: Tag release in git
+                  inputs:
+                    targetType: inline
+                    script: |
+                      git tag v$(Build.BuildNumber)
+                      git push origin v$(Build.BuildNumber)</code></pre>
+    </details>
+  </section>
+
+  <section id="s6" class="section">
+    <div class="sec-hdr"><span class="sec-num">Section 6</span><h2>Power Platform Pipelines: Setup, Strengths, and Gaps</h2></div>
+
+    <p>Power Platform Pipelines is Microsoft's built-in deployment orchestration for Power Platform — no ADO, no YAML, no CLI. Designed for maker-led teams and low-code environments. Target audience: citizen developers, small pro-dev teams, and organisations without DevOps capability.</p>
+
+    <h3>Step-by-Step Setup</h3>
+    <ol class="steps">
+      <li><strong>Provision host environment</strong> — create a dedicated Sandbox environment (e.g., <code>Contoso-PipelineHost</code>). This must be a <strong>Managed Environment</strong>. It will not receive solution deployments — it only hosts pipeline configuration.</li>
+      <li><strong>Install Deployment Pipeline Configuration app</strong> — in the host environment: Power Platform Admin Centre → Dynamics 365 apps → Install <em>Power Platform Pipelines</em>. Alternatively, install via <code>pac application install --environment [host-env-url] --application-name "Deployment Pipeline Configuration"</code>.</li>
+      <li><strong>Link target environments</strong> — in the Pipeline Configuration app, create <em>Deployment Environment</em> records for each stage (Test, Stage, Prod). Each target must be a Managed Environment. The service connection between host and targets is established via system-to-system trust — no additional SP setup required for basic pipelines.</li>
+      <li><strong>Create pipeline record</strong> — New Pipeline → name it → assign the linked deployment environments in order (Test → Stage → Prod). Set deployment order and whether each stage is sequential.</li>
+      <li><strong>Configure approval gates</strong> — per stage: enable <em>Pre-deployment approval</em> → assign approvers (individuals or Dataverse teams). Approvers receive email and can approve/reject via the Power Platform maker portal.</li>
+      <li><strong>Configure delegated deployment</strong> (optional) — allows makers to trigger deployments without needing system admin access to target environments. The pipeline service account handles the import; the maker only initiates the run.</li>
+      <li><strong>Trigger a deployment</strong> — from a solution in the source (developer) environment: Solutions → select solution → Pipelines → Deploy here → runs to Test → awaits approval → Stage → Prod.</li>
+    </ol>
+
+    <h3>Environment Variable &amp; Connection Reference Handling</h3>
+    <p>When a pipeline deployment reaches a new environment, Power Platform Pipelines automatically detects unresolved connection references and environment variables. The deploying user (or approver) is prompted to configure them inline via the pipeline UI before the deployment proceeds. Values are stored per-environment in the Pipeline Configuration app. This is the key advantage over manual import — it guides configuration without requiring deployment settings files or script knowledge.</p>
+    <div class="cb-warn">
+      <strong>⚠️ Inline Configuration Has Limits</strong>
+      The inline prompt only appears when a value is <em>missing</em>. If a connection reference was previously set to a stale or wrong connection, the pipeline will not re-prompt — it will reuse the stored value silently. Audit connection reference assignments after each deployment, especially after connector re-authentication events.
+    </div>
+
+    <h3>Deployment Flow Diagram</h3>
+    <div class="mw"><div class="mermaid">
+flowchart TD
+    A["Maker triggers Deploy\n(from solution in Dev env)"] --> B["Pipeline Configuration App\n(Host Environment)"]
+    B --> C["Stage 1: Test\n✅ Managed Environment"]
+    C --> D{Pre-deployment\napproval required?}
+    D -->|No| E["Import managed solution\nResolve env vars &amp; conn refs"]
+    D -->|Yes| F["Approval email sent\nto approver group"]
+    F --> G{Approved?}
+    G -->|Rejected| H["❌ Deployment stopped\nReason logged"]
+    G -->|Approved| E
+    E --> I["Stage 2: Stage\n✅ Managed Environment"]
+    I --> J["Manual approval gate\n(Release Manager)"]
+    J --> K["Import managed solution"]
+    K --> L["Stage 3: Production\n✅ Managed Environment"]
+    L --> M["Dual approval gate\n(Change Board)"]
+    M --> N["✅ Production deployed"]
+    </div></div>
+
+    <h3>Redeploy a Prior Version</h3>
+    <ol class="steps">
+      <li>Navigate to the <strong>Pipeline Configuration app</strong> in the host environment (not the maker portal)</li>
+      <li>Open <strong>Pipeline Runs</strong> — find the prior successful run that contains the version to restore</li>
+      <li>Select the run → <strong>Redeploy</strong> — this re-triggers the same artifact through the approval chain</li>
+      <li>Complete approval gates as normal — the prior managed solution version is imported over the current one using stage-and-upgrade behaviour</li>
+    </ol>
+    <div class="cb-tip">
+      <strong>💡 Retain Pipeline Run History</strong>
+      Pipeline run history is stored in the host environment's Dataverse tables. Do not delete the host environment or pipeline records — doing so removes the ability to redeploy prior versions. Treat the host environment as permanent infrastructure.
+    </div>
+
+    <h3>Feature Gap Table — PP Pipelines vs Azure DevOps</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Capability</th><th>PP Pipelines</th><th>ADO + PAC CLI</th></tr></thead>
+      <tbody>
+        <tr><td>Solution Checker as pipeline gate</td><td>❌ Not built-in (manual trigger only)</td><td>✅ Native — fail build on High/Critical violations</td></tr>
+        <tr><td>External secret injection (Key Vault)</td><td>❌ No — values stored in Pipeline Config app Dataverse</td><td>✅ Azure Key Vault variable group linkage</td></tr>
+        <tr><td>Source control integration</td><td>⚠️ Basic — can trigger from solution changes, no branch strategy</td><td>✅ Full YAML — branch triggers, PR gates, tag-based releases</td></tr>
+        <tr><td>Multi-solution coordinated deployment</td><td>⚠️ Sequential per solution — no dependency orchestration</td><td>✅ Pipeline stages can deploy multiple solutions in dependency order</td></tr>
+        <tr><td>Post-deploy scripted validation</td><td>❌ No — manual verification only</td><td>✅ PowerShell steps: check env vars, flow state, connection ref status</td></tr>
+        <tr><td>Audit trail export</td><td>⚠️ Stored in Dataverse — not exportable to external SIEM</td><td>✅ ADO audit log + pipeline run history exportable</td></tr>
+        <tr><td>Rollback to specific build</td><td>⚠️ Redeploy prior run only if run history exists</td><td>✅ Redeploy any tagged artifact — independent of pipeline history</td></tr>
+        <tr><td>Hotfix-forward deployment (skip stages)</td><td>❌ Must go through all stages in sequence</td><td>✅ ADO stage conditions can be configured to skip non-Prod stages with approval</td></tr>
+        <tr><td>Skill requirement for operators</td><td>✅ Low — maker portal UI only</td><td>❌ High — YAML, PAC CLI, service principals, variable groups</td></tr>
+        <tr><td>Custom pipeline logic (scripts)</td><td>❌ None — fixed deployment workflow</td><td>✅ Arbitrary PowerShell/Bash in any pipeline step</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>When to Graduate from PP Pipelines to ADO</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Trigger Criteria</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>Team grows beyond 5 developers with concurrent feature work</td><td>Branch strategy becomes necessary — ADO required</td></tr>
+        <tr><td>First compliance audit requiring pipeline-as-code evidence</td><td>YAML pipelines provide auditable, version-controlled deployment definitions</td></tr>
+        <tr><td>First failed rollback where prior artifact is not in pipeline run history</td><td>Artifact-based ADO approach eliminates this risk</td></tr>
+        <tr><td>Solution Checker violations reaching production (no PR gate)</td><td>ADO CI gate prevents this structurally</td></tr>
+        <tr><td>Secrets (API keys, SP credentials) stored as plaintext Dataverse values</td><td>Key Vault integration requires ADO</td></tr>
+        <tr><td>Regulated environment review (financial services, government)</td><td>ADO audit export + approval gate evidence is the standard expectation</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="s7" class="section">
+    <div class="sec-hdr"><span class="sec-num">Section 7</span><h2>Automated Testing: What's Realistic in Power Platform ALM</h2></div>
+
+    <div class="cb-warn">
+      <strong>⚠️ Honest Baseline</strong>
+      True automated end-to-end UI testing for Power Platform is immature compared to web/mobile stacks. Plan for manual UAT at Stage. The testing tools below are real and valuable — but set expectations correctly with clients before commitments are made.
+    </div>
+
+    <h3>Solution Checker</h3>
+    <p>Solution Checker performs static analysis against Microsoft's rule set — performance, security, reliability, and supportability rules. It does not test runtime behaviour.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Aspect</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>When to run</td><td><strong>PR gate</strong>: run on every PR to <code>develop</code> — fail PR if High/Critical violations found. <strong>Build gate</strong>: run again on release branch — ensures no violations slipped through merge.</td></tr>
+        <tr><td>Rule categories that matter most</td><td><strong>Security</strong>: hardcoded credentials, insecure HTTP calls. <strong>Performance</strong>: missing indexes on filtered columns, synchronous plugin chains. <strong>Reliability</strong>: missing null checks in plugin code, unsafe retrieve operations.</td></tr>
+        <tr><td>Fail threshold</td><td>Fail pipeline on any <strong>High</strong> or <strong>Critical</strong> violation. Treat <strong>Medium</strong> as warning (log, do not block). <strong>Low</strong> = informational only.</td></tr>
+        <tr><td>PAC CLI command</td><td><code>pac solution check --path solution.zip --outputDirectory ./results --geo Europe --ruleSet "0000000000000000000000000000000000000001"</code></td></tr>
+        <tr><td>Suppression</td><td>Use <code>.checkersuppression</code> file for agreed false-positives — require tech lead sign-off for each suppression. Never suppress High/Critical without documented reason.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Post-Deployment Validation (Automated)</h3>
+    <p>Run immediately after every managed solution import in CI/CD. Catches the most common deployment failures before a human runs a smoke test.</p>
+    <details>
+      <summary>📄 post-deploy-validate.ps1 — key checks</summary>
+      <pre><code class="language-bash">param($EnvUrl, $AppId, $Secret, $TenantId, $SolutionName)
+
+# Auth via service principal
+pac auth create --url $EnvUrl --applicationId $AppId --clientSecret $Secret --tenant $TenantId
+
+# 1. Check environment variables are all set (no null current values)
+$envVars = pac env list-variables --environment $EnvUrl --json | ConvertFrom-Json
+$unset = $envVars | Where-Object { $_.currentValue -eq $null -and $_.defaultValue -eq $null }
+if ($unset.Count -gt 0) {
+    Write-Error "UNSET ENV VARS: $($unset.schemaName -join ', ')"
+    exit 1
+}
+
+# 2. Check connection references are all configured
+$connRefs = pac env list-connection-references --environment $EnvUrl --json | ConvertFrom-Json
+$unconfigured = $connRefs | Where-Object { $_.connectionId -eq $null }
+if ($unconfigured.Count -gt 0) {
+    Write-Error "UNCONFIGURED CONN REFS: $($unconfigured.logicalName -join ', ')"
+    exit 1
+}
+
+# 3. Check all flows in solution are enabled (not suspended)
+# Requires Dataverse API call - flows suspended due to connection issues fail here
+$token = (pac auth token --environment $EnvUrl --json | ConvertFrom-Json).accessToken
+$flows = Invoke-RestMethod -Uri "$EnvUrl/api/data/v9.2/workflows?`$filter=category eq 5 and statecode eq 0" `
+  -Headers @{Authorization="Bearer $token"; "OData-MaxVersion"="4.0"}
+$suspended = $flows.value | Where-Object { $_.statuscode -eq 2 }  # 2 = Suspended
+if ($suspended.Count -gt 0) {
+    Write-Warning "SUSPENDED FLOWS: $($suspended.name -join ', ')"
+    # Warning only — flows may be intentionally off; human must verify
+}
+
+Write-Host "✅ Post-deploy validation passed"</code></pre>
+    </details>
+
+    <h3>Power Apps Test Studio</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Aspect</th><th>Current State (2025)</th></tr></thead>
+      <tbody>
+        <tr><td>What it is</td><td>Low-code test authoring tool built into Power Apps Studio for Canvas apps. Tests are written as Power Fx expressions against app controls.</td></tr>
+        <tr><td>Good for</td><td>Regression tests for canvas app UI flows (button clicks, form validation, navigation). Re-run after each sprint to catch regressions in complex formulas.</td></tr>
+        <tr><td>Not good for</td><td>CI gate automation — Test Studio tests cannot be triggered from ADO pipelines without significant custom wrapper work. Not a substitute for E2E testing frameworks.</td></tr>
+        <tr><td>Execution</td><td>Manual run inside Power Apps Studio, or via Test Studio published test URL. Results exportable as HTML report.</td></tr>
+        <tr><td>Limitation</td><td>Tests are stored inside the app — they travel with the solution but are not independently versioned. Complex delegation and offline scenarios not testable.</td></tr>
+        <tr><td>Recommendation</td><td>Author tests for critical paths (login flow, primary record creation, key navigation). Run manually before every UAT cycle. Do not promise CI automation to clients.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>PAC CLI Test Commands</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Command</th><th>What it does</th><th>Useful for</th></tr></thead>
+      <tbody>
+        <tr><td><code>pac test run</code></td><td>Runs Power Apps Test Studio tests for a canvas app</td><td>Canvas app regression in CI — requires app published and test plan ID</td></tr>
+        <tr><td><code>pac solution check</code></td><td>Static analysis via Solution Checker</td><td>PR and build gates — see above</td></tr>
+        <tr><td><code>pac env status</code></td><td>Returns environment health and provisioning status</td><td>Pre-deployment checks in pipeline</td></tr>
+        <tr><td><code>pac solution list</code></td><td>Lists solutions and versions in an environment</td><td>Post-deploy verification: confirm expected version is installed</td></tr>
+      </tbody>
+    </table></div>
+    <div class="cb-tip">
+      <strong>💡 <code>pac test run</code> in CI — Practical Notes</strong>
+      As of 2025, <code>pac test run</code> requires the canvas app to be published in the target environment and the test plan to be referenced by ID. It is not zero-configuration. Budget 1–2 days of setup per app if you want this in a real CI pipeline. Evaluate whether the maintenance cost justifies the coverage given Test Studio's current limitations.
+    </div>
+
+    <h3>Manual Smoke Test Checklist</h3>
+    <p>Release Manager runs this after every Stage deployment before approving Production:</p>
+    <ul class="check-list">
+      <li><span class="ci">☐</span> All apps open without error (no "Something went wrong" or authentication failure)</li>
+      <li><span class="ci">☐</span> Primary record creation flow completes end-to-end (create, save, retrieve)</li>
+      <li><span class="ci">☐</span> At least one cloud flow triggered manually — confirm run succeeded in flow history</li>
+      <li><span class="ci">☐</span> All environment variable values confirmed correct for this stage (check via Power Platform admin or post-deploy script output)</li>
+      <li><span class="ci">☐</span> All connection references show a valid connection (not "not configured" or red status)</li>
+      <li><span class="ci">☐</span> Any Dataverse table changes (new columns, changed relationships) visible in the model-driven app</li>
+      <li><span class="ci">☐</span> Security roles confirmed — test user with minimum required role can access all intended features</li>
+      <li><span class="ci">☐</span> If Copilot Studio agent deployed — open agent, send test message, confirm response and topic trigger</li>
+    </ul>
+  </section>
+
+  <section id="s8" class="section">
+    <div class="sec-hdr"><span class="sec-num">Section 8</span><h2>Environment Variables, Connection References, and Secrets</h2></div>
+
+    <h3>Where Everything Goes</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Artefact</th><th>Source control</th><th>Deployment settings</th><th>Azure Key Vault</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Environment variable <em>definition</em> (schema)</td><td>✅ Yes — travels in solution XML</td><td>—</td><td>—</td><td>The definition (name, type, default) is in source. The <em>value</em> is not.</td></tr>
+        <tr><td>Environment variable <em>value</em></td><td>❌ Never</td><td>✅ Yes — per-environment JSON</td><td>⚠️ For secrets only</td><td>Non-secret values (URLs, site IDs) → deployment settings. API keys, passwords → Key Vault.</td></tr>
+        <tr><td>Connection reference (definition)</td><td>✅ Yes — travels in solution XML</td><td>✅ Yes — connection ID injected at deploy time</td><td>—</td><td>The definition is in source; the connection ID (environment-specific) is in deployment settings.</td></tr>
+        <tr><td>Service principal client secret</td><td>❌ Never</td><td>❌ Never</td><td>✅ Always</td><td>Referenced in ADO variable group linked to Key Vault. Never as plain ADO variable.</td></tr>
+        <tr><td>API key (external service)</td><td>❌ Never</td><td>❌ Never</td><td>✅ Always</td><td>Inject via environment variable of type <em>Secret</em> backed by Key Vault reference, or via custom connector auth config.</td></tr>
+        <tr><td>SharePoint site URL</td><td>❌ Never hardcoded</td><td>✅ Yes</td><td>—</td><td>Different per environment — must be in deployment settings as an environment variable value.</td></tr>
+        <tr><td>Storage account name / blob URL</td><td>❌ Never hardcoded</td><td>✅ Yes</td><td>—</td><td>Treat as environment-specific configuration, not constants.</td></tr>
+        <tr><td>Feature flag (boolean)</td><td>⚠️ Default value only</td><td>✅ Current value per env</td><td>—</td><td>Define as environment variable of type Boolean. Default=false in source; set true per-environment via deployment settings when ready.</td></tr>
+        <tr><td>Tenant ID</td><td>⚠️ Only if single-tenant and non-sensitive</td><td>✅ Preferred</td><td>—</td><td>Tenant IDs are not secret but are environment-specific — keep in deployment settings for clarity.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Connection Reference Post-Deployment Configuration</h3>
+    <p>Connection references are the mechanism by which flows and apps connect to external services without hardcoding connection details. After a managed solution is deployed to a new environment, each connection reference must be mapped to a valid connection in <em>that</em> environment — the connection from Dev does not follow the solution.</p>
+
+    <div class="cb-anti">
+      <strong>❌ What Happens Without Pre-Configuration</strong>
+      If connection references are not pre-configured via deployment settings: all flows that use those connectors are suspended immediately on import. Canvas apps that call those flows or connectors show errors. The only fix is to manually open each flow, update the connection, and turn the flow back on — which is manual, error-prone, and untraceable.
+    </div>
+
+    <div class="cb-do">
+      <strong>✅ How Deployment Settings Files Solve This</strong>
+      In <code>config/[stage]/deployment-settings.json</code>, map each connection reference logical name to a pre-created connection ID in that environment. The connection must exist before the pipeline runs. PAC CLI creates the connection in the environment; the ID is then stored in the settings file. During import, <code>pac solution import --deploymentSettingsFile</code> applies the mapping automatically — flows are enabled, apps are connected.
+    </div>
+
+    <details>
+      <summary>📄 deployment-settings.json structure</summary>
+      <pre><code class="language-json">{
+  "EnvironmentVariables": [
+    {
+      "SchemaName": "capp_Invoicing_SharePointSiteUrl",
+      "Value": "https://contoso.sharepoint.com/sites/invoicing-test"
+    },
+    {
+      "SchemaName": "capp_Invoicing_NotificationEmail",
+      "Value": "invoicing-test@contoso.com"
+    }
+  ],
+  "ConnectionReferences": [
+    {
+      "LogicalName": "capp_sharedSharepoint_invoicing",
+      "ConnectionId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline/connections/abc123def456",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+    },
+    {
+      "LogicalName": "capp_sharedOffice365Outlook_notifications",
+      "ConnectionId": "/providers/Microsoft.PowerApps/apis/shared_office365/connections/xyz789ghi012",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+    }
+  ]
+}</code></pre>
+    </details>
+
+    <h3>Flow and App Ownership Post-Deployment</h3>
+    <p>When a solution is deployed by a service principal, cloud flows and apps are owned by that service principal in the target environment. This creates two problems:</p>
+    <div class="tw"><table>
+      <thead><tr><th>Problem</th><th>Root cause</th><th>Recommended pattern</th></tr></thead>
+      <tbody>
+        <tr><td>Flows that send emails or act on behalf of a user fail</td><td>Service principal has no Exchange mailbox — Office 365 Outlook connector actions fail when run in SP context</td><td>Use connection references pointing to a <strong>shared service account</strong> (licensed user) for user-context connectors. The SP imports the solution; the shared account's connection provides the user context at runtime.</td></tr>
+        <tr><td>Flows visible only to SP — users cannot manage or monitor them</td><td>Flow owner = SP, not visible in maker portal for human users</td><td>After deployment, use <code>pac flow update --environment [url] --flow [id] --new-owner [user-id]</code> or Power Automate Management connector to re-assign ownership to a shared service account or team mailbox. Include this in post-deploy scripts.</td></tr>
+        <tr><td>Canvas app connections prompt end users for credentials</td><td>App imported with SP context — runtime connections must be per-user or use shared connections via connection references</td><td>Ensure all connectors in canvas apps use <strong>connection references</strong> (not embedded connections) — connection references allow the environment-level connection to serve all users without per-user credential prompts.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>What Must Never Be Hardcoded</h3>
+    <div class="cb-anti">
+      <strong>❌ Hardcoding Violations — Zero Tolerance in Enterprise Projects</strong>
+      <ul style="margin-top:.5rem;padding-left:1.2rem">
+        <li>Environment-specific URLs (SharePoint sites, API endpoints, blob storage URLs) — use environment variables</li>
+        <li>User GUIDs or email addresses in flows ("notify john.doe@contoso.com") — use environment variables or Dataverse configuration tables</li>
+        <li>Tenant IDs, client IDs embedded in flow actions — use environment variables or custom connector auth config</li>
+        <li>API keys or passwords in any flow action field, formula, or connector config — use Key Vault-backed environment variables or custom connector secrets</li>
+        <li>Environment name strings used to branch logic ("if environment = 'Production' then…") — this is a testing anti-pattern; use feature flags (environment variables of type Boolean) instead</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="s9" class="section">
+    <div class="sec-hdr"><span class="sec-num">Section 9</span><h2>Rollback: When It's Safe, When It's Dangerous, and How to Decide</h2></div>
+
+    <div class="cb-warn">
+      <strong>⚠️ Core Message</strong>
+      Rollback is a last resort. A forward hotfix is almost always safer after a destructive schema change. Rollback thinking should begin at design time — not at 2am during an incident.
+    </div>
+
+    <h3>Rollback Safety Decision Table</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Scenario</th><th>Rollback safe?</th><th>Risk</th><th>Recommended action</th></tr></thead>
+      <tbody>
+        <tr><td>Flow logic change only (no schema, no data)</td><td>✅ Safe</td><td>Minimal — prior managed artifact restores flow definition</td><td>Redeploy prior artifact via ADO or PP Pipelines. Verify flows re-enabled after import.</td></tr>
+        <tr><td>App UI change only (no connector or formula changes)</td><td>✅ Safe</td><td>Low — prior app screens restored</td><td>Redeploy prior artifact. Re-publish the app after import if needed.</td></tr>
+        <tr><td>Schema change — column added</td><td>⚠️ Partial</td><td>Column remains in environment after rollback (managed solution does not delete columns on downgrade when using <em>update</em> behaviour). Existing data in the column is preserved.</td><td>Rollback the managed solution. If column is unwanted, remove it manually post-rollback via unmanaged change — then address in next managed release.</td></tr>
+        <tr><td>Schema change — column deleted</td><td>❌ Dangerous</td><td>Data in the deleted column is permanently lost. Rollback restores the solution definition but cannot restore data.</td><td>Do NOT rollback. Hotfix forward: restore the column definition in source, redeploy as new version. Assess data loss with business; restore from Dataverse backup if within backup window (default: 28 days).</td></tr>
+        <tr><td>Data migration applied (bulk transform, delete, or re-keying)</td><td>❌ Dangerous</td><td>Solution rollback does not reverse data changes. Data is in the state the migration left it.</td><td>Do NOT rollback managed solution. Restore from Dataverse point-in-time backup if data loss is unacceptable. Treat as a data incident, not an ALM incident.</td></tr>
+        <tr><td>Managed solution layer corruption (unmanaged layer exists in downstream env)</td><td>❌ Not possible via normal rollback</td><td>Active unmanaged layer overrides or conflicts with managed solution — both layers coexist and produce unpredictable behaviour</td><td>Remove the unmanaged customisation manually (delete the unmanaged solution layer or specific components), then redeploy the managed solution. Root cause: an unmanaged import reached a downstream environment — enforce controls to prevent recurrence.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>ADO Rollback — Redeploy Prior Artifact</h3>
+    <ol class="steps">
+      <li>Identify the prior successful pipeline run containing the target version — find it in ADO Pipelines → Runs → filter by <code>cd-deploy</code></li>
+      <li>Note the artifact version (build number or git tag, e.g., <code>v1.1.4</code>)</li>
+      <li>Re-trigger the CD pipeline from that specific run: <strong>Run → Rerun</strong>, or trigger a new CD run that downloads the prior artifact by build ID</li>
+      <li>Preferred: use <code>pac solution import</code> with <code>--stageAndUpgrade</code> flag — this atomically replaces the current managed solution with the prior version</li>
+      <li>Do <strong>not</strong> use <code>--update</code> for rollback — it leaves deleted components as unmanaged orphans in the environment</li>
+      <li>Run post-deploy validation script after import completes</li>
+    </ol>
+    <div class="cb-warn">
+      <strong>⚠️ stage-and-upgrade vs update on Rollback</strong>
+      <code>--stageAndUpgrade</code>: imports as a holding solution, then upgrades atomically — components removed in the prior version are properly cleaned up. <code>--update</code>: applies delta only — any components that were added in the broken version but absent in the prior version remain as unmanaged orphans. Always use <code>--stageAndUpgrade</code> for rollback.
+    </div>
+
+    <h3>PP Pipelines Rollback — Exact UI Steps</h3>
+    <ol class="steps">
+      <li>Open the <strong>Pipeline Configuration app</strong> in the host environment (not the maker portal — go to the host environment's model-driven app)</li>
+      <li>Navigate to <strong>Pipeline Runs</strong> in the left navigation</li>
+      <li>Filter by pipeline name and locate the prior successful run (check the <em>Deployed On</em> date and solution version number)</li>
+      <li>Open the run record → click <strong>Redeploy</strong> in the command bar</li>
+      <li>Complete the approval gates as normal — the redeployment goes through the full approval chain</li>
+      <li>After redeployment, verify connection references and environment variables are still correctly configured (they should persist, but verify)</li>
+    </ol>
+
+    <h3>Hotfix-Forward vs Rollback Decision Model</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Decision factor</th><th>Favour Rollback</th><th>Favour Hotfix Forward</th></tr></thead>
+      <tbody>
+        <tr><td>Schema changes in the broken release?</td><td>No schema changes</td><td>Yes — any column deletion, relationship change, or table removal</td></tr>
+        <tr><td>Data migration applied?</td><td>No data changes</td><td>Yes — rollback cannot reverse data</td></tr>
+        <tr><td>Time to hotfix vs time to rollback</td><td>Hotfix would take &gt; 2 hours</td><td>Hotfix is &lt; 1 hour (simple logic fix)</td></tr>
+        <tr><td>Prior artifact available?</td><td>Yes — in ADO artifact store or PP Pipelines run history</td><td>Prior artifact missing or expired</td></tr>
+        <tr><td>Other solutions depend on this release?</td><td>No downstream dependencies</td><td>Yes — rollback breaks dependent solutions</td></tr>
+        <tr><td>User impact during rollback window</td><td>Low — off-hours, small user base</td><td>High — business-critical flow, high-volume usage</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Pre-Rollback Checklist (8 items)</h3>
+    <ul class="check-list">
+      <li><span class="ci">☐</span> Confirm prior artifact is available (ADO artifact store or PP Pipelines run history)</li>
+      <li><span class="ci">☐</span> Assess data state — any data migrations or deletes that cannot be reversed?</li>
+      <li><span class="ci">☐</span> Identify all dependent solutions — will rollback break downstream components?</li>
+      <li><span class="ci">☐</span> Notify business stakeholders — set expected downtime window</li>
+      <li><span class="ci">☐</span> Take a Dataverse point-in-time backup before rollback (Admin Centre → Environments → Backups → Restore)</li>
+      <li><span class="ci">☐</span> Confirm approval chain is available (release manager, change board if required)</li>
+      <li><span class="ci">☐</span> Prepare post-rollback validation script inputs (environment URL, SP credentials)</li>
+      <li><span class="ci">☐</span> Document the decision: why rollback vs hotfix-forward, who approved, what data risk was assessed</li>
+    </ul>
+
+    <h3>Post-Rollback Verification Checklist (6 items)</h3>
+    <ul class="check-list">
+      <li><span class="ci">☐</span> Confirm solution version in environment matches expected prior version (<code>pac solution list</code>)</li>
+      <li><span class="ci">☐</span> Run post-deploy validation script — all env vars set, all connection refs configured, flows enabled</li>
+      <li><span class="ci">☐</span> Smoke test primary user journey end-to-end</li>
+      <li><span class="ci">☐</span> Check for unmanaged orphan components — any components from the failed release still present as unmanaged layers?</li>
+      <li><span class="ci">☐</span> Confirm Copilot Studio agents (if applicable) are operational and topics are responding correctly</li>
+      <li><span class="ci">☐</span> Post incident review scheduled — root cause analysis, pipeline improvement action items</li>
+    </ul>
+  </section>
+
+  <section id="s10" class="section">
+    <div class="sec-hdr"><span class="sec-num">Section 10</span><h2>Copilot Studio Agent ALM</h2></div>
+
+    <div class="cb-warn">
+      <strong>⚠️ Rapidly Evolving Area</strong>
+      Copilot Studio ALM capabilities are changing with every major release. Validate all specifics below against current Copilot Studio release notes and the Power Platform documentation before project start. Assumptions made at proposal stage may not hold at go-live.
+    </div>
+
+    <h3>What Travels in a Solution vs What Does Not</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Component</th><th>Travels in solution?</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Agent definition (name, description, instructions)</td><td>✅ Yes</td><td>Core agent metadata — fully solution-aware</td></tr>
+        <tr><td>Topics (trigger phrases, conversation nodes, conditions)</td><td>✅ Yes</td><td>All authored topics and their node trees travel with the solution</td></tr>
+        <tr><td>Entities (custom, prebuilt)</td><td>✅ Yes</td><td>Custom entity definitions travel; prebuilt entities reference Microsoft's catalogue and do not need to travel</td></tr>
+        <tr><td>Knowledge source <em>references</em> (URLs, SharePoint site pointers)</td><td>✅ Yes — reference only</td><td>The pointer travels; the <em>content</em> and authentication credentials do not</td></tr>
+        <tr><td>Actions (cloud flow triggers, HTTP actions, connector actions)</td><td>✅ Yes</td><td>Action definitions travel; the underlying flow must also be in the solution</td></tr>
+        <tr><td>Environment variable references used in the agent</td><td>✅ Yes</td><td>Configure values per environment in deployment settings as with any env var</td></tr>
+        <tr><td>Authenticated knowledge source credentials</td><td>❌ No</td><td>Must be re-authenticated manually in each environment after deployment</td></tr>
+        <tr><td>SharePoint site content indexed for knowledge</td><td>❌ No</td><td>Content lives in SharePoint — the agent re-indexes on first trigger or manual refresh</td></tr>
+        <tr><td>Dataverse environment-specific data used as knowledge</td><td>❌ No</td><td>Data is in the target environment already — agent accesses it via Dataverse connector at runtime</td></tr>
+        <tr><td>Channel configurations (Teams, web chat, telephony)</td><td>❌ No</td><td>Must be re-enabled and re-configured in each environment after deployment</td></tr>
+        <tr><td>Handoff configuration (to human agent / Omnichannel)</td><td>⚠️ Partial</td><td>Handoff definition travels; Omnichannel connection must be re-configured per environment</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Post-Deployment Configuration Required</h3>
+    <ol class="steps">
+      <li><strong>Re-authenticate knowledge sources</strong> — open the deployed agent in Copilot Studio → Knowledge → each authenticated source shows a "not connected" state → re-authenticate with appropriate service account credentials for that environment</li>
+      <li><strong>Update SharePoint site/list pointers</strong> — if knowledge sources point to environment-specific SharePoint sites (different site URL for test vs prod), update the knowledge source URLs in each environment after deployment. Use environment variables where possible to make this scriptable.</li>
+      <li><strong>Re-enable channels</strong> — Teams channel, web chat, and other channel configurations must be re-enabled. Channel IDs differ per environment — this cannot be automated without custom scripting against the Copilot Studio API.</li>
+      <li><strong>Test handoff to human agents</strong> — if the agent escalates to Omnichannel for Customer Service, test the escalation path end-to-end. Queue names, workstream configurations, and routing rules are environment-specific.</li>
+      <li><strong>Trigger knowledge indexing</strong> — after knowledge sources are re-authenticated, trigger a manual refresh or send a test message that exercises the knowledge source to confirm indexing is operational.</li>
+    </ol>
+
+    <h3>Testing Options</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Method</th><th>What it covers</th><th>CI-gate capable?</th><th>Practical guidance</th></tr></thead>
+      <tbody>
+        <tr><td>Copilot Studio test pane (built-in)</td><td>Topic triggering, entity extraction, conversation flow, action execution</td><td>❌ No — manual only</td><td>Use for development-time verification and UAT. Run key conversation paths after every deployment.</td></tr>
+        <tr><td>Test campaigns (Copilot Studio)</td><td>Batch conversation testing against a set of utterances — measures topic match rate</td><td>❌ No — initiated via UI</td><td>Author test campaigns for critical intents. Run before each release to measure regression in NLU accuracy.</td></tr>
+        <tr><td>Direct Line API + custom test harness</td><td>Automated conversation simulation via HTTP — can be scripted</td><td>⚠️ Yes with custom work</td><td>Advanced: build a test harness that posts utterances to Direct Line API and asserts on response content. Significant setup investment.</td></tr>
+        <tr><td>Manual UAT script</td><td>End-to-end conversation covering all primary user journeys</td><td>❌ No</td><td>Mandatory before Stage → Prod promotion. Document expected responses for each test utterance.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Power Automate Flows Triggered by Agents</h3>
+    <p>When a Copilot Studio agent triggers a cloud flow action, that flow must be in the same solution as the agent (or a dependent solution already deployed). ALM considerations:</p>
+    <ul>
+      <li>The flow's connection references must be configured in the target environment — same requirement as any other flow deployment</li>
+      <li>Flows triggered by agents often run in the agent's security context — ensure the agent's service account has appropriate Dataverse and connector permissions</li>
+      <li>Flow run history is separate from agent conversation history — monitor both when diagnosing issues post-deployment</li>
+      <li>If the flow is owned by the deployment service principal, re-assign ownership to a shared service account so operations teams can monitor and manage it (same pattern as Section 8)</li>
+    </ul>
+
+    <h3>Governance Checkpoints</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Checkpoint</th><th>What to verify</th><th>Who verifies</th></tr></thead>
+      <tbody>
+        <tr><td>Content moderation</td><td>Agent is configured with appropriate topic fallback behaviour. Sensitive topics (medical, legal, financial advice) have escalation paths, not direct LLM answers.</td><td>Business owner + compliance team</td></tr>
+        <tr><td>Security roles for bot users</td><td>The agent's security role in Dataverse allows only the data access the agent legitimately needs — no over-privileged system admin role for the agent service account</td><td>Security architect</td></tr>
+        <tr><td>DLP policy impact on channels</td><td>DLP policies applied to the environment may block certain connector actions used by the agent (e.g., HTTP connector classified as "Blocked"). Test all action paths against the target environment's DLP config before deployment.</td><td>Platform admin + DLP policy owner</td></tr>
+        <tr><td>PII in conversation logs</td><td>Conversation transcripts are stored in Dataverse. If conversations contain PII (names, account numbers), confirm data retention policy is applied to the transcript table and access is restricted appropriately.</td><td>Privacy / compliance officer</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="s11" class="section">
+    <div class="sec-hdr"><span class="sec-num">Section 11</span><h2>ALM Decision Cards: Do / Do Not</h2></div>
+    <p style="font-size:.88rem;color:var(--muted);margin-bottom:1.25rem">Quick-reference rules. No explanations — just the rule. Print and pin.</p>
+
+    <table class="dd-table">
+      <thead><tr><th>✅ Do</th><th>❌ Do Not</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Deploy only managed solutions to Test, Stage, and Production</td>
+          <td>Import unmanaged solutions to any environment below individual dev</td>
+        </tr>
+        <tr>
+          <td>Agree and lock the publisher prefix before any component is created</td>
+          <td>Use the default <code>new_</code> publisher on any enterprise project</td>
+        </tr>
+        <tr>
+          <td>Segment solutions into CoreData → SharedComponents → App layers</td>
+          <td>Put all components — tables, flows, apps, PCF — into a single monolith solution</td>
+        </tr>
+        <tr>
+          <td>Give every developer an isolated, individual dev environment</td>
+          <td>Share a single dev environment across multiple developers</td>
+        </tr>
+        <tr>
+          <td>Make all changes in source (dev env → export → unpack → PR → pipeline)</td>
+          <td>Make direct changes in Test, Stage, or Production — even "just a quick fix"</td>
+        </tr>
+        <tr>
+          <td>Store environment-specific values in deployment settings files per stage</td>
+          <td>Hardcode URLs, site addresses, or email addresses directly in flows or app formulas</td>
+        </tr>
+        <tr>
+          <td>Use connection references for all connector usage in flows and apps</td>
+          <td>Embed connections directly in flows — they won't survive deployment to a new environment</td>
+        </tr>
+        <tr>
+          <td>Store secrets (API keys, client secrets) exclusively in Azure Key Vault</td>
+          <td>Put secrets as plain text in ADO variable groups, deployment settings files, or source control</td>
+        </tr>
+        <tr>
+          <td>Use feature branches per ticket, merge via PR with solution diff review</td>
+          <td>Commit directly to <code>develop</code> or <code>main</code> without a PR and reviewer sign-off</td>
+        </tr>
+        <tr>
+          <td>Run Solution Checker as a mandatory PR gate — fail on High/Critical</td>
+          <td>Skip Solution Checker or treat it as optional — violations compound and become harder to fix</td>
+        </tr>
+        <tr>
+          <td>Prefer hotfix-forward over rollback after any destructive schema change</td>
+          <td>Attempt to rollback after a column deletion or data migration — data cannot be restored by solution rollback</td>
+        </tr>
+        <tr>
+          <td>Re-assign flow ownership to a shared service account after deployment</td>
+          <td>Leave flows owned by the deployment service principal — they become invisible to operations teams</td>
+        </tr>
+        <tr>
+          <td>Apply DLP policies and provision Managed Environments before any solution is deployed</td>
+          <td>Apply DLP policies retrospectively after apps and flows are already in production — breaking changes are guaranteed</td>
+        </tr>
+        <tr>
+          <td>Put PCF controls and plugin assemblies in a dedicated shared solution layer</td>
+          <td>Mix PCF controls or plugins into the same solution as Canvas apps and flows — deployment frequency mismatch causes unnecessary churn</td>
+        </tr>
+        <tr>
+          <td>Require dual approval (Release Manager + Change Board) for every Production deployment</td>
+          <td>Allow single-person approval for Production — or skip approval gates under "time pressure"</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<button id="btt" title="Back to top">↑</button>
+
+<script>
+  mermaid.initialize({
+    startOnLoad:true, theme:'base',
+    themeVariables:{
+      primaryColor:'#e0f2fe',primaryTextColor:'#1e293b',primaryBorderColor:'#0ea5e9',
+      lineColor:'#64748b',secondaryColor:'#f1f5f9',tertiaryColor:'#f8fafc',
+      background:'#ffffff',mainBkg:'#f0f9ff',nodeBorder:'#0ea5e9',clusterBkg:'#f1f5f9',
+      titleColor:'#1e293b',edgeLabelBackground:'#ffffff',
+      fontFamily:"'Inter',system-ui,sans-serif"
+    }
+  });
+  const prog=document.getElementById('prog'),btt=document.getElementById('btt');
+  window.addEventListener('scroll',()=>{
+    prog.style.width=Math.min(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100,100)+'%';
+    btt.classList.toggle('show',window.scrollY>400);
+  });
+  btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const secs=document.querySelectorAll('.section'),navAs=document.querySelectorAll('#nav-list a');
+  new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){navAs.forEach(a=>a.classList.remove('active'));const l=document.querySelector(`#nav-list a[href="#${e.target.id}"]`);if(l)l.classList.add('active');}});},{rootMargin:'-15% 0px -70% 0px',threshold:0}).observe||(()=>{
+    const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){navAs.forEach(a=>a.classList.remove('active'));const l=document.querySelector(`#nav-list a[href="#${e.target.id}"]`);if(l)l.classList.add('active');}});},{rootMargin:'-15% 0px -70% 0px',threshold:0});
+    secs.forEach(s=>obs.observe(s));
+  })();
+  const obs2=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){navAs.forEach(a=>a.classList.remove('active'));const l=document.querySelector(`#nav-list a[href="#${e.target.id}"]`);if(l)l.classList.add('active');}});},{rootMargin:'-15% 0px -70% 0px',threshold:0});
+  secs.forEach(s=>obs2.observe(s));
+  document.getElementById('search').addEventListener('input',function(){
+    const q=this.value.trim().toLowerCase();
+    document.querySelectorAll('.section').forEach(s=>{s.style.display=(!q||s.textContent.toLowerCase().includes(q))?'':'none';});
+  });
+</script>
+</body>
+</html>
