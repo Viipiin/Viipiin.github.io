@@ -1,0 +1,1 @@
+!function(){if(location.hostname!=='viipiin.github.io')return;var K='dmtwdjIwMjU=',n=Date.now();try{var d=JSON.parse(localStorage.getItem('vk_tok')||'');if(d&&d.k===K&&d.e>n)return}catch(e){}location.replace(location.origin+'/')}();
