@@ -155,6 +155,7 @@
     <li><a href="#s9"><span class="nav-ico">📊</span>SPO vs Teams vs Simpplr<span class="nn">12</span></a></li>
     <li><a href="#s10"><span class="nav-ico">🏗️</span>Initial Architecture<span class="nn">6</span></a></li>
     <li><a href="#s11"><span class="nav-ico">📂</span>Content Model<span class="nn">13</span></a></li>
+    <li><a href="#s11a"><span class="nav-ico">🏛️</span>Architect Guidance<span class="nn">7</span></a></li>
     <li><a href="#s12"><span class="nav-ico">🚨</span>Risks &amp; Anti-Patterns<span class="nn">10</span></a></li>
     <li><a href="#s13"><span class="nav-ico">☑️</span>Decisions to Make<span class="nn">11</span></a></li>
     <li><a href="#s14"><span class="nav-ico">🗺️</span>Next Steps<span class="nn">9</span></a></li>
@@ -799,6 +800,151 @@
       <li><strong>Archived content:</strong> Move to a dedicated "Archive" folder or library. Keep for search; clearly labelled as archived.</li>
       <li><strong>Deleted content:</strong> Recycle bin retains for 93 days. Site Collection admin can recover from second-stage recycle bin.</li>
     </ul>
+  </section>
+
+  <section id="s11a" class="section">
+    <div class="sec-hdr"><div class="sec-num" style="font-size:.56rem;width:2.1rem;height:2.1rem">11A</div><h2>Architect Guidance — What the Hub Should &amp; Should Not Do</h2></div>
+    <p>This section provides opinionated architectural direction for stakeholders and delivery teams. It clarifies the true purpose of a SharePoint Hub Site, defines clear boundaries, and establishes design principles to guide every subsequent decision. Use this to anchor the conversation whenever scope drift or misconceptions surface.</p>
+
+    <h3>A. What a Hub Site SHOULD Provide</h3>
+    <ul class="check-list">
+      <li><span class="ci">✅</span><span><strong>A shared navigation experience across related sites.</strong> Hub navigation appears consistently on every associated site, giving users a coherent cross-team wayfinding experience without duplicating navigation on each site.</span></li>
+      <li><span class="ci">✅</span><span><strong>Common branding and theme consistency.</strong> The hub enforces a visual identity (logo, colour palette, header style) across all associated sites — each site feels like part of the same space without being identical.</span></li>
+      <li><span class="ci">✅</span><span><strong>A central landing page for discovery, orientation, and wayfinding.</strong> The hub homepage helps users understand what exists, where to go, and what is happening across the practice — it is an entry point, not a filing cabinet.</span></li>
+      <li><span class="ci">✅</span><span><strong>Roll-up of news, events, highlighted content, and hub-scoped search.</strong> News posts published on associated sites surface on the hub homepage. Search from the hub queries all associated sites, security-trimmed by default.</span></li>
+      <li><span class="ci">✅</span><span><strong>A logical grouping of related sites by function or business area.</strong> The hub binds Sales, Solutions, Delivery (and Shared Resources) into a coherent family — without merging their content, permissions, or ownership.</span></li>
+      <li><span class="ci">✅</span><span><strong>A scalable modern information architecture based on separate site collections.</strong> Each function gets its own site collection with its own governance, owners, and content lifecycle. The hub is the connective tissue, not the container.</span></li>
+      <li><span class="ci">✅</span><span><strong>A publishing and discoverability layer for cross-functional visibility.</strong> Content lives where it is created (associated sites); the hub surfaces it where it needs to be found (hub homepage, hub search, highlighted content rollups).</span></li>
+      <li><span class="ci">✅</span><span><strong>Curated resources, links, tools, and entry points.</strong> Quick links, promoted results, and curated web parts on the hub homepage guide users to the most important destinations without requiring them to know where things live.</span></li>
+      <li><span class="ci">✅</span><span><strong>A way to connect related team and communication sites while preserving their independence.</strong> Each associated site retains its own permission model, navigation, and ownership. Association to the hub adds discoverability, not dependency.</span></li>
+      <li><span class="ci">✅</span><span><strong>A solution that adapts to business change without URL or hierarchy rigidity.</strong> Sites can be re-associated, renamed, or replaced without breaking the hub structure. Modern SharePoint avoids the deep URL path trap of classic subsite architectures.</span></li>
+    </ul>
+
+    <h3>B. What a Hub Site SHOULD NOT Become</h3>
+    <ul class="check-list">
+      <li><span class="ci" style="color:var(--sp-red)">✗</span><span><strong>A replacement for Microsoft Teams chat and conversation-based collaboration.</strong> SharePoint has no messaging layer. Attempting to use page comments, list discussions, or news replies as a Teams substitute creates a poor user experience and fragments communication.</span></li>
+      <li><span class="ci" style="color:var(--sp-red)">✗</span><span><strong>A document dumping ground with no metadata, structure, or ownership.</strong> Uploading files to the hub without content types, metadata columns, or named owners produces a search-hostile, ungovernable repository within weeks.</span></li>
+      <li><span class="ci" style="color:var(--sp-red)">✗</span><span><strong>A single monolithic site for all three teams.</strong> One site means shared permissions, a single owner, a navigation structure that serves no team perfectly, and content conflicts at scale. Three teams need three sites, connected by a hub.</span></li>
+      <li><span class="ci" style="color:var(--sp-red)">✗</span><span><strong>A permissions inheritance mechanism.</strong> This is the most common misunderstanding. Associating a site to a hub does <em>not</em> grant users access to that site. Permissions are site-by-site. Hub association adds navigation and search scope only.</span></li>
+      <li><span class="ci" style="color:var(--sp-red)">✗</span><span><strong>A rigid org-chart clone if the collaboration model is process- or activity-based.</strong> If teams collaborate cross-functionally on deal pursuits or delivery excellence (not by function), the topology should reflect work patterns, not reporting lines.</span></li>
+      <li><span class="ci" style="color:var(--sp-red)">✗</span><span><strong>A substitute for governance, content lifecycle, and stewardship.</strong> Technology cannot compensate for absent ownership. A hub with no governance model produces stale, unreliable content that erodes user trust and reduces adoption to zero.</span></li>
+      <li><span class="ci" style="color:var(--sp-red)">✗</span><span><strong>A heavily customised portal requiring developer intervention to maintain.</strong> SPFx extensions, custom web parts, and bespoke layouts that require a developer to update a page create a maintenance dependency that kills the long-term health of the site.</span></li>
+      <li><span class="ci" style="color:var(--sp-red)">✗</span><span><strong>A duplicate of Simpplr or another intranet platform without a clearly differentiated purpose.</strong> If users cannot articulate why they would go to SharePoint rather than Simpplr, they will not go to SharePoint. The boundary must be explicit and communicated.</span></li>
+      <li><span class="ci" style="color:var(--sp-red)">✗</span><span><strong>A classic subsite-heavy architecture disguised as modern SharePoint.</strong> Subsites were deprecated for good reason. Creating nested subsites under the hub — even with a modern skin — reintroduces all the navigation, permission, and URL fragility problems of classic SharePoint.</span></li>
+      <li><span class="ci" style="color:var(--sp-red)">✗</span><span><strong>A mixed space where temporary working-team content and long-term published knowledge coexist without clear boundaries.</strong> Deal working files, in-progress drafts, and completed playbooks should have distinct homes. Mixing them makes search results unreliable and content lifecycle management impossible.</span></li>
+    </ul>
+
+    <h3 class="plain">C. Architect Recommendation — Positioning Statement</h3>
+    <div class="cb purple" style="font-size:.93rem;line-height:1.8;border-width:3px">
+      <span class="cb-ico" style="font-size:1.3rem">🏛️</span>
+      <div class="cb-body">
+        <strong>Architect Position</strong>
+        "The hub should be positioned primarily as a <em>discovery, navigation, publishing, and knowledge access layer</em> that connects related collaboration and communication spaces. Day-to-day active collaboration may still happen in Teams and associated team sites, while the hub provides cross-functional visibility, findability, consistency, and curated access to shared assets. It is the front door to the practice's knowledge — not the room where the work happens."
+        <br><br>
+        <span style="font-size:.82rem;color:#3730A3;font-weight:600">In one sentence: Build the hub for people who need to <em>find</em> things. Build Teams channels and team sites for people who need to <em>do</em> things.</span>
+      </div>
+    </div>
+
+    <h3>D. Design Principles</h3>
+    <div class="dec-grid" style="grid-template-columns:repeat(2,1fr);gap:.65rem">
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">🏗️</span><strong style="font-size:.84rem">Flat architecture over deep hierarchy</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Site collections + hub association beat subsite trees. Every nesting level adds navigation debt, permission complexity, and URL fragility.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">🔲</span><strong style="font-size:.84rem">Separate sites for separate units of work</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Sales, Solutions, Delivery, and Shared Resources are distinct enough to warrant distinct sites. One site for all is an anti-pattern.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">📋</span><strong style="font-size:.84rem">Working content vs curated/published content</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">In-progress work files belong in team sites or Teams. Finished, reusable, authoritative content belongs in governed libraries and pages.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">🏷️</span><strong style="font-size:.84rem">Metadata and findability over folder sprawl</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Invest in 4–6 mandatory metadata columns before any content is uploaded. Folders are a crutch; metadata is infrastructure.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">🛡️</span><strong style="font-size:.84rem">Governance and ownership by design — not retrofit</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Name a site owner and content steward for every site before provisioning. Governance added post-launch is never enforced retroactively.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">🔐</span><strong style="font-size:.84rem">Least-privilege and intentional permissions</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Default to read-only access at the hub level. Elevate permissions deliberately and via security groups — never via individual direct grants.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">📦</span><strong style="font-size:.84rem">OOB capabilities before customisation</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Modern SharePoint's out-of-the-box web parts cover 90% of use cases. Every line of custom code is a future maintenance debt.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">🚀</span><strong style="font-size:.84rem">MVP first, then iterate based on evidence</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Launch a small, complete, governable hub rather than a large, incomplete, ungoverned one. Add sites and features based on measured adoption signals.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">🗺️</span><strong style="font-size:.84rem">Navigation aligned to user tasks, not org chart</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Design hub and site navigation around what users need to do, not how the org is structured. An account executive and a delivery manager have different journeys.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">🚫</span><strong style="font-size:.84rem">Avoid duplication with Teams and Simpplr</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Every content type must have one authoritative home. If it can live in any of three tools, it will live in all three — and be reliably found in none.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">🔧</span><strong style="font-size:.84rem">Design for maintainability and future scaling</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Every design decision should be answerable: "Can the site owner update this without a developer?" If not, reconsider.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">👤</span><strong style="font-size:.84rem">Prioritise adoption and clarity over feature richness</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">A hub with three useful things that everyone uses beats one with thirty features that no one understands. Simplicity is a feature.</span>
+      </div>
+    </div>
+
+    <h3>E. What We Should Build vs What to Avoid</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Recommended Approach ✅</th><th>Avoid / Do Not Do ✗</th><th>Why It Matters</th></tr></thead>
+      <tbody>
+        <tr><td>Hub as discovery, navigation, and publishing layer</td><td>Hub as a universal document repository for all teams</td><td>Hub search and navigation degrade rapidly under unstructured content; hub should surface content, not store it</td></tr>
+        <tr><td>Associated sites per function or use case (Sales / Solutions / Delivery / Shared)</td><td>One oversized site for all three teams</td><td>Permissions, ownership, navigation, and content lifecycle all become unmanageable at multi-team scale on a single site</td></tr>
+        <tr><td>Teams for active day-to-day collaboration, chat, and meetings</td><td>SharePoint pages or list comments as a Teams substitute</td><td>SharePoint has no real-time messaging; forcing conversation into comments produces a frustrating, disconnected experience</td></tr>
+        <tr><td>Curated publishing pages with named authors and review schedules</td><td>Open publishing with no governance — any user can post anything</td><td>Content quality decays immediately; users stop trusting a site where outdated and accurate content are indistinguishable</td></tr>
+        <tr><td>Metadata-driven libraries with views and search refiners</td><td>Deeply nested folder structures as the primary navigation model</td><td>Folders don't scale beyond 3 levels; they are invisible to search; they break on mobile; they create parallel filing systems per user</td></tr>
+        <tr><td>Named content owners with documented review schedules</td><td>Collective ownership where "everyone" is responsible for content quality</td><td>When everyone owns content, no one owns content. Stale sites get abandoned. Governance must be personal and specific.</td></tr>
+        <tr><td>Standard OOB modern web parts (Highlighted Content, News, People, Quick Links)</td><td>Excessive SPFx customisation at MVP stage</td><td>Custom code requires ongoing developer maintenance, breaks on Microsoft updates, and cannot be updated by site owners</td></tr>
+        <tr><td>Structured integration with Teams (Viva Connections / SharePoint tabs / linked channels)</td><td>Competing feature duplication — separate file storage in Teams AND SharePoint</td><td>If teams keep files in Teams channels AND SharePoint, both become unreliable. One wins, one rots.</td></tr>
+        <tr><td>Clear, communicated differentiation from Simpplr (team-level ops vs org-wide comms)</td><td>Replicating Simpplr content in SharePoint without a distinct purpose</td><td>Users don't adopt a second destination unless it solves a problem the first one doesn't. Without clear differentiation, one platform loses and likely it's the new one.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>F. Architect Red-Flag Warnings</h3>
+    <div class="cb danger" style="margin-bottom:.85rem"><span class="cb-ico">🚨</span><div class="cb-body"><strong>If You Hear Any of These in the Meeting — Stop and Resolve Before Designing</strong>These signals indicate a requirement, assumption, or expectation that will cause structural problems later. Each one is a design risk that must be surfaced and addressed in the discovery phase, not discovered post-launch.</div></div>
+    <div class="tw"><table>
+      <thead><tr><th>Red Flag</th><th>Why It Is a Risk</th><th>What to Ask / Do</th></tr></thead>
+      <tbody>
+        <tr><td>🚩 No clear business purpose stated for the hub</td><td>Without a purpose, every feature request gets added. The hub becomes everything and serves no one.</td><td>"What is the one problem this hub must solve for the practice to say the project succeeded?"</td></tr>
+        <tr><td>🚩 "Collaboration" means different things to different stakeholders</td><td>Sales may mean deal war rooms; Delivery may mean playbook access; Solutions may mean co-authoring. All three require different designs.</td><td>Ask each stakeholder to describe a concrete scenario — not the word "collaboration."</td></tr>
+        <tr><td>🚩 Expectation that hub association changes or inherits permissions</td><td>It does not. This assumption leads to over-permissioning or broken access at launch. Hub association = shared nav + search scope only.</td><td>State this explicitly in the meeting: "Hub association does not grant access. Permissions are per site."</td></tr>
+        <tr><td>🚩 "We just want to put everything in one place"</td><td>Everything in one place means one enormous site with no structure, one permission model covering conflicting needs, and no findability.</td><td>"Let's talk about what categories of content exist and who owns each category — then we'll find the right place for each."</td></tr>
+        <tr><td>🚩 No content owners identified when discussing any site</td><td>Unowned content is ungoverned content. Without named stewards, content rots and the site becomes unreliable within months.</td><td>Block site provisioning until a named owner and a content review schedule are confirmed for each site.</td></tr>
+        <tr><td>🚩 Simpplr and SharePoint responsibilities are not defined</td><td>Two platforms with overlapping purpose means users go to both, find duplication, lose trust in both, and eventually use neither.</td><td>Draw the boundary explicitly in this meeting. Put it in writing. Communicate it to all users before launch.</td></tr>
+        <tr><td>🚩 Teams is acknowledged but not integrated into the design</td><td>If Teams already partially solves some scenarios, the hub may not need to — or the two must be explicitly integrated so users have one mental model.</td><td>"Which of these use cases does Teams already cover? Let's not rebuild what works."</td></tr>
+        <tr><td>🚩 Excessive focus on homepage aesthetics before use cases are defined</td><td>A beautiful homepage for a site no one uses is wasted effort. Design follows purpose.</td><td>Redirect: "Before we talk about layout, let's agree on the top 3 user journeys the homepage must support."</td></tr>
+        <tr><td>🚩 No taxonomy, metadata, or search approach planned</td><td>Without metadata, SharePoint search returns everything — which is as useless as returning nothing. Users will fall back to emailing colleagues.</td><td>Define 4–6 metadata columns before the first document is uploaded. This is non-negotiable for findability.</td></tr>
+        <tr><td>🚩 Attempt to recreate legacy portal patterns in modern SharePoint</td><td>"Let's build it like the old intranet" introduces subsite hierarchies, custom master pages, and InfoPath forms — all deprecated patterns that reintroduce the debt modern SharePoint was designed to eliminate.</td><td>"Modern SharePoint works differently by design. Let me show you what that looks like before we map it to old patterns."</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>G. Architecture Decision Guidance</h3>
+    <p>Use this table to answer the most common platform-level questions that arise in discovery and design sessions.</p>
+    <div class="tw"><table>
+      <thead><tr><th>If the primary need is…</th><th>Use this</th><th>Architectural reason</th></tr></thead>
+      <tbody>
+        <tr><td>Cross-site discovery, common navigation, curated publishing, news roll-up, and hub-scoped search</td><td><strong>SharePoint Hub Site</strong></td><td>Hub sites were purpose-built for exactly this: a unifying navigation, branding, and discoverability layer across a family of related sites</td></tr>
+        <tr><td>Chat, meetings, real-time discussion, task management, and day-to-day team execution</td><td><strong>Microsoft Teams</strong></td><td>Teams is the M365 collaboration surface for conversation and ephemeral work. SharePoint cannot and should not replicate this.</td></tr>
+        <tr><td>A working team needs document collaboration, operational content, and a structured file storage space</td><td><strong>Associated Team Site (SPO)</strong></td><td>Team sites are group-connected, version-controlled, permission-isolated, and designed for collaborative content creation within a defined group</td></tr>
+        <tr><td>Curated, broadly consumable published information for a wide or cross-team audience</td><td><strong>Communication Site (associated to hub)</strong></td><td>Communication sites are publishing-first with audience targeting, full-width layouts, and OOB web parts optimised for consuming rather than creating content</td></tr>
+        <tr><td>Both structured publishing AND active collaborative document work within the same function</td><td><strong>Hybrid: Communication Site + Team Site (both associated)</strong></td><td>Use a comm site for the published front-end and a team site for the working document layer. Hub navigation connects both. Don't force one site to serve both purposes.</td></tr>
+        <tr><td>Org-wide news, corporate comms, HR, benefits, company announcements, and culture content</td><td><strong>Simpplr (existing intranet)</strong></td><td>Simpplr is already serving this purpose. The SharePoint hub should link to Simpplr for org-level content, not duplicate it.</td></tr>
+        <tr><td>Personalised content by role, team, or interest group without managing multiple sites</td><td><strong>Audience targeting on hub and associated pages</strong></td><td>M365 security groups + SharePoint audience targeting on web parts deliver targeted content from a single page without custom code or multiple site versions</td></tr>
+      </tbody>
+    </table></div>
   </section>
 
   <section id="s12" class="section">
