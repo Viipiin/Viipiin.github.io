@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../js/vault.js"></script>
+  <link rel="stylesheet" href="../css/base.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nintex to Power Platform Migration Guide — Viipiin Vault</title>
+  <link rel="icon" href="../favicon.ico">
+  <style>
+    :root{
+      --pp:#742774;--pp-lt:#F8EFF8;--pp-dk:#4B1557;
+      --pp-blue:#0078D4;--pp-blue-lt:#EFF6FC;--pp-blue-dk:#004578;
+      --pp-pages:#007C6E;--pp-pages-lt:#E6F4F3;
+      --pp-auto:#0066FF;--pp-auto-lt:#EBF3FF;
+      --pp-green:#107C10;--pp-green-lt:#F1FAF1;
+      --pp-orange:#CA5010;--pp-orange-lt:#FFF4EF;
+      --pp-red:#D13438;--pp-red-lt:#FDF3F3;
+      --pp-amber:#CA8A04;--pp-amber-lt:#FFFBEB;
+      --bg:#F9F8FF;--card:#FFFFFF;--border:#E1DFDD;
+      --text:#201F1E;--muted:#605E5C;--subtle:#8A8886;
+      --nav-bg:#1E1755;--sw:254px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh}
+    #prog{position:fixed;top:0;left:0;height:3px;background:var(--pp);width:0%;z-index:9999;transition:width .1s}
+    #sidebar{width:var(--sw);min-height:100vh;background:var(--nav-bg);position:fixed;top:0;left:0;overflow-y:auto;z-index:100;padding-bottom:2rem;display:flex;flex-direction:column}
+    #sb-head{padding:1.1rem 1rem .85rem;border-bottom:1px solid #2E2668}
+    #sb-head h2{color:#fff;font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;line-height:1.4}
+    #sb-head span{color:#9B8FCC;font-size:.67rem;display:block;margin-top:.2rem}
+    #sb-search{padding:.6rem 1rem;border-bottom:1px solid #2E2668}
+    #search{width:100%;padding:.4rem .6rem;background:#2A2163;border:1px solid #3A3180;border-radius:4px;color:#fff;font-size:.76rem;outline:none;font-family:inherit}
+    #search::placeholder{color:#8880C0}
+    #search:focus{border-color:var(--pp);background:#2E256A}
+    #nav-list{list-style:none;padding:.35rem 0}
+    #nav-list li a{display:flex;align-items:flex-start;gap:.4rem;padding:.44rem .85rem;color:#C4BEED;font-size:.73rem;text-decoration:none;border-left:3px solid transparent;transition:all .12s;line-height:1.35}
+    #nav-list li a:hover{color:#fff;background:#272060}
+    #nav-list li a.active{color:#CBA8FF;border-left-color:var(--pp);background:#2D1A5E}
+    .nav-ico{flex-shrink:0;width:1rem;text-align:center;font-size:.85rem;margin-top:.05rem}
+    .nn{margin-left:auto;background:#302870;color:#A89FDB;font-size:.62rem;padding:1px 5px;border-radius:10px;flex-shrink:0}
+    .active .nn{background:#4B1557;color:#CBA8FF}
+    #main{margin-left:var(--sw);flex:1;padding:1.75rem 2.25rem 3rem;max-width:1060px}
+    #hero{background:linear-gradient(135deg,#1E1755 0%,#742774 55%,#9B3B9B 100%);color:#fff;padding:2rem 2rem 1.75rem;border-radius:10px;margin-bottom:1.5rem;box-shadow:0 4px 16px rgba(116,39,116,.22)}
+    #hero h1{font-size:1.4rem;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+    #hero .sub{font-size:.87rem;color:rgba(255,255,255,.87);line-height:1.65;max-width:700px}
+    #hero .tags{margin-top:.9rem;display:flex;gap:.5rem;flex-wrap:wrap}
+    .htag{background:#5C2C7A;padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:600;color:#fff}
+    #urgency-bar{background:#D13438;color:#fff;padding:.55rem 1.25rem;border-radius:7px;margin-bottom:1.5rem;display:flex;align-items:center;gap:.7rem;font-size:.86rem;font-weight:600}
+    #urgency-bar span{font-size:1.1rem}
+    .section{background:var(--card);border-radius:8px;border:1px solid var(--border);padding:1.5rem 1.75rem;margin-bottom:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,.05);scroll-margin-top:1rem}
+    .sec-hdr{display:flex;align-items:center;gap:.7rem;padding-bottom:.65rem;border-bottom:2px solid var(--pp);margin-bottom:1.4rem}
+    .sec-num{background:var(--pp);color:#fff;width:1.7rem;height:1.7rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}
+    .sec-hdr h2{font-size:1.12rem;font-weight:700;color:var(--text)}
+    h3{font-size:.95rem;font-weight:600;color:var(--text);margin:1.25rem 0 .55rem;display:flex;align-items:center;gap:.45rem}
+    h3.plain{display:block}
+    h3::before{content:'';display:inline-block;width:3px;height:.85rem;background:var(--pp);border-radius:2px;flex-shrink:0}
+    h3.plain::before{display:none}
+    h4{font-size:.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:1rem 0 .4rem}
+    p{line-height:1.7;font-size:.9rem;margin-bottom:.7rem}
+    .tw{overflow-x:auto;margin:1rem 0;border-radius:6px;border:1px solid var(--border)}
+    table{width:100%;border-collapse:collapse;font-size:.83rem}
+    thead th{background:var(--pp-dk);color:#fff;padding:.55rem .8rem;text-align:left;font-size:.75rem;font-weight:600;letter-spacing:.03em}
+    tbody tr:nth-child(odd){background:#FAFAFA}
+    tbody tr:nth-child(even){background:var(--card)}
+    tbody tr:hover{background:var(--pp-lt)}
+    td{padding:.5rem .8rem;vertical-align:top;line-height:1.5;border-bottom:1px solid var(--border)}
+    td:first-child{font-weight:500}
+    .cb{border-radius:6px;padding:.75rem 1rem;margin:.75rem 0;font-size:.88rem;line-height:1.65;border-left:4px solid;display:flex;gap:.6rem;align-items:flex-start}
+    .cb-ico{flex-shrink:0;font-size:1.05rem;margin-top:.05rem}
+    .cb-body{flex:1}
+    .cb-body strong{display:block;margin-bottom:.2rem;font-size:.77rem;text-transform:uppercase;letter-spacing:.04em}
+    .info{background:var(--pp-blue-lt);border-color:var(--pp-blue)}.info .cb-body strong{color:var(--pp-blue-dk)}
+    .success{background:var(--pp-green-lt);border-color:var(--pp-green)}.success .cb-body strong{color:var(--pp-green)}
+    .warn{background:var(--pp-amber-lt);border-color:var(--pp-amber)}.warn .cb-body strong{color:#78350F}
+    .danger{background:var(--pp-red-lt);border-color:var(--pp-red)}.danger .cb-body strong{color:#991B1B}
+    .purple{background:var(--pp-lt);border-color:var(--pp)}.purple .cb-body strong{color:var(--pp-dk)}
+    .pages{background:var(--pp-pages-lt);border-color:var(--pp-pages)}.pages .cb-body strong{color:#004D46}
+    details{margin:.7rem 0;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    summary{padding:.6rem 1rem;background:#F8F7F6;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--text);list-style:none;display:flex;align-items:center;gap:.5rem;user-select:none}
+    summary::-webkit-details-marker{display:none}
+    summary::before{content:'▶';font-size:.6rem;color:var(--muted);transition:transform .2s}
+    details[open] summary::before{transform:rotate(90deg)}
+    details .inner{padding:.85rem 1rem;font-size:.87rem;line-height:1.65}
+    ul,ol{padding-left:1.35rem;margin:.4rem 0 .85rem}
+    li{margin-bottom:.3rem;font-size:.88rem;line-height:1.6}
+    .check-list{list-style:none;padding-left:0}
+    .check-list li{display:flex;gap:.5rem;padding:.28rem 0;border-bottom:1px solid var(--border);font-size:.87rem;line-height:1.5}
+    .check-list li:last-child{border-bottom:none}
+    .ci{color:var(--pp-blue);flex-shrink:0}
+    .badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.71rem;font-weight:600;margin:0 2px;white-space:nowrap}
+    .b-pages{background:var(--pp-pages-lt);color:#004D46;border:1px solid var(--pp-pages)}
+    .b-auto{background:var(--pp-auto-lt);color:#003DA6;border:1px solid var(--pp-auto)}
+    .b-apps{background:var(--pp-lt);color:var(--pp-dk);border:1px solid var(--pp)}
+    .b-forms{background:var(--pp-blue-lt);color:var(--pp-blue-dk);border:1px solid var(--pp-blue)}
+    .b-sp{background:#EFF6FC;color:#004578;border:1px solid #0078D4}
+    .b-dv{background:#E8EAFC;color:#00188F;border:1px solid #00188F}
+    .b-nintex{background:#FFE8E8;color:#991B1B;border:1px solid #D13438}
+    .timeline{list-style:none;padding:0;position:relative;margin:.75rem 0;counter-reset:step}
+    .timeline::before{content:'';position:absolute;left:.68rem;top:.7rem;bottom:.7rem;width:2px;background:var(--border)}
+    .timeline li{padding:.5rem .5rem .5rem 2.1rem;position:relative;font-size:.87rem;line-height:1.55;counter-increment:step}
+    .timeline li::before{content:counter(step);position:absolute;left:0;top:.42rem;width:1.35rem;height:1.35rem;background:var(--pp);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700}
+    .timeline li strong{color:var(--pp-dk)}
+    .arch{max-width:720px;margin:1.25rem auto;display:flex;flex-direction:column;align-items:center;gap:.2rem}
+    .arch-top{background:linear-gradient(135deg,#1E1755,#742774);color:#fff;border-radius:8px;padding:.8rem 1.5rem;text-align:center;font-weight:700;font-size:.9rem;width:100%;box-shadow:0 3px 10px rgba(116,39,116,.2)}
+    .arch-top small{font-size:.72rem;opacity:.85;font-weight:400;display:block;margin-top:.1rem}
+    .arch-arrow{text-align:center;color:var(--muted);font-size:.9rem;line-height:1;margin:.05rem 0}
+    .arch-row{display:flex;gap:.75rem;width:100%;justify-content:center}
+    .arch-box{border-radius:7px;padding:.6rem .75rem;text-align:center;flex:1;min-width:110px;border:2px solid}
+    .arch-box .ab-ico{font-size:1.1rem;display:block;margin-bottom:.2rem}
+    .arch-box .ab-title{font-size:.78rem;font-weight:700}
+    .arch-box .ab-desc{font-size:.68rem;margin-top:.15rem;line-height:1.4}
+    .arch-pages{background:var(--pp-pages-lt);border-color:var(--pp-pages)}.arch-pages .ab-title{color:#004D46}.arch-pages .ab-desc{color:#005E56}
+    .arch-apps{background:var(--pp-lt);border-color:var(--pp)}.arch-apps .ab-title{color:var(--pp-dk)}.arch-apps .ab-desc{color:var(--pp)}
+    .arch-auto{background:var(--pp-auto-lt);border-color:var(--pp-auto)}.arch-auto .ab-title{color:#003DA6}.arch-auto .ab-desc{color:#0055CC}
+    .arch-dv{background:#E8EAFC;border-color:#00188F}.arch-dv .ab-title{color:#00188F}.arch-dv .ab-desc{color:#001EA0}
+    .arch-sp{background:var(--pp-blue-lt);border-color:var(--pp-blue)}.arch-sp .ab-title{color:var(--pp-blue-dk)}.arch-sp .ab-desc{color:var(--pp-blue)}
+    .arch-lbl{font-size:.7rem;color:var(--muted);margin-top:.35rem;text-align:center}
+    .dec-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.75rem 0}
+    .dec-item{background:#FAFAFA;border:1px solid var(--border);border-radius:5px;padding:.55rem .7rem;font-size:.82rem;display:flex;gap:.45rem;align-items:flex-start}
+    .dec-item .di{color:var(--pp);flex-shrink:0;font-size:.95rem}
+    #btt{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--pp);color:#fff;border:none;border-radius:50%;width:2.4rem;height:2.4rem;font-size:.95rem;cursor:pointer;opacity:0;transition:opacity .2s;z-index:200;box-shadow:0 2px 8px rgba(116,39,116,.35)}
+    #btt.show{opacity:1}
+    #btt:hover{background:var(--pp-dk)}
+    @media print{#sidebar,#prog,#btt{display:none!important}#main{margin-left:0;padding:1rem;max-width:100%}}
+    @media(max-width:900px){#sidebar{transform:translateX(-100%)}#main{margin-left:0;padding:1rem}.arch-row{flex-wrap:wrap}.dec-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div id="prog"></div>
+<nav id="sidebar">
+  <div id="sb-head">
+    <h2>Nintex → Power Platform</h2>
+    <span>Migration Guide · Power Pages Focus</span>
+  </div>
+  <div id="sb-search"><input type="text" id="search" placeholder="🔍 Search…" autocomplete="off"></div>
+  <ul id="nav-list">
+    <li><a href="#s1"><span class="nav-ico">📋</span>Executive Summary<span class="nn">1</span></a></li>
+    <li><a href="#s2"><span class="nav-ico">⚠️</span>Problem Statement<span class="nn">2</span></a></li>
+    <li><a href="#s3"><span class="nav-ico">⏰</span>Why Change Now<span class="nn">3</span></a></li>
+    <li><a href="#s4"><span class="nav-ico">💥</span>Business Impacts<span class="nn">4</span></a></li>
+    <li><a href="#s5"><span class="nav-ico">🔄</span>Replacement Options<span class="nn">5</span></a></li>
+    <li><a href="#s6"><span class="nav-ico">🏗️</span>Target Architecture<span class="nn">6</span></a></li>
+    <li><a href="#s7"><span class="nav-ico">🌐</span>Power Pages Deep Dive<span class="nn">7</span></a></li>
+    <li><a href="#s8"><span class="nav-ico">📊</span>Options Comparison<span class="nn">8</span></a></li>
+    <li><a href="#s9"><span class="nav-ico">🔐</span>Security &amp; Governance<span class="nn">9</span></a></li>
+    <li><a href="#s10"><span class="nav-ico">🗺️</span>Migration Roadmap<span class="nn">10</span></a></li>
+    <li><a href="#s11"><span class="nav-ico">🎲</span>Risks &amp; Dependencies<span class="nn">11</span></a></li>
+    <li><a href="#s12"><span class="nav-ico">🎤</span>Talking Points<span class="nn">12</span></a></li>
+    <li><a href="#s13"><span class="nav-ico">❓</span>FAQ<span class="nn">13</span></a></li>
+    <li><a href="#s14"><span class="nav-ico">✅</span>Recommendation<span class="nn">14</span></a></li>
+  </ul>
+</nav>
+<main id="main">
+  <div id="hero">
+    <h1>Nintex to Power Platform — Migration &amp; Modernisation Guide</h1>
+    <div class="sub">A stakeholder discussion guide covering the retirement of legacy Nintex capabilities and recommended Microsoft Power Platform replacement patterns, with a focus on Power Pages for external and anonymous submission scenarios.</div>
+    <div class="tags">
+      <span class="htag">🚨 Legacy Retirement</span>
+      <span class="htag">🌐 Power Pages</span>
+      <span class="htag">⚡ Power Automate</span>
+      <span class="htag">📱 Power Apps</span>
+      <span class="htag">🗄️ Dataverse</span>
+      <span class="htag">🔗 SharePoint Integration</span>
+    </div>
+  </div>
+  <div id="urgency-bar"><span>🚨</span> Nintex legacy capabilities are approaching end-of-support. Action is required now to avoid disruption to business-critical workflows, forms, and submission processes.</div>
+
+  <section id="s1" class="section">
+    <div class="sec-hdr"><div class="sec-num">1</div><h2>Executive Summary</h2></div>
+    <p>Legacy Nintex workflow and forms capabilities — specifically those built on the classic SharePoint Nintex Workflow and Nintex Forms products — are reaching end-of-support. Organisations that have built business-critical processes on these platforms face a clear strategic decision: migrate proactively to modern Microsoft Power Platform alternatives, or risk disruption, security vulnerabilities, and vendor unsupportability.</p>
+    <p>This guide provides decision-makers and technical leads with a structured framework for understanding the impact, evaluating replacement options, and planning a phased migration to Microsoft Power Platform — with particular focus on scenarios involving external users, anonymous submissions, and attachment handling, where <strong>Power Pages</strong> is the recommended platform capability.</p>
+
+    <h3>The Strategic Opportunity</h3>
+    <div class="cb purple"><span class="cb-ico">💡</span><div class="cb-body"><strong>Not Just a Migration — A Modernisation Opportunity</strong>The Nintex retirement is not merely a technical fire to put out. It is an opportunity to re-evaluate how your organisation captures, routes, approves, and acts on information — and to build those processes on a unified, supported, governed Microsoft platform that integrates natively with your existing M365 and Azure investments.</div></div>
+
+    <h3>Key Decisions Summary</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Scenario</th><th>Recommended Replacement</th><th>Primary Reason</th></tr></thead>
+      <tbody>
+        <tr><td>Internal workflow approvals and routing</td><td><span class="badge b-auto">Power Automate</span></td><td>Direct replacement for Nintex Workflow; native M365 integration; low-code cloud flows</td></tr>
+        <tr><td>Internal employee forms and data capture</td><td><span class="badge b-apps">Power Apps</span> or <span class="badge b-forms">Microsoft Forms</span></td><td>Power Apps for complex logic; Forms for simple surveys and questionnaires</td></tr>
+        <tr><td>External or anonymous submissions with attachments</td><td><span class="badge b-pages">Power Pages</span></td><td>Purpose-built for authenticated and anonymous external web portal scenarios</td></tr>
+        <tr><td>Structured data storage and business rules</td><td><span class="badge b-dv">Dataverse</span></td><td>Enterprise-grade data platform with built-in security, audit, and compliance</td></tr>
+        <tr><td>Document-centric workflows and file management</td><td><span class="badge b-sp">SharePoint</span> + <span class="badge b-auto">Power Automate</span></td><td>SharePoint libraries for document storage; Power Automate for routing and approval</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>What This Guide Covers</h3>
+    <div class="dec-grid">
+      <div class="dec-item"><span class="di">📌</span><span>Business and technical impact of Nintex retirement</span></div>
+      <div class="dec-item"><span class="di">📌</span><span>Evaluation of Power Platform replacement options per use case</span></div>
+      <div class="dec-item"><span class="di">📌</span><span>Power Pages deep dive for external/anonymous submission scenarios</span></div>
+      <div class="dec-item"><span class="di">📌</span><span>Target architecture with component interaction model</span></div>
+      <div class="dec-item"><span class="di">📌</span><span>Security, compliance, and governance considerations</span></div>
+      <div class="dec-item"><span class="di">📌</span><span>Phased migration roadmap with wave planning</span></div>
+      <div class="dec-item"><span class="di">📌</span><span>Risks, assumptions, and dependency mapping</span></div>
+      <div class="dec-item"><span class="di">📌</span><span>Stakeholder talking points and FAQ for business and technical audiences</span></div>
+    </div>
+  </section>
+
+  <section id="s2" class="section">
+    <div class="sec-hdr"><div class="sec-num">2</div><h2>Current-State Problem Statement</h2></div>
+    <p>Many organisations built extensive business process automation on Nintex Workflow for SharePoint and Nintex Forms during the SharePoint 2010–2019 era. These tools were market-leading at the time but were tightly coupled to classic SharePoint infrastructure, on-premises deployments, and legacy browser models. As Microsoft has shifted to cloud-first, modern SharePoint, and the Power Platform ecosystem, these Nintex products have become misaligned with the direction of both Microsoft and the broader market.</p>
+
+    <h3>The Nintex Legacy Landscape</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Legacy Nintex Component</th><th>What It Did</th><th>Current Status</th><th>Risk Level</th></tr></thead>
+      <tbody>
+        <tr><td>Nintex Workflow for SharePoint (on-prem)</td><td>Sequential and state-machine workflow automation on SharePoint lists and libraries</td><td>End-of-support aligned with SharePoint Server lifecycle</td><td>🔴 High</td></tr>
+        <tr><td>Nintex Forms for SharePoint (on-prem)</td><td>Custom form design for SharePoint lists, replacing default SharePoint forms</td><td>Deprecated; no modern SharePoint equivalent support</td><td>🔴 High</td></tr>
+        <tr><td>Nintex Workflow Cloud (NWC)</td><td>Cloud-hosted workflows with connectors; SaaS model</td><td>Ongoing but requires separate licensing and vendor dependency</td><td>🟡 Medium</td></tr>
+        <tr><td>Nintex Drawloop / Document Generation</td><td>Automated document generation and assembly</td><td>Still available as Nintex DocGen but not Microsoft-native</td><td>🟡 Medium</td></tr>
+        <tr><td>Nintex Promapp (process mapping)</td><td>Process documentation and mapping</td><td>Active but outside Microsoft ecosystem</td><td>🟢 Low</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="cb danger"><span class="cb-ico">🚨</span><div class="cb-body"><strong>Critical Risk: Workflow Orphaning</strong>Nintex Workflow processes built on classic SharePoint list workflows will break or become unsupported as SharePoint Server versions reach end-of-support. In SharePoint Online, classic Nintex workflows are not supported at all — meaning any process dependent on classic Nintex Workflow cannot run in a modern M365 environment without migration.</div></div>
+
+    <h3>Common Affected Business Processes</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Business Process</th><th>How Nintex Was Used</th><th>Migration Priority</th></tr></thead>
+      <tbody>
+        <tr><td>Employee onboarding requests</td><td>Forms capturing new hire data + approval routing to HR and IT</td><td>🔴 High</td></tr>
+        <tr><td>Leave / absence requests</td><td>SharePoint list form + manager approval workflow + notification</td><td>🔴 High</td></tr>
+        <tr><td>Procurement / purchase approvals</td><td>Multi-stage approval with finance, manager, and director sign-off</td><td>🔴 High</td></tr>
+        <tr><td>Incident / complaint submission</td><td>External or internal form with attachment upload + case routing</td><td>🔴 High</td></tr>
+        <tr><td>Vendor document intake</td><td>External-facing form for vendors to submit compliance documents</td><td>🔴 High</td></tr>
+        <tr><td>Service desk / IT requests</td><td>Form with category routing to different queues</td><td>🟡 Medium</td></tr>
+        <tr><td>Contract review and approval</td><td>Document-centric workflow with version tracking and sign-off</td><td>🟡 Medium</td></tr>
+        <tr><td>Anonymous public-facing submissions</td><td>External form accessible without login for feedback/reporting</td><td>🔴 High (Power Pages specific)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Why Legacy Nintex Processes Cannot Simply Be Moved</h3>
+    <div class="cb warn"><span class="cb-ico">⚠️</span><div class="cb-body"><strong>Redesign, Not Lift-and-Shift</strong>Unlike infrastructure migrations, workflow and form migrations cannot be automated. Nintex Workflow XML definitions do not translate to Power Automate flow definitions. Nintex Forms ASPX markup does not translate to Power Apps or Power Pages. Each process must be <em>analysed, redesigned, and rebuilt</em> using modern Power Platform patterns. Some will be simpler than their Nintex equivalents; others will be more capable.</div></div>
+  </section>
+  <section id="s3" class="section">
+    <div class="sec-hdr"><div class="sec-num">3</div><h2>Why Change Now</h2></div>
+    <p>The question is not whether to migrate — it is when and how. Organisations that delay face compounding risk: increasing technical debt, security vulnerabilities in unsupported products, reduced vendor support responsiveness, and the growing complexity of migrating a larger inventory of processes in a shorter window. Early movers gain a longer runway, lower cost per migration, and the ability to pilot and learn before high-risk processes are tackled.</p>
+
+    <h3>The Business Case for Acting Now</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Driver</th><th>Why It Matters Now</th><th>Cost of Delay</th></tr></thead>
+      <tbody>
+        <tr><td>End-of-support timelines</td><td>Microsoft has announced end-of-support for SharePoint Server versions that host Nintex Workflow. Once the date passes, security patches stop.</td><td>Unpatched vulnerabilities in workflow engine; potential compliance breach; vendor liability shift to you</td></tr>
+        <tr><td>Nintex licensing and cost</td><td>Continuing to renew Nintex licenses for deprecated products while also paying for Power Platform is double-spend with no added value.</td><td>Ongoing Nintex license costs with declining product investment; no roadmap improvements</td></tr>
+        <tr><td>Talent and knowledge decay</td><td>Staff who built Nintex solutions may have left. Institutional knowledge of how these workflows operate is shrinking.</td><td>Critical workflows become black boxes; no one can modify or repair them when they break</td></tr>
+        <tr><td>Integration drift</td><td>Nintex integrates with legacy SharePoint APIs that are being deprecated in SharePoint Online. Modern Power Platform integrations are forward-compatible.</td><td>Workflows silently fail as underlying APIs are removed; data pipelines break without warning</td></tr>
+        <tr><td>User experience expectations</td><td>End-users expect modern, mobile-friendly, accessible forms and portals. Legacy Nintex Forms renders in classic SharePoint which is not mobile-responsive.</td><td>Low adoption, workarounds via email/paper, data quality issues</td></tr>
+        <tr><td>M365 investment alignment</td><td>Your organisation is already paying for Power Platform licences through M365. Nintex represents a parallel investment in non-Microsoft tooling with no incremental M365 value.</td><td>Continued Nintex spend reduces the ROI case for M365 modernisation</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Market and Microsoft Strategy Signals</h3>
+    <ul class="check-list">
+      <li><span class="ci">📌</span><span>Microsoft has invested over $3B in Power Platform — it is a strategic platform, not a feature. Nintex is a third-party niche tool competing in Microsoft's primary automation space.</span></li>
+      <li><span class="ci">📌</span><span>Power Automate now has feature parity with and in many areas exceeds classic Nintex Workflow capabilities, including approvals, HTTP triggers, AI Builder integration, and Copilot-assisted flow creation.</span></li>
+      <li><span class="ci">📌</span><span>Power Pages (formerly Power Apps Portals) has matured significantly with built-in Dataverse integration, Copilot-assisted design, anonymous access, and enterprise security controls.</span></li>
+      <li><span class="ci">📌</span><span>Microsoft's Copilot/AI strategy is deeply embedded in Power Platform — future capabilities (AI-generated workflows, smart forms, process intelligence) are exclusive to the Microsoft stack.</span></li>
+      <li><span class="ci">📌</span><span>Nintex has shifted its own strategy toward higher-end enterprise process intelligence products, signalling reduced investment in the classic workflow/forms space that most organisations rely on.</span></li>
+    </ul>
+
+    <div class="cb success"><span class="cb-ico">✅</span><div class="cb-body"><strong>The Window of Opportunity</strong>Organisations that begin migration planning now have 12–24 months to migrate in waves — starting with low-risk, high-value processes and building institutional Power Platform capability along the way. Those who wait will face a compressed, high-risk, high-cost forced migration driven by a hard deadline rather than a strategic roadmap.</div></div>
+  </section>
+
+  <section id="s4" class="section">
+    <div class="sec-hdr"><div class="sec-num">4</div><h2>Key Retirement Impacts to the Business</h2></div>
+    <p>When Nintex legacy capabilities reach end-of-support or stop functioning, the impact is not limited to IT. Business processes, user experience, compliance posture, and operational efficiency are all affected. Understanding the full blast radius is essential for building an accurate business case and prioritising migration waves.</p>
+
+    <h3>Impact by Business Function</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Business Function</th><th>Affected Processes</th><th>Impact if Not Migrated</th><th>Severity</th></tr></thead>
+      <tbody>
+        <tr><td>Human Resources</td><td>Onboarding requests, leave approvals, performance review routing, policy acknowledgement</td><td>Manual email-based routing; compliance gaps in audit trails; employee frustration</td><td>🔴 Critical</td></tr>
+        <tr><td>Finance &amp; Procurement</td><td>Purchase order approvals, invoice routing, budget request forms, expense approvals</td><td>Delays in financial approvals; breakdown of segregation of duties; audit risk</td><td>🔴 Critical</td></tr>
+        <tr><td>Legal &amp; Compliance</td><td>Contract review routing, NDA submissions, policy exception requests, incident reporting</td><td>Untracked approvals; missing audit log; potential regulatory non-compliance</td><td>🔴 Critical</td></tr>
+        <tr><td>Operations</td><td>Service requests, asset management approvals, facilities requests, change management forms</td><td>Manual workarounds; Excel trackers; lost requests; increased response time</td><td>🟡 High</td></tr>
+        <tr><td>Customer / External Facing</td><td>Vendor document intake, complaint submission, anonymous feedback, public-facing forms</td><td>External portal failure; inability to accept submissions; reputational risk</td><td>🔴 Critical</td></tr>
+        <tr><td>IT Service Management</td><td>IT request forms, access request routing, incident categorisation, change advisory workflows</td><td>IT helpdesk overwhelmed; ITSM tool gaps; untracked requests</td><td>🟡 High</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>The Hidden Impact: Invisible Workflow Failures</h3>
+    <div class="cb danger"><span class="cb-ico">🚨</span><div class="cb-body"><strong>Workflows Don't Always Break Loudly</strong>One of the most dangerous aspects of Nintex retirement is that workflows may not fail with an error — they may simply stop sending notifications, stop escalating, or stop updating records, with no alert to the process owner. Approvals that were expected to complete in 2 days may silently stall for weeks. Discovering these failures often requires an incident or audit finding.</div></div>
+
+    <h3>Quantifying the Risk</h3>
+    <div class="dec-grid">
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem">
+        <strong style="font-size:.83rem;color:var(--pp-red)">🔴 Security Risk</strong>
+        <span style="font-size:.8rem;color:var(--muted)">Unpatched Nintex engine vulnerabilities on unsupported SharePoint versions. No security fixes after end-of-support.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem">
+        <strong style="font-size:.83rem;color:var(--pp-orange)">🟠 Compliance Risk</strong>
+        <span style="font-size:.8rem;color:var(--muted)">Loss of audit trail integrity for regulated processes (HR, Finance, Legal). Cannot demonstrate approval chains during audits.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem">
+        <strong style="font-size:.83rem;color:var(--pp-amber)">🟡 Operational Risk</strong>
+        <span style="font-size:.8rem;color:var(--muted)">Silent workflow failures cause delays in business-critical approvals. Manual workarounds increase cost and introduce human error.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem">
+        <strong style="font-size:.83rem;color:var(--pp-blue)">🔵 Vendor Risk</strong>
+        <span style="font-size:.8rem;color:var(--muted)">Nintex support tickets deprioritised for legacy products. Licence renewal for deprecated software with no product roadmap.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem">
+        <strong style="font-size:.83rem;color:var(--pp-pages)">🟢 Knowledge Risk</strong>
+        <span style="font-size:.8rem;color:var(--muted)">Nintex skills are declining in the market. Staff who built original solutions leave; documentation is absent; no one can maintain what exists.</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem">
+        <strong style="font-size:.83rem;color:var(--pp-dk)">🟣 Integration Risk</strong>
+        <span style="font-size:.8rem;color:var(--muted)">SharePoint REST APIs and legacy SOAP endpoints used by Nintex are being sunset. Integrations to third-party systems routed through Nintex break silently.</span>
+      </div>
+    </div>
+
+    <h3>Impact on External-Facing Processes — Special Attention Required</h3>
+    <p>The most acute short-term risk for many organisations is the failure of <strong>external-facing Nintex forms</strong> — portals where vendors, clients, or the public submit documents, complaints, or requests. These processes often:</p>
+    <ul>
+      <li>Have <strong>no authentication</strong> (anonymous submissions) — making SharePoint-only replacements unsuitable</li>
+      <li>Require <strong>file attachment handling</strong> (PDFs, images, signed documents) — which adds complexity to the replacement design</li>
+      <li>Are <strong>SLA-bound</strong> — a failed external submission portal may breach contractual or regulatory commitments</li>
+      <li>Have <strong>no fallback</strong> — external users cannot access SharePoint directly to submit manually</li>
+    </ul>
+    <div class="cb pages"><span class="cb-ico">🌐</span><div class="cb-body"><strong>Power Pages Is the Answer for External Submissions</strong>Power Pages (formerly Power Apps Portals) is Microsoft's purpose-built platform for secure, externally accessible web portals with Dataverse integration, anonymous access, attachment support, and enterprise-grade security controls. See Section 7 for a full deep dive.</div></div>
+  </section>
+  <section id="s5" class="section">
+    <div class="sec-hdr"><div class="sec-num">5</div><h2>Replacement Solution Options</h2></div>
+    <p>Microsoft Power Platform provides a set of complementary, integrated tools that together cover every capability Nintex provided — and more. No single tool replaces Nintex entirely; the right combination depends on the scenario, audience, and data requirements of each process.</p>
+
+    <h3>The Power Platform Toolkit</h3>
+
+    <details open><summary><span class="badge b-auto">Power Automate</span> — Workflow &amp; Process Automation (Primary Nintex Workflow Replacement)</summary>
+      <div class="inner">
+        <p><strong>What it replaces:</strong> Nintex Workflow for SharePoint. Sequential approvals, parallel branching, timed escalations, notifications, and system integrations.</p>
+        <p><strong>Key capabilities:</strong></p>
+        <ul>
+          <li>Cloud flows triggered by SharePoint events, form submissions, HTTP requests, scheduled timers, or manual triggers</li>
+          <li>Approval actions with multi-stage, parallel, and sequential patterns; configurable escalation and time-out logic</li>
+          <li>800+ pre-built connectors to M365, Azure, Salesforce, ServiceNow, Dynamics 365, and more</li>
+          <li>Exception handling, retry policies, and detailed run history for audit and debugging</li>
+          <li>Copilot-assisted flow creation: describe the process in plain English and Power Automate generates a draft flow</li>
+          <li>Desktop flows (RPA) for automating legacy desktop applications with no API</li>
+        </ul>
+        <p><strong>Best for:</strong> Multi-step approvals, notification routing, SharePoint list automation, cross-system data synchronisation, scheduled batch operations.</p>
+        <p><strong>Licensing:</strong> Included in Microsoft 365 E1/E3/E5 with standard connectors. Premium connectors (Dataverse, HTTP, SAP) require Power Automate Premium (£12.30/user/month or per-flow plan).</p>
+      </div>
+    </details>
+
+    <details><summary><span class="badge b-pages">Power Pages</span> — External Web Portals &amp; Submission Sites (Primary replacement for external-facing Nintex Forms)</summary>
+      <div class="inner">
+        <p><strong>What it replaces:</strong> External-facing Nintex Forms, especially scenarios with anonymous access, attachment uploads, and external user authentication.</p>
+        <p><strong>Key capabilities:</strong></p>
+        <ul>
+          <li>Branded, publicly accessible web portals with no SharePoint licence requirement for external users</li>
+          <li>Anonymous (unauthenticated) access for public-facing submission forms</li>
+          <li>Authenticated access via Azure AD B2C, local identity, or social identity providers</li>
+          <li>File attachment support to Dataverse (notes/annotations entity)</li>
+          <li>Dataverse forms and lists rendered as web pages with full CRUD capability</li>
+          <li>Liquid templating for dynamic content; Copilot-assisted page building</li>
+          <li>OOB integration with Power Automate for post-submission workflows</li>
+          <li>Web application firewall (WAF), DDoS protection, and enterprise security controls</li>
+        </ul>
+        <p><strong>Best for:</strong> Vendor document intake, complaint/incident submission, public-facing service requests, anonymous feedback portals, external onboarding forms.</p>
+        <p><strong>Licensing:</strong> Power Pages Authenticated users: £3.20/user/month (pay-per-user) or £100/site/month (anonymous capacity). See Section 7 for full licensing detail.</p>
+      </div>
+    </details>
+
+    <details><summary><span class="badge b-apps">Power Apps</span> — Custom Internal Applications &amp; Complex Forms (Internal Nintex Forms replacement)</summary>
+      <div class="inner">
+        <p><strong>What it replaces:</strong> Complex internal Nintex Forms with conditional logic, calculated fields, dynamic sections, and multi-screen workflows for licensed users.</p>
+        <p><strong>Key capabilities:</strong></p>
+        <ul>
+          <li>Canvas Apps: pixel-precise form and application design for internal users; can embed in Teams, SharePoint, or standalone</li>
+          <li>Model-driven Apps: structured applications driven by Dataverse schema; ideal for complex data models (CRM-style)</li>
+          <li>SharePoint-connected forms: replace SharePoint list forms with Power Apps custom forms (zero additional licence cost in M365)</li>
+          <li>Offline capability for field workers with no internet connectivity</li>
+          <li>AI Builder integration for document processing, object detection, and prediction models</li>
+          <li>Power Apps for Teams: lightweight apps embedded directly in Teams channels</li>
+        </ul>
+        <p><strong>Best for:</strong> Complex internal forms with multi-step logic, mobile field apps, SharePoint list form replacements, Dataverse-backed business applications.</p>
+        <p><strong>Licensing:</strong> Power Apps Premium: £16.10/user/month. SharePoint form customisation via Power Apps: included in M365 at no extra cost.</p>
+      </div>
+    </details>
+
+    <details><summary><span class="badge b-forms">Microsoft Forms</span> — Simple Surveys &amp; Questionnaires</summary>
+      <div class="inner">
+        <p><strong>What it replaces:</strong> Simple single-page Nintex Forms used for surveys, polls, and data collection without complex logic.</p>
+        <p><strong>Key capabilities:</strong></p>
+        <ul>
+          <li>Simple drag-and-drop form builder; no training required</li>
+          <li>Branching logic for conditional questions</li>
+          <li>Anonymous and authenticated response modes</li>
+          <li>Automatic response collection in Excel; Power Automate integration for response triggers</li>
+          <li>Embedded in SharePoint pages, Teams tabs, and emails</li>
+        </ul>
+        <p><strong>Best for:</strong> Quick surveys, simple questionnaires, event registrations, feedback collection. <strong>Not</strong> for complex multi-stage forms, attachment uploads, or structured data entry.</p>
+        <p><strong>Licensing:</strong> Included in all Microsoft 365 plans at no additional cost.</p>
+      </div>
+    </details>
+
+    <details><summary><span class="badge b-dv">Dataverse</span> — Enterprise Data Platform (Underpins Power Pages, Power Apps, and Power Automate)</summary>
+      <div class="inner">
+        <p><strong>What it replaces:</strong> SharePoint lists used as Nintex Workflow data stores. Provides a proper relational data store with business rules, security roles, and audit capabilities.</p>
+        <p><strong>Key capabilities:</strong></p>
+        <ul>
+          <li>Relational tables with relationships, lookups, and calculated columns</li>
+          <li>Row-level security via Dataverse security roles — no manual SharePoint permission management</li>
+          <li>Built-in audit log for every row create/update/delete — essential for compliance</li>
+          <li>Business rules, real-time workflows, and plug-ins for server-side logic</li>
+          <li>OData API, Power BI connector, and Azure Synapse Link for data integration and reporting</li>
+          <li>File and image attachments stored natively (notes entity)</li>
+        </ul>
+        <p><strong>Best for:</strong> Any Power Pages or Power Apps solution requiring structured, auditable, secure data storage. Required for Power Pages.</p>
+        <p><strong>Licensing:</strong> Included with Power Apps Premium, Power Pages, and Dynamics 365 licences. Dataverse storage is pooled per tenant.</p>
+      </div>
+    </details>
+
+    <details><summary><span class="badge b-sp">SharePoint + Power Automate</span> — Document-Centric Workflows</summary>
+      <div class="inner">
+        <p><strong>What it replaces:</strong> Nintex Workflow for document approval, review routing, and version-controlled document management on SharePoint libraries.</p>
+        <p><strong>Key capabilities:</strong></p>
+        <ul>
+          <li>SharePoint document libraries with version history, check-out/check-in, content types, and approval status columns</li>
+          <li>Power Automate flows triggered on file upload, metadata change, or manual button</li>
+          <li>Approval actions with email and Teams notification; comments captured in approval history</li>
+          <li>Conditional logic for multi-path routing (e.g., values over £10k go to Director, under go to Manager)</li>
+          <li>Approval outcome written back to SharePoint column for reporting and compliance</li>
+        </ul>
+        <p><strong>Best for:</strong> Contract review, policy approval, document sign-off, content publishing workflows where the primary artefact is a file.</p>
+        <p><strong>Licensing:</strong> Power Automate standard connectors included in M365. Premium connectors require Power Automate Premium.</p>
+      </div>
+    </details>
+  </section>
+
+  <section id="s6" class="section">
+    <div class="sec-hdr"><div class="sec-num">6</div><h2>Recommended Target Architecture</h2></div>
+    <p>The target architecture positions each Power Platform component in its optimal role, with Dataverse as the unified data layer and Power Automate as the process orchestration backbone. The architecture is modular — each component can be introduced in phases without requiring the complete stack from day one.</p>
+
+    <h3>Architecture Diagram — Component Interaction</h3>
+    <div class="arch">
+      <div class="arch-row">
+        <div class="arch-box arch-pages" style="flex:1.2">
+          <span class="ab-ico">🌐</span>
+          <div class="ab-title">Power Pages</div>
+          <div class="ab-desc">External portal · Anonymous or authenticated · Attachment uploads · Public submission forms</div>
+        </div>
+        <div class="arch-box arch-apps">
+          <span class="ab-ico">📱</span>
+          <div class="ab-title">Power Apps</div>
+          <div class="ab-desc">Internal forms · Complex logic · Canvas &amp; Model-driven · Teams-embedded</div>
+        </div>
+        <div class="arch-box arch-sp">
+          <span class="ab-ico">📄</span>
+          <div class="ab-title">SharePoint</div>
+          <div class="ab-desc">Document libraries · File storage · List-based data · Teams integration</div>
+        </div>
+      </div>
+      <div class="arch-arrow">│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>└──────────┬──────────┘<br>▼</div>
+      <div class="arch-box arch-auto" style="width:65%;align-self:center">
+        <span class="ab-ico">⚡</span>
+        <div class="ab-title">Power Automate</div>
+        <div class="ab-desc">Process orchestration · Approvals · Notifications · Cross-system integration · Business logic routing</div>
+      </div>
+      <div class="arch-arrow">│<br>▼</div>
+      <div class="arch-box arch-dv" style="width:65%;align-self:center">
+        <span class="ab-ico">🗄️</span>
+        <div class="ab-title">Microsoft Dataverse</div>
+        <div class="ab-desc">Unified data layer · Row-level security · Audit log · File attachments · Business rules · Reporting via Power BI</div>
+      </div>
+      <div class="arch-lbl">All components integrate natively. Power Automate connects to 800+ external systems via standard and premium connectors.</div>
+    </div>
+
+    <h3>Architecture Principles</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Principle</th><th>Application</th></tr></thead>
+      <tbody>
+        <tr><td>Dataverse as single source of truth</td><td>All form submissions, approval records, and attachment metadata are stored in Dataverse — not in SharePoint lists or email. This enables cross-app reporting, audit, and lifecycle management.</td></tr>
+        <tr><td>Power Automate for all orchestration</td><td>No workflow logic lives inside forms or apps. Forms capture data; Power Automate routes, approves, escalates, and integrates. This separation keeps each component maintainable.</td></tr>
+        <tr><td>Power Pages for anything external</td><td>Any process with external users, anonymous access, or public submissions uses Power Pages — not SharePoint, not embedded forms, not third-party tools.</td></tr>
+        <tr><td>SharePoint for documents, Dataverse for structured data</td><td>Files and documents belong in SharePoint libraries. Structured business records (approvals, cases, submissions) belong in Dataverse. Do not use SharePoint lists as a database.</td></tr>
+        <tr><td>Security by default</td><td>Dataverse security roles govern data access. Power Pages enforces web application firewall and authentication controls. Power Automate uses service accounts with minimal permissions.</td></tr>
+        <tr><td>Managed environments and ALM</td><td>Development, test, and production environments are separate Power Platform environments. Solutions are deployed via pipelines, not manual export/import.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Scenario-to-Architecture Mapping</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Business Scenario</th><th>Front End</th><th>Process Layer</th><th>Data Layer</th></tr></thead>
+      <tbody>
+        <tr><td>Vendor document submission portal</td><td><span class="badge b-pages">Power Pages</span> (anonymous/auth)</td><td><span class="badge b-auto">Power Automate</span> (intake → review → notify)</td><td><span class="badge b-dv">Dataverse</span> + file attachments</td></tr>
+        <tr><td>Employee purchase approval</td><td><span class="badge b-apps">Power Apps</span> (Canvas, Teams)</td><td><span class="badge b-auto">Power Automate</span> (multi-stage approval)</td><td><span class="badge b-dv">Dataverse</span> or <span class="badge b-sp">SharePoint list</span></td></tr>
+        <tr><td>Complaint / incident submission</td><td><span class="badge b-pages">Power Pages</span> (public anonymous)</td><td><span class="badge b-auto">Power Automate</span> (triage → case routing)</td><td><span class="badge b-dv">Dataverse</span> (case management)</td></tr>
+        <tr><td>Contract review workflow</td><td><span class="badge b-sp">SharePoint</span> library upload</td><td><span class="badge b-auto">Power Automate</span> (document approval)</td><td><span class="badge b-sp">SharePoint</span> + approval column</td></tr>
+        <tr><td>Onboarding request form</td><td><span class="badge b-apps">Power Apps</span> (model-driven)</td><td><span class="badge b-auto">Power Automate</span> (HR → IT → manager)</td><td><span class="badge b-dv">Dataverse</span></td></tr>
+        <tr><td>Anonymous public feedback</td><td><span class="badge b-pages">Power Pages</span> (no login required)</td><td><span class="badge b-auto">Power Automate</span> (acknowledge + route)</td><td><span class="badge b-dv">Dataverse</span></td></tr>
+        <tr><td>Simple employee survey</td><td><span class="badge b-forms">Microsoft Forms</span></td><td><span class="badge b-auto">Power Automate</span> (optional notification)</td><td>Excel / SharePoint list</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section id="s7" class="section">
+    <div class="sec-hdr"><div class="sec-num">7</div><h2>Power Pages Deep Dive — External &amp; Anonymous Submissions</h2></div>
+    <div class="cb pages"><span class="cb-ico">🌐</span><div class="cb-body"><strong>Why Power Pages Is the Right Answer for External Scenarios</strong>Power Pages is Microsoft's purpose-built platform for secure, externally accessible web portals. It is the only Microsoft-native tool that supports anonymous (unauthenticated) access, file attachments, Dataverse integration, and enterprise security controls in a single, licensable product. For any Nintex form that was accessible outside your organisation, Power Pages is the recommended replacement.</div></div>
+
+    <h3>What Power Pages Provides</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Capability</th><th>Power Pages Approach</th><th>Nintex Equivalent</th></tr></thead>
+      <tbody>
+        <tr><td>External / public access without SharePoint licence</td><td>Power Pages site is a standalone web portal. External users access it via URL — no M365 account required.</td><td>Nintex Forms on SharePoint required SharePoint access for external users — a common friction point</td></tr>
+        <tr><td>Anonymous submissions (no login)</td><td>Pages supports fully anonymous access. Tables can be configured to allow anonymous record creation.</td><td>Not natively supported in Nintex Forms without complex workarounds</td></tr>
+        <tr><td>Authenticated access (external identities)</td><td>Azure AD B2C, local identity (email + password), LinkedIn, Google, and other identity providers via AAD B2C</td><td>Nintex supported Windows auth / SharePoint auth only — not external identity providers</td></tr>
+        <tr><td>File attachment uploads</td><td>Attachments stored in Dataverse notes (annotation entity). Size limits configurable. Virus scanning available via Azure Defender integration.</td><td>Nintex Forms supported attachments to SharePoint libraries — no external equivalent without custom code</td></tr>
+        <tr><td>Multi-step forms with conditional logic</td><td>Multi-step forms via Basic Forms and Advanced Forms (multi-step wizard pattern). Conditional field visibility via JavaScript or configuration.</td><td>Nintex Forms supported multi-page and conditional forms in classic SharePoint</td></tr>
+        <tr><td>Post-submission workflow</td><td>Power Automate triggered on Dataverse record creation. Full approval, notification, escalation, and integration capabilities.</td><td>Nintex Workflow triggered on SharePoint list item creation</td></tr>
+        <tr><td>CAPTCHA and bot protection</td><td>OOB CAPTCHA support on anonymous forms. Azure WAF for DDoS and bot mitigation at the portal level.</td><td>Not available OOB in Nintex</td></tr>
+        <tr><td>Branded portal experience</td><td>Full HTML/CSS/JavaScript customisation. Liquid templating. Theme editor. Custom domain support.</td><td>Nintex Forms rendered in SharePoint chrome — limited branding</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Common External Submission Scenarios — Power Pages Design Patterns</h3>
+
+    <details open><summary>🏭 Vendor Document Intake Portal</summary>
+      <div class="inner">
+        <p><strong>Scenario:</strong> Vendors must submit compliance certificates, insurance documents, and onboarding paperwork on a recurring basis. Previously a Nintex Form on an extranet SharePoint site.</p>
+        <p><strong>Power Pages design:</strong></p>
+        <ul>
+          <li>Power Pages site with vendor authentication (Azure AD B2C local account — vendors register themselves)</li>
+          <li>Multi-step form: vendor details → document type selection → file upload → submission confirmation</li>
+          <li>Dataverse table stores submission record; notes entity stores the attachment</li>
+          <li>Power Automate: acknowledge receipt → route to procurement team → notify if incomplete → track status</li>
+          <li>Vendor can return to portal to check submission status (using authenticated session)</li>
+        </ul>
+        <p><strong>Key advantage:</strong> Vendors do not need a corporate M365 account. Self-service registration via B2C. Full audit trail in Dataverse.</p>
+      </div>
+    </details>
+
+    <details><summary>📢 Complaint &amp; Incident Submission Portal</summary>
+      <div class="inner">
+        <p><strong>Scenario:</strong> Customers or members of the public can submit complaints or safety incidents. Submissions must be anonymous and auditable. Previously a Nintex Form on a public-facing SharePoint site.</p>
+        <p><strong>Power Pages design:</strong></p>
+        <ul>
+          <li>Power Pages site with fully anonymous access enabled at the table permission level</li>
+          <li>Single-page form with CAPTCHA to prevent bot submissions</li>
+          <li>Optional file upload (photo evidence, supporting documents) via Dataverse notes</li>
+          <li>Reference number generated and displayed on confirmation page (Dataverse auto-number column)</li>
+          <li>Power Automate: categorise by type → assign to case owner → SLA timer started → notify team</li>
+          <li>No personally identifiable information required for truly anonymous submissions (configurable)</li>
+        </ul>
+        <p><strong>Key advantage:</strong> Fully anonymous, CAPTCHA-protected, publicly accessible. No external user licence required for submitters.</p>
+      </div>
+    </details>
+
+    <details><summary>🧑‍💼 External Onboarding &amp; Service Request Portal</summary>
+      <div class="inner">
+        <p><strong>Scenario:</strong> New clients, contractors, or partner organisations complete onboarding forms, submit required documentation, and track request status. Previously managed via Nintex Forms on an extranet.</p>
+        <p><strong>Power Pages design:</strong></p>
+        <ul>
+          <li>Authenticated portal (local identity or AAD B2C) — users create an account and have a persistent session</li>
+          <li>Multi-step onboarding wizard: organisation details → contact details → document uploads → agreement acceptance → submit</li>
+          <li>Status dashboard page showing submission progress (using Dataverse data list web part)</li>
+          <li>Power Automate handles internal review routing, document validation, and status updates back to Dataverse (visible to submitter on return visit)</li>
+          <li>Email notifications at each stage driven by Power Automate</li>
+        </ul>
+        <p><strong>Key advantage:</strong> Submitters can return to check status without needing a corporate account. All data in Dataverse enables CRM-style case management internally.</p>
+      </div>
+    </details>
+
+    <h3>Power Pages Licensing — Simplified</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Licence Type</th><th>Use Case</th><th>Approx. Cost</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Authenticated users (per user/month)</td><td>External users who log in with a registered identity (B2C, local account)</td><td>~£3.20/user/month</td><td>Best for vendor portals, partner onboarding, where submitters return and check status</td></tr>
+        <tr><td>Anonymous capacity (per site/month)</td><td>Fully anonymous public submissions with no login</td><td>~£100/site/month</td><td>Unlimited anonymous page views; best for public complaint/feedback portals</td></tr>
+        <tr><td>Power Pages included licences</td><td>Bundled with Power Apps Premium, Dynamics 365, and some M365 E5 SKUs</td><td>Check entitlements</td><td>Verify your current Power Platform entitlements before purchasing add-ons</td></tr>
+      </tbody>
+    </table></div>
+    <div class="cb warn"><span class="cb-ico">⚠️</span><div class="cb-body"><strong>Licensing Note</strong>Power Pages pricing can vary by region and agreement type. The figures above are indicative list prices. Confirm current pricing with your Microsoft account team and check whether existing Power Apps Premium or Dynamics 365 licences already include Power Pages capacity.</div></div>
+  </section>
+
+  <section id="s8" class="section">
+    <div class="sec-hdr"><div class="sec-num">8</div><h2>Comparison of Options</h2></div>
+    <p>Use this comparison to select the right tool for each scenario. No single tool is universally best — the right answer depends on the audience (internal vs external), form complexity, data requirements, and budget constraints.</p>
+
+    <h3>Full Capability Comparison Matrix</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Criterion</th><th><span class="badge b-pages">Power Pages</span></th><th><span class="badge b-apps">Power Apps</span></th><th><span class="badge b-forms">MS Forms</span></th><th><span class="badge b-sp">SharePoint + Flow</span></th></tr></thead>
+      <tbody>
+        <tr><td>External / anonymous user access</td><td>✅ Native (CAPTCHA, WAF)</td><td>❌ Requires licence for each user</td><td>⚠️ Anonymous but no attachment or Dataverse</td><td>❌ Requires SharePoint access</td></tr>
+        <tr><td>File attachment handling</td><td>✅ Dataverse notes; configurable size</td><td>✅ Dataverse notes or SharePoint</td><td>❌ Not supported</td><td>✅ SharePoint library</td></tr>
+        <tr><td>Multi-step / wizard forms</td><td>✅ Advanced Forms (multi-step)</td><td>✅ Multi-screen canvas apps</td><td>⚠️ Branching only (not true multi-step)</td><td>❌ Not available OOB</td></tr>
+        <tr><td>Conditional field logic</td><td>✅ JS / configuration</td><td>✅ Power Fx native</td><td>⚠️ Branching only</td><td>❌ Not in form; possible in flow logic</td></tr>
+        <tr><td>Custom branding / domain</td><td>✅ Full HTML/CSS; custom domain</td><td>✅ Canvas full customisation</td><td>❌ Microsoft branding only</td><td>⚠️ SharePoint theme only</td></tr>
+        <tr><td>Post-submission approval workflow</td><td>✅ Power Automate trigger</td><td>✅ Power Automate trigger</td><td>✅ Power Automate trigger (limited)</td><td>✅ Power Automate trigger</td></tr>
+        <tr><td>Structured data storage</td><td>✅ Dataverse (required)</td><td>✅ Dataverse or SharePoint</td><td>❌ Excel / SharePoint only</td><td>⚠️ SharePoint lists (limited)</td></tr>
+        <tr><td>Row-level security / data access control</td><td>✅ Dataverse table permissions</td><td>✅ Dataverse security roles</td><td>❌ None</td><td>⚠️ SharePoint permissions only</td></tr>
+        <tr><td>Audit log</td><td>✅ Dataverse audit (configurable)</td><td>✅ Dataverse audit</td><td>❌ Limited to response export</td><td>⚠️ SharePoint version history only</td></tr>
+        <tr><td>Status tracking by submitter</td><td>✅ Return visit with authenticated session</td><td>✅ If app is shared with submitter</td><td>❌ Not available</td><td>❌ External users cannot view SP list</td></tr>
+        <tr><td>Ease of build (no-code/low-code)</td><td>⚠️ Moderate — requires Dataverse knowledge</td><td>⚠️ Moderate — Power Fx required for complexity</td><td>✅ Very easy</td><td>✅ Easy for simple flows</td></tr>
+        <tr><td>Mobile responsive OOB</td><td>✅ Responsive by default</td><td>✅ Canvas: manual; Model-driven: auto</td><td>✅ Responsive</td><td>⚠️ SharePoint mobile app required</td></tr>
+        <tr><td>CAPTCHA / bot protection</td><td>✅ OOB CAPTCHA; Azure WAF</td><td>❌ Not applicable (internal)</td><td>⚠️ CAPTCHA on anonymous forms</td><td>❌ Not available</td></tr>
+        <tr><td>Licensing complexity</td><td>⚠️ Separate Power Pages licence per user or site</td><td>⚠️ Power Apps Premium per user</td><td>✅ Included in M365</td><td>✅ Included in M365 (standard connectors)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Scenario-Based Recommendation Summary</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Scenario</th><th>Best Tool</th><th>Runner-up</th><th>Avoid</th></tr></thead>
+      <tbody>
+        <tr><td>Anonymous public-facing submission (complaints, feedback)</td><td><span class="badge b-pages">Power Pages</span></td><td>—</td><td>SharePoint, MS Forms (no anonymous attachment)</td></tr>
+        <tr><td>Vendor / partner document intake (authenticated external users)</td><td><span class="badge b-pages">Power Pages</span></td><td>—</td><td>Power Apps (external licence per user too costly)</td></tr>
+        <tr><td>Complex internal form with multi-step logic (employees)</td><td><span class="badge b-apps">Power Apps</span> Canvas</td><td><span class="badge b-apps">Power Apps</span> Model-driven</td><td>MS Forms (too simple)</td></tr>
+        <tr><td>SharePoint list form replacement (internal)</td><td><span class="badge b-apps">Power Apps</span> SharePoint form</td><td><span class="badge b-forms">MS Forms</span> + PA</td><td>Nintex Forms (deprecated)</td></tr>
+        <tr><td>Multi-stage approval with escalation (internal)</td><td><span class="badge b-auto">Power Automate</span></td><td><span class="badge b-auto">Power Automate</span> + Power Apps</td><td>MS Forms alone (no approval OOB)</td></tr>
+        <tr><td>Simple employee survey or poll</td><td><span class="badge b-forms">MS Forms</span></td><td>Power Apps</td><td>Power Pages (over-engineered)</td></tr>
+        <tr><td>Document approval workflow (contract, policy)</td><td><span class="badge b-sp">SharePoint</span> + <span class="badge b-auto">Power Automate</span></td><td>Power Apps + Dataverse</td><td>MS Forms (no file handling)</td></tr>
+        <tr><td>External onboarding with status tracking</td><td><span class="badge b-pages">Power Pages</span></td><td>—</td><td>SharePoint, Power Apps (external licence)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section id="s9" class="section">
+    <div class="sec-hdr"><div class="sec-num">9</div><h2>Security, Compliance &amp; Governance Considerations</h2></div>
+    <p>Moving from Nintex to Power Platform is not just a feature swap — it is a transition to a governed, enterprise-grade platform with significantly more sophisticated security controls. Understanding these controls early ensures that the replacement architecture is not only functionally equivalent but materially more secure and auditable than what it replaces.</p>
+
+    <h3>Data Security</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Security Area</th><th>Nintex Legacy Posture</th><th>Power Platform Posture</th></tr></thead>
+      <tbody>
+        <tr><td>Data storage</td><td>SharePoint lists — SharePoint permission model; no row-level security</td><td>Dataverse — table-level and row-level security via security roles; independent of SharePoint permissions</td></tr>
+        <tr><td>File attachment security</td><td>Attachments in SharePoint document libraries — governed by SharePoint permissions</td><td>Attachments in Dataverse notes — governed by Dataverse table permissions and owner-level security</td></tr>
+        <tr><td>External access control</td><td>SharePoint extranet access — managed via SharePoint external sharing settings; complex to govern</td><td>Power Pages — explicit table permissions define what external users can read/write; zero-trust by default</td></tr>
+        <tr><td>Anonymous access</td><td>Anonymous access to SharePoint is broadly disabled in most tenants for security reasons</td><td>Power Pages anonymous access is controlled at table permission level — granular per-table control</td></tr>
+        <tr><td>Audit log</td><td>SharePoint audit log — limited; not row-level for workflow state changes</td><td>Dataverse audit — every field change tracked with user, timestamp, old value, and new value; exportable</td></tr>
+        <tr><td>Encryption</td><td>SharePoint: encryption at rest (Microsoft-managed key) and in transit (TLS 1.2+)</td><td>Dataverse: same encryption at rest + customer-managed key (CMK) option for regulated sectors</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Power Pages–Specific Security Controls</h3>
+    <ul class="check-list">
+      <li><span class="ci">🔐</span><span><strong>Table permissions (zero-trust by default):</strong> External users have no access to Dataverse tables unless explicitly granted via Power Pages table permission records. Even authenticated portal users cannot see data they are not explicitly permitted to access.</span></li>
+      <li><span class="ci">🔐</span><span><strong>Web Application Firewall (WAF):</strong> Power Pages sites are protected by Azure Front Door with WAF enabled by default. DDoS protection, bot detection, and OWASP Top 10 mitigations are included.</span></li>
+      <li><span class="ci">🔐</span><span><strong>CAPTCHA on anonymous forms:</strong> OOB CAPTCHA integration prevents automated bot submissions on anonymous-access forms without custom development.</span></li>
+      <li><span class="ci">🔐</span><span><strong>Content Security Policy (CSP):</strong> Configurable CSP headers prevent XSS and injection attacks on portal pages.</span></li>
+      <li><span class="ci">🔐</span><span><strong>HTTPS enforced:</strong> All Power Pages sites enforce HTTPS with TLS 1.2+. Custom domains include automated SSL certificate provisioning.</span></li>
+      <li><span class="ci">🔐</span><span><strong>IP restriction:</strong> Power Pages can be restricted to specific IP ranges for authenticated portals used by known external partners.</span></li>
+      <li><span class="ci">🔐</span><span><strong>Authentication provider selection:</strong> Only explicitly configured identity providers are permitted. Organisations control exactly which authentication methods are available to external users.</span></li>
+    </ul>
+
+    <h3>Governance Framework for Power Platform</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Governance Area</th><th>Recommended Approach</th><th>Tool / Feature</th></tr></thead>
+      <tbody>
+        <tr><td>Environment strategy</td><td>Separate environments for Dev, Test, and Production. No production resources in default environment.</td><td>Power Platform Admin Center — environment management</td></tr>
+        <tr><td>Data Loss Prevention (DLP) policies</td><td>Define connector tiers (Business / Non-business / Blocked). Prevent data exfiltration via unapproved connectors.</td><td>Power Platform DLP policies — enforced at environment level</td></tr>
+        <tr><td>Solution-based ALM</td><td>All apps, flows, and pages packaged as solutions and deployed via pipelines. No manual export/import to production.</td><td>Power Platform Pipelines or Azure DevOps + PAC CLI</td></tr>
+        <tr><td>Maker governance</td><td>Restrict who can create Power Pages sites, environments, and connectors. Use Power Platform Centre of Excellence Starter Kit for visibility.</td><td>CoE Starter Kit — inventory, compliance, and maker management</td></tr>
+        <tr><td>Dataverse security roles</td><td>Design security roles based on least-privilege. Separate roles for internal staff, portal users, and administrators.</td><td>Dataverse security role editor in Power Platform Admin Center</td></tr>
+        <tr><td>Attachment virus scanning</td><td>Configure Azure Defender for Storage to scan files uploaded via Power Pages before they are processed by internal staff.</td><td>Microsoft Defender for Cloud — storage malware scanning</td></tr>
+        <tr><td>Compliance and retention</td><td>Apply Microsoft Purview sensitivity labels to Dataverse environments. Configure retention policies for submission records.</td><td>Microsoft Purview — Dataverse connector for compliance</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="cb info"><span class="cb-ico">ℹ️</span><div class="cb-body"><strong>Compliance Note for Regulated Sectors</strong>For organisations subject to GDPR, ISO 27001, FCA, or similar regulation: Dataverse supports data residency configuration, customer-managed encryption keys, and audit export to SIEM systems. Power Pages can be configured to collect minimum necessary personal data. Ensure your privacy notice is updated to reflect the new data controller/processor chain before go-live.</div></div>
+  </section>
+
+  <section id="s10" class="section">
+    <div class="sec-hdr"><div class="sec-num">10</div><h2>Migration Approach &amp; Phased Roadmap</h2></div>
+    <p>A Nintex-to-Power-Platform migration is best executed in waves — not as a big-bang replacement. The wave approach reduces risk, builds organisational capability progressively, and allows lessons from early waves to inform later, more complex migrations.</p>
+
+    <h3>Pre-Migration: Discovery &amp; Inventory</h3>
+    <div class="cb warn"><span class="cb-ico">⚠️</span><div class="cb-body"><strong>Inventory First — Build Nothing Until You Know What Exists</strong>Many organisations underestimate their Nintex footprint. A Nintex workflow built in 2014 may still be running undocumented processes that 3 business units depend on. Before building anything in Power Platform, run a complete inventory of all Nintex workflows and forms, their owners, usage frequency, business criticality, and dependencies.</div></div>
+
+    <h3>Migration Inventory Template</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Field</th><th>Description</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Process Name</td><td>Descriptive name of the workflow or form</td><td>Purchase Order Approval</td></tr>
+        <tr><td>Nintex Component</td><td>Workflow / Form / Both</td><td>Both (form + workflow)</td></tr>
+        <tr><td>SharePoint Site / List</td><td>Where it is hosted</td><td>https://company.sharepoint.com/sites/Finance</td></tr>
+        <tr><td>Business Owner</td><td>Team or individual responsible</td><td>Finance Operations Manager</td></tr>
+        <tr><td>User Count</td><td>Approximate number of users / submitters</td><td>Internal: 45, External: 0</td></tr>
+        <tr><td>External Access Required</td><td>Yes / No — drives Power Pages vs Power Apps decision</td><td>No</td></tr>
+        <tr><td>Attachment Required</td><td>Yes / No — drives data layer design</td><td>Yes (invoice PDFs)</td></tr>
+        <tr><td>Business Criticality</td><td>Critical / High / Medium / Low</td><td>Critical (financial controls)</td></tr>
+        <tr><td>Complexity</td><td>Simple / Medium / Complex (parallel branches, integrations, escalations)</td><td>Medium</td></tr>
+        <tr><td>Migration Wave</td><td>Assigned wave based on criticality and complexity</td><td>Wave 2</td></tr>
+        <tr><td>Target Platform</td><td>Power Automate / Power Apps / Power Pages / Forms + PA</td><td>Power Apps + Power Automate</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Phased Migration Roadmap</h3>
+    <ol class="timeline">
+      <li><strong>Wave 0 — Foundation (Weeks 1–6)</strong> — Complete Nintex inventory. Establish Power Platform environments (Dev/Test/Prod). Configure DLP policies. Set up CoE Starter Kit. Identify pilot processes for Wave 1. Train core team on Power Automate and Power Apps fundamentals. <em>Output: Governance baseline, complete inventory, Wave 1 candidates identified.</em></li>
+      <li><strong>Wave 1 — Quick Wins: Low-complexity Internal Flows (Weeks 6–12)</strong> — Migrate 3–5 simple sequential approval workflows with no external access and no attachments to Power Automate. Replace 2–3 basic SharePoint list forms with Power Apps SharePoint form customisations. Validate deployment pipeline and ALM process. <em>Output: Proof-of-concept in production; team builds confidence; pipeline validated.</em></li>
+      <li><strong>Wave 2 — Medium-Complexity Internal Processes (Weeks 12–20)</strong> — Migrate multi-stage approval workflows with escalation, parallel branching, and Teams notifications. Replace complex internal Nintex Forms with Power Apps Canvas or Model-driven apps backed by Dataverse. Migrate document approval workflows to SharePoint + Power Automate pattern. <em>Output: Core internal process portfolio migrated; Dataverse adoption established.</em></li>
+      <li><strong>Wave 3 — External-Facing Processes: Power Pages (Weeks 18–28)</strong> — Assess all external-facing Nintex Forms. Design and build Power Pages sites for each external scenario (vendor intake, complaint submission, onboarding portals). Configure Azure AD B2C for authenticated external users where needed. Test WAF, CAPTCHA, anonymous access, and attachment upload end-to-end. <em>Output: External process portfolio migrated; Power Pages in production with security controls validated.</em></li>
+      <li><strong>Wave 4 — Complex &amp; Integrated Processes (Weeks 26–40)</strong> — Migrate complex Nintex workflows with third-party system integrations (ERP, ITSM, CRM). Redesign processes that relied on legacy Nintex-specific features (state machine workflows, scheduled workflows). Introduce AI Builder for document processing and RPA for legacy system integration where APIs are unavailable. <em>Output: Full Nintex portfolio migrated. Nintex licences sunset.</em></li>
+      <li><strong>Wave 5 — Optimisation &amp; Decommission (Weeks 38–48)</strong> — Nintex server decommission (if on-prem). Nintex licence termination. Power Platform adoption reporting via CoE. User training and change management completion. Establish ongoing Power Platform governance operating model. <em>Output: Nintex fully retired. Power Platform operating model in steady state.</em></li>
+    </ol>
+
+    <div class="cb success"><span class="cb-ico">✅</span><div class="cb-body"><strong>Migration Is Also Simplification</strong>Most organisations discover during Wave 1 that their legacy Nintex workflows are significantly over-engineered for the actual business need. Many approval workflows built in 2015 had complex branching logic to compensate for Nintex's limited notification capabilities. Power Automate's modern approval action handles 80% of these scenarios in 5 steps. Use migration as an opportunity to simplify, not replicate.</div></div>
+  </section>
+  <section id="s11" class="section">
+    <div class="sec-hdr"><div class="sec-num">11</div><h2>Risks, Assumptions &amp; Dependencies</h2></div>
+    <p>A successful migration requires honest identification of what can go wrong, what is being assumed, and what external factors the project depends on. These should be documented, owned, and tracked through the migration programme.</p>
+
+    <h3>Key Risks</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td>Undocumented Nintex workflows discovered mid-migration</td><td>High</td><td>High</td><td>Run thorough inventory in Wave 0 using Nintex admin tools and SharePoint site audits before committing to timelines</td></tr>
+        <tr><td>Business process redesign takes longer than workflow rebuild</td><td>High</td><td>Medium</td><td>Separate process discovery from build. Engage business owners in Wave 0 to document current-state processes before any technical work begins</td></tr>
+        <tr><td>Power Platform licensing gaps (no Premium licences for all users)</td><td>Medium</td><td>High</td><td>Audit current licence entitlements early. Model licence requirements per wave. Engage Microsoft licensing team for non-profit or EA pricing if applicable</td></tr>
+        <tr><td>External user resistance to new portal (Power Pages)</td><td>Medium</td><td>Medium</td><td>Run user acceptance testing with a sample of external users before go-live. Provide guided instructions. Maintain parallel running for 30 days after launch</td></tr>
+        <tr><td>Power Automate flow failures in production (different from Nintex behaviour)</td><td>Medium</td><td>High</td><td>Run flows in parallel with existing Nintex workflows during UAT period. Validate all edge cases. Configure alerting on flow failures in production</td></tr>
+        <tr><td>Nintex workflows hard-coded with values that are now incorrect</td><td>Medium</td><td>Medium</td><td>Treat each Nintex migration as a redesign — review business rules, approver lists, escalation paths, and thresholds before rebuilding</td></tr>
+        <tr><td>Dataverse storage costs exceed budget</td><td>Low</td><td>Medium</td><td>Model Dataverse storage requirements early. Use SharePoint libraries for document storage (not Dataverse) to minimise storage consumption. Review attachment size policies</td></tr>
+        <tr><td>SharePoint on-premises decommission not aligned to migration timeline</td><td>Medium</td><td>High</td><td>Align Power Platform migration waves with SharePoint Server decommission timeline. Do not decommission SharePoint until all dependent Nintex workflows are confirmed migrated</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Key Assumptions</h3>
+    <ul class="check-list">
+      <li><span class="ci">📌</span><span>The organisation has or will acquire the necessary Power Platform licences (Power Automate Premium and/or Power Apps Premium) before Wave 2 begins</span></li>
+      <li><span class="ci">📌</span><span>Business process owners are available and engaged throughout the migration — technical teams cannot redesign processes without business input</span></li>
+      <li><span class="ci">📌</span><span>Nintex documentation exists or can be reconstructed for all workflows in scope — completely undocumented processes require additional discovery time</span></li>
+      <li><span class="ci">📌</span><span>The Microsoft 365 tenant is healthy and modern SharePoint Online is already in use — on-premises SharePoint Server migration is a separate workstream</span></li>
+      <li><span class="ci">📌</span><span>A Power Platform Centre of Excellence or governance function will be established or already exists to own the platform post-migration</span></li>
+      <li><span class="ci">📌</span><span>External-facing processes using Power Pages will have Azure AD B2C configured — this requires Azure subscription access and AAD admin rights</span></li>
+    </ul>
+
+    <h3>Key Dependencies</h3>
+    <div class="dec-grid">
+      <div class="dec-item"><span class="di">🔗</span><span><strong>M365 tenant admin access</strong> — required for Power Platform environment creation, DLP policy configuration, and AAD app registrations for Power Pages</span></div>
+      <div class="dec-item"><span class="di">🔗</span><span><strong>Dataverse provisioning</strong> — requires Power Platform environment with Dataverse enabled; cannot use default environment for production workloads</span></div>
+      <div class="dec-item"><span class="di">🔗</span><span><strong>Network and firewall rules</strong> — Power Platform uses specific Azure IP ranges for outbound connections; on-premises data gateway required for on-prem system integration</span></div>
+      <div class="dec-item"><span class="di">🔗</span><span><strong>Azure AD B2C tenant</strong> — separate Azure subscription required for B2C if using external identity providers on Power Pages; involves additional configuration and cost</span></div>
+      <div class="dec-item"><span class="di">🔗</span><span><strong>Business owner availability</strong> — each migration wave requires dedicated business owner time for requirements, UAT, and sign-off; cannot be delegated to IT alone</span></div>
+      <div class="dec-item"><span class="di">🔗</span><span><strong>Nintex admin access</strong> — needed to export workflow definitions, identify dependencies, and run the inventory; confirm Nintex admin credentials are active before Wave 0</span></div>
+    </div>
+  </section>
+
+  <section id="s12" class="section">
+    <div class="sec-hdr"><div class="sec-num">12</div><h2>Suggested Stakeholder Talking Points</h2></div>
+    <p>Use these talking points when presenting the migration case to different audiences. Tailor the depth and emphasis based on who is in the room.</p>
+
+    <details open><summary>🏢 For C-Suite / Executive Leadership</summary>
+      <div class="inner">
+        <ul>
+          <li>"Our Nintex platform is approaching end-of-support, which means security patches will stop. This creates a compliance and liability risk that we need to address proactively."</li>
+          <li>"We are already paying for Microsoft Power Platform through our M365 licences. Moving to Power Platform eliminates Nintex licence costs while gaining a more capable, Microsoft-supported platform."</li>
+          <li>"The migration is not a like-for-like swap — it is an opportunity to modernise our forms, approvals, and submission processes and align them to our M365 investment."</li>
+          <li>"The biggest risk is not migrating — it is waiting until we have a critical failure in a business process and then having to migrate under pressure."</li>
+          <li>"Power Pages gives us a professionally branded, secure, externally accessible portal for vendor submissions and public-facing processes — without requiring external users to have a corporate licence."</li>
+        </ul>
+      </div>
+    </details>
+
+    <details><summary>📋 For Business / Operations Leaders</summary>
+      <div class="inner">
+        <ul>
+          <li>"The forms and approval workflows your team uses today — for purchase requests, onboarding, compliance submissions — are built on a platform that Microsoft no longer supports in its current form."</li>
+          <li>"The new Power Platform tools are designed to be maintained by the business, not just IT. Power Automate approval flows can be updated by trained business users without waiting for a developer."</li>
+          <li>"We will migrate processes in priority order, starting with those your team uses most. You will be involved in testing and signing off each one before we decommission the old version."</li>
+          <li>"Vendor submission portals and external forms will be rebuilt on Power Pages — a modern, mobile-friendly, secure portal that vendors can access without a corporate login."</li>
+          <li>"This migration gives us the audit trail and compliance reporting capabilities that Nintex workflows didn't provide — every approval decision is logged with a timestamp and the approver's identity."</li>
+        </ul>
+      </div>
+    </details>
+
+    <details><summary>🔧 For IT / Technical Leads</summary>
+      <div class="inner">
+        <ul>
+          <li>"Nintex Workflow XML does not translate to Power Automate — this is a redesign, not a migration tool exercise. Budget time for process analysis and Power Automate rebuild, not just export/import."</li>
+          <li>"Power Pages requires Dataverse as the data layer — this is not optional. If processes currently use SharePoint lists as the data store, those need to be re-evaluated for Dataverse migration."</li>
+          <li>"For external-facing scenarios with anonymous access, Power Pages is the only supported Microsoft-native solution. Do not attempt to use SharePoint anonymous access or Microsoft Forms as a workaround."</li>
+          <li>"DLP policies, environment strategy, and solution-based ALM must be established before Wave 1 builds begin — retrofitting governance is significantly harder."</li>
+          <li>"Power Automate Premium connectors (HTTP, Dataverse) require Power Automate Premium licences — budget and licence planning is a Wave 0 deliverable, not an afterthought."</li>
+        </ul>
+      </div>
+    </details>
+
+    <details><summary>🌐 For External-Facing Process Owners (Vendor Management, Compliance, Legal)</summary>
+      <div class="inner">
+        <ul>
+          <li>"The vendor submission portal that vendors use to submit documents is built on technology that is end-of-life. If it breaks, vendors will have no way to submit — and we will have no SLA-compliant fallback."</li>
+          <li>"Power Pages will replace the vendor portal with a professional, branded, mobile-friendly web portal that vendors can access from any device without a corporate account."</li>
+          <li>"Attachments submitted via the new portal are stored securely in Microsoft Dataverse, not in a SharePoint library accessible to the whole team. Access is controlled by explicit permission grants."</li>
+          <li>"Every submission will have a reference number, a timestamped audit trail, and an automated acknowledgement email — significantly improving on the current experience."</li>
+          <li>"We will run the old and new systems in parallel during a transition period to ensure no submissions are lost."</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+  <section id="s13" class="section">
+    <div class="sec-hdr"><div class="sec-num">13</div><h2>FAQ — Business &amp; Technical Audiences</h2></div>
+
+    <h3>Business Questions</h3>
+
+    <details open><summary>Q: Do all our Nintex workflows need to be migrated at the same time?</summary>
+      <div class="inner"><p>No. The recommended approach is a phased wave migration starting with low-complexity, low-risk processes. High-criticality processes migrate later once the team has built confidence in the new platform. Nintex workflows that are rarely used or no longer serve a business need should be decommissioned, not migrated.</p></div>
+    </details>
+    <details><summary>Q: Will our users need retraining when forms change?</summary>
+      <div class="inner"><p>Some retraining will be needed, but Power Platform tools are designed to be more intuitive than classic SharePoint forms. Power Apps Canvas forms look like modern mobile apps. Power Pages portals look like professional websites. The change management effort is primarily about communicating where to go, not how to use a complex new tool.</p></div>
+    </details>
+    <details><summary>Q: How long will the migration take?</summary>
+      <div class="inner"><p>A full migration typically takes 9–18 months depending on the inventory size, process complexity, and resource availability. Simple organisations with fewer than 20 workflows can complete in 6 months. Complex enterprise deployments with 100+ workflows, external portals, and third-party integrations may take 18–24 months. Early planning with a complete inventory enables accurate scoping.</p></div>
+    </details>
+    <details><summary>Q: What happens to business data stored in Nintex-linked SharePoint lists?</summary>
+      <div class="inner"><p>SharePoint list data remains in SharePoint — Nintex workflows and forms do not own the data, they just read and write to SharePoint lists. The migration decision is: does this data move to Dataverse, stay in SharePoint, or get archived? For processes moving to Power Apps or Power Pages, structured data should move to Dataverse for proper governance. For document-centric processes staying in SharePoint, the list data can remain.</p></div>
+    </details>
+    <details><summary>Q: Can external vendors still submit without a Microsoft account?</summary>
+      <div class="inner"><p>Yes — this is one of Power Pages' primary strengths. Power Pages supports anonymous access (no login at all) and local identity registration (vendors create a portal-specific account with just an email and password — no Microsoft account required). Azure AD B2C also supports social identity logins (LinkedIn, Google) for scenarios where vendor organisations have those accounts.</p></div>
+    </details>
+    <details><summary>Q: Will there be additional licensing costs?</summary>
+      <div class="inner"><p>It depends on your current M365 licensing and which tools you need. Power Automate standard connectors are included in M365 E1/E3/E5. If you need premium connectors (Dataverse, HTTP) or Power Apps Premium or Power Pages, additional per-user or per-site licences are required. However, these costs should be weighed against the savings from terminating Nintex licences and the risk reduction value of migrating off end-of-support software.</p></div>
+    </details>
+
+    <h3>Technical Questions</h3>
+
+    <details><summary>Q: Can we use a tool to automatically migrate Nintex workflows to Power Automate?</summary>
+      <div class="inner"><p>No reliable automated migration tool exists for Nintex Workflow to Power Automate. The two platforms have fundamentally different architectures — Nintex uses XML-based workflow definitions on SharePoint; Power Automate uses JSON-based cloud flow definitions with a different connector model. Migration requires analysis, redesign, and rebuild for each workflow. Some simple linear approval workflows may be recreatable in 1–2 hours; complex state-machine or parallel branch workflows may take days.</p></div>
+    </details>
+    <details><summary>Q: Can Power Automate replicate Nintex's state machine workflow capability?</summary>
+      <div class="inner"><p>Power Automate does not have a native visual state machine designer. Complex state-dependent processes are better modelled using Dataverse status columns combined with conditional logic in Power Automate flows, or using Power Apps Model-driven apps with business process flows (BPF) — which provide a visual stage-based progress model. In most cases, redesigning the process as a simple approval chain with clear stages is preferable to replicating a Nintex state machine exactly.</p></div>
+    </details>
+    <details><summary>Q: Does Power Pages support large file uploads?</summary>
+      <div class="inner"><p>Power Pages supports file attachments via Dataverse notes (annotation entity). The default attachment size limit is 5MB but this is configurable up to 128MB in Dataverse system settings. For very large files (videos, large engineering documents), the recommended pattern is to use Azure Blob Storage with a SAS token for direct upload, with the SAS URL or blob reference stored in Dataverse — bypassing the Dataverse attachment size limit entirely.</p></div>
+    </details>
+    <details><summary>Q: Can Power Pages handle multiple file uploads in a single submission?</summary>
+      <div class="inner"><p>Yes. Power Pages supports multiple file attachments on a single form submission. Each attachment is stored as a separate note record linked to the parent Dataverse record. You can configure the form to allow multiple files, specify accepted file types (e.g., PDF, DOCX, JPG only), and set maximum file count. Power Automate can then process each attached file as part of the post-submission workflow.</p></div>
+    </details>
+    <details><summary>Q: How do we handle on-premises system integration from Power Automate?</summary>
+      <div class="inner"><p>Power Automate connects to on-premises systems via the On-Premises Data Gateway. This is a lightweight agent installed on a server in your network that acts as a secure bridge between Power Automate cloud flows and on-premises SQL Server, file shares, web services, or SAP systems. For APIs exposed over the internet, no gateway is required — the HTTP connector or the relevant premium connector handles the integration directly.</p></div>
+    </details>
+    <details><summary>Q: Does Power Pages work with our existing Azure AD tenant?</summary>
+      <div class="inner"><p>Yes. Power Pages integrates with Azure AD for internal user authentication (employees can log in with their corporate credentials). For external users who are not in your Azure AD, you configure Azure AD B2C as the identity provider — this is a separate Azure resource but integrates with your existing AAD tenant. Azure AD B2C handles external identity registration, multi-factor authentication, and social login without requiring external users to be added as guests to your corporate directory.</p></div>
+    </details>
+  </section>
+
+  <section id="s14" class="section">
+    <div class="sec-hdr"><div class="sec-num">14</div><h2>Clear Recommendation &amp; Next Steps</h2></div>
+
+    <div class="cb purple" style="font-size:.93rem;line-height:1.8;border-width:3px"><span class="cb-ico" style="font-size:1.3rem">🏛️</span><div class="cb-body"><strong>Architect Recommendation</strong>"Migrate from Nintex to Microsoft Power Platform using a phased wave approach. Use <strong>Power Automate</strong> as the primary replacement for Nintex Workflow, <strong>Power Apps</strong> for complex internal forms and applications, and <strong>Power Pages</strong> as the mandatory replacement for all external-facing, anonymous, or attachment-based submission scenarios. Build on <strong>Dataverse</strong> as the unified data layer for any process requiring audit, security roles, or structured data management. Begin with a complete inventory and governance baseline before any build activity commences."</div></div>
+
+    <h3>Recommended Platform Assignments</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Nintex Capability</th><th>Recommended Replacement</th><th>Confidence</th></tr></thead>
+      <tbody>
+        <tr><td>Sequential approval workflows (internal)</td><td><span class="badge b-auto">Power Automate</span> cloud flows with Approval action</td><td>✅ High</td></tr>
+        <tr><td>Parallel and multi-stage approvals</td><td><span class="badge b-auto">Power Automate</span> with parallel branch and sequential approval patterns</td><td>✅ High</td></tr>
+        <tr><td>Internal employee forms (SharePoint-connected)</td><td><span class="badge b-apps">Power Apps</span> SharePoint form customisation (no extra licence)</td><td>✅ High</td></tr>
+        <tr><td>Complex internal forms with multi-step logic</td><td><span class="badge b-apps">Power Apps</span> Canvas or Model-driven (Dataverse-backed)</td><td>✅ High</td></tr>
+        <tr><td>External / anonymous submission forms with attachments</td><td><span class="badge b-pages">Power Pages</span> (mandatory — no viable alternative)</td><td>✅ High</td></tr>
+        <tr><td>Simple surveys and questionnaires (internal)</td><td><span class="badge b-forms">Microsoft Forms</span> + Power Automate trigger</td><td>✅ High</td></tr>
+        <tr><td>Document approval and review workflows</td><td><span class="badge b-sp">SharePoint</span> + <span class="badge b-auto">Power Automate</span></td><td>✅ High</td></tr>
+        <tr><td>State machine / complex branching workflows</td><td><span class="badge b-apps">Power Apps</span> BPF + <span class="badge b-auto">Power Automate</span> (redesign required)</td><td>⚠️ Medium (redesign)</td></tr>
+        <tr><td>Scheduled / batch workflows</td><td><span class="badge b-auto">Power Automate</span> scheduled trigger</td><td>✅ High</td></tr>
+        <tr><td>Legacy system integration via Nintex connectors</td><td><span class="badge b-auto">Power Automate</span> premium connectors or HTTP connector + on-prem gateway</td><td>⚠️ Medium (validate per system)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Immediate Next Steps (0–4 Weeks)</h3>
+    <ol class="timeline">
+      <li><strong>Convene a migration steering group</strong> — Include IT, business operations, finance, legal/compliance, and a Power Platform champion. Assign a migration programme lead with clear accountability.</li>
+      <li><strong>Run a complete Nintex inventory</strong> — Use Nintex admin tools, SharePoint site audits, and stakeholder interviews to catalogue every workflow and form. Classify by criticality, complexity, and external-access requirement.</li>
+      <li><strong>Audit Power Platform licensing</strong> — Determine what Power Platform licences are already entitled via M365 and identify gaps. Engage Microsoft account team for pricing on required add-ons.</li>
+      <li><strong>Establish Power Platform environment strategy</strong> — Create Dev, Test, and Production environments. Configure DLP policies. Assign environment admins. Do not build anything in the default environment.</li>
+      <li><strong>Identify Wave 1 pilot processes</strong> — Select 3–5 low-complexity, non-critical internal approval workflows as Wave 1 pilots. These build team confidence and validate the ALM pipeline before high-risk processes are tackled.</li>
+      <li><strong>Schedule a Power Pages proof of concept</strong> — For any organisation with external-facing Nintex forms, run a Power Pages PoC in the first 4 weeks. Understanding Power Pages configuration (Dataverse schema, table permissions, identity provider) early prevents surprises in Wave 3.</li>
+    </ol>
+
+    <div class="cb success"><span class="cb-ico">🚀</span><div class="cb-body"><strong>The Bottom Line</strong>The Nintex retirement is a fixed deadline with compounding consequences. The Power Platform migration is a programme with compounding benefits — each wave builds capability, reduces licence cost, and improves the security and auditability of your business processes. Start the inventory now. Every week of delay is a week of risk and a week of wasted Nintex licence spend.</div></div>
+  </section>
+</main>
+<button id="btt" title="Back to top">↑</button>
+<script>
+  const prog=document.getElementById('prog'),btt=document.getElementById('btt');
+  window.addEventListener('scroll',()=>{
+    prog.style.width=Math.min(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100,100)+'%';
+    btt.classList.toggle('show',window.scrollY>400);
+  });
+  btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const secs=document.querySelectorAll('.section'),navAs=document.querySelectorAll('#nav-list a');
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){navAs.forEach(a=>a.classList.remove('active'));const l=document.querySelector(`#nav-list a[href="#${e.target.id}"]`);if(l)l.classList.add('active');}});},{rootMargin:'-15% 0px -70% 0px',threshold:0});
+  secs.forEach(s=>obs.observe(s));
+  document.getElementById('search').addEventListener('input',function(){
+    const q=this.value.trim().toLowerCase();
+    secs.forEach(s=>{s.style.display=(!q||s.textContent.toLowerCase().includes(q))?'':'none';});
+  });
+</script>
+</body>
+</html>
