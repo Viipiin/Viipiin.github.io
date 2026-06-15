@@ -156,6 +156,7 @@
     <li><a href="#s10"><span class="nav-ico">🏗️</span>Initial Architecture<span class="nn">6</span></a></li>
     <li><a href="#s11"><span class="nav-ico">📂</span>Content Model<span class="nn">13</span></a></li>
     <li><a href="#s11a"><span class="nav-ico">🏛️</span>Architect Guidance<span class="nn">7</span></a></li>
+    <li><a href="#s11b"><span class="nav-ico">🔍</span>Architecture Analysis<span class="nn">6</span></a></li>
     <li><a href="#s12"><span class="nav-ico">🚨</span>Risks &amp; Anti-Patterns<span class="nn">10</span></a></li>
     <li><a href="#s13"><span class="nav-ico">☑️</span>Decisions to Make<span class="nn">11</span></a></li>
     <li><a href="#s14"><span class="nav-ico">🗺️</span>Next Steps<span class="nn">9</span></a></li>
@@ -945,6 +946,126 @@
         <tr><td>Personalised content by role, team, or interest group without managing multiple sites</td><td><strong>Audience targeting on hub and associated pages</strong></td><td>M365 security groups + SharePoint audience targeting on web parts deliver targeted content from a single page without custom code or multiple site versions</td></tr>
       </tbody>
     </table></div>
+  </section>
+
+  <section id="s11b" class="section">
+    <div class="sec-hdr"><div class="sec-num" style="font-size:.54rem;width:2.1rem;height:2.1rem">11B</div><h2>Architecture Analysis — Microsoft Partner Delivery Lifecycle Hub</h2></div>
+    <p>The diagram below represents a reference architecture for a <strong>Microsoft Partner Delivery Lifecycle Hub</strong> — a hub-and-spoke SharePoint Online topology aligned to Sales, Solutions, and Delivery functions, augmented by cross-functional supporting sites and a Power Platform automation layer. This section provides a structured analysis of what makes this pattern strong and where it carries inherent risk.</p>
+
+    <div class="cb info"><span class="cb-ico">ℹ️</span><div class="cb-body"><strong>Architecture Being Analysed</strong>This analysis is based on the reference architecture diagram showing: a central <em>Microsoft Partner Delivery Lifecycle Hub (MAIN)</em> with three associated hub clusters (Sales, Solutions, Delivery), four cross-functional sites (Lifecycle Artifacts Repository, Practice Content, Onboarding &amp; Training, Governance &amp; Standards), and an <em>Automation / Intake Layer</em> powered by Power Platform.</div></div>
+
+    <!-- Visual replica of the architecture -->
+    <div class="arch" style="margin:1.5rem auto;max-width:800px;gap:.6rem">
+      <div class="arch-hub" style="font-size:.9rem;padding:.9rem 2.5rem;text-align:center">
+        🏢 Microsoft Partner Delivery Lifecycle Hub<br>
+        <small style="font-weight:400;font-size:.72rem;opacity:.85">(MAIN) · Communication Site · Hub Anchor</small>
+      </div>
+      <div class="arch-arrow">│<br>│ Hub association · shared navigation · cross-site search<br>│</div>
+      <div class="arch-row" style="flex-wrap:wrap">
+        <div class="arch-site" style="border-color:#CA5010;background:#FFF4EF;min-width:180px">
+          <span class="as-ico">💼</span>
+          <div class="as-title" style="color:#CA5010">Sales Hub (Associated)</div>
+          <div class="as-desc" style="font-size:.72rem;color:var(--muted);margin-top:.25rem;line-height:1.5">Sales Enablement Site<br>Opportunity Workspaces<br>Big Bets / GTM Sites</div>
+        </div>
+        <div class="arch-site" style="border-color:var(--sp-green);background:var(--sp-green-lt);min-width:180px">
+          <span class="as-ico">🧩</span>
+          <div class="as-title" style="color:var(--sp-green)">Solutions Hub (Associated)</div>
+          <div class="as-desc" style="font-size:.72rem;color:var(--muted);margin-top:.25rem;line-height:1.5">Intake &amp; Pipeline Site<br>Architecture Repository<br>SOW / Estimation Site</div>
+        </div>
+        <div class="arch-site" style="border-color:var(--sp-purple);background:var(--sp-purple-lt);min-width:180px">
+          <span class="as-ico">🚚</span>
+          <div class="as-title" style="color:var(--sp-purple)">Delivery Hub (Associated)</div>
+          <div class="as-desc" style="font-size:.72rem;color:var(--muted);margin-top:.25rem;line-height:1.5">Project Workspaces<br>PMO / Governance<br>Delivery Templates</div>
+        </div>
+      </div>
+      <div class="arch-arrow">│<br>│ Cross-functional shared layer<br>│</div>
+      <div class="arch-row" style="flex-wrap:wrap">
+        <div class="arch-site opt" style="min-width:140px;font-size:.77rem">
+          <span class="as-ico" style="font-size:.95rem">📦</span>
+          <div class="as-title" style="font-size:.8rem">Lifecycle Artifacts Repository</div>
+        </div>
+        <div class="arch-site opt" style="min-width:140px;font-size:.77rem">
+          <span class="as-ico" style="font-size:.95rem">📚</span>
+          <div class="as-title" style="font-size:.8rem">Practice Content</div>
+        </div>
+        <div class="arch-site opt" style="min-width:140px;font-size:.77rem">
+          <span class="as-ico" style="font-size:.95rem">🎓</span>
+          <div class="as-title" style="font-size:.8rem">Onboarding &amp; Training</div>
+        </div>
+        <div class="arch-site opt" style="min-width:140px;font-size:.77rem">
+          <span class="as-ico" style="font-size:.95rem">⚙️</span>
+          <div class="as-title" style="font-size:.8rem">Governance &amp; Standards</div>
+        </div>
+      </div>
+      <div class="arch-arrow">│<br>│ Automation &amp; intake<br>│</div>
+      <div class="arch-hub" style="background:linear-gradient(135deg,#742774,#0078D4);font-size:.82rem;padding:.65rem 1.5rem">
+        ⚙️ Automation / Intake Layer (Power Platform)
+      </div>
+    </div>
+
+    <h3>A. Why This Is a Strong Architecture</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Strength</th><th>Why It Works</th><th>Design Evidence</th></tr></thead>
+      <tbody>
+        <tr><td>Function-aligned hub clusters</td><td>Each team (Sales, Solutions, Delivery) owns a discrete set of associated sites. Permissions, governance, and content are scoped correctly to the team — not mixed into a single sprawling site</td><td>Three separate hub clusters, each with 2–3 purpose-built child sites</td></tr>
+        <tr><td>Clear site specialisation within each cluster</td><td>Each cluster contains sites with distinct purposes (e.g. Intake Site vs Architecture Repository vs SOW Site inside Solutions). Users always know which site to go to for what</td><td>Named sites reflect function, not just team — e.g. "Opportunity Workspaces" not just "Sales Stuff"</td></tr>
+        <tr><td>Dedicated cross-functional layer</td><td>Shared content (practice IP, onboarding, governance standards) lives in its own sites — not duplicated inside each team cluster. This is the correct pattern for shared knowledge assets</td><td>Four cross-functional sites below the three team clusters</td></tr>
+        <tr><td>Power Platform as a service layer</td><td>Keeping the automation and intake logic in Power Platform (not embedded in SharePoint page scripts) means workflows, approvals, and form submissions can be updated independently of the hub content</td><td>Separate "Automation / Intake Layer" shown as its own tier</td></tr>
+        <tr><td>Hub as navigation anchor only</td><td>The main hub (MAIN) is a central navigation and discovery layer — it doesn't own content. This is the correct use of a hub communication site</td><td>"MAIN" label implies a landing surface, not a working site</td></tr>
+        <tr><td>Scalable pattern</td><td>New practice areas or functions can be added as additional associated sites to any cluster without restructuring the hub. The topology accommodates growth naturally</td><td>Three clusters allow independent scaling; cross-functional sites absorb shared IP</td></tr>
+        <tr><td>Supports distinct user journeys</td><td>A salesperson navigates to the Sales cluster. A delivery architect navigates to the Delivery cluster. A new hire navigates to the Onboarding site. Journeys are distinct and intuitive</td><td>Each cluster name maps directly to a persona</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>B. When This Architecture Can Fail</h3>
+    <div class="cb danger"><span class="cb-ico">🚨</span><div class="cb-body"><strong>Site Count Is the First Red Flag</strong>This topology has 13+ sites (1 main hub + 3×2–3 cluster sites + 4 cross-functional sites). This is entirely viable if each site has a named owner, a defined purpose, and active users. Without those, you have 13 sites worth of governance debt to manage.</div></div>
+
+    <div class="tw"><table>
+      <thead><tr><th>Risk Scenario</th><th>Why It Breaks Down</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td>No named owner per site</td><td>13 sites × no ownership = 13 stagnant sites within 6 months. The architecture is only as good as the people maintaining it</td><td>Every site must have a named owner (not a team) before launch. Use the Site Lifecycle Register</td></tr>
+        <tr><td>Cluster boundaries become blurry</td><td>An "Opportunity Workspace" that Sales and Solutions both need will get duplicated or orphaned. Without clear rules, content drifts across clusters</td><td>Define a content placement matrix: "if the content is X, it goes to Y" — before publishing begins</td></tr>
+        <tr><td>Cross-functional sites become dumping grounds</td><td>The "Lifecycle Artifacts Repository" and "Practice Content" sites have broad scope. Without curation, they accumulate everything that didn't have a better home</td><td>Appoint a dedicated curator for cross-functional sites; apply strict metadata and content type rules</td></tr>
+        <tr><td>Power Platform layer is built, then ignored</td><td>If intake forms, approvals, and automation flows aren't maintained, they break silently. Users revert to email. The hub's structured intake process collapses</td><td>Assign a Power Platform owner. Document flows. Set up alerts for flow failures. Review monthly</td></tr>
+        <tr><td>Teams / SharePoint collision in Delivery cluster</td><td>Project Workspaces are exactly what Microsoft Teams channels + SharePoint tabs do natively. If Teams is already in use for delivery, Project Workspaces in SharePoint become a shadow copy</td><td>Decide explicitly: Teams-connected SharePoint for active project work, read-only SharePoint archive for completed projects. Never both in parallel with no rule</td></tr>
+        <tr><td>Onboarding &amp; Training site goes stale</td><td>Onboarding content becomes the most outdated content on any intranet. Without a quarterly review process, new joiners get wrong information and lose trust in the whole hub</td><td>Set a mandatory 90-day review cycle. Link training content to external LMS where possible rather than hosting videos in SharePoint</td></tr>
+        <tr><td>Hub navigation becomes a mega-menu</td><td>13+ sites tempts designers to expose all of them in the hub nav. A navigation with 13 items is functionally useless</td><td>Hub nav maximum: 5–7 items. Use search and Quick Links web parts for deep links, not global navigation</td></tr>
+        <tr><td>Governance &amp; Standards site is theoretical</td><td>A "Governance &amp; Standards" site only works if the team actually follows the standards. A site that describes rules no one enforces becomes a vanity page</td><td>Governance standards must be integrated into site provisioning templates, not just documented on a page nobody reads</td></tr>
+        <tr><td>SOW / Estimation Site has mixed sensitivity</td><td>Commercial documents (SOW, pricing, estimates) are often sensitivity-restricted. If this site is open to all hub members, you have a data exposure risk</td><td>Apply Microsoft Purview sensitivity labels. Restrict the SOW site to specific M365 groups. Do not associate it publicly to the hub if broad read access is enabled at hub level</td></tr>
+        <tr><td>Architecture grows without a review cadence</td><td>Teams add sites as they need them, without going through the governance layer. After 12 months, the hub association model is inconsistent and the nav is broken</td><td>Site creation must require a governance approval step via Power Platform (Approval flow → IT → site provisioning). This is exactly what the automation layer should enforce</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>C. Fitness-for-Purpose Check</h3>
+    <p>Use this checklist before committing to this architecture for the TEKsystems Microsoft Practice initiative. The more boxes unchecked, the more risky the full topology is at launch — consider a phased rollout starting with fewer sites.</p>
+    <div class="dec-grid" style="grid-template-columns:repeat(2,1fr);gap:.6rem;margin-top:.75rem">
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">✅</span><strong style="font-size:.84rem">Named owner identified for every site</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">If this is blank for more than 2 sites, reduce scope at launch</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">✅</span><strong style="font-size:.84rem">Teams vs SharePoint boundary defined</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Especially critical for Delivery Project Workspaces</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">✅</span><strong style="font-size:.84rem">Sensitivity classification agreed for SOW / commercial content</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Pricing / estimation data must not be openly accessible at hub level</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">✅</span><strong style="font-size:.84rem">Power Platform automation layer has an owner</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Flows without ownership fail silently and become technical debt</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">✅</span><strong style="font-size:.84rem">Content placement matrix documented</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Prevents duplication between clusters and cross-functional sites</span>
+      </div>
+      <div class="dec-item" style="flex-direction:column;align-items:flex-start;gap:.3rem;padding:.7rem .85rem">
+        <div style="display:flex;gap:.45rem;align-items:center"><span class="di" style="font-size:1rem">✅</span><strong style="font-size:.84rem">Hub navigation designed to 5–7 top-level items max</strong></div>
+        <span style="font-size:.8rem;color:var(--muted)">Do not expose all 13+ sites in the hub nav</span>
+      </div>
+    </div>
+
+    <div class="cb success"><span class="cb-ico">✅</span><div class="cb-body"><strong>Architect Verdict</strong>This is a well-structured, modern SharePoint Online topology that follows hub-and-spoke best practices. It is appropriate for a Microsoft Practice with distinct functional teams, shared IP assets, and active delivery pipelines. The architecture is strong if — and only if — site ownership, governance enforcement, the Teams/SharePoint boundary, and the Power Platform layer are all established at launch rather than deferred. Defer any of those four, and the architecture will drift.</div></div>
   </section>
 
   <section id="s12" class="section">
