@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../js/vault.js"></script>
+  <link rel="stylesheet" href="../css/base.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SharePoint Hub Site Discovery — Viipiin Vault</title>
+  <link rel="icon" href="../favicon.ico">
+  <style>
+    :root{
+      --sp-blue:#0078D4;--sp-blue-lt:#EFF6FC;--sp-blue-dk:#004578;
+      --sp-green:#107C10;--sp-green-lt:#F1FAF1;
+      --sp-purple:#6264A7;--sp-purple-lt:#F4F4FA;
+      --sp-red:#D13438;--sp-red-lt:#FDF3F3;
+      --sp-amber:#CA8A04;--sp-amber-lt:#FFFBEB;
+      --bg:#F3F2F1;--card:#FFFFFF;--border:#E1DFDD;
+      --text:#201F1E;--muted:#605E5C;--subtle:#8A8886;
+      --nav-bg:#243A5E;--sw:248px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh}
+    #prog{position:fixed;top:0;left:0;height:3px;background:var(--sp-blue);width:0%;z-index:9999;transition:width .1s}
+    #sidebar{width:var(--sw);min-height:100vh;background:var(--nav-bg);position:fixed;top:0;left:0;overflow-y:auto;z-index:100;padding-bottom:2rem;display:flex;flex-direction:column}
+    #sb-head{padding:1.1rem 1rem .85rem;border-bottom:1px solid #2F4468}
+    #sb-head h2{color:#fff;font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;line-height:1.4}
+    #sb-head span{color:#8FBAD8;font-size:.67rem;display:block;margin-top:.2rem}
+    #sb-search{padding:.6rem 1rem;border-bottom:1px solid #2F4468}
+    #search{width:100%;padding:.4rem .6rem;background:#2F4468;border:1px solid #374E6F;border-radius:4px;color:#fff;font-size:.76rem;outline:none;font-family:inherit}
+    #search::placeholder{color:#8BA0BA}
+    #search:focus{border-color:var(--sp-blue);background:#334B6E}
+    #nav-list{list-style:none;padding:.35rem 0}
+    #nav-list li a{display:flex;align-items:flex-start;gap:.4rem;padding:.44rem .85rem;color:#B5C4D3;font-size:.74rem;text-decoration:none;border-left:3px solid transparent;transition:all .12s;line-height:1.35}
+    #nav-list li a:hover{color:#fff;background:#2D4267}
+    #nav-list li a.active{color:#7BC8FF;border-left-color:var(--sp-blue);background:#1F4370}
+    .nav-ico{flex-shrink:0;width:1rem;text-align:center;font-size:.85rem;margin-top:.05rem}
+    .nn{margin-left:auto;background:#304566;color:#C5D8E8;font-size:.62rem;padding:1px 5px;border-radius:10px;flex-shrink:0}
+    .active .nn{background:#1B4A7C;color:#80CCFF}
+    #main{margin-left:var(--sw);flex:1;padding:1.75rem 2.25rem 3rem;max-width:1060px}
+    #hero{background:linear-gradient(135deg,#004578 0%,#0078D4 60%,#2B88D8 100%);color:#fff;padding:2rem 2rem 1.75rem;border-radius:10px;margin-bottom:1.5rem;box-shadow:0 4px 16px rgba(0,70,156,.18)}
+    #hero h1{font-size:1.45rem;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+    #hero .sub{font-size:.88rem;opacity:.85;line-height:1.6;max-width:680px}
+    #hero .tags{margin-top:.85rem;display:flex;gap:.5rem;flex-wrap:wrap}
+    .htag{background:rgba(255,255,255,.18);padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:600}
+    #panels{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.75rem}
+    .panel{border-radius:8px;padding:1rem 1.1rem;border:1px solid;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+    .panel-top10{background:var(--sp-blue-lt);border-color:#BDD7EE}
+    .panel-mvp{background:var(--sp-green-lt);border-color:#C6EFCE}
+    .panel-red{background:var(--sp-red-lt);border-color:#FABCBC}
+    .panel h3{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.6rem}
+    .panel-top10 h3{color:var(--sp-blue-dk)}
+    .panel-mvp h3{color:var(--sp-green)}
+    .panel-red h3{color:var(--sp-red)}
+    .panel ol,.panel ul{padding-left:1.1rem;margin:0}
+    .panel li{font-size:.8rem;line-height:1.55;margin-bottom:.3rem;color:var(--text)}
+    .section{background:var(--card);border-radius:8px;border:1px solid var(--border);padding:1.5rem 1.75rem;margin-bottom:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,.05);scroll-margin-top:1rem}
+    .sec-hdr{display:flex;align-items:center;gap:.7rem;padding-bottom:.65rem;border-bottom:2px solid var(--sp-blue);margin-bottom:1.4rem}
+    .sec-num{background:var(--sp-blue);color:#fff;width:1.7rem;height:1.7rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}
+    .sec-hdr h2{font-size:1.15rem;font-weight:700;color:var(--text)}
+    h3{font-size:.95rem;font-weight:600;color:var(--text);margin:1.25rem 0 .55rem;display:flex;align-items:center;gap:.45rem}
+    h3.plain{display:block}
+    h3::before{content:'';display:inline-block;width:3px;height:.85rem;background:var(--sp-blue);border-radius:2px;flex-shrink:0}
+    h3.plain::before{display:none}
+    h4{font-size:.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:1rem 0 .4rem}
+    p{line-height:1.7;font-size:.9rem;margin-bottom:.7rem}
+    .tw{overflow-x:auto;margin:1rem 0;border-radius:6px;border:1px solid var(--border)}
+    table{width:100%;border-collapse:collapse;font-size:.83rem}
+    thead th{background:var(--sp-blue-dk);color:#fff;padding:.55rem .8rem;text-align:left;font-size:.75rem;font-weight:600;letter-spacing:.03em}
+    tbody tr:nth-child(odd){background:#FAFAFA}
+    tbody tr:nth-child(even){background:var(--card)}
+    tbody tr:hover{background:var(--sp-blue-lt)}
+    td{padding:.5rem .8rem;vertical-align:top;line-height:1.5;border-bottom:1px solid var(--border)}
+    td:first-child{font-weight:500}
+    .cb{border-radius:6px;padding:.75rem 1rem;margin:.75rem 0;font-size:.88rem;line-height:1.65;border-left:4px solid;display:flex;gap:.6rem;align-items:flex-start}
+    .cb-ico{flex-shrink:0;font-size:1.05rem;margin-top:.05rem}
+    .cb-body{flex:1}
+    .cb-body strong{display:block;margin-bottom:.2rem;font-size:.77rem;text-transform:uppercase;letter-spacing:.04em}
+    .info{background:var(--sp-blue-lt);border-color:var(--sp-blue)}.info .cb-body strong{color:var(--sp-blue-dk)}
+    .success{background:var(--sp-green-lt);border-color:var(--sp-green)}.success .cb-body strong{color:var(--sp-green)}
+    .warn{background:var(--sp-amber-lt);border-color:var(--sp-amber)}.warn .cb-body strong{color:#78350F}
+    .danger{background:var(--sp-red-lt);border-color:var(--sp-red)}.danger .cb-body strong{color:#991B1B}
+    .purple{background:var(--sp-purple-lt);border-color:var(--sp-purple)}.purple .cb-body strong{color:#3730A3}
+    details{margin:.7rem 0;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    summary{padding:.6rem 1rem;background:#F8F7F6;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--text);list-style:none;display:flex;align-items:center;gap:.5rem;user-select:none}
+    summary::-webkit-details-marker{display:none}
+    summary::before{content:'▶';font-size:.6rem;color:var(--muted);transition:transform .2s}
+    details[open] summary::before{transform:rotate(90deg)}
+    details .inner{padding:.85rem 1rem;font-size:.87rem;line-height:1.65}
+    ul,ol{padding-left:1.35rem;margin:.4rem 0 .85rem}
+    li{margin-bottom:.3rem;font-size:.88rem;line-height:1.6}
+    .check-list{list-style:none;padding-left:0}
+    .check-list li{display:flex;gap:.5rem;padding:.28rem 0;border-bottom:1px solid var(--border);font-size:.87rem;line-height:1.5}
+    .check-list li:last-child{border-bottom:none}
+    .ci{color:var(--sp-blue);flex-shrink:0}
+    .q-cat{background:var(--sp-blue-dk);color:#fff;padding:.42rem .85rem;border-radius:5px;font-size:.76rem;font-weight:700;display:inline-flex;align-items:center;gap:.4rem;margin:1.1rem 0 .4rem}
+    .q-block{background:#FAFAFA;border:1px solid var(--border);border-radius:5px;padding:.65rem .9rem;margin:.4rem 0}
+    .q-block .q{font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
+    .q-block .why{font-size:.78rem;color:var(--muted);font-style:italic}
+    .arch{display:flex;flex-direction:column;align-items:center;gap:.1rem;margin:1.25rem auto;max-width:700px}
+    .arch-hub{background:var(--sp-blue);color:#fff;padding:.8rem 2rem;border-radius:8px;font-size:.9rem;font-weight:700;text-align:center;box-shadow:0 4px 12px rgba(0,70,156,.2);width:280px}
+    .arch-arrow{text-align:center;font-size:1rem;color:var(--muted);line-height:1;margin:.1rem 0}
+    .arch-row{display:flex;gap:.85rem;justify-content:center;width:100%}
+    .arch-site{background:var(--card);border:2px solid var(--sp-blue);border-radius:7px;padding:.6rem .8rem;text-align:center;flex:1;min-width:120px;max-width:155px}
+    .arch-site .as-ico{font-size:1.1rem;display:block;margin-bottom:.2rem}
+    .arch-site .as-title{font-size:.78rem;font-weight:700;color:var(--sp-blue-dk)}
+    .arch-site .as-desc{font-size:.7rem;color:var(--muted);margin-top:.15rem;line-height:1.4}
+    .opt{border-color:var(--sp-purple);border-style:dashed}.opt .as-title{color:var(--sp-purple)}
+    .arch-label{font-size:.7rem;color:var(--muted);margin-top:.3rem;text-align:center}
+    .arch-legend{display:flex;gap:1rem;margin-top:.6rem;font-size:.73rem;color:var(--muted);justify-content:center;align-items:center}
+    .leg-s{width:14px;height:2px;background:var(--sp-blue);display:inline-block}
+    .leg-d{width:14px;height:2px;border-top:2px dashed var(--sp-purple);display:inline-block}
+    .dec-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.75rem 0}
+    .dec-item{background:#FAFAFA;border:1px solid var(--border);border-radius:5px;padding:.5rem .7rem;font-size:.82rem;display:flex;gap:.45rem;align-items:flex-start}
+    .dec-item .di{color:var(--sp-blue);flex-shrink:0;font-size:.9rem}
+    .timeline{list-style:none;padding:0;position:relative;margin:.75rem 0;counter-reset:step}
+    .timeline::before{content:'';position:absolute;left:.68rem;top:.7rem;bottom:.7rem;width:2px;background:var(--border)}
+    .timeline li{padding:.5rem .5rem .5rem 2.1rem;position:relative;font-size:.87rem;line-height:1.55;counter-increment:step}
+    .timeline li::before{content:counter(step);position:absolute;left:0;top:.42rem;width:1.35rem;height:1.35rem;background:var(--sp-blue);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700}
+    .timeline li strong{color:var(--sp-blue-dk)}
+    .agenda-item{display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--border);align-items:flex-start}
+    .agenda-item:last-child{border-bottom:none}
+    .ag-time{background:var(--sp-blue);color:#fff;border-radius:4px;padding:.22rem .55rem;font-size:.72rem;font-weight:700;white-space:nowrap;flex-shrink:0;margin-top:.1rem}
+    .ag-title{font-size:.88rem;font-weight:600;color:var(--text)}
+    .ag-note{font-size:.78rem;color:var(--muted);margin-top:.12rem}
+    .badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.71rem;font-weight:600;margin:0 2px}
+    .b-sp{background:#DEECF9;color:#004578}
+    .b-teams{background:var(--sp-purple-lt);color:#3B3A8F}
+    .b-simpl{background:#E6F4E6;color:#0B6A0B}
+    .b-hybrid{background:#FFF4E5;color:#7A4B00}
+    #btt{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--sp-blue);color:#fff;border:none;border-radius:50%;width:2.4rem;height:2.4rem;font-size:.95rem;cursor:pointer;opacity:0;transition:opacity .2s;z-index:200;box-shadow:0 2px 8px rgba(0,70,156,.3)}
+    #btt.show{opacity:1}
+    #btt:hover{background:var(--sp-blue-dk)}
+    @media print{#sidebar,#prog,#btt{display:none!important}#main{margin-left:0;padding:1rem;max-width:100%}}
+    @media(max-width:900px){#panels{grid-template-columns:1fr}.dec-grid{grid-template-columns:1fr}#sidebar{transform:translateX(-100%)}#main{margin-left:0;padding:1rem}}
+  </style>
+</head>
+<body>
+<div id="prog"></div>
+<nav id="sidebar">
+  <div id="sb-head">
+    <h2>SharePoint Hub Discovery</h2>
+    <span>Sales · Solutions · Delivery</span>
+  </div>
+  <div id="sb-search"><input type="text" id="search" placeholder="🔍 Search…" autocomplete="off"></div>
+  <ul id="nav-list">
+    <li><a href="#s1"><span class="nav-ico">📋</span>Executive Summary<span class="nn">4</span></a></li>
+    <li><a href="#s2"><span class="nav-ico">🤝</span>Meeting Context<span class="nn">4</span></a></li>
+    <li><a href="#s3"><span class="nav-ico">✅</span>What We Know<span class="nn">8</span></a></li>
+    <li><a href="#s4"><span class="nav-ico">❓</span>What to Clarify<span class="nn">9</span></a></li>
+    <li><a href="#s5"><span class="nav-ico">⚠️</span>Assumptions to Validate<span class="nn">6</span></a></li>
+    <li><a href="#s6"><span class="nav-ico">🔍</span>Discovery Questions<span class="nn">21</span></a></li>
+    <li><a href="#s7"><span class="nav-ico">💡</span>Brainstorming Topics<span class="nn">12</span></a></li>
+    <li><a href="#s8"><span class="nav-ico">🛠️</span>SPO Solution Areas<span class="nn">28</span></a></li>
+    <li><a href="#s9"><span class="nav-ico">📊</span>SPO vs Teams vs Simpplr<span class="nn">12</span></a></li>
+    <li><a href="#s10"><span class="nav-ico">🏗️</span>Initial Architecture<span class="nn">6</span></a></li>
+    <li><a href="#s11"><span class="nav-ico">📂</span>Content Model<span class="nn">13</span></a></li>
+    <li><a href="#s12"><span class="nav-ico">🚨</span>Risks &amp; Anti-Patterns<span class="nn">10</span></a></li>
+    <li><a href="#s13"><span class="nav-ico">☑️</span>Decisions to Make<span class="nn">11</span></a></li>
+    <li><a href="#s14"><span class="nav-ico">🗺️</span>Next Steps<span class="nn">9</span></a></li>
+    <li><a href="#s15"><span class="nav-ico">🕐</span>Meeting Agenda<span class="nn">7</span></a></li>
+    <li><a href="#s16"><span class="nav-ico">🏁</span>Key Takeaways<span class="nn">5</span></a></li>
+  </ul>
+</nav>
+<main id="main">
+  <div id="hero">
+    <h1>SharePoint Online Hub Site Discovery Preparation</h1>
+    <div class="sub">Sales, Solutions &amp; Delivery Collaboration · Internal Initiative · TEKsystems / Microsoft Practice</div>
+    <div class="tags">
+      <span class="htag">📅 Discovery Phase</span>
+      <span class="htag">🏢 Internal Audience Only</span>
+      <span class="htag">🔗 Hub + Associated Sites</span>
+      <span class="htag">🤝 Teams Integration TBD</span>
+      <span class="htag">🆚 vs Simpplr Intranet</span>
+    </div>
+  </div>
+  <div id="panels">
+    <div class="panel panel-top10">
+      <h3>🎯 Top 10 Questions to Ask</h3>
+      <ol>
+        <li>What specific problem are users experiencing today?</li>
+        <li>What does "collaboration" mean to each team?</li>
+        <li>Who owns and maintains this after launch?</li>
+        <li>What content exists today and where does it live?</li>
+        <li>How is this different from Simpplr?</li>
+        <li>Do users need to co-author or just find &amp; consume?</li>
+        <li>Is Teams already partially solving this?</li>
+        <li>What are the success metrics at 90 days?</li>
+        <li>Who can publish — everyone or designated editors?</li>
+        <li>Is there cross-functional content (deal pursuits, shared playbooks)?</li>
+      </ol>
+    </div>
+    <div class="panel panel-mvp">
+      <h3>🚀 Potential MVP Scope</h3>
+      <ul>
+        <li>Hub communication site (landing + news rollup)</li>
+        <li>1–2 associated sites (Sales + Solutions first)</li>
+        <li>Shared document library per team</li>
+        <li>Hub navigation + consistent branding</li>
+        <li>3–5 pages of curated content per site</li>
+        <li>Hub-level search enabled</li>
+        <li>OOB web parts only — no custom code</li>
+        <li>Named content steward per site</li>
+        <li>Governance doc agreed before go-live</li>
+      </ul>
+    </div>
+    <div class="panel panel-red">
+      <h3>🚩 Red Flags to Watch For</h3>
+      <ul>
+        <li>"Build it and they will come" thinking</li>
+        <li>No named content owner post-launch</li>
+        <li>Replicating Simpplr content verbatim</li>
+        <li>Scope creep into full intranet replacement</li>
+        <li>"Everyone can publish" with no governance</li>
+        <li>Using SharePoint for real-time chat</li>
+        <li>One giant site for all three teams</li>
+        <li>No migration plan for existing content</li>
+        <li>Building before user journeys are defined</li>
+      </ul>
+    </div>
+  </div>
+
+  <section id="s1" class="section">
+    <div class="sec-hdr"><div class="sec-num">1</div><h2>Executive Summary</h2></div>
+    <p>A Senior Business Analyst at TEKsystems has initiated a project to build a <strong>SharePoint Online Hub Site</strong> that will serve as a shared collaboration space for three internal teams — Sales, Solutions, and Delivery — within the Microsoft Practice. The request was routed via a peer recommendation, indicating organic grassroots demand rather than a top-down mandate.</p>
+    <p>The initiative is in its earliest stage: no requirements exist, no architecture has been approved, and the primary problem statement has not been formally articulated. This makes the upcoming discovery meeting a critical inflection point.</p>
+
+    <h3>What Problem May This Be Solving?</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Hypothesized Problem</th><th>Likelihood</th><th>Evidence</th></tr></thead>
+      <tbody>
+        <tr><td>Content is scattered across email, Teams channels, and personal drives</td><td>High</td><td>Common in practice-level teams without a content hub</td></tr>
+        <tr><td>Teams can't find each other's reusable assets (proposals, playbooks, templates)</td><td>High</td><td>Cross-functional nature of Sales + Solutions + Delivery</td></tr>
+        <tr><td>No single place for deal-related or delivery-related knowledge</td><td>Medium</td><td>Implied by multi-team scope</td></tr>
+        <tr><td>Simpplr intranet doesn't serve team-level operational content</td><td>Medium</td><td>Simpplr is org-wide; teams need something more contextual</td></tr>
+        <tr><td>Desire to improve internal visibility of solutions and delivery excellence</td><td>Medium</td><td>Hub sites are often used as a showcase / discovery layer</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Why a Hub Site May Be Relevant</h3>
+    <ul>
+      <li>A <strong>SharePoint Hub Site</strong> provides a unifying navigation, search, and branding layer across multiple associated sites — ideal when content belongs to distinct teams but must be findable across them</li>
+      <li>Hub-level search rolls up across all associated sites, enabling cross-team findability without collapsing all content into one site</li>
+      <li>Hub navigation, news rollups, and highlighted content web parts allow each team to maintain editorial control while sharing a common landing experience</li>
+      <li>It is a <em>modern</em> SharePoint Online pattern — no subsites, no deeply nested hierarchies, no legacy feature debt</li>
+    </ul>
+
+    <div class="cb info"><span class="cb-ico">ℹ️</span><div class="cb-body"><strong>Why Discovery Comes First</strong>A hub site is infrastructure — it shapes how all downstream content is organized, found, and governed. Designing it before understanding user journeys, content types, permissions boundaries, and ownership models produces a site that looks good on day one and becomes a liability by month three. This meeting should generate requirements, not approvals.</div></div>
+
+    <h3>Why This Could Go Wrong Without Discovery</h3>
+    <ul>
+      <li>SharePoint, Teams, and Simpplr <em>all</em> partially solve parts of this problem — without clarity, the hub risks duplicating two existing tools</li>
+      <li>Three teams sharing one hub means three sets of governance assumptions — and one missing content owner sinks the whole structure</li>
+      <li>Over-scoped hubs with no clear purpose become "link dumps" — built, launched, and abandoned within 6 months</li>
+    </ul>
+  </section>
+
+  <section id="s2" class="section">
+    <div class="sec-hdr"><div class="sec-num">2</div><h2>Meeting Context</h2></div>
+
+    <h3>How This Meeting Came About</h3>
+    <p>A (Senior BA, TEKsystems Microsoft Practice) reached out to B (SharePoint Architect / SME) via a referral from <strong>Keith Hawk</strong>. The message was sent through Microsoft Teams with a concise brief: design a SharePoint Hub Site for cross-team collaboration across Sales, Solutions, and Delivery. The BA has already done pre-reading by linking the Microsoft Learn hub site planning page — indicating a degree of self-service research, which is a positive signal for stakeholder engagement.</p>
+
+    <h3>Who Is Involved</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Person / Role</th><th>Team</th><th>Attendance</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>A — Senior BA</td><td>Microsoft Practice</td><td>Required</td><td>Initiator. Will likely drive requirements gathering</td></tr>
+        <tr><td>B — SharePoint SME / Architect</td><td>Solutions / Architecture</td><td>Required</td><td>You — leading the solution design discussion</td></tr>
+        <tr><td>Keith Hawk</td><td>Unknown</td><td>Not mentioned</td><td>Peer who recommended B — potentially a technical or delivery lead</td></tr>
+        <tr><td>C, D, E — DBPM Analysts</td><td>Digital Business Process Management</td><td>Optional</td><td>Process analysts — may represent workflow and content requirements</td></tr>
+        <tr><td>F — ISM</td><td>Information Security / Management</td><td>Optional</td><td>May represent governance, compliance, or data classification concerns</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="cb warn"><span class="cb-ico">⚠️</span><div class="cb-body"><strong>Missing Stakeholders to Watch For</strong>No one from Sales, Solutions, or Delivery leadership is listed as an attendee. These teams are the target users. If the meeting proceeds without a voice from at least one of those teams, requirements will be indirect and assumptions will be high.</div></div>
+
+    <h3>Why the Meeting Is Happening</h3>
+    <ul>
+      <li>Internal initiative — not client-driven, not compliance-driven</li>
+      <li>No existing solution currently serves the cross-team collaboration need (or it does but poorly)</li>
+      <li>The Microsoft Practice is actively using Microsoft 365 tooling and wants to leverage SharePoint for structured knowledge sharing</li>
+      <li>There is a named problem owner (A) but the scope, budget, timeline, and success criteria are undefined</li>
+    </ul>
+
+    <h3>Working Understanding of the Scenario</h3>
+    <div class="cb purple"><span class="cb-ico">🧩</span><div class="cb-body"><strong>What We Are Walking Into</strong>This is a classic internal SharePoint initiative: someone has identified a collaboration gap, reached out to a SharePoint expert, and scheduled a discovery meeting. The "SharePoint Hub Site" is a solution hypothesis — not a confirmed requirement. The meeting's first job is to determine whether that hypothesis is correct.</div></div>
+
+    <h4>Scenario Signals</h4>
+    <div class="dec-grid">
+      <div class="dec-item"><span class="di">✅</span><span>Organic demand — not IT-mandated, more likely to get adoption</span></div>
+      <div class="dec-item"><span class="di">✅</span><span>Stakeholder has done background reading (Microsoft Learn)</span></div>
+      <div class="dec-item"><span class="di">✅</span><span>Referral-based engagement suggests trust and willingness to engage</span></div>
+      <div class="dec-item"><span class="di">✅</span><span>Optional attendees include process analysts and ISM — breadth of perspective</span></div>
+      <div class="dec-item"><span class="di">⚠️</span><span>Hub site already named as the solution before discovery</span></div>
+      <div class="dec-item"><span class="di">⚠️</span><span>No end-user (Sales/Solutions/Delivery staff) in the meeting</span></div>
+      <div class="dec-item"><span class="di">⚠️</span><span>Relationship with Simpplr not defined — duplication risk is live</span></div>
+      <div class="dec-item"><span class="di">⚠️</span><span>Teams integration question already raised by BA — good signal, unresolved</span></div>
+    </div>
+
+    <h3>Questions the BA Has Already Asked</h3>
+    <p>The original message includes these implicit questions — they should be taken as the starting agenda, not the complete agenda:</p>
+    <ol>
+      <li>What do you define as "collaboration" — document co-authoring, or would Teams work just as well?</li>
+      <li>What is the hub main site for? Is the topology: hub → Sales site + Solutions site + Delivery site?</li>
+      <li>What is the delta between this hub and the Simpplr intranet — why not just use Simpplr?</li>
+    </ol>
+  </section>
+  <section id="s3" class="section">
+    <div class="sec-hdr"><div class="sec-num">3</div><h2>What We Know</h2></div>
+    <p>These are facts or near-certain inferences drawn directly from the original request. They can be treated as a baseline without further validation, though they should be confirmed in the meeting.</p>
+
+    <h3>Confirmed Facts</h3>
+    <ul class="check-list">
+      <li><span class="ci">✅</span><span>The initiative is <strong>internal only</strong> — the BA explicitly stated the audience is individuals with Allegis Group / TEKsystems credentials</span></li>
+      <li><span class="ci">✅</span><span>Three named functional teams are in scope: <strong>Sales, Solutions, and Delivery</strong></span></li>
+      <li><span class="ci">✅</span><span>The initiative is being led by a <strong>Senior BA in the Microsoft Practice</strong></span></li>
+      <li><span class="ci">✅</span><span>The platform under discussion is <strong>SharePoint Online</strong> (not on-premises, not SharePoint Server)</span></li>
+      <li><span class="ci">✅</span><span>The organization already uses <strong>Microsoft Teams</strong> — the BA explicitly asked whether Teams could serve the need instead</span></li>
+      <li><span class="ci">✅</span><span>The organization has an existing intranet powered by <strong>Simpplr</strong></span></li>
+      <li><span class="ci">✅</span><span>The organization is part of the <strong>Allegis Group / TEKsystems</strong> corporate family</span></li>
+      <li><span class="ci">✅</span><span>This is an <strong>internal initiative</strong> — no client or external-facing requirement has been mentioned</span></li>
+    </ul>
+
+    <h3>High-Confidence Inferences</h3>
+    <ul class="check-list">
+      <li><span class="ci">🔷</span><span>The organisation has an <strong>M365 commercial tenant</strong> (Teams + SharePoint Online are confirmed active)</span></li>
+      <li><span class="ci">🔷</span><span>The proposed topology is <strong>hub site + 3 associated sites</strong> (Sales, Solutions, Delivery) — explicitly referenced in the message</span></li>
+      <li><span class="ci">🔷</span><span>There is no existing SharePoint hub serving this cross-team purpose — otherwise it would have been mentioned</span></li>
+      <li><span class="ci">🔷</span><span>The BA expects the meeting to be <strong>solution design focused</strong>, not purely requirements gathering — they referenced Microsoft Learn and proposed a rough architecture</span></li>
+      <li><span class="ci">🔷</span><span>Simpplr serves the <strong>corporate / org-wide intranet</strong> need — this hub is intended to be something different (team-level operational)</span></li>
+      <li><span class="ci">🔷</span><span>The DBPM analysts' presence as optional attendees implies there may be <strong>business process</strong> or <strong>workflow automation</strong> angles to consider</span></li>
+      <li><span class="ci">🔷</span><span>The ISM attendee (F) suggests <strong>information security, governance, or data classification</strong> is a concern, or will become one</span></li>
+      <li><span class="ci">🔷</span><span>External sharing is <strong>not in scope</strong> — stated explicitly by BA</span></li>
+    </ul>
+
+    <div class="cb success"><span class="cb-ico">✅</span><div class="cb-body"><strong>Platform Fit Confirmed</strong>SharePoint Online Hub Sites are a well-matched platform capability for this use case. The multi-team scope with shared navigation and cross-site search is exactly the pattern hub sites were designed for. The key design questions are governance and content strategy, not platform fit.</div></div>
+  </section>
+
+  <section id="s4" class="section">
+    <div class="sec-hdr"><div class="sec-num">4</div><h2>What We Need to Clarify</h2></div>
+    <p>These are the critical unknowns that must be resolved before any architecture or content model can be confirmed. Each blank here is a risk to the project.</p>
+
+    <h4>Business &amp; Purpose</h4>
+    <div class="tw"><table>
+      <thead><tr><th>Unknown</th><th>Risk if Left Unanswered</th></tr></thead>
+      <tbody>
+        <tr><td>What specific problem are users experiencing today?</td><td>We build a solution for the wrong pain point</td></tr>
+        <tr><td>What does success look like at 90 days?</td><td>No way to evaluate whether the hub delivered value</td></tr>
+        <tr><td>Is this a communication site, a collaboration site, a knowledge base, or all three?</td><td>Wrong site type selected; wrong web parts; wrong governance model</td></tr>
+        <tr><td>Who is the executive sponsor?</td><td>No authority to resolve disputes or enforce governance</td></tr>
+        <tr><td>Is there a timeline or event driving this?</td><td>Scope and MVP may need to be constrained; or over-engineered with unnecessary urgency</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4>Audience &amp; Users</h4>
+    <div class="tw"><table>
+      <thead><tr><th>Unknown</th><th>Risk if Left Unanswered</th></tr></thead>
+      <tbody>
+        <tr><td>How many users will actively use this? Read-only vs editors?</td><td>Permissions model wrong; licensing may be impacted</td></tr>
+        <tr><td>Are any users contractors, partners, or non-Allegis accounts?</td><td>External sharing, guest access, or B2B licensing needed</td></tr>
+        <tr><td>What devices do users use (desktop, mobile, tablet)?</td><td>Responsive design and mobile SPO app considerations may be required</td></tr>
+        <tr><td>Are there distinct personas with different access needs within each team?</td><td>Permission groups may be more complex than hub + 3 sites implies</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4>Content &amp; Information Architecture</h4>
+    <div class="tw"><table>
+      <thead><tr><th>Unknown</th><th>Risk if Left Unanswered</th></tr></thead>
+      <tbody>
+        <tr><td>What content exists today and where does it live?</td><td>No content strategy; migration scope unknown</td></tr>
+        <tr><td>What content types are needed (documents, pages, lists, news, links)?</td><td>Library structure, content types, metadata, and web parts designed incorrectly</td></tr>
+        <tr><td>Is there cross-functional content that doesn't belong to one team?</td><td>Hub site structure and navigation design incomplete</td></tr>
+        <tr><td>Who creates content, who approves it, and who maintains it over time?</td><td>Governance gap → content decays → site abandoned</td></tr>
+        <tr><td>What is the expected content volume and update frequency?</td><td>Impacts whether a news web part, highlighted content rollup, or a list is the right approach</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4>Relationship With Existing Tools</h4>
+    <div class="tw"><table>
+      <thead><tr><th>Unknown</th><th>Risk if Left Unanswered</th></tr></thead>
+      <tbody>
+        <tr><td>What content already lives in Simpplr that overlaps with what's planned here?</td><td>Duplication; users confused about where to go</td></tr>
+        <tr><td>Are there Teams channels already doing some of what is being asked for?</td><td>The hub may not be needed for certain use cases</td></tr>
+        <tr><td>Does the org have a document management system (DMS) already?</td><td>Impacts whether SharePoint libraries are the right place for controlled documents</td></tr>
+        <tr><td>Is there an existing SharePoint governance policy in the tenant?</td><td>Site provisioning, naming conventions, and permission models may already be defined</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4>Governance &amp; Ownership</h4>
+    <div class="tw"><table>
+      <thead><tr><th>Unknown</th><th>Risk if Left Unanswered</th></tr></thead>
+      <tbody>
+        <tr><td>Who owns the hub site vs each associated site?</td><td>No clear accountability; sites drift out of sync</td></tr>
+        <tr><td>Is there a SharePoint admin or M365 admin team who needs to be involved?</td><td>Site provisioning blocked or done incorrectly</td></tr>
+        <tr><td>What is the content lifecycle expectation? Will old content be archived or deleted?</td><td>Site becomes a graveyard of stale content over time</td></tr>
+        <tr><td>Are there sensitivity, compliance, or retention requirements?</td><td>Information governance controls may be required (DLP, retention labels, sensitivity labels)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="cb danger"><span class="cb-ico">🚨</span><div class="cb-body"><strong>Highest Priority Unknowns</strong>If you could only get answers to three questions, they should be: (1) What specific problem is being solved for the end user? (2) Who owns each site and is accountable for content quality post-launch? (3) What already exists in Simpplr or Teams that this hub would overlap with?</div></div>
+  </section>
+  <section id="s5" class="section">
+    <div class="sec-hdr"><div class="sec-num">5</div><h2>Assumptions to Validate</h2></div>
+    <p>These assumptions are currently being treated as likely true. Each must be explicitly confirmed or refuted during or after the meeting — building on a false assumption here has compounding consequences downstream.</p>
+
+    <details open><summary>🔒 Assumption 1 — Internal-Only Audience</summary>
+      <div class="inner">
+        <p><strong>Assumption:</strong> All users are Allegis Group / TEKsystems employees with corporate M365 accounts. No external guests, clients, or partners will access the hub.</p>
+        <p><strong>Why it matters:</strong> External sharing requires different permissions configuration, potential licensing implications (AAD B2B), and sensitivity label enforcement. If even one team needs to share a document with a client, the entire permissions model changes.</p>
+        <p><strong>Validate by asking:</strong> "Are there any scenarios where content would be shared with, or need to be visible to, people outside Allegis Group?" and "Do any of the three teams work with external collaborators on shared documents?"</p>
+      </div>
+    </details>
+
+    <details><summary>🤝 Assumption 2 — Collaboration = Async Document &amp; Knowledge Sharing</summary>
+      <div class="inner">
+        <p><strong>Assumption:</strong> "Collaboration" in this context means structured content sharing, document co-authoring, and knowledge discovery — not real-time chat, video calls, or task management.</p>
+        <p><strong>Why it matters:</strong> If the real need is real-time co-authoring or team communication, Teams is a better fit. SharePoint is optimised for structured, persistent, findable content — not ephemeral conversation.</p>
+        <p><strong>Validate by asking:</strong> "When you imagine two team members collaborating on a proposal, what does that actually look like? Are they working in the same document simultaneously, or reviewing and passing documents?"</p>
+      </div>
+    </details>
+
+    <details><summary>🏗️ Assumption 3 — Topology: Hub + 3 Associated Functional Sites</summary>
+      <div class="inner">
+        <p><strong>Assumption:</strong> The hub site is a navigation and discovery layer; Sales, Solutions, and Delivery each get their own associated site with their own content, permissions, and ownership.</p>
+        <p><strong>Why it matters:</strong> This is a reasonable starting hypothesis but may be wrong. Some teams may share content tightly enough to warrant one site. There may be additional cross-functional sites needed (e.g., deal pursuit, shared playbooks, delivery excellence). One large team may not want their content visible to others.</p>
+        <p><strong>Validate by asking:</strong> "Should Sales be able to see everything in Solutions and Delivery by default? Or should some content be access-controlled?" and "Is there content that crosses all three teams — things like proposal templates or shared playbooks?"</p>
+      </div>
+    </details>
+
+    <details><summary>🏢 Assumption 4 — Simpplr Serves a Different Purpose</summary>
+      <div class="inner">
+        <p><strong>Assumption:</strong> Simpplr is the top-level org-wide intranet (corporate comms, HR, policies) and the new hub is for team-level operational content. They serve different audiences and content types and do not overlap significantly.</p>
+        <p><strong>Why it matters:</strong> If significant content will duplicate Simpplr, the hub creates confusion about where to go and fragments the digital workplace. Alternatively, if Simpplr is underused or poorly adopted, the hub may be an attempt to replace it — a bigger scope than what was stated.</p>
+        <p><strong>Validate by asking:</strong> "Walk me through what lives in Simpplr today that the Sales, Solutions, or Delivery teams actually use. Is there content that will now live in both places?"</p>
+      </div>
+    </details>
+
+    <details><summary>💬 Assumption 5 — Teams Already Exists but Doesn't Solve the Problem</summary>
+      <div class="inner">
+        <p><strong>Assumption:</strong> Microsoft Teams is actively used for chat and meetings. There are probably Teams channels for each team. However, Teams file storage is unstructured, findability is poor across teams, and there is no publishing layer — hence the interest in SharePoint.</p>
+        <p><strong>Why it matters:</strong> Teams is already a valid partial solution. The hub should complement Teams (structured knowledge + discovery) rather than replace Teams (comms + collaboration). If this boundary isn't agreed, users will be confused about where to put content.</p>
+        <p><strong>Validate by asking:</strong> "Do the teams already have Teams channels? If so, what kinds of content are being stored there now? What is the frustration with that experience?"</p>
+      </div>
+    </details>
+
+    <details><summary>🎯 Assumption 6 — This Is a Mix of Communication and Knowledge Management</summary>
+      <div class="inner">
+        <p><strong>Assumption:</strong> The hub will serve two purposes simultaneously: (a) publishing / broadcasting news and updates and (b) structured knowledge storage and retrieval. These require different design patterns — communication sites for broadcasting, team sites for collaborative storage.</p>
+        <p><strong>Why it matters:</strong> Designing only for one mode will frustrate users expecting the other. A hub site can be a communication site; associated sites may be team sites. Getting this mix right drives the entire content model and permissions approach.</p>
+        <p><strong>Validate by asking:</strong> "Who will publish content to the hub homepage? A small editorial team, or can anyone post? And separately — who needs to store and retrieve working documents?"</p>
+      </div>
+    </details>
+  </section>
+
+  <section id="s6" class="section">
+    <div class="sec-hdr"><div class="sec-num">6</div><h2>Discovery Questions for the Meeting</h2></div>
+    <p>These questions are organized by category. Use them to guide the meeting conversation. Not all questions need to be asked in the first meeting — prioritize based on what you hear in the room. The goal is to reveal the real collaboration problem, not just validate the proposed solution.</p>
+
+    <div class="q-cat">🎯 Business Goals &amp; Success Criteria</div>
+    <div class="q-block"><div class="q">What specific problem is this initiative trying to solve? Can you describe a concrete scenario where the current situation is failing?</div><div class="why">Why it matters: Without a named problem, you're designing a solution for a hypothesis. A concrete scenario (e.g., "a sales rep can't find the latest proposal template and re-creates it from scratch") gives you a testable user story.</div></div>
+    <div class="q-block"><div class="q">What does success look like at 30, 60, and 90 days after launch?</div><div class="why">Why it matters: Forces clarity on whether this is about adoption metrics, content published, problems resolved, or time saved.</div></div>
+    <div class="q-block"><div class="q">Who is the business owner for this initiative and who will champion adoption?</div><div class="why">Why it matters: Without an executive sponsor or named champion, adoption will be passive and governance will be ignored.</div></div>
+    <div class="q-block"><div class="q">Is there a deadline or event driving this (e.g., a new team onboarding, a reorganization, a product launch)?</div><div class="why">Why it matters: Artificial deadlines drive scope decisions. Understanding the driver helps you separate must-haves from nice-to-haves.</div></div>
+    <div class="q-block"><div class="q">If this hub didn't exist 6 months from now, what would the impact be?</div><div class="why">Why it matters: The inverse test. If the answer is "not much," the initiative may be a nice-to-have, not a must-have — and that changes how you scope it.</div></div>
+
+    <div class="q-cat">👥 Audience &amp; Personas</div>
+    <div class="q-block"><div class="q">Who are the primary users of this hub — are they mostly consumers of content or active contributors?</div><div class="why">Why it matters: Drives the permissions model, content publishing workflow, and information architecture design decisions.</div></div>
+    <div class="q-block"><div class="q">Within Sales, Solutions, and Delivery — are there sub-teams, practices, or geographic splits that need different access?</div><div class="why">Why it matters: What appears to be 3 sites may actually be 6 or more once sub-teams are mapped.</div></div>
+    <div class="q-block"><div class="q">What is the approximate total user count and what's the split between readers and editors?</div><div class="why">Why it matters: Informs licensing review (is Viva a factor?), and helps scope the governance model.</div></div>
+    <div class="q-block"><div class="q">Are there users who are not full-time employees (contractors, partners)? Do they need access?</div><div class="why">Why it matters: External access changes the entire permission and compliance posture.</div></div>
+
+    <div class="q-cat">📄 Content Types &amp; Ownership</div>
+    <div class="q-block"><div class="q">What types of content will live here — documents, pages, lists, news posts, links, embedded reports?</div><div class="why">Why it matters: Content type determines whether you need a library, a list, a pages library, or an embedded Power BI report — they are designed very differently.</div></div>
+    <div class="q-block"><div class="q">Who owns each category of content? Who creates it, reviews it, approves it, and removes it when it's stale?</div><div class="why">Why it matters: Governance without named stewards means content rots. Every document library or page section needs an owner.</div></div>
+    <div class="q-block"><div class="q">Is there content that needs to be kept under version control or requires formal approval before publishing?</div><div class="why">Why it matters: Major / minor versioning and approval workflows in SharePoint are powerful but add process overhead — use them deliberately.</div></div>
+    <div class="q-block"><div class="q">How long does content remain valid? Should old content be archived, deleted, or just left?</div><div class="why">Why it matters: Content lifecycle governance must be defined before launch or the site accumulates outdated material within months.</div></div>
+
+    <div class="q-cat">🏛️ Information &amp; Site Architecture</div>
+    <div class="q-block"><div class="q">Is the proposed topology (hub + Sales site + Solutions site + Delivery site) correct, or are there additional functional areas to consider?</div><div class="why">Why it matters: Cross-functional sites (deal pursuit, shared templates, delivery excellence) may be needed and are commonly missed in early design sessions.</div></div>
+    <div class="q-block"><div class="q">Should teams be able to see each other's content by default, or should some areas be access-controlled?</div><div class="why">Why it matters: Security-trimmed navigation means users only see what they have access to. This is the most common permissions mistake in hub site design.</div></div>
+    <div class="q-block"><div class="q">What should live on the hub homepage vs on the associated sites?</div><div class="why">Why it matters: The hub home is a discovery and navigation layer — it should surface content, not store it. Conflating hub home with team storage is a common design error.</div></div>
+    <div class="q-block"><div class="q">What are the top 3–5 tasks a user should be able to complete within 60 seconds of landing on the hub?</div><div class="why">Why it matters: Forces the design conversation into user journeys rather than feature lists.</div></div>
+
+    <div class="q-cat">🔍 Search, Metadata &amp; Taxonomy</div>
+    <div class="q-block"><div class="q">How do users currently find content — keyword search, browsing folders, asking colleagues?</div><div class="why">Why it matters: SharePoint search is powerful but requires metadata and good content titles to work. If users rely on folder browsing, the taxonomy design needs to match that mental model.</div></div>
+    <div class="q-block"><div class="q">Are there common attributes that would be useful to filter or search on (e.g., team, content type, year, practice area, status)?</div><div class="why">Why it matters: These become managed metadata columns — they are the backbone of structured content findability.</div></div>
+    <div class="q-block"><div class="q">Is there an existing taxonomy or term store in the M365 tenant that should be reused?</div><div class="why">Why it matters: Duplicate term stores create inconsistency. If a taxonomy exists, extend it; don't create a parallel one.</div></div>
+
+    <div class="q-cat">🔐 Permissions &amp; Security</div>
+    <div class="q-block"><div class="q">Should all three teams have read access to each other's sites by default, or is some content restricted?</div><div class="why">Why it matters: Hub sites share navigation and search, but permissions are per-site. Open-by-default vs need-to-know is a fundamental governance decision.</div></div>
+    <div class="q-block"><div class="q">Are there any sensitivity labels or DLP policies currently in place in the tenant that would apply to content here?</div><div class="why">Why it matters: If the tenant has M365 Purview policies, they may apply automatically to SharePoint libraries — this affects what can be stored and who can share it.</div></div>
+    <div class="q-block"><div class="q">Who will be Site Owners on each site? What is the escalation path if a site owner leaves?</div><div class="why">Why it matters: Orphaned sites are one of the most common governance failures — a site with no active owner drifts out of compliance and eventually gets abandoned.</div></div>
+
+    <div class="q-cat">🤝 Microsoft Teams Integration</div>
+    <div class="q-block"><div class="q">Which of the three teams already has a Teams team or channel? What content lives there that would overlap with the hub?</div><div class="why">Why it matters: Avoids building what Teams already provides. Also helps position SharePoint as the structured, searchable layer vs Teams as the ephemeral collaboration space.</div></div>
+    <div class="q-block"><div class="q">Would users want to access SharePoint content directly from within Teams (as a tab)?</div><div class="why">Why it matters: SharePoint pages and document libraries can be pinned as tabs in Teams — this can dramatically increase adoption if users don't want to leave Teams to find documents.</div></div>
+    <div class="q-block"><div class="q">Should the hub or associated sites be Group-connected (with a Teams backing team)?</div><div class="why">Why it matters: Group-connected sites come with a Teams team, Planner, OneNote, etc. For a hub / communication site, this is usually not desired. For associated functional sites, it may be.</div></div>
+
+    <div class="q-cat">📏 Governance &amp; Lifecycle</div>
+    <div class="q-block"><div class="q">Is there an existing SharePoint governance policy in the tenant (naming conventions, provisioning process, site templates)?</div><div class="why">Why it matters: You may not be able to create sites ad-hoc; there may be an approval or provisioning workflow already in place.</div></div>
+    <div class="q-block"><div class="q">Who is responsible for the long-term health of the hub — content reviews, user feedback, analytics?</div><div class="why">Why it matters: A launch without a named ongoing steward is a site with a 6-month lifespan. The governance model must be agreed before go-live.</div></div>
+    <div class="q-block"><div class="q">Will there be any compliance, retention, or records management requirements on any of the content?</div><div class="why">Why it matters: If yes, retention labels or records management policies must be designed before content is uploaded — not after.</div></div>
+
+    <div class="q-cat">🎨 Branding, UX &amp; Adoption</div>
+    <div class="q-block"><div class="q">Is there a standard M365 / SharePoint branding guideline already in use in the tenant?</div><div class="why">Why it matters: Applying a theme and logo that's already approved reduces IT/comms review overhead and ensures brand consistency.</div></div>
+    <div class="q-block"><div class="q">What is the adoption and training plan? Who will onboard users to the hub?</div><div class="why">Why it matters: No adoption plan = no adoption. The best-designed hub fails if no one knows it exists or how to use it.</div></div>
+    <div class="q-block"><div class="q">Will usage analytics be monitored? Is there an expectation to report on page views, active users, or search queries?</div><div class="why">Why it matters: SharePoint has built-in site usage analytics — but someone must own reviewing them and acting on the data.</div></div>
+
+    <div class="q-cat">📦 Migration &amp; Content Sourcing</div>
+    <div class="q-block"><div class="q">What is the source of content that will populate the hub at launch? Is there a migration effort involved?</div><div class="why">Why it matters: A hub site launch with zero content is a failed launch. Content migration scope dramatically affects timelines and may require SPMT or ShareGate tooling.</div></div>
+    <div class="q-block"><div class="q">Is there any content in Teams file tabs, OneDrive personal drives, or shared network drives that should move to SharePoint?</div><div class="why">Why it matters: This is where most organizational content actually lives — on network shares and personal drives. Identifying it early allows for realistic scope planning.</div></div>
+  </section>
+  <section id="s7" class="section">
+    <div class="sec-hdr"><div class="sec-num">7</div><h2>Brainstorming Topics &amp; Design Discussion Points</h2></div>
+    <p>These are the strategic questions worth debating in the room — not questions to ask the stakeholder, but design decisions to work through collaboratively. Bring these as prompts, not as a prepared answer.</p>
+
+    <h3>When Should Collaboration Happen in Teams vs SharePoint?</h3>
+    <p>The clearest mental model: <strong>Teams for conversations, SharePoint for content</strong>. Teams channels are great for real-time discussion, quick file sharing, and project-level chat. SharePoint is better for persistent, findable, structured content that outlives any single project or conversation. The practical test: "Would someone need to find this 6 months from now without knowing who created it?" If yes, it belongs in SharePoint.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Activity</th><th>Teams</th><th>SharePoint</th></tr></thead>
+      <tbody>
+        <tr><td>Discussing a deal in progress</td><td>✅ Primary</td><td>Store final deck/proposal</td></tr>
+        <tr><td>Drafting a proposal collaboratively</td><td>Share link to SP doc</td><td>✅ Source of truth</td></tr>
+        <tr><td>Publishing a how-to guide</td><td>Link to SP page</td><td>✅ Primary</td></tr>
+        <tr><td>Meeting notes and follow-ups</td><td>✅ OneNote / Teams</td><td>Archive only if needed</td></tr>
+        <tr><td>Reusable templates library</td><td>❌ Hard to find</td><td>✅ Primary</td></tr>
+        <tr><td>News / announcements for a team</td><td>Channel post (ephemeral)</td><td>✅ News post (persistent)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Should the Hub Be a Navigation / Discovery Layer — Not a Storage Layer?</h3>
+    <p>A common design mistake is treating the hub homepage as a place to <em>store</em> content. It should be a place to <em>surface</em> content. The hub homepage should aggregate: news from associated sites, highlighted documents, quick links, and cross-team search. The actual documents and pages should live in the associated sites. If users are uploading files directly to the hub, the architecture is wrong.</p>
+
+    <h3>Should Each Function Have Its Own Associated Site?</h3>
+    <p>The 1-hub + 3-associated-sites model is a solid starting hypothesis. Reasons it makes sense:</p>
+    <ul>
+      <li>Sales, Solutions, and Delivery have distinct audiences, content types, and ownership structures</li>
+      <li>Permissions can be managed independently (a delivery playbook may not be visible to all Sales staff)</li>
+      <li>Each team can have their own news feed, page library, and document structure</li>
+    </ul>
+    <p>Reasons to reconsider:</p>
+    <ul>
+      <li>If one team is much smaller or less active, their site may become a ghost town</li>
+      <li>If significant content is shared across all three (e.g., proposal templates, pricing guidance), a shared content site may be needed as a fourth site</li>
+    </ul>
+
+    <h3>Are There Cross-Functional Sites Missing from the Proposal?</h3>
+    <div class="cb info"><span class="cb-ico">💡</span><div class="cb-body"><strong>Consider a 4th or 5th Site</strong>Cross-functional content — deal pursuits, shared solution accelerators, delivery excellence case studies — often doesn't belong to one team. Without a dedicated home, it ends up duplicated across all three sites or lost. A "Practice Hub" or "Shared Resources" associated site may be the most important site in the topology.</div></div>
+
+    <h3>What Belongs on the Hub Homepage vs Associated Sites?</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Content Element</th><th>Hub Homepage</th><th>Associated Site</th></tr></thead>
+      <tbody>
+        <tr><td>Team-specific news</td><td>Aggregated rollup (read-only)</td><td>✅ Published here</td></tr>
+        <tr><td>Cross-team announcements</td><td>✅ Published here</td><td>Optionally linked</td></tr>
+        <tr><td>Quick links to key tools</td><td>✅ Global quick links</td><td>Team-specific quick links</td></tr>
+        <tr><td>Document libraries</td><td>❌ Don't store here</td><td>✅ Lives here</td></tr>
+        <tr><td>Search</td><td>✅ Hub-scoped search</td><td>Site-scoped search</td></tr>
+        <tr><td>People directory / experts</td><td>✅ If cross-team</td><td>Team contacts only</td></tr>
+        <tr><td>Practice-wide KPIs / dashboards</td><td>✅ If relevant to all</td><td>Team-specific metrics</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>What Is the Minimum Viable Hub?</h3>
+    <p>If you had to ship something useful in 4 weeks, what would it be? A strong MVP might be:</p>
+    <ol>
+      <li>Hub communication site with branding, navigation, and a news rollup web part</li>
+      <li>One associated site (whichever team has the most content ready) with a document library and 2–3 pages</li>
+      <li>A shared quick links section on the hub homepage</li>
+      <li>One named site owner per site, a governance doc, and a content review schedule</li>
+    </ol>
+    <p>Everything else — audience targeting, Viva Connections, Power Automate approvals, custom metadata — is phase 2.</p>
+
+    <h3>Adoption Risk: Does This Duplicate Teams or Simpplr?</h3>
+    <div class="cb warn"><span class="cb-ico">⚠️</span><div class="cb-body"><strong>The "Where Do I Put It?" Problem</strong>If users have three places that all accept documents (Teams files, SharePoint, Simpplr), adoption will split and content will be fragmented. The single most important adoption decision is a clear, communicated, enforced rule about what type of content lives where. Without this, all three tools become equally authoritative and equally unreliable.</div></div>
+
+    <h3>Could Viva Connections Be Relevant?</h3>
+    <p>If the org uses Microsoft Viva, the hub site can be set as the <strong>home site</strong> and surfaced through Viva Connections in Teams. This means users get a SharePoint-quality content experience without leaving Teams — which significantly increases adoption. This is worth exploring if the org has Viva licensing and if Teams is the primary communication channel.</p>
+  </section>
+
+  <section id="s8" class="section">
+    <div class="sec-hdr"><div class="sec-num">8</div><h2>SharePoint Online Solution Areas to Cover</h2></div>
+    <p>A comprehensive checklist of SPO capabilities, patterns, and governance topics that are relevant to this initiative. Use this to ensure nothing architectural is missed during design conversations.</p>
+
+    <h3>Site Architecture</h3>
+    <ul class="check-list">
+      <li><span class="ci">🔷</span><span><strong>Hub Sites vs Associated Sites:</strong> Hub provides unified navigation, search scope, and branding. Associated sites retain independent permissions and ownership. A site can only be associated with one hub.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Communication Sites vs Team Sites:</strong> Comm sites are publishing-first (one-to-many, no M365 group). Team sites are collaboration-first (group-connected, with Teams, Planner, OneNote). Hub should be a comm site; associated sites may be either depending on use case.</span></li>
+      <li><span class="ci">🔷</span><span><strong>M365 Group-Connected Sites:</strong> Team sites created via Teams or SharePoint SharePoint admin are group-connected. This creates a backing M365 group with shared inbox, calendar, Planner. Useful for team working spaces; not needed for publishing sites.</span></li>
+      <li><span class="ci">🔷</span><span><strong>No Subsites:</strong> Modern SharePoint governance strongly discourages subsites. Each logical area should be a separate site collection associated to the hub — not a subsite of the hub.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Site Provisioning:</strong> Check whether the tenant has a governed provisioning process (e.g., SharePoint admin approval, PnP Provisioning, site request form). Don't create sites ad-hoc if a process exists.</span></li>
+    </ul>
+
+    <h3>Navigation Design</h3>
+    <ul class="check-list">
+      <li><span class="ci">🔷</span><span><strong>Hub Navigation:</strong> Appears on all associated sites. Max ~6 items. Should link to hub home + key cross-team resources. Must be kept simple.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Local Navigation:</strong> Each associated site has its own left-hand navigation. Owners control this independently.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Footer / Global Links:</strong> Consider a consistent footer on hub and associated sites for support, governance contacts, and feedback links.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Audience Targeting in Navigation:</strong> Hub nav links can be targeted to security groups. Use this if some navigation items are only relevant to one team.</span></li>
+    </ul>
+
+    <h3>Content &amp; Libraries</h3>
+    <ul class="check-list">
+      <li><span class="ci">🔷</span><span><strong>Document Libraries:</strong> Primary storage for files. Enable versioning (major/minor). Consider check-out requirement for controlled documents. Flat folder structure with metadata is better than deeply nested folders.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Content Types:</strong> Define reusable content types (e.g., "Proposal Template", "Playbook", "Case Study") with standard metadata columns. Apply at the site collection or hub level for consistency.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Metadata / Managed Taxonomy:</strong> Use SharePoint term store for shared taxonomy (e.g., Practice Area, Content Status, Team). Enables cross-site filtering and consistent search refiners.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Lists:</strong> Use SharePoint lists for structured data (contacts, FAQs, project registry, links directory). Not for document storage.</span></li>
+      <li><span class="ci">🔷</span><span><strong>News:</strong> News posts roll up via hub. Each associated site can publish news independently. The hub homepage aggregates all news across the hub with the News web part.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Highlighted Content / Rollups:</strong> Highlighted Content Web Part (HCWP) is the primary tool for dynamic content rollup across sites. Can filter by content type, metadata, date, and more.</span></li>
+    </ul>
+
+    <h3>Search &amp; Findability</h3>
+    <ul class="check-list">
+      <li><span class="ci">🔷</span><span><strong>Hub-Scoped Search:</strong> Search from any hub-associated site searches the entire hub by default. Managed properties and refiner configuration may be needed for optimal results.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Security Trimming:</strong> Search results are always security-trimmed. Users will only see content they have access to — even in hub-scoped search.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Metadata Columns as Refiners:</strong> Well-designed managed metadata columns become search refiners. This is the primary reason to invest in a taxonomy early.</span></li>
+      <li><span class="ci">🔷</span><span><strong>People Search:</strong> SharePoint search includes people profiles from Azure AD. Useful for "find an expert" scenarios.</span></li>
+    </ul>
+
+    <h3>Permissions &amp; Security</h3>
+    <ul class="check-list">
+      <li><span class="ci">🔷</span><span><strong>Hub permissions ≠ Associated site permissions:</strong> Associating a site to a hub does NOT share permissions. Each site manages its own permission groups (Owners / Members / Visitors).</span></li>
+      <li><span class="ci">🔷</span><span><strong>Security Groups over individual permissions:</strong> Always use AAD security groups or M365 groups for site permissions. Never add individuals directly — it becomes unmanageable at scale.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Sharing Settings:</strong> Configure sharing settings at the site level (who can share, with whom, link expiry). Hub sharing settings don't cascade to associated sites.</span></li>
+      <li><span class="ci">🔷</span><span><strong>External Sharing:</strong> If confirmed internal-only, disable external sharing at the tenant or site level for all hub-associated sites.</span></li>
+    </ul>
+
+    <h3>Governance, Lifecycle &amp; Compliance</h3>
+    <ul class="check-list">
+      <li><span class="ci">🔷</span><span><strong>Site Lifecycle Policy:</strong> Implement an inactive site review process. M365 admin center can identify stale sites. Define what happens to a site when a team is restructured.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Retention Labels:</strong> If content has retention requirements (e.g., proposals kept 7 years), apply M365 Purview retention labels to document libraries.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Sensitivity Labels:</strong> If DLP policies apply, ensure sensitivity labels are configured for SharePoint libraries containing sensitive content.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Usage Analytics:</strong> SharePoint has built-in site usage reports (page views, unique visitors, popular content). Assign someone to review these monthly and act on low-engagement signals.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Content Review Schedule:</strong> Every associated site should have a documented content review schedule (monthly for news, quarterly for libraries, annually for archived content).</span></li>
+    </ul>
+
+    <h3>Branding, UX &amp; Accessibility</h3>
+    <ul class="check-list">
+      <li><span class="ci">🔷</span><span><strong>SharePoint Themes:</strong> Apply a consistent theme (colour palette) at the hub level. Associated sites can inherit or customise within the brand.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Site Logo &amp; Header:</strong> Each site should have a consistent logo and header style. The hub logo anchors the brand.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Audience Targeting (Web Parts):</strong> SharePoint supports audience targeting on individual web parts — show different content to Sales vs Delivery without separate pages.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Accessibility:</strong> SharePoint OOB web parts are accessible (WCAG 2.1 AA). Avoid custom code or embedded iframes that may not meet accessibility standards.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Mobile (SharePoint App):</strong> SharePoint mobile app supports hub navigation. Consider mobile experience if teams are on the go.</span></li>
+    </ul>
+
+    <h3>Integration Opportunities</h3>
+    <ul class="check-list">
+      <li><span class="ci">🔷</span><span><strong>Power Automate:</strong> Document approval workflows, content review reminders, new-file notification flows, and list item routing are all strong SharePoint + Power Automate patterns.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Power Apps:</strong> Embed custom forms or lightweight apps as SharePoint web parts for scenarios where OOB list forms are insufficient.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Microsoft Forms:</strong> Embed feedback forms, intake forms, or surveys directly on SharePoint pages.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Power BI:</strong> Embed team dashboards directly in SharePoint pages using the Power BI web part — no separate BI portal needed.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Microsoft Stream:</strong> Training videos, recorded demos, and onboarding content can be stored in Stream and surfaced via the Stream web part on SharePoint pages.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Viva Connections:</strong> If the org licenses Viva, the hub can become the home site surfaced through Teams — bridging the Teams vs SharePoint access divide.</span></li>
+    </ul>
+  </section>
+  <section id="s9" class="section">
+    <div class="sec-hdr"><div class="sec-num">9</div><h2>SharePoint vs Teams vs Simpplr — Capability Analysis</h2></div>
+    <p>Use this comparison to make informed platform decisions during the meeting. The goal is not to pick one tool over the others — these three tools are complementary — but to establish clear boundaries so users always know where to go.</p>
+
+    <div class="tw"><table>
+      <thead><tr><th>Scenario / Capability</th><th>Best Fit</th><th>Why</th><th>Caveats</th></tr></thead>
+      <tbody>
+        <tr><td>Publishing curated content (guides, how-tos, announcements)</td><td><span class="badge b-sp">SharePoint</span></td><td>Communication site pages are persistent, searchable, branded, and audience-targeted</td><td>Requires page authors — don't expect all staff to create pages</td></tr>
+        <tr><td>Document co-authoring (simultaneous editing)</td><td><span class="badge b-sp">SharePoint</span> + <span class="badge b-teams">Teams</span></td><td>Files stored in SharePoint, opened and co-authored via Teams or browser</td><td>Both tools surface the same file — SharePoint is the canonical location</td></tr>
+        <tr><td>Real-time team chat and ad-hoc discussion</td><td><span class="badge b-teams">Teams</span></td><td>Persistent channels, threading, @mentions, reactions — chat is Teams' core purpose</td><td>SharePoint has no chat; don't try to replicate this with comments on pages</td></tr>
+        <tr><td>Structured document repository (templates, controlled docs)</td><td><span class="badge b-sp">SharePoint</span></td><td>Version control, content types, metadata filtering, approval workflows, retention labels</td><td>Teams file tabs are SharePoint libraries — both point to the same storage</td></tr>
+        <tr><td>Executive / org-wide communications</td><td><span class="badge b-simpl">Simpplr</span></td><td>Simpplr is the org-wide intranet; company-level news, HR comms, and policies live there</td><td>Don't duplicate corporate comms in the hub — link to Simpplr instead</td></tr>
+        <tr><td>Team-level news and updates</td><td><span class="badge b-sp">SharePoint</span></td><td>SharePoint news rolls up across hub-associated sites; targeted to team audience</td><td>Simpplr may also support team channels — clarify overlap before deciding</td></tr>
+        <tr><td>Cross-team knowledge sharing and discovery</td><td><span class="badge b-sp">SharePoint</span></td><td>Hub-scoped search, highlighted content rollup, and structured metadata enable findability across teams</td><td>Requires investment in metadata and taxonomy — doesn't work OOB without it</td></tr>
+        <tr><td>Project / deal working space</td><td><span class="badge b-hybrid">Hybrid</span></td><td>Teams for discussion + task management (Planner); SharePoint for deal documents and status pages</td><td>Consider a SharePoint list as a deal registry with links to Teams channels per deal</td></tr>
+        <tr><td>Reusable templates (proposals, decks, SOWs)</td><td><span class="badge b-sp">SharePoint</span></td><td>A governed templates library in SharePoint with metadata (type, practice, status) is far more findable than files in Teams</td><td>Train users to start from the library, not from email attachments</td></tr>
+        <tr><td>Process guidance / SOPs</td><td><span class="badge b-sp">SharePoint</span></td><td>SharePoint pages with embedded links, steps, and related documents are better than static Word files</td><td>Keep SOPs as pages, not PDFs — pages can be updated and searched</td></tr>
+        <tr><td>Meetings, video calls, scheduling</td><td><span class="badge b-teams">Teams</span></td><td>This is Teams' native purpose — SharePoint adds no value here</td><td>—</td></tr>
+        <tr><td>Intranet-style experience (org news, people, benefits)</td><td><span class="badge b-simpl">Simpplr</span></td><td>Simpplr is purpose-built for this; the hub should complement it, not compete</td><td>If Simpplr adoption is low, understand why before building a parallel experience</td></tr>
+        <tr><td>Community / interest-based communication</td><td><span class="badge b-simpl">Simpplr</span> or <span class="badge b-teams">Teams</span></td><td>Simpplr communities or Teams channels for interest groups; SharePoint has no community concept</td><td>Don't try to build communities in SharePoint — it has no social feed or reaction model</td></tr>
+        <tr><td>Search across all content</td><td><span class="badge b-sp">SharePoint</span></td><td>Microsoft Search (powered by SharePoint) searches M365 content including Teams, SharePoint, and OneDrive</td><td>Content quality determines search quality — metadata and good titles are essential</td></tr>
+        <tr><td>Mobile access to team content</td><td><span class="badge b-hybrid">Hybrid</span></td><td>SharePoint mobile app for content browsing; Teams mobile for chat and files</td><td>Both apps work on mobile — SharePoint hub navigation is mobile-responsive OOB</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="cb success"><span class="cb-ico">✅</span><div class="cb-body"><strong>The Clear Boundary Rule</strong>Print this and agree it in the room: <em>Simpplr = org-wide comms and culture. Teams = conversation and ephemeral collaboration. SharePoint = structured, findable, persistent content.</em> Any scenario that doesn't fit one of these three lanes needs an explicit decision — not a default.</div></div>
+  </section>
+
+  <section id="s10" class="section">
+    <div class="sec-hdr"><div class="sec-num">10</div><h2>Recommended Initial Architecture (First-Pass Hypothesis)</h2></div>
+    <div class="cb warn"><span class="cb-ico">⚠️</span><div class="cb-body"><strong>This Is a Hypothesis, Not a Design</strong>The structure below is a starting point for discussion — not a finalized recommendation. It is based on the limited context from the original request. Discovery findings should validate, refine, or replace this topology. Present it as "here's a reasonable starting point — let's pressure-test it."</div></div>
+
+    <h3>Proposed Topology</h3>
+    <div class="arch">
+      <div class="arch-hub">🏢 TEKsystems Microsoft Practice Hub<br><small style="font-weight:400;font-size:.75rem;opacity:.85">Communication Site · Hub Site</small></div>
+      <div class="arch-arrow">│<br>│ Hub association (shared nav + search)<br>│</div>
+      <div class="arch-row">
+        <div class="arch-site">
+          <span class="as-ico">💼</span>
+          <div class="as-title">Sales Site</div>
+          <div class="as-desc">Team Site<br>Proposals · Pursuits · Client Decks</div>
+        </div>
+        <div class="arch-site">
+          <span class="as-ico">🧩</span>
+          <div class="as-title">Solutions Site</div>
+          <div class="as-desc">Team Site<br>Accelerators · Architecture · Assets</div>
+        </div>
+        <div class="arch-site">
+          <span class="as-ico">🚚</span>
+          <div class="as-title">Delivery Site</div>
+          <div class="as-desc">Team Site<br>Playbooks · SOPs · Case Studies</div>
+        </div>
+        <div class="arch-site opt">
+          <span class="as-ico">🔗</span>
+          <div class="as-title">Shared Resources</div>
+          <div class="as-desc">Team Site<br>Templates · Cross-team Assets</div>
+        </div>
+      </div>
+      <div class="arch-label">Solid border = confirmed in scope · Dashed border = recommended addition pending discovery</div>
+      <div class="arch-legend">
+        <span><span class="leg-s"></span> Hub-associated (confirmed)</span>
+        <span><span class="leg-d"></span> Hub-associated (proposed)</span>
+      </div>
+    </div>
+
+    <h3>Hub Site — Purpose &amp; Content</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Element</th><th>Approach</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Site type</td><td>Communication Site</td><td>Publishing-first; no M365 group; small editorial team controls the homepage</td></tr>
+        <tr><td>Homepage purpose</td><td>Navigation + discovery + news aggregation</td><td>No document storage on the hub; it surfaces content from associated sites</td></tr>
+        <tr><td>Hub navigation</td><td>~5 items: Home, Sales, Solutions, Delivery, Shared Resources</td><td>Keep it flat — one level of hub nav only</td></tr>
+        <tr><td>News rollup</td><td>News web part scoped to hub</td><td>Each associated site publishes news; hub homepage aggregates all</td></tr>
+        <tr><td>Quick links</td><td>Quick Links web part with cross-team shortcuts</td><td>Audience-targeted if needed — Sales sees different links from Delivery</td></tr>
+        <tr><td>Hub search</td><td>Hub-scoped search bar on homepage</td><td>Returns results from all associated sites, security-trimmed</td></tr>
+        <tr><td>People / experts</td><td>Optional people web part or people search link</td><td>Surface key contacts per practice area</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Associated Sites — Standard Pattern Per Team</h3>
+    <p>Each of the three team sites should follow a consistent structure, adapted per team. Consistency reduces training overhead and makes the hub feel cohesive.</p>
+    <ul class="check-list">
+      <li><span class="ci">🔷</span><span><strong>Homepage:</strong> Team intro, news web part (team-scoped), quick links to key libraries</span></li>
+      <li><span class="ci">🔷</span><span><strong>Documents library:</strong> Primary file storage with metadata columns (Type, Status, Year, Practice Area)</span></li>
+      <li><span class="ci">🔷</span><span><strong>Pages library:</strong> 2–5 pages covering team overview, processes, and key resources</span></li>
+      <li><span class="ci">🔷</span><span><strong>Site navigation:</strong> Home → Documents → Pages → Contacts → About</span></li>
+      <li><span class="ci">🔷</span><span><strong>Permissions:</strong> Site Owners group (2–3 named individuals), Site Members group (team staff), Site Visitors (read-only for hub-wide members)</span></li>
+      <li><span class="ci">🔷</span><span><strong>Governance:</strong> Named site owner, content review date in site footer, governance doc linked from homepage</span></li>
+    </ul>
+
+    <h3>Optional: Shared Resources Site</h3>
+    <p>A fourth associated site for cross-functional content is strongly recommended. Without it, shared assets (proposal templates, pricing frameworks, onboarding materials) will end up duplicated in all three team sites or live nowhere.</p>
+    <ul>
+      <li>Templates library — proposal decks, SOW templates, standard presentations</li>
+      <li>Knowledge base — cross-team FAQs, best practices, lessons learned</li>
+      <li>Onboarding — new hire resources for the Microsoft Practice</li>
+      <li>Owned jointly by a small editorial group, not by any single team</li>
+    </ul>
+
+    <div class="cb info"><span class="cb-ico">ℹ️</span><div class="cb-body"><strong>Why Not One Big Site?</strong>A single site for all three teams sounds simpler but fails at scale: permissions become a free-for-all, navigation becomes unusable, content from Sales conflicts with Delivery content in search results, and ownership becomes diffuse. Separate sites with a hub binding them is the modern SharePoint pattern for a reason.</div></div>
+  </section>
+  <section id="s11" class="section">
+    <div class="sec-hdr"><div class="sec-num">11</div><h2>Content Model Suggestions</h2></div>
+    <p>A content model defines <em>what</em> lives in the hub, <em>where</em> it lives, and <em>how</em> it is structured. Getting this right in discovery prevents endless restructuring post-launch. The table below is a starting proposal — validate each row against actual team needs.</p>
+
+    <div class="tw"><table>
+      <thead><tr><th>Content Category</th><th>Content Type</th><th>Home Site</th><th>Library / List</th><th>Key Metadata</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td>Announcements / News</td><td>News Post (Page)</td><td>Each team site</td><td>Site Pages</td><td>Category, Audience, Date</td><td>Team lead / comms</td></tr>
+        <tr><td>Proposals &amp; Pursuits</td><td>Document</td><td>Sales Site</td><td>Pursuits Library</td><td>Client, Stage, Year, Outcome</td><td>Sales team</td></tr>
+        <tr><td>Solution Assets &amp; Accelerators</td><td>Document / Page</td><td>Solutions Site</td><td>Solutions Library</td><td>Practice Area, Type, Status</td><td>Solutions team</td></tr>
+        <tr><td>Reusable Templates</td><td>Document</td><td>Shared Resources</td><td>Templates Library</td><td>Type, Audience, Version</td><td>Central editorial</td></tr>
+        <tr><td>Delivery Playbooks</td><td>Document / Page</td><td>Delivery Site</td><td>Playbooks Library</td><td>Phase, Practice, Status</td><td>Delivery team</td></tr>
+        <tr><td>Case Studies</td><td>Page or Document</td><td>Delivery or Shared</td><td>Case Studies Library</td><td>Industry, Practice, Year, Outcome</td><td>Delivery / Solutions</td></tr>
+        <tr><td>Best Practices</td><td>Page (wiki-style)</td><td>Relevant team site</td><td>Site Pages</td><td>Topic, Team, Last Reviewed</td><td>Named SME per topic</td></tr>
+        <tr><td>Onboarding Resources</td><td>Page + Documents</td><td>Shared Resources</td><td>Onboarding Library</td><td>Role, Phase (Week 1/30/90)</td><td>Practice manager</td></tr>
+        <tr><td>FAQs</td><td>SharePoint List</td><td>Relevant team site</td><td>FAQ List</td><td>Category, Team, Last Updated</td><td>Site owner</td></tr>
+        <tr><td>Dashboards / Reports</td><td>Embedded Power BI page</td><td>Hub or team site</td><td>Site Page (Power BI web part)</td><td>Period, Audience</td><td>Analytics owner</td></tr>
+        <tr><td>Contacts / Experts Directory</td><td>SharePoint List or People web part</td><td>Hub or Shared</td><td>People / Contacts List</td><td>Team, Expertise, Location</td><td>Practice admin</td></tr>
+        <tr><td>Training Resources</td><td>Page + Stream Videos</td><td>Shared Resources</td><td>Training Library</td><td>Topic, Format, Duration, Level</td><td>L&amp;D / team leads</td></tr>
+        <tr><td>Policies &amp; Procedures</td><td>Document (controlled)</td><td>Shared Resources</td><td>Policies Library</td><td>Category, Version, Effective Date, Owner</td><td>Designated policy owner</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Metadata Strategy (The Backbone of Findability)</h3>
+    <p>Metadata columns are what make SharePoint search and filtering powerful. Without them, users fall back to browsing folders — which doesn't scale. Recommend a minimum metadata set applied consistently across all associated sites:</p>
+    <div class="dec-grid">
+      <div class="dec-item"><span class="di">📌</span><span><strong>Content Type</strong> — Proposal, Template, Playbook, Case Study, Policy…</span></div>
+      <div class="dec-item"><span class="di">📌</span><span><strong>Team</strong> — Sales, Solutions, Delivery, Shared (managed metadata)</span></div>
+      <div class="dec-item"><span class="di">📌</span><span><strong>Practice Area</strong> — e.g. Azure, D365, Power Platform, Security…</span></div>
+      <div class="dec-item"><span class="di">📌</span><span><strong>Status</strong> — Draft, Under Review, Approved, Archived</span></div>
+      <div class="dec-item"><span class="di">📌</span><span><strong>Year / Fiscal Year</strong> — For time-based filtering</span></div>
+      <div class="dec-item"><span class="di">📌</span><span><strong>Last Reviewed</strong> — Calculated column or date field for content freshness</span></div>
+    </div>
+
+    <div class="cb info"><span class="cb-ico">💡</span><div class="cb-body"><strong>Start Small on Metadata</strong>A metadata model with 3–4 mandatory columns that people actually fill in is better than 12 optional columns that get left blank. Start minimal, add columns once usage patterns are established. Mandatory metadata must be enforced via required columns — not by convention.</div></div>
+
+    <h3>Content Lifecycle Rules (Define Before Launch)</h3>
+    <ul>
+      <li><strong>Active content:</strong> Reviewed quarterly by content owner. Updated in place with versioning.</li>
+      <li><strong>News posts:</strong> No archiving — old news is still valid history. Filter by date instead.</li>
+      <li><strong>Stale documents:</strong> Documents not accessed in 12+ months flagged for review. Owner decides: update, archive, or delete.</li>
+      <li><strong>Archived content:</strong> Move to a dedicated "Archive" folder or library. Keep for search; clearly labelled as archived.</li>
+      <li><strong>Deleted content:</strong> Recycle bin retains for 93 days. Site Collection admin can recover from second-stage recycle bin.</li>
+    </ul>
+  </section>
+
+  <section id="s12" class="section">
+    <div class="sec-hdr"><div class="sec-num">12</div><h2>Risks, Gaps &amp; Anti-Patterns</h2></div>
+    <p>These are the failure modes that kill SharePoint hub initiatives. Raise them in the meeting — not to be pessimistic, but to get early agreement on how to prevent them.</p>
+
+    <div class="cb danger"><span class="cb-ico">🚨</span><div class="cb-body"><strong>The #1 Risk: No Named Owner Post-Launch</strong>More SharePoint sites fail because of governance gaps than technical failures. If no one is accountable for keeping content fresh, the site becomes unreliable within 3 months and abandoned within 6. Every site needs a named owner before go-live — not after.</div></div>
+
+    <h3>Anti-Patterns to Avoid</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Anti-Pattern</th><th>Why It Fails</th><th>Better Approach</th></tr></thead>
+      <tbody>
+        <tr><td>One giant team site for all three teams</td><td>Permission complexity, navigation overload, ownership dilution</td><td>Separate associated sites per team, unified by hub</td></tr>
+        <tr><td>Replicating Simpplr content verbatim</td><td>Users confused about where to find the "real" version; two places to update</td><td>Link to Simpplr from SharePoint hub; don't duplicate</td></tr>
+        <tr><td>Deeply nested folder hierarchies</td><td>Folder browsing doesn't scale; breaks search; hard to navigate on mobile</td><td>Flat libraries with metadata for filtering and views</td></tr>
+        <tr><td>"Everyone can publish" with no governance</td><td>Content quality degrades; branding inconsistency; noise drowns out signal</td><td>Designated page authors; news approval workflow if needed</td></tr>
+        <tr><td>Building before defining user journeys</td><td>Site solves the wrong problem; unused features; missing critical content</td><td>Map 3–5 top user journeys before building; design for journeys, not org chart</td></tr>
+        <tr><td>Using SharePoint for chat-like collaboration</td><td>Page comments and list discussions are poor substitutes for Teams channels</td><td>Teams for conversation; SharePoint for structured, persistent content</td></tr>
+        <tr><td>No metadata strategy</td><td>Search returns irrelevant results; users resort to folder browsing; hub value disappears</td><td>Define 4–6 mandatory metadata columns before uploading any content</td></tr>
+        <tr><td>Over-customization with SPFx or custom code</td><td>Maintenance burden, upgrade risk, dependency on developer to make changes</td><td>Use OOB web parts for MVP; custom code only if OOB genuinely can't meet the need</td></tr>
+        <tr><td>No content migration plan</td><td>Hub launches empty; no adoption because there's nothing to find</td><td>Seed each site with at least 10–20 real documents before launch; assign migration owners</td></tr>
+        <tr><td>No adoption or training plan</td><td>"We built it and emailed people" is not adoption</td><td>Champions program, Teams announcement, lunch-and-learns, site tour page, usage metrics tracked</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Governance Gaps That Kill Hubs Silently</h3>
+    <ul>
+      <li><strong>Orphaned sites:</strong> Site owner leaves → no one knows who owns it → permissions rot, content stagnates</li>
+      <li><strong>Permission creep:</strong> Direct permission grants accumulate over time; regular access reviews never happen</li>
+      <li><strong>Stale navigation:</strong> Hub nav links to sites that were renamed, moved, or deleted</li>
+      <li><strong>Sensitivity label drift:</strong> A new sensitivity policy applies to the tenant but old content wasn't retroactively labeled</li>
+      <li><strong>Teams + SharePoint divergence:</strong> A Teams channel stores the "real" version of files; SharePoint becomes a shadow copy</li>
+    </ul>
+
+    <div class="cb warn"><span class="cb-ico">⚠️</span><div class="cb-body"><strong>The Simpplr / Teams Overlap Risk</strong>If this hub successfully solves the content findability problem but Simpplr is still the place for org news and Teams is still where files actually live day-to-day, the hub becomes a third destination competing for attention. The architecture is only sustainable if there's a clear, communicated, and enforced boundary between all three.</div></div>
+  </section>
+  <section id="s13" class="section">
+    <div class="sec-hdr"><div class="sec-num">13</div><h2>Decisions to Make During / After the Meeting</h2></div>
+    <p>These are the decisions that must be reached — either in the meeting or as follow-up actions — before design can begin. Use this as a closing checklist for the session.</p>
+
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Decision</th><th>Options to Consider</th><th>Who Decides</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Primary business purpose of the hub</td><td>Communication &amp; publishing · Knowledge management · Collaboration enablement · All three</td><td>Business sponsor + BA</td><td>🔴 Undecided</td></tr>
+        <tr><td>2</td><td>Target audience(s) and their access model</td><td>All three teams (open) · Team-specific access · Role-based access</td><td>Business sponsor + ISM</td><td>🔴 Undecided</td></tr>
+        <tr><td>3</td><td>Core use cases for MVP</td><td>Templates library · Team news · Cross-team search · Document repository · All of the above</td><td>Business sponsor + team leads</td><td>🔴 Undecided</td></tr>
+        <tr><td>4</td><td>Final site topology</td><td>Hub + 3 associated sites · Hub + 4 sites (incl. Shared Resources) · Hub + 3 sites + cross-functional site</td><td>Architect + BA + sponsor</td><td>🟡 Draft proposed</td></tr>
+        <tr><td>5</td><td>Hub site type</td><td>Communication Site (recommended) · Team Site (not recommended for hub)</td><td>Architect</td><td>🟡 Recommended</td></tr>
+        <tr><td>6</td><td>Associated site types</td><td>Team Sites (group-connected) · Communication Sites · Mixed</td><td>Architect based on use cases</td><td>🔴 Undecided</td></tr>
+        <tr><td>7</td><td>Ownership model</td><td>Central IT owns all · Each team owns their site · Hybrid (IT governs, team owns content)</td><td>IT + business leads</td><td>🔴 Undecided</td></tr>
+        <tr><td>8</td><td>Relationship with Microsoft Teams</td><td>SharePoint standalone · SharePoint tabs in Teams · Viva Connections home site</td><td>Architect + DBPM + teams</td><td>🔴 Undecided</td></tr>
+        <tr><td>9</td><td>Relationship with Simpplr</td><td>Complementary (clear boundary) · Hub replaces Simpplr team channels · Link to Simpplr from hub</td><td>Business sponsor + comms</td><td>🔴 Undecided</td></tr>
+        <tr><td>10</td><td>MVP scope and launch date</td><td>Hub + 1 site in 4 weeks · Hub + 3 sites in 8 weeks · Full topology in 12 weeks</td><td>Business sponsor + BA</td><td>🔴 Undecided</td></tr>
+        <tr><td>11</td><td>Success metrics at 90 days</td><td>Page views · Active users · Content published · User satisfaction score · Time to find content</td><td>Business sponsor + BA</td><td>🔴 Undecided</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="cb info"><span class="cb-ico">ℹ️</span><div class="cb-body"><strong>How to Use This in the Meeting</strong>Don't try to reach all 11 decisions in one session. Aim to close decisions 1, 2, 3, 7, and 10 (purpose, audience, use cases, ownership, MVP scope) in the first meeting. The rest can follow in a working session with the architect after discovery is complete.</div></div>
+
+    <h3>Pre-Meeting Decisions Already Shaped by Context</h3>
+    <ul class="check-list">
+      <li><span class="ci">✅</span><span><strong>Platform:</strong> SharePoint Online — confirmed (not on-premises, not SharePoint Server)</span></li>
+      <li><span class="ci">✅</span><span><strong>Audience scope:</strong> Internal only — confirmed by BA. External sharing disabled.</span></li>
+      <li><span class="ci">✅</span><span><strong>No custom code at MVP:</strong> Strongly recommend OOB-only to reduce risk and accelerate delivery</span></li>
+      <li><span class="ci">✅</span><span><strong>Hub pattern:</strong> Hub + associated sites — confirmed as the design intent. No subsites.</span></li>
+    </ul>
+  </section>
+
+  <section id="s14" class="section">
+    <div class="sec-hdr"><div class="sec-num">14</div><h2>Proposed Next Steps</h2></div>
+    <p>A phased plan from discovery through adoption. Not all phases need to be sequential — some can overlap. The key is that each phase has a named owner and a concrete output before the next begins.</p>
+
+    <ol class="timeline">
+      <li><strong>Discovery Workshop (Week 1–2)</strong> — Run structured stakeholder interviews with Sales, Solutions, and Delivery representatives. Use the question bank from Section 6. Output: validated requirements doc, confirmed use cases, agreed site topology. <em>Owner: BA (A) + Architect (B).</em></li>
+      <li><strong>Stakeholder Mapping (Week 2)</strong> — Identify site owners, content stewards, and approvers for each site. Document in a RACI. Confirm executive sponsor. Without this, governance collapses. <em>Owner: BA.</em></li>
+      <li><strong>Information Architecture Exercise (Week 2–3)</strong> — Card sort or tree test with 5–8 representative users. Validate navigation structure and content categories. Agree on metadata taxonomy. <em>Owner: Architect.</em></li>
+      <li><strong>Content Inventory (Week 3)</strong> — Each team audits their existing content (Teams files, email attachments, network shares). Categorize: keep, migrate, create new, discard. Identify content gaps that would make the site empty at launch. <em>Owner: Team content stewards.</em></li>
+      <li><strong>Governance Definition (Week 3–4)</strong> — Document: permission model, naming conventions, content lifecycle rules, publishing workflow, review schedule, ownership succession plan. Must be agreed before provisioning begins. <em>Owner: Architect + ISM (F).</em></li>
+      <li><strong>Prototype / Wireframe (Week 4)</strong> — Build a low-fidelity wireframe of the hub homepage and one associated site in SharePoint (use a test site collection). Walk stakeholders through the layout. Gather feedback before building for real. <em>Owner: Architect.</em></li>
+      <li><strong>MVP Build (Week 5–6)</strong> — Provision hub site and first 1–2 associated sites per agreed topology. Apply branding, navigation, and web part layout. Seed with real content from inventory. <em>Owner: Architect + site owners.</em></li>
+      <li><strong>Pilot Rollout (Week 7)</strong> — Release to a small group (5–10 users per team). Gather structured feedback via a Microsoft Form. Monitor site analytics. Fix blockers before full launch. <em>Owner: BA + site owners.</em></li>
+      <li><strong>Training &amp; Adoption (Week 8)</strong> — Short demo recording, a "how to use this site" page on the hub, a Teams announcement, and a named champion per team. Schedule a 30-day and 90-day review. <em>Owner: BA + champions.</em></li>
+    </ol>
+
+    <h3>Parallel Track: Governance Before Build</h3>
+    <div class="cb danger"><span class="cb-ico">🚨</span><div class="cb-body"><strong>Do Not Skip Governance</strong>The temptation is to provision the sites first and "figure out governance later." This always results in permission creep, stale content, and confused users. Governance must be defined — even as a one-page document — before the first site is created. It takes 2 hours to write; it saves months of cleanup.</div></div>
+
+    <h3>What a 90-Day Success Review Should Cover</h3>
+    <ul>
+      <li>Monthly active users per site (SharePoint analytics)</li>
+      <li>Most-viewed pages and documents — does the top content match the intended use cases?</li>
+      <li>Search terms that returned no results — what are users looking for that isn't there?</li>
+      <li>Content published vs content planned — is the governance model being followed?</li>
+      <li>User satisfaction via a simple pulse survey</li>
+      <li>Owners review: are all named owners still in their roles?</li>
+    </ul>
+  </section>
+  <section id="s15" class="section">
+    <div class="sec-hdr"><div class="sec-num">15</div><h2>Suggested Meeting Agenda</h2></div>
+    <p>A structured 55-minute agenda for the discovery meeting. Adjust timing based on attendee count and conversational depth — the goal is to leave the last 10 minutes for agreed actions, not still discussing scope.</p>
+
+    <div class="agenda-item">
+      <span class="ag-time">0–5 min</span>
+      <div>
+        <div class="ag-title">Introductions &amp; Meeting Purpose</div>
+        <div class="ag-note">Brief round of introductions. Set the framing: "This meeting is about understanding the problem before we design the solution." Confirm that no architecture decision will be made today — this is discovery.</div>
+      </div>
+    </div>
+    <div class="agenda-item">
+      <span class="ag-time">5–15 min</span>
+      <div>
+        <div class="ag-title">Problem Statement — What Are We Solving?</div>
+        <div class="ag-note">Ask: "Walk me through a concrete scenario where the current situation is failing." Let the BA and any team reps describe the pain points. Listen for: where content currently lives, how users find things today, what the frustration is. Do not jump to solutions yet.</div>
+      </div>
+    </div>
+    <div class="agenda-item">
+      <span class="ag-time">15–25 min</span>
+      <div>
+        <div class="ag-title">Stakeholder &amp; Audience Discussion</div>
+        <div class="ag-note">Who are the users? How many? What do they need to do? Are there personas — readers vs publishers vs admins? Any users outside Allegis Group? Confirm internal-only. Surface any access or permissions complexity early.</div>
+      </div>
+    </div>
+    <div class="agenda-item">
+      <span class="ag-time">25–35 min</span>
+      <div>
+        <div class="ag-title">Platform Boundary Discussion — SharePoint vs Teams vs Simpplr</div>
+        <div class="ag-note">Present the three-tool boundary model (Section 9). Ask: "What does each team already use today? What lives in Teams that should live in SharePoint? What do you expect Simpplr to keep doing?" Get agreement on where the boundaries are before designing the hub.</div>
+      </div>
+    </div>
+    <div class="agenda-item">
+      <span class="ag-time">35–45 min</span>
+      <div>
+        <div class="ag-title">First-Pass Architecture Review</div>
+        <div class="ag-note">Walk through the proposed topology (Section 10): hub + Sales + Solutions + Delivery + optional Shared Resources. Ask: "Does this map to how you think about the teams? Is there content that doesn't fit any of these buckets? Should Sales see Delivery's content by default?" Capture changes to the topology.</div>
+      </div>
+    </div>
+    <div class="agenda-item">
+      <span class="ag-time">45–50 min</span>
+      <div>
+        <div class="ag-title">Governance &amp; Ownership</div>
+        <div class="ag-note">Ask: "Who will own each site? Who can publish pages? What happens when content gets stale?" Confirm that named owners exist for each proposed site before the meeting ends — this is a launch blocker.</div>
+      </div>
+    </div>
+    <div class="agenda-item">
+      <span class="ag-time">50–55 min</span>
+      <div>
+        <div class="ag-title">Agreed Actions &amp; Next Steps</div>
+        <div class="ag-note">Capture: decisions made, decisions deferred, open questions, and named owners for each action. Schedule the next touchpoint (working session or prototype review). Do not leave without a named action owner for each next step.</div>
+      </div>
+    </div>
+
+    <div class="cb success"><span class="cb-ico">✅</span><div class="cb-body"><strong>Meeting Success Criteria</strong>By the end of this meeting you should have: (1) a clear problem statement in business language, (2) confirmed audience scope, (3) a rough agreed topology, (4) a named owner for at least the hub and one associated site, and (5) a list of 3–5 agreed next actions with owners and dates. If you can't get these five things, schedule a follow-up before building anything.</div></div>
+  </section>
+
+  <section id="s16" class="section">
+    <div class="sec-hdr"><div class="sec-num">16</div><h2>Key Takeaway Summary</h2></div>
+    <p>The five things that matter most for this initiative to succeed:</p>
+
+    <div class="cb info"><span class="cb-ico">🎯</span><div class="cb-body"><strong>1. Validate the Problem Before Validating the Solution</strong>A SharePoint Hub Site was proposed as the answer before the question was fully formed. The first job of this meeting is to confirm: What is the real pain? Is a hub site the right answer? Could Teams or Simpplr serve this need with less effort? Don't build what was requested — build what is needed.</div></div>
+
+    <div class="cb success"><span class="cb-ico">✅</span><div class="cb-body"><strong>2. Governance Is Not Optional — It's the Launch Blocker</strong>The most common cause of SharePoint hub failure is not technical — it's governance. Named site owners, a content lifecycle policy, and a publishing model must be agreed before the first site is provisioned. Without these, the hub will be well-designed, poorly maintained, and abandoned.</div></div>
+
+    <div class="cb purple"><span class="cb-ico">🔗</span><div class="cb-body"><strong>3. Draw the Line Between SharePoint, Teams, and Simpplr — Then Enforce It</strong>The hub only works if users know what lives where. This boundary must be explicit, communicated, and reinforced through training and design choices. If content can live in any of the three tools, it will live in all three — and be reliably found in none.</div></div>
+
+    <div class="cb warn"><span class="cb-ico">⚠️</span><div class="cb-body"><strong>4. Seed the Site Before Launch — Empty Hubs Don't Get Adopted</strong>A hub site with great structure but no content fails at launch. Plan for content seeding as part of the build phase. Each site needs at least 10–20 real, useful documents and 2–3 published pages on day one. The migration and content creation effort must be resourced — it won't happen on its own.</div></div>
+
+    <div class="cb danger"><span class="cb-ico">🚀</span><div class="cb-body"><strong>5. Ship Small, Measure Early, Iterate</strong>The strongest possible MVP is a hub site with one or two associated sites, real content, clear governance, and a named owner — launched to a pilot group within 6 weeks. Add sites, features, and automation based on what users actually need, not what was theorized in the design session. Measure at 30, 60, and 90 days. Kill what isn't being used.</div></div>
+
+    <div class="tw" style="margin-top:1.5rem"><table>
+      <thead><tr><th>If you remember nothing else from this document…</th></tr></thead>
+      <tbody>
+        <tr><td>Define the problem before the solution</td></tr>
+        <tr><td>Name a site owner before you provision a site</td></tr>
+        <tr><td>Metadata first, folders never</td></tr>
+        <tr><td>Hub = navigation and discovery, not storage</td></tr>
+        <tr><td>SharePoint, Teams, and Simpplr are not competitors — they need boundaries, not a winner</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</main>
+<button id="btt" title="Back to top">↑</button>
+<script>
+  const prog=document.getElementById('prog'),btt=document.getElementById('btt');
+  window.addEventListener('scroll',()=>{
+    prog.style.width=Math.min(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100,100)+'%';
+    btt.classList.toggle('show',window.scrollY>400);
+  });
+  btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const secs=document.querySelectorAll('.section'),navAs=document.querySelectorAll('#nav-list a');
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){navAs.forEach(a=>a.classList.remove('active'));const l=document.querySelector(`#nav-list a[href="#${e.target.id}"]`);if(l)l.classList.add('active');}});},{rootMargin:'-15% 0px -70% 0px',threshold:0});
+  secs.forEach(s=>obs.observe(s));
+  document.getElementById('search').addEventListener('input',function(){
+    const q=this.value.trim().toLowerCase();
+    secs.forEach(s=>{s.style.display=(!q||s.textContent.toLowerCase().includes(q))?'':'none';});
+  });
+</script>
+</body>
+</html>
