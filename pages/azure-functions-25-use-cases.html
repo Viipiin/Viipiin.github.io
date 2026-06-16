@@ -10,6 +10,9 @@
 <meta name="description" content="25 enterprise Azure Functions use cases for architects — event-driven integrations, serverless APIs, Power Platform custom connectors, Dataverse webhooks, and real-world implementation patterns.">
 <meta name="keywords" content="Azure Functions, serverless, enterprise architecture, Power Platform connector, event-driven, Dataverse webhook, Azure integration">
 <link rel="stylesheet" href="../css/base.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
   :root{
     --azure:#0078D4; --azure-dark:#005A9E; --azure-light:#E5F1FB;
@@ -18,7 +21,7 @@
     --ok:#107C10; --warn:#A4262C; --accent:#5C2D91;
   }
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0;font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  html,body{margin:0;padding:0;font-family:'Inter','Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
   header.hero{background:linear-gradient(135deg,#0078D4 0%,#005A9E 60%,#2D3F8E 100%);color:#fff;padding:48px 32px 40px;box-shadow:0 4px 18px rgba(0,0,0,.08)}
   header.hero h1{margin:0 0 8px;font-size:34px;letter-spacing:-.4px;font-weight:600}
   header.hero .sub{font-size:16px;opacity:.92}
@@ -56,14 +59,14 @@
   .steps li{counter-increment:step;position:relative;padding:6px 0 6px 38px;border-bottom:1px dashed var(--line)}
   .steps li:last-child{border-bottom:none}
   .steps li::before{content:counter(step);position:absolute;left:0;top:8px;width:26px;height:26px;line-height:26px;text-align:center;background:var(--azure-light);color:var(--azure-dark);border-radius:50%;font-size:12px;font-weight:700}
-  pre.code{background:var(--code-bg);color:var(--code-fg);padding:18px 20px;border-radius:8px;overflow-x:auto;font-family:'Cascadia Code',Consolas,'Courier New',monospace;font-size:13px;line-height:1.5;margin:8px 0}
+  pre.code{background:var(--code-bg);color:var(--code-fg);padding:18px 20px;border-radius:8px;overflow-x:auto;font-family:'JetBrains Mono','Cascadia Code',Consolas,'Courier New',monospace;font-size:13px;line-height:1.5;margin:8px 0}
   pre.code .k{color:#FF7B72}
   pre.code .s{color:#A5D6FF}
   pre.code .c{color:#8B949E;font-style:italic}
   pre.code .t{color:#FFA657}
   pre.code .f{color:#D2A8FF}
   pre.code .a{color:#7EE787}
-  .arch{background:#0E1116;color:#7EE787;padding:16px 20px;border-radius:8px;font-family:'Cascadia Code',Consolas,monospace;font-size:12.5px;white-space:pre;overflow-x:auto;line-height:1.55}
+  .arch{background:#0E1116;color:#7EE787;padding:16px 20px;border-radius:8px;font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:12.5px;white-space:pre;overflow-x:auto;line-height:1.55}
   .kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:8px}
   .kpi div{background:var(--azure-light);border-left:3px solid var(--azure);padding:10px 12px;border-radius:4px;font-size:13px}
   .kpi div b{color:var(--azure-dark);font-size:15px;display:block;margin-bottom:2px}

@@ -6,6 +6,9 @@
   <title>Microsoft Power Platform DLP Policies Deep Dive: Beginner to Architect Guide</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230078d4'/%3E%3Cpath d='M20 16h24a6 6 0 0 1 6 6v21a5 5 0 0 1-5 5H29l-9 8V22a6 6 0 0 1 6-6z' fill='white'/%3E%3Cpath d='M28 28h14M28 35h10' stroke='%230078d4' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="../css/base.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary:#0078d4;
@@ -31,7 +34,7 @@
       --shadow-xl:0 16px 48px rgba(0,0,0,.18);
       --radius:10px;
       --radius-lg:16px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
     @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
     @keyframes fadeInUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
@@ -41,7 +44,7 @@
     @keyframes countPop{0%{transform:scale(1)}40%{transform:scale(1.2)}100%{transform:scale(1)}}
     *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px}
+    body{font-family:'Inter','Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px}
     a{color:var(--primary);text-decoration:none}
     a:hover{text-decoration:underline}
     img,svg{max-width:100%}
