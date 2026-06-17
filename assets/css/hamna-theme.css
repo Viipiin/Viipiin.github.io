@@ -952,6 +952,36 @@ h1 {
     font-weight: 600;
 }
 
+.exp-project-heading {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #312E81;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin: 1.25rem 0 0.25rem;
+    padding-top: 1.1rem;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.exp-project-heading:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+.exp-project-period {
+    font-weight: 500;
+    color: #94a3b8;
+    font-size: 0.8rem;
+}
+
+.exp-project-intro {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-family: 'Inter', sans-serif;
+    margin: 0 0 0.6rem;
+    font-style: italic;
+}
+
 @media (max-width: 600px) {
     .exp-card { padding: 1.25rem; }
     .exp-card-number { font-size: 1.2rem; }
@@ -1485,6 +1515,19 @@ html.dark-theme .exp-card-tag {
     background: #1e1b4b !important;
     color: #a5b4fc !important;
     border-color: #3730a3 !important;
+}
+
+html.dark-theme .exp-project-heading {
+    color: #a5b4fc !important;
+    border-top-color: #334155 !important;
+}
+
+html.dark-theme .exp-project-period {
+    color: #64748b !important;
+}
+
+html.dark-theme .exp-project-intro {
+    color: #94a3b8 !important;
 }
 
 html.dark-theme .exp-card-bullets li {

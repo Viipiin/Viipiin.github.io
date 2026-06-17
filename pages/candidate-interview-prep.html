@@ -213,7 +213,7 @@
   <div class="header-meta">
     <span class="badge">11+ Years Experience</span>
     <span class="badge">Jade Global &bull; Saxon-C3IT</span>
-    <span class="badge">51 Questions Across 9 Topics</span>
+    <span class="badge">23 Questions Across 5 Topics</span>
     <span class="badge">&#128100; Consultant Engineer</span>
   </div>
 </header>
@@ -244,11 +244,7 @@
 <div id="aside-mohini" style="display:none">
 <aside>
   <h3>Topics &mdash; Mohini</h3>
-  <div class="nav-item active" onclick="showSection('m-spfx',this)">&#128187; SPFx Web Parts <span class="count">7</span></div>
-  <div class="nav-item" onclick="showSection('m-graph',this)">&#128279; Graph &amp; REST API <span class="count">6</span></div>
-  <div class="nav-item" onclick="showSection('m-automate',this)">&#128260; Power Automate <span class="count">6</span></div>
-  <div class="nav-item" onclick="showSection('m-powerapps',this)">&#128196; Power Apps &amp; Dataverse <span class="count">5</span></div>
-  <div class="nav-item" onclick="showSection('m-permissions',this)">&#128274; Permissions &amp; Admin <span class="count">6</span></div>
+  <div class="nav-item active" onclick="showSection('m-permissions',this)">&#128274; Permissions &amp; Admin <span class="count">2</span></div>
   <div class="nav-item" onclick="showSection('m-docmgmt',this)">&#128194; Document Management <span class="count">6</span></div>
   <div class="nav-item" onclick="showSection('m-powershell',this)">&#9881; PowerShell &amp; CSOM <span class="count">5</span></div>
   <div class="nav-item" onclick="showSection('m-classic',this)">&#128337; Classic SharePoint <span class="count">5</span></div>
@@ -1748,123 +1744,29 @@ PATCH /api/data/v9.2/accounts(accountnumber='ACC-1001')
     <div id="noResults" class="no-results" style="display:none;">
       <p>No questions found matching your search. Try different keywords.</p>
     </div>
+  </div>
 
-  </main>
-</div>
+  <div id="mohini-content" style="display:none">
 
-<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+  <div id="m-permissions" class="section">
+    <div class="section-header"><div class="section-icon">&#128274;</div>
+      <div><h2>Permissions &amp; Admin</h2><p>Broken inheritance, audits, search security trimming, access troubleshooting</p></div></div>
 
-<script>
-  var activeProfile = 'supriya';
-
-  function switchProfile(profile, el) {
-    activeProfile = profile;
-    document.querySelectorAll('.profile-tab').forEach(function(t) { t.classList.remove('active'); });
-    el.classList.add('active');
-
-    var isSup = profile === 'supriya';
-    document.getElementById('header-supriya').style.display = isSup ? '' : 'none';
-    document.getElementById('header-mohini').style.display  = isSup ? 'none' : '';
-    document.getElementById('aside-supriya').style.display  = isSup ? '' : 'none';
-    document.getElementById('aside-mohini').style.display   = isSup ? 'none' : '';
-    document.getElementById('supriya-content').style.display = isSup ? '' : 'none';
-    document.getElementById('mohini-content').style.display  = isSup ? 'none' : '';
-
-    // Reset to first section of new profile
-    var firstNav = document.querySelector(
-      isSup ? '#aside-supriya .nav-item' : '#aside-mohini .nav-item'
-    );
-    if (firstNav) {
-      var match = firstNav.getAttribute('onclick').match(/'(\w[^']+)'/);
-      if (match) showSection(match[1], firstNav);
-    }
-    document.getElementById('searchInput').value = '';
-    document.getElementById('searchCount').textContent = '';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function toggle(card) {
-    var container = activeProfile === 'supriya'
-      ? document.getElementById('supriya-content')
-      : document.getElementById('mohini-content');
-    var isOpen = card.classList.contains('open');
-    container.querySelectorAll('.qa-card').forEach(function(c) { c.classList.remove('open'); });
-    if (!isOpen) card.classList.add('open');
-  }
-
-  function showSection(id, el) {
-    var container = activeProfile === 'supriya'
-      ? document.getElementById('supriya-content')
-      : document.getElementById('mohini-content');
-    container.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); s.style.display = ''; });
-
-    var asideId = activeProfile === 'supriya' ? 'aside-supriya' : 'aside-mohini';
-    document.querySelectorAll('#' + asideId + ' .nav-item').forEach(function(n) { n.classList.remove('active'); });
-
-    var sec = document.getElementById(id);
-    if (sec) sec.classList.add('active');
-    if (el)  el.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    document.getElementById('searchInput').value = '';
-    document.getElementById('searchCount').textContent = '';
-    document.getElementById('noResults').style.display = 'none';
-    var nrm = document.getElementById('noResults-mohini');
-    if (nrm) nrm.style.display = 'none';
-    container.querySelectorAll('.qa-card').forEach(function(c) { c.style.display = ''; });
-  }
-
-  function filterQuestions() {
-    var query = document.getElementById('searchInput').value.toLowerCase().trim();
-    var container = activeProfile === 'supriya'
-      ? document.getElementById('supriya-content')
-      : document.getElementById('mohini-content');
-    var noResultsId = activeProfile === 'supriya' ? 'noResults' : 'noResults-mohini';
-
-    if (!query) {
-      container.querySelectorAll('.qa-card').forEach(function(c) { c.style.display = ''; });
-      document.getElementById('searchCount').textContent = '';
-      document.getElementById(noResultsId).style.display = 'none';
-      var activeNav = document.querySelector(
-        (activeProfile === 'supriya' ? '#aside-supriya' : '#aside-mohini') + ' .nav-item.active'
-      );
-      if (activeNav) {
-        var match = activeNav.getAttribute('onclick').match(/'(\w[^']+)'/);
-        if (match) {
-          container.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
-          var sec = document.getElementById(match[1]);
-          if (sec) { sec.classList.add('active'); sec.style.display = 'block'; }
-        }
-      }
-      return;
-    }
-
-    container.querySelectorAll('.section').forEach(function(s) { s.classList.add('active'); s.style.display = 'block'; });
-    var total = 0;
-    container.querySelectorAll('.qa-card').forEach(function(card) {
-      var text = card.textContent.toLowerCase();
-      if (text.indexOf(query) !== -1) {
-        card.style.display = ''; card.classList.add('open'); total++;
-      } else {
-        card.style.display = 'none'; card.classList.remove('open');
-      }
-    });
-    document.getElementById('searchCount').textContent = total + ' result' + (total !== 1 ? 's' : '') + ' found';
-    document.getElementById(noResultsId).style.display = total === 0 ? 'block' : 'none';
-  }
-
-  window.addEventListener('scroll', function() {
-    document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
-  });
-
-  // Open first card in each section
-  document.querySelectorAll('.section').forEach(function(section) {
-    var first = section.querySelector('.qa-card');
-    if (first) first.classList.add('open');
-  });
-</script>
-</body>
-</html>
-.RoleDefinitionBindings.Name -join ","
+    <div class="qa-card" onclick="toggle(this)">
+      <div class="qa-question"><div class="q-num">1</div>
+        <div><h4>How do you audit access across a site collection?</h4>
+        <div class="tags"><span class="tag practical">Practical</span></div></div>
+        <span class="chevron">&#9660;</span></div>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <pre><code>Connect-PnPOnline -Url "https://contoso.sharepoint.com/sites/legal" -Interactive
+$report = @()
+Get-PnPList | Where-Object { $_.BaseTemplate -eq 101 } | ForEach-Object {
+  $listTitle = $_.Title
+  Get-PnPListItemPermission -List $listTitle -RecursiveAll | ForEach-Object {
+    $report += [PSCustomObject]@{
+      List       = $listTitle
+      Principal  = $_.Member.Title
+      Permission = $_.RoleDefinitionBindings.Name -join ","
     }
   }
 }
@@ -1874,14 +1776,14 @@ $report | Export-Csv "library-access.csv" -NoTypeInformation</code></pre>
     </div>
 
     <div class="qa-card" onclick="toggle(this)">
-      <div class="qa-question"><div class="q-num">6</div>
+      <div class="qa-question"><div class="q-num">2</div>
         <div><h4>A user sees a document in search but gets Access Denied when clicking it. What is happening?</h4>
         <div class="tags"><span class="tag scenario">Scenario</span></div></div>
         <span class="chevron">&#9660;</span></div>
       <div class="qa-answer"><div class="qa-answer-inner">
         <p><strong>Search index lag.</strong> Security trimming uses a permissions snapshot from the search index — which can be minutes to hours out of date. Permissions were tightened after the last crawl. The index still shows it; the live check correctly denies access.</p>
-        <p><strong>Fix:</strong> Verify live permissions with <code>Get-PnPListItemPermission</code>. Force a re-index: <code>Request-PnPReIndexList -Identity "Documents"</code>. Wait 15–60 minutes.</p>
-        <div class="callout tip">Always run <code>Request-PnPReIndexSite</code> after bulk permission changes in a migration — without it, search results reflect old permissions for hours.</div>
+        <p><strong>Fix:</strong> Verify live permissions with <code>Get-PnPListItemPermission</code>. Force a re-index: <code>Request-PnPReIndexList -Identity "Documents"</code>. Wait 15-60 minutes.</p>
+        <div class="callout tip">Always run <code>Request-PnPReIndexSite</code> after bulk permission changes in a migration - without it, search results reflect old permissions for hours.</div>
       </div></div>
     </div>
   </div>

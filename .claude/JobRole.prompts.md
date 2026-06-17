@@ -467,6 +467,6 @@ If browsing is not available, clearly state assumptions and avoid inventing fake
 
 ## Final output requirement
 Return only the final **complete HTML code** in one block, ready to save as:
-power-platform-expert-NewRole-guide.html
+power-platform-expert-newrole-guide.html
 
 Make the result polished enough that it feels like an internal consulting deliverable or architect playbook.
