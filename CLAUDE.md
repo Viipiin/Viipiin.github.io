@@ -9,8 +9,9 @@ Live: https://viipiin.github.io
 
 ```html
 <head>
-  <script src="../js/vault.js"></script>          <!-- 1st: vault bypass — MUST be synchronous, no defer/async -->
-  <link rel="stylesheet" href="../css/base.css">  <!-- 2nd: shared reset -->
+  <script src="../js/vault.js"></script>              <!-- 1st: vault bypass — MUST be synchronous, no defer/async -->
+  <link rel="stylesheet" href="../css/base.css">      <!-- 2nd: shared reset -->
+  <link rel="stylesheet" href="../css/page-shell.css"> <!-- 3rd: responsive width contract, see below -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>...</title>
@@ -20,6 +21,32 @@ Live: https://viipiin.github.io
 
 `js/vault.js` — checks localStorage token (`key: dmtwdjIwMjU=`), redirects to `location.origin+'/'` if invalid.
 `css/base.css` — 7-line reset (box-sizing, scroll, Segoe UI, code font, print). Page `<style>` always overrides it.
+`css/page-shell.css` — responsive width contract, see below. Page `<style>` always overrides it.
+
+---
+
+## Responsive width contract — required for every new page in pages/
+
+An audit found every page except `index.html` had one of two recurring large-screen bugs:
+1. **Unbounded content width** — a content column with no `max-width` stretches edge-to-edge on
+   big monitors (unreadably long lines). Caused by `main{flex:1; padding:...}` with nothing capping width.
+2. **Capped but not centered** — a fixed sidebar + content area with a `max-width` but no
+   auto-centering hugs the left edge and leaves a dead gap on the right on wide screens. Caused by
+   `#main{margin-left:var(--sw); max-width:1000px}` with no `margin:0 auto` (which doesn't work here
+   anyway, since `margin-left` is already pinned to the sidebar offset, not `auto`).
+
+`css/page-shell.css` (linked per the head-tag order above) fixes both via two ready-made classes —
+use them on every new page instead of inventing layout CSS from scratch:
+
+- **No sidebar** (plain article/guide): `<main class="vk-shell-main">...</main>`
+- **Fixed/sticky sidebar + content**: `<body style="display:flex">`, sidebar nav, then
+  `<main class="vk-shell-content"><section>...</section>...</main>` — each direct child of
+  `.vk-shell-content` is automatically width-capped and centered in the remaining space, set `--sw`
+  to your sidebar's width.
+
+If a page needs bespoke CSS instead of these classes, the rule to preserve is: **every readable
+content block must have both `max-width` (1000–1200px) and centering (`margin:0 auto`, or
+`flex` auto-margins/`align-items:center` when next to a fixed sidebar)** — never one without the other.
 
 ---
 

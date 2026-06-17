@@ -1,0 +1,62 @@
+/* viipiin.github.io — shared responsive content-width contract
+   Link this AFTER base.css on any new page in pages/.
+
+   Prevents the two recurring large-screen layout bugs found across the vault:
+   1) Unbounded content width — a content column with no max-width stretches
+      edge-to-edge on big monitors, producing unreadably long lines.
+   2) Capped-but-not-centered content — a fixed sidebar + content area that
+      has a max-width but no auto-centering hugs the left edge and leaves a
+      dead, wasted gap on the right on wide screens.
+
+   Usage A — plain article/guide, no sidebar:
+     <body>
+       <main class="vk-shell-main"> ...content... </main>
+     </body>
+
+   Usage B — fixed/sticky sidebar + content (most "guide" pages use this):
+     <body style="display:flex">
+       <nav id="sidebar"> ...sidebar nav, width var(--sw)... </nav>
+       <main class="vk-shell-content">
+         <section>...</section>   <!-- each direct child is auto width-capped & centered -->
+         <section>...</section>
+       </main>
+     </body>
+   Set --sw on :root (or inline) to your sidebar's width — defaults to 242px.
+*/
+
+:root { --vk-content-max: 1100px; --sw: 242px; }
+
+/* Pattern A — plain centered content, no sidebar */
+.vk-shell-main {
+  max-width: var(--vk-content-max);
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 2.5rem;
+}
+
+/* Pattern B — fixed/sticky sidebar + content area.
+   Parent must be display:flex (e.g. <body style="display:flex">). */
+.vk-shell-content {
+  flex: 1;
+  margin-left: var(--sw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 2.5rem;
+}
+.vk-shell-content > * {
+  width: 100%;
+  max-width: var(--vk-content-max);
+}
+
+@media (max-width: 768px) {
+  .vk-shell-main,
+  .vk-shell-content { padding: 1rem; }
+  .vk-shell-content { margin-left: 0; }
+}
+
+@media print {
+  .vk-shell-main,
+  .vk-shell-content > * { max-width: 100%; }
+  .vk-shell-content { margin-left: 0; padding: 1rem; }
+}

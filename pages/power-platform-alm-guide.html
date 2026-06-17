@@ -41,7 +41,8 @@
     .nav-ico{font-size:.9rem;flex-shrink:0;width:1.1rem;text-align:center}
     .nn{margin-left:auto;background:rgba(255,255,255,.1);color:rgba(255,255,255,.45);font-size:.63rem;padding:1px 5px;border-radius:10px;min-width:1.3rem;text-align:center}
     .active .nn{background:rgba(14,165,233,.2);color:var(--sky)}
-    #main{margin-left:var(--sw);flex:1;padding:2rem 2.5rem;max-width:1000px}
+    #main{margin-left:var(--sw);flex:1;display:flex;flex-direction:column;align-items:center;padding:2rem 2.5rem}
+    #main>*{width:100%;max-width:1000px}
     .section{margin-bottom:4rem;scroll-margin-top:1.5rem}
     .sec-hdr{display:flex;align-items:baseline;gap:.7rem;border-bottom:2px solid var(--sky);padding-bottom:.5rem;margin-bottom:1.75rem}
     .sec-num{color:var(--sky);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
@@ -97,7 +98,7 @@
     #btt{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:#fff;border:none;border-radius:50%;width:2.4rem;height:2.4rem;font-size:.95rem;cursor:pointer;opacity:0;transition:opacity .2s;z-index:200}
     #btt.show{opacity:1}
     #btt:hover{background:var(--sky)}
-    @media print{#sidebar,#prog,#btt{display:none!important}#main{margin-left:0;padding:1rem;max-width:100%}details{display:block}}
+    @media print{#sidebar,#prog,#btt{display:none!important}#main{margin-left:0;padding:1rem}#main>*{max-width:100%}details{display:block}}
     @media(max-width:768px){#sidebar{transform:translateX(-100%)}#main{margin-left:0;padding:1rem}}
   </style>
 </head>

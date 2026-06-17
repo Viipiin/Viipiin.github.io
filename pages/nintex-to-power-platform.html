@@ -43,7 +43,8 @@
     .nav-ico{flex-shrink:0;width:1rem;text-align:center;font-size:.85rem;margin-top:.05rem}
     .nn{margin-left:auto;background:#302870;color:#A89FDB;font-size:.62rem;padding:1px 5px;border-radius:10px;flex-shrink:0}
     .active .nn{background:#4B1557;color:#CBA8FF}
-    #main{margin-left:var(--sw);flex:1;padding:1.75rem 2.25rem 3rem;max-width:1060px}
+    #main{margin-left:var(--sw);flex:1;display:flex;flex-direction:column;align-items:center;padding:1.75rem 2.25rem 3rem}
+    #main>*{width:100%;max-width:1060px}
     #hero{background:linear-gradient(135deg,#1E1755 0%,#742774 55%,#9B3B9B 100%);color:#fff;padding:2rem 2rem 1.75rem;border-radius:10px;margin-bottom:1.5rem;box-shadow:0 4px 16px rgba(116,39,116,.22)}
     #hero h1{font-size:1.4rem;font-weight:700;line-height:1.3;margin-bottom:.5rem}
     #hero .sub{font-size:.87rem;color:rgba(255,255,255,.87);line-height:1.65;max-width:700px}
@@ -125,7 +126,7 @@
     #btt{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--pp);color:#fff;border:none;border-radius:50%;width:2.4rem;height:2.4rem;font-size:.95rem;cursor:pointer;opacity:0;transition:opacity .2s;z-index:200;box-shadow:0 2px 8px rgba(116,39,116,.35)}
     #btt.show{opacity:1}
     #btt:hover{background:var(--pp-dk)}
-    @media print{#sidebar,#prog,#btt{display:none!important}#main{margin-left:0;padding:1rem;max-width:100%}}
+    @media print{#sidebar,#prog,#btt{display:none!important}#main{margin-left:0;padding:1rem}#main>*{max-width:100%}}
     @media(max-width:900px){#sidebar{transform:translateX(-100%)}#main{margin-left:0;padding:1rem}.arch-row{flex-wrap:wrap}.dec-grid{grid-template-columns:1fr}}
   </style>
 </head>
