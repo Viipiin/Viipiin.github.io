@@ -337,7 +337,7 @@
 <!-- ═══════════════════════ HEADER ═══════════════════════ -->
 <div class="page-header">
   <h1>PAC CLI — Power Platform CLI Cheat Sheet</h1>
-  <p>v2.7.4 (May 2026) &nbsp;|&nbsp; pac &lt;group&gt; &lt;command&gt; [options] &nbsp;|&nbsp; Use <code style="background:rgba(255,255,255,.2);padding:0 4px;border-radius:3px;">pac &lt;command&gt; --help</code> for full options</p>
+  <p>v2.8.1 (Microsoft.PowerApps.CLI.Tool, NuGet) &nbsp;|&nbsp; pac &lt;group&gt; &lt;command&gt; [options] &nbsp;|&nbsp; Use <code style="background:rgba(255,255,255,.2);padding:0 4px;border-radius:3px;">pac &lt;command&gt; --help</code> for full options</p>
 </div>
 
 <!-- ═══════════════════════ GRID ═══════════════════════ -->
@@ -395,6 +395,7 @@
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/auth#pac-auth-clear" target="_blank">clear</a></td><td>Clear all authentication profiles stored on this computer</td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/auth#pac-auth-who" target="_blank">who</a></td><td>Display information about the currently selected auth profile</td></tr>
     </table>
+    <div class="note">💡 Available in GCC &amp; GCC High via <code>--cloud</code> on <code>auth create</code>. No interactive browser? Add <code>--deviceCode</code> (auto-applied in GitHub Codespaces).</div>
   </div>
 
   <!-- ══ ENV ══ -->
@@ -700,7 +701,7 @@
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-tables" target="_blank">list-tables</a></td><td>List tables accessible by connector/dataset <span class="badge badge-preview">Preview</span></td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-sql-stored-procedures" target="_blank">list-sql-stored-procedures</a></td><td>List stored procedures for SQL connection/dataset <span class="badge badge-preview">Preview</span></td></tr>
     </table>
-    <div class="note">⚠ Will be deprecated — npm CLI (<code>@microsoft/power-apps</code> SDK v1.0.4+) is the replacement. See <a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/npm-quickstart" target="_blank">npm quickstart</a></div>
+    <div class="note">⚠ Will be deprecated — the npm CLI (<code>power-apps</code>, from <code>@microsoft/power-apps</code> SDK v1.2.2+) is the replacement and is npm-CLI-only for flows (<code>add-flow</code>), Dataverse actions (<code>add-dataverse-api</code>) &amp; <code>create-connection</code>. <code>add-data-source</code> gained <code>-cr</code>/<code>-s</code> connection-reference flags in v1.51.1 (Dec 2025). See <a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/npm-quickstart" target="_blank">npm quickstart</a></div>
   </div>
 
   <!-- ══ MANAGED IDENTITY ══ -->
@@ -735,7 +736,7 @@
   Install: <code>winget install Microsoft.PowerAppsCLI</code> &nbsp;|&nbsp;
   Update: <code>pac install latest</code> &nbsp;|&nbsp;
   Version check: <code>pac --version</code> &nbsp;|&nbsp;
-  Help: <code>pac &lt;group&gt; --help</code> &nbsp;|&nbsp;
+  Help: <code>pac &lt;group&gt; --help</code> or <code>pac help</code> &nbsp;|&nbsp;
   Docs: <a href="https://learn.microsoft.com/power-platform/developer/cli/reference" target="_blank" rel="noopener noreferrer">learn.microsoft.com/power-platform/developer/cli/reference</a> &nbsp;|&nbsp;
   <span class="badge badge-preview">Preview</span> = Preview feature &nbsp;
   <span class="badge badge-dep">Deprecated</span> = Will be removed &nbsp;|&nbsp;

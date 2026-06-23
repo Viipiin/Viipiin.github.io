@@ -59,6 +59,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 7.5pt; color: #1a1
 .c-ai    { background: #5e35b1; }
 .c-deleg { background: #0f3460; }
 .c-patt  { background: #7b2d8b; }
+.c-udt   { background: #1a237e; } .c-udt2 { background: #283593; } .c-udt3 { background: #0d47a1; }
 
 table { width: 100%; border-collapse: collapse; }
 tr:nth-child(even) td { background: #f5f7fc; }
@@ -79,6 +80,7 @@ td.desc { width: 47%; font-size: 7pt; }
 .b-d   { background: #e8f5e9; color: #2e7d32; border: 1px solid #81c784; }
 .b-nd  { background: #fce4ec; color: #c62828; border: 1px solid #ef9a9a; }
 .b-dep { background: #fff3e0; color: #9a3412; }
+.b-ga  { background: #e3f2fd; color: #0d47a1; border: 1px solid #90caf9; }
 
 .hint { display: block; font-size: 5.8pt; color: #7b4f00; background: #fffde7; border-left: 2px solid #ffa000; padding: 1px 4px; margin-top: 2px; font-style: italic; border-radius: 0 2px 2px 0; }
 .note { font-size: 6.5pt; color: #555; background: #f9f9f9; padding: 2px 6px 3px; border-top: 1px dashed #ccc; font-style: italic; }
@@ -153,7 +155,7 @@ td.desc { width: 47%; font-size: 7pt; }
 </div>
 
 <div class="stats-bar">
-  <div class="stat-pill">&#128196; <span class="stat-value">17</span>&nbsp;Categories</div>
+  <div class="stat-pill">&#128196; <span class="stat-value">18</span>&nbsp;Categories</div>
   <div class="stat-pill">&#9889; <span class="stat-value">150+</span>&nbsp;Functions</div>
   <div class="stat-pill">&#11088; <span class="stat-value">40+</span>&nbsp;Interview Hints</div>
   <div class="stat-pill">&#127381; <span class="stat-value">12</span>&nbsp;Pattern Recipes</div>
@@ -181,6 +183,7 @@ td.desc { width: 47%; font-size: 7pt; }
   <a href="#json"     style="background:#4e342e">JSON &amp; Storage</a>
   <a href="#bitwise"  style="background:#546e7a">Bitwise</a>
   <a href="#ai"       style="background:#5e35b1">AI Builder</a>
+  <a href="#udt"      style="background:#1a237e">User Types &amp; Fns</a>
   <a href="#deleg"    style="background:#0f3460">Delegation</a>
   <a href="#patterns" style="background:#7b2d8b">Recipes</a>
 </nav>
@@ -610,6 +613,41 @@ td.desc { width: 47%; font-size: 7pt; }
   </div>
 </div>
 
+<!-- ═══════════ USER-DEFINED TYPES, FUNCTIONS & NAMED FORMULAS ═══════════ -->
+<div id="udt" class="section-title" style="color:#1a237e">User-Defined Types, Functions &amp; Named Formulas <span class="badge b-ga">GA</span></div>
+<div class="grid">
+
+  <div class="card span3">
+    <div class="card-header c-udt">App.Formulas — Named Formulas</div>
+    <table>
+      <tr><td class="fn">Named formula</td><td class="syn"><span class="sig">Name = Expression;</span><span class="ex">Ex: <strong>BGColor = ColorValue(Param("BackgroundColor"));</strong></span></td><td class="desc">Defines an immutable, always-available, auto-recalculating value inside the <b>App.Formulas</b> property. Replaces the OnStart-variable pattern — no timing dependency.<span class="hint">&#11088; The Excel-named-cell equivalent. Calculation is deferred until first use — a formula only needed on screen2 isn't computed until screen2 is shown.</span></td></tr>
+      <tr><td class="fn">Chained formulas</td><td class="syn"><span class="sig">A = expr1; B = A + 1;</span><span class="ex">Ex: <strong>UserInfo = LookUp(Users, 'Primary Email' = User().Email); UserTitle = UserInfo.Title;</strong></span></td><td class="desc">Named formulas can reference each other in any order (no circular references) and are evaluated in parallel — order in App.Formulas doesn't matter.</td></tr>
+    </table>
+    <div class="note">Limitations: can't call behavior functions (Set, Notify, Patch, Collect…) or otherwise cause side effects, and can't form a circular reference (<code>a = b; b = a;</code> is invalid).</div>
+  </div>
+
+  <div class="card span3">
+    <div class="card-header c-udt2">User-Defined Functions (UDF)</div>
+    <table>
+      <tr><td class="fn">Pure UDF<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">FnName(Param: Type, …): ReturnType = Formula;</span><span class="ex">Ex: <strong>LibraryGenre(SelectedGenre: Text): LibraryType = Filter(Library, Genre = SelectedGenre);</strong></span></td><td class="desc">A named formula with parameters — call it like a built-in function, e.g. <code>LibraryGenre("Fiction")</code>.<span class="hint">&#11088; Every parameter and the return value must be typed: a built-in type name, a data source name, or a type built with Type().</span></td></tr>
+      <tr><td class="fn">Behavior UDF</td><td class="syn"><span class="sig">FnName(Param: Type): Void = { Formula1; Formula2 };</span><span class="ex">Ex: <strong>Spend(Amount: Number): Void = { Set(Savings, Savings - Amount); Set(Spent, Spent + Amount) };</strong></span></td><td class="desc">Wrap the body in <code>{ }</code> to allow Set/Notify/Patch-style side effects. Return type is <b>Void</b> when nothing is returned.</td></tr>
+    </table>
+    <div class="note">&#9888;&#65039; Recursion isn't yet supported. A record-type parameter's fields must be a proper subset of the type definition — extra fields error out (e.g. passing <code>{Title:"x", Published:2001}</code> where the type only declares <code>Title</code> fails).</div>
+  </div>
+
+  <div class="card span3">
+    <div class="card-header c-udt3">User-Defined Types (UDT) — Type() &amp; RecordOf()</div>
+    <table>
+      <tr><td class="fn">Type<span class="badge b-int">INT</span></td><td class="syn"><span class="sig">TypeName := Type(TypeSpecification)</span><span class="ex">Ex: <strong>BookType := Type({ Title: Text, Author: Text, Published: Number });</strong></span></td><td class="desc">Declares a named, reusable type for UDF signatures, ParseJSON, and untyped-object conversions. Use <code>:=</code>, not <code>=</code>.<span class="hint">&#11088; A record type spec mirrors record-literal syntax with type names instead of values: {Name:"Jane"} → Type({Name: Text}).</span></td></tr>
+      <tr><td class="fn">Table type</td><td class="syn"><span class="sig">TableType := Type( [ RecordType ] )</span><span class="ex">Ex: <strong>LibraryType := Type( [ BookType ] );</strong></span></td><td class="desc">Wrap a record type in square brackets for the type of a table of those records — square brackets here, not the Table() function.</td></tr>
+      <tr><td class="fn">RecordOf</td><td class="syn"><span class="sig">RecordOf(TableType) → Type</span><span class="ex">Ex: <strong>BookType := Type( RecordOf( LibraryType ) );</strong></span></td><td class="desc">Extracts the single-record type from an existing table type. Valid only inside Type() — use when you have the table type first and need the row type.</td></tr>
+      <tr><td class="fn">ParseJSON + UDT</td><td class="syn"><span class="sig">ParseJSON(JsonText, UDT) → Record</span><span class="ex">Ex: <strong>ParseJSON(jsonText, BookType)</strong> → typed record, no per-field IsType/AsType needed</span></td><td class="desc">Passing a user-defined type as ParseJSON's second argument returns a fully typed record directly.</td></tr>
+    </table>
+    <div class="note">&#9989; <b>Generally available</b> (graduated from experimental preview) — usable in canvas apps' App.Formulas, custom connectors, and component libraries. Declare named types like <code>Customer</code>, <code>OrderLine</code>, <code>InvoiceHeader</code> once and reuse them everywhere instead of repeating inline type specs.</div>
+  </div>
+
+</div>
+
 <!-- ═══════════ DELEGATION ═══════════ -->
 <div id="deleg" class="section-title" style="color:#0f3460">Delegation Guide</div>
 <div class="grid">
@@ -755,7 +793,7 @@ Concat(Filter(colTags, Selected), Name, ", ")
 </div>
 
 <div class="footer">
-  <p>&#128279; Reference: <a href="https://learn.microsoft.com/en-us/power-platform/power-fx/formula-reference-overview" target="_blank">Power Fx Formula Reference – Microsoft Learn</a> &nbsp;|&nbsp; <a href="https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/delegation-overview" target="_blank">Delegation Overview</a> &nbsp;|&nbsp; Power Apps Canvas &nbsp;·&nbsp; Power Fx 1.0</p>
+  <p>&#128279; Reference: <a href="https://learn.microsoft.com/en-us/power-platform/power-fx/formula-reference-overview" target="_blank">Power Fx Formula Reference – Microsoft Learn</a> &nbsp;|&nbsp; <a href="https://learn.microsoft.com/en-us/power-platform/power-fx/reference/object-app#formulas-property" target="_blank">App.Formulas (Named Formulas, UDF, UDT)</a> &nbsp;|&nbsp; <a href="https://learn.microsoft.com/en-us/power-platform/power-fx/reference/function-type" target="_blank">Type &amp; RecordOf functions</a> &nbsp;|&nbsp; <a href="https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/delegation-overview" target="_blank">Delegation Overview</a> &nbsp;|&nbsp; Power Apps Canvas &nbsp;·&nbsp; Power Fx 1.0</p>
 </div>
 
 <script>

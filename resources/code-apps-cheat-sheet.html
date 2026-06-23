@@ -440,7 +440,7 @@
   <p>Vite + React + TypeScript meets Power Platform. Build pro-code apps backed by Power Platform connectors, ship them as managed Power Apps. <span class="badge badge-preview" style="background:rgba(255,255,255,.25);color:#fff">Preview</span></p>
   <div class="tag-row">
     <span class="tag hot">@microsoft/power-apps SDK</span>
-    <span class="tag">pac code &lt;cmd&gt;</span>
+    <span class="tag">power-apps &lt;cmd&gt;</span>
     <span class="tag">Node 20+ LTS</span>
     <span class="tag">VS Code</span>
     <span class="tag">~1,500+ Connectors</span>
@@ -451,8 +451,8 @@
 <!-- ═══════════════════════ WORKFLOW STRIP ═══════════════════════ -->
 <div class="workflow" aria-label="Code Apps end-to-end workflow">
   <div class="wf-step s-1"><span class="wf-num">1</span><b>Prereqs</b><p>Node 20+ LTS, npm, VS Code, PAC CLI, premium Power Apps license.</p></div>
-  <div class="wf-step s-2"><span class="wf-num">2</span><b>Authenticate</b><p><code style="font-size:.85em">pac auth create --environment &lt;env-url&gt;</code></p></div>
-  <div class="wf-step s-3"><span class="wf-num">3</span><b>Scaffold</b><p><code style="font-size:.85em">npm create vite@latest</code> then <code style="font-size:.85em">pac code init</code> (or use template).</p></div>
+  <div class="wf-step s-2"><span class="wf-num">2</span><b>Scaffold</b><p><code style="font-size:.85em">npx degit github:microsoft/PowerAppsCodeApps/templates/vite my-app</code></p></div>
+  <div class="wf-step s-3"><span class="wf-num">3</span><b>Init &amp; auth</b><p><code style="font-size:.85em">npm install -g @microsoft/power-apps</code> then <code style="font-size:.85em">power-apps init</code> (auto sign-in).</p></div>
   <div class="wf-step s-4"><span class="wf-num">4</span><b>Add Data</b><p><code style="font-size:.85em">pac code add-data-source -a &lt;conn&gt; -c &lt;ref&gt;</code></p></div>
   <div class="wf-step s-5"><span class="wf-num">5</span><b>Develop</b><p>In VS Code: <code style="font-size:.85em">npm run dev</code> + Power tunnel. Hot reload, console, types.</p></div>
   <div class="wf-step s-6"><span class="wf-num">6</span><b>Build</b><p><code style="font-size:.85em">npm run build</code> &rarr; static <code style="font-size:.85em">dist/</code> bundle.</p></div>
@@ -519,20 +519,22 @@
   <div class="card">
     <div class="card-header c-npm">
       <span class="cmd-label">npm</span> @microsoft/power-apps SDK
-      <span class="sub" style="margin-left:auto">v1.0.4+</span>
+      <span class="sub" style="margin-left:auto">v1.2.2+ &middot; CLI bin: <code>power-apps</code></span>
     </div>
     <table>
-      <tr><td>npm install</td><td><code>npm i @microsoft/power-apps</code> &mdash; runtime + auth SDK</td></tr>
-      <tr><td>npx pa-client init</td><td>Generate <code>power.config.json</code> &amp; wire scripts (npm replacement for <code>pac code init</code>)</td></tr>
-      <tr><td>npx pa-client add-data-source</td><td>Add connector &amp; regenerate <code>generated/</code> typed clients</td></tr>
-      <tr><td>npx pa-client push</td><td>Build &amp; publish (equivalent to <code>pac code push</code>)</td></tr>
-      <tr><td>npx pa-client run</td><td>Power tunnel for local <code>vite dev</code> (equivalent to <code>pac code run</code>)</td></tr>
-      <tr><td>npx pa-client list</td><td>List code apps in current environment</td></tr>
-      <tr><td>npm run dev</td><td>Start Vite dev server (host UI + HMR)</td></tr>
-      <tr><td>npm run build</td><td>Vite production build &rarr; <code>dist/</code></td></tr>
-      <tr><td>npm run preview</td><td>Serve built bundle locally</td></tr>
+      <tr><td>npm install</td><td><code>npm install -g @microsoft/power-apps</code> &mdash; installs the <code>power-apps</code> CLI globally</td></tr>
+      <tr><td>power-apps init</td><td>Initialize the code app &amp; <code>power.config.json</code> (replaces <code>pac code init</code>). Interactive, or pass <code>--display-name</code> / <code>--environment-id</code></td></tr>
+      <tr><td>power-apps create-connection</td><td><span class="badge badge-preview">Preview</span> Create an SSO-eligible connection without the maker portal &mdash; <code>-a &lt;apiId&gt; [-n &lt;name&gt;] [--json]</code></td></tr>
+      <tr><td>power-apps find-dataverse-api</td><td><span class="badge badge-new">New</span> Search Dataverse actions/functions &mdash; <code>--search "WhoAmI" [--json]</code></td></tr>
+      <tr><td>power-apps add-dataverse-api</td><td><span class="badge badge-new">New</span> Add a Dataverse action/function as a typed service &mdash; <code>--api-name WhoAmI</code> (alias <code>-n</code>)</td></tr>
+      <tr><td>power-apps list-flows</td><td><span class="badge badge-new">New</span> List solution-aware Power Automate flows &mdash; <code>[--search &lt;text&gt;]</code></td></tr>
+      <tr><td>power-apps add-flow</td><td><span class="badge badge-new">New</span> Add a flow (PowerApps trigger only) &mdash; <code>--flow-id &lt;id&gt;</code>. Idempotent &mdash; rerun to pick up changes</td></tr>
+      <tr><td>power-apps remove-flow</td><td><span class="badge badge-new">New</span> Remove a flow &mdash; <code>--flow-name &lt;name&gt;</code> or <code>--flow-id &lt;id&gt;</code></td></tr>
+      <tr><td>power-apps push</td><td>Build &amp; publish a new version (equivalent to <code>pac code push</code>)</td></tr>
+      <tr><td>npm run dev</td><td>Starts <code>power-apps run</code> + Vite dev server together (host UI + HMR)</td></tr>
+      <tr><td>npm run build</td><td>Runs <code>tsc -b && vite build</code> &rarr; <code>dist/</code></td></tr>
     </table>
-    <div class="note">&#9888; The <code>pac code</code> CLI is moving to the npm-based <code>@microsoft/power-apps</code> client. Both work today; prefer npm for new projects.</div>
+    <div class="note">&#9888; <code>pac code</code> is deprecated in a future release in favor of this npm CLI. Flow &amp; Dataverse-action commands (<code>add-flow</code>, <code>add-dataverse-api</code>) are npm-CLI-only &mdash; not available in <code>pac code</code>.</div>
   </div>
 
   <!-- ══ VS CODE WORKFLOW ══ -->
@@ -617,15 +619,17 @@ my-code-app/
       <tr><td>SQL Server (Azure)</td><td>Tables, views, stored procedures (incl. params)</td></tr>
       <tr><td>Office 365 Users</td><td>Profile, manager, photo</td></tr>
       <tr><td>Office 365 Outlook</td><td>Mail, calendar, contacts</td></tr>
-      <tr><td>Excel Online</td><td>Workbooks, tables, rows</td></tr>
       <tr><td>OneDrive</td><td>Files, folders</td></tr>
       <tr><td>Microsoft Teams</td><td>Channels, messages, meetings</td></tr>
+      <tr><td>Power Automate flows</td><td><span class="badge badge-new">New</span> Solution-aware flows with a <b>PowerApps trigger</b> &mdash; npm CLI only (<code>add-flow</code>)</td></tr>
+      <tr><td>Dataverse actions/functions</td><td><span class="badge badge-new">New</span> e.g. <code>WhoAmI</code>, <code>AddToQueue</code> &mdash; npm CLI only (<code>add-dataverse-api</code>)</td></tr>
       <tr><td>Azure DevOps</td><td>Work items, repos, pipelines</td></tr>
       <tr><td>MCS Copilot</td><td>Invoke Copilot Studio agents</td></tr>
       <tr><td>Custom Connector</td><td>Any OpenAPI 2.0 connector you've built</td></tr>
       <tr><td>1,500+ certified</td><td>Anything in the Power Platform connector library</td></tr>
+      <tr><td>Excel Online <span class="badge badge-warn">Not yet</span></td><td>Excel Online (Business) &amp; Excel Online (OneDrive) connectors aren't supported by code apps yet</td></tr>
     </table>
-    <div class="note">&#128268; Every data source is wired through a <b>connection reference</b> so the app travels cleanly between environments via a solution.</div>
+    <div class="note">&#128268; Wire a data source to a <b>connection reference</b> instead of a raw connection ID for environment-portable ALM: <code>pac code add-data-source -a &lt;apiName&gt; -cr &lt;connectionRefLogicalName&gt; -s &lt;solutionId&gt;</code> (PAC CLI v1.51.1+, Dec 2025).</div>
   </div>
 
   <!-- ══ ADD DATA SOURCE FLOW ══ -->
@@ -634,25 +638,33 @@ my-code-app/
       <span class="cmd-label">add-data-source</span> Wire a Connector &mdash; Step by Step
     </div>
     <table>
-      <tr><td>1. List references</td><td><code>pac code list-connection-references</code> &nbsp;&mdash; get the <code>connection-id</code></td></tr>
-      <tr><td>2. List datasets (if any)</td><td><code>pac code list-datasets -a &lt;connector-name&gt;</code></td></tr>
-      <tr><td>3. List tables / sprocs</td><td><code>pac code list-tables -a &lt;connector&gt; -d &lt;dataset&gt;</code></td></tr>
-      <tr><td>4. Add it</td><td><code>pac code add-data-source -a &lt;connector&gt; -c &lt;connection-id&gt; -d &lt;dataset&gt; -t &lt;table&gt;</code></td></tr>
-      <tr><td>5. Output</td><td>Auto-generated typed client under <code>src/Services/&lt;ConnectorName&gt;Service.ts</code> + DTOs in <code>src/Models/</code></td></tr>
+      <tr><td>1. List connections</td><td><code>pac connection list</code> &nbsp;&mdash; get <b>Connection ID</b> + <b>API Name</b> for each connection</td></tr>
+      <tr><td>2. List datasets (if any)</td><td><code>pac code list-datasets -a &lt;apiId&gt; -c &lt;connectionId&gt;</code></td></tr>
+      <tr><td>3. List tables / sprocs</td><td><code>pac code list-tables -a &lt;apiId&gt; -c &lt;connectionId&gt; -d &lt;dataset&gt;</code> &middot; <code>list-sql-stored-procedures</code></td></tr>
+      <tr><td>4. Add it (direct)</td><td><code>pac code add-data-source -a &lt;apiId&gt; -c &lt;connectionId&gt; -d &lt;dataset&gt; -t &lt;table&gt;</code></td></tr>
+      <tr><td>4b. Add it (connection ref) <span class="badge badge-new">v1.51.1+</span></td><td><code>pac code add-data-source -a &lt;apiId&gt; -cr &lt;connectionRefName&gt; -s &lt;solutionId&gt;</code> &mdash; environment-portable, recommended for ALM</td></tr>
+      <tr><td>5. Output</td><td>Tabular (SQL/SharePoint) &rarr; <code>src/Services/</code> + <code>src/Models/</code>. Nontabular (Office 365, Teams) &rarr; <code>src/generated/services/</code> + <code>src/generated/models/</code></td></tr>
       <tr><td>6. Use it</td><td>Import the service and call typed methods &mdash; no boilerplate auth code</td></tr>
+      <tr><td>7. Schema changed?</td><td>No refresh command exists &mdash; <code>delete-data-source</code> then re-add</td></tr>
     </table>
-    <div class="code"><span class="c">// Example: add Dataverse "accounts" table</span>
+    <div class="code"><span class="c">// Example: add Dataverse "accounts" table (direct connection)</span>
 pac code add-data-source <span class="o">\</span>
   -a <span class="s">"shared_commondataservicepowerapps"</span> <span class="o">\</span>
-  -c <span class="s">"&lt;connection-reference-id&gt;"</span> <span class="o">\</span>
+  -c <span class="s">"&lt;connection-id&gt;"</span> <span class="o">\</span>
   -t <span class="s">"accounts"</span>
 
 <span class="c">// Example: add SQL stored procedure</span>
 pac code add-data-source <span class="o">\</span>
   -a <span class="s">"shared_sql"</span> <span class="o">\</span>
-  -c <span class="s">"&lt;connection-reference-id&gt;"</span> <span class="o">\</span>
+  -c <span class="s">"&lt;connection-id&gt;"</span> <span class="o">\</span>
   -d <span class="s">"default,server.database.windows.net,mydb"</span> <span class="o">\</span>
-  -sp <span class="s">"dbo.GetTopOrders"</span></div>
+  -sp <span class="s">"dbo.GetTopOrders"</span>
+
+<span class="c">// Example: add via connection reference (portable across Dev/Test/Prod)</span>
+pac code add-data-source <span class="o">\</span>
+  -a <span class="s">"shared_sharepointonline"</span> <span class="o">\</span>
+  -cr <span class="s">"new_sharepointconnref"</span> <span class="o">\</span>
+  -s <span class="s">"&lt;solution-id&gt;"</span></div>
   </div>
 
   <!-- ══ SDK QUICK REFERENCE ══ -->
@@ -699,6 +711,7 @@ pac code add-data-source <span class="o">\</span>
       <li>Console &amp; network: Edge/Chrome DevTools. Network shows tunnel requests routed via <code>localhost</code>.</li>
       <li>Stop with <span class="kbd">Ctrl + C</span> in both tabs.</li>
       <li>Restart the tunnel any time you switch <code>pac auth select</code>.</li>
+      <li><span class="badge badge-warn">Dec 2025+</span> Chrome/Edge block public-origin &rarr; localhost requests by default (Local Network Access). Grant the browser permission, or add <code>allow="local-network-access"</code> on embedding iframes.</li>
     </ul>
     <div class="note">&#128161; If a connector returns 401/403 locally, re-run <code>pac auth create</code> and restart <code>pac code run</code>.</div>
   </div>
@@ -776,14 +789,33 @@ pac code add-data-source <span class="o">\</span>
     <ul class="tight">
       <li>Preview: subject to breaking changes &mdash; pin SDK versions.</li>
       <li>Requires Premium / per-app Power Apps license.</li>
-      <li>Not available in GCC High / DoD clouds at preview time.</li>
-      <li>No offline mode (yet).</li>
-      <li>Mobile native shell support limited &mdash; design responsively for web.</li>
-      <li>Bundle size cap: keep <code>dist/</code> reasonably lean for fast load.</li>
+      <li>No Storage SAS IP restriction support &mdash; compiled assets are served publicly; use Conditional Access (block by location) instead.</li>
+      <li>No <a href="https://learn.microsoft.com/en-us/power-platform/alm/git-integration/overview" target="_blank">Power Platform Git integration</a>.</li>
+      <li>Not supported in Power Apps for Windows (native client).</li>
+      <li>No <code>PowerBIIntegration</code> function &mdash; but can be embedded in Power BI reports via the Power Apps Visual.</li>
+      <li>No SharePoint forms integration.</li>
+      <li>Service Principals (SPN) can't create or own code apps.</li>
+      <li>No offline mode (yet); mobile native shell APIs limited &mdash; design responsively for web.</li>
       <li>Cannot directly embed in Model-driven forms (use iframe or PCF).</li>
       <li>No Power Fx in code &mdash; call connectors via the SDK instead.</li>
-      <li>Service principal auth for the dev loop is not supported.</li>
     </ul>
+  </div>
+
+  <!-- ══ MANAGED PLATFORM GOVERNANCE ══ -->
+  <div class="card span2">
+    <div class="card-header c-limits">
+      <span class="cmd-label">governance</span> Managed Platform Capability Support
+    </div>
+    <table>
+      <tr><td>Sharing limits</td><td>Code apps follow canvas app sharing limits</td></tr>
+      <tr><td>DLP enforcement</td><td>Data Loss Prevention policy enforced at app launch</td></tr>
+      <tr><td>App Quarantine</td><td>Admins can quarantine a code app like any other app</td></tr>
+      <tr><td>Conditional Access</td><td>Can be applied per individual app on a managed environment</td></tr>
+      <tr><td>Consent dialog</td><td>End users see a fine-grained connector permission consent dialog; admins can suppress it (incl. custom OAuth connectors)</td></tr>
+      <tr><td>Tenant isolation</td><td>Respected the same as other Power Platform apps</td></tr>
+      <tr><td>Azure B2B guests</td><td>Guests can access shared code apps cross-tenant, same as canvas apps</td></tr>
+      <tr><td>Health metrics</td><td>Operational health available in both admin center &amp; maker portal</td></tr>
+    </table>
   </div>
 
   <!-- ══ TIPS & PATTERNS ══ -->
@@ -891,6 +923,8 @@ pac code add-data-source <span class="o">\</span>
       <tr><td>"App not visible in maker portal"</td><td>Push completed but you filtered Code apps off. Maker &rarr; Apps &rarr; filter "Code apps".</td></tr>
       <tr><td>Slow first load in production</td><td>Bundle too big. Run <code>vite build --report</code>, code-split heavy routes.</td></tr>
       <tr><td>CORS errors locally</td><td>Always call connectors through generated services &mdash; never raw <code>fetch</code> to a connector URL.</td></tr>
+      <tr><td>Local dev blocked / blank tunnel</td><td>Browser's Local Network Access prompt (Chrome/Edge, Dec 2025+) blocking public&rarr;localhost calls. Approve the permission prompt or check enterprise policy.</td></tr>
+      <tr><td>"pac code add-data-source skips schema"</td><td>Schema uses <code>Microsoft.PowerApps/dataverseOperation</code> type from <code>add-dataverse-api</code> (npm CLI) &mdash; <code>pac code</code> doesn't recognize it and skips the file by design.</td></tr>
       <tr><td>"Premium connector blocked"</td><td>User lacks Premium licence OR DLP policy blocks the connector class.</td></tr>
       <tr><td>"Solution import fails"</td><td>Connection references unmapped. Map them in the solution import wizard.</td></tr>
       <tr><td>HMR not refreshing</td><td>Check for syntax errors in console; restart <code>npm run dev</code>.</td></tr>
@@ -961,7 +995,13 @@ pac code add-data-source <span class="o">\</span>
     <table>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/overview" target="_blank">Overview</a></td><td>Code Apps concept, when to use, architecture</td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/quickstart" target="_blank">Quickstart (pac code)</a></td><td>End-to-end first-app walkthrough using PAC CLI</td></tr>
-      <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/npm-quickstart" target="_blank">Quickstart (npm)</a></td><td>Same walkthrough using <code>@microsoft/power-apps</code> npm client</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/npm-quickstart" target="_blank">Quickstart (npm)</a></td><td>Same walkthrough using the <code>power-apps</code> npm CLI</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/connect-to-data" target="_blank">Connect your code app to data</a></td><td>Direct-connection vs connection-reference data source flows</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/add-dataverse-action-function" target="_blank">Add a Dataverse action/function</a></td><td><code>find-dataverse-api</code> / <code>add-dataverse-api</code> (npm CLI, new)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/add-flows" target="_blank">Add Power Automate flows</a></td><td><code>list-flows</code> / <code>add-flow</code> / <code>remove-flow</code> (npm CLI, preview)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/create-connection" target="_blank">Create a connection from the CLI</a></td><td><code>power-apps create-connection</code> for SSO-eligible connectors (preview)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/architecture" target="_blank">Code Apps Architecture</a></td><td>How the runtime, auth, and connector layer fit together</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/system-limits-configuration" target="_blank">System Limits &amp; Configuration</a></td><td>Capacity, quotas, and config boundaries</td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code" target="_blank">pac code Reference</a></td><td>Full CLI reference for the <code>pac code</code> group</td></tr>
       <tr><td><a href="https://www.npmjs.com/package/@microsoft/power-apps" target="_blank">@microsoft/power-apps on npm</a></td><td>Latest SDK package + changelog</td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/connectors/connector-reference/" target="_blank">Connector Library</a></td><td>1,500+ connectors you can wire via <code>add-data-source</code></td></tr>
@@ -972,7 +1012,7 @@ pac code add-data-source <span class="o">\</span>
       <tr><td><a href="https://vitejs.dev/guide/" target="_blank">Vite Docs</a></td><td>Build tool used under the hood</td></tr>
       <tr><td><a href="https://react.dev/" target="_blank">React Docs</a></td><td>Reference for the default scaffolded UI library</td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/admin/admin-documentation" target="_blank">Power Platform Admin</a></td><td>Tenant enablement, environments, monitoring</td></tr>
-      <tr><td><a href="https://github.com/microsoft/power-apps-code-apps-samples" target="_blank">Official Samples (GitHub)</a></td><td>Reference apps &amp; templates from the product team</td></tr>
+      <tr><td><a href="https://github.com/microsoft/PowerAppsCodeApps" target="_blank">Official Samples &amp; Templates (GitHub)</a></td><td>Samples, starter templates, and issue tracker from the product team</td></tr>
     </table>
   </div>
 
