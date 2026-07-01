@@ -2449,6 +2449,120 @@ html.dark-theme .cert-pursuing-items {
 }
 
 /* ================================================
+   CERTIFICATIONS — AB-100 PROGRESS BAR
+   ================================================ */
+
+.cert-progress {
+    margin-top: 1rem;
+    padding: 0.9rem 1.25rem;
+    background: linear-gradient(135deg, #fef9f5 0%, #fff5f0 100%);
+    border: 1px solid #fed7aa;
+    border-radius: 10px;
+}
+
+.cert-progress-top {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.6rem;
+}
+
+.cert-progress-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.22rem 0.7rem;
+    background: #ffedd5;
+    color: #c2410c;
+    border: 1.5px solid #fdba74;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.cert-progress-name {
+    font-size: 0.85rem;
+    color: #475569;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    flex: 1 1 auto;
+}
+
+.cert-progress-pct {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #ea580c;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    flex-shrink: 0;
+}
+
+.cert-progress-track {
+    width: 100%;
+    height: 8px;
+    background: #ffe4cc;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.cert-progress-fill {
+    height: 100%;
+    min-width: 6px;
+    background: linear-gradient(90deg, #fb923c, #ea580c);
+    border-radius: 20px;
+    animation: certProgressPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes certProgressPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.75; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cert-progress-fill { animation: none; }
+}
+
+.cert-progress-note {
+    display: block;
+    margin-top: 0.45rem;
+    font-size: 0.76rem;
+    color: #9a6a4a;
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+}
+
+html.dark-theme .cert-progress {
+    background: linear-gradient(135deg, #431407 0%, #3a1408 100%);
+    border-color: #9a3412;
+}
+
+html.dark-theme .cert-progress-badge {
+    background: #7c2d12;
+    color: #fdba74;
+    border-color: #c2410c;
+}
+
+html.dark-theme .cert-progress-name {
+    color: #cbd5e1;
+}
+
+html.dark-theme .cert-progress-pct {
+    color: #fb923c;
+}
+
+html.dark-theme .cert-progress-track {
+    background: #431407;
+}
+
+html.dark-theme .cert-progress-note {
+    color: #c99274;
+}
+
+/* ================================================
    CONTACT — AVAILABILITY BAR
    ================================================ */
 
