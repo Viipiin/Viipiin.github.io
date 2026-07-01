@@ -212,12 +212,11 @@
             <div class="certifications">
                 <div class="cert-item">AZ-900: Microsoft Azure Fundamentals</div>
                 <div class="cert-item">PL-900: Microsoft Power Platform Fundamentals</div>
-                <div class="cert-item">PL-100: Microsoft Power Platform App Maker</div>
-                <div class="cert-item">PL-400: Microsoft Power Platform Developer</div>
                 <div class="cert-item">AI-900: Microsoft Azure AI Fundamentals</div>
             </div>
 
-            <div class="cert-progress">
+            <!-- Change data-pct here — the badge, bar width, and aria value all sync from this one number -->
+            <div class="cert-progress" data-pct="2">
                 <div class="cert-progress-top">
                     <span class="cert-progress-badge">🎯 Primary Target</span>
                     <span class="cert-progress-name">AB-100: Agentic AI Business Solutions Architect</span>
@@ -1172,6 +1171,21 @@
                 }
             }, step);
         }, delay);
+    }());
+    </script>
+
+    <!-- Certification progress bar — syncs badge text, bar width, and aria-valuenow from data-pct -->
+    <script>
+    (function () {
+        document.querySelectorAll('.cert-progress[data-pct]').forEach(function (el) {
+            var pct = Math.max(0, Math.min(100, parseFloat(el.getAttribute('data-pct')) || 0));
+            var fill  = el.querySelector('.cert-progress-fill');
+            var label = el.querySelector('.cert-progress-pct');
+            var track = el.querySelector('.cert-progress-track');
+            if (fill)  fill.style.width = pct + '%';
+            if (label) label.textContent = pct + '%';
+            if (track) track.setAttribute('aria-valuenow', pct);
+        });
     }());
     </script>
 
