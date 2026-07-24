@@ -192,6 +192,7 @@
   <span class="profile-switcher-label">Candidate</span>
   <button class="profile-tab active" onclick="switchProfile('supriya',this)">&#128105; Supriya VR &mdash; D365</button>
   <button class="profile-tab" onclick="switchProfile('mohini',this)">&#128105; Mohini Sodnar &mdash; SharePoint</button>
+  <button class="profile-tab" onclick="switchProfile('powerbi',this)">&#128202; Power BI &amp; Copilot Studio</button>
 </div>
 
 
@@ -215,6 +216,19 @@
     <span class="badge">Jade Global &bull; Saxon-C3IT</span>
     <span class="badge">23 Questions Across 5 Topics</span>
     <span class="badge">&#128100; Consultant Engineer</span>
+  </div>
+</header>
+</div>
+
+<div id="header-powerbi" style="display:none">
+<header>
+  <h1>Power BI &amp; Copilot Studio &mdash; Interview Preparation Q&amp;A</h1>
+  <p>Power BI Desktop &bull; DAX &bull; Power Query &bull; Data Modeling &bull; Copilot Studio &bull; Generative AI</p>
+  <div class="header-meta">
+    <span class="badge">3+ Years Experience</span>
+    <span class="badge">Theory &amp; Practical</span>
+    <span class="badge">72 Questions Across 14 Topics</span>
+    <span class="badge">&#128202; Analytics &bull; &#129302; Conversational AI</span>
   </div>
 </header>
 </div>
@@ -249,6 +263,26 @@
   <div class="nav-item" onclick="showSection('m-powershell',this)">&#9881; PowerShell &amp; CSOM <span class="count">5</span></div>
   <div class="nav-item" onclick="showSection('m-classic',this)">&#128337; Classic SharePoint <span class="count">5</span></div>
   <div class="nav-item" onclick="showSection('m-scenario',this)">&#127919; Scenario &amp; Behavioral <span class="count">5</span></div>
+</aside>
+</div>
+<div id="aside-powerbi" style="display:none">
+<aside>
+  <h3>&#128202; Power BI</h3>
+  <div class="nav-item active" onclick="showSection('pbi-dax',this)">&#128210; DAX &amp; Measures <span class="count">8</span></div>
+  <div class="nav-item" onclick="showSection('pbi-modeling',this)">&#127760; Data Modeling <span class="count">6</span></div>
+  <div class="nav-item" onclick="showSection('pbi-powerquery',this)">&#128260; Power Query / M <span class="count">5</span></div>
+  <div class="nav-item" onclick="showSection('pbi-rls',this)">&#128274; Row-Level Security <span class="count">5</span></div>
+  <div class="nav-item" onclick="showSection('pbi-visuals',this)">&#128440; Reports &amp; Visuals <span class="count">5</span></div>
+  <div class="nav-item" onclick="showSection('pbi-service',this)">&#9729; Service &amp; Deployment <span class="count">5</span></div>
+  <div class="nav-item" onclick="showSection('pbi-perf',this)">&#9889; Performance <span class="count">4</span></div>
+  <h3>&#129302; Copilot Studio</h3>
+  <div class="nav-item" onclick="showSection('cs-topics',this)">&#128172; Topics &amp; Dialog <span class="count">7</span></div>
+  <div class="nav-item" onclick="showSection('cs-entities',this)">&#127800; Entities &amp; Variables <span class="count">5</span></div>
+  <div class="nav-item" onclick="showSection('cs-automate',this)">&#128260; Power Automate <span class="count">5</span></div>
+  <div class="nav-item" onclick="showSection('cs-genai',this)">&#129504; Generative AI <span class="count">5</span></div>
+  <div class="nav-item" onclick="showSection('cs-auth',this)">&#128272; Auth &amp; Channels <span class="count">4</span></div>
+  <div class="nav-item" onclick="showSection('cs-alm',this)">&#128640; Governance &amp; ALM <span class="count">4</span></div>
+  <div class="nav-item" onclick="showSection('cs-scenario',this)">&#127919; Scenario / Behavioral <span class="count">4</span></div>
 </aside>
 </div>
 
@@ -2155,6 +2189,1628 @@ Connect-PnPOnline `
   </div>
 </div>
 
+  <div id="powerbi-content" style="display:none">
+
+    <!-- ===== PBI DAX & MEASURES ===== -->
+    <div id="pbi-dax" class="section active">
+      <div class="section-header">
+        <div class="section-icon">&#128210;</div>
+        <div><h2>DAX &amp; Measures</h2><p>Filter context, row context, CALCULATE, iterators, time intelligence</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>What is the difference between row context and filter context in DAX?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Context</th><th>When Created</th><th>Scope</th></tr>
+            <tr><td><strong>Row context</strong></td><td>Calculated columns, iterator functions (SUMX, FILTER)</td><td>Evaluates expression for each row of a table</td></tr>
+            <tr><td><strong>Filter context</strong></td><td>Report visuals, slicers, page/report filters, CALCULATE</td><td>Limits which rows are visible across the model</td></tr>
+          </table>
+          <div class="callout warn">Row context does NOT automatically filter related tables — you need RELATED() or CALCULATE() to transition a row context into a filter context.</div>
+          <p>Example: In a calculated column <code>Sales[Margin] = Sales[Revenue] - Sales[Cost]</code>, DAX iterates each row — that is row context. When a visual shows total margin for "North" region, the slicer creates a filter context restricting rows to North.</p>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>How does CALCULATE work and what makes it so powerful?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p><code>CALCULATE(expression, filter1, filter2, ...)</code> does two things:</p>
+          <ol>
+            <li>Copies the current filter context</li>
+            <li>Applies the filter arguments (add, modify, or remove filters) — then evaluates the expression in the new context</li>
+          </ol>
+          <pre><code>-- Total sales only for "Bike" category, regardless of any slicer
+Bikes Sales = CALCULATE([Total Sales], Products[Category] = "Bikes")
+
+-- Previous year total (uses ALL to remove date filters, applies a new date range)
+PY Sales = CALCULATE([Total Sales], SAMEPERIODLASTYEAR(Dates[Date]))
+
+-- Remove all filters from a column
+All Customers Sales = CALCULATE([Total Sales], ALL(Customers))</code></pre>
+          <div class="callout tip">CALCULATE is the only DAX function that can transition row context into filter context — critical for measures inside iterators.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>What is the difference between SUM and SUMX? When would you use SUMX?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Function</th><th>Behaviour</th><th>Use When</th></tr>
+            <tr><td><code>SUM(column)</code></td><td>Aggregates an existing numeric column directly — single pass, faster</td><td>Column already contains the value to sum</td></tr>
+            <tr><td><code>SUMX(table, expression)</code></td><td>Iterates each row of table, evaluates expression per row, then sums results</td><td>You need to compute a value per row first (e.g. Qty × Price)</td></tr>
+          </table>
+          <pre><code>-- SUM: column already stores revenue
+Total Revenue = SUM(Sales[Revenue])
+
+-- SUMX: margin must be calculated per row first
+Total Margin = SUMX(Sales, Sales[Revenue] - Sales[Cost])
+
+-- More complex: apply discount per row
+Discounted Revenue = SUMX(Sales, Sales[Revenue] * (1 - Sales[Discount]))</code></pre>
+          <div class="callout warn">Overusing SUMX on large tables can hurt performance. Prefer SUM on pre-calculated columns where possible.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>Write a Year-over-Year % change measure. Explain the time intelligence functions used.</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <pre><code>YoY % Change =
+VAR CurrentSales = [Total Revenue]
+VAR PYSales = CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(Dates[Date]))
+RETURN
+  DIVIDE(CurrentSales - PYSales, PYSales, BLANK())</code></pre>
+          <table>
+            <tr><th>Function</th><th>What It Returns</th></tr>
+            <tr><td><code>SAMEPERIODLASTYEAR(dates)</code></td><td>Same date range, one year back</td></tr>
+            <tr><td><code>DATEADD(dates, -1, YEAR)</code></td><td>Shift by N periods — more flexible, same result for full years</td></tr>
+            <tr><td><code>TOTALYTD(expr, dates)</code></td><td>Year-to-date aggregation from Jan 1 to current date</td></tr>
+            <tr><td><code>PREVIOUSYEAR(dates)</code></td><td>Returns the full previous calendar year</td></tr>
+          </table>
+          <div class="callout tip">Time intelligence functions require a proper Date table marked as a Date table in Power BI with a continuous date range and no gaps.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">5</div>
+          <div><h4>Explain FILTER, ALL, and ALLEXCEPT — how do they differ?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Function</th><th>Purpose</th><th>Returns</th></tr>
+            <tr><td><code>ALL(table/column)</code></td><td>Remove all filters from a table or column — used inside CALCULATE</td><td>Table with all rows; or all values of a column</td></tr>
+            <tr><td><code>ALLEXCEPT(table, col1, col2)</code></td><td>Remove all filters <em>except</em> the specified columns</td><td>Filtered table retaining only listed column filters</td></tr>
+            <tr><td><code>FILTER(table, condition)</code></td><td>Return a subset of rows meeting the condition — iterating function</td><td>Table (subset)</td></tr>
+          </table>
+          <pre><code>-- % of total: ALL removes all filters so denominator is grand total
+% of Total = DIVIDE([Sales], CALCULATE([Sales], ALL(Products)))
+
+-- % of category: keep category filter, remove product filter
+% of Category = DIVIDE([Sales], CALCULATE([Sales], ALLEXCEPT(Products, Products[Category])))
+
+-- FILTER: explicit row-level condition (use when logic can't be expressed as simple filter)
+High Value Customers = CALCULATE([Sales], FILTER(Customers, Customers[Revenue] > 100000))</code></pre>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">6</div>
+          <div><h4>What are DAX variables (VAR/RETURN) and why should you use them?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Variables store intermediate results inside a DAX expression. They are evaluated <strong>once</strong> at the point of definition, not repeatedly. This gives two benefits: <strong>performance</strong> (avoids re-evaluation) and <strong>readability</strong>.</p>
+          <pre><code>-- Without VAR: [Total Revenue] evaluated twice
+YoY % = DIVIDE(
+  [Total Revenue] - CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(Dates[Date])),
+  CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(Dates[Date]))
+)
+
+-- With VAR: cleaner and [PY] evaluated only once
+YoY % =
+VAR CurrentRev = [Total Revenue]
+VAR PYRev     = CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(Dates[Date]))
+VAR Change    = CurrentRev - PYRev
+RETURN
+  DIVIDE(Change, PYRev, BLANK())</code></pre>
+          <div class="callout tip">VAR also captures the filter context at the point it is defined — useful for comparing context inside vs outside an iterator.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">7</div>
+          <div><h4>What is the difference between RELATED and RELATEDTABLE?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Function</th><th>Direction</th><th>Returns</th></tr>
+            <tr><td><code>RELATED(column)</code></td><td>Many-side → One-side (follow relationship upward)</td><td>Single value from the related dimension</td></tr>
+            <tr><td><code>RELATEDTABLE(table)</code></td><td>One-side → Many-side (follow relationship downward)</td><td>A filtered table of related rows from the fact table</td></tr>
+          </table>
+          <pre><code>-- RELATED: in Sales table calculated column, bring in the Category from Products
+Sales[Category] = RELATED(Products[Category])
+
+-- RELATEDTABLE: in Products table, count how many sales transactions
+Sales Count per Product = COUNTROWS(RELATEDTABLE(Sales))</code></pre>
+          <div class="callout warn">RELATED only works in a row context (calculated column or iterator). It follows the relationship in the "many to one" direction.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">8</div>
+          <div><h4>Why should you use DIVIDE instead of the / operator in DAX?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>The <code>/</code> operator returns an error when the denominator is zero or BLANK, which causes visuals to break or show errors. <code>DIVIDE</code> handles this gracefully with an optional alternate result.</p>
+          <pre><code>-- Risky: will error or show infinity when denominator = 0
+Profit Margin = [Profit] / [Revenue]
+
+-- Safe: returns BLANK() when Revenue = 0 (BLANK is ignored by visuals)
+Profit Margin = DIVIDE([Profit], [Revenue])
+
+-- Or return 0 instead of BLANK
+Profit Margin = DIVIDE([Profit], [Revenue], 0)</code></pre>
+          <div class="callout tip">Use BLANK() (default) as alternate result — it means the visual treats missing data correctly. Use 0 only when you specifically want to display zero for missing data.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== PBI DATA MODELING ===== -->
+    <div id="pbi-modeling" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#127760;</div>
+        <div><h2>Data Modeling</h2><p>Star schema, relationships, Import vs DirectQuery, role-playing dimensions</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>Star schema vs snowflake schema — which is better for Power BI and why?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p><strong>Star schema</strong> is strongly preferred for Power BI. A central fact table (measurements) surrounded by denormalized dimension tables (attributes).</p>
+          <p><strong>Snowflake schema</strong> normalizes dimensions into sub-tables (e.g., Product → Category → SubCategory as separate tables).</p>
+          <table>
+            <tr><th></th><th>Star</th><th>Snowflake</th></tr>
+            <tr><td>Relationships</td><td>Fewer, simpler</td><td>Many, complex</td></tr>
+            <tr><td>VertiPaq compression</td><td>Better (fewer columns, lower cardinality)</td><td>Worse (more joins)</td></tr>
+            <tr><td>DAX complexity</td><td>Lower</td><td>Higher</td></tr>
+            <tr><td>Query performance</td><td>Faster</td><td>Slower</td></tr>
+          </table>
+          <div class="callout tip">Always flatten snowflake dimensions into denormalized dimension tables in Power Query before loading. The extra storage cost is negligible in VertiPaq compared to the performance gain.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>How do you handle many-to-many relationships in Power BI?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Two approaches:</p>
+          <p><strong>Bridge table pattern</strong> (preferred): Create an intermediary table that resolves the M2M into two one-to-many relationships. Avoids bidirectional filtering issues.</p>
+          <pre><code>-- Example: Sales reps can cover multiple regions, regions can have multiple reps
+-- Bridge: SalesRepRegion(SalesRepID, RegionID)
+-- Fact → Bridge → Dimension (all single-direction)</code></pre>
+          <p><strong>Native M2M relationship</strong>: Power BI supports M2M directly since 2018, but it uses bidirectional cross-filtering which can cause incorrect totals and performance issues. Requires careful testing.</p>
+          <div class="callout warn">Native M2M with bidirectional filtering can lead to double-counting. Always test aggregated totals against known values before publishing.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>Compare Import, DirectQuery, and Composite models — when do you choose each?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th></th><th>Import</th><th>DirectQuery</th><th>Composite</th></tr>
+            <tr><td>Data freshness</td><td>Snapshot (refresh needed)</td><td>Real-time</td><td>Mix of both</td></tr>
+            <tr><td>Performance</td><td>Fastest (in-memory)</td><td>Depends on source</td><td>Good with aggregations</td></tr>
+            <tr><td>Volume limit</td><td>1 GB compressed (Pro) / larger with Premium</td><td>No limit</td><td>Depends</td></tr>
+            <tr><td>Full DAX support</td><td>Yes</td><td>Partial</td><td>Yes on Import tables</td></tr>
+            <tr><td>Best for</td><td>Most reports, smaller/medium data</td><td>Very large data, strict real-time requirement</td><td>Large data with aggregation layer</td></tr>
+          </table>
+          <div class="callout tip">Default to Import. Use DirectQuery only when data volume exceeds Import limits or real-time data is contractually required. Use Composite when you need real-time on some tables and pre-aggregated Import on others.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>What are role-playing dimensions and how do you implement them in Power BI?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>A role-playing dimension is the same dimension table used in multiple relationships. Classic example: a single <code>DimDate</code> table used as Order Date, Ship Date, and Due Date.</p>
+          <p><strong>Implementation:</strong></p>
+          <ol>
+            <li>Create the single Date table once</li>
+            <li>Create relationships from the fact table to DimDate for each date column — only <strong>one can be active</strong>; others are marked inactive (dashed line in diagram)</li>
+            <li>Use <code>USERELATIONSHIP</code> in DAX measures to activate an inactive relationship</li>
+          </ol>
+          <pre><code>-- Ships by date using inactive relationship
+Ships by Ship Date =
+CALCULATE([Total Orders], USERELATIONSHIP(Sales[ShipDate], Dates[Date]))</code></pre>
+          <div class="callout tip">Alternatively, create duplicate Date tables (DateOrdered, DateShipped) referencing the same source — simpler for end users but requires more model maintenance.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">5</div>
+          <div><h4>Why do you need a dedicated Date table and what are the requirements for time intelligence?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>DAX time intelligence functions (TOTALYTD, SAMEPERIODLASTYEAR, etc.) require a properly configured Date table. Requirements:</p>
+          <ul>
+            <li>Must cover the <strong>full date range</strong> needed (no gaps)</li>
+            <li>One row per day, with no duplicate dates</li>
+            <li>Must be <strong>marked as a Date table</strong> in Power BI (Model view → right-click → Mark as date table)</li>
+            <li>The date column used must be a <code>Date</code> data type</li>
+          </ul>
+          <pre><code>// M code — dynamic date table in Power Query
+let
+    StartDate = #date(2020, 1, 1),
+    EndDate   = Date.From(DateTime.LocalNow()),
+    DateList  = List.Dates(StartDate, Duration.Days(EndDate - StartDate) + 1, #duration(1,0,0,0)),
+    DateTable = Table.FromList(DateList, Splitter.SplitByNothing(), {"Date"}),
+    TypedTable = Table.TransformColumnTypes(DateTable, {{"Date", type date}}),
+    WithYear  = Table.AddColumn(TypedTable, "Year",  each Date.Year([Date]), Int64.Type),
+    WithMonth = Table.AddColumn(WithYear,  "Month", each Date.Month([Date]), Int64.Type),
+    WithMthName = Table.AddColumn(WithMonth,"MonthName", each Date.MonthName([Date]), type text),
+    WithQtr   = Table.AddColumn(WithMthName,"Quarter", each "Q" &amp; Text.From(Date.QuarterOfYear([Date])), type text)
+in WithQtr</code></pre>
+          <div class="callout warn">Disable Auto Date/Time in Options (Global + current file) to avoid Power BI creating hidden date tables for every date column — they bloat the model and can cause confusion.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">6</div>
+          <div><h4>What is incremental refresh in Power BI and when should you use it?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Incremental refresh divides a dataset into <strong>archive partitions</strong> (historical data, never refreshed) and <strong>rolling partitions</strong> (recent data, refreshed on schedule). Only recent partitions are refreshed each time.</p>
+          <p><strong>Requirements:</strong></p>
+          <ul>
+            <li>Power BI Premium or Premium Per User workspace</li>
+            <li>Data source must support query folding (Power Query sends date filter as SQL <code>WHERE</code>)</li>
+            <li>Defined <code>RangeStart</code> and <code>RangeEnd</code> parameters in Power Query (DateTime type, case-sensitive)</li>
+          </ul>
+          <p><strong>Configuration:</strong> Right-click table in Fields pane → Incremental refresh → Define archive period (e.g., 3 years) and refresh period (e.g., last 10 days).</p>
+          <div class="callout tip">Use incremental refresh when your dataset has millions of rows of historical data that never changes. Reduces refresh time from hours to minutes and prevents gateway timeouts.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== PBI POWER QUERY ===== -->
+    <div id="pbi-powerquery" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#128260;</div>
+        <div><h2>Power Query / M Language</h2><p>Query folding, Merge vs Append, custom functions, error handling</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>What is query folding and why does it matter?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p><strong>Query folding</strong> means Power Query translates your M transformation steps into a native query (SQL, OData) and sends it to the data source. The source does the heavy lifting — only results come back to Power BI.</p>
+          <p>Without folding, Power Query downloads all raw data and transforms it locally — far slower for large sources.</p>
+          <p><strong>How to verify:</strong> Right-click any step in Applied Steps → if "View Native Query" is available (not greyed out), that step folds.</p>
+          <p><strong>Common steps that break folding:</strong></p>
+          <ul>
+            <li>Adding a custom column with a non-foldable expression</li>
+            <li>Using List functions or Text functions not supported by the source</li>
+            <li>Merging with a local table</li>
+          </ul>
+          <div class="callout warn">Once folding breaks at a step, all subsequent steps also lose folding. Put filtering steps (date ranges, column selection) as early as possible before any non-foldable steps.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>What is the difference between Merge and Append in Power Query?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Operation</th><th>Equivalent SQL</th><th>When to Use</th></tr>
+            <tr><td><strong>Merge</strong></td><td>JOIN (adds columns from second table)</td><td>Enrich a table with attributes from another (e.g., add Category from Products to Sales)</td></tr>
+            <tr><td><strong>Append</strong></td><td>UNION ALL (adds rows)</td><td>Combine data from multiple same-schema tables (e.g., monthly CSV files)</td></tr>
+          </table>
+          <p><strong>Merge join types:</strong> Left outer (keep all left rows), Right outer, Full outer, Inner, Left anti, Right anti — same as SQL joins.</p>
+          <div class="callout tip">For Merge, prefer building the relationship in the model instead of merging in Power Query when possible. Keeping tables separate and using DAX relationships is faster and more flexible.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>How do you create a reusable custom function in Power Query (M)?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Create a blank query, set it as a function, then invoke it from other queries.</p>
+          <pre><code>// Custom function: CleanPhoneNumber
+// Blank query → Advanced Editor → paste this:
+(phone as text) as text =>
+let
+    Stripped = Text.Remove(phone, {" ", "-", "(", ")", "+"}),
+    Normalized = if Text.Length(Stripped) = 10 then "1" &amp; Stripped else Stripped
+in
+    Normalized</code></pre>
+          <p>Then in another query add a Custom Column and call it:</p>
+          <pre><code>= Table.AddColumn(Source, "CleanPhone", each CleanPhoneNumber([PhoneNumber]))</code></pre>
+          <div class="callout tip">Custom M functions are ideal when you need to apply the same transformation logic to multiple queries — e.g., fetching data for each month, standardizing addresses, or parsing custom date formats.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>How do you handle errors gracefully in Power Query transformations?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <pre><code>// try...otherwise pattern: return null if parsing fails
+= Table.AddColumn(Source, "ParsedDate",
+    each try Date.FromText([DateString]) otherwise null)
+
+// Replace errors in a specific column with a default value
+= Table.ReplaceErrorValues(Source, {{"Revenue", 0}, {"Quantity", 0}})
+
+// Keep error rows for investigation
+= Table.SelectRowsWithErrors(Source, {"Revenue"})</code></pre>
+          <div class="callout tip">Always use <code>try...otherwise</code> when parsing user-entered text fields, external data sources, or any column that might have inconsistent formats. Failing silently with <code>null</code> is usually better than crashing the whole refresh.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">5</div>
+          <div><h4>Generate a dynamic date dimension table entirely in Power Query M.</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <pre><code>let
+    Today       = Date.From(DateTime.LocalNow()),
+    StartDate   = #date(2018, 1, 1),
+    DayCount    = Duration.Days(Today - StartDate) + 1,
+    Dates       = List.Dates(StartDate, DayCount, #duration(1,0,0,0)),
+    AsTable     = Table.FromList(Dates, Splitter.SplitByNothing(), {"Date"}),
+    Typed       = Table.TransformColumnTypes(AsTable, {{"Date", type date}}),
+    YearAdded   = Table.AddColumn(Typed, "Year",        each Date.Year([Date]),              Int64.Type),
+    QtrAdded    = Table.AddColumn(YearAdded, "Quarter", each "Q" &amp; Text.From(Date.QuarterOfYear([Date])), type text),
+    MonthAdded  = Table.AddColumn(QtrAdded, "MonthNo",  each Date.Month([Date]),             Int64.Type),
+    MNameAdded  = Table.AddColumn(MonthAdded,"MonthName",each Date.MonthName([Date]),        type text),
+    WeekAdded   = Table.AddColumn(MNameAdded,"WeekNo",  each Date.WeekOfYear([Date]),        Int64.Type),
+    DayAdded    = Table.AddColumn(WeekAdded, "DayName", each Date.DayOfWeekName([Date]),     type text),
+    IsWkend     = Table.AddColumn(DayAdded,  "IsWeekend",each Date.DayOfWeek([Date]) >= 5,  type logical)
+in IsWkend</code></pre>
+          <div class="callout tip">Mark this table as a Date Table (right-click in Model view) and set the Date column as the date key. This satisfies Power BI's time intelligence requirements.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== PBI ROW-LEVEL SECURITY ===== -->
+    <div id="pbi-rls" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#128274;</div>
+        <div><h2>Row-Level Security (RLS)</h2><p>Static RLS, dynamic RLS, object-level security, testing</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>What is the difference between static and dynamic RLS?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th></th><th>Static RLS</th><th>Dynamic RLS</th></tr>
+            <tr><td>Definition</td><td>Hard-coded filter in role DAX (e.g., <code>Region = "North"</code>)</td><td>Filter uses <code>USERPRINCIPALNAME()</code> to look up current user's permissions in a table</td></tr>
+            <tr><td>Maintenance</td><td>Must edit roles as data changes</td><td>Update the permissions table — no role change needed</td></tr>
+            <tr><td>Scalability</td><td>One role per group of users</td><td>Single role handles all users</td></tr>
+            <tr><td>Best for</td><td>Simple regional/departmental splits with few roles</td><td>Complex user-level permissions, large user base</td></tr>
+          </table>
+          <div class="callout tip">Dynamic RLS is almost always the better choice in production. One role, zero maintenance as staff change — the data table drives access.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>Implement dynamic RLS using USERPRINCIPALNAME(). Walk through the full setup.</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p><strong>Step 1 — Model:</strong> Add a <code>UserAccess</code> table with columns <code>Email</code> and <code>Region</code>. Create a relationship: <code>UserAccess[Region] → DimRegion[Region]</code>.</p>
+          <p><strong>Step 2 — Create role:</strong> Modeling → Manage Roles → New Role named <code>RegionUser</code>. Apply DAX filter on <code>UserAccess</code>:</p>
+          <pre><code>[Email] = USERPRINCIPALNAME()</code></pre>
+          <p><strong>Step 3 — Relationship flow:</strong> The filter on <code>UserAccess</code> propagates through the relationship to <code>DimRegion</code> → then to the Fact table, restricting rows to regions the logged-in user can see.</p>
+          <p><strong>Step 4 — Assign in Service:</strong> Workspace → Dataset → Security → assign Entra ID users/groups to the <code>RegionUser</code> role.</p>
+          <div class="callout warn">Workspace members with Admin, Member, or Contributor roles bypass RLS. RLS only applies to Viewers and users assigned via the Security panel.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>What is Object-Level Security (OLS) and how does it differ from RLS?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th></th><th>RLS</th><th>OLS</th></tr>
+            <tr><td>Controls</td><td>Which <strong>rows</strong> a user sees</td><td>Whether a user can see a <strong>column or table</strong> at all</td></tr>
+            <tr><td>When column hidden</td><td>Column visible, just filtered</td><td>Column/table returns "ModelPermissionError" or appears hidden</td></tr>
+            <tr><td>Tool</td><td>Power BI Desktop (Manage Roles)</td><td>Tabular Editor (free community edition supports OLS)</td></tr>
+            <tr><td>Use case</td><td>Sales reps see only their region</td><td>HR salary column hidden from non-HR roles</td></tr>
+          </table>
+          <div class="callout tip">OLS is not configurable in Power BI Desktop UI — you must use Tabular Editor or XMLA endpoint. If a column is restricted by OLS, measures referencing it will also error for that role.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>How do you test RLS in Power BI Desktop before publishing?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <ol>
+            <li>Go to <strong>Modeling</strong> tab → <strong>View as</strong></li>
+            <li>Select a role (e.g., <code>RegionUser</code>) or type a specific UPN to simulate a user</li>
+            <li>The report canvas updates to show data as that role would see it</li>
+            <li>Verify totals, visuals, and that no restricted data leaks through</li>
+          </ol>
+          <div class="callout warn">Desktop "View as" always uses the email you type, not a live Entra lookup. USERPRINCIPALNAME() returns that test UPN — make sure it matches a value in your UserAccess table exactly (case-sensitive matching applies for some sources).</div>
+          <p><strong>Post-publish test:</strong> In Power BI Service, open the dataset → Security → use "Test as role" for end-to-end verification.</p>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">5</div>
+          <div><h4>How does RLS work with Composite models where some tables are DirectQuery?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>In composite models, RLS behaviour depends on the table's storage mode:</p>
+          <ul>
+            <li><strong>Import tables:</strong> Power BI RLS filters apply fully</li>
+            <li><strong>DirectQuery tables:</strong> Power BI RLS is enforced at the Power BI layer AND the source database also applies its own security (e.g., SQL Server row-level permissions, Azure SQL RLS)</li>
+            <li><strong>SSO DirectQuery:</strong> When Single Sign-On is enabled, the user's own identity is passed to the source — source-level security takes over and Power BI RLS does not apply (cannot override source security)</li>
+          </ul>
+          <div class="callout tip">For DirectQuery with SSO, ensure your source database has the correct permissions configured for all report consumers. Power BI RLS roles on SSO DirectQuery tables are ignored.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== PBI REPORTS & VISUALS ===== -->
+    <div id="pbi-visuals" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#128440;</div>
+        <div><h2>Reports &amp; Visuals</h2><p>Drill-through, bookmarks, field parameters, conditional formatting, best practices</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>How do you set up a drill-through page in Power BI?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <ol>
+            <li>Create a new page — this will be the drill-through detail page</li>
+            <li>In the <strong>Visualizations &gt; Drill through</strong> pane on that page, drag the field users will drill on (e.g., <code>Product[Name]</code>) into "Add drill-through fields here"</li>
+            <li>Power BI automatically adds a Back button — do not delete it; it preserves context</li>
+            <li>Add visuals to the page — they automatically respect the drill-through filter</li>
+          </ol>
+          <p><strong>Usage:</strong> On any other page, right-click a data point → Drill through → [Page Name].</p>
+          <div class="callout tip">Enable <strong>Keep all filters</strong> in the drill-through pane so that the target page inherits report-level and page-level filters from the source page — not just the clicked value.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>How do you build bookmark-based page navigation in Power BI?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <ol>
+            <li>Design each "page" as a section of one report page (using layered visuals) — or use multiple pages</li>
+            <li><strong>View → Bookmarks pane</strong> — create a bookmark for each state/page you want</li>
+            <li>Insert blank buttons (<strong>Insert → Buttons → Blank</strong>), add text/icon</li>
+            <li>Select the button → <strong>Format → Action → Type: Bookmark</strong> → select target bookmark</li>
+            <li>Ctrl+Click in edit mode to test navigation</li>
+          </ol>
+          <div class="callout warn">When creating bookmarks for navigation panels (slide-in menus), check <strong>Selected visuals only</strong> and <strong>Current page</strong> in the bookmark options — otherwise bookmarks capture filter state, which interferes with slicer choices.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>What are Field Parameters and what problem do they solve?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Field Parameters (introduced May 2022) let report consumers dynamically switch which field (measure or dimension) is shown on a visual's axis or legend — without the author creating separate visuals for each combination.</p>
+          <p><strong>Setup:</strong> Modeling → New parameter → Fields → select measures or columns to include → Add to this page (adds a slicer automatically).</p>
+          <pre><code>// Auto-generated DAX table for a "Select Metric" parameter
+Metric Parameter = {
+    ("Total Revenue",  NAMEOF('Sales'[Total Revenue]),  0),
+    ("Total Margin",   NAMEOF('Sales'[Total Margin]),   1),
+    ("Units Sold",     NAMEOF('Sales'[Units Sold]),      2)
+}</code></pre>
+          <p>Use the parameter field on the visual axis. When the user selects "Total Margin" from the slicer, the visual switches dynamically.</p>
+          <div class="callout tip">Field parameters work for both measures (KPI switching) and dimensions (group-by switching). They are a clean alternative to multiple bookmarks for the same visual layout.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>How do you apply conditional formatting using a DAX measure?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Create a DAX measure that returns a color string (hex or named color), then apply it in conditional formatting settings:</p>
+          <pre><code>-- Measure: return color based on margin %
+Margin Color =
+VAR Margin = DIVIDE([Total Profit], [Total Revenue])
+RETURN
+  SWITCH(TRUE(),
+    Margin >= 0.20,  "#107c10",  -- green: healthy
+    Margin >= 0.10,  "#ff8c00",  -- orange: warn
+    "#d83b01"                     -- red: critical
+  )</code></pre>
+          <p><strong>Apply it:</strong> Select the visual column/bar → Format → Conditional formatting → Background color → Format style: <em>Field value</em> → Select measure <code>Margin Color</code>.</p>
+          <div class="callout tip">This works on table/matrix backgrounds, font colors, data bar colors, and icon sets. The measure-based approach is far more powerful than rule-based because you can embed complex DAX logic.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">5</div>
+          <div><h4>What are the key report design best practices you follow?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <ul>
+            <li><strong>Maximum 5-7 visuals per page</strong> — cognitive overload reduces decision-making</li>
+            <li><strong>Consistent colour palette</strong> — one primary colour, semantic red/amber/green for KPIs only</li>
+            <li><strong>Hierarchy of information</strong> — KPI cards at top, summary charts middle, detail table at bottom</li>
+            <li><strong>Avoid pie charts</strong> for more than 3-4 segments — use bars instead</li>
+            <li><strong>Tooltips</strong> for supplementary data — keeps pages clean without losing depth</li>
+            <li><strong>Mobile layout</strong> — View → Mobile layout for executives on phones</li>
+            <li><strong>Meaningful titles</strong> — "Monthly Revenue Trend (2024)" not "Line Chart 1"</li>
+            <li><strong>Disable cross-highlight if it creates confusion</strong> — Edit interactions → Format for clarity</li>
+          </ul>
+          <div class="callout tip">Always start report design with a wireframe and sign off from stakeholders on layout before building. Avoid retrofitting complex designs.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== PBI SERVICE & DEPLOYMENT ===== -->
+    <div id="pbi-service" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#9729;</div>
+        <div><h2>Power BI Service &amp; Deployment</h2><p>Workspaces, apps, deployment pipelines, refresh, sensitivity labels</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>What is the difference between a Workspace and an App in Power BI Service?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th></th><th>Workspace</th><th>App</th></tr>
+            <tr><td>Purpose</td><td>Collaboration area for content creators</td><td>Curated, read-only package published to consumers</td></tr>
+            <tr><td>Access roles</td><td>Admin, Member, Contributor, Viewer</td><td>App Audience groups — can share to AAD groups or entire org</td></tr>
+            <tr><td>Content</td><td>Reports, datasets, dataflows, scorecards</td><td>Subset of workspace content selected by publisher</td></tr>
+            <tr><td>Navigation</td><td>List of items</td><td>Custom nav menu with sections and links</td></tr>
+          </table>
+          <div class="callout tip">Best practice: Create a workspace for the development team (Contributor role for analysts), publish an App for end users. End users never need Workspace access — they consume through the cleaner App experience.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>How do deployment pipelines (Dev → Test → Prod) work in Power BI?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <ol>
+            <li><strong>Create pipeline:</strong> Power BI Service → Deployment Pipelines → New pipeline (requires Premium or PPU workspace)</li>
+            <li><strong>Assign workspaces</strong> to Dev, Test, and Prod stages</li>
+            <li><strong>Deploy forward:</strong> Review comparison → Deploy all or selected items to next stage</li>
+            <li><strong>Deployment rules:</strong> Per-stage rules override data source parameters (e.g., Dev connects to dev SQL, Prod connects to prod SQL) — set under the pipeline stage ⚙ icon</li>
+          </ol>
+          <p><strong>Comparison view</strong> shows exactly which reports/datasets differ between stages before you deploy.</p>
+          <div class="callout tip">Set data source rules for each stage so the same .pbix connects to the correct environment database automatically. Without rules, Prod would use Dev connection strings.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>How do you set up scheduled refresh for an on-premises data source?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <ol>
+            <li><strong>Install On-premises Data Gateway</strong> on a server that can reach the data source and the internet (acts as bridge)</li>
+            <li><strong>Register the gateway</strong> in Power BI Service → Settings → Manage gateways → Add data source (specify server, database, auth)</li>
+            <li><strong>Map dataset to gateway:</strong> Dataset → Settings → Gateway connection → select the gateway and data source</li>
+            <li><strong>Configure schedule:</strong> Dataset → Settings → Scheduled refresh → On → set frequency (up to 8x/day on Pro, 48x/day on Premium)</li>
+          </ol>
+          <div class="callout warn">The gateway service account needs read access to the source database. Use a dedicated service account — never personal credentials for production gateways.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>What are sensitivity labels in Power BI and how do they work?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Sensitivity labels (from Microsoft Purview) classify and protect content based on data sensitivity. In Power BI:</p>
+          <ul>
+            <li>Labels (e.g., Public, Internal, Confidential, Highly Confidential) applied to datasets propagate downstream to reports and exported files</li>
+            <li>Labels set in Power BI Desktop persist when published to Service</li>
+            <li>When data is <strong>exported</strong> to Excel or PDF, the label travels with the file — Purview enforcement (encryption, access restriction) applies outside Power BI</li>
+            <li>Tenant-level mandatory label policies can require labelling before publish</li>
+          </ul>
+          <div class="callout tip">Sensitivity label inheritance: if a dataset has a "Confidential" label, any report built on it inherits Confidential automatically. This prevents accidental label downgrade on downstream artefacts.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">5</div>
+          <div><h4>What is the difference between Promoted and Certified datasets?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th></th><th>Promoted</th><th>Certified</th></tr>
+            <tr><td>Who can set it</td><td>Any workspace contributor/member</td><td>Only users designated by Fabric admin via tenant setting</td></tr>
+            <tr><td>Trust signal</td><td>"Worth knowing about" — informal endorsement</td><td>Official, IT-approved, meets org quality standards</td></tr>
+            <tr><td>Badge in Service</td><td>Purple Promoted badge</td><td>Gold Certified badge + tooltip with certification notes</td></tr>
+            <tr><td>Search prominence</td><td>Higher in search results than unendorsed</td><td>Highest visibility in search, data hub, and "Get data" dialog</td></tr>
+          </table>
+          <div class="callout tip">In large organizations, certified datasets reduce report sprawl. When analysts connect to existing datasets via "Live connection" in Desktop, they gravitate toward certified ones — driving a single source of truth.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== PBI PERFORMANCE ===== -->
+    <div id="pbi-perf" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#9889;</div>
+        <div><h2>Performance &amp; Optimization</h2><p>VertiPaq, Performance Analyzer, DAX Studio, Import best practices</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>How does VertiPaq (in-memory columnar storage) work and what affects compression?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Power BI Import mode stores data in <strong>VertiPaq</strong> — a columnar, in-memory compressed store. Key compression principles:</p>
+          <ul>
+            <li><strong>Dictionary encoding:</strong> Each unique value in a column gets an integer ID — repeated values store as tiny integers, not full strings</li>
+            <li><strong>Run-length encoding:</strong> Long sequences of the same value are stored as (value, count) pairs</li>
+            <li><strong>Cardinality is the enemy of compression:</strong> A column with 1M unique values (e.g., GUID, timestamp) compresses poorly and consumes enormous memory</li>
+          </ul>
+          <p><strong>Practical implications:</strong></p>
+          <ul>
+            <li>Remove GUID columns you don't need in DAX</li>
+            <li>Split DateTime into separate Date and Time columns — Date compresses well; time has 86,400 possible values per day</li>
+            <li>Remove free-text columns (notes, comments) — near-zero compression</li>
+          </ul>
+          <div class="callout tip">Use <strong>VertiPaq Analyzer</strong> (free, in DAX Studio) to see exactly which columns use the most memory and have the highest cardinality. Focus optimization on the top 5 offenders.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>How do you use Performance Analyzer to diagnose slow visuals?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <ol>
+            <li><strong>View → Performance Analyzer → Start recording</strong></li>
+            <li>Interact with the report (click slicers, change filters) or click <em>Refresh visuals</em></li>
+            <li>Expand each visual in the tree — three timing components:</li>
+          </ol>
+          <table>
+            <tr><th>Component</th><th>Meaning</th><th>Fix</th></tr>
+            <tr><td>DAX query</td><td>Time to execute the measure/query</td><td>Optimize DAX, add aggregation tables</td></tr>
+            <tr><td>Visual display</td><td>Time to render the chart/table</td><td>Reduce data points, simplify visual</td></tr>
+            <tr><td>Other</td><td>Network, Power BI infrastructure</td><td>Usually not actionable</td></tr>
+          </table>
+          <p>Click <strong>Copy query</strong> on a slow visual → paste into DAX Studio for deeper analysis with Query Plan and Server Timings.</p>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>What DAX anti-patterns commonly hurt performance?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Anti-pattern</th><th>Problem</th><th>Fix</th></tr>
+            <tr><td>CALCULATE inside SUMX</td><td>Context transition on every row — very slow on large tables</td><td>Pre-filter with FILTER outside the iterator; use VAR to capture the value once</td></tr>
+            <tr><td>IF(condition, [M1], [M2]) where M1/M2 are heavy</td><td>Both measures are evaluated even when not returned</td><td>Use SWITCH(TRUE(),...) with VAR pre-computation</td></tr>
+            <tr><td>Bidirectional relationships everywhere</td><td>VertiPaq must maintain dual filter propagation — increased memory and computation</td><td>Use single-direction; use CROSSFILTER() in specific measures where needed</td></tr>
+            <tr><td>High-cardinality DISTINCTCOUNT</td><td>Very expensive operation</td><td>Pre-aggregate in Power Query; use approximate COUNT if exact not needed</td></tr>
+          </table>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>What Power Query best practices reduce dataset size and refresh time?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <ul>
+            <li><strong>Column pruning:</strong> Remove all columns not used in the model as early as possible (<code>Table.SelectColumns</code> — folds to SQL SELECT)</li>
+            <li><strong>Row filtering:</strong> Filter rows early with date ranges, status filters — folds to SQL WHERE</li>
+            <li><strong>Disable "Enable load"</strong> on staging queries that are only used as intermediate steps</li>
+            <li><strong>Disable Auto Date/Time:</strong> File Options → Data Load → uncheck — prevents 7 hidden date tables per date column</li>
+            <li><strong>Use data types correctly:</strong> Set Integer not Decimal where possible; use Date not DateTime for date-only columns</li>
+            <li><strong>Fold-breaking steps last:</strong> Add custom columns, unpivot, and other non-foldable steps after all filter/select steps</li>
+          </ul>
+          <div class="callout tip">The goal is: let the database do the heavy lifting (query folding), then bring a lean, pre-shaped dataset into VertiPaq. A 10 million row table becomes 500K rows and 10 columns with proper filtering.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== CS TOPICS & DIALOG ===== -->
+    <div id="cs-topics" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#128172;</div>
+        <div><h2>Topics &amp; Dialog Design</h2><p>Topic types, system topics, nodes, branching, redirects, fallback</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>What are topics in Copilot Studio and what types exist?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>A <strong>topic</strong> is a self-contained conversation flow triggered by user intent. It defines the bot's response to a specific user need.</p>
+          <table>
+            <tr><th>Type</th><th>Description</th></tr>
+            <tr><td><strong>System topics</strong></td><td>Built-in by Microsoft — Greeting, Fallback, Escalate, End of conversation, Error. Cannot be deleted; can be customized.</td></tr>
+            <tr><td><strong>Custom topics</strong></td><td>Author-created. Triggered by trigger phrases or redirected from other topics.</td></tr>
+            <tr><td><strong>Lesson topics</strong></td><td>Sample topics created for new agents — can be deleted.</td></tr>
+          </table>
+          <div class="callout tip">Topics and <strong>Actions</strong> (Power Automate flows, connectors) are distinct. Topics = conversational logic. Actions = task execution. A topic can call an action as a step within its flow.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>Describe the key system topics and when each fires.</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>System Topic</th><th>When It Fires</th><th>Customize For</th></tr>
+            <tr><td>Greeting</td><td>User starts a new conversation</td><td>Welcome message, quick reply buttons, personalization</td></tr>
+            <tr><td>Fallback</td><td>No topic matches user's input</td><td>Retry message, generative answers fallback, escalation link</td></tr>
+            <tr><td>Escalate</td><td>User says "talk to a person" or trigger phrases</td><td>Hand-off to live agent queue (Teams, Omnichannel)</td></tr>
+            <tr><td>End of Conversation</td><td>Bot or user ends session</td><td>CSAT survey, closing message</td></tr>
+            <tr><td>Error</td><td>Unhandled exception in topic or flow</td><td>Friendly error message, automatic escalation</td></tr>
+            <tr><td>On Conversation Start</td><td>Session initializes (before Greeting)</td><td>Initialize global variables, fetch user profile</td></tr>
+          </table>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>What conversation node types are available and what does each do?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Node</th><th>Purpose</th></tr>
+            <tr><td><strong>Message</strong></td><td>Send text, images, adaptive cards, or quick replies to the user</td></tr>
+            <tr><td><strong>Question</strong></td><td>Ask user for input; capture to a variable using entity extraction</td></tr>
+            <tr><td><strong>Condition</strong></td><td>Branch conversation based on variable values or Power Fx expressions</td></tr>
+            <tr><td><strong>Action</strong></td><td>Call a Power Automate flow, connector action, or custom skill</td></tr>
+            <tr><td><strong>Redirect</strong></td><td>Transfer control to another topic (returns to caller after target completes)</td></tr>
+            <tr><td><strong>Generative answers</strong></td><td>Use AI to synthesize an answer from knowledge sources</td></tr>
+            <tr><td><strong>Variable management</strong></td><td>Set, clear, or initialize variables</td></tr>
+            <tr><td><strong>End topic</strong></td><td>Return control to the calling topic</td></tr>
+            <tr><td><strong>End conversation</strong></td><td>Terminate the session entirely</td></tr>
+          </table>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>How do you implement conditional branching in a topic?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Add a <strong>Condition</strong> node after a Question or Variable node. Each branch evaluates a condition against a variable:</p>
+          <ul>
+            <li>Conditions use simple comparisons: is equal to, contains, is blank, or <strong>Power Fx expressions</strong> for complex logic</li>
+            <li>Multiple <code>Else if</code> branches can be added</li>
+            <li>An <code>Else</code> branch handles the default case</li>
+          </ul>
+          <p><strong>Example:</strong> After asking "What is your employment type?" with a Choice entity:</p>
+          <pre><code>If   Topic.EmploymentType is "Full-time"  → Redirect to: FullTimeLeavePolicy
+Else If Topic.EmploymentType is "Contract"  → Redirect to: ContractLeavePolicy
+Else                                         → Message: "Please contact HR directly"</code></pre>
+          <div class="callout tip">For numeric ranges or complex logic, use Power Fx in the condition expression: <code>Topic.SalaryBand &gt;= 50000 &amp;&amp; Topic.SalaryBand &lt; 100000</code></div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">5</div>
+          <div><h4>What is the difference between Redirect, End Topic, and End Conversation?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Node</th><th>What Happens</th><th>Use When</th></tr>
+            <tr><td><strong>Redirect</strong></td><td>Transfer to another topic; execution returns to caller after target topic ends</td><td>Reusing a shared topic (e.g., authentication check) from multiple places</td></tr>
+            <tr><td><strong>End Topic</strong></td><td>Current topic finishes and returns control to the topic that redirected here</td><td>At the bottom of a child/shared topic that was called via Redirect</td></tr>
+            <tr><td><strong>End Conversation</strong></td><td>Entire session terminates — fires the End of Conversation system topic</td><td>User explicitly wants to close the chat, or after a complete resolution</td></tr>
+          </table>
+          <div class="callout tip">Think of it like function calls: Redirect = call, End Topic = return, End Conversation = terminate process. Avoid using End Conversation mid-flow — it abruptly closes the chat without resolution confirmation.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">6</div>
+          <div><h4>How do trigger phrases work and what are best practices for authoring them?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Trigger phrases define the user inputs that activate a topic. Copilot Studio's NLU model uses them for intent matching — the user doesn't have to say the exact phrase.</p>
+          <p><strong>Best practices:</strong></p>
+          <ul>
+            <li>Add <strong>5–10 varied phrases</strong> per topic — different vocabulary, sentence structures, lengths</li>
+            <li>Write natural language sentences: <em>"I want to request annual leave"</em> not just keywords like <em>"leave request"</em></li>
+            <li>Include common misspellings or alternative terms your users actually use</li>
+            <li><strong>Avoid overlap</strong> between topics — if two topics have similar phrases, the NLU may trigger the wrong one</li>
+            <li>Use the <strong>Topic Overlap Checker</strong> (Topics page → Analyze) to detect conflicts</li>
+          </ul>
+          <div class="callout warn">Very short trigger phrases (1–2 words) cause false positives. Prefer full sentences. Never use the same phrase in two topics — the last topic alphabetically wins, which is unpredictable.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">7</div>
+          <div><h4>How do you customize the Fallback topic to handle unrecognized inputs gracefully?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>A robust Fallback topic pattern:</p>
+          <ol>
+            <li>Increment a counter variable <code>Global.FallbackCount</code> at the start</li>
+            <li>If <code>FallbackCount = 1</code>: rephrase request — <em>"I didn't quite get that. Could you try asking in a different way?"</em></li>
+            <li>If <code>FallbackCount = 2</code>: offer menu of topics — <em>"Here are some things I can help with:"</em> + quick reply buttons</li>
+            <li>If <code>FallbackCount &gt;= 3</code>: escalate to human — Redirect to Escalate topic; reset counter</li>
+          </ol>
+          <div class="callout tip">If you have Generative Answers enabled, add a Generative Answers node before the retry counter check. The AI may resolve the query from knowledge sources without hitting the manual fallback path at all.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== CS ENTITIES & VARIABLES ===== -->
+    <div id="cs-entities" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#127800;</div>
+        <div><h2>Entities &amp; Variables</h2><p>Prebuilt entities, custom entities, variable types, global scope, system variables</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>What are entities in Copilot Studio? What is the difference between prebuilt and custom?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Entities define what type of information to extract from a user's message. When a Question node uses an entity, the bot automatically extracts the relevant value from natural language.</p>
+          <table>
+            <tr><th>Type</th><th>Examples</th><th>Use When</th></tr>
+            <tr><td><strong>Prebuilt</strong></td><td>Date/Time, Number, Duration, Email, Person Name, Boolean, Currency, Ordinal</td><td>Standard real-world data types — no configuration needed</td></tr>
+            <tr><td><strong>Custom — Closed list</strong></td><td>Department: {HR, Finance, IT, Operations}</td><td>Fixed set of options; add synonyms (IT, Information Technology)</td></tr>
+            <tr><td><strong>Custom — Regex</strong></td><td>Employee ID matching pattern <code>EMP-\d{5}</code></td><td>Structured codes, IDs, formats</td></tr>
+          </table>
+          <div class="callout tip">When using a Choice entity in a Question node, Copilot Studio automatically renders it as quick reply buttons on supported channels (Teams, web chat) — no extra configuration needed.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>What variable types does Copilot Studio support and what scopes exist?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Data Type</th><th>Examples</th></tr>
+            <tr><td>String</td><td>User name, email, free-text answers</td></tr>
+            <tr><td>Number</td><td>Employee ID, salary, quantity</td></tr>
+            <tr><td>Boolean</td><td>Consent given: true/false</td></tr>
+            <tr><td>Date and Time</td><td>Leave start date, booking time</td></tr>
+            <tr><td>Table</td><td>Array of records from a flow</td></tr>
+            <tr><td>Record</td><td>Single Dataverse/JSON record</td></tr>
+            <tr><td>Choice</td><td>Value from a closed-list entity</td></tr>
+          </table>
+          <p><strong>Scopes:</strong></p>
+          <ul>
+            <li><strong>Topic variables</strong> (prefix <code>Topic.</code>): Exist only within the current topic. Lost when topic ends.</li>
+            <li><strong>Global variables</strong> (prefix <code>Global.</code>): Persist across all topics for the full conversation session.</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>How do you use global variables to share data between topics?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p><strong>Pattern — initialize in OnConversationStart:</strong></p>
+          <ol>
+            <li>Open the <strong>OnConversationStart</strong> system topic</li>
+            <li>Add a <strong>Set variable</strong> node or call a Power Automate flow to fetch user data</li>
+            <li>Store results in <code>Global.UserEmail</code>, <code>Global.UserDepartment</code>, etc.</li>
+          </ol>
+          <p><strong>Consume in any topic:</strong></p>
+          <pre><code>// Message node — personalized greeting
+"Hi {Global.UserDisplayName}, how can I help you today?"
+
+// Condition — department-specific routing
+If Global.UserDepartment is "Finance" → Redirect to: FinanceTopics</code></pre>
+          <div class="callout warn">Global variables persist for the conversation session only — they are not saved between separate sessions. For cross-session data, fetch from a data source (Dataverse, SharePoint) in OnConversationStart each time.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>What is slot filling and how does Copilot Studio handle it automatically?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p><strong>Slot filling</strong> is the automatic extraction of entity values from a user's message — even when those values are provided before the bot explicitly asks for them.</p>
+          <p><strong>Example:</strong> Your topic has two Question nodes — "What date?" (Date entity) and "What type of leave?" (Choice entity).</p>
+          <p>If the user opens with: <em>"I need 3 days of annual leave starting next Monday"</em> — Copilot Studio extracts the date AND leave type from the opening message and skips both Question nodes automatically.</p>
+          <div class="callout tip">Slot filling works best when entities have clear, distinct patterns. Avoid overlapping entity patterns across Question nodes in the same topic — the bot may fill the wrong slot.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">5</div>
+          <div><h4>What system variables are available in Copilot Studio and how are they useful?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Variable</th><th>Contains</th><th>Use Case</th></tr>
+            <tr><td><code>System.User.DisplayName</code></td><td>Logged-in user's display name</td><td>Personalized greetings</td></tr>
+            <tr><td><code>System.User.Email</code></td><td>User's email (when authenticated)</td><td>Look up user records, notify via flow</td></tr>
+            <tr><td><code>System.LastMessage.Text</code></td><td>Raw text of user's last message</td><td>Log inputs, pass to flow for AI processing</td></tr>
+            <tr><td><code>System.Channel</code></td><td>Channel name (msteams, webchat, etc.)</td><td>Channel-specific behaviour (Teams card vs web text)</td></tr>
+            <tr><td><code>System.AuthToken</code></td><td>OAuth token (when auth configured)</td><td>Call APIs on behalf of user in Power Automate</td></tr>
+            <tr><td><code>System.Conversation.Id</code></td><td>Unique session ID</td><td>Logging, audit trail, Omnichannel correlation</td></tr>
+          </table>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== CS POWER AUTOMATE ===== -->
+    <div id="cs-automate" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#128260;</div>
+        <div><h2>Power Automate Integration</h2><p>Calling flows, passing variables, adaptive cards, error handling, limits</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>How do you call a Power Automate flow from a Copilot Studio topic?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <ol>
+            <li>In the topic, click <strong>+</strong> → <strong>Call an action</strong> → <strong>Create a flow</strong> or select an existing flow</li>
+            <li>The flow must use the <strong>"When Copilot Studio calls a flow"</strong> trigger (Power Virtual Agents connector)</li>
+            <li>The flow must end with a <strong>"Return value(s) to Copilot Studio"</strong> action (also PVA connector)</li>
+            <li>Input parameters defined in the trigger become available in the topic's Action node as input fields</li>
+            <li>Output parameters defined in the Return action become topic variables after the action executes</li>
+          </ol>
+          <div class="callout warn">The flow must be in the <strong>same Power Platform environment</strong> as the Copilot Studio agent. Cross-environment flow calls are not supported natively.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>How do you pass variables to a flow and get results back into the topic?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p><strong>Passing to flow (inputs):</strong> In the Power Automate flow trigger, add input parameters (Text, Number, Boolean, etc.). In the Copilot Studio Action node, map topic/global variables to those inputs.</p>
+          <p><strong>Returning from flow (outputs):</strong> In the flow's "Return value(s) to Copilot Studio" action, add output parameters. Back in the topic, the Action node offers each output as a new variable to store the result.</p>
+          <pre><code>// Flow trigger inputs:
+//   EmployeeEmail (Text), LeaveType (Text), StartDate (Text), Days (Number)
+
+// Flow return outputs:
+//   RequestId (Text), ApprovalStatus (Text), ManagerEmail (Text)
+
+// In topic after action runs:
+// Topic.RequestId = "REQ-20450"
+// Topic.ApprovalStatus = "Pending"</code></pre>
+          <div class="callout tip">Keep flow inputs as simple types (Text, Number) — avoid passing complex JSON objects as strings. If you need to pass a record, serialize it with <code>JSON()</code> in Power Fx and deserialize with <code>ParseJSON()</code> in Power Automate.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>How do you send an Adaptive Card and capture the user's response from a Teams flow?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Use the <strong>Teams "Post an Adaptive Card and wait for a response"</strong> action in Power Automate:</p>
+          <ol>
+            <li>In the flow, add action: <em>Microsoft Teams → Post an Adaptive Card and wait for a response</em></li>
+            <li>Set Recipient to <code>@{triggerBody()?['text']}</code> or a specific email</li>
+            <li>Paste the Adaptive Card JSON (design at <a href="https://adaptivecards.io" target="_blank">adaptivecards.io</a>)</li>
+            <li>The action waits (up to 30 days) for the user to submit the card</li>
+            <li>Capture <code>body('Post_Adaptive_Card')['data']</code> to read submitted values</li>
+            <li>Return the submitted values to Copilot Studio via Return action</li>
+          </ol>
+          <div class="callout warn">For real-time bot conversations, the "wait for response" Teams action pauses your flow. Ensure the flow timeout setting allows sufficient wait time. For Copilot Studio, the synchronous 2-minute limit applies — for approvals, send the card asynchronously and have the approval update a Dataverse record the bot polls.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>How do you handle failures when a called Power Automate flow fails?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Flow failures don't automatically surface a descriptive error in Copilot Studio. Use an explicit error status pattern:</p>
+          <ol>
+            <li>In the flow's Return action, add an output parameter: <code>Status</code> (Text) — set to <em>"Success"</em> normally</li>
+            <li>Add a <strong>Configure run after</strong> scope on error → return <code>Status = "Error"</code> and <code>ErrorMessage = "..."</code></li>
+            <li>In the Copilot Studio topic after the Action node, add a Condition: <code>Topic.Status is "Error"</code></li>
+            <li>On error branch: show a friendly message and optionally redirect to Escalate topic</li>
+          </ol>
+          <div class="callout tip">Always design flows to return a status code. Never let a flow silently fail — users will see the bot hang or give a generic error message that erodes trust.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">5</div>
+          <div><h4>What is the execution timeout for flows called from Copilot Studio? How do you handle long-running operations?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Flows called from Copilot Studio must complete within <strong>2 minutes (120 seconds)</strong>. If the flow exceeds this, the bot receives a timeout error.</p>
+          <p><strong>Pattern for long-running operations:</strong></p>
+          <ol>
+            <li><strong>Trigger async:</strong> The bot calls a "submit" flow that kicks off the long operation and immediately returns a job/request ID</li>
+            <li><strong>Store ID:</strong> Bot stores the request ID in a global variable</li>
+            <li><strong>Status check:</strong> Bot asks "Would you like me to check the status?" — calls a lightweight "check status" flow with the job ID</li>
+            <li><strong>Notification (preferred):</strong> Long-running flow sends a Teams message when complete, or updates a Dataverse record that the bot checks on next user interaction</li>
+          </ol>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== CS GENERATIVE AI ===== -->
+    <div id="cs-genai" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#129504;</div>
+        <div><h2>Generative AI Features</h2><p>Generative answers, knowledge sources, generative actions, content safety</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>What is the difference between Generative Answers and topic trigger-based responses?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th></th><th>Topic Triggers</th><th>Generative Answers</th></tr>
+            <tr><td>Control</td><td>Deterministic — author defines exact flow</td><td>Non-deterministic — AI synthesizes from sources</td></tr>
+            <tr><td>Maintenance</td><td>Must update topics as content changes</td><td>Update knowledge source — bot automatically learns</td></tr>
+            <tr><td>Best for</td><td>Transactional intents (submit form, check status)</td><td>FAQ-style, informational, policy queries</td></tr>
+            <tr><td>Priority</td><td>Higher — topics match first</td><td>Fallback — fires when no topic matches (configurable)</td></tr>
+          </table>
+          <div class="callout tip">Use topics for anything requiring data capture, logic, or system actions. Use Generative Answers for knowledge retrieval — let it handle the long tail of informational questions your topics don't cover.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>How do you add and configure knowledge sources in Copilot Studio?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Navigate to <strong>Knowledge</strong> (left nav) → <strong>Add knowledge</strong>. Supported sources:</p>
+          <ul>
+            <li><strong>Public URL:</strong> A website the AI can crawl (e.g., your company's public help portal)</li>
+            <li><strong>SharePoint:</strong> Specific site or document library — requires authenticated access; auto-respects SharePoint permissions</li>
+            <li><strong>Uploaded files:</strong> PDF, Word, text documents</li>
+            <li><strong>Dataverse search:</strong> Searches Dataverse knowledge article tables</li>
+          </ul>
+          <p><strong>Quality tips:</strong></p>
+          <ul>
+            <li>Well-structured FAQ-format documents perform best</li>
+            <li>Add clear headings and section breaks — the AI chunks content around these</li>
+            <li>Test with 10–15 representative questions before going live</li>
+            <li>SharePoint sources refresh on a schedule — allow up to 24h for new content to surface</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>What are Generative Actions and how does the AI decide to invoke them?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Generative Actions allow the AI orchestrator to <strong>autonomously decide</strong> which flows or connectors to call based on the user's natural language — without the user triggering a specific topic.</p>
+          <p>When enabled, the AI reads the <strong>descriptions</strong> of actions and their inputs, then chooses the best action to fulfil the user's request.</p>
+          <p><strong>Enabling:</strong> Settings → AI Capabilities → Enable generative actions (requires "Generative" orchestration mode).</p>
+          <p><strong>Critical: Write good descriptions.</strong> The AI relies entirely on the action name and description to decide when to invoke it. Poor descriptions lead to wrong action selection.</p>
+          <pre><code>// Good description for a leave request action:
+"Submit a new annual leave or sick leave request for the current user.
+ Requires: leave type, start date, end date, and reason."
+
+// Poor description:
+"Submit leave"</code></pre>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>What is Classic vs Generative orchestration mode? When would you choose each?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th></th><th>Classic</th><th>Generative (Boosted)</th></tr>
+            <tr><td>Topic matching</td><td>Strict NLU matching on trigger phrases</td><td>AI understands intent more flexibly</td></tr>
+            <tr><td>Unanswered questions</td><td>Falls to Fallback topic</td><td>AI tries knowledge sources first</td></tr>
+            <tr><td>Predictability</td><td>High — deterministic</td><td>Lower — AI may generate unexpected responses</td></tr>
+            <tr><td>Maintenance</td><td>Must maintain exhaustive trigger phrases</td><td>AI handles paraphrase variations</td></tr>
+            <tr><td>Best for</td><td>Compliance-sensitive bots; transactional bots</td><td>Knowledge bots, internal assistants, broad Q&amp;A</td></tr>
+          </table>
+          <div class="callout tip">For enterprise production bots handling sensitive transactions, start with Classic mode. Add Generative Answers as a node within the Fallback topic as a safety net, rather than enabling full Generative orchestration mode until you've validated the AI's behaviour.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">5</div>
+          <div><h4>How does content safety and moderation work in Copilot Studio?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Copilot Studio uses Azure AI Content Safety filters for both input and output moderation:</p>
+          <ul>
+            <li><strong>Harm categories:</strong> Violence, hate speech, sexual content, self-harm — filtered at configurable thresholds</li>
+            <li><strong>Grounded responses only:</strong> When knowledge sources are configured, the AI is instructed not to answer from outside those sources</li>
+            <li><strong>Custom blocked topics:</strong> You can explicitly add topics the bot should refuse (e.g., competitor comparisons, political discussions)</li>
+            <li><strong>Sensitive topic handling:</strong> Built-in policies for firearms, financial advice, medical advice — bot deflects to appropriate resources</li>
+          </ul>
+          <p><strong>Governance:</strong> Content safety settings are at the agent level. DLP policies in the Power Platform admin centre control which connectors can be used, and tenant-level AI usage policies can restrict generative AI features entirely.</p>
+          <div class="callout warn">Never assume content filters are 100% effective. For bots handling sensitive use cases (mental health, legal, medical), always include a human escalation path and review AI responses during UAT with adversarial test inputs.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== CS AUTH & CHANNELS ===== -->
+    <div id="cs-auth" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#128272;</div>
+        <div><h2>Authentication &amp; Channels</h2><p>Auth types, Teams deployment, web chat embed, using auth tokens</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>What are the three authentication types in Copilot Studio and when do you use each?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <table>
+            <tr><th>Type</th><th>How It Works</th><th>Use When</th></tr>
+            <tr><td><strong>No authentication</strong></td><td>Anonymous — no identity. System.User variables return blank.</td><td>Public-facing bots, FAQ bots on a website, no personalization needed</td></tr>
+            <tr><td><strong>Manual (OAuth 2.0)</strong></td><td>Author configures an OAuth/OIDC provider. Bot prompts user to sign in during conversation. Supports Azure AD, custom IdP.</td><td>Bots requiring identity on non-M365 channels, external users, custom portals</td></tr>
+            <tr><td><strong>Microsoft (SSO)</strong></td><td>Integrated Entra ID SSO. User is authenticated silently in Teams. System.User.Email and AuthToken available immediately.</td><td>Internal employee bots on Teams — seamless, no extra sign-in prompt</td></tr>
+          </table>
+          <div class="callout tip">For internal employee bots deployed to Teams, always use Microsoft auth. SSO means zero friction for the user — they don't see a login prompt at all.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>How do you deploy a Copilot Studio agent to Microsoft Teams?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <ol>
+            <li><strong>Configure and test</strong> the agent in Copilot Studio. Publish at least once.</li>
+            <li>Go to <strong>Channels → Microsoft Teams</strong> → Turn on Teams channel</li>
+            <li>Click <strong>Open bot in Teams</strong> to test personally before rolling out</li>
+            <li>For org-wide deployment: <strong>Share &gt; Share to everyone in my org</strong> (requires Teams admin to approve the app in Teams Admin Centre)</li>
+            <li>Teams admin approves under Teams Admin Centre → Manage apps → Pending approval</li>
+            <li>Once approved, the bot appears in the Teams app store for your org</li>
+          </ol>
+          <div class="callout tip">For faster rollout in a specific team or group: use the <strong>Download manifest</strong> option → upload as a custom app in the target Teams team directly, bypassing org-wide admin approval.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>How do you embed a Copilot Studio bot in a website using web chat?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Copilot Studio provides an <strong>iframe embed snippet</strong> you can paste directly into any HTML page:</p>
+          <pre><code>&lt;!-- Copy from Channels → Custom website in Copilot Studio --&gt;
+&lt;iframe src="https://web.powerva.microsoft.com/environments/.../bots/.../webchat"
+  style="width: 400px; height: 600px;"&gt;&lt;/iframe&gt;</code></pre>
+          <p>For production sites with <strong>token-based security</strong> (recommended):</p>
+          <ol>
+            <li>Use the <strong>Direct Line token endpoint</strong> (not the shared secret directly)</li>
+            <li>Your server calls the token endpoint with the secret → returns a scoped one-time token</li>
+            <li>Your frontend receives the token from your server and initializes the Web Chat control with it</li>
+          </ol>
+          <div class="callout warn">Never expose the Direct Line channel secret in client-side JavaScript. A server-side token exchange endpoint is mandatory for public websites to prevent unauthorized bot access.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>How do you use the System.AuthToken variable to call APIs on behalf of the user?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>When Microsoft (Entra ID) authentication is configured, <code>System.AuthToken</code> contains the user's OAuth access token after sign-in. Pass this to Power Automate to call Microsoft Graph or other APIs as the user:</p>
+          <ol>
+            <li>In the topic Action node, pass <code>System.AuthToken</code> as a text input to your flow</li>
+            <li>In the flow, use an HTTP action with header: <code>Authorization: Bearer @{triggerBody()['authToken']}</code></li>
+            <li>Call Microsoft Graph, SharePoint, or any API that accepts Bearer tokens</li>
+          </ol>
+          <div class="callout warn">The AuthToken is scoped to the permissions configured in the Entra ID app registration. If the token doesn't have the required scope for a Graph endpoint, the call will fail with 401/403. Verify scopes in the app registration first.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== CS GOVERNANCE & ALM ===== -->
+    <div id="cs-alm" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#128640;</div>
+        <div><h2>Governance &amp; ALM</h2><p>Solution-aware components, deployment, analytics, testing, environment strategy</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>How are Copilot Studio agents managed as Power Platform solutions?</h4>
+          <div class="tags"><span class="tag theory">Theory</span><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Copilot Studio agents are solution-aware Power Platform components. The full agent definition — topics, entities, knowledge source metadata, actions — is packaged inside a solution.</p>
+          <p><strong>ALM workflow:</strong></p>
+          <ol>
+            <li><strong>Dev environment:</strong> Build and test in a dedicated development environment, within a managed solution</li>
+            <li><strong>Export:</strong> Export the solution (unmanaged from dev, managed for test/prod) via maker portal or PAC CLI: <code>pac solution export</code></li>
+            <li><strong>Import to Test/Prod:</strong> <code>pac solution import --path solution.zip</code></li>
+            <li><strong>Connection references:</strong> Flows and connections use Connection References — these must be configured per environment at import time</li>
+          </ol>
+          <div class="callout warn">Knowledge sources (SharePoint URLs, website URLs) are environment-specific. Use environment variables in the solution so Dev points to a staging SharePoint site and Prod points to the live site automatically on import.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>What analytics does Copilot Studio provide and what KPIs do you monitor?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Copilot Studio's built-in Analytics page (after publishing) provides:</p>
+          <table>
+            <tr><th>KPI</th><th>Target</th><th>Action if Low</th></tr>
+            <tr><td><strong>Resolution rate</strong></td><td>&gt;80% (bot resolved without escalation)</td><td>Identify top fallback triggers, add topics or knowledge</td></tr>
+            <tr><td><strong>Escalation rate</strong></td><td>&lt;15%</td><td>Common escalation reasons → build topics to handle them</td></tr>
+            <tr><td><strong>Abandonment rate</strong></td><td>&lt;10%</td><td>Users dropping mid-conversation — simplify long flows</td></tr>
+            <tr><td><strong>CSAT</strong></td><td>&gt;4/5 stars</td><td>Investigate low-rated sessions in conversation transcripts</td></tr>
+            <tr><td><strong>Session count</strong></td><td>Trending up</td><td>Low adoption → promote the bot, improve discoverability</td></tr>
+          </table>
+          <div class="callout tip">For deeper analytics, enable <strong>Application Insights integration</strong> in the agent settings — you get full session telemetry, custom event tracking, and can build Power BI dashboards on top.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>How do you test a Copilot Studio agent systematically before going live?</h4>
+          <div class="tags"><span class="tag practical">Practical</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p><strong>Three testing layers:</strong></p>
+          <ol>
+            <li><strong>Authoring canvas test pane:</strong> Test individual topic flows interactively. Check which topic triggered, variable values at each step, error nodes.</li>
+            <li><strong>UAT testing script:</strong> Write 20–30 test cases covering happy path, edge cases, and adversarial inputs. Include: exact trigger phrases, variations, misspellings, boundary values for number inputs.</li>
+            <li><strong>Automated testing:</strong> The Copilot Studio Test CLI (part of PAC CLI) can run test suites programmatically in CI/CD pipelines. Define expected topic, expected response text, and response variables in a JSON/YAML test definition file.</li>
+          </ol>
+          <div class="callout tip">Always include adversarial test cases: offensive language (content safety), out-of-scope questions (should hit Fallback, not hallucinate), empty inputs, and maximum-length inputs. These reveal edge cases before users find them.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>What environment strategy do you recommend for Copilot Studio agents in an enterprise?</h4>
+          <div class="tags"><span class="tag theory">Theory</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Three-environment model aligned to Power Platform ALM best practices:</p>
+          <table>
+            <tr><th>Environment</th><th>Purpose</th><th>Notes</th></tr>
+            <tr><td><strong>Development</strong></td><td>Active authoring, experimentation</td><td>Unmanaged solutions; bot developers have Maker access; connected to non-prod data sources</td></tr>
+            <tr><td><strong>Test / UAT</strong></td><td>Stakeholder testing, regression</td><td>Managed solution imported; test users have limited access; connected to staging data</td></tr>
+            <tr><td><strong>Production</strong></td><td>Live users</td><td>Managed solution only; no direct changes; all changes go through Dev→Test→Prod pipeline; live data connections</td></tr>
+          </table>
+          <ul>
+            <li>Use <strong>Connection References</strong> and <strong>Environment Variables</strong> in solutions so data source URLs, SharePoint sites, and API endpoints swap automatically per environment</li>
+            <li>Use <strong>DLP policies</strong> to restrict which connectors are allowed in each environment tier</li>
+            <li>Bot <strong>publish</strong> is separate from solution import — after importing to Prod, publish the bot to make changes live for users</li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== CS SCENARIO / BEHAVIORAL ===== -->
+    <div id="cs-scenario" class="section">
+      <div class="section-header">
+        <div class="section-icon">&#127919;</div>
+        <div><h2>Scenario / Behavioral</h2><p>Design challenges, troubleshooting, complex projects, real-world decisions</p></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">1</div>
+          <div><h4>Design a Copilot Studio HR Leave Request bot. Walk through your architecture.</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p><strong>Authentication:</strong> Microsoft (Entra ID SSO) — identify user automatically via Teams.</p>
+          <p><strong>Topics:</strong></p>
+          <ul>
+            <li><strong>OnConversationStart:</strong> Call flow → fetch employee record from Dataverse (department, manager, leave balance) → store in Global variables</li>
+            <li><strong>RequestLeave:</strong> Triggers on "request leave", "annual leave", "sick day". Ask: leave type (Choice entity), start date (Date/Time entity), end date, reason. Call SubmitLeaveRequest flow. Confirm submission with reference number.</li>
+            <li><strong>CheckLeaveBalance:</strong> Triggers on "how many days", "leave balance". Call flow → return remaining days by type. Show formatted message.</li>
+            <li><strong>CheckRequestStatus:</strong> Ask for reference ID. Call GetLeaveStatus flow. Return current status.</li>
+            <li><strong>Fallback:</strong> 2 retries → generative answer from HR policy SharePoint site → escalate to HR email if still unresolved.</li>
+          </ul>
+          <p><strong>Flows:</strong> SubmitLeaveRequest (creates Dataverse record, sends approval email to manager), GetLeaveBalance (read Dataverse), GetLeaveStatus (read Dataverse).</p>
+          <div class="callout tip">Keep each topic focused on one intent. Don't build a mega-topic for all leave operations — small, focused topics are easier to maintain and test.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">2</div>
+          <div><h4>Users say the bot triggers the wrong topic for their questions. How do you diagnose and fix this?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <ol>
+            <li><strong>Reproduce in test pane:</strong> Type the exact user phrase. Check which topic triggered — the authoring canvas shows the triggered topic name in the conversation.</li>
+            <li><strong>Check topic overlap:</strong> Topics page → Analyze → Topic Overlap checker highlights competing triggers.</li>
+            <li><strong>Review trigger phrases:</strong> The wrong topic likely has overly generic phrases (e.g., "help", "information") that match too broadly.</li>
+            <li><strong>Fix strategies:</strong>
+              <ul>
+                <li>Narrow the generic topic's trigger phrases — remove single-word triggers</li>
+                <li>Add more specific phrases to the intended topic</li>
+                <li>Use the Model Explanation feature (in test pane) to see confidence scores per topic</li>
+              </ul>
+            </li>
+            <li><strong>Review conversation transcripts</strong> in Analytics for the real user phrases — users often phrase things differently than authors expect.</li>
+          </ol>
+          <div class="callout tip">The Copilot Studio NLU model is trained on variety, not keyword matching. Adding 2–3 more varied trigger phrases to the correct topic usually outweighs fixing the competing topic.</div>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">3</div>
+          <div><h4>A client is still on the classic Power Virtual Agents. What is your migration approach to Copilot Studio?</h4>
+          <div class="tags"><span class="tag scenario">Scenario</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p>Power Virtual Agents was rebranded and upgraded to Copilot Studio — existing PVA bots can be opened directly in Copilot Studio. However a phased approach reduces risk:</p>
+          <ol>
+            <li><strong>Audit existing bot:</strong> Document all topics, flows, entities, and channels. Note any deprecated features.</li>
+            <li><strong>Open in Copilot Studio:</strong> The bot automatically migrates UI-wise. Test all topics in the test pane — most work without changes.</li>
+            <li><strong>Upgrade priority areas:</strong>
+              <ul>
+                <li>Replace deprecated <code>Bot.xxx</code> variables with <code>System.xxx</code></li>
+                <li>Replace any HTML in messages with Adaptive Cards</li>
+                <li>Switch from classic authentication config to Microsoft/manual auth</li>
+              </ul>
+            </li>
+            <li><strong>Take advantage of new features:</strong> Add knowledge sources to replace manual FAQ topics, use generative answers for the long tail.</li>
+            <li><strong>UAT and parallel run:</strong> Run old and new bots side by side, route a percentage of traffic to new bot, compare analytics.</li>
+          </ol>
+        </div></div>
+      </div>
+
+      <div class="qa-card" onclick="toggle(this)">
+        <div class="qa-question">
+          <div class="q-num">4</div>
+          <div><h4>Tell me about a complex bot project you delivered. (STAR method)</h4>
+          <div class="tags"><span class="tag scenario">Behavioral</span></div></div>
+          <span class="chevron">&#9660;</span>
+        </div>
+        <div class="qa-answer"><div class="qa-answer-inner">
+          <p><em>Adapt this template with your specific project details.</em></p>
+          <p><strong>Situation:</strong> [Client/company] had [X] support tickets per month where [Y% were] repetitive queries about [topic — e.g., IT password reset, HR policy, leave requests]. The service desk had a [Z-hour] average response time.</p>
+          <p><strong>Task:</strong> Design and deliver a Copilot Studio agent on Teams to automate the top [N] query types, integrated with [SharePoint/Dataverse/ServiceNow], targeting [X%] resolution without human intervention.</p>
+          <p><strong>Action:</strong> Ran stakeholder workshops to identify top-10 intents from ticket data. Designed a topic map with distinct NLU boundaries. Built [N] topics + [M] Power Automate flows. Integrated knowledge base from SharePoint. Configured Entra ID SSO for user context. Ran 4-week UAT with pilot group, tuned trigger phrases based on transcript analysis. Deployed via Teams admin centre org-wide.</p>
+          <p><strong>Result:</strong> [X%] resolution rate achieved. Service desk ticket volume for covered topics reduced by [Y%]. Average response time dropped from [Z hours] to [&lt;30 seconds]. CSAT score [4.2/5].</p>
+        </div></div>
+      </div>
+    </div>
+
+    <div id="noResults-powerbi" class="no-results" style="display:none;">
+      <p>No questions found matching your search. Try different keywords.</p>
+    </div>
+  </div>
+
 </main>
 </div>
 
@@ -2169,17 +3825,20 @@ Connect-PnPOnline `
     el.classList.add('active');
 
     var isSup = profile === 'supriya';
+    var isPBI = profile === 'powerbi';
     document.getElementById('header-supriya').style.display = isSup ? '' : 'none';
-    document.getElementById('header-mohini').style.display  = isSup ? 'none' : '';
+    document.getElementById('header-mohini').style.display  = (!isSup && !isPBI) ? '' : 'none';
+    document.getElementById('header-powerbi').style.display = isPBI ? '' : 'none';
     document.getElementById('aside-supriya').style.display  = isSup ? '' : 'none';
-    document.getElementById('aside-mohini').style.display   = isSup ? 'none' : '';
+    document.getElementById('aside-mohini').style.display   = (!isSup && !isPBI) ? '' : 'none';
+    document.getElementById('aside-powerbi').style.display  = isPBI ? '' : 'none';
     document.getElementById('supriya-content').style.display = isSup ? '' : 'none';
-    document.getElementById('mohini-content').style.display  = isSup ? 'none' : '';
+    document.getElementById('mohini-content').style.display  = (!isSup && !isPBI) ? '' : 'none';
+    document.getElementById('powerbi-content').style.display = isPBI ? '' : 'none';
 
     // Reset to first section of new profile
-    var firstNav = document.querySelector(
-      isSup ? '#aside-supriya .nav-item' : '#aside-mohini .nav-item'
-    );
+    var asideSelector = isSup ? '#aside-supriya .nav-item' : isPBI ? '#aside-powerbi .nav-item' : '#aside-mohini .nav-item';
+    var firstNav = document.querySelector(asideSelector);
     if (firstNav) {
       var match = firstNav.getAttribute('onclick').match(/'(\w[^']+)'/);
       if (match) showSection(match[1], firstNav);
@@ -2192,7 +3851,9 @@ Connect-PnPOnline `
   function toggle(card) {
     var container = activeProfile === 'supriya'
       ? document.getElementById('supriya-content')
-      : document.getElementById('mohini-content');
+      : activeProfile === 'powerbi'
+        ? document.getElementById('powerbi-content')
+        : document.getElementById('mohini-content');
     var isOpen = card.classList.contains('open');
     container.querySelectorAll('.qa-card').forEach(function(c) { c.classList.remove('open'); });
     if (!isOpen) card.classList.add('open');
@@ -2201,10 +3862,12 @@ Connect-PnPOnline `
   function showSection(id, el) {
     var container = activeProfile === 'supriya'
       ? document.getElementById('supriya-content')
-      : document.getElementById('mohini-content');
+      : activeProfile === 'powerbi'
+        ? document.getElementById('powerbi-content')
+        : document.getElementById('mohini-content');
     container.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); s.style.display = ''; });
 
-    var asideId = activeProfile === 'supriya' ? 'aside-supriya' : 'aside-mohini';
+    var asideId = activeProfile === 'supriya' ? 'aside-supriya' : activeProfile === 'powerbi' ? 'aside-powerbi' : 'aside-mohini';
     document.querySelectorAll('#' + asideId + ' .nav-item').forEach(function(n) { n.classList.remove('active'); });
 
     var sec = document.getElementById(id);
@@ -2216,6 +3879,8 @@ Connect-PnPOnline `
     document.getElementById('noResults').style.display = 'none';
     var nrm = document.getElementById('noResults-mohini');
     if (nrm) nrm.style.display = 'none';
+    var nrpbi = document.getElementById('noResults-powerbi');
+    if (nrpbi) nrpbi.style.display = 'none';
     container.querySelectorAll('.qa-card').forEach(function(c) { c.style.display = ''; });
   }
 
@@ -2223,8 +3888,10 @@ Connect-PnPOnline `
     var query = document.getElementById('searchInput').value.toLowerCase().trim();
     var container = activeProfile === 'supriya'
       ? document.getElementById('supriya-content')
-      : document.getElementById('mohini-content');
-    var noResultsId = activeProfile === 'supriya' ? 'noResults' : 'noResults-mohini';
+      : activeProfile === 'powerbi'
+        ? document.getElementById('powerbi-content')
+        : document.getElementById('mohini-content');
+    var noResultsId = activeProfile === 'supriya' ? 'noResults' : activeProfile === 'powerbi' ? 'noResults-powerbi' : 'noResults-mohini';
 
     if (!query) {
       container.querySelectorAll('.qa-card').forEach(function(c) { c.style.display = ''; });
