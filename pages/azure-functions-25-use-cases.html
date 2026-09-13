@@ -185,7 +185,7 @@
       <ol class="steps">
         <li><b>Requirement breakdown:</b> extract vendor, PO#, line items, totals, VAT; confidence >= 0.85 -> auto-post; else route to human queue.</li>
         <li><b>Provision resources:</b> Function App (Premium EP1 for VNet -> SAP), ADLS Gen2, Document Intelligence, Service Bus, Cosmos DB, Key Vault.</li>
-        <li><b>Runtime:</b> C# .NET 8 isolated worker (best SDK + perf).</li>
+        <li><b>Runtime:</b> C# .NET 10 isolated worker (best SDK + perf).</li>
         <li><b>Triggers/bindings:</b> BlobTrigger on <code>incoming/{name}</code>, ServiceBus output binding, Cosmos output binding for audit.</li>
         <li><b>Core logic:</b> call Document Intelligence -> map fields -> validate against vendor master -> enqueue.</li>
         <li><b>Integrate:</b> SAP via OData with managed identity, Key Vault for credentials, Power BI dataset refresh on completion.</li>
@@ -194,7 +194,7 @@
         <li><b>Optimize:</b> exponential retry (5 attempts), poison queue at &gt; 5 failures, Premium pre-warmed instances = 3.</li>
       </ol>
     </div>
-    <div class="uc-section"><h3>5. Code Snippet (C# .NET 8 isolated)</h3>
+    <div class="uc-section"><h3>5. Code Snippet (C# .NET 10 isolated)</h3>
 <pre class="code"><span class="a">[Function("ExtractInvoice")]</span>
 <span class="a">[ServiceBusOutput("invoices-validated", Connection = "SbConn")]</span>
 <span class="k">public async</span> <span class="t">Task</span>&lt;<span class="t">InvoiceMessage</span>&gt; <span class="f">Run</span>(
@@ -764,7 +764,7 @@ app.<span class="f">http</span>(<span class="s">'AcceptWebhook'</span>, {
       <ol class="steps">
         <li>Define document types, decision rules, escalation thresholds.</li>
         <li>Provision: Function App Premium, Document Intelligence (custom model), Storage, Cosmos, APIM, Power Apps for adjusters.</li>
-        <li>Runtime: C# .NET 8 isolated.</li>
+        <li>Runtime: C# .NET 10 isolated.</li>
         <li>Blob trigger -> orchestrator start; orchestrator <code>WaitForExternalEvent</code>.</li>
         <li>Core logic: extraction -> classification -> rules -> confidence-based routing.</li>
         <li>Integrate: Power App adjuster UI posts approval to orchestrator.</li>
