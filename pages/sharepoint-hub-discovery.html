@@ -413,7 +413,7 @@
     <details open><summary>🔒 Assumption 1 — Internal-Only Audience</summary>
       <div class="inner">
         <p><strong>Assumption:</strong> All users are Allegis Group / TEKsystems employees with corporate M365 accounts. No external guests, clients, or partners will access the hub.</p>
-        <p><strong>Why it matters:</strong> External sharing requires different permissions configuration, potential licensing implications (AAD B2B), and sensitivity label enforcement. If even one team needs to share a document with a client, the entire permissions model changes.</p>
+        <p><strong>Why it matters:</strong> External sharing requires different permissions configuration, potential licensing implications (Microsoft Entra B2B collaboration), and sensitivity label enforcement. If even one team needs to share a document with a client, the entire permissions model changes.</p>
         <p><strong>Validate by asking:</strong> "Are there any scenarios where content would be shared with, or need to be visible to, people outside Allegis Group?" and "Do any of the three teams work with external collaborators on shared documents?"</p>
       </div>
     </details>
@@ -621,13 +621,13 @@
       <li><span class="ci">🔷</span><span><strong>Hub-Scoped Search:</strong> Search from any hub-associated site searches the entire hub by default. Managed properties and refiner configuration may be needed for optimal results.</span></li>
       <li><span class="ci">🔷</span><span><strong>Security Trimming:</strong> Search results are always security-trimmed. Users will only see content they have access to — even in hub-scoped search.</span></li>
       <li><span class="ci">🔷</span><span><strong>Metadata Columns as Refiners:</strong> Well-designed managed metadata columns become search refiners. This is the primary reason to invest in a taxonomy early.</span></li>
-      <li><span class="ci">🔷</span><span><strong>People Search:</strong> SharePoint search includes people profiles from Azure AD. Useful for "find an expert" scenarios.</span></li>
+      <li><span class="ci">🔷</span><span><strong>People Search:</strong> SharePoint search includes people profiles from Microsoft Entra ID. Useful for "find an expert" scenarios.</span></li>
     </ul>
 
     <h3>Permissions &amp; Security</h3>
     <ul class="check-list">
       <li><span class="ci">🔷</span><span><strong>Hub permissions ≠ Associated site permissions:</strong> Associating a site to a hub does NOT share permissions. Each site manages its own permission groups (Owners / Members / Visitors).</span></li>
-      <li><span class="ci">🔷</span><span><strong>Security Groups over individual permissions:</strong> Always use AAD security groups or M365 groups for site permissions. Never add individuals directly — it becomes unmanageable at scale.</span></li>
+      <li><span class="ci">🔷</span><span><strong>Security Groups over individual permissions:</strong> Always use Microsoft Entra ID security groups or M365 groups for site permissions. Never add individuals directly — it becomes unmanageable at scale.</span></li>
       <li><span class="ci">🔷</span><span><strong>Sharing Settings:</strong> Configure sharing settings at the site level (who can share, with whom, link expiry). Hub sharing settings don't cascade to associated sites.</span></li>
       <li><span class="ci">🔷</span><span><strong>External Sharing:</strong> If confirmed internal-only, disable external sharing at the tenant or site level for all hub-associated sites.</span></li>
     </ul>

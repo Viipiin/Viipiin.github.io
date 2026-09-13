@@ -191,7 +191,7 @@
   <h3>Automation Design</h3>
   <ul><li>Trigger: New Employee row created → instantiate template tasks</li><li>Daily flow: send digest of overdue tasks to Manager</li><li>On all-complete: notify HR via Teams</li></ul>
   <h3>Integrations / Connectors</h3>
-  <ul><li>Outlook (welcome email), Teams (chat post), SharePoint (policy docs), Azure AD (user lookup)</li></ul>
+  <ul><li>Outlook (welcome email), Teams (chat post), SharePoint (policy docs), Microsoft Entra ID (user lookup)</li></ul>
   <h3>Key Expressions / Logic</h3>
 <pre>// Canvas: progress %
 RoundUp(
@@ -264,7 +264,7 @@ If(Connection.Connected, ForAll(colPending, Patch(Inspections, ...)))</pre>
   <ul><li>Scan barcode → asset detail</li><li>Issue / Return tab toggle</li><li>Employee picker + signature capture</li></ul>
   <h3>Automation Design</h3>
   <ul><li>On checkout: email loan agreement PDF</li><li>Overdue (>30 days): reminder to employee + cc manager</li></ul>
-  <h3>Integrations</h3><ul><li>Azure AD (employee picker), Outlook, SharePoint (PDF archive)</li></ul>
+  <h3>Integrations</h3><ul><li>Microsoft Entra ID (employee picker), Outlook, SharePoint (PDF archive)</li></ul>
   <h3>Key Expressions</h3>
 <pre>// Asset status update on checkout
 Patch(Assets, LookUp(Assets, SerialNo=varScan),
@@ -291,7 +291,7 @@ Patch(Assets, LookUp(Assets, SerialNo=varScan),
   <h3>Security Model</h3><ul><li>Kiosk uses dedicated service account; visitor records have field security (no public list)</li></ul>
   <h3>UX</h3><ul><li>Tablet layout, large buttons, dark mode</li><li>Auto-reset 30s timeout</li><li>NDA scrollable + accept checkbox</li><li>Photo capture (optional)</li></ul>
   <h3>Automation</h3><ul><li>On sign-in: Teams chat to host with visitor card + photo</li><li>End-of-day: visitor log CSV emailed to Security Manager</li></ul>
-  <h3>Integrations</h3><ul><li>Outlook, Teams, SharePoint (NDA PDF, log archive), Azure AD (host picker)</li></ul>
+  <h3>Integrations</h3><ul><li>Outlook, Teams, SharePoint (NDA PDF, log archive), Microsoft Entra ID (host picker)</li></ul>
   <h3>Key Expressions</h3>
 <pre>// Auto-clear after 30s idle
 If(Timer1.Value > 30000, Navigate(Welcome); Reset(NameInput))</pre>
@@ -484,7 +484,7 @@ If(Or(Value(Reading.Text) &lt; ThisItem.MinSpec, Value(Reading.Text) &gt; ThisIt
   <ul><li>Patient ID wristband scan</li><li>Drug 5-rights check screen</li><li>Allergy modal blocks if conflict</li><li>e-Signature on completion</li></ul>
   <h3>Automation</h3>
   <ul><li>Missed dose → escalate to Charge Nurse within 15 min</li><li>Allergy override → mandatory reason + notify Pharmacy</li></ul>
-  <h3>Integrations</h3><ul><li>FHIR API to EHR, Azure AD, Teams (clinical channel)</li></ul>
+  <h3>Integrations</h3><ul><li>FHIR API to EHR, Microsoft Entra ID, Teams (clinical channel)</li></ul>
   <h3>Key Expressions</h3>
 <pre>// Allergy check
 If(!IsBlank(LookUp(Allergies, Patient=varPatient &amp;&amp; Allergen=varDrug)),
@@ -642,7 +642,7 @@ If(varTotal &gt; 10000, "director@x.com",
   <ul><li>Tile-based request catalog</li><li>Wizard per type</li><li>My Tickets dashboard</li></ul>
   <h3>Automation</h3>
   <ul><li>Submit → create ServiceNow incident via REST; sync status back nightly</li><li>Access request → Manager approval first</li></ul>
-  <h3>Integrations</h3><ul><li>ServiceNow (custom connector), Azure AD, Teams</li></ul>
+  <h3>Integrations</h3><ul><li>ServiceNow (custom connector), Microsoft Entra ID, Teams</li></ul>
   <h3>Key Expressions</h3>
 <pre>// Power Automate HTTP to SN
 "short_description": @{triggerOutputs()?['Subject']},
@@ -1068,7 +1068,7 @@ Avg(ReviewerScores) &gt;= 80 → Move to Award</pre>
   <ul><li>"Policies to Acknowledge" tile</li><li>PDF viewer + scroll-to-bottom requirement</li><li>e-Sign button</li></ul>
   <h3>Automation</h3>
   <ul><li>New version published → assign to required population</li><li>Ack overdue → escalate to Manager</li><li>Audit export quarterly</li></ul>
-  <h3>Integrations</h3><ul><li>SharePoint (policy docs), Outlook, Azure AD groups</li></ul>
+  <h3>Integrations</h3><ul><li>SharePoint (policy docs), Outlook, Microsoft Entra ID groups</li></ul>
   <h3>Key Logic</h3>
 <pre>// Block acknowledge until scrolled
 AckButton.DisplayMode: If(varScrolled, Edit, Disabled)</pre>
@@ -1205,7 +1205,7 @@ split(triggerOutputs()?['headers/x-ms-file-name'], '_')[0]</pre>
   <h3>Automation Design</h3>
   <ul><li>Trigger: new row in HR system (Workday) → Service Bus → Power Automate</li><li>Parent flow orchestrates child flows: AD provisioning, License assignment, Group membership, App access (ServiceNow tickets), Equipment order (procurement)</li><li>Error log table; compensating action if step fails (rollback license)</li><li>Final Teams welcome card to manager + new hire</li></ul>
   <h3>Integrations</h3>
-  <ul><li>Workday, Azure AD (Graph API), Exchange, Teams, ServiceNow, SAP, Outlook, Azure Service Bus, Key Vault</li></ul>
+  <ul><li>Workday, Microsoft Entra ID (Graph API), Exchange, Teams, ServiceNow, SAP, Outlook, Azure Service Bus, Key Vault</li></ul>
   <h3>Key Expressions</h3>
 <pre>// Graph create user
 POST /users  body: { accountEnabled, displayName, mailNickname, userPrincipalName, passwordProfile{...} }</pre>
@@ -1400,7 +1400,7 @@ div(sub(listPrice, quotedPrice), listPrice)</pre>
   <p>Organization needs visibility &amp; control over citizen-developed apps, flows, makers, environments.</p>
   <h3>Automation Design</h3>
   <ul><li>Deploy CoE Starter Kit core components</li><li>Sync flows pull inventory daily into <code>admin_*</code> tables</li><li>Maker onboarding flow when new maker detected</li><li>Inactive app flow archives unused apps</li></ul>
-  <h3>Integrations</h3><ul><li>Power Platform admin connectors, Azure AD, Office 365, Teams, Power BI</li></ul>
+  <h3>Integrations</h3><ul><li>Power Platform admin connectors, Microsoft Entra ID, Office 365, Teams, Power BI</li></ul>
   <h3>Key Expressions</h3>
 <pre>// Service principal for admin connector
 // Tenant-wide inventory via Power Platform for Admins</pre>
@@ -1478,8 +1478,8 @@ diff(currentPolicy, baselinePolicy) → propose remediation</pre>
   <h3>Business Problem</h3>
   <p>New makers need quick access to environments, training, security awareness, and a personal Dev environment without ticketing back-and-forth.</p>
   <h3>Automation Design</h3>
-  <ul><li>Trigger: maker submits intake form (Forms or Power Pages)</li><li>Validate license + manager approval</li><li>Provision: add to Maker AAD group → license; create personal Dev environment via admin connector; share starter solution</li><li>Send Welcome Teams card with training links, CoE policies, support channel</li><li>Schedule 30-day check-in flow</li><li>Quarterly inactivity → environment archival flow</li></ul>
-  <h3>Integrations</h3><ul><li>Power Platform admin connector, Azure AD (Graph), Teams, Forms, Power Pages, SharePoint</li></ul>
+  <ul><li>Trigger: maker submits intake form (Forms or Power Pages)</li><li>Validate license + manager approval</li><li>Provision: add to Maker Microsoft Entra ID group → license; create personal Dev environment via admin connector; share starter solution</li><li>Send Welcome Teams card with training links, CoE policies, support channel</li><li>Schedule 30-day check-in flow</li><li>Quarterly inactivity → environment archival flow</li></ul>
+  <h3>Integrations</h3><ul><li>Power Platform admin connector, Microsoft Entra ID (Graph), Teams, Forms, Power Pages, SharePoint</li></ul>
   <h3>Key Expressions</h3>
 <pre>// Admin connector: create environment
 POST /environments  body: { displayName, location, type: 'Sandbox' }</pre>
@@ -1798,7 +1798,7 @@ Trigger: User says "submit my expense"
   <h3>Pitfalls &amp; Best Practices</h3>
   <ul><li>Never let the AI be the only identifier — keep human-in-the-loop sign-off, especially in regulated programs</li><li>Don't dump raw transcripts into AI without sensitivity-label check</li><li>Calibrate severity rubric with the actual OCM team — generic LLM judgments rarely match domain norms</li><li>Capture rejection reasons → feed back into prompt tuning</li></ul>
   <h3>Enhancements</h3>
-  <ul><li>Auto-draft comms / training blurbs per impact for the Comms Lead</li><li>Sentiment analysis on stakeholder Q&amp;A to predict adoption risk early</li><li>Integrate with org chart (Azure AD / SuccessFactors) to auto-populate AffectedStakeholders</li></ul>
+  <ul><li>Auto-draft comms / training blurbs per impact for the Comms Lead</li><li>Sentiment analysis on stakeholder Q&amp;A to predict adoption risk early</li><li>Integrate with org chart (Microsoft Entra ID / SuccessFactors) to auto-populate AffectedStakeholders</li></ul>
 </section>
 
 <section class="usecase" id="uc52">

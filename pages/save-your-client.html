@@ -677,7 +677,7 @@ pre{position:relative}
               <td><strong>Azure SQL / SQL Server</strong></td>
               <td><span class="tag t-prem">Premium Required</span></td>
               <td>Enterprise scale; excellent for high concurrent load</td>
-              <td>Row/column-level security, transparent encryption, Azure AD integration</td>
+              <td>Row/column-level security, transparent encryption, Microsoft Entra ID integration</td>
               <td><span class="badge b-dep">Depends on DevOps setup</span></td>
               <td>High-volume transactional systems, existing SQL estate, external developer integration, complex queries</td>
               <td>Low-code citizen developer solutions; adds unnecessary complexity and DevOps requirements</td>
@@ -686,7 +686,7 @@ pre{position:relative}
               <td><strong>Azure Blob / Azure Storage</strong></td>
               <td><span class="tag t-prem">Premium Required</span></td>
               <td>Virtually unlimited</td>
-              <td>SAS tokens, Azure AD, immutable storage tiers</td>
+              <td>SAS tokens, Microsoft Entra ID, immutable storage tiers</td>
               <td><span class="badge b-dep">N/A</span></td>
               <td>File storage, document libraries at scale, AI/ML pipelines, binary data</td>
               <td>Structured relational data; not a database replacement</td>
@@ -807,35 +807,35 @@ pre{position:relative}
           <tbody>
             <tr>
               <td><strong>Human-owned account (user)</strong></td>
-              <td>A named user's M365/AAD account owns and runs flows/apps</td>
+              <td>A named user's M365/Microsoft Entra ID account owns and runs flows/apps</td>
               <td>Standard user license</td>
               <td>Personal flows, development, low-criticality automation</td>
               <td>Production critical flows &mdash; user leaves, flow dies. Shared credentials, governance nightmare.</td>
             </tr>
             <tr>
               <td><strong>Service Account</strong></td>
-              <td>A shared named AAD user account (not tied to a person) used for automation</td>
+              <td>A shared named Microsoft Entra ID user account (not tied to a person) used for automation</td>
               <td>Requires a full user license (Power Platform license + M365)</td>
               <td>Legacy integrations where service principal is not supported; quick setup when SP is unavailable</td>
               <td>New builds &mdash; password rotation risk, MFA complexity, audit ambiguity ("which human did this?"), offboarding risk</td>
             </tr>
             <tr>
               <td><strong>Service Principal</strong></td>
-              <td>An app registration in Azure AD with no human identity. Can be granted roles and access permissions.</td>
+              <td>An app registration in Microsoft Entra ID with no human identity. Can be granted roles and access permissions.</td>
               <td><strong>No user license required</strong> for Power Automate flows it owns. May need Dataverse application user setup.</td>
               <td>CI/CD pipelines, Azure DevOps connections, ownership of critical production flows, ALM automation</td>
               <td>Not supported for all Power Automate trigger types &mdash; check supported trigger list. Not ideal for user-delegated flows.</td>
             </tr>
             <tr>
               <td><strong>Application User</strong></td>
-              <td>A Dataverse application user mapped to an Azure AD service principal. Provides non-interactive access to Dataverse.</td>
+              <td>A Dataverse application user mapped to a Microsoft Entra ID service principal. Provides non-interactive access to Dataverse.</td>
               <td><strong>No user license required</strong> for Dataverse access &mdash; application users are non-licensed in Dataverse</td>
               <td>Backend integrations reading/writing to Dataverse without a human user session, CI/CD, Azure Function-to-Dataverse</td>
               <td>User-facing flows where delegated identity (acting as the user) is required for row-level security</td>
             </tr>
             <tr>
               <td><strong>Managed Identity</strong></td>
-              <td>An automatically managed AAD identity tied to an Azure resource (Function App, Logic App, AKS, etc.). Credentials managed by Azure.</td>
+              <td>An automatically managed Microsoft Entra ID identity tied to an Azure resource (Function App, Logic App, AKS, etc.). Credentials managed by Azure.</td>
               <td>No additional license &mdash; tied to the Azure resource it runs on</td>
               <td>Azure-side integrations (Azure Function to Dataverse, Azure Function to SharePoint, Logic App to Power Platform APIs)</td>
               <td>Direct Power Automate flow ownership &mdash; managed identities cannot own Power Automate flows directly (use service principals instead)</td>
@@ -920,7 +920,7 @@ pre{position:relative}
               <div class="pc-mi"><div class="pc-ml">When to Use</div>Production flows that must survive user offboarding; unattended automation; integration flows</div>
               <div class="pc-mi"><div class="pc-ml">Why It Saves Cost</div>No user license required for SP-owned flows. Eliminates license-at-risk when users leave. Reduces emergency re-assignment incidents.</div>
               <div class="pc-mi"><div class="pc-ml">Risks</div>Setup complexity higher than user-owned flows. Limited to supported trigger types &mdash; verify compatibility.</div>
-              <div class="pc-mi"><div class="pc-ml">Governance Note</div>Register SP in Azure AD. Create application user in Dataverse if Dataverse access needed. Assign least-privilege roles only.</div>
+              <div class="pc-mi"><div class="pc-ml">Governance Note</div>Register SP in Microsoft Entra ID. Create application user in Dataverse if Dataverse access needed. Assign least-privilege roles only.</div>
             </div>
           </div>
         </div>
@@ -1094,7 +1094,7 @@ pre{position:relative}
 Add-PowerAppsAccount
 
 # Step 2: Register the service principal
-# Replace APP_ID with your Azure AD App Registration application ID
+# Replace APP_ID with your Microsoft Entra ID App Registration application ID
 New-PowerAppManagementApp -ApplicationId "YOUR_APP_ID_HERE"
 
 # Verify registration
@@ -1406,10 +1406,10 @@ steps:
             <tr><td><strong>Dataverse</strong></td><td>Microsoft's enterprise relational database platform built into the Power Platform. Provides relational data model, row- and field-level security, business rules, plugins, and advanced audit. Requires premium licensing for all users of any app or flow that accesses it via the Dataverse connector.</td></tr>
             <tr><td><strong>Managed Environment</strong></td><td>A Power Platform environment with additional governance controls enabled: solution checker enforcement, sharing controls, IP firewall, weekly digest, usage insights. Requires all active users to have a qualifying premium license or Managed Environments add-on.</td></tr>
             <tr><td><strong>Power Platform Pipelines</strong></td><td>A built-in ALM tool within Power Platform for promoting solutions between environments (dev &rarr; test &rarr; production). Requires a Dataverse database in the host environment. Best suited for maker-led teams with no code components.</td></tr>
-            <tr><td><strong>Application User</strong></td><td>A non-interactive user identity in Dataverse mapped to an Azure AD service principal. Used for backend system-to-Dataverse integration without consuming a user license. Does not require a Power Apps license.</td></tr>
-            <tr><td><strong>Service Principal</strong></td><td>An Azure Active Directory application identity (not tied to any human user) used for machine-to-machine authentication. Can own Power Automate flows without a per-user license. Recommended for critical production automation.</td></tr>
-            <tr><td><strong>Managed Identity</strong></td><td>An automatically managed AAD identity attached to an Azure resource (Function App, Logic App, VM, etc.). Credentials are managed by Azure &mdash; no secrets to rotate. Preferred identity for Azure-side integrations calling into Power Platform or Dataverse.</td></tr>
-            <tr><td><strong>Service Account</strong></td><td>A shared named AAD user account (not tied to a person) used for automation. Requires a full user license (including Power Platform entitlements). Acceptable as a short-term workaround; service principals are the recommended long-term replacement due to better security and no license dependency.</td></tr>
+            <tr><td><strong>Application User</strong></td><td>A non-interactive user identity in Dataverse mapped to a Microsoft Entra ID service principal. Used for backend system-to-Dataverse integration without consuming a user license. Does not require a Power Apps license.</td></tr>
+            <tr><td><strong>Service Principal</strong></td><td>A Microsoft Entra ID application identity (not tied to any human user) used for machine-to-machine authentication. Can own Power Automate flows without a per-user license. Recommended for critical production automation.</td></tr>
+            <tr><td><strong>Managed Identity</strong></td><td>An automatically managed Microsoft Entra ID identity attached to an Azure resource (Function App, Logic App, VM, etc.). Credentials are managed by Azure &mdash; no secrets to rotate. Preferred identity for Azure-side integrations calling into Power Platform or Dataverse.</td></tr>
+            <tr><td><strong>Service Account</strong></td><td>A shared named Microsoft Entra ID user account (not tied to a person) used for automation. Requires a full user license (including Power Platform entitlements). Acceptable as a short-term workaround; service principals are the recommended long-term replacement due to better security and no license dependency.</td></tr>
             <tr><td><strong>Per-App License</strong></td><td>A Power Apps license that grants a user access to one specific app. More cost-effective than per-user when a user needs access to only one or two apps. Typically ~3&ndash;5&times; cheaper per user per app than per-user, at low app counts.</td></tr>
             <tr><td><strong>Per-User License</strong></td><td>A Power Apps or Power Automate license that grants a user unlimited access to all apps/flows (within the plan). More cost-effective than per-app when a user accesses three or more apps. Validate the break-even point with current pricing.</td></tr>
             <tr><td><strong>Per-Flow License</strong></td><td>A Power Automate license that covers a specific number of flows (typically 5) at a flat monthly cost, regardless of how many users trigger them. Often the most economical option for high-user-count, low-flow-count automation scenarios &mdash; e.g., 200 users triggering 2 shared premium flows.</td></tr>

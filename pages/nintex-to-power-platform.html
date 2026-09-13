@@ -356,7 +356,7 @@
         <ul>
           <li>Branded, publicly accessible web portals with no SharePoint licence requirement for external users</li>
           <li>Anonymous (unauthenticated) access for public-facing submission forms</li>
-          <li>Authenticated access via Azure AD B2C, local identity, or social identity providers</li>
+          <li>Authenticated access via Microsoft Entra External ID (or legacy Azure AD B2C on existing tenants), local identity, or social identity providers</li>
           <li>File attachment support to Dataverse (notes/annotations entity)</li>
           <li>Dataverse forms and lists rendered as web pages with full CRUD capability</li>
           <li>Liquid templating for dynamic content; Copilot-assisted page building</li>
@@ -510,7 +510,7 @@
       <tbody>
         <tr><td>External / public access without SharePoint licence</td><td>Power Pages site is a standalone web portal. External users access it via URL — no M365 account required.</td><td>Nintex Forms on SharePoint required SharePoint access for external users — a common friction point</td></tr>
         <tr><td>Anonymous submissions (no login)</td><td>Pages supports fully anonymous access. Tables can be configured to allow anonymous record creation.</td><td>Not natively supported in Nintex Forms without complex workarounds</td></tr>
-        <tr><td>Authenticated access (external identities)</td><td>Azure AD B2C, local identity (email + password), LinkedIn, Google, and other identity providers via AAD B2C</td><td>Nintex supported Windows auth / SharePoint auth only — not external identity providers</td></tr>
+        <tr><td>Authenticated access (external identities)</td><td>Microsoft Entra External ID (Azure AD B2C on existing tenants), local identity (email + password), LinkedIn, Google, and other identity providers</td><td>Nintex supported Windows auth / SharePoint auth only — not external identity providers</td></tr>
         <tr><td>File attachment uploads</td><td>Attachments stored in Dataverse notes (annotation entity). Size limits configurable. Virus scanning available via Azure Defender integration.</td><td>Nintex Forms supported attachments to SharePoint libraries — no external equivalent without custom code</td></tr>
         <tr><td>Multi-step forms with conditional logic</td><td>Multi-step forms via Basic Forms and Advanced Forms (multi-step wizard pattern). Conditional field visibility via JavaScript or configuration.</td><td>Nintex Forms supported multi-page and conditional forms in classic SharePoint</td></tr>
         <tr><td>Post-submission workflow</td><td>Power Automate triggered on Dataverse record creation. Full approval, notification, escalation, and integration capabilities.</td><td>Nintex Workflow triggered on SharePoint list item creation</td></tr>
@@ -526,13 +526,13 @@
         <p><strong>Scenario:</strong> Vendors must submit compliance certificates, insurance documents, and onboarding paperwork on a recurring basis. Previously a Nintex Form on an extranet SharePoint site.</p>
         <p><strong>Power Pages design:</strong></p>
         <ul>
-          <li>Power Pages site with vendor authentication (Azure AD B2C local account — vendors register themselves)</li>
+          <li>Power Pages site with vendor authentication (Entra External ID / B2C local account — vendors register themselves)</li>
           <li>Multi-step form: vendor details → document type selection → file upload → submission confirmation</li>
           <li>Dataverse table stores submission record; notes entity stores the attachment</li>
           <li>Power Automate: acknowledge receipt → route to procurement team → notify if incomplete → track status</li>
           <li>Vendor can return to portal to check submission status (using authenticated session)</li>
         </ul>
-        <p><strong>Key advantage:</strong> Vendors do not need a corporate M365 account. Self-service registration via B2C. Full audit trail in Dataverse.</p>
+        <p><strong>Key advantage:</strong> Vendors do not need a corporate M365 account. Self-service registration via Entra External ID / B2C. Full audit trail in Dataverse.</p>
       </div>
     </details>
 
@@ -557,7 +557,7 @@
         <p><strong>Scenario:</strong> New clients, contractors, or partner organisations complete onboarding forms, submit required documentation, and track request status. Previously managed via Nintex Forms on an extranet.</p>
         <p><strong>Power Pages design:</strong></p>
         <ul>
-          <li>Authenticated portal (local identity or AAD B2C) — users create an account and have a persistent session</li>
+          <li>Authenticated portal (local identity or Entra External ID / B2C) — users create an account and have a persistent session</li>
           <li>Multi-step onboarding wizard: organisation details → contact details → document uploads → agreement acceptance → submit</li>
           <li>Status dashboard page showing submission progress (using Dataverse data list web part)</li>
           <li>Power Automate handles internal review routing, document validation, and status updates back to Dataverse (visible to submitter on return visit)</li>
@@ -694,7 +694,7 @@
       <li><strong>Wave 0 — Foundation (Weeks 1–6)</strong> — Complete Nintex inventory. Establish Power Platform environments (Dev/Test/Prod). Configure DLP policies. Set up CoE Starter Kit. Identify pilot processes for Wave 1. Train core team on Power Automate and Power Apps fundamentals. <em>Output: Governance baseline, complete inventory, Wave 1 candidates identified.</em></li>
       <li><strong>Wave 1 — Quick Wins: Low-complexity Internal Flows (Weeks 6–12)</strong> — Migrate 3–5 simple sequential approval workflows with no external access and no attachments to Power Automate. Replace 2–3 basic SharePoint list forms with Power Apps SharePoint form customisations. Validate deployment pipeline and ALM process. <em>Output: Proof-of-concept in production; team builds confidence; pipeline validated.</em></li>
       <li><strong>Wave 2 — Medium-Complexity Internal Processes (Weeks 12–20)</strong> — Migrate multi-stage approval workflows with escalation, parallel branching, and Teams notifications. Replace complex internal Nintex Forms with Power Apps Canvas or Model-driven apps backed by Dataverse. Migrate document approval workflows to SharePoint + Power Automate pattern. <em>Output: Core internal process portfolio migrated; Dataverse adoption established.</em></li>
-      <li><strong>Wave 3 — External-Facing Processes: Power Pages (Weeks 18–28)</strong> — Assess all external-facing Nintex Forms. Design and build Power Pages sites for each external scenario (vendor intake, complaint submission, onboarding portals). Configure Azure AD B2C for authenticated external users where needed. Test WAF, CAPTCHA, anonymous access, and attachment upload end-to-end. <em>Output: External process portfolio migrated; Power Pages in production with security controls validated.</em></li>
+      <li><strong>Wave 3 — External-Facing Processes: Power Pages (Weeks 18–28)</strong> — Assess all external-facing Nintex Forms. Design and build Power Pages sites for each external scenario (vendor intake, complaint submission, onboarding portals). Configure Microsoft Entra External ID for authenticated external users where needed (Entra External ID is Microsoft's current recommendation — Azure AD B2C stopped taking new customers May 2025 and its P2 tier retired March 2026; existing B2C tenants stay supported in maintenance mode until at least May 2030, but any new build should start on External ID). Test WAF, CAPTCHA, anonymous access, and attachment upload end-to-end. <em>Output: External process portfolio migrated; Power Pages in production with security controls validated.</em></li>
       <li><strong>Wave 4 — Complex &amp; Integrated Processes (Weeks 26–40)</strong> — Migrate complex Nintex workflows with third-party system integrations (ERP, ITSM, CRM). Redesign processes that relied on legacy Nintex-specific features (state machine workflows, scheduled workflows). Introduce AI Builder for document processing and RPA for legacy system integration where APIs are unavailable. <em>Output: Full Nintex portfolio migrated. Nintex licences sunset.</em></li>
       <li><strong>Wave 5 — Optimisation &amp; Decommission (Weeks 38–48)</strong> — Nintex server decommission (if on-prem). Nintex licence termination. Power Platform adoption reporting via CoE. User training and change management completion. Establish ongoing Power Platform governance operating model. <em>Output: Nintex fully retired. Power Platform operating model in steady state.</em></li>
     </ol>
@@ -727,15 +727,15 @@
       <li><span class="ci">📌</span><span>Nintex documentation exists or can be reconstructed for all workflows in scope — completely undocumented processes require additional discovery time</span></li>
       <li><span class="ci">📌</span><span>The Microsoft 365 tenant is healthy and modern SharePoint Online is already in use — on-premises SharePoint Server migration is a separate workstream</span></li>
       <li><span class="ci">📌</span><span>A Power Platform Centre of Excellence or governance function will be established or already exists to own the platform post-migration</span></li>
-      <li><span class="ci">📌</span><span>External-facing processes using Power Pages will have Azure AD B2C configured — this requires Azure subscription access and AAD admin rights</span></li>
+      <li><span class="ci">📌</span><span>External-facing processes using Power Pages will have Microsoft Entra External ID (or Azure AD B2C on existing tenants) configured — this requires Azure subscription access and Entra admin rights</span></li>
     </ul>
 
     <h3>Key Dependencies</h3>
     <div class="dec-grid">
-      <div class="dec-item"><span class="di">🔗</span><span><strong>M365 tenant admin access</strong> — required for Power Platform environment creation, DLP policy configuration, and AAD app registrations for Power Pages</span></div>
+      <div class="dec-item"><span class="di">🔗</span><span><strong>M365 tenant admin access</strong> — required for Power Platform environment creation, DLP policy configuration, and Microsoft Entra ID app registrations for Power Pages</span></div>
       <div class="dec-item"><span class="di">🔗</span><span><strong>Dataverse provisioning</strong> — requires Power Platform environment with Dataverse enabled; cannot use default environment for production workloads</span></div>
       <div class="dec-item"><span class="di">🔗</span><span><strong>Network and firewall rules</strong> — Power Platform uses specific Azure IP ranges for outbound connections; on-premises data gateway required for on-prem system integration</span></div>
-      <div class="dec-item"><span class="di">🔗</span><span><strong>Azure AD B2C tenant</strong> — separate Azure subscription required for B2C if using external identity providers on Power Pages; involves additional configuration and cost</span></div>
+      <div class="dec-item"><span class="di">🔗</span><span><strong>Microsoft Entra External ID (or Azure AD B2C) tenant</strong> — separate Azure resource required if using external identity providers on Power Pages; involves additional configuration and cost</span></div>
       <div class="dec-item"><span class="di">🔗</span><span><strong>Business owner availability</strong> — each migration wave requires dedicated business owner time for requirements, UAT, and sign-off; cannot be delegated to IT alone</span></div>
       <div class="dec-item"><span class="di">🔗</span><span><strong>Nintex admin access</strong> — needed to export workflow definitions, identify dependencies, and run the inventory; confirm Nintex admin credentials are active before Wave 0</span></div>
     </div>
@@ -811,7 +811,7 @@
       <div class="inner"><p>SharePoint list data remains in SharePoint — Nintex workflows and forms do not own the data, they just read and write to SharePoint lists. The migration decision is: does this data move to Dataverse, stay in SharePoint, or get archived? For processes moving to Power Apps or Power Pages, structured data should move to Dataverse for proper governance. For document-centric processes staying in SharePoint, the list data can remain.</p></div>
     </details>
     <details><summary>Q: Can external vendors still submit without a Microsoft account?</summary>
-      <div class="inner"><p>Yes — this is one of Power Pages' primary strengths. Power Pages supports anonymous access (no login at all) and local identity registration (vendors create a portal-specific account with just an email and password — no Microsoft account required). Azure AD B2C also supports social identity logins (LinkedIn, Google) for scenarios where vendor organisations have those accounts.</p></div>
+      <div class="inner"><p>Yes — this is one of Power Pages' primary strengths. Power Pages supports anonymous access (no login at all) and local identity registration (vendors create a portal-specific account with just an email and password — no Microsoft account required). Microsoft Entra External ID (or Azure AD B2C on existing tenants) also supports social identity logins (LinkedIn, Google) for scenarios where vendor organisations have those accounts.</p></div>
     </details>
     <details><summary>Q: Will there be additional licensing costs?</summary>
       <div class="inner"><p>It depends on your current M365 licensing and which tools you need. Power Automate standard connectors are included in M365 E1/E3/E5. If you need premium connectors (Dataverse, HTTP) or Power Apps Premium or Power Pages, additional per-user or per-site licences are required. However, these costs should be weighed against the savings from terminating Nintex licences and the risk reduction value of migrating off end-of-support software.</p></div>
@@ -834,8 +834,8 @@
     <details><summary>Q: How do we handle on-premises system integration from Power Automate?</summary>
       <div class="inner"><p>Power Automate connects to on-premises systems via the On-Premises Data Gateway. This is a lightweight agent installed on a server in your network that acts as a secure bridge between Power Automate cloud flows and on-premises SQL Server, file shares, web services, or SAP systems. For APIs exposed over the internet, no gateway is required — the HTTP connector or the relevant premium connector handles the integration directly.</p></div>
     </details>
-    <details><summary>Q: Does Power Pages work with our existing Azure AD tenant?</summary>
-      <div class="inner"><p>Yes. Power Pages integrates with Azure AD for internal user authentication (employees can log in with their corporate credentials). For external users who are not in your Azure AD, you configure Azure AD B2C as the identity provider — this is a separate Azure resource but integrates with your existing AAD tenant. Azure AD B2C handles external identity registration, multi-factor authentication, and social login without requiring external users to be added as guests to your corporate directory.</p></div>
+    <details><summary>Q: Does Power Pages work with our existing Microsoft Entra ID tenant?</summary>
+      <div class="inner"><p>Yes. Power Pages integrates with Microsoft Entra ID for internal user authentication (employees can log in with their corporate credentials). For external users who are not in your Entra tenant, configure an external identity provider — Microsoft Entra External ID for new builds (Azure AD B2C is the legacy option, still supported for existing tenants but no longer available to new customers since May 2025). Either way it's a separate Azure resource that integrates with your existing tenant, handling external identity registration, multi-factor authentication, and social login without requiring external users to be added as guests to your corporate directory.</p></div>
     </details>
   </section>
 

@@ -1042,7 +1042,7 @@ tr:hover td { background: var(--primary-light); }
       <table>
         <thead><tr><th>Group</th><th>What Goes Here (Production)</th></tr></thead>
         <tbody>
-          <tr><td><span class="chip green">Business</span></td><td>SharePoint, Dataverse, Teams, Outlook, OneDrive for Business, Azure AD, Approvals, SQL Server (if approved)</td></tr>
+          <tr><td><span class="chip green">Business</span></td><td>SharePoint, Dataverse, Teams, Outlook, OneDrive for Business, Microsoft Entra ID, Approvals, SQL Server (if approved)</td></tr>
           <tr><td><span class="chip orange">Non-Business</span></td><td>Low-risk, non-data-sensitive connectors only — typically very few in a hardened prod policy</td></tr>
           <tr><td><span class="chip" style="background:#fde7f3;color:#8b0040;">Blocked</span></td><td>All consumer connectors: Gmail, Dropbox, Twitter/X, Facebook, Instagram, Google Sheets, personal OneDrive, RSS, and all unreviewed third-party connectors</td></tr>
         </tbody>
@@ -1068,7 +1068,7 @@ tr:hover td { background: var(--primary-light); }
         <tbody>
           <tr><td>SharePoint</td><td><code>https://yourorg.sharepoint.com/*</code></td><td>Allow (deny all others)</td></tr>
           <tr><td>SQL Server</td><td><code>yourdbserver.database.windows.net</code></td><td>Allow (deny all others)</td></tr>
-          <tr><td>HTTP with Azure AD</td><td><code>https://api.yourorg.com/*</code></td><td>Allow (deny all others)</td></tr>
+          <tr><td>HTTP with Microsoft Entra ID</td><td><code>https://api.yourorg.com/*</code></td><td>Allow (deny all others)</td></tr>
         </tbody>
       </table>
     </div>
@@ -1240,7 +1240,7 @@ tr:hover td { background: var(--primary-light); }
       <div style="background:var(--info-bg);border-radius:8px;padding:14px;">
         <strong style="display:block;margin-bottom:8px;color:var(--primary);">Power Platform</strong>
         <ul style="padding-left:1.2rem;color:var(--text-muted);">
-          <li>Service principal (App Registration) created in Azure AD</li>
+          <li>Service principal (App Registration) created in Microsoft Entra ID</li>
           <li>Service principal added as <strong>System Administrator</strong> or <strong>Deployment role</strong> in each target environment</li>
           <li>Client secret generated and stored in Azure DevOps Library Variable Group (marked secret)</li>
           <li>PAC CLI available on pipeline agent (auto-installed via Build Tools task)</li>

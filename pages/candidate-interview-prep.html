@@ -1364,7 +1364,7 @@ pac solution import --path ./MySolution_managed.zip</code></pre>
           <p>Dataverse exposes a <strong>TDS (SQL Server-compatible) endpoint</strong>. Connect via SSMS / Azure Data Studio:</p>
           <ul>
             <li>Server: <code>yourorg.crm.dynamics.com,5558</code></li>
-            <li>Authentication: Azure Active Directory</li>
+            <li>Authentication: Microsoft Entra ID</li>
           </ul>
           <pre><code>SELECT name, revenue, telephone1
 FROM account
@@ -1979,7 +1979,7 @@ foreach ($site in $sites) {
         <span class="chevron">&#9660;</span></div>
       <div class="qa-answer"><div class="qa-answer-inner">
         <p>Username/password auth is disabled in SPO since 2022. Use <strong>certificate-based app-only authentication</strong>:</p>
-        <pre><code># 1. Register AAD App, upload self-signed cert, grant Sites.FullControl.All, get admin consent
+        <pre><code># 1. Register app in Microsoft Entra ID, upload self-signed cert, grant Sites.FullControl.All, get admin consent
 Connect-PnPOnline `
   -Url        "https://contoso.sharepoint.com/sites/hr" `
   -ClientId   "your-app-client-id" `
@@ -2088,7 +2088,7 @@ Connect-PnPOnline `
           <li><strong>Classic pages:</strong> .aspx publishing pages must be rebuilt as modern pages — content migrates, layout must be recreated.</li>
           <li><strong>Auth change:</strong> Scripts using Windows Auth/username-password break — migrate to MSAL/cert auth.</li>
           <li><strong>File name restrictions:</strong> SPO enforces stricter rules — # % &amp; in names cause failures. Scan and rename first.</li>
-          <li><strong>User mapping:</strong> Run AAD Connect before migration. Items migrated before identity sync show the migration account as Author — painful to retroactively fix.</li>
+          <li><strong>User mapping:</strong> Run Microsoft Entra Connect (formerly Azure AD Connect) before migration. Items migrated before identity sync show the migration account as Author — painful to retroactively fix.</li>
           <li><strong>InfoPath:</strong> .xsn files migrate but don't render in SPO browser — plan Power Apps or SPFx replacement before users notice.</li>
         </ul>
       </div></div>
@@ -2873,7 +2873,7 @@ RETURN
           <table>
             <tr><th></th><th>Workspace</th><th>App</th></tr>
             <tr><td>Purpose</td><td>Collaboration area for content creators</td><td>Curated, read-only package published to consumers</td></tr>
-            <tr><td>Access roles</td><td>Admin, Member, Contributor, Viewer</td><td>App Audience groups — can share to AAD groups or entire org</td></tr>
+            <tr><td>Access roles</td><td>Admin, Member, Contributor, Viewer</td><td>App Audience groups — can share to Microsoft Entra ID groups or entire org</td></tr>
             <tr><td>Content</td><td>Reports, datasets, dataflows, scorecards</td><td>Subset of workspace content selected by publisher</td></tr>
             <tr><td>Navigation</td><td>List of items</td><td>Custom nav menu with sections and links</td></tr>
           </table>
@@ -3552,7 +3552,7 @@ If Global.UserDepartment is "Finance" → Redirect to: FinanceTopics</code></pre
           <table>
             <tr><th>Type</th><th>How It Works</th><th>Use When</th></tr>
             <tr><td><strong>No authentication</strong></td><td>Anonymous — no identity. System.User variables return blank.</td><td>Public-facing bots, FAQ bots on a website, no personalization needed</td></tr>
-            <tr><td><strong>Manual (OAuth 2.0)</strong></td><td>Author configures an OAuth/OIDC provider. Bot prompts user to sign in during conversation. Supports Azure AD, custom IdP.</td><td>Bots requiring identity on non-M365 channels, external users, custom portals</td></tr>
+            <tr><td><strong>Manual (OAuth 2.0)</strong></td><td>Author configures an OAuth/OIDC provider. Bot prompts user to sign in during conversation. Supports Microsoft Entra ID, custom IdP.</td><td>Bots requiring identity on non-M365 channels, external users, custom portals</td></tr>
             <tr><td><strong>Microsoft (SSO)</strong></td><td>Integrated Entra ID SSO. User is authenticated silently in Teams. System.User.Email and AuthToken available immediately.</td><td>Internal employee bots on Teams — seamless, no extra sign-in prompt</td></tr>
           </table>
           <div class="callout tip">For internal employee bots deployed to Teams, always use Microsoft auth. SSO means zero friction for the user — they don't see a login prompt at all.</div>
