@@ -122,7 +122,7 @@ tr:nth-child(even) td{background:#fafaf9}
   <h1>🤖 Azure .NET Fullstack + Azure AI Developer — Interviewer Guide</h1>
   <p>Principal Engineering Interview Guide · Senior / Lead Level · 13 Sections · 130+ Questions</p>
   <div class="hb">
-    <span class="hbg">C# · .NET 8</span><span class="hbg">ASP.NET Core</span><span class="hbg">Azure Cloud</span>
+    <span class="hbg">C# · .NET 10</span><span class="hbg">ASP.NET Core</span><span class="hbg">Azure Cloud</span>
     <span class="hbg">Azure OpenAI · RAG</span><span class="hbg">Semantic Kernel</span><span class="hbg">React / Angular</span>
     <span class="hbg">Enterprise Hiring</span>
   </div>
@@ -176,7 +176,7 @@ tr:nth-child(even) td{background:#fafaf9}
       <ul>
         <li><strong>Title:</strong> Azure .NET/Python Fullstack + Azure AI Developer</li>
         <li><strong>Level:</strong> Senior / Lead (5–10 years)</li>
-        <li><strong>Backend:</strong> C# · .NET 8 · ASP.NET Core <em>and/or</em> Python · FastAPI · async Python</li>
+        <li><strong>Backend:</strong> C# · .NET 10 (current LTS — .NET 8 support ends Nov 10, 2026) · ASP.NET Core <em>and/or</em> Python · FastAPI · async Python</li>
         <li><strong>APIs:</strong> REST · async APIs · Azure API Management · WebHooks · gRPC</li>
         <li><strong>Cloud:</strong> App Service · Functions · AKS · Container Apps · Service Bus</li>
         <li><strong>AI:</strong> Azure OpenAI · AI Foundry · Azure AI Search · Semantic Kernel · Azure AI Agent Service</li>
@@ -201,7 +201,7 @@ tr:nth-child(even) td{background:#fafaf9}
     <div class="ib">
       <h4>Top Competencies Evaluated</h4>
       <ul>
-        <li>C# (.NET 8) <strong>and/or</strong> Python (FastAPI / async) API development</li>
+        <li>C# (.NET 10) <strong>and/or</strong> Python (FastAPI / async) API development</li>
         <li>Azure cloud-native patterns (resiliency, observability, cost)</li>
         <li>RAG pipeline design (chunking, hybrid search, evaluation)</li>
         <li>Semantic Kernel + latest agentic frameworks (SK Agents, AI Agent Service)</li>
@@ -436,7 +436,7 @@ tr:nth-child(even) td{background:#fafaf9}
   <details class="c"><summary><div class="qn">25</div><div class="qq">What is the circuit breaker pattern? Name its three states.</div><span class="df med">Medium</span></summary>
   <div class="cb">
     <div class="lb">Ideal Answer</div><div class="ab">Prevents cascading failures by failing fast when a downstream service is unhealthy. States: <strong>Closed</strong> (normal flow, failures counted) → <strong>Open</strong> (threshold exceeded — calls fail immediately without attempting) → <strong>Half-Open</strong> (probe with limited requests to check recovery) → Closed or back to Open. Implementation: Polly <code>CircuitBreakerPolicy</code>, or .NET 8 <code>AddResilienceHandler</code> (Microsoft.Extensions.Resilience). Combine with retry (retry before circuit opens), bulkhead (limit concurrency), and observability (emit metric when circuit opens).</div>
-    <div class="lb">Weak Answer Pattern</div><div class="wb">"Circuit breaker stops calls when service is down." Cannot name three states or mention Polly/.NET 8 resilience.</div>
+    <div class="lb">Weak Answer Pattern</div><div class="wb">"Circuit breaker stops calls when service is down." Cannot name three states or mention Polly/.NET resilience.</div>
     <div class="lb">Why This Matters</div><div class="yb">Without circuit breakers, one slow downstream service brings down the entire system under sustained load.</div>
   </div></details>
 
@@ -540,7 +540,7 @@ tr:nth-child(even) td{background:#fafaf9}
     <div class="lb">Follow-Up Questions</div><div class="pb">How do you handle validation in MediatR? → <code>ValidationBehaviour&lt;TRequest&gt;</code> that runs FluentValidation and throws <code>ValidationException</code> before handler executes. How do you unit test a handler in isolation? → No HTTP layer needed — instantiate handler with mocked dependencies directly.</div>
   </div></details>
 
-  <details class="c"><summary><div class="qn">4</div><div class="qq">How does output caching work in .NET 8? How does it differ from response caching middleware?</div><span class="df hard">Hard</span></summary>
+  <details class="c"><summary><div class="qn">4</div><div class="qq">How does output caching work in ASP.NET Core (.NET 7+)? How does it differ from response caching middleware?</div><span class="df hard">Hard</span></summary>
   <div class="cb">
     <div class="lb">Strong Candidate Mentions</div><div class="ab"><strong>Response caching middleware</strong>: sets HTTP cache headers (<code>Cache-Control</code>, <code>Vary</code>) — depends on client/proxy to cache; server always executes the endpoint. Doesn't work for authenticated responses. <strong>Output caching</strong> (.NET 7+): server-side cache — stores and serves cached response directly from the server, endpoint is not executed for cache hits. Supports: vary by query/header/claim, tagged cache invalidation (<code>cache.EvictByTagAsync()</code>), distributed backing store (Redis), policies. Ideal for: high-traffic read endpoints, public API responses.</div>
     <div class="lb">Expert Candidate Adds</div><div class="eb">Cache stampede prevention with output caching (only one request executes, others wait). Cache-aside pattern with Redis via <code>IDistributedCache</code> for custom key logic. When NOT to cache: user-specific data, real-time pricing, personalised AI responses.</div>
@@ -1139,8 +1139,8 @@ tr:nth-child(even) td{background:#fafaf9}
   <p style="font-weight:700;color:var(--p);margin-bottom:10px;font-size:.85rem;text-transform:uppercase;letter-spacing:.5px">Coding Exercises</p>
 
   <div class="exc">
-    <div class="etag">Coding 1</div><div class="etag">.NET 8</div><div class="etag">Resiliency</div>
-    <h4>Build a resilient HttpClient wrapper with retry, circuit breaker, and timeout using .NET 8 resilience</h4>
+    <div class="etag">Coding 1</div><div class="etag">.NET 10</div><div class="etag">Resiliency</div>
+    <h4>Build a resilient HttpClient wrapper with retry, circuit breaker, and timeout using Microsoft.Extensions.Resilience (introduced .NET 8, current in .NET 10)</h4>
     <div class="lbl">Problem Statement</div><div class="ab">Create a typed <code>WeatherApiClient</code> that calls an external weather API. It must: retry transient errors 3× with exponential backoff + jitter, open circuit after 5 consecutive failures (half-open after 30s), timeout individual requests at 5 seconds, and log all policy events (retry attempt, circuit opened/closed).</div>
     <div class="lbl">Target Skills</div><div class="yb">Microsoft.Extensions.Resilience, IHttpClientFactory, policy composition, structured logging with ILogger.</div>
     <div class="lbl">Ideal Solution Characteristics</div><div class="eb"><code>AddResilienceHandler</code> with <code>AddRetry</code> (ExponentialBackoff + jitter, 3 attempts), <code>AddCircuitBreaker</code> (5 failures, 30s break), <code>AddTimeout</code> (5s). <code>ResilienceContext</code> for per-request correlation ID. Event callbacks for observability. <code>Polly.Contrib.WaitAndRetry.Backoff.DecorrelatedJitterBackoffV2</code> for jitter.</div>
@@ -1460,7 +1460,7 @@ tr:nth-child(even) td{background:#fafaf9}
         <li>How do you implement exception handling so every API error returns ProblemDetails?</li>
         <li>Explain Clean Architecture. Where does CQRS/MediatR fit in?</li>
         <li>You have a slow EF Core query. Walk me through your debug process.</li>
-        <li>How do you design resiliency with Polly / .NET 8 resilience? What's the difference between retry and circuit breaker?</li>
+        <li>How do you design resiliency with Polly / .NET resilience (Microsoft.Extensions.Resilience)? What's the difference between retry and circuit breaker?</li>
         <li>How does Managed Identity work? How does it authenticate to Key Vault?</li>
         <li>App Service vs Container Apps vs AKS — when do you choose each?</li>
         <li>Explain the RAG pipeline end-to-end. What chunking strategy would you use for a 500-page PDF?</li>
