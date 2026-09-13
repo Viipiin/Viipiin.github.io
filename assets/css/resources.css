@@ -340,6 +340,7 @@ body {
 .guide-card:hover { box-shadow: var(--res-shadow-hover); transform: translateY(-4px); }
 .guide-card-env { border-top: 4px solid #0d9488; }
 .guide-card-git { border-top: 4px solid #f05032; }
+.guide-card-admin { border-top: 4px solid #3fb950; }
 
 .guide-card-head { display: flex; align-items: flex-start; gap: 1rem; }
 .guide-icon {
@@ -351,6 +352,7 @@ body {
 }
 .guide-icon-env { background: linear-gradient(135deg, #0d9488, #06b6d4); }
 .guide-icon-git { background: linear-gradient(135deg, #1c1f24, #f05032); }
+.guide-icon-admin { background: linear-gradient(135deg, #0d1117, #3fb950); }
 
 .guide-badge {
     display: inline-block;
@@ -360,8 +362,10 @@ body {
 }
 .guide-badge-env { background: var(--res-teal-light);   color: var(--res-teal); }
 .guide-badge-git { background: var(--res-orange-light); color: var(--res-orange); }
+.guide-badge-admin { background: #e6f7ea; color: #1a7431; }
 :root.dark-theme .guide-badge-env { background: rgba(45,212,191,0.12); }
 :root.dark-theme .guide-badge-git { background: rgba(240,80,50,0.15); }
+:root.dark-theme .guide-badge-admin { background: rgba(63,185,80,0.15); }
 
 .guide-card-head h3 {
     font-family: 'Space Grotesk', sans-serif;
@@ -381,6 +385,7 @@ body {
 .guide-stat .lbl { font-size: 0.65rem; font-weight: 700; color: var(--res-muted-2); text-transform: uppercase; letter-spacing: 0.05em; }
 .guide-stat-env .num { color: var(--res-teal); }
 .guide-stat-git .num { color: var(--res-orange); }
+.guide-stat-admin .num { color: #2ea043; }
 
 .guide-desc { font-size: 0.875rem; color: var(--res-muted); line-height: 1.65; margin: 0; }
 
@@ -401,6 +406,8 @@ body {
 .guide-cta-env:hover { filter: brightness(1.1); transform: translateY(-1px); }
 .guide-cta-git { background: #1c1f24; color: #fff; }
 .guide-cta-git:hover { background: #f05032; transform: translateY(-1px); }
+.guide-cta-admin { background: #0d1117; color: #3fb950; }
+.guide-cta-admin:hover { background: #3fb950; color: #0d1117; transform: translateY(-1px); }
 
 /* ── 8. Architect Perspectives ── */
 .writing-card::before { display: none; }
