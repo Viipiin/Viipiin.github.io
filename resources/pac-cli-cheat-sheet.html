@@ -6,8 +6,8 @@
 <title>PAC CLI Cheat Sheet – Latest</title>
 <link rel="icon" type="image/svg+xml" href="pac-cli-favicon.svg">
 <link rel="shortcut icon" href="pac-cli-favicon.svg">
-<meta name="description" content="Complete PAC CLI command reference — all Power Platform CLI command groups, flags, and syntax in one printable cheat sheet for makers, developers, and architects.">
-<meta name="keywords" content="PAC CLI, Power Platform CLI, pac commands, Power Apps CLI, pac auth, pac solution, pac canvas, pac pcf, pac admin">
+<meta name="description" content="Complete PAC CLI v2.12.2 command reference — all 34 Power Platform CLI command groups including copilot-studio, environment-management, governance, and licensing — flags and syntax in one printable cheat sheet for makers, developers, and architects.">
+<meta name="keywords" content="PAC CLI, Power Platform CLI, pac commands, Power Apps CLI, pac auth, pac solution, pac canvas, pac pcf, pac admin, pac copilot-studio, pac environment-management, pac governance, pac licensing, pac power-pages">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -91,6 +91,21 @@
   .c-app      { background: #1b5e20; }
   .c-code     { background: #bf360c; }
   .c-mi       { background: #311b92; }
+  .c-analytics{ background: #006064; }
+  .c-appmgmt  { background: #33691e; }
+  .c-authz    { background: #4a148c; }
+  .c-connectivity2 { background: #b71c1c; }
+  .c-copilotstudio { background: #0d47a1; }
+  .c-dynamics { background: #3e2723; }
+  .c-envmgmt  { background: #1b5e20; }
+  .c-governance { background: #827717; }
+  .c-licensing{ background: #ad1457; }
+  .c-powerapps2 { background: #2e7d32; }
+  .c-powerauto2 { background: #558b2f; }
+  .c-powerpages2 { background: #00695c; }
+  .c-resourceq{ background: #37474f; }
+  .c-usermgmt { background: #6a1b9a; }
+  .c-workflows{ background: #263238; }
 
   table { width: 100%; border-collapse: collapse; }
   tr:nth-child(even) td { background: #f5f7fc; }
@@ -337,7 +352,7 @@
 <!-- ═══════════════════════ HEADER ═══════════════════════ -->
 <div class="page-header">
   <h1>PAC CLI — Power Platform CLI Cheat Sheet</h1>
-  <p>v2.8.1 (Microsoft.PowerApps.CLI.Tool, NuGet) &nbsp;|&nbsp; pac &lt;group&gt; &lt;command&gt; [options] &nbsp;|&nbsp; Use <code style="background:rgba(255,255,255,.2);padding:0 4px;border-radius:3px;">pac &lt;command&gt; --help</code> for full options</p>
+  <p>v2.12.2 (Microsoft.PowerApps.CLI.Tool, NuGet) &nbsp;|&nbsp; pac &lt;group&gt; &lt;command&gt; [options] &nbsp;|&nbsp; Use <code style="background:rgba(255,255,255,.2);padding:0 4px;border-radius:3px;">pac &lt;command&gt; --help</code> for full options &nbsp;|&nbsp; No install: <code style="background:rgba(255,255,255,.2);padding:0 4px;border-radius:3px;">dnx Microsoft.PowerApps.CLI.Tool --yes &lt;command&gt;</code> (needs .NET 10+)</p>
 </div>
 
 <!-- ═══════════════════════ GRID ═══════════════════════ -->
@@ -568,7 +583,7 @@
   <!-- ══ PAGES ══ -->
   <div class="card">
     <div class="card-header c-pages">
-      <span class="cmd-label">pac pages</span> Power Pages  <span style="font-size:6pt;opacity:.8;">(replaces pac powerpages)</span>
+      <span class="cmd-label">pac pages</span> Power Pages — Content Sync  <span style="font-size:6pt;opacity:.8;">(replaces pac powerpages)</span>
     </div>
     <table>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pages#pac-pages-list" target="_blank">list</a></td><td>List all Power Pages websites from the current environment</td></tr>
@@ -580,7 +595,7 @@
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pages#pac-pages-download-code-site" target="_blank">download-code-site</a></td><td>Download Power Pages website content from environment</td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pages#pac-pages-upload-code-site" target="_blank">upload-code-site</a></td><td>Upload compiled code to Power Pages site</td></tr>
     </table>
-    <div class="note">💡 pac paportal and pac powerpages still work as aliases</div>
+    <div class="note">💡 pac paportal and pac powerpages still work as aliases. For site admin (WAF, custom domains, certs, security scans) see the new <code>pac power-pages</code> group below</div>
   </div>
 
   <!-- ══ CATALOG ══ -->
@@ -664,6 +679,10 @@
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/tool#pac-tool-prt" target="_blank">prt</a></td><td>Launch Plug-in Registration Tool (PRT)</td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/tool#pac-tool-cmt" target="_blank">cmt</a></td><td>Launch Configuration Migration Tool (CMT)</td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/tool#pac-tool-pd" target="_blank">pd</a></td><td>Launch Package Deployer (PD)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/tool#pac-tool-init-skills" target="_blank">init-skills</a></td><td>Extract PAC CLI AI skill definition files to a local folder <span class="badge badge-preview">New</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/tool#pac-tool-xpp-install" target="_blank">xpp install</a></td><td>Download and install the X++ compiler for the active environment <span class="badge badge-preview">New</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/tool#pac-tool-xpp-list" target="_blank">xpp list</a></td><td>List X++ SDKs installed on this machine <span class="badge badge-preview">New</span></td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/tool#pac-tool-xpp-uninstall" target="_blank">xpp uninstall</a></td><td>Remove an installed X++ SDK and its registration <span class="badge badge-preview">New</span></td></tr>
     </table>
   </div>
 
@@ -719,6 +738,241 @@
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/managed-identity#pac-managed-identity-verify-fic" target="_blank">verify-fic</a></td><td>Verify whether federated identity credential exists <span class="badge badge-preview">Preview</span></td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/managed-identity#pac-managed-identity-upgrade-version" target="_blank">upgrade-version</a></td><td>Upgrade managed identity to latest version <span class="badge badge-preview">Preview</span></td></tr>
     </table>
+  </div>
+
+  <!-- ══ COPILOT STUDIO ══ -->
+  <div class="card">
+    <div class="card-header c-copilotstudio">
+      <span class="cmd-label">pac copilot-studio</span> Agent Admin <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot-studio#pac-copilot-studio-get-bot-quarantine-status" target="_blank">get-bot-quarantine-status</a></td><td>Retrieve the quarantine status of a bot</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot-studio#pac-copilot-studio-set-bot-as-quarantined" target="_blank">set-bot-as-quarantined</a></td><td>Quarantine an agent (e.g. after a security finding)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot-studio#pac-copilot-studio-set-bot-as-unquarantined" target="_blank">set-bot-as-unquarantined</a></td><td>Lift quarantine on a bot</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot-studio#pac-copilot-studio-reassign-copilot-agent" target="_blank">reassign-copilot-agent</a></td><td>Reassign the owner of an orphaned/offboarded-user agent</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot-studio#pac-copilot-studio-delete-copilot-agent" target="_blank">delete-copilot-agent</a></td><td>Delete a bot</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot-studio#pac-copilot-studio-get-connector-consent-bypass" target="_blank">get/set-connector-consent-bypass</a></td><td>Get/set admin connector consent bypass for a bot</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot-studio#pac-copilot-studio-run-maker-evaluation-test-set" target="_blank">run-maker-evaluation-test-set</a></td><td>Trigger an agent evaluation test run against a test set</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot-studio#pac-copilot-studio-list-maker-evaluation-test-sets" target="_blank">list/get-maker-evaluation-test-sets</a></td><td>List/get agent evaluation test sets</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot-studio#pac-copilot-studio-list-maker-evaluation-test-runs" target="_blank">list/get-maker-evaluation-test-runs</a></td><td>List/get evaluation test run results</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot-studio#pac-copilot-studio-download-agent-channel-manifest" target="_blank">download-agent-channel-manifest</a></td><td>Download the M365 channel manifest package for an agent</td></tr>
+    </table>
+    <div class="note">🤖 Admin-side agent governance: quarantine/reassign/delete a bot, plus maker evaluation test runs — distinct from <code>pac copilot</code> (bot authoring/publishing)</div>
+  </div>
+
+  <!-- ══ ANALYTICS ══ -->
+  <div class="card">
+    <div class="card-header c-analytics">
+      <span class="cmd-label">pac analytics</span> Advisor Recommendations <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/analytics#pac-analytics-get-recommendations" target="_blank">get-recommendations</a></td><td>List Power Platform advisor recommendations for the tenant</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/analytics#pac-analytics-get-recommendation-scenarios" target="_blank">get-recommendation-scenarios</a></td><td>List recommendation scenario names</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/analytics#pac-analytics-get-recommendation-resources" target="_blank">get-recommendation-resources</a></td><td>List resources affected by a recommendation</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/analytics#pac-analytics-get-scenario-actions" target="_blank">get-scenario-actions</a></td><td>List allowed remediation actions for a recommendation</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/analytics#pac-analytics-execute-recommendation-action" target="_blank">execute-recommendation-action</a></td><td>Execute a remediation action on flagged resources</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/analytics#pac-analytics-get-action-schema" target="_blank">get-action-schema</a></td><td>Get the parameter schema for a remediation action</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ GOVERNANCE ══ -->
+  <div class="card span2">
+    <div class="card-header c-governance">
+      <span class="cmd-label">pac governance</span> Rule-Based Policies &amp; Cross-Tenant Reports <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/governance#pac-governance-list-rule-based-policies" target="_blank">list-rule-based-policies</a></td><td>List rule-based data policies available in the tenant</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/governance#pac-governance-create-rule-based-policy" target="_blank">create-rule-based-policy</a></td><td>Create a rule-based policy with rule sets and metadata</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/governance#pac-governance-get-rule-based-policy-by-id" target="_blank">get-rule-based-policy-by-id</a></td><td>Get policy details by ID including rule sets</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/governance#pac-governance-patch-rule-based-policy" target="_blank">patch-rule-based-policy</a></td><td>Add or update one or more rule sets on an existing policy</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/governance#pac-governance-create-environment-rule-based-assignment" target="_blank">create-environment(-group)-rule-based-assignment</a></td><td>Assign a policy to an environment or environment group</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/governance#pac-governance-list-rule-assignments" target="_blank">list-rule-assignments</a></td><td>List policy assignments tenant-wide (also by env / env-group / policy)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/governance#pac-governance-create-rule-set" target="_blank">create-rule-set</a> / <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/governance#pac-governance-get-rule-set" target="_blank">get-rule-set</a></td><td>Create/get a Rule Set scoped to an environment group</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/governance#pac-governance-create-cross-tenant-connection-report" target="_blank">create-cross-tenant-connection-report</a></td><td>Generate a cross-tenant connection report</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/governance#pac-governance-list-cross-tenant-connection-reports" target="_blank">list/get-cross-tenant-connection-reports</a></td><td>List or fetch cross-tenant connection reports</td></tr>
+    </table>
+    <div class="note">💡 19 commands total — full CRUD on rule sets, policies, and assignments by environment/group/policy. Full reference: <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/governance" target="_blank">learn.microsoft.com/.../reference/governance</a></div>
+  </div>
+
+  <!-- ══ AUTHORIZATION ══ -->
+  <div class="card">
+    <div class="card-header c-authz">
+      <span class="cmd-label">pac authorization</span> RBAC Role Assignments <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/authorization#pac-authorization-list-role-definitions" target="_blank">list-role-definitions</a></td><td>List available RBAC role definitions</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/authorization#pac-authorization-list-role-assignments" target="_blank">list-role-assignments</a></td><td>List role assignments (tenant scope)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/authorization#pac-authorization-create-role-assignment" target="_blank">create-role-assignment</a></td><td>Create a role assignment for a principal</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/authorization#pac-authorization-delete-role-assignment" target="_blank">delete-role-assignment</a></td><td>Delete a role assignment by ID</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/authorization#pac-authorization-create-environment-role-assignment" target="_blank">create/list/delete-environment-role-assignment</a></td><td>Same operations scoped to one environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/authorization#pac-authorization-create-environment-group-role-assignment" target="_blank">create/list/delete-environment-group-role-assignment</a></td><td>Same operations scoped to an environment group</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ USER MANAGEMENT ══ -->
+  <div class="card">
+    <div class="card-header c-usermgmt">
+      <span class="cmd-label">pac user-management</span> Admin Role Assignment <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/user-management#pac-user-management-apply-admin-role" target="_blank">apply-admin-role</a></td><td>Apply the Power Platform System Administrator role to a user</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ ENVIRONMENT MANAGEMENT ══ -->
+  <div class="card span2">
+    <div class="card-header c-envmgmt">
+      <span class="cmd-label">pac environment-management</span> Lifecycle, DR &amp; SKU <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management#pac-environment-management-provision-new-environment" target="_blank">provision-new-environment</a></td><td>Provision a new environment (SKU, location, templates, currency)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management#pac-environment-management-delete-environment-by-id" target="_blank">delete-environment-by-id</a></td><td>Delete an environment by ID</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management#pac-environment-management-recover-environment" target="_blank">recover-environment</a></td><td>Recover a recently deleted environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management#pac-environment-management-copy-environment" target="_blank">copy-environment</a></td><td>Copy source environment to a target (Minimal or Full copy)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management#pac-environment-management-create-environment-backup" target="_blank">create/restore-environment-backup</a></td><td>Create a manual backup, or restore to a previous backup</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management#pac-environment-management-enable-managed-environment" target="_blank">enable/disable-managed-environment</a></td><td>Toggle Managed Environment governance</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management#pac-environment-management-enable-disaster-recovery" target="_blank">enable/disable-disaster-recovery</a></td><td>Toggle DR (paired-region) on an environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management#pac-environment-management-perform-force-failover" target="_blank">perform-force-failover</a> / <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management#pac-environment-management-perform-failback" target="_blank">perform-failback</a></td><td>Fail over to the paired DR region, or fail back to primary</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management#pac-environment-management-perform-dr-drill" target="_blank">perform-dr-drill</a></td><td>Run a non-disruptive DR drill</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management#pac-environment-management-modify-environment-sku" target="_blank">modify-environment-sku</a></td><td>Change environment SKU (Standard/Premium/Developer/Trial/…)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management#pac-environment-management-create-environment-group" target="_blank">create/list/update/delete-environment-group</a></td><td>Manage environment groups (containers for group-level policy)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management#pac-environment-management-list-environments-for-user" target="_blank">list-environments-for-user</a></td><td>List environments available to the authenticated user (OData filter/sort)</td></tr>
+    </table>
+    <div class="note">💡 40 commands total — supersedes much of <code>pac admin</code> for lifecycle ops with a richer API (validate-only dry-runs, provisioning templates/currencies/locations). Full reference: <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/environment-management" target="_blank">learn.microsoft.com/.../reference/environment-management</a></div>
+  </div>
+
+  <!-- ══ DYNAMICS (F&O) ══ -->
+  <div class="card">
+    <div class="card-header c-dynamics">
+      <span class="cmd-label">pac dynamics</span> Finance &amp; Operations Envs <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/dynamics#pac-dynamics-get-fin-ops-properties" target="_blank">get-fin-ops-properties</a></td><td>Get F&amp;O env properties (AOS counts, deployment type, demo dataset)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/dynamics#pac-dynamics-get-fin-ops-versions" target="_blank">get-fin-ops-versions</a></td><td>List available F&amp;O application versions</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/dynamics#pac-dynamics-apply-fin-ops-version" target="_blank">apply-fin-ops-version</a></td><td>Apply an F&amp;O application version to an environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/dynamics#pac-dynamics-get-fin-ops-maintenance-settings" target="_blank">get/update-fin-ops-maintenance-settings</a></td><td>View/update the maintenance window cadence</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/dynamics#pac-dynamics-get-fin-ops-operation-errors" target="_blank">get-fin-ops-operation-errors</a></td><td>Retrieve recent F&amp;O operation errors</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ APP MANAGEMENT ══ -->
+  <div class="card">
+    <div class="card-header c-appmgmt">
+      <span class="cmd-label">pac app-management</span> D365 App Packages <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/app-management#pac-app-management-get-tenant-application-package" target="_blank">get-tenant-application-package</a></td><td>List Dynamics 365 app packages available to the tenant</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/app-management#pac-app-management-get-environment-application-package" target="_blank">get-environment-application-package</a></td><td>List packages available/installed for a target environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/app-management#pac-app-management-install-application-package" target="_blank">install-application-package</a></td><td>Install an app package by unique name into an environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/app-management#pac-app-management-get-application-package-install-status" target="_blank">get-application-package-install-status</a></td><td>Poll install progress by operation ID</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ LICENSING ══ -->
+  <div class="card span2">
+    <div class="card-header c-licensing">
+      <span class="cmd-label">pac licensing</span> Entitlements, Capacity &amp; Billing <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/licensing#pac-licensing-get-tenant-capacity-details" target="_blank">get-tenant-capacity-details</a></td><td>Get overall tenant capacity details</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/licensing#pac-licensing-get-many-environment-entitlements" target="_blank">get-many-environment-entitlements</a></td><td>Get entitlements for the tenant broken down by environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/licensing#pac-licensing-list-currency-reports" target="_blank">list-currency-reports</a></td><td>Get the tenant currency (allocations/consumption) report</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/licensing#pac-licensing-get-allocations-by-environment" target="_blank">get/update/patch-allocations-by-environment</a></td><td>Get or change currency allocations &amp; enforcement rules per environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/licensing#pac-licensing-list-billing-policies" target="_blank">list/create/update/delete-billing-policy</a></td><td>Manage tenant-level billing policies (pay-as-you-go)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/licensing#pac-licensing-add-billing-policy-environment" target="_blank">add/remove-billing-policy-environment</a></td><td>Link/unlink environments to a billing policy</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/licensing#pac-licensing-list-isv-contracts" target="_blank">list/create/update/delete-isv-contract</a></td><td>Manage ISV pay-as-you-go contracts (cloud/desktop flow runs)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/licensing#pac-licensing-get-fin-ops-license-summary-v2" target="_blank">get-fin-ops-license-summary-v2</a></td><td>Get the tenant's FinOps license summary</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/licensing#pac-licensing-list-storage-warnings" target="_blank">list-storage-warnings</a></td><td>List storage warning thresholds by category</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/licensing#pac-licensing-get-tenant-resource-consumption-by-user" target="_blank">get-tenant-resource-consumption-by-user</a></td><td>Drill into per-user resource consumption for an entitlement</td></tr>
+    </table>
+    <div class="note">💡 44 commands total — also covers per-flow capacity source drill-down (user/tenant context summaries) and resource consumption thresholds. Full reference: <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/licensing" target="_blank">learn.microsoft.com/.../reference/licensing</a></div>
+  </div>
+
+  <!-- ══ POWER APPS (ADMIN) ══ -->
+  <div class="card">
+    <div class="card-header c-powerapps2">
+      <span class="cmd-label">pac power-apps</span> Admin Governance <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-apps#pac-power-apps-get-admin-apps" target="_blank">get-admin-apps</a></td><td>List Power Apps across an environment for admin review</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-apps#pac-power-apps-get-admin-app" target="_blank">get-admin-app</a></td><td>Get details of a specific Power App by name</td></tr>
+    </table>
+    <div class="note">💡 Read-only admin inspection — distinct from <code>pac canvas</code> (download/pack/unpack app source)</div>
+  </div>
+
+  <!-- ══ POWER AUTOMATE (ADMIN) ══ -->
+  <div class="card">
+    <div class="card-header c-powerauto2">
+      <span class="cmd-label">pac power-automate</span> Admin Governance <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-automate#pac-power-automate-list-cloud-flows" target="_blank">list-cloud-flows</a></td><td>List cloud flows in an environment (filter by owner/date)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-automate#pac-power-automate-list-flow-actions" target="_blank">list-flow-actions</a></td><td>List actions/triggers used within a flow</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-automate#pac-power-automate-list-flow-runs" target="_blank">list-flow-runs</a></td><td>List run history for a flow</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ CONNECTIVITY ══ -->
+  <div class="card">
+    <div class="card-header c-connectivity2">
+      <span class="cmd-label">pac connectivity</span> Connectors &amp; Connections <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/connectivity#pac-connectivity-list-connectors" target="_blank">list-connectors</a></td><td>List connectors available in an environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/connectivity#pac-connectivity-get-connector-by-id" target="_blank">get-connector-by-id</a></td><td>Get details of a specific connector</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/connectivity#pac-connectivity-list-connections" target="_blank">list-connections</a></td><td>List maker connections in an environment</td></tr>
+    </table>
+    <div class="note">💡 Read-only admin listing — distinct from <code>pac connection</code> (create/update/delete a connection) and <code>pac connector</code> (custom connector CRUD)</div>
+  </div>
+
+  <!-- ══ RESOURCE QUERY ══ -->
+  <div class="card">
+    <div class="card-header c-resourceq">
+      <span class="cmd-label">pac resource-query</span> Tenant-Wide KQL <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/resource-query#pac-resource-query-query-resources" target="_blank">query-resources</a></td><td>Run a KQL query against Azure Resource Graph across environments/apps/flows (with paging)</td></tr>
+    </table>
+  </div>
+
+  <!-- ══ WORKFLOWS-AGENT (DSR) ══ -->
+  <div class="card span2">
+    <div class="card-header c-workflows">
+      <span class="cmd-label">pac workflows-agent</span> DSR Export/Delete (Privacy Compliance) <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/workflows-agent#pac-workflows-agent-get-flows" target="_blank">get-flows</a></td><td>Export flows owned by the calling user (DSR export)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/workflows-agent#pac-workflows-agent-delete-flow" target="_blank">delete-flow</a></td><td>Delete an M365 Copilot workflow for DSR compliance</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/workflows-agent#pac-workflows-agent-get-connections" target="_blank">get-connections</a> / <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/workflows-agent#pac-workflows-agent-delete-connection" target="_blank">delete-connection</a></td><td>Export or delete a user's connections</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/workflows-agent#pac-workflows-agent-get-approvals" target="_blank">get-approvals</a> / <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/workflows-agent#pac-workflows-agent-delete-approval" target="_blank">delete-approval</a></td><td>Export or delete approval records</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/workflows-agent#pac-workflows-agent-get-prompts" target="_blank">get-prompts</a> / <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/workflows-agent#pac-workflows-agent-delete-prompt" target="_blank">delete-prompt</a></td><td>Export or delete AI model prompt records</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/workflows-agent#pac-workflows-agent-get-flow-runs-singleton" target="_blank">get-flow-runs-singleton / -non-singleton</a></td><td>Export flow run records for DSR (per-user or per-environment)</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/workflows-agent#pac-workflows-agent-get-run-history-data" target="_blank">get-run-history-data(-non-singleton)</a></td><td>Export run history customer data for a specific flow run</td></tr>
+    </table>
+    <div class="note">🔒 Fulfills GDPR/DSR (Data Subject Request) export &amp; delete obligations for Power Automate and M365 Copilot agent data — relevant to any governance-at-scale conversation</div>
+  </div>
+
+  <!-- ══ POWER-PAGES (SITE ADMIN) ══ -->
+  <div class="card span2">
+    <div class="card-header c-powerpages2">
+      <span class="cmd-label">pac power-pages</span> Site Admin — WAF, Certs &amp; Domains <span class="badge badge-preview">Preview</span> <span style="font-size:6pt;opacity:.8;">(new — not pac pages)</span>
+    </div>
+    <table>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-get-websites" target="_blank">get-websites</a> / <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-get-website-by-id" target="_blank">get-website-by-id</a></td><td>List all sites in an environment, or get one by ID</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-create-website" target="_blank">create-website</a> / <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-delete-website" target="_blank">delete-website</a></td><td>Create a site from a template, or delete one by ID</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-start-website" target="_blank">start / stop / restart-website</a></td><td>Control the site's running state</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-enable-waf" target="_blank">enable/disable-waf</a></td><td>Toggle the Web Application Firewall for a site</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-get-waf-status" target="_blank">get-waf-status</a> / <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-get-waf-rules" target="_blank">get-waf-rules</a></td><td>Check WAF status, or list managed/custom WAF rules</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-update-waf-policy-settings" target="_blank">update-waf-policy-settings</a></td><td>Set enforcement mode (Prevention/Detection) and challenge cookie lifetimes</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-create-custom-domain" target="_blank">create-custom-domain</a></td><td>Add a custom hostname to the site</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-upload-certificate" target="_blank">upload-certificate</a></td><td>Upload an SSL/managed certificate (.pfx) for the site</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-add-ssl-binding-by-portal" target="_blank">add-ssl-binding-by-portal</a></td><td>Bind an uploaded certificate to a custom domain hostname</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-start-quick-scan" target="_blank">start-quick-scan</a> / <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-start-deep-scan" target="_blank">start-deep-scan</a></td><td>Run a security scan against the site</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-get-security-scan-score" target="_blank">get-security-scan-score</a> / <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-get-security-scan-report" target="_blank">get-security-scan-report</a></td><td>Get the scan score or full findings report</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-add-allowed-ip-addresses" target="_blank">add/remove-allowed-ip-addresses</a></td><td>Manage the site's IP restriction allow list</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages#pac-power-pages-convert-trial-to-production" target="_blank">convert-trial-to-production</a></td><td>Convert a trial site to production (optionally enabling CDN/WAF)</td></tr>
+    </table>
+    <div class="note">💡 38 commands total — site-level admin API (firewall, TLS, IP allow-listing, security scans, break-glass exceptions). <strong>Not the same group as <code>pac pages</code> above</strong> (which syncs website content/data model). Full reference: <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/power-pages" target="_blank">learn.microsoft.com/.../reference/power-pages</a></div>
   </div>
 
 </div><!-- /grid -->
