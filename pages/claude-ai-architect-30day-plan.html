@@ -429,14 +429,15 @@
         <div class="day-topics">
           <p>Topics</p>
           <ul class="topic-list">
-            <li>What is Claude? Model families (Haiku, Sonnet, Opus)</li>
+            <li>What is Claude? Current model lineup (Claude Fable 5, Opus 5, Sonnet 5, Haiku 4.5) and how the tiers trade off cost vs. capability</li>
             <li>Anthropic's mission & Constitutional AI overview</li>
-            <li>Claude vs GPT-4 vs Gemini — when to choose Claude</li>
+            <li>Claude vs GPT-5 vs Gemini — when to choose Claude</li>
             <li>Anthropic API overview & free tier setup</li>
           </ul>
+          <div class="callout-note" style="font-size:0.85rem;color:var(--muted);margin-top:8px;">Note: the model lineup moves fast — always check <a href="https://docs.anthropic.com/en/docs/about-claude/models" target="_blank" style="color:var(--accent2);">docs.anthropic.com/en/docs/about-claude/models</a> for the current names/IDs before an interview or exam, don't rely on a fixed list.</div>
         </div>
         <p class="resources-label">Resources</p>
-        <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=UOvoU_qE3Gs" target="_blank">Anthropic Claude 3 — Full Model Overview (Anthropic Official)</a></div>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/about-claude/models" target="_blank">Current Claude model lineup — Anthropic Docs</a></div>
         <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/docs/intro-to-claude" target="_blank">docs.anthropic.com — Intro to Claude</a></div>
         <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://www.anthropic.com/research/claude-character" target="_blank">Anthropic Blog — Claude's Character</a></div>
         <div class="resource-item"><span class="tag tag-wiki">WIKI</span><a href="https://en.wikipedia.org/wiki/Claude_(language_model)" target="_blank">Wikipedia — Claude Language Model</a></div>
@@ -542,7 +543,7 @@
           <p>Topics</p>
           <ul class="topic-list">
             <li>System prompt design patterns & best practices</li>
-            <li>Context window management (200K tokens in Claude)</li>
+            <li>Context window management (current-gen Claude models support up to 1M tokens; Haiku-tier stays at 200K — check per-model limits, they vary)</li>
             <li>Conversation history handling strategies</li>
             <li>Memory patterns: in-context vs external</li>
           </ul>
@@ -600,7 +601,7 @@
             <li>Build a CLI-based Q&A assistant with system prompt</li>
             <li>Implement conversation history management</li>
             <li>Add prompt caching for repeated context</li>
-            <li>Test with 200K context window document</li>
+            <li>Test with a long-context document (200K–1M tokens depending on model)</li>
           </ul>
         </div>
         <p class="resources-label">Resources</p>
@@ -999,15 +1000,16 @@
             <li>Vertex AI Model Garden — Claude setup</li>
             <li>Vertex AI Pipelines for batch inference</li>
             <li>grounding with Google Search integration</li>
-            <li>Comparing Bedrock vs Vertex AI for Claude</li>
+            <li>Comparing Bedrock vs Vertex AI vs Microsoft Foundry for Claude</li>
           </ul>
+          <div class="callout-note" style="font-size:0.85rem;color:var(--muted);margin-top:8px;">Microsoft Foundry is now a third first-party route to Claude (billed via the Microsoft Marketplace at standard API rates) alongside Bedrock and Vertex AI — worth a look if the client is Azure-native.</div>
         </div>
         <p class="resources-label">Resources</p>
         <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-claude" target="_blank">Vertex AI — Use Claude Models (Google Docs)</a></div>
         <div class="resource-item"><span class="tag tag-gh">GH</span><a href="https://github.com/anthropics/anthropic-cookbook/tree/main/third_party/Google_Vertex_AI_Model_Garden" target="_blank">Cookbook: Claude on Vertex AI Examples</a></div>
         <div class="resource-item"><span class="tag tag-yt">YT</span><a href="https://www.youtube.com/watch?v=6aYd2EYqkpU" target="_blank">Deploy Claude on Google Cloud Vertex AI Tutorial</a></div>
         <div class="resource-item"><span class="tag tag-lab">LAB</span><a href="https://github.com/GoogleCloudPlatform/generative-ai/tree/main/language/use-cases" target="_blank">GoogleCloudPlatform/generative-ai — Claude Labs</a></div>
-        <div class="resource-item"><span class="tag tag-art">ART</span><a href="https://cloud.google.com/blog/products/ai-machine-learning/anthropic-claude-3-models-on-vertex-ai" target="_blank">Google Blog: Claude 3 on Vertex AI</a></div>
+        <div class="resource-item"><span class="tag tag-doc">DOC</span><a href="https://docs.anthropic.com/en/api/claude-on-microsoft-foundry" target="_blank">Claude on Microsoft Foundry — Anthropic Docs</a></div>
       </div>
     </div>
 
