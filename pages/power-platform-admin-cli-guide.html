@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../js/vault.js"></script>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/page-shell.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Power Platform Admin — CLI-Only Operations Guide</title>
+  <link rel="icon" href="../favicon.ico">
+  <meta name="description" content="Run the entire Power Platform admin job from the terminal — environment lifecycle, security, DLP governance, licensing, ALM, and tenant-wide auditing, entirely via pac CLI and PowerShell. No admin center clicking.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1117; --card: #161b22; --card2: #1c2128; --border: #30363d;
+      --text: #e6edf3; --muted: #8b949e;
+      --green: #3fb950; --green-dim: #2ea043; --cyan: #58a6ff; --amber: #d29922;
+      --red: #f85149; --purple: #bc8cff;
+      --sw: 264px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    /* This page's wide unbroken command lines push a flex child's auto min-width past the
+       viewport on mobile (classic flexbox min-width:auto blowout); min-width:0 lets it shrink
+       and defers scrolling to .term-body's own overflow-x:auto instead. */
+    .vk-shell-content { min-width: 0; }
+
+    /* ── Sidebar ── */
+    #sidebar { width: var(--sw); min-height: 100vh; background: #010409; position: fixed; top: 0; left: 0; overflow-y: auto; z-index: 100; border-right: 1px solid var(--border); }
+    #sb-head { padding: 1.3rem 1.1rem 1rem; border-bottom: 1px solid var(--border); }
+    #sb-head .prompt { font-family: 'JetBrains Mono', monospace; color: var(--green); font-size: .72rem; }
+    #sb-head h2 { color: #fff; font-size: .84rem; font-weight: 700; line-height: 1.35; margin-top: .3rem; }
+    #sb-head span { color: var(--muted); font-size: .68rem; display: block; margin-top: .35rem; }
+    #nav-list { list-style: none; padding: .6rem 0; margin: 0; }
+    #nav-list li a { display: flex; align-items: center; gap: .5rem; padding: .5rem .9rem; color: #9198a1; font-size: .78rem; text-decoration: none; border-left: 3px solid transparent; line-height: 1.3; transition: all .15s; }
+    #nav-list li a:hover { color: #fff; background: rgba(255,255,255,.04); }
+    #nav-list li a.active { color: var(--green); border-left-color: var(--green); background: rgba(63,185,80,.08); }
+    .nav-ico { width: 1.1rem; text-align: center; flex-shrink: 0; }
+    #sb-foot { padding: .9rem 1.1rem; border-top: 1px solid var(--border); font-size: .68rem; color: var(--muted); }
+    #sb-foot a { color: var(--cyan); text-decoration: none; }
+
+    /* ── Content ── */
+    .section { margin-bottom: 3.5rem; scroll-margin-top: 1.5rem; }
+    .sec-hdr { display: flex; align-items: baseline; gap: .7rem; border-bottom: 2px solid var(--green); padding-bottom: .5rem; margin-bottom: 1.6rem; }
+    .sec-num { color: var(--green); font-size: .74rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; font-family: 'JetBrains Mono', monospace; }
+    .sec-hdr h2 { font-size: 1.35rem; font-weight: 700; color: #fff; }
+    h3 { font-size: 1rem; font-weight: 600; color: #fff; margin: 1.6rem 0 .7rem; padding-left: .6rem; border-left: 3px solid var(--cyan); }
+    h4 { font-size: .82rem; font-weight: 600; color: var(--muted); margin: 1.1rem 0 .4rem; text-transform: uppercase; letter-spacing: .04em; }
+    p { margin-bottom: .8rem; line-height: 1.7; font-size: .92rem; color: #c9d1d9; }
+    a { color: var(--cyan); }
+    ul.tight, ol.tight { padding-left: 1.3rem; margin-bottom: .8rem; }
+    ul.tight li, ol.tight li { margin-bottom: .4rem; line-height: 1.6; font-size: .9rem; color: #c9d1d9; }
+    code.inline { background: rgba(110,118,129,.2); color: #e6edf3; font-family: 'JetBrains Mono', monospace; font-size: .84em; padding: .1em .4em; border-radius: 4px; }
+
+    /* ── Terminal command block ── */
+    .term { background: #010409; border: 1px solid var(--border); border-radius: 8px; margin: 1rem 0; overflow: hidden; }
+    .term-bar { display: flex; align-items: center; gap: 6px; padding: .5rem .8rem; background: #161b22; border-bottom: 1px solid var(--border); }
+    .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .term-dot.r { background: #ff5f56; } .term-dot.y { background: #ffbd2e; } .term-dot.g { background: #27c93f; }
+    .term-title { margin-left: .5rem; font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted); }
+    .term-body { padding: .9rem 1.1rem; font-family: 'JetBrains Mono', monospace; font-size: .8rem; line-height: 1.65; white-space: pre-wrap; overflow-x: auto; }
+    .term-body .c1 { color: var(--green); } /* prompt / comment */
+    .term-body .c2 { color: #79c0ff; } /* flags */
+    .term-body .c3 { color: #a5d6ff; } /* strings */
+    .term-body .cm { color: #8b949e; font-style: italic; } /* comment text */
+    .term-body .out { color: #8b949e; }
+    .term-body .k { color: #ff7b72; } /* PowerShell keywords: if/foreach/etc */
+
+    /* ── Callouts ── */
+    .callout { border-radius: 8px; padding: .8rem 1rem; margin: 1rem 0; font-size: .87rem; line-height: 1.6; border: 1px solid; }
+    .callout.tip { background: rgba(63,185,80,.08); border-color: rgba(63,185,80,.35); color: #7ee2a8; }
+    .callout.warn { background: rgba(210,153,34,.08); border-color: rgba(210,153,34,.35); color: #e3b341; }
+    .callout.danger { background: rgba(248,81,73,.08); border-color: rgba(248,81,73,.35); color: #ff7b72; }
+    .callout b { color: inherit; }
+    .callout code.inline { background: rgba(255,255,255,.08); }
+
+    /* ── Tables ── */
+    .tw { overflow-x: auto; margin: 1rem 0; border-radius: 8px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    thead th { background: #161b22; color: #fff; padding: .6rem .85rem; text-align: left; font-size: .74rem; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; }
+    tbody tr { border-top: 1px solid var(--border); }
+    tbody tr:nth-child(even) { background: rgba(255,255,255,.02); }
+    td { padding: .55rem .85rem; vertical-align: top; line-height: 1.55; color: #c9d1d9; }
+    td:first-child { font-family: 'JetBrains Mono', monospace; font-size: .82rem; color: #79c0ff; white-space: nowrap; }
+
+    /* ── Playbook cards ── */
+    .playbook { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.3rem; }
+    .playbook-title { display: flex; align-items: center; gap: .6rem; font-weight: 700; color: #fff; font-size: .98rem; margin-bottom: .3rem; }
+    .playbook-goal { font-size: .84rem; color: var(--muted); margin-bottom: .8rem; }
+    .badge { display: inline-block; font-size: .62rem; font-weight: 700; padding: 2px 7px; border-radius: 999px; text-transform: uppercase; letter-spacing: .04em; }
+    .badge-new { background: rgba(63,185,80,.15); color: #7ee2a8; border: 1px solid rgba(63,185,80,.4); }
+    .badge-preview { background: rgba(188,140,255,.15); color: var(--purple); border: 1px solid rgba(188,140,255,.4); }
+    .badge-legacy { background: rgba(210,153,34,.15); color: var(--amber); border: 1px solid rgba(210,153,34,.4); }
+
+    /* ── Hero ── */
+    #hero { padding: 2.2rem 0 1rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+    #hero .eyebrow { font-family: 'JetBrains Mono', monospace; color: var(--green); font-size: .78rem; margin-bottom: .5rem; }
+    #hero h1 { font-size: 1.9rem; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: .7rem; }
+    #hero .lead { font-size: 1rem; color: var(--muted); max-width: 760px; line-height: 1.65; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+    .htag { background: var(--card2); border: 1px solid var(--border); color: #c9d1d9; font-size: .72rem; padding: .3rem .7rem; border-radius: 999px; font-family: 'JetBrains Mono', monospace; }
+
+    footer.pg-footer { border-top: 1px solid var(--border); margin-top: 2rem; padding-top: 1.2rem; padding-bottom: 2rem; font-size: .78rem; color: var(--muted); text-align: center; }
+    footer.pg-footer a { color: var(--cyan); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      #sidebar { display: none; }
+    }
+  </style>
+</head>
+<body style="display:flex">
+
+<nav id="sidebar">
+  <div id="sb-head">
+    <div class="prompt">PS C:\PowerPlatform&gt;</div>
+    <h2>Admin CLI Guide</h2>
+    <span>Zero-click Power Platform administration</span>
+  </div>
+  <ul id="nav-list">
+    <li><a href="#setup"><span class="nav-ico">&#128273;</span>Setup &amp; Auth</a></li>
+    <li><a href="#environments"><span class="nav-ico">&#127760;</span>Environment Lifecycle</a></li>
+    <li><a href="#security"><span class="nav-ico">&#128101;</span>Users &amp; Security</a></li>
+    <li><a href="#governance"><span class="nav-ico">&#128737;&#65039;</span>DLP &amp; Governance</a></li>
+    <li><a href="#licensing"><span class="nav-ico">&#128176;</span>Licensing &amp; Capacity</a></li>
+    <li><a href="#alm"><span class="nav-ico">&#128230;</span>Solution ALM</a></li>
+    <li><a href="#monitoring"><span class="nav-ico">&#128269;</span>Monitoring &amp; Audit</a></li>
+    <li><a href="#playbooks"><span class="nav-ico">&#9889;</span>Automation Playbooks</a></li>
+    <li><a href="#gotchas"><span class="nav-ico">&#9888;&#65039;</span>Gotchas</a></li>
+  </ul>
+  <div id="sb-foot">
+    Full syntax: <a href="../resources/pac-cli-cheat-sheet.html" target="_blank">PAC CLI Cheat Sheet →</a>
+  </div>
+</nav>
+
+<main class="vk-shell-content">
+
+<div id="hero">
+  <div class="eyebrow">$ pac --version</div>
+  <h1>The Power Platform Admin Job, Run Entirely From a Terminal</h1>
+  <p class="lead">Every task a Power Platform admin does in the admin center has a <code class="inline">pac</code> or PowerShell equivalent — usually a faster, scriptable, and auditable one. This guide is organized by <b>what you're trying to do</b> (provision an environment, lock down a DLP policy, audit licensing spend) rather than by command group, so you can go from "I need to do X" straight to a working command. For full flag-by-flag syntax on any command, cross-reference the <a href="../resources/pac-cli-cheat-sheet.html" target="_blank">PAC CLI Cheat Sheet</a> — this guide focuses on <i>when</i> and <i>why</i>, not just <i>what</i>.</p>
+  <div class="hero-tags">
+    <span class="htag">pac CLI v2.12+</span>
+    <span class="htag">PowerShell 7</span>
+    <span class="htag">Zero admin-center clicks</span>
+    <span class="htag">Scriptable &amp; auditable</span>
+    <span class="htag">CI/CD-ready</span>
+  </div>
+</div>
+
+<section id="setup" class="section">
+  <div class="sec-hdr"><span class="sec-num">01</span><h2>Setup &amp; Authentication</h2></div>
+
+  <h3>Install once, update forever</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">PowerShell</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> winget install Microsoft.PowerAppsCLI
+<span class="c1">PS&gt;</span> pac install latest    <span class="cm"># run this monthly — new admin command groups ship often</span>
+<span class="c1">PS&gt;</span> pac --version</div>
+  </div>
+  <div class="callout tip"><b>No-install option:</b> with .NET 10+ installed, run any command without a global install via <code class="inline">dnx Microsoft.PowerApps.CLI.Tool --yes &lt;command&gt;</code> — useful on a jump box or CI agent you don't want to permanently modify.</div>
+
+  <h3>Authentication profiles — the admin's identity model</h3>
+  <p>An admin typically juggles several tenants and environments. <code class="inline">pac auth</code> profiles let you store all of them and switch instantly instead of re-authenticating.</p>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Create and switch profiles</span></div>
+    <div class="term-body"><span class="cm"># One profile per environment you administer — name them meaningfully</span>
+<span class="c1">PS&gt;</span> pac auth create <span class="c2">--environment</span> <span class="c3">"https://contoso-prod.crm.dynamics.com"</span> <span class="c2">--name</span> <span class="c3">"Prod"</span>
+<span class="c1">PS&gt;</span> pac auth create <span class="c2">--environment</span> <span class="c3">"https://contoso-dev.crm.dynamics.com"</span>  <span class="c2">--name</span> <span class="c3">"Dev"</span>
+
+<span class="cm"># See every stored profile, switch active one, confirm who/where you are</span>
+<span class="c1">PS&gt;</span> pac auth list
+<span class="c1">PS&gt;</span> pac auth select <span class="c2">--index</span> 1
+<span class="c1">PS&gt;</span> pac auth who</div>
+  </div>
+
+  <h3>Unattended / CI auth (service principal)</h3>
+  <p>For scheduled scripts (the Playbooks section below) or CI/CD, don't authenticate interactively — use a service principal so the script runs unattended.</p>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Service principal auth</span></div>
+    <div class="term-body"><span class="cm"># One-time: register the app + create an application user in the environment</span>
+<span class="c1">PS&gt;</span> pac admin create-service-principal <span class="c2">--environment</span> &lt;environment-id&gt;
+
+<span class="cm"># In the scheduled task / pipeline: authenticate non-interactively</span>
+<span class="c1">PS&gt;</span> pac auth create <span class="c2">--environment</span> &lt;url&gt; <span class="c2">--applicationId</span> &lt;app-id&gt; <span class="c2">--clientSecret</span> $env:PAC_SECRET <span class="c2">--tenant</span> &lt;tenant-id&gt;</div>
+  </div>
+  <div class="callout warn"><b>Least privilege matters here.</b> A service principal used for read-only auditing (Playbook 3 below) doesn't need System Administrator — assign it the narrowest security role that covers the commands it actually runs. <code class="inline">pac admin create-service-principal</code> grants broad access by default; tighten it with <code class="inline">pac admin assign-user</code> and a custom role if the script only reads data.</div>
+
+  <h3>GCC / GCC High / DoD</h3>
+  <p>Government cloud tenants need the <code class="inline">--cloud</code> flag on <code class="inline">pac auth create</code>, and interactive sign-in may not work from a restricted network — fall back to device code.</p>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Gov cloud + no-browser environments</span></div>
+    <div class="term-body"><span class="cm"># --cloud values: Public (default) · UsGov (GCC) · UsGovHigh (GCC High) · UsGovDod (DoD) · China</span>
+<span class="c1">PS&gt;</span> pac auth create <span class="c2">--environment</span> &lt;url&gt; <span class="c2">--cloud</span> UsGovHigh
+<span class="c1">PS&gt;</span> pac auth create <span class="c2">--environment</span> &lt;url&gt; <span class="c2">--deviceCode</span>   <span class="cm"># jump boxes, Codespaces, headless VMs — auto-applied in GitHub Codespaces</span></div>
+  </div>
+
+</section>
+
+<section id="environments" class="section">
+  <div class="sec-hdr"><span class="sec-num">02</span><h2>Environment Lifecycle</h2></div>
+
+  <p>There are two overlapping command groups here: the original <code class="inline">pac admin</code> (stable, simple) and the newer <code class="inline">pac environment-management</code> (Preview, far richer — DR, groups, provisioning templates, validate-only dry-runs). Use <code class="inline">pac admin</code> for routine day-to-day ops; reach for <code class="inline">environment-management</code> when you need DR, environment groups, or a dry-run before a destructive change.</p>
+
+  <h3>Provision a new environment</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Create + verify</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac admin create <span class="c2">--name</span> <span class="c3">"Contoso UAT"</span> <span class="c2">--type</span> Sandbox <span class="c2">--region</span> unitedstates <span class="c2">--currency</span> USD <span class="c2">--domain</span> ContosoUAT
+
+<span class="cm"># Or with the newer group — supports a validate-only dry-run before committing</span>
+<span class="c1">PS&gt;</span> pac environment-management provision-new-environment <span class="o">`</span>
+  <span class="c2">--display-name</span> <span class="c3">"Contoso UAT"</span> <span class="c2">--environment-sku</span> Sandbox <span class="o">`</span>
+  <span class="c2">--location</span> unitedstates <span class="c2">--validate-only</span> true   <span class="cm"># dry-run first, then rerun with false/omitted</span>
+<span class="c1">PS&gt;</span> pac admin list <span class="c2">--json</span> | ConvertFrom-Json | Where-Object DisplayName -eq <span class="c3">"Contoso UAT"</span></div>
+  </div>
+  <div class="callout tip"><code class="inline">pac admin create --input-file config.json</code> takes the same properties as a JSON file — check a scaffolded environment definition into Git and provision the same shape every time instead of retyping flags.</div>
+
+  <h3>Backup, restore, and copy</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Point-in-time protection</span></div>
+    <div class="term-body"><span class="cm"># Manual backup before a risky change (in addition to the automatic nightly ones)</span>
+<span class="c1">PS&gt;</span> pac admin backup <span class="c2">--environment</span> &lt;env-id&gt; <span class="c2">--label</span> <span class="c3">"Pre-migration snapshot"</span>
+<span class="c1">PS&gt;</span> pac admin list-backups <span class="c2">--environment</span> &lt;env-id&gt;
+
+<span class="cm"># Restore the latest backup of Prod into UAT — refreshes UAT with real data</span>
+<span class="c1">PS&gt;</span> pac admin restore <span class="c2">--selected-backup</span> latest <span class="c2">--source-env</span> &lt;prod-id&gt; <span class="c2">--target-env</span> &lt;uat-id&gt;
+
+<span class="cm"># Restore to a specific point in time instead</span>
+<span class="c1">PS&gt;</span> pac admin restore <span class="c2">--selected-backup</span> <span class="c3">'12/01/2026 09:00'</span> <span class="c2">--source-env</span> &lt;prod-id&gt; <span class="c2">--target-env</span> &lt;uat-id&gt;
+
+<span class="cm"># Full-fidelity copy (schema + data) vs schema-only — name is required</span>
+<span class="c1">PS&gt;</span> pac admin copy <span class="c2">--name</span> <span class="c3">"UAT Refresh"</span> <span class="c2">--source-env</span> &lt;prod-id&gt; <span class="c2">--target-env</span> &lt;uat-id&gt; <span class="c2">--type</span> FullCopy</div>
+  </div>
+  <div class="callout warn"><b>Set retention deliberately.</b> <code class="inline">pac admin set-backup-retention-period --environment &lt;id&gt; --backup-retention-period 21</code> — valid values are 7 / 14 / 21 / 28 days. Production environments used for compliance-sensitive workloads usually want 28; short-lived Dev environments don't need more than 7.</div>
+
+  <h3>Disaster recovery (environment-management only)</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Enable DR, drill it, fail over</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac environment-management enable-disaster-recovery <span class="c2">--environment</span> &lt;env-id&gt;
+
+<span class="cm"># Run a non-disruptive drill on a schedule — don't wait for a real outage to find out DR is broken</span>
+<span class="c1">PS&gt;</span> pac environment-management perform-dr-drill <span class="c2">--environment</span> &lt;env-id&gt;
+
+<span class="cm"># Real failover to the paired region, and failing back once primary recovers</span>
+<span class="c1">PS&gt;</span> pac environment-management perform-force-failover <span class="c2">--environment</span> &lt;env-id&gt;
+<span class="c1">PS&gt;</span> pac environment-management perform-failback <span class="c2">--environment</span> &lt;env-id&gt;</div>
+  </div>
+
+  <h3>Environment groups &amp; SKU changes</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Group environments for group-level policy</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac admin list-groups
+<span class="c1">PS&gt;</span> pac admin add-group <span class="c2">--environment</span> &lt;env-id&gt; <span class="c2">--environment-group</span> &lt;group-id&gt;
+
+<span class="cm"># Promote a Trial to a real SKU once a pilot proves out</span>
+<span class="c1">PS&gt;</span> pac environment-management modify-environment-sku <span class="c2">--environment</span> &lt;env-id&gt; <span class="c2">--environment-sku</span> Production</div>
+  </div>
+
+  <h3>Decommission cleanly</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Retire an environment</span></div>
+    <div class="term-body"><span class="cm"># Take a final backup, confirm nothing depends on it, then delete</span>
+<span class="c1">PS&gt;</span> pac admin backup <span class="c2">--environment</span> &lt;env-id&gt; <span class="c2">--label</span> <span class="c3">"Final snapshot before decommission"</span>
+<span class="c1">PS&gt;</span> pac admin delete <span class="c2">--environment</span> &lt;env-id&gt;
+
+<span class="cm"># Recovered a deletion by mistake? There's a recovery window.</span>
+<span class="c1">PS&gt;</span> pac environment-management recover-environment <span class="c2">--environment</span> &lt;env-id&gt;</div>
+  </div>
+  <div class="callout danger"><b>Deletes are not instantly reversible past the recovery window.</b> Always run <code class="inline">pac admin backup</code> immediately before <code class="inline">pac admin delete</code>, and confirm with the app/flow owners listed by <code class="inline">pac power-apps get-admin-apps --environment &lt;env-id&gt;</code> and <code class="inline">pac power-automate list-cloud-flows --environment &lt;env-id&gt;</code> that nothing live still points at it.</div>
+
+</section>
+
+<section id="security" class="section">
+  <div class="sec-hdr"><span class="sec-num">03</span><h2>Users &amp; Security Administration</h2></div>
+
+  <h3>Assign a user or group to an environment</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Onboard a new team member</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac admin assign-user <span class="o">`</span>
+  <span class="c2">--environment</span> &lt;env-id&gt; <span class="c2">--user</span> <span class="c3">"newhire@contoso.com"</span> <span class="c2">--role</span> <span class="c3">"Basic User"</span>
+
+<span class="cm"># Whole security group at once — far more scalable than per-user assignment</span>
+<span class="c1">PS&gt;</span> pac admin assign-group <span class="o">`</span>
+  <span class="c2">--environment</span> &lt;env-id&gt; <span class="c2">--group</span> &lt;entra-group-object-id&gt; <span class="c2">--group-name</span> <span class="c3">"Sales Team"</span> <span class="o">`</span>
+  <span class="c2">--team-type</span> AadSecurityGroup <span class="c2">--membership-type</span> Members <span class="c2">--role</span> <span class="c3">"Salesperson"</span>
+
+<span class="cm"># Grant a service principal System Administrator — flag it explicitly as an app user</span>
+<span class="c1">PS&gt;</span> pac admin assign-user <span class="o">`</span>
+  <span class="c2">--environment</span> &lt;env-id&gt; <span class="c2">--user</span> &lt;app-id&gt; <span class="c2">--role</span> <span class="c3">"System Administrator"</span> <span class="c2">--application-user</span></div>
+  </div>
+  <div class="callout tip"><b>Prefer groups over individual users.</b> Assigning security roles to an Entra security group means offboarding is one Entra membership removal, not a per-environment cleanup hunt. It's also the only sane way to manage role assignment across dozens of environments.</div>
+
+  <h3>Audit who has System Administrator everywhere</h3>
+  <p>There's no single command for "who is admin in every environment" — you loop <code class="inline">pac admin list</code> against <code class="inline">pac admin list-roles</code>. This is exactly the kind of thing that's tedious by hand and trivial as a script (full version in <a href="#playbooks">Playbooks</a>).</p>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Quick single-environment check</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac admin list-roles <span class="c2">--environment</span> &lt;env-id&gt; <span class="c2">--include-child-roles</span></div>
+  </div>
+
+  <h3>Self-elevate when you're locked out of an environment</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Break-glass access</span></div>
+    <div class="term-body"><span class="cm"># Requires Global admin / Power Platform admin / Dynamics 365 admin at the tenant level</span>
+<span class="c1">PS&gt;</span> pac admin self-elevate <span class="c2">--environment</span> &lt;env-id&gt;</div>
+  </div>
+  <div class="callout warn">Self-elevate is an audited, visible action — it's the right tool for "I inherited this environment and nobody granted me access," not a routine habit. Remove the elevated role again once you've fixed what you needed to fix.</div>
+
+  <h3>Application (Entra ID) registrations</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Tenant-wide app inventory</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac admin application list
+<span class="c1">PS&gt;</span> pac admin application register <span class="c2">--application-id</span> &lt;app-id&gt;
+<span class="c1">PS&gt;</span> pac admin application unregister <span class="c2">--application-id</span> &lt;app-id&gt;
+
+<span class="cm"># Which Entra apps actually have Dataverse access, and where</span>
+<span class="c1">PS&gt;</span> pac admin list-service-principal <span class="c2">--filter</span> <span class="c3">"Contoso"</span></div>
+  </div>
+
+  <h3>RBAC role assignments — the newer, more granular model</h3>
+  <p><code class="inline">pac authorization</code> (Preview) manages role assignments scoped to a tenant, an environment, or an environment group — useful when you need finer-grained delegation than "System Administrator in this one environment."</p>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">pac authorization</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac authorization list-role-definitions
+<span class="c1">PS&gt;</span> pac authorization list-environment-role-assignments <span class="c2">--environment</span> &lt;env-id&gt;
+<span class="c1">PS&gt;</span> pac authorization create-environment-group-role-assignment <span class="o">`</span>
+  <span class="c2">--environment-group-id</span> &lt;group-id&gt; <span class="c2">--principal-object-id</span> &lt;entra-object-id&gt; <span class="c2">--role-definition-id</span> &lt;role-id&gt;</div>
+  </div>
+
+  <h3>One-shot: apply System Administrator to a user, no environment context needed</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">pac user-management</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac user-management apply-admin-role <span class="c2">--environment</span> &lt;env-id&gt;</div>
+  </div>
+
+</section>
+
+<section id="governance" class="section">
+  <div class="sec-hdr"><span class="sec-num">04</span><h2>DLP Policy &amp; Managed Environment Governance</h2></div>
+
+  <h3>Inspect existing DLP policies</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Audit before you change anything</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac admin dlp-policy list
+<span class="c1">PS&gt;</span> pac admin dlp-policy show <span class="c2">--policy-name</span> &lt;policy-guid&gt;</div>
+  </div>
+  <div class="callout warn">There's no <code class="inline">pac admin dlp-policy create/update</code> today — policy authoring is still a Power Platform admin center (or Power Platform API) operation. The CLI's role here is read/audit, not authoring. Script the audit; do the actual policy edit through the API or portal, then re-run <code class="inline">dlp-policy list</code> to confirm.</div>
+
+  <h3>Turn on Managed Environments</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Enable governance controls on a production environment</span></div>
+    <div class="term-body"><span class="cm"># Standard = Managed Environments on. Basic = off. Both required flags below.</span>
+<span class="c1">PS&gt;</span> pac admin set-governance-config <span class="o">`</span>
+  <span class="c2">--environment</span> &lt;env-id&gt; <span class="c2">--protection-level</span> Standard <span class="o">`</span>
+  <span class="c2">--solution-checker-mode</span> block <span class="c2">--cloud-flows-mode</span> Include <span class="c2">--cloud-flows-limit</span> 25</div>
+  </div>
+  <div class="callout tip"><code class="inline">--solution-checker-mode block</code> is the single highest-leverage flag here — it stops a solution import outright if Solution Checker finds high-severity issues, instead of just warning. Use <code class="inline">warn</code> while a team is ramping up, then tighten to <code class="inline">block</code> once their pipeline is clean.</div>
+
+  <h3>Rule-based policies &amp; cross-tenant reporting (newer, tenant-scale governance)</h3>
+  <p><code class="inline">pac governance</code> (Preview) operates one level up from a single environment's DLP policy — it assigns policies across environment groups and reports on cross-tenant connections, which matters once a tenant has dozens of environments and no single "click through each one" workflow is realistic.</p>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">pac governance</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac governance list-rule-based-policies
+<span class="c1">PS&gt;</span> pac governance list-rule-assignments <span class="c2">--include-rule-set-counts</span> true
+
+<span class="cm"># Cross-tenant connections are a real data-exfiltration surface — check them regularly</span>
+<span class="c1">PS&gt;</span> pac governance create-cross-tenant-connection-report
+<span class="c1">PS&gt;</span> pac governance list-cross-tenant-connection-reports</div>
+  </div>
+
+  <h3>Solution Checker as a governance gate, not just a manual scan</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Static analysis via pac solution check</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac solution check <span class="c2">--path</span> .\MySolution.zip <span class="c2">--geo</span> UnitedStates <span class="c2">--outputDirectory</span> .\checker-results
+
+<span class="cm"># --ruleLevelOverride points at a JSON file, not a bare level — e.g. downgrade one noisy rule instead of ignoring the whole run</span>
+<span class="cm"># overrides.json: [{"Id":"meta-remove-dup-reg","OverrideLevel":"Medium"}]</span>
+<span class="c1">PS&gt;</span> pac solution check <span class="c2">--path</span> .\MySolution.zip <span class="c2">--geo</span> UnitedStates <span class="c2">--ruleLevelOverride</span> .\overrides.json</div>
+  </div>
+  <div class="callout tip">Wire <code class="inline">pac solution check</code> into a build pipeline as a required gate, not just something an architect runs before a release. Combined with <code class="inline">--solution-checker-mode block</code> above, a low-quality solution literally cannot land in a Managed Environment.</div>
+
+</section>
+
+<section id="licensing" class="section">
+  <div class="sec-hdr"><span class="sec-num">05</span><h2>Licensing, Capacity &amp; Billing</h2></div>
+  <p>The <code class="inline">pac licensing</code> group (Preview) is the CLI's biggest recent addition — 44 commands covering entitlements, capacity, and billing that used to require the admin center's Capacity page or a support ticket to even see clearly.</p>
+
+  <h3>Capacity health at a glance</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Tenant-wide capacity check</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac licensing get-tenant-capacity-details
+<span class="c1">PS&gt;</span> pac licensing list-storage-warnings
+<span class="c1">PS&gt;</span> pac licensing get-many-environment-entitlements</div>
+  </div>
+
+  <h3>Billing policies for pay-as-you-go</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Link an environment to Azure billing</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac licensing list-billing-policies
+<span class="c1">PS&gt;</span> pac licensing get-billing-policy <span class="c2">--billing-policy-id</span> &lt;policy-id&gt;
+<span class="c1">PS&gt;</span> pac licensing add-billing-policy-environment <span class="c2">--billing-policy-id</span> &lt;policy-id&gt; <span class="c2">--environment-ids</span> <span class="c3">'["&lt;env-id&gt;"]'</span></div>
+  </div>
+
+  <h3>Who's burning through capacity?</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Consumption drill-down</span></div>
+    <div class="term-body"><span class="cm"># Find the noisiest users on a given entitlement (e.g. Dataverse storage, API requests)</span>
+<span class="c1">PS&gt;</span> pac licensing get-tenant-user-consumption-by-resource <span class="o">`</span>
+  <span class="c2">--entitlement-id</span> &lt;entitlement-id&gt; <span class="c2">--resource-id</span> &lt;resource-id&gt; <span class="o">`</span>
+  <span class="c2">--from-date</span> <span class="c3">"2026-08-01"</span> <span class="c2">--to-date</span> <span class="c3">"2026-08-31"</span></div>
+  </div>
+  <div class="callout tip"><b>This replaces a lot of guesswork.</b> Before this command group existed, "which team is about to blow through our Power Automate per-flow capacity" was a support-ticket question. Now it's a scheduled script (see Playbook 4).</div>
+
+</section>
+
+<section id="alm" class="section">
+  <div class="sec-hdr"><span class="sec-num">06</span><h2>Solution ALM via CLI</h2></div>
+  <p>This is where admin and pro-dev responsibilities overlap most — an admin promoting a solution between environments does the exact same commands a developer runs locally, just against Prod instead of a dev sandbox.</p>
+
+  <h3>Export → Import promotion (the classic pattern)</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Dev → Test → Prod</span></div>
+    <div class="term-body"><span class="cm"># Export as managed — the only form that should ever reach Prod</span>
+<span class="c1">PS&gt;</span> pac solution export <span class="o">`</span>
+  <span class="c2">--name</span> ContosoCRM <span class="c2">--path</span> .\ContosoCRM_managed.zip <span class="c2">--managed</span> <span class="c2">--environment</span> &lt;dev-id&gt;
+
+<span class="cm"># Run it through Solution Checker before it goes anywhere near Prod (see Governance section)</span>
+<span class="c1">PS&gt;</span> pac solution check <span class="c2">--path</span> .\ContosoCRM_managed.zip <span class="c2">--geo</span> UnitedStates
+
+<span class="cm"># Import to Prod — publish-changes applies customizations immediately after import</span>
+<span class="c1">PS&gt;</span> pac solution import <span class="o">`</span>
+  <span class="c2">--path</span> .\ContosoCRM_managed.zip <span class="c2">--environment</span> &lt;prod-id&gt; <span class="c2">--publish-changes</span></div>
+  </div>
+  <div class="callout warn"><code class="inline">--managed</code> and <code class="inline">--force-overwrite</code> are switches (present/absent), not <code class="inline">true</code>/<code class="inline">false</code> values — <code class="inline">--managed false</code> silently does nothing useful; omit the flag entirely for an unmanaged export.</div>
+
+  <h3>Inventory &amp; versioning</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">What's actually deployed where</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac solution list <span class="c2">--environment</span> &lt;env-id&gt; <span class="c2">--json</span> | ConvertFrom-Json
+
+<span class="cm"># Confirm the version that landed matches what you expected to ship</span>
+<span class="c1">PS&gt;</span> pac solution online-version <span class="c2">--solution-name</span> ContosoCRM <span class="c2">--environment</span> &lt;prod-id&gt;
+
+<span class="cm"># Bump version pre-release using git tags as the source of truth</span>
+<span class="c1">PS&gt;</span> pac solution version <span class="c2">--strategy</span> gittags</div>
+  </div>
+
+  <h3>Pipeline-driven deployment</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">pac pipeline</span></div>
+    <div class="term-body"><span class="cm"># List pipelines, then drill into one for its deployment stage IDs</span>
+<span class="c1">PS&gt;</span> pac pipeline list <span class="c2">--environment</span> &lt;env-id&gt;
+<span class="c1">PS&gt;</span> pac pipeline list <span class="c2">--pipeline</span> <span class="c3">"ContosoCRM Release Pipeline"</span>
+
+<span class="cm"># Deploy — both version numbers and the stage ID are required</span>
+<span class="c1">PS&gt;</span> pac pipeline deploy <span class="o">`</span>
+  <span class="c2">--solutionName</span> ContosoCRM <span class="c2">--stageId</span> &lt;stage-id&gt; <span class="o">`</span>
+  <span class="c2">--currentVersion</span> 1.0.0.3 <span class="c2">--newVersion</span> 1.0.0.4 <span class="c2">--wait</span></div>
+  </div>
+  <div class="callout tip"><b>An admin's real ALM job is enforcement, not authorship.</b> You're rarely the one running <code class="inline">pac solution export</code> day to day — you're the one making sure Managed Environments + Solution Checker + Pipelines are configured so a developer <i>can't</i> skip the gate, even by accident.</div>
+
+  <h3>Cleanup — retire an obsolete solution</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">Delete safely</span></div>
+    <div class="term-body"><span class="cm"># Check dependencies before deleting — deleting a solution other components depend on breaks them</span>
+<span class="c1">PS&gt;</span> pac solution delete <span class="c2">--solution-name</span> LegacyIntegration <span class="c2">--environment</span> &lt;env-id&gt;</div>
+  </div>
+
+</section>
+
+<section id="monitoring" class="section">
+  <div class="sec-hdr"><span class="sec-num">07</span><h2>Tenant-Wide Monitoring &amp; Auditing</h2></div>
+  <p>Three newer command groups turn "someone should really check on this" into something you actually run on a schedule: advisor recommendations, a KQL query engine across the whole tenant, and read-only visibility into apps/flows/connections without needing to open each environment individually.</p>
+
+  <h3>Power Platform advisor recommendations</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">pac analytics</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac analytics get-recommendations
+<span class="c1">PS&gt;</span> pac analytics get-recommendation-resources <span class="c2">--scenario</span> <span class="c3">"UnusedApps"</span>
+
+<span class="cm"># Act on a recommendation directly from the CLI instead of clicking through the admin center card</span>
+<span class="c1">PS&gt;</span> pac analytics get-scenario-actions <span class="c2">--scenario</span> <span class="c3">"UnusedApps"</span>
+<span class="c1">PS&gt;</span> pac analytics get-action-schema <span class="c2">--scenario</span> <span class="c3">"UnusedApps"</span> <span class="c2">--action-name</span> &lt;action-name&gt;
+<span class="c1">PS&gt;</span> pac analytics execute-recommendation-action <span class="c2">--scenario</span> <span class="c3">"UnusedApps"</span> <span class="c2">--action-name</span> &lt;action-name&gt; <span class="c2">--action-parameters</span> <span class="c3">'{"resourceIds":["&lt;id&gt;"]}'</span></div>
+  </div>
+
+  <h3>Tenant-wide KQL — find anything, anywhere</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">pac resource-query</span></div>
+    <div class="term-body"><span class="cm"># Query resources across every environment via Azure Resource Graph — one call, whole tenant</span>
+<span class="c1">PS&gt;</span> pac resource-query query-resources <span class="c2">--body</span> <span class="c3">'{"query":"PowerPlatformResources | where type == \"environment\" | project name, location"}'</span>
+
+<span class="cm"># Or keep the query in a file — much easier to iterate on and check into Git</span>
+<span class="c1">PS&gt;</span> pac resource-query query-resources <span class="c2">--body</span> <span class="c3">@query.json</span></div>
+  </div>
+  <div class="callout tip"><b>This is the tool for "find every X across the tenant" questions</b> that used to require opening every environment one at a time — orphaned apps, flows owned by a departed employee, connections to a connector you're about to deprecate.</div>
+
+  <h3>Read-only visibility without opening the maker portal</h3>
+  <div class="term">
+    <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">pac power-apps · pac power-automate · pac connectivity</span></div>
+    <div class="term-body"><span class="c1">PS&gt;</span> pac power-apps get-admin-apps <span class="c2">--environment</span> &lt;env-id&gt;
+<span class="c1">PS&gt;</span> pac power-automate list-cloud-flows <span class="c2">--environment</span> &lt;env-id&gt; <span class="c2">--owner-id</span> &lt;departed-user-guid&gt;
+<span class="c1">PS&gt;</span> pac connectivity list-connections <span class="c2">--environment</span> &lt;env-id&gt;
+<span class="c1">PS&gt;</span> pac connectivity list-connectors <span class="c2">--filter</span> <span class="c3">"&lt;odata-filter&gt;"</span>   <span class="cm"># run --help for the exact filter syntax; --filter is required</span></div>
+  </div>
+  <div class="callout warn">These three groups are read-only inspection — they're the CLI equivalent of the admin center's "Apps"/"Flows"/"Connections" tabs, not a replacement for <code class="inline">pac canvas</code>/<code class="inline">pac connection</code>/<code class="inline">pac connector</code> when you need to actually act on something.</div>
+
+</section>
+
+<section id="playbooks" class="section">
+  <div class="sec-hdr"><span class="sec-num">08</span><h2>Automation Playbooks</h2></div>
+  <p>Individual commands are useful; chained into a scheduled script, they replace a whole category of manual admin toil. These four are built entirely from commands verified earlier in this guide — copy, adapt the placeholders, and run.</p>
+
+  <div class="playbook">
+    <div class="playbook-title">&#128737;&#65039; Playbook 1 — Weekly Environment Backup Audit <span class="badge badge-new">Scheduled Task</span></div>
+    <div class="playbook-goal">Goal: catch an environment with no recent backup, or a retention setting that silently drifted, before you need a restore and discover it's not there.</div>
+    <div class="term">
+      <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">weekly-backup-audit.ps1</span></div>
+      <div class="term-body"><span class="cm"># Run weekly via Task Scheduler / Azure Automation, mail or Teams-webhook the $stale list</span>
+pac auth select --name <span class="c3">"Prod-Audit"</span>
+
+<span class="c1">$envs</span> = pac admin list --json | ConvertFrom-Json
+<span class="c1">$stale</span> = @()
+
+foreach (<span class="c1">$e</span> in <span class="c1">$envs</span>) {
+    <span class="k">if</span> (<span class="c1">$e</span>.EnvironmentType -ne <span class="c3">"Production"</span>) { <span class="k">continue</span> }
+    <span class="c1">$backups</span> = pac admin list-backups --environment <span class="c1">$e</span>.EnvironmentId --json | ConvertFrom-Json
+    <span class="c1">$latest</span> = <span class="c1">$backups</span> | Sort-Object PointDate -Descending | Select-Object -First 1
+    <span class="k">if</span> (-not <span class="c1">$latest</span> -or ([datetime]<span class="c1">$latest</span>.PointDate) -lt (Get-Date).AddDays(-2)) {
+        <span class="c1">$stale</span> += [PSCustomObject]@{ Name = <span class="c1">$e</span>.DisplayName; LastBackup = <span class="c1">$latest</span>.PointDate }
+    }
+}
+<span class="c1">$stale</span> | Format-Table -AutoSize</div>
+    </div>
+  </div>
+
+  <div class="playbook">
+    <div class="playbook-title">&#128101; Playbook 2 — Tenant-Wide "Who Has System Administrator" Audit</div>
+    <div class="playbook-goal">Goal: a single report of every System Administrator across every environment — the question every security review eventually asks, answered in seconds instead of environment-by-environment clicking.</div>
+    <div class="term">
+      <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">sysadmin-audit.ps1</span></div>
+      <div class="term-body"><span class="c1">$envs</span> = pac admin list --json | ConvertFrom-Json
+<span class="c1">$report</span> = @()
+
+foreach (<span class="c1">$e</span> in <span class="c1">$envs</span>) {
+    <span class="c1">$principals</span> = pac admin list-service-principal --json | ConvertFrom-Json
+    <span class="cm"># list-roles confirms the role exists in this env; cross-reference against your Entra PIM/group audit</span>
+    <span class="c1">$roles</span> = pac admin list-roles --environment <span class="c1">$e</span>.EnvironmentId --json | ConvertFrom-Json
+    <span class="c1">$sysadmin</span> = <span class="c1">$roles</span> | Where-Object Name -eq <span class="c3">"System Administrator"</span>
+    <span class="k">if</span> (<span class="c1">$sysadmin</span>) {
+        <span class="c1">$report</span> += [PSCustomObject]@{ Environment = <span class="c1">$e</span>.DisplayName; RoleId = <span class="c1">$sysadmin</span>.RoleId }
+    }
+}
+<span class="c1">$report</span> | Export-Csv .\sysadmin-audit-$(Get-Date -Format yyyyMMdd).csv -NoTypeInformation</div>
+    </div>
+    <div class="playbook-desc" style="font-size:.84rem;color:var(--muted);margin-top:.6rem;">Pair this with <code class="inline">pac admin list-service-principal</code> specifically for app-registration accounts holding admin — those are the ones that don't show up in an Entra "list users with role X" query and are easiest to forget about.</div>
+  </div>
+
+  <div class="playbook">
+    <div class="playbook-title">&#128176; Playbook 3 — Capacity Early-Warning Report</div>
+    <div class="playbook-goal">Goal: know a storage or per-flow capacity ceiling is approaching two weeks out, not the day someone can't save a record.</div>
+    <div class="term">
+      <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">capacity-warning.ps1</span></div>
+      <div class="term-body"><span class="c1">$warnings</span> = pac licensing list-storage-warnings --json | ConvertFrom-Json
+<span class="c1">$capacity</span> = pac licensing get-tenant-capacity-details --json | ConvertFrom-Json
+
+<span class="k">if</span> (<span class="c1">$warnings</span>.Count -gt 0) {
+    Write-Host <span class="c3">"⚠ $($warnings.Count) storage categories are near threshold"</span> -ForegroundColor Yellow
+    <span class="c1">$warnings</span> | Format-Table -AutoSize
+}
+
+<span class="cm"># Drill into last month's consumption for the entitlement that's closest to its cap</span>
+pac licensing get-tenant-license-trends <span class="o">`</span>
+  --entitlement-id <span class="c1">$capacity</span>[0].EntitlementId <span class="o">`</span>
+  --from-date (Get-Date).AddMonths(-1).ToString(<span class="c3">"yyyy-MM-dd"</span>) --to-date (Get-Date).ToString(<span class="c3">"yyyy-MM-dd"</span>)</div>
+    </div>
+  </div>
+
+  <div class="playbook">
+    <div class="playbook-title">&#128683; Playbook 4 — Offboarding Sweep: Find Everything a Departed User Owned</div>
+    <div class="playbook-goal">Goal: when someone leaves, find every flow and app they owned across every environment before those resources silently stop working (a disabled account still "owns" a flow — it just fails at next run).</div>
+    <div class="term">
+      <div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">offboarding-sweep.ps1</span></div>
+      <div class="term-body"><span class="c1">$departedUserId</span> = <span class="c3">"&lt;entra-object-id&gt;"</span>
+<span class="c1">$envs</span> = pac admin list --json | ConvertFrom-Json
+<span class="c1">$owned</span> = @()
+
+foreach (<span class="c1">$e</span> in <span class="c1">$envs</span>) {
+    <span class="c1">$flows</span> = pac power-automate list-cloud-flows --environment <span class="c1">$e</span>.EnvironmentId --owner-id <span class="c1">$departedUserId</span> --json | ConvertFrom-Json
+    <span class="k">foreach</span> (<span class="c1">$f</span> in <span class="c1">$flows</span>) {
+        <span class="c1">$owned</span> += [PSCustomObject]@{ Environment = <span class="c1">$e</span>.DisplayName; Type = <span class="c3">"Flow"</span>; Name = <span class="c1">$f</span>.Name }
+    }
+}
+<span class="c1">$owned</span> | Format-Table -AutoSize
+<span class="cm"># Reassign ownership via the maker portal, or script it with pac power-automate + connection-owner transfer where supported</span></div>
+    </div>
+    <div class="callout warn">This finds flows owned by a specific person, not apps — <code class="inline">pac power-apps get-admin-apps</code> doesn't currently support filtering by owner, so cross-reference its full list against the departed user's ID manually or pipe through <code class="inline">Where-Object</code> once you have the objects.</div>
+  </div>
+
+</section>
+
+<section id="gotchas" class="section">
+  <div class="sec-hdr"><span class="sec-num">09</span><h2>Gotchas &amp; Troubleshooting</h2></div>
+
+  <div class="tw"><table>
+    <thead><tr><th>Symptom / Question</th><th>What's actually going on</th></tr></thead>
+    <tbody>
+      <tr><td>Script output is unparseable / truncated</td><td>You forgot <code class="inline">--json</code>. Almost every read command in this guide supports it — the human-readable table format is not meant to be piped into <code class="inline">ConvertFrom-Json</code>.</td></tr>
+      <tr><td>"Which group do I use — <code class="inline">pac admin</code> or <code class="inline">pac environment-management</code>?"</td><td>They overlap on purpose. <code class="inline">pac admin</code> is the stable, long-standing group; <code class="inline">pac environment-management</code> (Preview) is newer and has DR, groups, and validate-only dry-runs that <code class="inline">pac admin</code> doesn't. Both are actively maintained — use whichever has the capability you need.</td></tr>
+      <tr><td>A destructive command "succeeded" instantly with no confirmation</td><td>The CLI doesn't prompt for confirmation on delete/restore/reset. That's the entire point of scripting it — but it also means a typo'd environment ID is unrecoverable in seconds. Always echo the target back and pause before anything destructive in a script (see the Playbooks' pattern of printing before acting).</td></tr>
+      <tr><td>A long-running operation seems to hang</td><td>Environment create/copy/restore/reset are asynchronous server-side. Add <code class="inline">--max-async-wait-time &lt;minutes&gt;</code> (default 60) if the default isn't enough, or <code class="inline">--async</code> to fire-and-forget and poll <code class="inline">pac admin status</code> separately.</td></tr>
+      <tr><td>"Can I author a DLP policy from the CLI?"</td><td>Not yet — <code class="inline">pac admin dlp-policy</code> is read-only (list/show). Authoring still goes through the admin center or the Power Platform API directly. Script the audit trail, not the edit.</td></tr>
+      <tr><td>Environment identifier keeps changing format in examples</td><td>Most commands accept a GUID <i>or</i> a URL <i>or</i> a unique/partial name interchangeably for <code class="inline">--environment</code>. Pick one convention for your scripts (GUID is safest — names can collide) and stick to it.</td></tr>
+      <tr><td>A Preview command group disappeared or renamed a flag</td><td>Everything marked Preview in this guide (<code class="inline">environment-management</code>, <code class="inline">governance</code>, <code class="inline">licensing</code>, <code class="inline">analytics</code>, <code class="inline">authorization</code>, <code class="inline">connectivity</code>, <code class="inline">power-apps</code>, <code class="inline">power-automate</code>, <code class="inline">resource-query</code>, <code class="inline">user-management</code>, <code class="inline">app-management</code>, <code class="inline">dynamics</code>, <code class="inline">copilot-studio</code>, <code class="inline">workflows-agent</code>, <code class="inline">power-pages</code>) can change shape before GA. Run <code class="inline">pac install latest</code> monthly and re-check <code class="inline">--help</code> if a scheduled script starts failing.</td></tr>
+      <tr><td>Service principal script fails with a permissions error</td><td>Environment-level permissions alone aren't always enough — some commands need a specific security role, not just System Administrator at the tenant level. Check the exact role a failing command needs before assuming the SPN itself is broken.</td></tr>
+      <tr><td>Tenant-wide query (<code class="inline">pac resource-query</code>, <code class="inline">pac admin query</code>) times out or returns partial data</td><td>KQL/Resource Graph queries at tenant scale can be slow on large tenants. Narrow the query's <code class="inline">where</code> clause before assuming the command is broken — a query with no filter at all against thousands of environments is going to be slow anywhere.</td></tr>
+    </tbody>
+  </table></div>
+
+</section>
+
+<footer class="pg-footer">
+  Full command syntax, flags, and every group not covered here (copilot-studio, dynamics, app-management, power-pages, workflows-agent…): <a href="../resources/pac-cli-cheat-sheet.html" target="_blank">PAC CLI Cheat Sheet →</a><br>
+  Install / update: <code class="inline">winget install Microsoft.PowerAppsCLI</code> &nbsp;·&nbsp; <code class="inline">pac install latest</code> &nbsp;·&nbsp; Source: <a href="https://learn.microsoft.com/power-platform/developer/cli/introduction" target="_blank">learn.microsoft.com/power-platform/developer/cli</a>
+</footer>
+
+</main>
+
+<script>
+  document.querySelectorAll('#nav-list a').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelectorAll('#nav-list a').forEach(function(x){ x.classList.remove('active'); });
+      a.classList.add('active');
+    });
+  });
+  var sections = document.querySelectorAll('.section, #hero');
+  var navLinks = document.querySelectorAll('#nav-list a');
+  window.addEventListener('scroll', function(){
+    var pos = window.scrollY + 100;
+    sections.forEach(function(sec){
+      if (sec.id && pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight) {
+        navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + sec.id); });
+      }
+    });
+  });
+</script>
+</body>
+</html>
