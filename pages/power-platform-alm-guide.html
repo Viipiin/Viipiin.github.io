@@ -507,9 +507,9 @@ gitGraph
       <tbody>
         <tr><td>How it works</td><td>Manual export → unpack → commit cycle</td><td>Direct sync from environment to git repo via Power Platform admin centre</td></tr>
         <tr><td>File format</td><td>PAC-proprietary XML/JSON/YAML</td><td>Native Dataverse YAML format (different schema)</td></tr>
-        <tr><td>CI/CD integration</td><td>Full — PAC CLI pack in pipeline</td><td>Limited — still maturing; pack-from-Dataverse-YAML not fully in PAC CLI as of 2024</td></tr>
-        <tr><td>Best for</td><td>Pro-dev teams with ADO pipelines — production-grade today</td><td>Citizen-dev teams wanting environment → git without CLI; teams willing to adopt the new format early</td></tr>
-        <tr><td>Recommendation</td><td>✅ Use for any team with existing ADO/PAC CLI investment</td><td>⚠️ Evaluate per project — promising but verify current GA status before committing</td></tr>
+        <tr><td>CI/CD integration</td><td>Full — PAC CLI pack in pipeline</td><td>Now full too — PAC CLI ≥2.4.1 packs/unpacks the native YAML format directly (<code>pac solution pack --folder</code>, or <code>pac solution clone</code> for a fresh checkout)</td></tr>
+        <tr><td>Best for</td><td>Pro-dev teams with ADO pipelines — production-grade today</td><td>Citizen-dev teams wanting environment → git without CLI; increasingly viable for pro-dev teams too now that CLI support has matured</td></tr>
+        <tr><td>Recommendation</td><td>✅ Use for any team with existing ADO/PAC CLI investment</td><td>✅ GA and CLI-complete as of PAC CLI 2.4.1+ — still confirm your installed CLI version before committing an org to it</td></tr>
       </tbody>
     </table></div>
   </section>
@@ -945,9 +945,9 @@ if ($suspended.Count -gt 0) {
 Write-Host "✅ Post-deploy validation passed"</code></pre>
     </details>
 
-    <h3>Power Apps Test Studio</h3>
+    <h3>Power Apps Test Studio <span style="font-weight:400;font-size:0.85em;color:var(--muted, #999);">(deprecated April 2026 — see note below)</span></h3>
     <div class="tw"><table>
-      <thead><tr><th>Aspect</th><th>Current State (2025)</th></tr></thead>
+      <thead><tr><th>Aspect</th><th>Legacy State (pre-deprecation)</th></tr></thead>
       <tbody>
         <tr><td>What it is</td><td>Low-code test authoring tool built into Power Apps Studio for Canvas apps. Tests are written as Power Fx expressions against app controls.</td></tr>
         <tr><td>Good for</td><td>Regression tests for canvas app UI flows (button clicks, form validation, navigation). Re-run after each sprint to catch regressions in complex formulas.</td></tr>
@@ -962,15 +962,15 @@ Write-Host "✅ Post-deploy validation passed"</code></pre>
     <div class="tw"><table>
       <thead><tr><th>Command</th><th>What it does</th><th>Useful for</th></tr></thead>
       <tbody>
-        <tr><td><code>pac test run</code></td><td>Runs Power Apps Test Studio tests for a canvas app</td><td>Canvas app regression in CI — requires app published and test plan ID</td></tr>
+        <tr><td><code>pac test run</code></td><td>(Deprecated Apr 2026) Ran Test Engine/Test Studio tests for a canvas app</td><td>Legacy — see migration note below</td></tr>
         <tr><td><code>pac solution check</code></td><td>Static analysis via Solution Checker</td><td>PR and build gates — see above</td></tr>
         <tr><td><code>pac env status</code></td><td>Returns environment health and provisioning status</td><td>Pre-deployment checks in pipeline</td></tr>
         <tr><td><code>pac solution list</code></td><td>Lists solutions and versions in an environment</td><td>Post-deploy verification: confirm expected version is installed</td></tr>
       </tbody>
     </table></div>
     <div class="cb-tip">
-      <strong>💡 <code>pac test run</code> in CI — Practical Notes</strong>
-      As of 2025, <code>pac test run</code> requires the canvas app to be published in the target environment and the test plan to be referenced by ID. It is not zero-configuration. Budget 1–2 days of setup per app if you want this in a real CI pipeline. Evaluate whether the maintenance cost justifies the coverage given Test Studio's current limitations.
+      <strong>⚠️ <code>pac test run</code> / Test Engine deprecated April 2026</strong>
+      Microsoft deprecated Test Engine (and the Test Studio-based <code>pac test run</code> workflow) in April 2026, citing near-zero usage and limitations from its Power Fx/YAML test format — the GitHub repo will eventually be removed. The recommended replacement is <a href="https://learn.microsoft.com/en-us/power-platform/developer/playwright-samples/overview" target="_blank">Power Platform Playwright samples</a> — standard Playwright/TypeScript tests instead of a proprietary YAML format, with an official <a href="https://learn.microsoft.com/en-us/power-platform/developer/playwright-samples/migration-guide" target="_blank">migration guide</a> mapping Test Engine concepts (test suites, <code>Assert</code>, <code>Select</code>, environment variables) to Playwright equivalents. If you're starting canvas app CI testing today, start directly on Playwright rather than investing in the deprecated path.
     </div>
 
     <h3>Manual Smoke Test Checklist</h3>
