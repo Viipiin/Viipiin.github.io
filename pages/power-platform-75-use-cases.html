@@ -1444,7 +1444,7 @@ div(sub(listPrice, quotedPrice), listPrice)</pre>
   <h3>Pitfalls</h3>
   <ul><li>Don't manually edit Prod — break-fix via hotfix branch only</li><li>Connection references not auto-bound — env vars + script</li><li>Unmanaged layers in Prod are an anti-pattern</li></ul>
   <h3>Enhancements</h3>
-  <ul><li>Static analysis via PowerApps checker CLI</li><li>Auto-changelog from solution diff</li></ul>
+  <ul><li>Static analysis via Power Apps checker CLI</li><li>Auto-changelog from solution diff</li></ul>
 </section>
 
 <section class="usecase" id="uc44">
@@ -1553,7 +1553,7 @@ Gallery.OnSelect: Set(varSelectedGeo, ThisItem)
   <h3>Test Scenarios</h3>
   <ul><li>Gallery selection → pin highlights and detail pane updates</li><li>Search filters both gallery and map; result counts match</li><li>Cluster collapses with ≥5 close pins; zoom expansion resolves to individual pins</li><li>Government cloud DLP allows Azure Maps endpoint</li></ul>
   <h3>Pitfalls &amp; Best Practices</h3>
-  <ul><li>Don't embed the Azure Maps subscription key in PCF source — use env variable + Key Vault reference</li><li>Watch out: existing Maps PCFs target model-driven only; Canvas data contract is different — confirm before reusing</li><li>Test on mobile shell (PowerApps mobile) — WebView gesture handling differs from desktop browser</li></ul>
+  <ul><li>Don't embed the Azure Maps subscription key in PCF source — use env variable + Key Vault reference</li><li>Watch out: existing Maps PCFs target model-driven only; Canvas data contract is different — confirm before reusing</li><li>Test on mobile shell (Power Apps mobile) — WebView gesture handling differs from desktop browser</li></ul>
   <h3>Enhancements</h3>
   <ul><li>Add drawing tools (polygon select → bulk update records)</li><li>Heatmap layer for density analysis; export to Power BI for time-series geo trends</li></ul>
 </section>
@@ -1619,7 +1619,7 @@ If(
   <h3>Users &amp; Personas</h3>
   <ul><li>Copilot Studio Architect (designs &amp; owns the collection)</li><li>Agent Builders (consume the collection)</li><li>CoE / Governance Lead (enforces use)</li></ul>
   <h3>Data Model</h3>
-  <ul><li>Copilot Studio entities: Agent, Topic, Component, <strong>Component Collection</strong></li><li>Inheritance is reversed vs. PCF / PowerApps Component Library: in Copilot Studio you first create the agent component (e.g. a topic on an HR agent) → then the Component Collection imports that agent and inherits the component → then other agents (IT, Finance) inherit from the Collection</li></ul>
+  <ul><li>Copilot Studio entities: Agent, Topic, Component, <strong>Component Collection</strong></li><li>Inheritance is reversed vs. PCF / Power Apps Component Library: in Copilot Studio you first create the agent component (e.g. a topic on an HR agent) → then the Component Collection imports that agent and inherits the component → then other agents (IT, Finance) inherit from the Collection</li></ul>
   <h3>Security Model</h3>
   <ul><li>Copilot Studio environment security roles control who can author Collections; agents inherit collections via solution layering, not direct sharing</li><li>Pair with Copilot Studio's new <strong>Analytics Viewer</strong> role (announced same call) for read-only governance dashboards</li></ul>
   <h3>UX / Design</h3>
@@ -1658,7 +1658,7 @@ If(
   <h2>49. 📺 Workflows in Copilot Studio (replace standalone Power Automate) <a href="#top" class="top">&uarr; top</a></h2>
   <div class="badges"><span class="badge b-int">Intermediate</span><span class="badge b-flow">Copilot Studio + Workflows</span><span class="badge b-domain">AI Agents / Automation</span><span class="badge" style="background:#c62828;">📺 May 2026 Call — News Desk</span></div>
   <h3>Business Problem</h3>
-  <p>Today, Copilot Studio agents that need orchestration call out to standalone Power Automate cloud flows — meaning two artifacts to version, two security boundaries, and a context-switch for makers. The new <strong>Workflows in Copilot Studio</strong> feature (Public Preview, announced this call) lets you author the automation directly inside the agent, sharing variables, identity, and lifecycle.</p>
+  <p>Historically, Copilot Studio agents that needed orchestration called out to standalone Power Automate cloud flows — meaning two artifacts to version, two security boundaries, and a context-switch for makers. The <strong>Workflows in Copilot Studio</strong> feature (Public Preview when announced at this May 2026 call; the redesigned Workflow Designer reached General Availability August 3, 2026) lets you author the automation directly inside the agent, sharing variables, identity, and lifecycle.</p>
   <h3>Users &amp; Personas</h3>
   <ul><li>Copilot Studio Agent Builder (now also owns the workflow)</li><li>Maker who previously needed both PA and Copilot Studio skills</li><li>CoE Lead managing fewer cross-product artifacts</li></ul>
   <h3>Data Model</h3>
@@ -1681,7 +1681,7 @@ Trigger: User says "submit my expense"
         └─ Return: confirmationNumber
   └─ Topic replies: "Submitted, ref #{confirmationNumber}"</pre>
   <h3>Non-functional</h3>
-  <ul><li>Public Preview — production use requires preview-aware change-management; expect schema churn</li><li>Performance roughly equivalent to standalone PA; saves one network hop for input/output passing</li></ul>
+  <ul><li>Now GA (since Aug 3, 2026) — the preview-era "expect schema churn" caveat no longer applies, but verify against the live <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/whats-new" target="_blank">what's new</a> page before a production build</li><li>Performance roughly equivalent to standalone PA; saves one network hop for input/output passing</li></ul>
   <h3>ALM &amp; Governance</h3>
   <ul><li>Workflow ships inside the agent's Dataverse solution — promote via <a href="#uc43">UC 43</a> pipeline as one unit</li><li>Track which agents are still calling standalone PA flows so you can migrate to in-agent Workflows progressively</li><li>Keep DLP policies aligned with Copilot Studio env, not just Power Automate env</li></ul>
   <h3>Complexity</h3><p>M — 1–2 weeks per agent migration from standalone PA → in-agent Workflow</p>
@@ -1690,7 +1690,7 @@ Trigger: User says "submit my expense"
   <h3>Test Scenarios</h3>
   <ul><li>Topic invokes in-agent Workflow with all parameters typed correctly</li><li>Connector authentication uses agent identity, not maker's personal connection</li><li>Workflow error surfaces as a topic fallback path, not a generic agent error</li></ul>
   <h3>Pitfalls &amp; Best Practices</h3>
-  <ul><li>Preview feature — pin agent version before relying on it in production-critical scenarios</li><li>Don't migrate flows that are shared with non-agent callers; keep those standalone</li><li>Revisit DLP — Copilot Studio environment policy now governs connector usage that previously sat under PA env policy</li></ul>
+  <ul><li>Now GA — still confirm your tenant is on the rebuilt Copilot Studio authoring experience (rolled out June–Aug 2026) before assuming this workflow designer is available</li><li>Don't migrate flows that are shared with non-agent callers; keep those standalone</li><li>Revisit DLP — Copilot Studio environment policy now governs connector usage that previously sat under PA env policy</li></ul>
   <h3>Enhancements</h3>
   <ul><li>Combine with <a href="#uc48">UC 48</a> Component Collections — package the workflow + topic together so other agents inherit the orchestration</li><li>Apply Copilot Studio Analytics Viewer role to monitor workflow run health from the same pane as topic analytics</li></ul>
 </section>
@@ -1872,7 +1872,7 @@ Trigger: User says "submit my expense"
   <h3>Security Model</h3>
   <ul><li>Generated page inherits the parent app's security; Copilot prompts are logged per maker for audit</li></ul>
   <h3>UX / App Design</h3>
-  <ul><li>Start: select model-driven app template → name page → uncheck "as component" if needed</li><li>Prerequisite: Copilot in Power Apps enabled + environment in US region (preview constraint)</li><li>Select <em>Describe a page</em> → enter prompt (e.g. "Kanban board with statuses: Not Started, In Progress, Blocked, Complete")</li><li>Optionally attach image or table; pick GPT model (demo used GPT-5)</li><li>AI generates page → choose between <em>Preview</em> and <em>Code</em> tabs to refine</li></ul>
+  <ul><li>Start: select model-driven app template → name page → uncheck "as component" if needed</li><li>Prerequisite: Copilot in Power Apps enabled + environment in US region (feature reached GA in the US in Nov 2025; confirm current region coverage before assuming availability elsewhere)</li><li>Select <em>Describe a page</em> → enter prompt (e.g. "Kanban board with statuses: Not Started, In Progress, Blocked, Complete")</li><li>Optionally attach image or table; the underlying model is now GPT-5-based</li><li>AI generates page → choose between <em>Preview</em> and <em>Code</em> tabs to refine</li></ul>
   <h3>Automation Design</h3>
   <ul><li>Generation is one-shot — no flow needed; downstream automations on the underlying table still apply</li></ul>
   <h3>Integrations</h3>
@@ -1886,7 +1886,7 @@ Trigger: User says "submit my expense"
 //
 // After generation, switch to Code mode for fine-grained tweaks</pre>
   <h3>Non-functional</h3>
-  <ul><li>Preview-feature constraints (US region, Copilot toggle on); plan rollout once GA</li><li>Generated pages should be code-reviewed before production deploy — AI may pick non-delegable patterns</li></ul>
+  <ul><li>Now GA (US region, since Nov 2025) — the "Copilot toggle on" prerequisite still applies; verify regional coverage for non-US tenants before planning a rollout</li><li>Generated pages should be code-reviewed before production deploy — AI may pick non-delegable patterns</li></ul>
   <h3>ALM &amp; Governance</h3>
   <ul><li>Generated pages live inside the app's solution — promote managed through <a href="#uc43">UC 43</a> pipeline</li><li>Add a maker checklist item: "If page was AI-generated, regenerate from latest prompt and diff before promoting"</li></ul>
   <h3>Complexity</h3><p>S — minutes to generate, hours to refine</p>
