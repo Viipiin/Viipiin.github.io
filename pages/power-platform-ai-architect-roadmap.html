@@ -477,7 +477,7 @@
     <div class="week-block">
       <h4>Week 10 — Azure OpenAI: Models, Grounding, RAG</h4>
       <ul>
-        <li><strong>Topics:</strong> GPT-4o vs GPT-4.1 vs o-series, embeddings (text-embedding-3-large), Azure AI Search as vector store, RAG patterns (basic, hybrid, agentic), prompt engineering for enterprise, content safety, PTU vs PAYGO, network isolation (private endpoints)</li>
+        <li><strong>Topics:</strong> Current-gen GPT-5.x model family and the <code>reasoning_effort</code> parameter (GPT-4o/GPT-4.1/o-series retired from Azure OpenAI Feb–Apr 2026 — check <a href="https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/models" target="_blank">the live model catalog</a>, not this list, before quoting a name), embeddings (text-embedding-3-large), Azure AI Search as vector store, RAG patterns (basic, hybrid, agentic), prompt engineering for enterprise, content safety, PTU vs PAYGO, network isolation (private endpoints)</li>
         <li><strong>Build:</strong> RAG over 500 policy PDFs: ingestion pipeline → AI Search index with vectors → chat API (Function) → consumed by Power App. Add citations</li>
         <li><strong>Real-world:</strong> Why "ChatGPT clone" demos fail in production — hallucinations, no source attribution, no governance</li>
         <li><strong>Deliverable:</strong> End-to-end RAG solution + cost-per-query analysis</li>
@@ -486,7 +486,7 @@
         <span class="learn-title">📚 Learning Resources</span>
         <ul>
           <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/" target="_blank">Azure OpenAI Service docs (canonical)</a><span class="src">— MS Learn</span></li>
-          <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models" target="_blank">Models — GPT-4o / GPT-4.1 / o-series</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/models" target="_blank">Live Azure OpenAI model catalog (current GPT-5.x family)</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/use-your-data" target="_blank">Azure OpenAI on your data (RAG)</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/azure/search/vector-search-overview" target="_blank">Azure AI Search — vector search</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/azure/search/hybrid-search-overview" target="_blank">Hybrid search (vector + BM25)</a><span class="src">— MS Learn</span></li>
@@ -872,7 +872,7 @@
   <div class="card">
     <h3>Azure OpenAI — Architect-Level Decisions</h3>
     <ul class="feature-list">
-      <li>Model choice: GPT-4o for general, GPT-4.1 for long-context (1M tokens), o-series for reasoning/code, GPT-4o-mini for cost-sensitive</li>
+      <li>Model choice: GPT-4o, GPT-4.1, and o-series retired from Azure OpenAI Feb–Apr 2026 — current generation is GPT-5.x, with a <code>reasoning_effort</code> parameter replacing the separate o-series for most reasoning/code use cases. Always check the live model catalog before an architecture review</li>
       <li>PTU (Provisioned Throughput Units) vs PAYGO: PTU only makes sense above ~$5k/month spend</li>
       <li>Embeddings: text-embedding-3-large (3072 dims) — downsize to 1536 for cost via API parameter</li>
       <li>Vector DB choice: Azure AI Search (managed, hybrid), Cosmos DB (multi-purpose), Postgres pgvector (lift-shift from OSS)</li>
@@ -883,7 +883,7 @@
     <div class="learn-box">
       <span class="learn-title">📚 Deep-Dive Resources — Azure OpenAI Architecture</span>
       <ul>
-        <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models" target="_blank">Model catalog — GPT-4o, 4.1, o-series</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/models" target="_blank">Live model catalog (current GPT-5.x family)</a><span class="src">— MS Learn</span></li>
         <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/provisioned-throughput" target="_blank">PTU vs PAYGO economics</a><span class="src">— MS Learn</span></li>
         <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/understand-embeddings" target="_blank">Embeddings — text-embedding-3-large/small</a><span class="src">— MS Learn</span></li>
         <li><a href="https://learn.microsoft.com/en-us/azure/architecture/ai-ml/architecture/baseline-azure-ai-foundry-chat" target="_blank">Baseline reference architecture — OpenAI chat</a><span class="src">— Architecture Center</span></li>
@@ -1143,7 +1143,7 @@
       <li><a href="https://make.powerapps.com/" target="_blank">Power Platform Developer Plan (free)</a><span class="reason">Free Dataverse environment for your own tenant — sign up with personal/work email.</span></li>
       <li><a href="https://azure.microsoft.com/en-us/free/" target="_blank">Azure Free Tier ($200 credit + always-free services)</a><span class="reason">Stand up Functions, Service Bus, APIM, OpenAI (when approved).</span></li>
       <li><a href="https://learn.microsoft.com/en-us/training/" target="_blank">Microsoft Learn Sandboxes</a><span class="reason">Time-limited Azure sandboxes embedded in MS Learn modules. No credit card needed.</span></li>
-      <li><a href="https://ai.azure.com/" target="_blank">Azure AI Foundry (free tier)</a><span class="reason">Build, deploy, and evaluate AI apps and agents. Replace older Azure OpenAI Studio.</span></li>
+      <li><a href="https://ai.azure.com/" target="_blank">Microsoft Foundry (free tier)</a><span class="reason">Build, deploy, and evaluate AI apps and agents. Renamed from Azure AI Foundry in Jan 2026; replaced the older Azure OpenAI Studio.</span></li>
       <li><a href="https://github.com/features/copilot" target="_blank">GitHub Copilot for Students/OSS (free)</a><span class="reason">Free if you're a student or maintain OSS — use Copilot agents in VS Code.</span></li>
     </ul>
   </div>
@@ -1262,7 +1262,7 @@
       <li><a href="https://docs.crewai.com/" target="_blank">CrewAI docs</a><span class="reason">Role-based multi-agent orchestration.</span></li>
       <li><a href="https://platform.openai.com/docs/guides/agents" target="_blank">OpenAI Agents SDK</a><span class="reason">Lightweight Python SDK with native MCP + tracing.</span></li>
       <li><a href="https://docs.anthropic.com/en/docs/agents-and-tools" target="_blank">Claude Agent SDK (Anthropic)</a><span class="reason">Build agents that use Claude as the engine; MCP-first.</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/" target="_blank">Azure AI Foundry docs</a><span class="reason">Azure's unified AI platform — models, agents, evals, deployments.</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/" target="_blank">Microsoft Foundry docs</a><span class="reason">Azure's unified AI platform (renamed from Azure AI Foundry, Jan 2026) — models, agents, evals, deployments.</span></li>
     </ul>
   </div>
 
@@ -1285,7 +1285,7 @@
       <li><a href="https://github.com/microsoft/ai-agents-for-beginners" target="_blank">microsoft/ai-agents-for-beginners</a><span class="reason">11 lessons, multiple frameworks (SK, AutoGen). Most comprehensive free agent course.</span></li>
       <li><a href="https://github.com/microsoft/semantic-kernel" target="_blank">microsoft/semantic-kernel</a><span class="reason">Source + samples for SK in .NET / Python / Java.</span></li>
       <li><a href="https://github.com/microsoft/autogen" target="_blank">microsoft/autogen</a><span class="reason">Multi-agent reference + notebooks.</span></li>
-      <li><a href="https://github.com/Azure-Samples/get-started-with-ai-agents" target="_blank">Azure-Samples/get-started-with-ai-agents</a><span class="reason">Azure AI Foundry agent quickstart with end-to-end code.</span></li>
+      <li><a href="https://github.com/Azure-Samples/get-started-with-ai-agents" target="_blank">Azure-Samples/get-started-with-ai-agents</a><span class="reason">Microsoft Foundry agent quickstart with end-to-end code.</span></li>
       <li><a href="https://github.com/langchain-ai/langgraph" target="_blank">langchain-ai/langgraph</a><span class="reason">Stateful agent graphs. Examples folder is gold.</span></li>
       <li><a href="https://github.com/crewAIInc/crewAI-examples" target="_blank">crewAIInc/crewAI-examples</a><span class="reason">Role-based agent example repo.</span></li>
       <li><a href="https://github.com/openai/openai-agents-python" target="_blank">openai/openai-agents-python</a><span class="reason">Official OpenAI Agents SDK with MCP examples.</span></li>
@@ -1311,7 +1311,7 @@
   </div>
 
   <div class="callout warn">
-    <strong>Architect framework-pick heuristic:</strong> When customer is M365/Azure-heavy → Copilot Studio + Semantic Kernel + Azure AI Foundry. When customer is multi-cloud or OSS-friendly → LangGraph + MCP. When the requirement is multi-agent collaboration → CrewAI or AutoGen. <em>Never</em> lead with the framework — start with the requirement and pick last.
+    <strong>Architect framework-pick heuristic:</strong> When customer is M365/Azure-heavy → Copilot Studio + Semantic Kernel + Microsoft Foundry. When customer is multi-cloud or OSS-friendly → LangGraph + MCP. When the requirement is multi-agent collaboration → CrewAI or AutoGen. <em>Never</em> lead with the framework — start with the requirement and pick last.
   </div>
 </section>
 
@@ -1405,7 +1405,7 @@
     <h4>Tech Stack</h4>
     <ul class="feature-list">
       <li>Copilot Studio (topics + generative orchestration)</li>
-      <li>Azure OpenAI (GPT-4o for chat, text-embedding-3-large for vectors)</li>
+      <li>Azure OpenAI (current-gen GPT-5.x for chat, text-embedding-3-large for vectors)</li>
       <li>Azure AI Search (hybrid index: vector + BM25)</li>
       <li>APIM + Function (Python or .NET) for orchestration</li>
       <li>Application Insights for token + latency telemetry</li>
@@ -1668,7 +1668,7 @@
 
     <div class="qa-block"><div class="q">Q7. How do you decide between Service Bus, Event Grid, and Event Hubs?</div><div class="a">Commands &amp; ordered messages → Service Bus. Reactive events / fan-out to many handlers → Event Grid. Telemetry / massive throughput / replay → Event Hubs. Have one real story for each.</div></div>
 
-    <div class="qa-block"><div class="q">Q8. We have a $40k/month Azure OpenAI bill. Reduce it.</div><div class="a">Switch eligible workloads to GPT-4o-mini, enable prompt caching, shorten system prompts, downsize embedding dimensions, batch where possible, evaluate PTU, set hard budgets, dedupe similar queries via cache. Track $/answered query.</div></div>
+    <div class="qa-block"><div class="q">Q8. We have a $40k/month Azure OpenAI bill. Reduce it.</div><div class="a">Switch eligible workloads to the cheapest current-gen model tier that meets quality bar (formerly GPT-4o-mini; check the live catalog for today's naming), enable prompt caching, shorten system prompts, downsize embedding dimensions, batch where possible, evaluate PTU, set hard budgets, dedupe similar queries via cache. Track $/answered query.</div></div>
 
     <div class="qa-block"><div class="q">Q9. Multi-environment strategy for 4 business lines on one tenant?</div><div class="a">Default + 1 dev per BL + shared sandbox + UAT + Prod per BL OR shared Prod with environment groups. Discuss capacity, DLP policies per env, environment routing, ALM pipeline reuse via templates.</div></div>
 
