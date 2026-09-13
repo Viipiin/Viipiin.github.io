@@ -285,13 +285,14 @@ tr:nth-child(even) td{background:rgba(255,255,255,.015)}
     <div class="qr-lbl">&#9889; Quick Read</div>
     <h3>The Microsoft AI stack in one mental model</h3>
     <ul>
-      <li><strong>Azure OpenAI</strong> — the reasoning brain (GPT-4, embeddings, function calling)</li>
+      <li><strong>Azure OpenAI</strong> — the reasoning brain (current-gen GPT-5.x models, embeddings, function calling)</li>
       <li><strong>Azure AI Search</strong> — the knowledge retrieval layer (vector + keyword + semantic)</li>
-      <li><strong>Copilot Studio</strong> — the low-code AI agent builder on top of OpenAI + Microsoft data</li>
+      <li><strong>Copilot Studio</strong> — the low-code AI agent builder on top of Azure OpenAI + Microsoft data</li>
       <li><strong>Microsoft Graph</strong> — the API for all M365 data (emails, Teams, SharePoint, users, calendar)</li>
       <li><strong>Power Automate</strong> — the orchestration glue between AI actions and business systems</li>
-      <li><strong>Azure AI Foundry</strong> — the enterprise AI development platform (formerly Azure ML + AI Studio)</li>
+      <li><strong>Microsoft Foundry</strong> — the enterprise AI development platform (formerly Azure AI Foundry / Azure AI Studio; renamed Jan 2026 — Azure OpenAI now sits inside it as "Microsoft Foundry Models")</li>
     </ul>
+    <div class="callout-note" style="font-size:0.85rem;color:var(--muted);margin-top:8px;">Model names date fast in this space — GPT-4o/GPT-4.1/o1/o3 retired from Azure OpenAI between Feb–Apr 2026, replaced by the GPT-5.x family. Confirm current model availability at <strong>learn.microsoft.com/azure/ai-foundry/openai/concepts/models</strong> before quoting a specific model name to a client.</div>
   </div>
 
   <!-- 1.1 Copilot Studio -->
@@ -327,7 +328,7 @@ tr:nth-child(even) td{background:rgba(255,255,255,.015)}
         <span class="cl-lbl">&#9888; When NOT to use Copilot Studio</span>
         <ul>
           <li>You need custom embeddings, fine-tuning, or model version pinning — use Azure OpenAI SDK directly</li>
-          <li>High-throughput, programmatic agent calls at scale — use Azure AI Foundry + LangChain/Semantic Kernel</li>
+          <li>High-throughput, programmatic agent calls at scale — use Microsoft Foundry + LangChain/Semantic Kernel</li>
           <li>Complex multi-step agentic workflows with custom tool orchestration — Semantic Kernel provides better control</li>
         </ul>
       </div>
@@ -399,17 +400,17 @@ SharePoint              Dataverse / SQL
   </div>
 
   <!-- 1.2 Azure OpenAI -->
-  <h3 style="margin-top:32px">1.2 Azure OpenAI Service</h3>
+  <h3 style="margin-top:32px">1.2 Azure OpenAI Service (now under Microsoft Foundry)</h3>
   <span class="lv lv-i">Intermediate</span>&nbsp;<span class="lv lv-a">Architect Depth</span>
   <div class="card-grid" style="margin-top:12px">
-    <div class="card ca"><div class="card-icon">&#129504;</div><h4>What it is</h4><p>Microsoft's managed deployment of OpenAI models (GPT-4o, GPT-4, o1, o3) within Azure — in your tenant, your region, with your data residency and compliance controls.</p></div>
+    <div class="card ca"><div class="card-icon">&#129504;</div><h4>What it is</h4><p>Microsoft's managed deployment of OpenAI models — current generation is the GPT-5.x family — within Azure — in your tenant, your region, with your data residency and compliance controls. Branded as "Microsoft Foundry Models" since the Jan 2026 Foundry rebrand; existing Azure OpenAI deployments, endpoints, and API keys were unaffected.</p></div>
     <div class="card cs"><div class="card-icon">&#128274;</div><h4>Why enterprise</h4><p>Data never trains OpenAI models. Private endpoints available. Customer-managed keys supported. Integrated with Azure RBAC, Entra ID, and Azure Monitor.</p></div>
     <div class="card cp"><div class="card-icon">&#9881;</div><h4>Deployment models</h4><p>Standard (shared), Provisioned Throughput Units (PTU) for predictable latency at scale, Global Batch for asynchronous workloads.</p></div>
     <div class="card cg"><div class="card-icon">&#128225;</div><h4>Function calling</h4><p>Structured tool calling — the model decides when and how to call external functions. Core to agentic patterns. Returns structured JSON arguments.</p></div>
   </div>
   <div class="callout cl-arch">
     <span class="cl-lbl">&#127959; Architect Note — Model Selection</span>
-    <p><strong>GPT-4o</strong>: Best balance of quality and cost for most enterprise chat and RAG scenarios. Multimodal (text + image). <strong>o1 / o3</strong>: Complex reasoning, maths, code analysis — slower, more expensive, no streaming. <strong>text-embedding-3-large</strong>: Highest quality embeddings for semantic search. <strong>GPT-4o-mini</strong>: Cost-optimised for high-volume classification or intent routing. Always benchmark on your specific data before committing to a model in production.</p>
+    <p><strong>GPT-4o, GPT-4.1, and o1/o3 retired from Azure OpenAI between Feb–Apr 2026</strong> — if you inherit a project referencing them, plan a migration. Current generation: <strong>GPT-5.1 / GPT-5.x</strong> covers the balanced chat-and-RAG use case (multimodal, replaces GPT-4o) with a <code>reasoning_effort</code> parameter (including a fast "minimal" setting) that replaces the separate o-series reasoning models for most scenarios. <strong>text-embedding-3-large</strong>: still the standard for high-quality embeddings. For high-volume classification or intent routing, use the smallest/cheapest current-gen variant available in your region. Always check <strong>learn.microsoft.com/azure/ai-foundry/openai/concepts/models</strong> for what's actually deployable today, and benchmark on your specific data before committing to a model in production.</p>
   </div>
   <div class="acc">
     <button class="acc-btn">Hands-on Exercise: Call Azure OpenAI via REST <span class="ai">&#9660;</span></button>
@@ -1157,7 +1158,7 @@ EXECUTOR (stepwise execution loop)
       <thead><tr><th>Role</th><th>Who Sets It</th><th>Purpose</th><th>Can User Override?</th></tr></thead>
       <tbody>
         <tr><td><strong>System</strong></td><td>Application developer</td><td>Persona, constraints, output format, safety rules, grounding instructions</td><td>No — model treats system as authoritative</td></tr>
-        <tr><td><strong>Developer</strong> (o1/o3)</td><td>Application developer</td><td>Equivalent to system for o1/o3 family models — reasoning models use "developer" not "system"</td><td>No</td></tr>
+        <tr><td><strong>Developer</strong> (reasoning models)</td><td>Application developer</td><td>Equivalent to system for reasoning-tier models (originally o1/o3, now GPT-5.x reasoning modes) — OpenAI reserves "system" for its own use on these models, so app instructions go in "developer" instead</td><td>No</td></tr>
         <tr><td><strong>User</strong></td><td>End user (via UI)</td><td>The actual question or task</td><td>N/A — this is the user's message</td></tr>
         <tr><td><strong>Assistant</strong> (in history)</td><td>Model's prior responses</td><td>Conversation history — helps model maintain context</td><td>Can be injected by app for few-shot examples</td></tr>
       </tbody>
@@ -1268,7 +1269,7 @@ Chain Step 4: RECOMMEND
   <span class="lv lv-a">Advanced</span>
   <ul class="chklist">
     <li><span class="chk">&#10003;</span><strong>Store prompts in source control:</strong> Treat system prompts as code — versioned in Git, reviewed via PRs, change-controlled</li>
-    <li><span class="chk">&#10003;</span><strong>Prompt registry:</strong> Use Azure AI Foundry prompt flow or a simple Azure Blob + config service to serve prompts by version key — enables A/B testing without code deploys</li>
+    <li><span class="chk">&#10003;</span><strong>Prompt registry:</strong> Use Microsoft Foundry prompt flow or a simple Azure Blob + config service to serve prompts by version key — enables A/B testing without code deploys</li>
     <li><span class="chk">&#10003;</span><strong>Semantic versioning:</strong> Major version = breaking change in output schema; Minor = behaviour improvement; Patch = wording fix</li>
     <li><span class="chk">&#10003;</span><strong>Evals before promotion:</strong> Run a golden dataset (50–100 test questions with expected answers) against both old and new prompt versions. Only promote if new version wins on BLEU/ROUGE or human eval</li>
     <li><span class="chk">&#10003;</span><strong>Shadow deployment:</strong> Run new prompt version alongside production (same queries, both responses logged) before switching traffic</li>
@@ -1812,9 +1813,9 @@ Azure Function  -->  Azure OpenAI (token auth)
     <li><strong>Content Safety:</strong> learn.microsoft.com/azure/ai-services/content-safety/overview</li>
   </ul>
 
-  <h3>AI Foundry &amp; MLOps</h3>
+  <h3>Microsoft Foundry &amp; MLOps</h3>
   <ul style="font-size:.87rem;color:var(--text2);margin-bottom:16px">
-    <li><strong>Azure AI Foundry overview:</strong> learn.microsoft.com/azure/ai-foundry/overview</li>
+    <li><strong>Microsoft Foundry overview</strong> (formerly Azure AI Foundry): learn.microsoft.com/azure/ai-foundry/overview</li>
     <li><strong>Prompt flow:</strong> learn.microsoft.com/azure/machine-learning/prompt-flow/overview-what-is-prompt-flow</li>
     <li><strong>Evaluating LLM outputs:</strong> learn.microsoft.com/azure/ai-foundry/how-to/evaluate-generative-ai-app</li>
   </ul>
