@@ -1,9 +1,9 @@
-Add a new entry card to the vault in index.html.
+Add a new entry card to the vault in vault.html.
 
 Arguments: $ARGUMENTS — provide: page path (e.g. pages/my-page.html), card colour (blue/purple/green/orange/teal), emoji icon, title, and description.
 
 Steps:
-1. Read index.html around line 1370–1420 to find the correct insertion group
+1. Read vault.html inside `<div id="vk-content">` (around line 186 onward) to find the correct insertion group
 2. Identify the right section by matching the page topic to an existing group heading
 3. Insert the card using this format:
 

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Private Vault</title>
+<link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+<style>body{margin:0;min-height:100vh;background:#0f172a;}</style>
+</head>
+<body>
+<!-- Private Vault v3 — opened from index.html by typing 'vkpv' or tapping the hero heading 5 times -->
+<style>
+/* ── Vault shell ──────────────────────────────────────────── */
+#vk-vault,#vk-vault *,#vk-vault *::before,#vk-vault *::after{box-sizing:border-box}
+#vk-vault{
+  display:none;position:fixed;inset:0;z-index:99999;
+  align-items:center;justify-content:center;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+}
+/* Backdrop */
+#vk-bd{
+  position:absolute;inset:0;
+  background:rgba(15,15,25,.55);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+/* Card */
+#vk-card{
+  position:relative;
+  width:min(460px,94vw);
+  max-height:min(640px,90vh);
+  background:#fff;
+  border-radius:18px;
+  box-shadow:0 28px 72px rgba(0,0,0,.28),0 0 0 1px rgba(116,39,116,.1);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+/* ── Header bar ───────────────────────────────────────────── */
+#vk-hdr{
+  flex-shrink:0;
+  background:linear-gradient(130deg,#4f1a4f 0%,#742774 60%,#9b3f9b 100%);
+  padding:1rem 1rem 1rem 1.15rem;
+  display:flex;align-items:center;gap:.7rem;
+}
+#vk-hdr-icon{
+  width:38px;height:38px;flex-shrink:0;
+  background:rgba(255,255,255,.15);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+}
+#vk-hdr-icon svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#vk-hdr-text{flex:1}
+#vk-hdr-text h2{color:#fff;font-size:.95rem;font-weight:700;margin:0;letter-spacing:-.15px}
+#vk-hdr-sub{color:rgba(255,255,255,.68);font-size:.7rem;margin-top:2px}
+#vk-close{
+  flex-shrink:0;width:28px;height:28px;
+  background:rgba(255,255,255,.14);border:none;border-radius:7px;
+  color:#fff;font-size:.8rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+#vk-close:hover{background:rgba(255,255,255,.28)}
+/* ── Body (scrollable) ────────────────────────────────────── */
+#vk-body{
+  flex:1;overflow-y:auto;
+  padding:1.1rem 1.1rem 0;
+}
+#vk-body::-webkit-scrollbar{width:4px}
+#vk-body::-webkit-scrollbar-track{background:transparent}
+#vk-body::-webkit-scrollbar-thumb{background:#e2d4f0;border-radius:4px}
+/* ── Login ────────────────────────────────────────────────── */
+#vk-login{padding-bottom:1.1rem}
+.vk-pin-row{display:flex;gap:.55rem;margin-bottom:.4rem}
+#vk-pin{
+  flex:1;padding:.72rem .9rem;
+  border:2px solid #e5e7eb;border-radius:9px;
+  font-size:.95rem;letter-spacing:.28em;text-align:center;
+  outline:none;color:#1a1a2e;font-family:inherit;
+  transition:border-color .2s,box-shadow .2s;
+  background:#fafafa;
+}
+#vk-pin::placeholder{letter-spacing:.05em;color:#c4c4d4;font-size:.85rem}
+#vk-pin:focus{border-color:#742774;box-shadow:0 0 0 3px rgba(116,39,116,.1);background:#fff}
+#vk-pin.vk-shake{animation:vkShake .4s ease;border-color:#ef4444!important;box-shadow:0 0 0 3px rgba(239,68,68,.1)!important}
+#vk-btn{
+  padding:.72rem 1.05rem;
+  background:#742774;border:none;border-radius:9px;
+  color:#fff;font-size:.85rem;font-weight:600;
+  cursor:pointer;white-space:nowrap;font-family:inherit;
+  transition:background .2s,transform .15s;
+}
+#vk-btn:hover{background:#5c1f5c;transform:translateY(-1px)}
+#vk-btn:active{transform:translateY(0)}
+#vk-err{color:#dc2626;font-size:.73rem;min-height:1.1em}
+#vk-hint{color:#b0b0c4;font-size:.68rem;margin-top:.3rem}
+/* ── Content items ────────────────────────────────────────── */
+#vk-content{display:none;padding-bottom:.8rem}
+.vk-section{
+  font-size:.63rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#b0b0c4;
+  padding-bottom:.45rem;margin-top:.9rem;
+}
+.vk-section:first-child{margin-top:0}
+.vk-group{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.2rem}
+.vk-a{
+  display:flex;align-items:center;gap:.8rem;
+  padding:.72rem .85rem;
+  background:#f9f7ff;border:1px solid #eee8fb;border-radius:10px;
+  text-decoration:none;
+  transition:background .14s,border-color .14s,transform .14s;
+}
+.vk-a:hover{background:#f1eaff;border-color:#d4bef0;transform:translateX(3px)}
+.vk-ico{
+  width:36px;height:36px;flex-shrink:0;
+  border-radius:9px;background:#fff;border:1px solid #eee8fb;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;
+}
+.vk-txt{flex:1;min-width:0}
+.vk-t{font-size:.83rem;font-weight:600;color:#1a1a2e;display:block;line-height:1.3}
+.vk-d{font-size:.67rem;color:#8a8aac;display:block;margin-top:.15rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vk-arr{color:#d4bef0;font-size:.8rem;flex-shrink:0;transition:color .14s,transform .14s}
+.vk-a:hover .vk-arr{color:#742774;transform:translateX(2px)}
+/* Accent strips */
+.vk-amber{border-left:3px solid #f59e0b}.vk-amber .vk-ico{background:#fffbeb;border-color:#fde68a}
+.vk-purple{border-left:3px solid #742774}.vk-purple .vk-ico{background:#f5e6f5;border-color:#e9c8e9}
+.vk-teal{border-left:3px solid #0891b2}.vk-teal .vk-ico{background:#ecfeff;border-color:#a5f3fc}
+.vk-blue{border-left:3px solid #0078d4}.vk-blue .vk-ico{background:#eff6ff;border-color:#bfdbfe}
+/* ── Footer ───────────────────────────────────────────────── */
+#vk-footer{
+  flex-shrink:0;
+  border-top:1px solid #f0eef8;padding:.7rem 1.1rem;
+  display:flex;justify-content:center;
+}
+#vk-lock-btn{
+  background:none;border:none;color:#b0b0c4;
+  font-size:.72rem;cursor:pointer;padding:.25rem .6rem;
+  border-radius:6px;font-family:inherit;
+  transition:color .2s,background .2s;display:none;
+}
+#vk-lock-btn:hover{color:#742774;background:#f5e6f5}
+/* ── Animations ───────────────────────────────────────────── */
+@keyframes vkShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@keyframes vkFadeBack{from{opacity:0}to{opacity:1}}
+@keyframes vkSlideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+#vk-vault.vk-entering{animation:vkFadeBack .2s ease forwards}
+#vk-vault.vk-entering #vk-card{animation:vkSlideUp .24s ease forwards}
+@keyframes vkContentIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.vk-content-in{animation:vkContentIn .28s ease forwards}
+</style>
+
+<div id="vk-vault">
+  <div id="vk-bd"></div>
+  <div id="vk-card">
+
+    <!-- Header -->
+    <div id="vk-hdr">
+      <div id="vk-hdr-icon">
+        <svg id="vk-lock-svg" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="11" width="18" height="11" rx="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <div id="vk-hdr-text">
+        <h2>Private Vault</h2>
+        <p id="vk-hdr-sub">Enter your passkey to unlock</p>
+      </div>
+      <button id="vk-close" title="Close  Esc" aria-label="Close vault">✕</button>
+    </div>
+
+    <!-- Scrollable body -->
+    <div id="vk-body">
+
+      <!-- Login -->
+      <div id="vk-login">
+        <div class="vk-pin-row">
+          <input id="vk-pin" type="password" placeholder="Enter passkey" maxlength="32"
+                 autocomplete="off" spellcheck="false" aria-label="Vault passkey"/>
+          <button id="vk-btn">Unlock →</button>
+        </div>
+        <p id="vk-err" aria-live="polite"></p>
+        <p id="vk-hint">Hint: trigger key + year</p>
+      </div>
+
+      <!-- Unlocked content -->
+      <div id="vk-content">
+
+        <p class="vk-section">Career Tools</p>
+        <div class="vk-group">
+          <a href="pages/claude-ai-architect-30day-plan.html" class="vk-a vk-amber" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">🧠</div>
+            <div class="vk-txt">
+              <span class="vk-t">Claude AI Architect — 30-Day Plan</span>
+              <span class="vk-d">AI-assisted career acceleration roadmap</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/power-platform-ai-architect-roadmap.html" class="vk-a vk-purple" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">🗺️</div>
+            <div class="vk-txt">
+              <span class="vk-t">Power Platform AI Architect Roadmap</span>
+              <span class="vk-d">6-month path to 35–50 LPA target</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+        </div>
+
+        <p class="vk-section">Interview Prep</p>
+        <div class="vk-group">
+          <a href="pages/candidate-interview-prep.html" class="vk-a vk-teal" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">🎯</div>
+            <div class="vk-txt">
+              <span class="vk-t">Candidate Interview Prep</span>
+              <span class="vk-d">D365 · SharePoint · SPFx · Power Platform</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/spfx-architect-interview-prep.html" class="vk-a vk-blue" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">🧱</div>
+            <div class="vk-txt">
+              <span class="vk-t">SPFx Architect — Interview Field Manual</span>
+              <span class="vk-d">50+ questions · 10–15 year practitioners</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/power-platform-coe-governance-study-guide.html" class="vk-a vk-blue" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">🏛️</div>
+            <div class="vk-txt">
+              <span class="vk-t">Power Platform COE &amp; Governance Study Guide</span>
+              <span class="vk-d">8 chapters: COE Kit, DLP, ALM, Managed Environments</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/power-platform-scenario-interview-qna.html" class="vk-a vk-purple" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">💬</div>
+            <div class="vk-txt">
+              <span class="vk-t">Power Platform — Deep Scenario Q&amp;A</span>
+              <span class="vk-d">26 questions: Canvas, ALM, DLP, Governance, Security</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/azure-dotnet-fullstack-ai-interview-guide.html" class="vk-a vk-blue" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">🤖</div>
+            <div class="vk-txt">
+              <span class="vk-t">Azure .NET Fullstack + Azure AI Developer — Interview Guide</span>
+              <span class="vk-d">130+ Q&amp;A · RAG · Semantic Kernel · Scenarios · Rubric · 13 Sections</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+        </div>
+
+        <p class="vk-section">Wellness</p>
+        <div class="vk-group">
+          <a href="pages/year-of-better-wellness-guide.html" class="vk-a vk-teal" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">🌿</div>
+            <div class="vk-txt">
+              <span class="vk-t">Your Year of Better — Healthy Lifestyle Guide</span>
+              <span class="vk-d">16 parts: nutrition, workouts, sleep, smoothies, quit smoking</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+        </div>
+
+        <p class="vk-section">Deep Dives</p>
+        <div class="vk-group">
+          <a href="pages/power-platform-75-use-cases.html" class="vk-a vk-teal" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">📋</div>
+            <div class="vk-txt">
+              <span class="vk-t">Power Platform — 75 Use Cases</span>
+              <span class="vk-d">Architect-level patterns &amp; interview prep</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/azure-functions-25-use-cases.html" class="vk-a vk-blue" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">⚡</div>
+            <div class="vk-txt">
+              <span class="vk-t">Azure Functions — 25 Use Cases</span>
+              <span class="vk-d">Serverless patterns for Power Platform integrations</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/microsoft-power-platform-dlp-policies-deep-dive-guide.html" class="vk-a vk-teal" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">🛡️</div>
+            <div class="vk-txt">
+              <span class="vk-t">Power Platform DLP Policies — Deep Dive Guide</span>
+              <span class="vk-d">Beginner to Architect · CoE Kit · Interview Prep · 15 sections</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/power-platform-expert-newrole-guide.html" class="vk-a vk-purple" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">🏗️</div>
+            <div class="vk-txt">
+              <span class="vk-t">Power Platform Expert — New Role Field Guide</span>
+              <span class="vk-d">Governance · CoE · ALM · Pipelines · 30-60-90 Plan · 23 sections</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/ai-architect-enterprise-guide.html" class="vk-a vk-teal" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">🧠</div>
+            <div class="vk-txt">
+              <span class="vk-t">Mastering Enterprise AI — Microsoft Ecosystem Architect Guide</span>
+              <span class="vk-d">RAG · Agentic AI · Prompt Engineering · OAuth · Reference Archs · 50+ Interview Q&amp;A</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/save-your-client.html" class="vk-a vk-blue" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">💰</div>
+            <div class="vk-txt">
+              <span class="vk-t">Power Platform Licensing Cost Optimization Playbook</span>
+              <span class="vk-d">Decision Matrix · Connector Strategy · Identity · ALM · Scripts · Client Toolkit · 18 Sections</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/power-platform-alm-guide.html" class="vk-a vk-teal" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">⚙️</div>
+            <div class="vk-txt">
+              <span class="vk-t">Power Platform ALM — Enterprise Reference Guide</span>
+              <span class="vk-d">Toolchain Decision · Solution Layers · Multi-Dev Source Control · ADO Pipelines · Rollback · Copilot Studio ALM · 11 Sections</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/sharepoint-hub-discovery.html" class="vk-a vk-blue" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">🔗</div>
+            <div class="vk-txt">
+              <span class="vk-t">SharePoint Hub Site Discovery — Sales, Solutions &amp; Delivery</span>
+              <span class="vk-d">Hub Architecture · Discovery Questions · SPO vs Teams vs Simpplr · Content Model · Governance · 16 Sections</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/nintex-to-power-platform.html" class="vk-a vk-purple" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">🔄</div>
+            <div class="vk-txt">
+              <span class="vk-t">Nintex to Power Platform — Migration &amp; Modernisation Guide</span>
+              <span class="vk-d">Retirement Impact · Power Pages Deep Dive · Options Comparison · Security · Phased Roadmap · FAQ · 14 Sections</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+          <a href="pages/power-platform-admin-cli-guide.html" class="vk-a vk-green" target="_blank" rel="noopener noreferrer">
+            <div class="vk-ico">⌨️</div>
+            <div class="vk-txt">
+              <span class="vk-t">Power Platform Admin — CLI-Only Operations Guide</span>
+              <span class="vk-d">Environment Lifecycle · Security &amp; DLP · Licensing · Solution ALM · Monitoring · Automation Playbooks · 9 Sections</span>
+            </div>
+            <span class="vk-arr">→</span>
+          </a>
+        </div>
+
+      </div>
+    </div><!-- /#vk-body -->
+
+    <!-- Footer -->
+    <div id="vk-footer">
+      <button id="vk-lock-btn">🔒 Lock vault</button>
+    </div>
+
+  </div><!-- /#vk-card -->
+</div><!-- /#vk-vault -->
+
+<script>
+(function(){
+  var VH='dmtwdjIwMjU=', unlocked=false;
+
+  var vault  = document.getElementById('vk-vault');
+  var pin    = document.getElementById('vk-pin');
+  var err    = document.getElementById('vk-err');
+  var login  = document.getElementById('vk-login');
+  var content= document.getElementById('vk-content');
+  var lockBtn= document.getElementById('vk-lock-btn');
+  var hdrSub = document.getElementById('vk-hdr-sub');
+  var hdrSvg = document.getElementById('vk-lock-svg');
+
+  var LOCKED_SVG  = '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>';
+  var UNLOCKED_SVG= '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a3 3 0 0 1 6 0"/>';
+
+  window.openVaultOnLoad=function(){openVault();};
+  function openVault(){
+    vault.style.display='flex';
+    vault.classList.add('vk-entering');
+    setTimeout(function(){vault.classList.remove('vk-entering');},280);
+    if(!unlocked) setTimeout(function(){pin.focus();},60);
+  }
+  function closeVault(){
+    location.href='/';
+  }
+  function lockVault(){
+    unlocked=false;
+    localStorage.removeItem('vk_tok');
+    login.style.display='block';
+    content.style.display='none';
+    lockBtn.style.display='none';
+    pin.value=''; err.textContent='';
+    hdrSub.textContent='Enter your passkey to unlock';
+    hdrSvg.innerHTML=LOCKED_SVG;
+  }
+  function revealContent(){
+    unlocked=true;
+    localStorage.setItem('vk_tok',JSON.stringify({k:VH,e:Date.now()+28800000}));
+    login.style.display='none';
+    content.style.display='block';
+    content.classList.add('vk-content-in');
+    setTimeout(function(){content.classList.remove('vk-content-in');},320);
+    lockBtn.style.display='block';
+    hdrSub.textContent='Your exclusive resources';
+    hdrSvg.innerHTML=UNLOCKED_SVG;
+  }
+  function tryUnlock(){
+    var val=pin.value;
+    if(!val){err.textContent='Please enter your passkey.';return;}
+    if(btoa(val)===VH){err.textContent='';revealContent();}
+    else{
+      err.textContent='Incorrect passkey — try again.';
+      pin.value='';
+      pin.classList.add('vk-shake');
+      setTimeout(function(){pin.classList.remove('vk-shake');pin.focus();},440);
+    }
+  }
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape')closeVault();
+  });
+
+  document.getElementById('vk-close').addEventListener('click',closeVault);
+  document.getElementById('vk-bd').addEventListener('click',closeVault);
+  document.getElementById('vk-btn').addEventListener('click',tryUnlock);
+  lockBtn.addEventListener('click',lockVault);
+  pin.addEventListener('keydown',function(e){if(e.key==='Enter')tryUnlock();});
+}());
+</script>
+<script>openVaultOnLoad();</script>
+
+</body>
+</html>

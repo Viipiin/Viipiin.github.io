@@ -26,7 +26,7 @@ Steps:
 </html>
 ```
 
-4. Add a vault entry to `index.html` in the correct group — use the format from CLAUDE.md
+4. Add a vault entry to `vault.html` in the correct group — use the format from CLAUDE.md
 5. Report the file path and confirm the head structure is correct
 
 Remember: vault.js MUST be first, base.css MUST be second — no exceptions.

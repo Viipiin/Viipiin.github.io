@@ -614,6 +614,33 @@ html.dark-theme .hero-handle span { color: #cbd5e1; }
     transform: translateY(-4px) !important;
 }
 
+/* Cert cards are links to the Microsoft Learn credential */
+a.cert-item {
+    display: block;
+    text-decoration: none;
+}
+
+a.cert-item:focus-visible {
+    outline: 3px solid #6366f1;
+    outline-offset: 3px;
+}
+
+.cert-verify {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #4f46e5;
+}
+
+a.cert-item:hover .cert-verify {
+    color: #e0e7ff;
+}
+
+html.dark-theme .cert-verify {
+    color: #a5b4fc;
+}
+
 /* ── h1 in sections ── */
 h1 {
     background: none !important;
@@ -2056,8 +2083,8 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
 }
 
 /* ══════════════════════════════════════════════════════
-   COMMUNITY BADGES — 3-D FLIP CARD
-   Mobile-first · fluid · touch & keyboard aware
+   COMMUNITY BADGES — COMPACT STRIP
+   One row of small badges with verify links
    ══════════════════════════════════════════════════════ */
 
 /* ── Source links in section subtitle ── */
@@ -2073,255 +2100,75 @@ html.dark-theme .theme-toggle .moon-icon { display: block; }
     border-bottom-color: #312E81;
 }
 
-/* ── Fluid grid: auto 1 → 2 → 3 cols, zero explicit breakpoints ── */
-.community-badges-grid {
+/* ── Compact badge strip: small image, name, verify link ── */
+.badge-strip {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
-    gap: clamp(0.75rem, 2vw, 1.5rem);
-    margin-top: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 0.75rem;
 }
 
-/* ── Outer card — sets 3-D perspective ── */
-.community-badge-card {
-    height: clamp(240px, 32vw, 290px);
-    perspective: 1000px;
-    background: transparent !important;
-    border: none !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    box-shadow: none !important;
-    cursor: pointer;
-    transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Keyboard focus ring */
-.community-badge-card:focus-visible {
-    outline: 2px solid #6366f1;
-    outline-offset: 4px;
-    border-radius: 18px !important;
-}
-
-/* Hover lift effect — create depth perception */
-.community-badge-card:hover,
-.community-badge-card:focus-visible,
-.community-badge-card.is-flipped {
-    filter: drop-shadow(0 12px 28px rgba(49, 46, 129, 0.22));
-}
-
-/* ── Inner wrapper — flips on hover / focus / tap (.is-flipped) ── */
-.badge-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    border-radius: 16px;
-}
-
-.community-badge-card:hover .badge-card-inner,
-.community-badge-card:focus-visible .badge-card-inner,
-.community-badge-card.is-flipped .badge-card-inner {
-    transform: rotateY(180deg);
-}
-
-/* ── Shared face styles ── */
-.badge-card-front,
-.badge-card-back {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    border-radius: 16px;
+.badge-mini {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: clamp(1rem, 4%, 1.5rem) clamp(0.875rem, 4%, 1.25rem);
-    gap: 0.6rem;
-    text-align: center;
-}
-
-/* ── FRONT ── */
-.badge-card-front {
+    gap: 0.75rem;
+    padding: 0.6rem 0.9rem;
     background: #ffffff;
-    border: 1.5px solid rgba(99, 102, 241, 0.18);
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
 }
 
-/* ── BACK: deep indigo gradient — enhanced depth ── */
-.badge-card-back {
-    background: linear-gradient(145deg, #1e1b4b 0%, #312E81 55%, #3730a3 100%);
-    border: 1.5px solid rgba(129, 140, 248, 0.4);
-    box-shadow: 0 12px 40px rgba(49, 46, 129, 0.45), inset 0 1px 0 rgba(165, 180, 252, 0.15);
-    transform: rotateY(180deg);
-    justify-content: flex-start;
-    padding-top: clamp(1rem, 4%, 1.5rem);
-    overflow: hidden;
-}
-
-/* ── Badge image — fluid circle ── */
-.community-badge-img-wrap {
-    width: clamp(72px, 9vw, 100px);
-    height: clamp(72px, 9vw, 100px);
-    border-radius: 50%;
-    background: #eef2ff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.6rem;
+.badge-mini img {
     flex-shrink: 0;
-    transition: background 0.25s ease;
-}
-
-.community-badge-card:hover .community-badge-img-wrap,
-.community-badge-card:focus-visible .community-badge-img-wrap {
-    background: #e0e7ff;
-}
-
-.community-badge-img-wrap img {
-    width: 100%;
-    height: 100%;
+    width: 44px;
+    height: 44px;
     object-fit: contain;
-    border-radius: 50%;
-    display: block;
 }
 
-/* ── Front text ── */
-.community-badge-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-}
-
-.community-badge-name {
-    font-size: clamp(0.78rem, 1.8vw, 0.9rem);
+.badge-mini-name {
+    flex: 1;
+    font-size: 0.85rem;
     font-weight: 600;
-    color: #111827;
+    color: #1e293b;
     line-height: 1.3;
 }
 
-.community-badge-issuer {
-    font-size: clamp(0.65rem, 1.5vw, 0.75rem);
-    color: #64748b;
-    font-weight: 400;
-}
-
-/* ── Interaction hint ── */
-.badge-flip-hint {
-    font-size: 0.65rem;
-    color: #6366f1;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    opacity: 0.85;
-    margin-top: auto;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    transition: opacity 0.3s ease;
-}
-
-.community-badge-card:hover .badge-flip-hint,
-.community-badge-card:focus-visible .badge-flip-hint {
-    opacity: 1;
-}
-
-/* ── BACK: skills label ── */
-.bcb-label {
-    font-size: 0.6rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: rgba(165, 180, 252, 0.6);
-    margin: 0;
-    line-height: 1;
-    flex-shrink: 0;
-}
-
-/* ── BACK: skill list ── */
-.bcb-skills {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    width: 100%;
-    flex: 1;
-    overflow: hidden;
-}
-
-.bcb-skill {
-    width: 100%;
-    padding: 0.28rem 0.6rem;
-    border-radius: 5px;
-    font-size: clamp(0.62rem, 1.4vw, 0.7rem);
-    font-weight: 500;
-    line-height: 1.35;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    background: rgba(255, 255, 255, 0.07);
-    color: #e0e7ff;
-    border: none;
-    border-left: 2.5px solid;
-}
-
-/* Colour accent variants */
-.s-indigo { border-left-color: #818cf8; }
-.s-violet { border-left-color: #a78bfa; }
-.s-sky    { border-left-color: #38bdf8; }
-.s-teal   { border-left-color: #2dd4bf; }
-.s-amber  { border-left-color: #fbbf24; }
-
-/* ── Verify link ── */
-.badge-card-back .community-badge-verify {
-    font-size: clamp(0.65rem, 1.4vw, 0.72rem);
+.badge-mini-verify {
+    font-size: 0.78rem;
     font-weight: 600;
-    color: #a5b4fc;
+    color: #4f46e5;
     text-decoration: none;
-    padding: 0.3rem 0.9rem;
-    border: 1px solid rgba(165, 180, 252, 0.4);
-    border-radius: 20px;
-    transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
-    letter-spacing: 0.02em;
-    margin-top: auto;
-    flex-shrink: 0;
+    white-space: nowrap;
 }
 
-.badge-card-back .community-badge-verify:hover,
-.badge-card-back .community-badge-verify:focus-visible {
-    background: rgba(165, 180, 252, 0.2);
-    color: #e0e7ff;
-    border-color: rgba(165, 180, 252, 0.7);
-    outline: none;
+.badge-mini-verify:hover { text-decoration: underline; }
+
+.badge-mini-verify:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+    border-radius: 4px;
 }
 
-/* ── Reduced motion: cross-fade instead of flip ── */
-@media (prefers-reduced-motion: reduce) {
-    .badge-card-inner { transition: none; }
-    .community-badge-card:hover .badge-card-inner,
-    .community-badge-card:focus-visible .badge-card-inner,
-    .community-badge-card.is-flipped .badge-card-inner { transform: none; }
-    .badge-card-back {
-        transform: none;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-    }
-    .community-badge-card:hover .badge-card-back,
-    .community-badge-card:focus-visible .badge-card-back,
-    .community-badge-card.is-flipped .badge-card-back { opacity: 1; }
-    .community-badge-card:hover .badge-card-front,
-    .community-badge-card:focus-visible .badge-card-front,
-    .community-badge-card.is-flipped .badge-card-front { opacity: 0; }
+.visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
-/* ── Dark theme ── */
-html.dark-theme .badge-card-front {
-    background: #1e293b !important;
-    border-color: rgba(99, 102, 241, 0.25) !important;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3) !important;
+html.dark-theme .badge-mini {
+    background: #1e293b;
+    border-color: rgba(99, 102, 241, 0.25);
 }
-html.dark-theme .community-badge-img-wrap { background: #312e5a !important; }
-html.dark-theme .community-badge-name { color: #f1f5f9 !important; }
-html.dark-theme .community-badge-issuer { color: #94a3b8 !important; }
+html.dark-theme .badge-mini-name { color: #f1f5f9; }
+html.dark-theme .badge-mini-verify { color: #a5b4fc; }
 html.dark-theme .badge-source-link {
     color: #818cf8 !important;
     border-bottom-color: rgba(129, 140, 248, 0.3) !important;
@@ -2518,3 +2365,100 @@ html.dark-theme .availability-bar {
 html.dark-theme .availability-bar strong {
     color: #4ade80;
 }
+
+/* ================================================
+   WRITING & GUIDES — cards linking to public essays and cheat sheets
+   ================================================ */
+
+.writing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 1rem;
+}
+
+.writing-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1.1rem 1.25rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.writing-card:hover {
+    border-color: #6366f1;
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.15);
+    transform: translateY(-2px);
+}
+
+.writing-card:focus-visible {
+    outline: 3px solid #6366f1;
+    outline-offset: 3px;
+}
+
+.writing-kind {
+    align-self: flex-start;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #4338ca;
+    background: #eef2ff;
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+}
+
+.writing-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: #111827;
+}
+
+.writing-desc {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #475569;
+}
+
+.writing-more {
+    margin-top: 1.25rem;
+    text-align: center;
+}
+
+.writing-more a {
+    font-weight: 600;
+    color: #4f46e5;
+    text-decoration: none;
+}
+
+.writing-more a:hover { text-decoration: underline; }
+
+@media (prefers-reduced-motion: reduce) {
+    .writing-card { transition: none; }
+    .writing-card:hover { transform: none; }
+}
+
+html.dark-theme .writing-card {
+    background: #1e293b;
+    border-color: rgba(99, 102, 241, 0.25);
+}
+html.dark-theme .writing-card:hover { border-color: #818cf8; }
+html.dark-theme .writing-kind { background: #312E81; color: #c7d2fe; }
+html.dark-theme .writing-title { color: #f1f5f9; }
+html.dark-theme .writing-desc { color: #94a3b8; }
+html.dark-theme .writing-more a { color: #a5b4fc; }
+
+/* In-text links inside experience bullets (e.g. "detail in the ABB case study") */
+.exp-card-bullets a {
+    color: #4f46e5;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+html.dark-theme .exp-card-bullets a { color: #a5b4fc; }

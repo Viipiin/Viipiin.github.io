@@ -62,7 +62,9 @@ content block must have both `max-width` (1000–1200px) and centering (`margin:
 
 ---
 
-## Vault entry format (when adding a page to index.html)
+## Vault entry format (when adding a page to vault.html)
+The private vault list lives in `vault.html` (root, noindex). `index.html` only holds a small trigger
+(type `vkpv`, or tap the hero heading 5 times) that navigates there — never add vault cards to `index.html`.
 ```html
 <a href="pages/page-name.html" class="vk-a vk-blue" target="_blank" rel="noopener noreferrer">
   <div class="vk-ico">🎯</div>

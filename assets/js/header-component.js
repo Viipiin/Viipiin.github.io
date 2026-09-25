@@ -375,6 +375,8 @@ window.HeaderComponent = {
     // Scroll effects
     initScrollEffects: function() {
         const header = document.getElementById('modernHeader');
+        // The auto-init at load can run before a page injects the header markup
+        if (!header) return;
 
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
