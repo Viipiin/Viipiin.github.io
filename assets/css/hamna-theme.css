@@ -2462,3 +2462,84 @@ html.dark-theme .writing-more a { color: #a5b4fc; }
     text-underline-offset: 2px;
 }
 html.dark-theme .exp-card-bullets a { color: #a5b4fc; }
+
+/* ================================================
+   RECOMMENDATIONS — LinkedIn quotes, verbatim
+   ================================================ */
+
+.rec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 1rem;
+}
+
+.rec-card {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.4rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 3px solid #6366f1;
+    border-radius: 12px;
+}
+
+.rec-quote {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.rec-quote p {
+    margin: 0;
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: #374151;
+}
+
+.rec-quote p::before { content: "\201C"; }
+.rec-quote p::after  { content: "\201D"; }
+
+.rec-by {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.rec-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #111827;
+}
+
+.rec-role,
+.rec-meta {
+    font-size: 0.8rem;
+    color: #64748B;
+}
+
+.rec-more {
+    margin-top: 1.25rem;
+    text-align: center;
+}
+
+.rec-more a {
+    font-weight: 600;
+    color: #4f46e5;
+    text-decoration: none;
+}
+
+.rec-more a:hover { text-decoration: underline; }
+
+html.dark-theme .rec-card {
+    background: #1e293b;
+    border-color: rgba(99, 102, 241, 0.25);
+    border-left-color: #818cf8;
+}
+html.dark-theme .rec-quote p { color: #cbd5e1; }
+html.dark-theme .rec-name { color: #f1f5f9; }
+html.dark-theme .rec-role,
+html.dark-theme .rec-meta { color: #94a3b8; }
+html.dark-theme .rec-more a { color: #a5b4fc; }
