@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="../js/vault.js"></script>
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/page-shell.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copilot Learning Log — Daily Agent Builds</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238b5cf6'/%3E%3Cstop offset='1' stop-color='%2314b8a6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Cpath d='M18 40V26a8 8 0 0 1 8-8h12a8 8 0 0 1 8 8v14' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='26' cy='32' r='3.5' fill='white'/%3E%3Ccircle cx='38' cy='32' r='3.5' fill='white'/%3E%3Cpath d='M14 44h36' stroke='white' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b1020; --bg2:#0f1629; --card:#131c33; --card2:#18233f; --line:#24304f;
+  --text:#e6ebf5; --muted:#94a3c4; --dim:#6b7899;
+  --violet:#8b5cf6; --teal:#14b8a6; --blue:#3b82f6; --amber:#f59e0b; --rose:#f43f5e; --green:#22c55e;
+  --grad:linear-gradient(135deg,#8b5cf6 0%,#3b82f6 50%,#14b8a6 100%);
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Segoe UI',system-ui,sans-serif;line-height:1.65;
+  background-image:radial-gradient(1200px 500px at 10% -10%,rgba(139,92,246,.18),transparent 60%),
+                   radial-gradient(900px 500px at 100% 0%,rgba(20,184,166,.12),transparent 60%);}
+code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
+a{color:#a5b4fc}
+
+/* ── Hero ── */
+.hero{padding:3.5rem 0 2rem;text-align:left}
+.eyebrow{display:inline-flex;gap:.5rem;align-items:center;font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:#c4b5fd;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.35);padding:.35rem .8rem;border-radius:999px}
+.eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.hero h1{font-size:clamp(2.1rem,5vw,3.4rem);font-weight:800;line-height:1.1;margin:1.1rem 0 .8rem;letter-spacing:-.02em}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:1.1rem;color:var(--muted);max-width:720px}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-top:2rem}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem}
+.stat b{display:block;font-size:1.7rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat small{color:var(--muted);font-size:.82rem}
+
+.progress{margin-top:1.6rem;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem}
+.progress-top{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);margin-bottom:.6rem}
+.bar{height:10px;border-radius:999px;background:var(--bg2);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--grad);border-radius:999px}
+.days{display:flex;gap:6px;margin-top:.8rem;flex-wrap:wrap}
+.days span{width:22px;height:22px;border-radius:6px;background:var(--bg2);border:1px solid var(--line);font-size:.65rem;display:grid;place-items:center;color:var(--dim)}
+.days span.done{background:var(--grad);border-color:transparent;color:#fff;font-weight:700}
+
+/* ── Section titles ── */
+h2.sec{font-size:1.5rem;font-weight:800;margin:3.2rem 0 .4rem;letter-spacing:-.01em;display:flex;align-items:center;gap:.6rem}
+h2.sec::before{content:"";width:6px;height:26px;border-radius:4px;background:var(--grad)}
+.sec-sub{color:var(--muted);margin-bottom:1.4rem}
+
+/* ── Harness map ── */
+.harness{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.h-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.3rem 1.3rem 1.1rem;overflow:hidden}
+.h-card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c)}
+.h-card .tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--c)}
+.h-card h3{font-size:1.1rem;margin:.3rem 0 .6rem}
+.h-card ul{list-style:none;padding:0;margin:0;font-size:.9rem;color:var(--muted)}
+.h-card li{padding:.3rem 0 .3rem 1.3rem;position:relative}
+.h-card li::before{content:"▸";position:absolute;left:0;color:var(--c)}
+.h-card .cost{margin-top:.8rem;padding-top:.8rem;border-top:1px dashed var(--line);font-size:.83rem}
+.h-card .cost b{color:var(--text)}
+
+.matrix-wrap{overflow-x:auto;margin-top:1.4rem;border:1px solid var(--line);border-radius:14px}
+table.matrix{width:100%;border-collapse:collapse;font-size:.9rem;min-width:640px}
+.matrix th,.matrix td{padding:.75rem 1rem;text-align:left;border-bottom:1px solid var(--line)}
+.matrix thead th{background:var(--card2);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.matrix tbody tr:last-child td{border-bottom:none}
+.matrix tbody td:first-child{color:var(--text);font-weight:600}
+.matrix td{color:var(--muted)}
+.yes{color:var(--green);font-weight:700}.no{color:var(--rose);font-weight:700}.mid{color:var(--amber);font-weight:700}
+
+/* ── Timeline ── */
+.timeline{position:relative;padding-left:2.2rem}
+.timeline::before{content:"";position:absolute;left:.7rem;top:.5rem;bottom:.5rem;width:2px;background:linear-gradient(var(--violet),var(--teal))}
+.day{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.6rem 1.7rem;margin-bottom:1.8rem;
+  transition:transform .2s,border-color .2s}
+.day:hover{transform:translateY(-2px);border-color:#3a4a75}
+.day::before{content:attr(data-day);position:absolute;left:-2.25rem;top:1.5rem;width:30px;height:30px;border-radius:50%;
+  background:var(--grad);color:#fff;font-size:.8rem;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 5px var(--bg)}
+.day-head{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-bottom:.4rem}
+.chip{font-size:.72rem;font-weight:600;padding:.25rem .65rem;border-radius:999px;border:1px solid;white-space:nowrap}
+.chip.v{color:#c4b5fd;border-color:rgba(139,92,246,.45);background:rgba(139,92,246,.1)}
+.chip.t{color:#5eead4;border-color:rgba(20,184,166,.45);background:rgba(20,184,166,.1)}
+.chip.b{color:#93c5fd;border-color:rgba(59,130,246,.45);background:rgba(59,130,246,.1)}
+.chip.a{color:#fcd34d;border-color:rgba(245,158,11,.45);background:rgba(245,158,11,.1)}
+.day h3{font-size:1.35rem;font-weight:800;line-height:1.3;margin:.4rem 0 1.1rem}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+.blk{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem}
+.blk h4{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin:0 0 .4rem;display:flex;gap:.45rem;align-items:center}
+.blk p{margin:0;font-size:.93rem;color:#cdd5e6}
+.blk.full{grid-column:1/-1}
+.blk.finding{border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.06)}
+.blk.decision{border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.06)}
+
+/* Flow diagram */
+.flow{display:flex;align-items:stretch;gap:.5rem;flex-wrap:wrap;margin-top:.6rem}
+.flow .node{flex:1;min-width:140px;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:.6rem .75rem;font-size:.82rem;color:var(--muted)}
+.flow .node b{display:block;color:var(--text);font-size:.85rem;margin-bottom:.15rem}
+.flow .arr{align-self:center;color:var(--dim);font-weight:700}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.6rem}
+.split .lane{border-radius:10px;padding:.8rem .9rem;font-size:.85rem;color:var(--muted);border:1px solid}
+.split .lane b{display:block;color:var(--text);margin-bottom:.2rem}
+.lane.std{border-color:rgba(20,184,166,.4);background:rgba(20,184,166,.07)}
+.lane.gh{border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.07)}
+
+.impact{margin-top:1rem;display:flex;gap:.9rem;align-items:flex-start;border:1px dashed rgba(245,158,11,.55);border-radius:12px;padding:.9rem 1.1rem;background:rgba(245,158,11,.05)}
+.impact .ic{font-size:1.3rem;line-height:1}
+.impact b{color:#fcd34d;font-size:.78rem;text-transform:uppercase;letter-spacing:.1em}
+.impact p{margin:.15rem 0 0;font-size:.9rem;color:var(--muted)}
+
+/* Takeaways */
+.takeaways{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.tk{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.2rem}
+.tk .n{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--teal);font-weight:600}
+.tk h4{margin:.3rem 0 .35rem;font-size:1rem}
+.tk p{margin:0;font-size:.88rem;color:var(--muted)}
+
+.next{margin:2.5rem 0 1rem;text-align:center;border:1px dashed var(--line);border-radius:18px;padding:2rem;color:var(--muted)}
+.next b{color:var(--text);font-size:1.1rem;display:block;margin-bottom:.3rem}
+footer{color:var(--dim);font-size:.8rem;text-align:center;padding:2rem 0 3rem}
+
+@media (max-width:640px){
+  .timeline{padding-left:1.6rem}
+  .day{padding:1.2rem}
+  .day::before{left:-1.75rem;width:26px;height:26px}
+  .timeline::before{left:.45rem}
+  .split{grid-template-columns:1fr}
+}
+@media print{
+  body{background:#fff;color:#111}
+  .day,.h-card,.stat,.tk,.blk{background:#fff;border-color:#ccc;color:#111}
+}
+</style>
+</head>
+<body>
+<main class="vk-shell-main">
+
+  <!-- ═════ HERO ═════ -->
+  <header class="hero">
+    <span class="eyebrow"><span class="dot"></span>Learning in public · Copilot &amp; Agents</span>
+    <h1>Copilot <span>Learning Log</span></h1>
+    <p class="lead">A daily build journal while learning GitHub Copilot and Microsoft's agent stack. Each day pairs a real business problem with a working agent, the architecture call behind it, and what it costs to run.</p>
+
+    <div class="stats">
+      <div class="stat"><b>2</b><small>Days logged</small></div>
+      <div class="stat"><b>2</b><small>Agents built</small></div>
+      <div class="stat"><b>3</b><small>Harnesses compared</small></div>
+      <div class="stat"><b>2</b><small>Industries · BFSI, Manufacturing</small></div>
+    </div>
+
+    <div class="progress">
+      <div class="progress-top"><span>Journey progress</span><span class="mono">Day 2 / 30</span></div>
+      <div class="bar"><i style="width:6.67%"></i></div>
+      <div class="days" id="days"></div>
+    </div>
+  </header>
+
+  <!-- ═════ HARNESS MAP ═════ -->
+  <h2 class="sec">The Agent Landscape at a Glance</h2>
+  <p class="sec-sub">The three harnesses I keep choosing between, and the signals that push a use case from one to the next.</p>
+
+  <div class="harness">
+    <div class="h-card" style="--c:var(--blue)">
+      <div class="tag">Declarative</div>
+      <h3>M365 Copilot Agent Builder</h3>
+      <ul>
+        <li>Internal, knowledge-only scenarios</li>
+        <li>Grounded over SharePoint folders</li>
+        <li>Fastest path from idea to working agent</li>
+      </ul>
+      <div class="cost"><b>Cost:</b> covered by existing M365 Copilot licensing.</div>
+    </div>
+    <div class="h-card" style="--c:var(--teal)">
+      <div class="tag">Standard harness</div>
+      <h3>Copilot Studio</h3>
+      <ul>
+        <li>External actions and deterministic flows</li>
+        <li>Scoped knowledge with hard guardrails (e.g. web search off)</li>
+        <li>No sandbox, so it can't create files like .docx</li>
+      </ul>
+      <div class="cost"><b>Cost:</b> largely covered for licensed users in M365 channels.</div>
+    </div>
+    <div class="h-card" style="--c:var(--violet)">
+      <div class="tag">Agentic harness</div>
+      <h3>GitHub Copilot Harness</h3>
+      <ul>
+        <li>Long-running, multi-tool work</li>
+        <li>File-heavy tasks and document output</li>
+        <li>Multi-source diagnostics</li>
+      </ul>
+      <div class="cost"><b>Cost:</b> bills credits from build time onward.</div>
+    </div>
+  </div>
+
+  <div class="matrix-wrap">
+    <table class="matrix">
+      <thead><tr><th>Need</th><th>Agent Builder</th><th>Copilot Studio (standard)</th><th>GitHub Copilot harness</th></tr></thead>
+      <tbody>
+        <tr><td>Knowledge Q&amp;A with citations</td><td class="yes">Best fit</td><td class="yes">Yes</td><td class="mid">Overkill</td></tr>
+        <tr><td>External actions / deterministic flow</td><td class="no">No</td><td class="yes">Best fit</td><td class="yes">Yes</td></tr>
+        <tr><td>Generate files (.docx, reports)</td><td class="no">No</td><td class="no">No sandbox</td><td class="yes">Best fit</td></tr>
+        <tr><td>Long-running, multi-tool tasks</td><td class="no">No</td><td class="mid">Limited</td><td class="yes">Best fit</td></tr>
+        <tr><td>Incremental licence cost</td><td class="yes">Covered</td><td class="yes">Largely covered</td><td class="mid">Credits from build</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═════ TIMELINE ═════ -->
+  <h2 class="sec">Daily Log</h2>
+  <p class="sec-sub">Newest entries are added at the bottom. Impact numbers stay blank until I've tested and measured them.</p>
+
+  <div class="timeline">
+
+    <!-- ── DAY 1 ── -->
+    <article class="day" data-day="1">
+      <div class="day-head">
+        <span class="chip b">M365 Copilot Agent Builder</span>
+        <span class="chip v">Declarative agent</span>
+        <span class="chip t">BFSI</span>
+      </div>
+      <h3>Mapping Microsoft's Agent Landscape, and a BFSI Policy Assistant</h3>
+
+      <div class="grid2">
+        <div class="blk">
+          <h4>🎯 Business problem</h4>
+          <p>Branch staff need fast, consistent answers on KYC and loan-document rules without searching policy files.</p>
+        </div>
+        <div class="blk">
+          <h4>🛠️ Solution</h4>
+          <p>A policy-grounded agent over a SharePoint knowledge folder. The instructions require citations, and the agent answers "not covered in policy" instead of guessing.</p>
+        </div>
+
+        <div class="blk full">
+          <h4>🔁 How it works</h4>
+          <div class="flow">
+            <div class="node"><b>Branch staff</b>Asks a KYC / loan-doc question</div>
+            <div class="arr">→</div>
+            <div class="node"><b>Declarative agent</b>Instructions: cite or refuse</div>
+            <div class="arr">→</div>
+            <div class="node"><b>SharePoint folder</b>Approved policy documents only</div>
+            <div class="arr">→</div>
+            <div class="node"><b>Answer</b>Cited response, or "not covered in policy"</div>
+          </div>
+        </div>
+
+        <div class="blk decision full">
+          <h4>🏛️ Architecture decision</h4>
+          <p>Chose Agent Builder because the need is internal, knowledge-only, and covered by licensing. I also documented when to move up: to the <b>Copilot Studio standard harness</b> for external actions or a deterministic flow, or to the <b>GitHub Copilot harness</b> for long-running, multi-tool, file-heavy work, along with the licensing cost impact of each.</p>
+        </div>
+      </div>
+
+      <div class="impact">
+        <div class="ic">📏</div>
+        <div><b>Impact · pending measurement</b>
+          <p>Add the measured result after testing, for example "4 of 4 test prompts passed, including the out-of-scope refusal".</p></div>
+      </div>
+    </article>
+
+    <!-- ── DAY 2 ── -->
+    <article class="day" data-day="2">
+      <div class="day-head">
+        <span class="chip t">Copilot Studio</span>
+        <span class="chip t">Standard harness</span>
+        <span class="chip a">Manufacturing</span>
+      </div>
+      <h3>Harness Selection for a Manufacturing Field-Service Agent</h3>
+
+      <div class="grid2">
+        <div class="blk">
+          <h4>🧭 Context</h4>
+          <p>A field-service scenario with two task types: bounded manual lookups, and long, multi-source diagnostics that end in a document.</p>
+        </div>
+        <div class="blk">
+          <h4>🛠️ Built</h4>
+          <p>A standard-harness Copilot Studio agent grounded only in a scoped SharePoint knowledge source, with web search disabled as a hard guardrail. It returned cited torque values and declined out-of-scope models.</p>
+        </div>
+
+        <div class="blk finding full">
+          <h4>🔍 Finding</h4>
+          <p>Asked for a Word document, the agent said it couldn't generate a .docx and offered paste-ready text instead. That's the expected limit of the standard harness: it has no sandbox for file creation.</p>
+        </div>
+
+        <div class="blk decision full">
+          <h4>🏛️ Architecture decision · two-agent split by task weight</h4>
+          <div class="split">
+            <div class="lane std"><b>Standard harness</b>High-volume, safety-critical lookups: torque specs, manual references, scoped and cited.</div>
+            <div class="lane gh"><b>GitHub Copilot harness, or a flow + Word template</b>Document-heavy, multi-source diagnostics that need file output.</div>
+          </div>
+        </div>
+
+        <div class="blk full">
+          <h4>💰 Cost reasoning</h4>
+          <p>The standard harness is largely covered for licensed users in M365 channels. The GitHub harness bills credits from build time onward. I validated the standard path at zero credit cost by deferring the GitHub harness build.</p>
+        </div>
+      </div>
+
+      <div class="impact">
+        <div class="ic">📏</div>
+        <div><b>Impact · pending measurement</b>
+          <p>Add the measured result after running it, e.g. "X of Y test prompts passed", and the time a technician spends finding a spec before and after.</p></div>
+      </div>
+    </article>
+
+    <!--
+      ── ADD NEXT DAY HERE ──
+      Copy a <article class="day" data-day="N"> block above, then update:
+        1. the stats + "Day N / 30" + bar width (N/30*100%) in the hero
+        2. DONE_DAYS in the script at the bottom
+    -->
+
+  </div>
+
+  <!-- ═════ TAKEAWAYS ═════ -->
+  <h2 class="sec">Patterns So Far</h2>
+  <p class="sec-sub">What carries over from one build to the next.</p>
+  <div class="takeaways">
+    <div class="tk"><div class="n">01</div><h4>Pick the lightest harness that works</h4><p>Start declarative. Move up only when you need actions, deterministic flows, or file output.</p></div>
+    <div class="tk"><div class="n">02</div><h4>Refusal is a feature</h4><p>"Not covered in policy" and declining out-of-scope models build more trust than a confident guess.</p></div>
+    <div class="tk"><div class="n">03</div><h4>Scope the grounding hard</h4><p>One SharePoint source, web search off. In safety-critical domains, a narrow source is the guardrail.</p></div>
+    <div class="tk"><div class="n">04</div><h4>Split agents by task weight</h4><p>High-volume lookups and heavy document work have different costs and different harnesses. Don't force one agent to do both.</p></div>
+    <div class="tk"><div class="n">05</div><h4>Defer credit-billed builds</h4><p>Validate the covered path first. Only start the GitHub harness once the standard path has proven its limit.</p></div>
+    <div class="tk"><div class="n">06</div><h4>Never invent impact</h4><p>Impact fields stay as placeholders until a real test run produces real numbers.</p></div>
+  </div>
+
+  <div class="next">
+    <b>Day 3 coming up…</b>
+    The next build gets logged here.
+  </div>
+
+  <footer>Copilot Learning Log · Vipin Tyagi · viipiin.github.io</footer>
+</main>
+
+<script>
+  // Day tracker squares — bump DONE_DAYS as entries are added
+  const TOTAL_DAYS = 30, DONE_DAYS = 2;
+  const wrap = document.getElementById('days');
+  for (let i = 1; i <= TOTAL_DAYS; i++) {
+    const s = document.createElement('span');
+    s.textContent = i;
+    if (i <= DONE_DAYS) s.className = 'done';
+    wrap.appendChild(s);
+  }
+</script>
+</body>
+</html>
