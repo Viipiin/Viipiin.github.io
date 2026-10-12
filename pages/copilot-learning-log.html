@@ -18,39 +18,61 @@
   --violet:#8b5cf6; --teal:#14b8a6; --blue:#3b82f6; --amber:#f59e0b; --rose:#f43f5e; --green:#22c55e;
   --grad:linear-gradient(135deg,#8b5cf6 0%,#3b82f6 50%,#14b8a6 100%);
 }
+html{scroll-padding-top:70px}
 body{background:var(--bg);color:var(--text);font-family:'Inter','Segoe UI',system-ui,sans-serif;line-height:1.65;
   background-image:radial-gradient(1200px 500px at 10% -10%,rgba(139,92,246,.18),transparent 60%),
                    radial-gradient(900px 500px at 100% 0%,rgba(20,184,166,.12),transparent 60%);}
 code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
 a{color:#a5b4fc}
+b,strong{color:var(--text)}
+
+/* ── Sticky section nav ── */
+.toc{position:sticky;top:0;z-index:20;margin:0 -1rem;padding:.6rem 1rem;background:rgba(11,16,32,.88);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none}
+.toc::-webkit-scrollbar{display:none}
+.toc a{flex:none;font-size:.8rem;font-weight:600;color:var(--muted);text-decoration:none;padding:.35rem .75rem;border-radius:999px;border:1px solid transparent}
+.toc a:hover,.toc a.on{color:var(--text);border-color:var(--line);background:var(--card)}
 
 /* ── Hero ── */
-.hero{padding:3.5rem 0 2rem;text-align:left}
+.hero{padding:2.6rem 0 1.5rem;text-align:left}
 .eyebrow{display:inline-flex;gap:.5rem;align-items:center;font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
   color:#c4b5fd;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.35);padding:.35rem .8rem;border-radius:999px}
 .eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal);animation:pulse 2s infinite}
 @keyframes pulse{50%{opacity:.35}}
 .hero h1{font-size:clamp(2.1rem,5vw,3.4rem);font-weight:800;line-height:1.1;margin:1.1rem 0 .8rem;letter-spacing:-.02em}
 .hero h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p.lead{font-size:1.1rem;color:var(--muted);max-width:720px}
+.hero p.lead{font-size:1.1rem;color:var(--muted);max-width:760px}
+.rule{margin-top:1.4rem;border-left:4px solid var(--teal);background:rgba(20,184,166,.07);border-radius:0 12px 12px 0;padding:.9rem 1.2rem;max-width:820px}
+.rule small{display:block;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5eead4}
+.rule p{margin:.2rem 0 0;font-size:1.05rem;font-weight:600}
 
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-top:2rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-top:1.8rem}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem}
 .stat b{display:block;font-size:1.7rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .stat small{color:var(--muted);font-size:.82rem}
 
-.progress{margin-top:1.6rem;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem}
+.progress{margin-top:1.4rem;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem}
 .progress-top{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);margin-bottom:.6rem}
 .bar{height:10px;border-radius:999px;background:var(--bg2);overflow:hidden}
 .bar i{display:block;height:100%;background:var(--grad);border-radius:999px}
-.days{display:flex;gap:6px;margin-top:.8rem;flex-wrap:wrap}
-.days span{width:22px;height:22px;border-radius:6px;background:var(--bg2);border:1px solid var(--line);font-size:.65rem;display:grid;place-items:center;color:var(--dim)}
+.days{display:flex;gap:5px;margin-top:.8rem;flex-wrap:wrap}
+.days span{width:20px;height:20px;border-radius:5px;background:var(--bg2);border:1px solid var(--line);font-size:.58rem;display:grid;place-items:center;color:var(--dim)}
 .days span.done{background:var(--grad);border-color:transparent;color:#fff;font-weight:700}
+.note{margin-top:1rem;font-size:.83rem;color:var(--dim)}
 
 /* ── Section titles ── */
-h2.sec{font-size:1.5rem;font-weight:800;margin:3.2rem 0 .4rem;letter-spacing:-.01em;display:flex;align-items:center;gap:.6rem}
-h2.sec::before{content:"";width:6px;height:26px;border-radius:4px;background:var(--grad)}
-.sec-sub{color:var(--muted);margin-bottom:1.4rem}
+h2.sec{font-size:1.5rem;font-weight:800;margin:3.4rem 0 .4rem;letter-spacing:-.01em;display:flex;align-items:center;gap:.6rem}
+h2.sec::before{content:"";width:6px;height:26px;border-radius:4px;background:var(--grad);flex:none}
+.sec-sub{color:var(--muted);margin-bottom:1.4rem;max-width:820px}
+h3.sub{font-size:1.05rem;margin:2rem 0 .8rem;color:var(--text)}
+
+/* ── Concept cards ── */
+.concepts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+.cc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.2rem}
+.cc h4{margin:0 0 .35rem;font-size:1rem;display:flex;gap:.5rem;align-items:center}
+.cc p{margin:0;font-size:.9rem;color:var(--muted)}
+.cc .eg{margin-top:.6rem;font-size:.82rem;color:#cdd5e6;border-top:1px dashed var(--line);padding-top:.55rem}
+.cc .eg b{color:#5eead4;font-weight:600}
 
 /* ── Harness map ── */
 .harness{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
@@ -61,24 +83,32 @@ h2.sec::before{content:"";width:6px;height:26px;border-radius:4px;background:var
 .h-card ul{list-style:none;padding:0;margin:0;font-size:.9rem;color:var(--muted)}
 .h-card li{padding:.3rem 0 .3rem 1.3rem;position:relative}
 .h-card li::before{content:"▸";position:absolute;left:0;color:var(--c)}
-.h-card .cost{margin-top:.8rem;padding-top:.8rem;border-top:1px dashed var(--line);font-size:.83rem}
-.h-card .cost b{color:var(--text)}
+.h-card .cost{margin-top:.8rem;padding-top:.8rem;border-top:1px dashed var(--line);font-size:.83rem;color:var(--muted)}
 
-.matrix-wrap{overflow-x:auto;margin-top:1.4rem;border:1px solid var(--line);border-radius:14px}
+.matrix-wrap{overflow-x:auto;margin-top:1.2rem;border:1px solid var(--line);border-radius:14px}
 table.matrix{width:100%;border-collapse:collapse;font-size:.9rem;min-width:640px}
-.matrix th,.matrix td{padding:.75rem 1rem;text-align:left;border-bottom:1px solid var(--line)}
+.matrix th,.matrix td{padding:.75rem 1rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
 .matrix thead th{background:var(--card2);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 .matrix tbody tr:last-child td{border-bottom:none}
 .matrix tbody td:first-child{color:var(--text);font-weight:600}
 .matrix td{color:var(--muted)}
 .yes{color:var(--green);font-weight:700}.no{color:var(--rose);font-weight:700}.mid{color:var(--amber);font-weight:700}
 
+/* ── Decision tree ── */
+.tree{display:grid;gap:.8rem;max-width:860px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem}
+.q .qn{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--teal);font-weight:600}
+.q h4{margin:.15rem 0 .6rem;font-size:1rem}
+.ans{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.ans div{border-radius:10px;padding:.6rem .8rem;font-size:.86rem;color:var(--muted);border:1px solid var(--line);background:var(--bg2)}
+.ans div b{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.1rem}
+.ans .y b{color:#86efac}.ans .n b{color:#fda4af}
+.ans .end{border-color:rgba(20,184,166,.45);background:rgba(20,184,166,.07);color:#cdd5e6}
+
 /* ── Timeline ── */
 .timeline{position:relative;padding-left:2.2rem}
 .timeline::before{content:"";position:absolute;left:.7rem;top:.5rem;bottom:.5rem;width:2px;background:linear-gradient(var(--violet),var(--teal))}
-.day{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.6rem 1.7rem;margin-bottom:1.8rem;
-  transition:transform .2s,border-color .2s}
-.day:hover{transform:translateY(-2px);border-color:#3a4a75}
+.day{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.6rem 1.7rem;margin-bottom:1.8rem}
 .day::before{content:attr(data-day);position:absolute;left:-2.25rem;top:1.5rem;width:30px;height:30px;border-radius:50%;
   background:var(--grad);color:#fff;font-size:.8rem;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 5px var(--bg)}
 .day-head{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-bottom:.4rem}
@@ -87,19 +117,27 @@ table.matrix{width:100%;border-collapse:collapse;font-size:.9rem;min-width:640px
 .chip.t{color:#5eead4;border-color:rgba(20,184,166,.45);background:rgba(20,184,166,.1)}
 .chip.b{color:#93c5fd;border-color:rgba(59,130,246,.45);background:rgba(59,130,246,.1)}
 .chip.a{color:#fcd34d;border-color:rgba(245,158,11,.45);background:rgba(245,158,11,.1)}
-.day h3{font-size:1.35rem;font-weight:800;line-height:1.3;margin:.4rem 0 1.1rem}
+.chip.g{color:var(--muted);border-color:var(--line);background:var(--bg2)}
+.day h3{font-size:1.35rem;font-weight:800;line-height:1.3;margin:.4rem 0 .5rem}
+.day .tldr{color:#cdd5e6;margin:0 0 1.1rem;font-size:.98rem}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
-.blk{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem}
-.blk h4{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin:0 0 .4rem;display:flex;gap:.45rem;align-items:center}
+.blk{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem;min-width:0}
+.blk h4{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin:0 0 .45rem;display:flex;gap:.45rem;align-items:center}
 .blk p{margin:0;font-size:.93rem;color:#cdd5e6}
+.blk p+p{margin-top:.5rem}
+.blk ul{margin:.1rem 0 0;padding-left:1.1rem;font-size:.9rem;color:#cdd5e6}
+.blk li{margin:.25rem 0}
 .blk.full{grid-column:1/-1}
 .blk.finding{border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.06)}
 .blk.decision{border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.06)}
+.blk.avoid{border-color:rgba(244,63,94,.35);background:rgba(244,63,94,.05)}
+.blk .matrix-wrap{margin-top:.6rem;background:var(--card)}
+.blk table.matrix{min-width:520px;font-size:.85rem}
 
-/* Flow diagram */
 .flow{display:flex;align-items:stretch;gap:.5rem;flex-wrap:wrap;margin-top:.6rem}
 .flow .node{flex:1;min-width:140px;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:.6rem .75rem;font-size:.82rem;color:var(--muted)}
 .flow .node b{display:block;color:var(--text);font-size:.85rem;margin-bottom:.15rem}
+.flow .node.bad{border-color:rgba(244,63,94,.5)}
 .flow .arr{align-self:center;color:var(--dim);font-weight:700}
 
 .split{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.6rem}
@@ -108,10 +146,69 @@ table.matrix{width:100%;border-collapse:collapse;font-size:.9rem;min-width:640px
 .lane.std{border-color:rgba(20,184,166,.4);background:rgba(20,184,166,.07)}
 .lane.gh{border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.07)}
 
+.say{margin-top:1rem;border-left:3px solid var(--violet);padding:.6rem 1rem;background:rgba(139,92,246,.06);border-radius:0 10px 10px 0;font-size:.92rem;color:#ddd6fe}
+.say b{display:block;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#c4b5fd;margin-bottom:.15rem}
+
 .impact{margin-top:1rem;display:flex;gap:.9rem;align-items:flex-start;border:1px dashed rgba(245,158,11,.55);border-radius:12px;padding:.9rem 1.1rem;background:rgba(245,158,11,.05)}
 .impact .ic{font-size:1.3rem;line-height:1}
 .impact b{color:#fcd34d;font-size:.78rem;text-transform:uppercase;letter-spacing:.1em}
 .impact p{margin:.15rem 0 0;font-size:.9rem;color:var(--muted)}
+
+/* ── Cost cards ── */
+.callout{border:1px solid rgba(245,158,11,.45);background:rgba(245,158,11,.06);border-radius:12px;padding:.8rem 1rem;font-size:.88rem;color:#fde68a;margin-top:1rem}
+
+/* ── Test playbook ── */
+.tests{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem}
+.tc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.1rem}
+.tc .k{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--c)}
+.tc h4{margin:.25rem 0 .35rem;font-size:.98rem}
+.tc p{margin:0;font-size:.86rem;color:var(--muted)}
+.tc .ex{margin-top:.55rem;font-family:'JetBrains Mono',monospace;font-size:.76rem;color:#cdd5e6;background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:.45rem .6rem}
+
+/* ── Mistakes ── */
+.mist{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+.mi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem}
+.mi .bad{color:#fda4af;font-size:.9rem;font-weight:600}
+.mi .good{color:#86efac;font-size:.9rem;margin-top:.4rem}
+.mi .bad::before{content:"✗ "}.mi .good::before{content:"✓ "}
+
+/* ── Teach script ── */
+.steps{counter-reset:s;display:grid;gap:.8rem;max-width:860px}
+.st{counter-increment:s;position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem 1rem 3.6rem}
+.st::before{content:counter(s);position:absolute;left:1rem;top:1rem;width:28px;height:28px;border-radius:8px;background:var(--grad);color:#fff;font-weight:800;font-size:.85rem;display:grid;place-items:center}
+.st h4{margin:0 0 .25rem;font-size:1rem}
+.st h4 span{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dim);font-weight:400;margin-left:.4rem}
+.st p{margin:0;font-size:.9rem;color:var(--muted)}
+
+/* ── Interview drill ── */
+.drill-bar{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.btn{font:inherit;font-size:.82rem;font-weight:600;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.45rem .95rem;cursor:pointer}
+.btn:hover{border-color:#3a4a75;background:var(--card2)}
+.btn.pri{background:var(--grad);border-color:transparent;color:#fff}
+.qa{display:grid;gap:.7rem}
+.qa details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:0;transition:border-color .2s}
+.qa details[open]{border-color:rgba(139,92,246,.5)}
+.qa details.pick{box-shadow:0 0 0 2px var(--teal)}
+.qa summary{cursor:pointer;list-style:none;padding:1rem 1.2rem;font-weight:600;display:flex;gap:.8rem;align-items:flex-start}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary .num{flex:none;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--teal);padding-top:.15rem}
+.qa summary .lvl{margin-left:auto;flex:none;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);padding-top:.2rem}
+.qa .a{padding:0 1.2rem 1.1rem 3.3rem;font-size:.93rem;color:#cdd5e6}
+.qa .a p{margin:0 0 .55rem}
+.qa .a .hook{font-size:.82rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:.55rem;margin-top:.4rem}
+.qa .a .hook b{color:#fcd34d}
+
+/* ── Resume ── */
+.cv{display:grid;gap:.7rem}
+.cv-item{display:flex;gap:1rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.9rem 1.1rem}
+.cv-item p{margin:0;flex:1;font-size:.92rem;color:#cdd5e6}
+.cv-item .slot{color:#fcd34d;font-family:'JetBrains Mono',monospace;font-size:.82rem}
+
+/* ── Checklist ── */
+.check{list-style:none;padding:0;margin:0;display:grid;gap:.5rem;max-width:860px}
+.check label{display:flex;gap:.7rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.7rem .9rem;font-size:.9rem;color:#cdd5e6;cursor:pointer}
+.check input{margin-top:.3rem;accent-color:var(--teal)}
+.check input:checked+span{text-decoration:line-through;color:var(--dim)}
 
 /* Takeaways */
 .takeaways{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
@@ -129,215 +226,595 @@ footer{color:var(--dim);font-size:.8rem;text-align:center;padding:2rem 0 3rem}
   .day{padding:1.2rem}
   .day::before{left:-1.75rem;width:26px;height:26px}
   .timeline::before{left:.45rem}
-  .split{grid-template-columns:1fr}
+  .split,.ans{grid-template-columns:1fr}
+  .qa .a{padding-left:1.2rem}
+  .cv-item{flex-direction:column}
 }
 @media print{
   body{background:#fff;color:#111}
-  .day,.h-card,.stat,.tk,.blk{background:#fff;border-color:#ccc;color:#111}
+  .toc,.drill-bar,.btn{display:none}
+  .day,.h-card,.stat,.tk,.blk,.cc,.q,.tc,.mi,.st,.qa details,.cv-item{background:#fff;border-color:#ccc;color:#111}
+  .qa details .a{display:block}
 }
 </style>
 </head>
 <body>
 <main class="vk-shell-main">
 
+  <nav class="toc" id="toc">
+    <a href="#overview">Overview</a>
+    <a href="#concepts">Core concepts</a>
+    <a href="#landscape">Harness map</a>
+    <a href="#choose">Choose a harness</a>
+    <a href="#log">Daily log</a>
+    <a href="#cost">Cost &amp; licensing</a>
+    <a href="#testing">Testing</a>
+    <a href="#mistakes">Mistakes</a>
+    <a href="#teach">Teach it</a>
+    <a href="#interview">Interview drill</a>
+    <a href="#resume">Resume</a>
+    <a href="#todo">Open items</a>
+  </nav>
+
   <!-- ═════ HERO ═════ -->
-  <header class="hero">
+  <header class="hero" id="overview">
     <span class="eyebrow"><span class="dot"></span>Learning in public · Copilot &amp; Agents</span>
     <h1>Copilot <span>Learning Log</span></h1>
-    <p class="lead">A daily build journal while learning GitHub Copilot and Microsoft's agent stack. Each day pairs a real business problem with a working agent, the architecture call behind it, and what it costs to run.</p>
+    <p class="lead">A 90-day build journal on Microsoft's Copilot agent stack. Each day pairs a business problem with a working agent, the architecture decision behind it, what it costs to run, and when <i>not</i> to use it. You can learn from it, teach from it, or use it to rehearse for interviews.</p>
+
+    <div class="rule">
+      <small>The one rule so far</small>
+      <p>Choose a harness by task weight and risk, not by which option is newest.</p>
+    </div>
 
     <div class="stats">
       <div class="stat"><b>2</b><small>Days logged</small></div>
       <div class="stat"><b>2</b><small>Agents built</small></div>
-      <div class="stat"><b>3</b><small>Harnesses compared</small></div>
+      <div class="stat"><b>3</b><small>Build options compared</small></div>
       <div class="stat"><b>2</b><small>Industries · BFSI, Manufacturing</small></div>
+      <div class="stat"><b>6</b><small>Interview answers rehearsed</small></div>
     </div>
 
     <div class="progress">
-      <div class="progress-top"><span>Journey progress</span><span class="mono">Day 2 / 30</span></div>
-      <div class="bar"><i style="width:6.67%"></i></div>
+      <div class="progress-top"><span>Journey progress</span><span class="mono" id="dayLabel"></span></div>
+      <div class="bar"><i id="barFill"></i></div>
       <div class="days" id="days"></div>
     </div>
+    <p class="note">All scenarios use synthetic data and fictional companies (Contoso). Nothing here comes from an employer or client project.</p>
   </header>
 
-  <!-- ═════ HARNESS MAP ═════ -->
-  <h2 class="sec">The Agent Landscape at a Glance</h2>
-  <p class="sec-sub">The three harnesses I keep choosing between, and the signals that push a use case from one to the next.</p>
+  <!-- ═════ CONCEPTS ═════ -->
+  <h2 class="sec" id="concepts">Core Concepts in Plain English</h2>
+  <p class="sec-sub">Read these before the daily log. Each card is one idea you should be able to explain in two sentences.</p>
 
-  <div class="harness">
-    <div class="h-card" style="--c:var(--blue)">
-      <div class="tag">Declarative</div>
-      <h3>M365 Copilot Agent Builder</h3>
-      <ul>
-        <li>Internal, knowledge-only scenarios</li>
-        <li>Grounded over SharePoint folders</li>
-        <li>Fastest path from idea to working agent</li>
-      </ul>
-      <div class="cost"><b>Cost:</b> covered by existing M365 Copilot licensing.</div>
+  <div class="concepts">
+    <div class="cc">
+      <h4>🧩 Agent Builder</h4>
+      <p>The no-code way to make an agent inside Microsoft 365 Copilot. You give it instructions and knowledge sources. It cannot author external actions.</p>
+      <div class="eg"><b>Use it for:</b> one team's document Q&amp;A, like a policy assistant.</div>
     </div>
-    <div class="h-card" style="--c:var(--teal)">
-      <div class="tag">Standard harness</div>
-      <h3>Copilot Studio</h3>
-      <ul>
-        <li>External actions and deterministic flows</li>
-        <li>Scoped knowledge with hard guardrails (e.g. web search off)</li>
-        <li>No sandbox, so it can't create files like .docx</li>
-      </ul>
-      <div class="cost"><b>Cost:</b> largely covered for licensed users in M365 channels.</div>
+    <div class="cc">
+      <h4>⚙️ Harness</h4>
+      <p>The runtime that executes a Copilot Studio agent. It decides what the agent can do (files, long reasoning) and how it is billed. Copilot Studio offers two harnesses: <b>standard</b> and <b>GitHub Copilot</b>.</p>
+      <div class="eg"><b>Key fact:</b> an agent cannot be converted from one harness to the other. Switching means a rebuild.</div>
     </div>
-    <div class="h-card" style="--c:var(--violet)">
-      <div class="tag">Agentic harness</div>
-      <h3>GitHub Copilot Harness</h3>
-      <ul>
-        <li>Long-running, multi-tool work</li>
-        <li>File-heavy tasks and document output</li>
-        <li>Multi-source diagnostics</li>
-      </ul>
-      <div class="cost"><b>Cost:</b> bills credits from build time onward.</div>
+    <div class="cc">
+      <h4>🧱 Standard harness</h4>
+      <p>The default Copilot Studio runtime. It handles topics, flows, connectors and governed ALM. It has no sandbox or file system, so it cannot create files.</p>
+      <div class="eg"><b>Use it for:</b> bounded, rule-based, high-traffic tasks.</div>
+    </div>
+    <div class="cc">
+      <h4>🧠 GitHub Copilot harness</h4>
+      <p>A Copilot Studio runtime for long multi-step reasoning and file creation (Word, Excel, PowerPoint, PDF). It bills credits for <b>all</b> usage, from build and test onward, regardless of license.</p>
+      <div class="eg"><b>Common trap:</b> it is <i>not</i> the GitHub Copilot service. No customer data is sent to the GitHub Copilot service.</div>
+    </div>
+    <div class="cc">
+      <h4>📚 Instructions vs knowledge sources</h4>
+      <p>Instructions are a <i>request</i> to the model. Knowledge sources are the <i>enforcement</i>. If web search is on, a "policy-only" instruction is just prose.</p>
+      <div class="eg"><b>Rule:</b> the knowledge scope must match what the instructions promise.</div>
+    </div>
+    <div class="cc">
+      <h4>🎟️ Fair use vs Copilot Credits</h4>
+      <p>The standard harness is covered by fair use for Microsoft 365 Copilot-licensed users in Microsoft 365 channels. Unlicensed users, other channels, and the GitHub Copilot harness consume Copilot Credits.</p>
+      <div class="eg"><b>Ask first:</b> who is the user, are they licensed, and which channel are they in?</div>
+    </div>
+    <div class="cc">
+      <h4>🔀 Agent flow vs cloud flow</h4>
+      <p>An agent flow is covered for licensed users only when it uses the <b>When an agent calls the flow</b> trigger. Other triggers bill at the standard rate. A Power Automate cloud flow is billed under Power Automate licensing, not Copilot Credits.</p>
+      <div class="eg"><b>Lever:</b> where a flow runs changes who pays for it.</div>
+    </div>
+    <div class="cc">
+      <h4>🔍 Harness column</h4>
+      <p>Admins find which agents use which harness in the agent inventory: Power Platform admin center → Manage → Copilot Studio. GitHub Copilot harness agents are the ones billing all activity as credits.</p>
+      <div class="eg"><b>Governance:</b> per-agent monthly limits, per-environment allocations, pay-as-you-go for overage.</div>
     </div>
   </div>
 
+  <!-- ═════ HARNESS MAP ═════ -->
+  <h2 class="sec" id="landscape">The Agent Landscape at a Glance</h2>
+  <p class="sec-sub">The three build options I keep choosing between. Agent Builder comes before both Copilot Studio harnesses: when an agent outgrows it, it is copied into Copilot Studio and rebuilt.</p>
+
+  <div class="harness">
+    <div class="h-card" style="--c:var(--blue)">
+      <div class="tag">No-code · inside M365 Copilot</div>
+      <h3>Agent Builder</h3>
+      <ul>
+        <li>One team, document Q&amp;A</li>
+        <li>Grounded in a scoped SharePoint folder</li>
+        <li>Fastest path from idea to working agent</li>
+        <li>Cannot author external actions</li>
+      </ul>
+      <div class="cost"><b>Move up when:</b> it needs a flow, a custom connector, or pipeline-based deployment.</div>
+    </div>
+    <div class="h-card" style="--c:var(--teal)">
+      <div class="tag">Copilot Studio · default</div>
+      <h3>Standard harness</h3>
+      <ul>
+        <li>Flows, connectors, topics, governed ALM</li>
+        <li>Scoped knowledge with hard guardrails</li>
+        <li>No sandbox, so no .docx or other files</li>
+      </ul>
+      <div class="cost"><b>Cost:</b> fair use for licensed users in M365 channels. Credits for unlicensed users and other channels.</div>
+    </div>
+    <div class="h-card" style="--c:var(--violet)">
+      <div class="tag">Copilot Studio · agentic</div>
+      <h3>GitHub Copilot harness</h3>
+      <ul>
+        <li>Long, multi-step reasoning across sources</li>
+        <li>Creates Word, Excel, PowerPoint, PDF</li>
+        <li>Cannot be converted to or from standard</li>
+      </ul>
+      <div class="cost"><b>Cost:</b> credits for all usage, from build and test onward, regardless of license.</div>
+    </div>
+  </div>
+
+  <h3 class="sub">Harness cheat sheet</h3>
   <div class="matrix-wrap">
     <table class="matrix">
-      <thead><tr><th>Need</th><th>Agent Builder</th><th>Copilot Studio (standard)</th><th>GitHub Copilot harness</th></tr></thead>
+      <thead><tr><th>Question</th><th>Standard harness</th><th>GitHub Copilot harness</th></tr></thead>
       <tbody>
-        <tr><td>Knowledge Q&amp;A with citations</td><td class="yes">Best fit</td><td class="yes">Yes</td><td class="mid">Overkill</td></tr>
-        <tr><td>External actions / deterministic flow</td><td class="no">No</td><td class="yes">Best fit</td><td class="yes">Yes</td></tr>
-        <tr><td>Generate files (.docx, reports)</td><td class="no">No</td><td class="no">No sandbox</td><td class="yes">Best fit</td></tr>
-        <tr><td>Long-running, multi-tool tasks</td><td class="no">No</td><td class="mid">Limited</td><td class="yes">Best fit</td></tr>
-        <tr><td>Incremental licence cost</td><td class="yes">Covered</td><td class="yes">Largely covered</td><td class="mid">Credits from build</td></tr>
+        <tr><td>Best for</td><td>Bounded, rule-based, high-traffic tasks</td><td>Multi-source reasoning and file output</td></tr>
+        <tr><td>Creates Word, Excel, PowerPoint or PDF</td><td class="no">No sandbox or file system</td><td class="yes">Yes</td></tr>
+        <tr><td>Licensed user, M365 channel</td><td class="yes">Covered by fair use</td><td class="mid">Credits for all usage</td></tr>
+        <tr><td>Unlicensed user</td><td class="mid">Credits per rate table</td><td class="mid">Credits for all usage</td></tr>
+        <tr><td>Convert to the other harness</td><td class="no">No, rebuild</td><td class="no">No, rebuild</td></tr>
+        <tr><td>Data and the GitHub Copilot service</td><td>Not applicable</td><td>Not sent to the GitHub Copilot service</td></tr>
+        <tr><td>How an admin finds them</td><td colspan="2">Harness column in the agent inventory (Power Platform admin center → Manage → Copilot Studio)</td></tr>
       </tbody>
     </table>
   </div>
 
+  <h3 class="sub">Need-to-option fit</h3>
+  <div class="matrix-wrap">
+    <table class="matrix">
+      <thead><tr><th>Need</th><th>Agent Builder</th><th>Standard harness</th><th>GitHub Copilot harness</th></tr></thead>
+      <tbody>
+        <tr><td>Knowledge Q&amp;A with citations</td><td class="yes">Best fit</td><td class="yes">Yes</td><td class="mid">Overkill</td></tr>
+        <tr><td>External actions, connectors, flows</td><td class="no">No</td><td class="yes">Best fit</td><td class="yes">Yes</td></tr>
+        <tr><td>Governed ALM (solutions, pipelines)</td><td class="no">No</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+        <tr><td>Generate files (.docx, reports)</td><td class="no">No</td><td class="no">No sandbox</td><td class="yes">Best fit</td></tr>
+        <tr><td>Long, multi-source reasoning</td><td class="no">No</td><td class="mid">Limited</td><td class="yes">Best fit</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═════ DECISION TREE ═════ -->
+  <h2 class="sec" id="choose">How to Choose: a Four-Question Decision Path</h2>
+  <p class="sec-sub">Walk a use case through these questions in order. Stop at the first green box. Use this as a whiteboard answer in a design interview.</p>
+
+  <div class="tree">
+    <div class="q">
+      <div class="qn">Q1</div>
+      <h4>Does it need external actions, a custom connector, flows, or pipeline deployment?</h4>
+      <div class="ans">
+        <div class="n end"><b>No</b>Use <b>Agent Builder</b>. Scope knowledge to one SharePoint folder and turn every other source off.</div>
+        <div class="y"><b>Yes</b>Go to Copilot Studio. Continue to Q2.</div>
+      </div>
+    </div>
+    <div class="q">
+      <div class="qn">Q2</div>
+      <h4>Does it need file output or long, multi-source reasoning?</h4>
+      <div class="ans">
+        <div class="n end"><b>No</b>Use the <b>standard harness</b>. It is covered by fair use for licensed users in M365 channels.</div>
+        <div class="y"><b>Yes</b>Continue to Q3.</div>
+      </div>
+    </div>
+    <div class="q">
+      <div class="qn">Q3</div>
+      <h4>Is the output a fixed-format document, like a service report template?</h4>
+      <div class="ans">
+        <div class="y end"><b>Yes</b>Use the <b>standard harness plus a Power Automate flow</b> that fills a Word template. It's usually cheaper.</div>
+        <div class="n"><b>No</b>Continue to Q4.</div>
+      </div>
+    </div>
+    <div class="q">
+      <div class="qn">Q4</div>
+      <h4>Does the work also include bounded, high-traffic lookups?</h4>
+      <div class="ans">
+        <div class="y end"><b>Yes</b><b>Split into two agents:</b> standard for lookups, GitHub Copilot harness for heavy work.</div>
+        <div class="n end"><b>No</b>Use the <b>GitHub Copilot harness</b>, and budget credits from day one of the build.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ═════ TIMELINE ═════ -->
-  <h2 class="sec">Daily Log</h2>
-  <p class="sec-sub">Newest entries are added at the bottom. Impact numbers stay blank until I've tested and measured them.</p>
+  <h2 class="sec" id="log">Daily Log</h2>
+  <p class="sec-sub">New entries go at the bottom. Each entry follows the same structure: context, build, finding, decision, cost, result, and when not to use it.</p>
 
   <div class="timeline">
 
     <!-- ── DAY 1 ── -->
-    <article class="day" data-day="1">
+    <article class="day" data-day="1" id="day-1">
       <div class="day-head">
         <span class="chip b">M365 Copilot Agent Builder</span>
-        <span class="chip v">Declarative agent</span>
-        <span class="chip t">BFSI</span>
+        <span class="chip t">BFSI · Contoso Bank</span>
+        <span class="chip g">Synthetic data</span>
       </div>
-      <h3>Mapping Microsoft's Agent Landscape, and a BFSI Policy Assistant</h3>
+      <h3>Policy Assistant for a Bank's KYC and Loan Policies</h3>
+      <p class="tldr">A no-code agent grounded in a scoped SharePoint folder is trustworthy only when its knowledge sources match its instructions. My first build broke that rule.</p>
 
       <div class="grid2">
         <div class="blk">
-          <h4>🎯 Business problem</h4>
-          <p>Branch staff need fast, consistent answers on KYC and loan-document rules without searching policy files.</p>
+          <h4>🎯 Context</h4>
+          <p>A relationship manager at a fictional bank needs quick, cited answers from KYC and loan policy documents. A wrong or invented policy answer is a compliance risk, so the agent must answer from the documents or say it cannot.</p>
         </div>
         <div class="blk">
-          <h4>🛠️ Solution</h4>
-          <p>A policy-grounded agent over a SharePoint knowledge folder. The instructions require citations, and the agent answers "not covered in policy" instead of guessing.</p>
+          <h4>🛠️ What I built</h4>
+          <p>A Policy Assistant in Agent Builder, grounded in synthetic KYC and loan policy files in a SharePoint site (<span class="mono">Agent Practice Lab / Day01-BFSI-Policies</span>). The instructions said to answer from policy documents only.</p>
         </div>
 
-        <div class="blk full">
-          <h4>🔁 How it works</h4>
+        <div class="blk finding full">
+          <h4>🔍 Finding · the guardrail existed only in prose</h4>
+          <p>The instructions said policy-only, yet <b>web search, Outlook and Teams</b> were still enabled as knowledge sources. The agent could answer from places the instructions forbade.</p>
           <div class="flow">
-            <div class="node"><b>Branch staff</b>Asks a KYC / loan-doc question</div>
+            <div class="node"><b>Instructions</b>"Answer from policy only"</div>
+            <div class="arr">≠</div>
+            <div class="node bad"><b>Knowledge sources</b>SharePoint + Web + Outlook + Teams</div>
             <div class="arr">→</div>
-            <div class="node"><b>Declarative agent</b>Instructions: cite or refuse</div>
-            <div class="arr">→</div>
-            <div class="node"><b>SharePoint folder</b>Approved policy documents only</div>
-            <div class="arr">→</div>
-            <div class="node"><b>Answer</b>Cited response, or "not covered in policy"</div>
+            <div class="node"><b>Fix</b>SharePoint folder only. Everything else off.</div>
           </div>
+          <p style="margin-top:.6rem">With the fix, the platform enforces what the instructions promise.</p>
         </div>
 
         <div class="blk decision full">
           <h4>🏛️ Architecture decision</h4>
-          <p>Chose Agent Builder because the need is internal, knowledge-only, and covered by licensing. I also documented when to move up: to the <b>Copilot Studio standard harness</b> for external actions or a deterministic flow, or to the <b>GitHub Copilot harness</b> for long-running, multi-tool, file-heavy work, along with the licensing cost impact of each.</p>
+          <p>I chose Agent Builder because the job was bounded document Q&amp;A for one team. If it later needs a flow, a custom connector, or pipeline-based deployment, I'll copy it into Copilot Studio and rebuild it there.</p>
+          <div class="matrix-wrap">
+            <table class="matrix">
+              <thead><tr><th>Option</th><th>Fits when</th><th>Trade-off</th></tr></thead>
+              <tbody>
+                <tr><td>Agent Builder</td><td>One team, document Q&amp;A, no external actions</td><td>Fast and no-code, but cannot author external actions</td></tr>
+                <tr><td>Standard harness</td><td>Flows, connectors, topics, governed ALM</td><td>More setup, more to govern</td></tr>
+                <tr><td>GitHub Copilot harness</td><td>Long multi-step reasoning, file creation</td><td>Credits for all usage; no conversion either way</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="blk">
+          <h4>💰 Cost and licensing</h4>
+          <ul>
+            <li>Standard harness: fair use for M365 Copilot-licensed users in M365 channels. Credits for unlicensed users and other channels.</li>
+            <li>GitHub Copilot harness: credits for all usage, from build onward.</li>
+          </ul>
+        </div>
+        <div class="blk avoid">
+          <h4>🚫 When not to use this approach</h4>
+          <p>Skip Agent Builder when the agent must call external systems, needs a custom connector, or must move through environments with solutions and pipelines. Those are Copilot Studio jobs.</p>
         </div>
       </div>
 
+      <div class="say"><b>Say it in an interview</b>"Instructions are a request; knowledge sources are the enforcement. I scope to the approved folder, switch every other source off, and prove it with out-of-scope prompts."</div>
+
       <div class="impact">
         <div class="ic">📏</div>
-        <div><b>Impact · pending measurement</b>
-          <p>Add the measured result after testing, for example "4 of 4 test prompts passed, including the out-of-scope refusal".</p></div>
+        <div><b>Result · pending measurement</b>
+          <p>X of Y policy questions returned a cited, in-scope answer, and Z out-of-scope prompts were declined. Add a screenshot of a cited answer.</p></div>
       </div>
     </article>
 
     <!-- ── DAY 2 ── -->
-    <article class="day" data-day="2">
+    <article class="day" data-day="2" id="day-2">
       <div class="day-head">
-        <span class="chip t">Copilot Studio</span>
-        <span class="chip t">Standard harness</span>
-        <span class="chip a">Manufacturing</span>
+        <span class="chip t">Copilot Studio · standard harness</span>
+        <span class="chip a">Manufacturing · Contoso Pumps</span>
+        <span class="chip g">Synthetic data</span>
       </div>
-      <h3>Harness Selection for a Manufacturing Field-Service Agent</h3>
+      <h3>Harness Selection for a Field-Service Agent</h3>
+      <p class="tldr">The standard harness answered cited, safety-critical lookups correctly but could not produce a Word file. That showed the field-service work should be split across two agents.</p>
 
       <div class="grid2">
         <div class="blk">
           <h4>🧭 Context</h4>
-          <p>A field-service scenario with two task types: bounded manual lookups, and long, multi-source diagnostics that end in a document.</p>
+          <p>Technicians servicing a fictional pump line (model HX-200) do two kinds of work:</p>
+          <ul>
+            <li><b>Bounded lookup:</b> a torque spec or a fault code. A wrong number is a safety issue.</li>
+            <li><b>Multi-step diagnosis</b> that ends in a drafted service report.</li>
+          </ul>
         </div>
         <div class="blk">
-          <h4>🛠️ Built</h4>
-          <p>A standard-harness Copilot Studio agent grounded only in a scoped SharePoint knowledge source, with web search disabled as a hard guardrail. It returned cited torque values and declined out-of-scope models.</p>
+          <h4>🛠️ What I built</h4>
+          <p>A Field Service Assistant on the standard harness, grounded only in three synthetic documents:</p>
+          <ul>
+            <li>HX-200 maintenance manual</li>
+            <li>Fault-code reference (F11, F23, F31)</li>
+            <li>Past service reports (SR-101, SR-118, SR-142)</li>
+          </ul>
+          <p>Web search was off. The instructions required citations and exact torque values, refused out-of-scope questions, and banned estimates for safety-critical values.</p>
         </div>
 
         <div class="blk finding full">
-          <h4>🔍 Finding</h4>
-          <p>Asked for a Word document, the agent said it couldn't generate a .docx and offered paste-ready text instead. That's the expected limit of the standard harness: it has no sandbox for file creation.</p>
+          <h4>🔍 Finding · the expected limit, confirmed</h4>
+          <p>Torque and fault-code lookups worked and were cited. Asked to draft a Word document, the agent said it could not generate a downloadable .docx and offered paste-ready text instead. The standard harness has no sandbox or file system to create files in.</p>
         </div>
 
         <div class="blk decision full">
-          <h4>🏛️ Architecture decision · two-agent split by task weight</h4>
+          <h4>🏛️ Architecture decision · two agents, split by task weight</h4>
           <div class="split">
-            <div class="lane std"><b>Standard harness</b>High-volume, safety-critical lookups: torque specs, manual references, scoped and cited.</div>
-            <div class="lane gh"><b>GitHub Copilot harness, or a flow + Word template</b>Document-heavy, multi-source diagnostics that need file output.</div>
+            <div class="lane std"><b>Standard harness</b>Torque specs, fault codes, lockout steps. Bounded, high-traffic and safety-critical. Covered by fair use for licensed users in M365 channels.</div>
+            <div class="lane gh"><b>GitHub Copilot harness, or a flow + Word template</b>Multi-source diagnosis with a report file. A flow is the cheaper option when the report format is fixed.</div>
           </div>
+          <p style="margin-top:.7rem">A single agent would either overpay for simple lookups or be unable to produce files. <b>Still unverified:</b> whether a standard agent can hand off to a GitHub Copilot harness agent as a connected agent. Test it before promising it to a client.</p>
         </div>
 
-        <div class="blk full">
-          <h4>💰 Cost reasoning</h4>
-          <p>The standard harness is largely covered for licensed users in M365 channels. The GitHub harness bills credits from build time onward. I validated the standard path at zero credit cost by deferring the GitHub harness build.</p>
+        <div class="blk">
+          <h4>💰 Cost and licensing</h4>
+          <ul>
+            <li>Licensed technician, M365 channel, own identity: no charge within fair use.</li>
+            <li>An agent flow is included only with the <b>When an agent calls the flow</b> trigger. Other triggers bill at the standard rate.</li>
+            <li>Unlicensed technician: consumes credits (see the rate table below).</li>
+            <li>Power Automate cloud flow: billed under Power Automate licensing, not credits.</li>
+            <li>I skipped the GitHub Copilot harness comparison build and spent zero credits.</li>
+          </ul>
+        </div>
+        <div class="blk avoid">
+          <h4>🚫 When not to use this approach</h4>
+          <p>Don't use the standard harness alone when the output must be a file, or when the task is long, multi-step reasoning across many sources.</p>
+          <p>Don't move a working standard agent to the GitHub Copilot harness without a business case. Agents cannot be converted, so the move is a full rebuild.</p>
         </div>
       </div>
 
+      <div class="say"><b>Say it in an interview</b>"One agent for everything either overpays for lookups or can't produce files. I split by task weight: standard for bounded safety-critical lookups, and a file-capable path for reports."</div>
+
       <div class="impact">
         <div class="ic">📏</div>
-        <div><b>Impact · pending measurement</b>
-          <p>Add the measured result after running it, e.g. "X of Y test prompts passed", and the time a technician spends finding a spec before and after.</p></div>
+        <div><b>Result · pending measurement</b>
+          <p>X of Y test prompts passed, and the time a technician spends finding a spec before and after. Add a screenshot of the refused .docx request.</p></div>
       </div>
     </article>
 
     <!--
       ── ADD NEXT DAY HERE ──
-      Copy a <article class="day" data-day="N"> block above, then update:
-        1. the stats + "Day N / 30" + bar width (N/30*100%) in the hero
-        2. DONE_DAYS in the script at the bottom
+      Copy an <article class="day" data-day="N" id="day-N"> block above, then:
+        1. update the stats in the hero
+        2. bump DONE_DAYS in the script at the bottom (label + bar update automatically)
     -->
 
   </div>
 
+  <!-- ═════ COST ═════ -->
+  <h2 class="sec" id="cost">Cost and Licensing Reference</h2>
+  <p class="sec-sub">To estimate cost, ask three questions in order: which harness, is the user licensed, and which channel are they in.</p>
+
+  <div class="grid2">
+    <div class="blk">
+      <h4>👤 Who pays, by scenario</h4>
+      <div class="matrix-wrap">
+        <table class="matrix">
+          <thead><tr><th>Scenario</th><th>Billing</th></tr></thead>
+          <tbody>
+            <tr><td>Standard, licensed user, M365 channel</td><td class="yes">Fair use</td></tr>
+            <tr><td>Standard, unlicensed user or other channel</td><td class="mid">Credits per rate table</td></tr>
+            <tr><td>GitHub Copilot harness, anyone</td><td class="mid">Credits for all usage</td></tr>
+            <tr><td>Agent flow via "When an agent calls the flow"</td><td class="yes">Covered for licensed users</td></tr>
+            <tr><td>Agent flow, any other trigger</td><td class="mid">Standard rate</td></tr>
+            <tr><td>Power Automate cloud flow</td><td>Power Automate licensing</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="blk">
+      <h4>🧾 Copilot Credit rates (unlicensed use)</h4>
+      <div class="matrix-wrap">
+        <table class="matrix">
+          <thead><tr><th>Event</th><th>Credits</th></tr></thead>
+          <tbody>
+            <tr><td>Classic answer</td><td class="mono">1</td></tr>
+            <tr><td>Generative answer</td><td class="mono">2</td></tr>
+            <tr><td>Agent action</td><td class="mono">5</td></tr>
+            <tr><td>Tenant graph grounding</td><td class="mono">10</td></tr>
+            <tr><td>Agent flow actions</td><td class="mono">13 per 100</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="blk full">
+      <h4>🛡️ Controlling spend</h4>
+      <ul>
+        <li><b>Find the credit burners:</b> filter the agent inventory by the Harness column. Then check consumption reports, because standard agents also bill unlicensed users and non-M365 channels.</li>
+        <li><b>Cap:</b> per-agent monthly limits, per-environment allocations, and pay-as-you-go for overage.</li>
+        <li><b>Know the failure mode:</b> when prepaid capacity runs out, agent flow runs are blocked while the agent keeps answering other questions.</li>
+        <li><b>Model both paths:</b> an agent flow and a Power Automate cloud flow are billed differently, so put both in the usage estimator.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout">⚠️ Rates are from the Microsoft Learn rate table at the time of writing. These rules change monthly, so recheck the live billing page before quoting them to a client.</div>
+
+  <!-- ═════ TESTING ═════ -->
+  <h2 class="sec" id="testing">How I Test a Grounded Agent</h2>
+  <p class="sec-sub">Five kinds of test prompts that turn "it seems to work" into a pass rate you can quote. Run every kind before you fill in a Result box.</p>
+
+  <div class="tests">
+    <div class="tc" style="--c:var(--green)">
+      <div class="k">1 · In scope</div>
+      <h4>Cited answer</h4>
+      <p>A question the documents clearly answer. Pass means a correct answer that cites the source.</p>
+      <div class="ex">What documents are required for KYC on a new account?</div>
+    </div>
+    <div class="tc" style="--c:var(--rose)">
+      <div class="k">2 · Out of scope</div>
+      <h4>Clean refusal</h4>
+      <p>A question the documents do not cover. Pass means the agent says so instead of guessing.</p>
+      <div class="ex">What's the torque spec for model HX-500?</div>
+    </div>
+    <div class="tc" style="--c:var(--amber)">
+      <div class="k">3 · Temptation</div>
+      <h4>General-knowledge bait</h4>
+      <p>A question the model could answer from general knowledge. Pass means it still answers only from the sources.</p>
+      <div class="ex">What does KYC usually involve at most banks?</div>
+    </div>
+    <div class="tc" style="--c:var(--blue)">
+      <div class="k">4 · Safety-critical</div>
+      <h4>Exact values only</h4>
+      <p>A request for a precise number. Pass means the exact cited value, never an estimate.</p>
+      <div class="ex">Torque for the HX-200 impeller bolt?</div>
+    </div>
+    <div class="tc" style="--c:var(--violet)">
+      <div class="k">5 · Capability edge</div>
+      <h4>Known platform limit</h4>
+      <p>A request the harness cannot fulfil, such as a file. Pass means it states the limit and offers a fallback.</p>
+      <div class="ex">Draft this service report as a Word file.</div>
+    </div>
+  </div>
+  <p class="note">The example prompts are illustrations, not a recorded test set. Store the real prompts and results in the repo next to each day's synthetic documents.</p>
+
+  <!-- ═════ MISTAKES ═════ -->
+  <h2 class="sec" id="mistakes">Common Mistakes and Fixes</h2>
+  <p class="sec-sub">I hit some of these myself, and the rest are traps the documentation warns about. Each one makes a good "tell me about a time" answer.</p>
+  <div class="mist">
+    <div class="mi"><div class="bad">Guardrail written only in the instructions</div><div class="good">Scope knowledge sources so the platform enforces it (Day 1)</div></div>
+    <div class="mi"><div class="bad">One agent for lookups and reports</div><div class="good">Split by task weight; each half gets the cheapest capable harness (Day 2)</div></div>
+    <div class="mi"><div class="bad">Migrating to the GitHub Copilot harness "because it's newer"</div><div class="good">Migrate only for a proven gap. It's a rebuild, so pilot one slice and compare on the same evaluation set</div></div>
+    <div class="mi"><div class="bad">Assuming the GitHub Copilot harness sends data to GitHub Copilot</div><div class="good">It is a Copilot Studio runtime; customer data is not sent to the GitHub Copilot service</div></div>
+    <div class="mi"><div class="bad">Agent flow with a non-agent trigger</div><div class="good">Use "When an agent calls the flow" so licensed users stay within fair use</div></div>
+    <div class="mi"><div class="bad">Quoting credit rates from memory</div><div class="good">Recheck Microsoft Learn first; the rules change monthly</div></div>
+    <div class="mi"><div class="bad">Promising a cross-harness handoff</div><div class="good">Connected-agent handoff between harnesses is unverified; test it before committing</div></div>
+    <div class="mi"><div class="bad">Writing impact numbers before testing</div><div class="good">Leave the Result box blank until a real test run produces numbers</div></div>
+  </div>
+
+  <!-- ═════ TEACH ═════ -->
+  <h2 class="sec" id="teach">Teach It in 10 Minutes</h2>
+  <p class="sec-sub">A talk track for walking a colleague or a lunch-and-learn through this material. Follow it top to bottom with the page on screen.</p>
+  <div class="steps">
+    <div class="st"><h4>Start with the rule <span>1 min</span></h4><p>"Choose a harness by task weight and risk, not by which option is newest." Everything else supports this sentence.</p></div>
+    <div class="st"><h4>Name the three options <span>2 min</span></h4><p>Agent Builder (no-code, in M365 Copilot), standard harness (flows and connectors, no files), GitHub Copilot harness (files and long reasoning, credits for everything). Show the harness map.</p></div>
+    <div class="st"><h4>Tell the Day 1 story <span>2 min</span></h4><p>Policy-only instructions, but web, Outlook and Teams were on. Ask the room: "Is this agent policy-only?" Then reveal that instructions request and knowledge sources enforce.</p></div>
+    <div class="st"><h4>Tell the Day 2 story <span>2 min</span></h4><p>Lookups worked; the Word file didn't. Ask: "One agent or two?" Walk the four-question decision path live.</p></div>
+    <div class="st"><h4>Follow the money <span>2 min</span></h4><p>Who is the user, are they licensed, which channel? Point to the agent-flow trigger rule and the cloud-flow alternative.</p></div>
+    <div class="st"><h4>Close with a quiz <span>1 min</span></h4><p>Use the interview drill below in random mode. Ask one person per question to answer out loud.</p></div>
+  </div>
+
+  <!-- ═════ INTERVIEW ═════ -->
+  <h2 class="sec" id="interview">Interview Drill</h2>
+  <p class="sec-sub">Answers phrased the way a senior architect would say them. Try each question out loud before you open the answer.</p>
+
+  <div class="drill-bar">
+    <button class="btn pri" id="randQ" type="button">🎲 Random question</button>
+    <button class="btn" id="openAll" type="button">Show all answers</button>
+    <button class="btn" id="closeAll" type="button">Hide all answers</button>
+  </div>
+
+  <div class="qa" id="qa">
+    <details>
+      <summary><span class="num">01</span><span>Your instructions say "answer from policy documents only." How do you enforce that?</span><span class="lvl">Governance</span></summary>
+      <div class="a">
+        <p>Instructions are a request; knowledge sources are the enforcement. I scope knowledge to the approved SharePoint location and switch off web search and every other source. Then I test with out-of-scope prompts and with prompts that tempt the model to answer from general knowledge.</p>
+        <div class="hook"><b>Proof point:</b> Day 1, where web, Outlook and Teams were still on despite policy-only instructions.</div>
+      </div>
+    </details>
+    <details>
+      <summary><span class="num">02</span><span>Is the GitHub Copilot harness the same as GitHub Copilot?</span><span class="lvl">Fundamentals</span></summary>
+      <div class="a">
+        <p>No. The harness is a Copilot Studio agent runtime, and customer data is not sent to the GitHub Copilot service. It also bills credits for all usage, regardless of license.</p>
+        <div class="hook"><b>Why they ask:</b> to check that you can calm a security reviewer's concern with facts.</div>
+      </div>
+    </details>
+    <details>
+      <summary><span class="num">03</span><span>Our standard agent works. Should we migrate to the GitHub Copilot harness?</span><span class="lvl">Architecture</span></summary>
+      <div class="a">
+        <p>Not by default. Agents can't be converted between harnesses, so migration is a rebuild. I'd move only for a demonstrated gap, such as long-running work, file output or reasoning models. I'd pilot one slice and compare both versions on the same evaluation set for quality, latency and credits.</p>
+        <div class="hook"><b>Strong signal:</b> you said "same evaluation set". That shows you measure instead of following hype.</div>
+      </div>
+    </details>
+    <details>
+      <summary><span class="num">04</span><span>How do you find which agents burn credits, and how do you cap them?</span><span class="lvl">Governance</span></summary>
+      <div class="a">
+        <p>I filter the agent inventory in the Power Platform admin center (Manage → Copilot Studio) by the Harness column, because GitHub Copilot harness agents bill all activity. I also review consumption reports, since standard agents bill credits for unlicensed users and non-M365 channels.</p>
+        <p>To cap spend, I use per-agent monthly limits and per-environment allocations, with pay-as-you-go for overage.</p>
+      </div>
+    </details>
+    <details>
+      <summary><span class="num">05</span><span>Field service needs torque lookups and diagnostic reports as Word files. One agent or two?</span><span class="lvl">Design</span></summary>
+      <div class="a">
+        <p>Two, split by task weight. A standard agent handles bounded, safety-critical, high-traffic lookups. A GitHub Copilot harness agent handles diagnosis with file output, or a flow that fills a Word template when the format is fixed. I'd verify cross-harness handoff before promising it.</p>
+        <div class="hook"><b>Proof point:</b> Day 2, where the standard agent refused the .docx and offered paste-ready text.</div>
+      </div>
+    </details>
+    <details>
+      <summary><span class="num">06</span><span>Who pays when an agent calls a flow?</span><span class="lvl">Cost</span></summary>
+      <div class="a">
+        <p>For a licensed user in a Microsoft 365 channel under their own identity, nothing within fair use, but only for an agent flow started by the "When an agent calls the flow" trigger. Other triggers bill at the standard rate. An unlicensed user consumes credits at the rate-table values.</p>
+        <p>A Power Automate cloud flow is billed under Power Automate licensing instead, so I'd model both in the usage estimator. Per-agent limits matter too: when prepaid capacity runs out, flow runs are blocked while the agent keeps answering other questions.</p>
+      </div>
+    </details>
+    <details>
+      <summary><span class="num">07</span><span>When would you <i>not</i> use Agent Builder?</span><span class="lvl">Fundamentals</span></summary>
+      <div class="a">
+        <p>When the agent must call external systems, needs a custom connector, or must move through environments with solutions and pipelines. Those are Copilot Studio jobs, so I'd copy the agent into Copilot Studio and rebuild it there.</p>
+      </div>
+    </details>
+    <details>
+      <summary><span class="num">08</span><span>How do you prove a grounded agent is ready for production?</span><span class="lvl">Quality</span></summary>
+      <div class="a">
+        <p>I run a fixed test set with five kinds of prompts: in-scope with citations, out-of-scope refusals, general-knowledge temptation, exact safety-critical values, and known capability limits. I report a pass rate per category and keep the failing prompts in the set so regressions show up.</p>
+        <div class="hook"><b>Follow-up to expect:</b> "What's your pass threshold?" Tie it to the risk: safety-critical values need 100%.</div>
+      </div>
+    </details>
+  </div>
+
+  <!-- ═════ RESUME ═════ -->
+  <h2 class="sec" id="resume">Resume and LinkedIn Bullets</h2>
+  <p class="sec-sub">The yellow slots stay visible until there's a measured number to put in them. Nothing here is invented.</p>
+  <div class="cv">
+    <div class="cv-item"><p>Designed a harness-selection framework for enterprise Copilot Studio agents (standard, GitHub Copilot and Agent Builder) covering cost, control, governance and migration trade-offs, and validated it with a scoped field-service agent that refuses ungrounded answers.</p><button class="btn copy" type="button">Copy</button></div>
+    <div class="cv-item"><p>Built a policy-grounded KYC and loan assistant in Microsoft 365 Copilot Agent Builder and closed a knowledge-scope gap so platform settings enforced the instruction-level guardrail <span class="slot">[add: test pass rate]</span>.</p><button class="btn copy" type="button">Copy</button></div>
+    <div class="cv-item"><p>Modeled Copilot Credit exposure across licensed and unlicensed users, including agent-flow trigger rules and the Power Automate cloud-flow alternative <span class="slot">[add: estimated saving]</span>.</p><button class="btn copy" type="button">Copy</button></div>
+  </div>
+
   <!-- ═════ TAKEAWAYS ═════ -->
   <h2 class="sec">Patterns So Far</h2>
-  <p class="sec-sub">What carries over from one build to the next.</p>
+  <p class="sec-sub">The lessons that carry over from one build to the next.</p>
   <div class="takeaways">
-    <div class="tk"><div class="n">01</div><h4>Pick the lightest harness that works</h4><p>Start declarative. Move up only when you need actions, deterministic flows, or file output.</p></div>
-    <div class="tk"><div class="n">02</div><h4>Refusal is a feature</h4><p>"Not covered in policy" and declining out-of-scope models build more trust than a confident guess.</p></div>
-    <div class="tk"><div class="n">03</div><h4>Scope the grounding hard</h4><p>One SharePoint source, web search off. In safety-critical domains, a narrow source is the guardrail.</p></div>
-    <div class="tk"><div class="n">04</div><h4>Split agents by task weight</h4><p>High-volume lookups and heavy document work have different costs and different harnesses. Don't force one agent to do both.</p></div>
-    <div class="tk"><div class="n">05</div><h4>Defer credit-billed builds</h4><p>Validate the covered path first. Only start the GitHub harness once the standard path has proven its limit.</p></div>
-    <div class="tk"><div class="n">06</div><h4>Never invent impact</h4><p>Impact fields stay as placeholders until a real test run produces real numbers.</p></div>
+    <div class="tk"><div class="n">01</div><h4>Pick the lightest option that works</h4><p>Start with Agent Builder. Move up only for actions, connectors, ALM, or file output.</p></div>
+    <div class="tk"><div class="n">02</div><h4>Settings enforce, prose requests</h4><p>A guardrail that exists only in the instructions is not a guardrail.</p></div>
+    <div class="tk"><div class="n">03</div><h4>Refusal is a feature</h4><p>"Not covered in policy" builds more trust than a confident guess, especially for safety values.</p></div>
+    <div class="tk"><div class="n">04</div><h4>Split agents by task weight</h4><p>Lookups and heavy document work have different costs and need different harnesses.</p></div>
+    <div class="tk"><div class="n">05</div><h4>Validate the covered path first</h4><p>Prove the standard harness's limit before spending credits on the GitHub Copilot harness.</p></div>
+    <div class="tk"><div class="n">06</div><h4>Never invent impact</h4><p>Results stay as placeholders until a real test run produces real numbers.</p></div>
   </div>
+
+  <!-- ═════ OPEN ITEMS ═════ -->
+  <h2 class="sec" id="todo">Open Items</h2>
+  <p class="sec-sub">To-dos before these entries are fully evidenced. Checkmarks are saved in this browser only.</p>
+  <ul class="check" id="check">
+    <li><label><input type="checkbox" data-k="r1"><span>Replace both Result placeholders with measured numbers (test prompts passed, time saved)</span></label></li>
+    <li><label><input type="checkbox" data-k="s1"><span>Add one screenshot per day: the cited answer on Day 1, the refused .docx request on Day 2</span></label></li>
+    <li><label><input type="checkbox" data-k="g1"><span>Put agent instructions, test prompts and synthetic documents in a repo folder per day (e.g. <span class="mono">copilot-agent-lab/day-01</span>) and link it from each entry</span></label></li>
+    <li><label><input type="checkbox" data-k="h1"><span>Test whether a standard agent can hand off to a GitHub Copilot harness agent as a connected agent</span></label></li>
+    <li><label><input type="checkbox" data-k="c1"><span>Recheck credit rates and fair-use rules against Microsoft Learn</span></label></li>
+  </ul>
 
   <div class="next">
     <b>Day 3 coming up…</b>
-    The next build gets logged here.
+    The next build gets logged here. Keep every scenario synthetic and keep the failures in.
   </div>
 
   <footer>Copilot Learning Log · Vipin Tyagi · viipiin.github.io</footer>
 </main>
 
 <script>
-  // Day tracker squares — bump DONE_DAYS as entries are added
-  const TOTAL_DAYS = 30, DONE_DAYS = 2;
+  // Day tracker — bump DONE_DAYS as entries are added
+  const TOTAL_DAYS = 90, DONE_DAYS = 2;
   const wrap = document.getElementById('days');
   for (let i = 1; i <= TOTAL_DAYS; i++) {
     const s = document.createElement('span');
@@ -345,6 +822,48 @@ footer{color:var(--dim);font-size:.8rem;text-align:center;padding:2rem 0 3rem}
     if (i <= DONE_DAYS) s.className = 'done';
     wrap.appendChild(s);
   }
+  document.getElementById('dayLabel').textContent = 'Day ' + DONE_DAYS + ' / ' + TOTAL_DAYS;
+  document.getElementById('barFill').style.width = (DONE_DAYS / TOTAL_DAYS * 100).toFixed(2) + '%';
+
+  // Interview drill
+  const qs = [...document.querySelectorAll('#qa details')];
+  document.getElementById('openAll').onclick = () => qs.forEach(d => d.open = true);
+  document.getElementById('closeAll').onclick = () => qs.forEach(d => { d.open = false; d.classList.remove('pick'); });
+  document.getElementById('randQ').onclick = () => {
+    qs.forEach(d => { d.open = false; d.classList.remove('pick'); });
+    const d = qs[Math.floor(Math.random() * qs.length)];
+    d.classList.add('pick');
+    d.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  // Copy resume bullets
+  document.querySelectorAll('.copy').forEach(b => b.onclick = async () => {
+    const text = b.previousElementSibling.textContent.trim();
+    try { await navigator.clipboard.writeText(text); b.textContent = 'Copied'; }
+    catch (e) { b.textContent = 'Select & copy'; }
+    setTimeout(() => b.textContent = 'Copy', 1500);
+  });
+
+  // Open-items checklist (per-browser convenience only)
+  const KEY = 'cll-checks';
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+  document.querySelectorAll('#check input').forEach(cb => {
+    cb.checked = !!saved[cb.dataset.k];
+    cb.onchange = () => {
+      saved[cb.dataset.k] = cb.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+    };
+  });
+
+  // Highlight active section in the nav
+  const links = [...document.querySelectorAll('#toc a')];
+  const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
+  }), { rootMargin: '-20% 0px -70% 0px' });
+  targets.forEach(t => t && obs.observe(t));
 </script>
 </body>
 </html>
