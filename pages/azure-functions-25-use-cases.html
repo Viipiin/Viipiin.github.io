@@ -4,8 +4,10 @@
 <script src="../js/vault.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>Azure Functions — 25 Enterprise Use Cases | Architect Playbook</title>
 <link rel="icon" type="image/svg+xml" href="../assets/images/azure-functions-favicon.svg">
+<link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png">
 <link rel="shortcut icon" href="../assets/images/azure-functions-favicon.svg">
 <meta name="description" content="25 enterprise Azure Functions use cases for architects — event-driven integrations, serverless APIs, Power Platform custom connectors, Dataverse webhooks, and real-world implementation patterns.">
 <meta name="keywords" content="Azure Functions, serverless, enterprise architecture, Power Platform connector, event-driven, Dataverse webhook, Azure integration">
@@ -330,7 +332,7 @@
       <ul>
         <li><b>Azure Stream Analytics</b> for sliding-window aggregations feeding features</li>
         <li><b>Durable Entities</b> for stateful per-customer counters</li>
-        <li><b>Cognitive Services Anomaly Detector</b> for unsupervised baseline</li>
+        <li><b>Anomaly detection in Microsoft Fabric Real-Time Intelligence</b> for unsupervised baseline (Azure AI Anomaly Detector was retired Oct 2026)</li>
       </ul>
     </div>
     <div class="uc-section"><h3>8. Real-World Patterns Used</h3>
@@ -1252,7 +1254,7 @@ app.<span class="f">http</span>(<span class="s">'AcceptWebhook'</span>, {
         <li>Runtime: C# isolated (Semantic Kernel) or Python (LangChain).</li>
         <li>HTTP trigger with OpenAPI annotations -> Custom Connector definition.</li>
         <li>Logic: search -> enrich with case context -> call OpenAI with structured output schema.</li>
-        <li>Integrate via Custom Connector (Power Platform); secure with Azure AD.</li>
+        <li>Integrate via Custom Connector (Power Platform); secure with Microsoft Entra ID.</li>
         <li>Deploy connector via Solution; CI/CD with ALM Accelerator.</li>
         <li>Monitor: token usage, latency, citation coverage.</li>
         <li>Optimize: prompt caching (semantic cache in Cosmos), embedding caching.</li>

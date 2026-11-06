@@ -4,9 +4,11 @@
 <script src="../js/vault.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow">
   <title>Power Platform COE & Governance — Study Guide</title>
   <meta name="description" content="A comprehensive study guide for Power Platform COE, Governance, DLP, ALM, Managed Environments, and Architecture — built for governance/COE role interviews.">
   <link rel="icon" type="image/svg+xml" href="../assets/images/coe-governance-favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png">
   <link rel="alternate icon" href="../favicon.ico">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -396,7 +398,7 @@
   <div class="card">
     <h3>What happens when a maker leaves the org?</h3>
     <ul>
-      <li>CLEANUP flow runs weekly and checks all makers against Azure AD / M365 Users</li>
+      <li>CLEANUP flow runs weekly and checks all makers against Microsoft Entra ID / M365 Users</li>
       <li>Resources owned by users no longer in the directory are <strong>flagged as orphaned</strong></li>
       <li>"Request Orphaned Objects Reassigned" flow sends Teams adaptive card to the former owner's manager</li>
       <li>Manager chooses: take ownership, assign to someone else, delete, or email the list to themselves</li>
@@ -593,7 +595,7 @@
         <li><strong>Customer Managed Key (CMK)</strong> — Bring your own encryption key for Dataverse data at rest</li>
         <li><strong>Lockbox</strong> — Microsoft engineer access requires explicit customer approval</li>
         <li><strong>Virtual Network Support</strong> — Route traffic through organisation's Azure VNet</li>
-        <li><strong>Conditional Access per app</strong> — Individual Azure AD CA policies per canvas app</li>
+        <li><strong>Conditional Access per app</strong> — Individual Microsoft Entra ID CA policies per canvas app</li>
         <li><strong>Control allowed apps</strong> — Allow-list specific apps in an environment</li>
         <li><strong>Masking Rules</strong> — Mask sensitive column data in specific contexts</li>
       </ul>
@@ -1367,7 +1369,7 @@
       <tbody>
         <tr><td><strong>Owner Team</strong></td><td>A team that can be assigned as the OWNER of records</td><td>Team members inherit the team's security roles; records owned by team visible to all members</td><td>Shared record ownership — e.g. a case owned by "Support Team" not a specific person</td></tr>
         <tr><td><strong>Access Team</strong></td><td>Dynamic team — records don't have a permanent owner team</td><td>Members get temporary access to specific records via Access Team template; no security role inheritance</td><td>Scenario where specific people need short-term access to specific records (e.g. a deal team for one opportunity)</td></tr>
-        <tr><td><strong>Azure AD Group Team</strong></td><td>Team backed by an Azure AD security group or M365 group</td><td>Membership auto-syncs with Azure AD group; assign security roles to team, all group members inherit them</td><td>Large orgs managing access via Azure AD — best for scale (add user to AD group → automatically gets Dataverse access)</td></tr>
+        <tr><td><strong>Microsoft Entra ID Group Team</strong></td><td>Team backed by an Microsoft Entra ID security group or M365 group</td><td>Membership auto-syncs with Microsoft Entra ID group; assign security roles to team, all group members inherit them</td><td>Large orgs managing access via Microsoft Entra ID — best for scale (add user to AD group → automatically gets Dataverse access)</td></tr>
       </tbody>
     </table>
   </div>
@@ -1427,7 +1429,7 @@
   </div>
   <div class="qa-block">
     <div class="qa-q" onclick="toggleQA(this)">Q: A Power Platform Admin says they can't see any data in a Dataverse environment. Why? <span class="arrow">▼</span></div>
-    <div class="qa-a">This is a very common confusion. A <strong>Power Platform Admin</strong> (tenant-level role) grants the ability to manage environments, set DLP policies, and view environment settings — but it does <em>NOT</em> grant Dataverse data access. To access data in a specific Dataverse environment, the admin must also be assigned the <strong>System Administrator security role</strong> within that specific environment. These are two completely independent permission layers: one is an Azure AD admin role, the other is a Dataverse table-level security role.</div>
+    <div class="qa-a">This is a very common confusion. A <strong>Power Platform Admin</strong> (tenant-level role) grants the ability to manage environments, set DLP policies, and view environment settings — but it does <em>NOT</em> grant Dataverse data access. To access data in a specific Dataverse environment, the admin must also be assigned the <strong>System Administrator security role</strong> within that specific environment. These are two completely independent permission layers: one is an Microsoft Entra ID admin role, the other is a Dataverse table-level security role.</div>
   </div>
 </section>
 
@@ -2172,7 +2174,7 @@
         <tr><td>🟡 Medium</td><td><strong>Customise DLP error message</strong></td><td>PowerShell: <code>Set-PowerAppDlpErrorSettings</code> with link to PP Hub and COE team email</td></tr>
         <tr><td>🟡 Medium</td><td><strong>Configure tenant isolation</strong></td><td>PPAC → Policies → Tenant Isolation → block inbound/outbound except approved tenants</td></tr>
         <tr><td>🟡 Medium</td><td><strong>Enable Default Env Routing</strong></td><td>PPAC → Policies → Default Env Routing → point to Personal Productivity environment group</td></tr>
-        <tr><td>🟡 Medium</td><td><strong>JIT/PIM for admin access</strong></td><td>Azure AD → PIM → just-in-time elevation for Power Platform Admin role</td></tr>
+        <tr><td>🟡 Medium</td><td><strong>JIT/PIM for admin access</strong></td><td>Microsoft Entra ID → PIM → just-in-time elevation for Power Platform Admin role</td></tr>
         <tr><td>🟢 Enablement</td><td><strong>Create Power Platform Hub</strong></td><td>SharePoint template (aka.ms/PowerPlatformHub) — self-service docs, policies, COE contact</td></tr>
         <tr><td>🟢 Lower</td><td><strong>Exchange email rules</strong></td><td>Work with Exchange admin — block mass outbound emails by Power Automate SMTP headers from Default env ID</td></tr>
       </tbody>
@@ -2200,8 +2202,8 @@
   <div class="card">
     <h3>What it is and why it matters</h3>
     <ul>
-      <li>Controls whether your users can connect PP apps to data in OTHER Azure AD tenants</li>
-      <li>Does NOT affect normal Azure AD access outside Power Platform</li>
+      <li>Controls whether your users can connect PP apps to data in OTHER Microsoft Entra ID tenants</li>
+      <li>Does NOT affect normal Microsoft Entra ID access outside Power Platform</li>
       <li><strong>Inbound isolation:</strong> Block users from other tenants connecting to YOUR data via PP connectors</li>
       <li><strong>Outbound isolation:</strong> Block YOUR users connecting to other tenants' data</li>
       <li>Whitelist specific trusted tenants (e.g., a partner org) while blocking everything else</li>

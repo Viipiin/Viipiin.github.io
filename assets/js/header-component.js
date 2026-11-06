@@ -414,3 +414,11 @@ if (document.readyState === 'loading') {
 } else {
     HeaderComponent.init();
 }
+
+// Keep "© <year>" footers current without hand-editing each page every January
+(function syncFooterYear() {
+    const apply = () => document.querySelectorAll('.footer-year')
+        .forEach(el => { el.textContent = String(new Date().getFullYear()); });
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
+    else apply();
+})();

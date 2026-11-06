@@ -4,7 +4,9 @@
 <script src="../js/vault.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/svg+xml" href="../assets/images/spfx-favicon.svg">
+<link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png">
 <link rel="alternate icon" href="../favicon.ico">
 <title>The SPFx Architect's Interview Field Manual — 50+ Questions for the 10–15 Year Practitioner</title>
 <meta name="description" content="A senior architect's interview preparation guide covering SPFx, Power Automate, SharePoint Migration, AngularJS-to-React, and leadership for the 10-15 year practitioner.">
@@ -593,9 +595,9 @@ Get-PnPFeature -Scope Web | Select-Object DisplayName, DefinitionId</pre>
     <div class="q">What are SharePoint groups vs Microsoft 365 groups and which should you use for site permissions?</div>
     <div class="a">
       <ul>
-        <li><strong>SharePoint groups</strong> — exist within a single site collection. Managed from Site Settings &rarr; People and Groups. No Azure AD backing. Members are assigned a SharePoint permission level. Best for site-scoped access control.</li>
-        <li><strong>Microsoft 365 groups</strong> — Azure AD-backed groups. Assigning an M365 group to a SharePoint site gives all members access and creates a connected experience (Teams channel, Planner, shared mailbox). Permissions are managed in Azure AD, not SharePoint.</li>
-        <li><strong>Azure AD Security groups</strong> — no M365 connected experience. Can be nested. Best for large org-wide access control patterns managed by IT.</li>
+        <li><strong>SharePoint groups</strong> — exist within a single site collection. Managed from Site Settings &rarr; People and Groups. No Microsoft Entra ID backing. Members are assigned a SharePoint permission level. Best for site-scoped access control.</li>
+        <li><strong>Microsoft 365 groups</strong> — Microsoft Entra ID-backed groups. Assigning an M365 group to a SharePoint site gives all members access and creates a connected experience (Teams channel, Planner, shared mailbox). Permissions are managed in Microsoft Entra ID, not SharePoint.</li>
+        <li><strong>Microsoft Entra ID Security groups</strong> — no M365 connected experience. Can be nested. Best for large org-wide access control patterns managed by IT.</li>
       </ul>
       <p><strong>Best practice for new projects:</strong> Prefer M365 groups for team sites (they provision a Teams channel automatically). Use SharePoint groups for classic intranet scenarios or when you need granular sub-site control. Never add individual users directly to site permissions — always via groups.</p>
     </div>
@@ -1218,7 +1220,7 @@ context.pageContext.user.email</pre>
 ─────────────────────────────────────────────────────────
 SharePoint REST / OData        SPHttpClient
   sp.web... (PnP JS)             ↑ uses this internally
-Azure AD–protected custom API  AadHttpClient
+Entra ID–protected custom API  AadHttpClient
 Microsoft Graph                MSGraphClientV3
   via this.context.msGraphClientFactory.getClient("3")
 Anonymous / public API         fetch() / axios</pre>
@@ -1703,7 +1705,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
     <p><strong>Requirement:</strong> Submit a form ("New Project Request"). Flow provisions a new SharePoint site, M365 group, Planner, Teams team, applies a site design with custom navigation, adds members, and notifies stakeholders.</p>
     <h5>Approach</h5>
     <ul>
-      <li>Solution-aware flow with Graph (HTTP with Azure AD) + PnP PowerShell via Azure Function.</li>
+      <li>Solution-aware flow with Graph (HTTP with Microsoft Entra ID) + PnP PowerShell via Azure Function.</li>
       <li>Use the <code class="inline">M365 Groups Create</code> Graph endpoint; it creates the group + Teams + SharePoint site atomically.</li>
       <li>Apply PnP site design template stored in tenant via <code class="inline">Invoke-PnPSiteTemplate</code>.</li>
       <li>Wait for provisioning (Until loop polling <code class="inline">/groups/{id}</code> readiness).</li>
@@ -1791,12 +1793,12 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
     <div class="q-num">9.5</div>
     <div class="q">Authentication differences: Classic SharePoint (NTLM/Kerberos) vs SharePoint Online (Modern auth / AAD). What breaks?</div>
     <div class="a">
-      <p>On-prem typically uses Windows Auth (NTLM, Kerberos, or claims-based with ADFS). SPO uses Azure AD with Modern Authentication (OAuth2 / OpenID Connect).</p>
+      <p>On-prem typically uses Windows Auth (NTLM, Kerberos, or claims-based with ADFS). SPO uses Microsoft Entra ID with Modern Authentication (OAuth2 / OpenID Connect).</p>
       <p>What breaks during/after migration:</p>
       <ul>
         <li><strong>Hardcoded AD group SIDs</strong> in custom code &mdash; must remap to AAD groups (different identifier).</li>
-        <li><strong>Trusted login providers</strong> &mdash; federation with on-prem ADFS must be replaced by Azure AD Connect or Entra B2B.</li>
-        <li><strong>App-only authentication</strong> &mdash; old SharePoint App Model with client_id/client_secret is deprecated in favour of Azure AD app registrations with certificates.</li>
+        <li><strong>Trusted login providers</strong> &mdash; federation with on-prem ADFS must be replaced by Microsoft Entra Connect or Entra B2B.</li>
+        <li><strong>App-only authentication</strong> &mdash; old SharePoint App Model with client_id/client_secret is deprecated in favour of Microsoft Entra app registrations with certificates.</li>
         <li><strong>External users</strong> &mdash; partner users were often added directly to AD; in SPO they need to be guests in AAD via B2B invitation.</li>
         <li><strong>CSOM/REST scripts</strong> using <code class="inline">SharePointOnlineCredentials</code> (basic auth) &mdash; basic auth is disabled in SPO since 2022. Must migrate to MSAL or PnP PowerShell with cert auth.</li>
       </ul>
@@ -1885,7 +1887,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
     <div class="a">
       <p>SPMT and ShareGate both preserve unique permissions <em>if the source identity maps to a destination identity</em>. The gotchas:</p>
       <ul>
-        <li>Run Azure AD Connect <strong>before</strong> migration so on-prem AD identities resolve to AAD users.</li>
+        <li>Run Microsoft Entra Connect <strong>before</strong> migration so on-prem AD identities resolve to AAD users.</li>
         <li>Map orphaned users to a "Migration Cleanup" group &mdash; items with deleted source users will fail otherwise.</li>
         <li>Lists with thousands of items having unique permissions are slow &mdash; consider whether the permission model can be re-architected during migration.</li>
         <li>Audit the result: <code class="inline">Get-PnPListItem -List X | ForEach { Get-PnPListItemPermission ... }</code> on a sample.</li>
@@ -3173,7 +3175,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
     <div class="q-num">14.13</div>
     <div class="q">Explain the least-privilege principle for <code>webApiPermissionRequests</code> in SPFx.</div>
     <div class="a">
-      <p>When your SPFx solution calls Microsoft Graph or a custom Azure AD–protected API, you declare the required OAuth scopes in <code>package-solution.json</code>. These permissions are granted at the tenant level to the SharePoint Online Client Extensibility Web Application Principal — meaning <em>all</em> SPFx solutions in the tenant share the same permission grants.</p>
+      <p>When your SPFx solution calls Microsoft Graph or a custom Entra ID–protected API, you declare the required OAuth scopes in <code>package-solution.json</code>. These permissions are granted at the tenant level to the SharePoint Online Client Extensibility Web Application Principal — meaning <em>all</em> SPFx solutions in the tenant share the same permission grants.</p>
       <p><strong>Least-privilege rules:</strong></p>
       <ul>
         <li>Request only the scopes you actually use — <code>User.Read</code> instead of <code>User.ReadWrite.All</code>.</li>
@@ -3208,7 +3210,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
       <p><strong>Correct approaches (in order of preference):</strong></p>
       <ul>
         <li><strong>Azure Key Vault + Azure Function proxy:</strong> The web part calls an Azure Function (authenticated via AadHttpClient). The Function reads the secret from Key Vault using its managed identity. The web part never sees the secret.</li>
-        <li><strong>Azure AD app + OAuth delegated flow:</strong> For API keys that are "per user", use AadHttpClient — the token is obtained silently via the user's existing AAD session. The key lives in the AAD app registration, not in SPFx.</li>
+        <li><strong>Microsoft Entra ID app + OAuth delegated flow:</strong> For API keys that are "per user", use AadHttpClient — the token is obtained silently via the user's existing AAD session. The key lives in the AAD app registration, not in SPFx.</li>
         <li><strong>SharePoint property bag (site property):</strong> Acceptable for non-sensitive configuration (list names, feature flags) that admins set. Not appropriate for secrets — property bags are readable by users with API access.</li>
         <li><strong>Web part properties:</strong> Only for non-sensitive UI configuration (display labels, count limits). Never for keys.</li>
       </ul>
@@ -3975,7 +3977,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
       <p>SPFx relevance:</p>
       <ul>
         <li>Your web part's API calls run as the <strong>current user</strong> — if the user lacks permissions to a list, PnP calls return 403. Always handle 403 gracefully, not as a generic error.</li>
-        <li>App-Only context (e.g., elevated operations) requires a separate Azure AD app registration — you can't elevate permissions inside SPFx client-side code. Route elevated operations through an Azure Function.</li>
+        <li>App-Only context (e.g., elevated operations) requires a separate Microsoft Entra app registration — you can't elevate permissions inside SPFx client-side code. Route elevated operations through an Azure Function.</li>
         <li>The <code class="inline">context.pageContext.list.permissions</code> object tells you what the current user can do on the list: <code class="inline">hasPermission(SPPermission.editListItems)</code>. Use this to conditionally show edit/delete buttons.</li>
       </ul>
     </div>
@@ -6476,7 +6478,7 @@ foreach ($row in $items) {
       </ol>
       <p><strong>Prevention for future migrations:</strong></p>
       <ul>
-        <li>Run Azure AD Connect before migration — on-prem AD accounts must sync to AAD first</li>
+        <li>Run Microsoft Entra Connect before migration — on-prem AD accounts must sync to AAD first</li>
         <li>Configure ShareGate User Mapping from a CSV or LDAP before any data moves</li>
         <li><strong>Always run ShareGate in WhatIf/Preview mode first</strong> and check the Mapping Report — it shows which accounts matched and which will fall back to the migration account</li>
         <li>Migrate 5 documents as a pilot. Open them in SPO. Verify Author before running the full migration.</li>
@@ -6492,7 +6494,7 @@ foreach ($row in $items) {
     </div>
     <div class="a">
       <p><strong>Cause 1 — Delegated vs Application permission confusion.</strong> <code class="inline">User.Read.All</code> delegated means the signed-in user's own permissions must include the ability to read other users. Users without at least <code class="inline">User.Read</code> on their own AAD account, or guest users in the tenant, may lack this. <em>Diagnose:</em> Reproduce with a guest account vs a member account.</p>
-      <p><strong>Cause 2 — Conditional Access policy blocking the token.</strong> Some users may be on networks/devices that trigger a Conditional Access policy requiring MFA or a compliant device before Graph tokens are issued. The 403 comes not from SharePoint but from AAD's token issuance. <em>Diagnose:</em> Check Azure AD &rarr; Sign-in logs for the failing users — look for CA policy failures.</p>
+      <p><strong>Cause 2 — Conditional Access policy blocking the token.</strong> Some users may be on networks/devices that trigger a Conditional Access policy requiring MFA or a compliant device before Graph tokens are issued. The 403 comes not from SharePoint but from AAD's token issuance. <em>Diagnose:</em> Check Microsoft Entra ID &rarr; Sign-in logs for the failing users — look for CA policy failures.</p>
       <p><strong>Cause 3 — SPFx domain isolation.</strong> If <code class="inline">isDomainIsolated: true</code> is set in your solution, the web part runs in an iFrame with a different origin. The token is scoped to the isolated domain. Some tenants have policies that block cross-domain token issuance. <em>Diagnose:</em> Check <code class="inline">package-solution.json</code> for <code class="inline">isDomainIsolated</code>.</p>
       <p><strong>Cause 4 — The 40% are in a different AAD directory (guest B2B users).</strong> <code class="inline">User.Read.All</code> delegated does not cross tenant boundaries for B2B guests. <em>Diagnose:</em> Correlate the failing 40% against the AAD users list — are they external guests?</p>
       <p><strong>Cause 5 — Token scope not requested correctly.</strong> SPFx AadHttpClient must request the scope explicitly. If the scope string is wrong or missing, AAD issues a token without the right claims. <em>Diagnose:</em> Decode the JWT token (jwt.ms) for a failing user — check the <code class="inline">scp</code> claim.</p>
@@ -6937,7 +6939,7 @@ gulp build</pre>
 Get-PnPListItemPermission -List "Documents" -Identity 42
 <span class="cmt"># Does this show the correct restricted users only?</span></pre>
         </li>
-        <li><strong>Check if the document's permissions show the right groups</strong> — if ShareGate mapped AD groups to AAD groups, verify those AAD groups have the correct members in Azure AD &rarr; Groups.</li>
+        <li><strong>Check if the document's permissions show the right groups</strong> — if ShareGate mapped AD groups to AAD groups, verify those AAD groups have the correct members in Microsoft Entra ID &rarr; Groups.</li>
         <li><strong>Search indexing delay</strong> — if permissions were changed post-migration (e.g., via a script that ran after ShareGate), the search index may not have updated yet. Search security trimming uses the index, not live permissions. A re-crawl is needed:
           <pre>Request-PnPReIndexList -Identity "Documents"</pre>
           And wait for the search index to refresh (typically 15–60 minutes for SPO).
