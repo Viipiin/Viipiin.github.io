@@ -409,7 +409,7 @@ tr:nth-child(even) td{background:rgba(255,255,255,.02)}
     <ul>
       <li>You are <strong>not</strong> the sole developer — you set standards, the team builds within them</li>
       <li>You are <strong>not</strong> a Power BI or D365 architect (unless explicitly scoped in)</li>
-      <li>You are <strong>not</strong> responsible for Azure AD / Entra ID security model — partner with the tenant admin</li>
+      <li>You are <strong>not</strong> responsible for Microsoft Entra ID security model — partner with the tenant admin</li>
       <li>You are <strong>not</strong> the tenant admin — you <em>advise</em> the admin; the admin implements</li>
     </ul>
   </div>
@@ -417,7 +417,7 @@ tr:nth-child(even) td{background:rgba(255,255,255,.02)}
   <ul class="checklist">
     <li><span class="chk">✓</span>Who is the Power Platform tenant admin? Who has Environment Admin rights?</li>
     <li><span class="chk">✓</span>What environments exist today? Are there DLP policies in place?</li>
-    <li><span class="chk">✓</span>Is the CoE Starter Kit installed? If yes, in which environment? By whom?</li>
+    <li><span class="chk">✓</span>Is the (now unmaintained) CoE Starter Kit installed? If yes, in which environment, by whom — and which of its functions are already covered by PPAC Inventory/Usage?</li>
     <li><span class="chk">✓</span>How are solutions structured today? Managed or unmanaged downstream?</li>
     <li><span class="chk">✓</span>Are Power Platform Pipelines in use? Azure DevOps? Both? Neither?</li>
     <li><span class="chk">✓</span>What licences are available — Standard, Premium, Developer?</li>
@@ -677,7 +677,7 @@ tr:nth-child(even) td{background:rgba(255,255,255,.02)}
     <div class="card card-red"><div class="card-icon">🛡️</div><h4>Security / Compliance Rep</h4><p>Ensures DLP and data governance aligns with organisational security policy and audit requirements.</p></div>
   </div>
 
-  <h3>CoE Starter Kit — What It Is and Isn't</h3>
+  <h3>CoE Starter Kit — What It Is and Isn't (no longer actively maintained)</h3>
   <div class="table-wrap">
     <table>
       <thead><tr><th>Component</th><th>What It Does</th><th>Important Caveat</th></tr></thead>
@@ -685,14 +685,14 @@ tr:nth-child(even) td{background:rgba(255,255,255,.02)}
         <tr><td>Core Components (Setup &amp; Admin)</td><td>Syncs tenant inventory — environments, apps, flows, connectors, makers — into Dataverse</td><td>Requires a premium environment + Dataverse. Daily sync via Cloud Flows. Can be resource intensive.</td></tr>
         <tr><td>Governance Components</td><td>Compliance emails, DLP violation notifications, maker welcome flows, archival workflows</td><td>Not all governance flows are needed on day one. Pick the ones that address your actual gaps.</td></tr>
         <tr><td>Nurture Components</td><td>Maker onboarding, community apps, training challenge, maker portal</td><td>Optional. Very useful for large-scale citizen developer programmes.</td></tr>
-        <tr><td>ALM Accelerator</td><td>Azure DevOps pipeline templates for solution export/import, solution checker, branching</td><td>Excellent starting point for Azure DevOps ALM. Requires some configuration for your tenant.</td></tr>
+        <tr><td>ALM Accelerator</td><td>Azure DevOps pipeline templates for solution export/import, solution checker, branching</td><td><strong>Deprecated</strong> — no new features, issues not addressed. Use Pipelines in Power Platform with Git integration, or ADO/GitHub + PAC CLI.</td></tr>
         <tr><td>Power BI Dashboard</td><td>Tenant inventory, capacity, usage, DLP analytics</td><td>Requires Power BI Pro. Provides the admin visibility layer.</td></tr>
       </tbody>
     </table>
   </div>
   <div class="callout callout-warn">
     <span class="callout-label">⚠️ CoE Starter Kit Warning</span>
-    <p>The CoE Starter Kit requires careful setup — it uses multiple Cloud Flows and apps that need service principal or admin credentials. Treat it as a reference implementation, not a plug-and-play install. Always validate the latest Microsoft Learn setup guide before deploying. Plan for a dedicated CoE environment with Dataverse.</p>
+    <p><strong>The CoE Starter Kit is no longer actively maintained</strong> — Microsoft moved its core capabilities into the Power Platform admin center (Inventory (all apps, flows and agents across the tenant), Usage, Monitor and Actions). Start with PPAC and Managed Environments, and use the kit only for remaining gaps. It also requires careful setup — multiple Cloud Flows and apps that need service principal or admin credentials. Treat it as a reference implementation, not a plug-and-play install. Always validate the latest Microsoft Learn setup guide before deploying. Plan for a dedicated CoE environment with Dataverse.</p>
   </div>
 
   <h3>CoE Operating Cadence</h3>
@@ -777,7 +777,7 @@ tr:nth-child(even) td{background:rgba(255,255,255,.02)}
       <li>Performance-sensitive applications with hundreds of concurrent users</li>
       <li>Regulated processes requiring full audit trail, digital signature, or legal non-repudiation</li>
       <li>Custom API development or low-level system integrations</li>
-      <li>Machine learning model training (use Azure ML or AI Foundry, not AI Builder for model training at scale)</li>
+      <li>Machine learning model training (use Azure ML or Microsoft Foundry, not AI Builder for model training at scale)</li>
     </ul>
   </div>
 
@@ -974,7 +974,7 @@ tr:nth-child(even) td{background:rgba(255,255,255,.02)}
       <tbody>
         <tr><td>Separate pipeline per form</td><td>No shared solution structure, no domain grouping</td><td>Consolidate into domain solutions. One pipeline per domain, not per form.</td><td>Sprint 1–2</td></tr>
         <tr><td>Unmanaged downstream</td><td>Lack of ALM awareness — teams deploy what they have</td><td>Train on managed vs unmanaged. Export managed before deploying to Test/UAT/Prod.</td><td>Immediate</td></tr>
-        <tr><td>No premium licensing</td><td>Licensing constraint — limits environments and premium connectors</td><td>Assess need. Developer plan for makers is free. Document which flows need premium connectors.</td><td>Assessment: Week 1</td></tr>
+        <tr><td>No premium licensing</td><td>Licensing constraint — limits environments and premium connectors</td><td>Assess need. Makers get one managed developer environment each (the free Developer Plan no longer provisions environments from 15 Nov 2026). Document which flows need premium connectors.</td><td>Assessment: Week 1</td></tr>
         <tr><td>Env variable challenges</td><td>Not using env vars, or not providing deployment settings at import</td><td>Define env vars for every environment-specific value. Use deployment settings JSON at import.</td><td>Sprint 2–3</td></tr>
         <tr><td>Connection issues post-deploy</td><td>Connection references not in solution, or not pre-mapped</td><td>Add connection reference to solution. Map at import using deployment settings file.</td><td>Sprint 2</td></tr>
       </tbody>
@@ -1136,8 +1136,8 @@ Get-AdminFlow -EnvironmentName "your-env-id" | Select DisplayName, State, Create
     <p>Always use a <strong>service principal</strong> (App Registration + client secret) for pipeline authentication — never a personal account. Service principals don't expire with password changes, are auditable, and can be scoped to specific environments via environment-level admin roles.</p>
   </div>
 
-  <h3>ALM Accelerator (CoE Starter Kit)</h3>
-  <p>The ALM Accelerator component of the CoE Starter Kit provides pre-built Azure DevOps pipeline templates for Power Platform. It includes: solution export, unpack, checker, import, and release. Use it as a starting point and customise for your organisation's branching and approval model. Reference: <a href="https://learn.microsoft.com/power-platform/guidance/alm-accelerator/overview" target="_blank" rel="noopener">Microsoft Learn — ALM Accelerator</a></p>
+  <h3>ALM Accelerator (CoE Starter Kit) — Deprecated</h3>
+  <p><strong>The ALM Accelerator is deprecated</strong> — no new features, and issues are no longer reviewed. Microsoft's direction is <strong>Pipelines in Power Platform</strong> combined with native <strong>Dataverse Git integration</strong> (both require Managed Environments), extended to Azure DevOps or GitHub where needed. If you inherit it: it provided pre-built Azure DevOps pipeline templates for solution export, unpack, checker, import, and release — plan a migration rather than new investment. Reference: <a href="https://learn.microsoft.com/power-platform/guidance/alm-accelerator/overview" target="_blank" rel="noopener">Microsoft Learn — ALM Accelerator</a></p>
 </section>
 
 <!-- ════ S11: ENV VARS & CONNECTIONS ════ -->
@@ -1598,7 +1598,7 @@ LookUp(EnvironmentVariableValues, SchemaName = "acme_SharePointSiteURL").Value
         <li><span class="chk">✓</span>Executive sponsor identified and confirmed</li>
         <li><span class="chk">✓</span>CoE team identified: CoE Lead, Platform Admin, Champions</li>
         <li><span class="chk">✓</span>CoE environment created (dedicated, with Dataverse if using Starter Kit)</li>
-        <li><span class="chk">✓</span>CoE Starter Kit install decision made — install, or manual governance approach</li>
+        <li><span class="chk">✓</span>Governance tooling decision made — PPAC Inventory/Usage/Actions + Managed Environments first; CoE Starter Kit (unmaintained) only for gaps</li>
         <li><span class="chk">✓</span>Governance charter drafted (purpose, scope, team, KPIs, cadence)</li>
         <li><span class="chk">✓</span>Standards published (naming, DLP, ALM, intake process)</li>
         <li><span class="chk">✓</span>Intake process form created and promoted to makers</li>
@@ -1827,7 +1827,7 @@ LookUp(EnvironmentVariableValues, SchemaName = "acme_SharePointSiteURL").Value
       <h4>Personal Growth</h4>
       <ul>
         <li>PL-400 (Power Platform Developer) certification study in progress</li>
-        <li>CoE Starter Kit fully understood — can answer any question about it</li>
+        <li>PPAC Inventory / Usage / Monitor / Actions fully understood, plus what the (now unmaintained) CoE Starter Kit still adds</li>
         <li>Presented governance model to leadership at least once</li>
       </ul>
       <h4>Deliverables by Day 90</h4>
@@ -1849,7 +1849,7 @@ LookUp(EnvironmentVariableValues, SchemaName = "acme_SharePointSiteURL").Value
     <li><span class="chk">✓</span>Run PAC CLI: auth create, solution export, solution import, solution check</li>
     <li><span class="chk">✓</span>Set up a Power Platform Pipeline between two environments</li>
     <li><span class="chk">✓</span>Create a DLP policy in the Admin Centre — assign connectors to Business/Non-Business/Blocked groups</li>
-    <li><span class="chk">✓</span>Install and configure the CoE Starter Kit in a Developer environment</li>
+    <li><span class="chk">✓</span>Explore PPAC Inventory, Usage and Actions in a dev tenant (optionally install the legacy CoE Starter Kit in a Developer environment to compare)</li>
     <li><span class="chk">✓</span>Generate a flow ownership report using the CoE kit or PowerShell</li>
   </ul>
 </section>
@@ -1911,7 +1911,7 @@ LookUp(EnvironmentVariableValues, SchemaName = "acme_SharePointSiteURL").Value
         <tr><td>Environment types and security model</td><td>Power Platform Environments Guide</td><td>Section 13 (Dev/Test/UAT/Prod) builds on environment types from the Environments Guide.</td></tr>
         <tr><td>Scenario-based Q&amp;A and interview prep</td><td>PP Scenario Interview Q&amp;A</td><td>Section 14 (stakeholder talking points) aligns with the scenario Q&amp;A page — for deeper interview prep, reference that page.</td></tr>
         <tr><td>Use case patterns</td><td>PP 75 Use Cases</td><td>Section 6 (citizen developer) references use case tiers — full patterns library in 75 Use Cases page.</td></tr>
-        <tr><td>ALM Accelerator setup</td><td>Not yet a dedicated page</td><td>Section 10 covers ALM Accelerator at a high level — identified as a gap for a future dedicated page.</td></tr>
+        <tr><td>ALM Accelerator setup</td><td>Not yet a dedicated page</td><td>ALM Accelerator is deprecated — the gap is now a Pipelines + Git integration page instead.</td></tr>
       </tbody>
     </table>
   </div>
@@ -1927,8 +1927,8 @@ LookUp(EnvironmentVariableValues, SchemaName = "acme_SharePointSiteURL").Value
   <div class="card-grid">
     <div class="card card-amber">
       <div class="card-icon">🔁</div>
-      <h4>ALM Accelerator Deep Dive</h4>
-      <p>Full step-by-step setup and configuration of the CoE ALM Accelerator with Azure DevOps. Pipeline template customisation, branching strategy, and approval model.</p>
+      <h4>Pipelines + Git Integration Deep Dive</h4>
+      <p>Replaces the deprecated ALM Accelerator: Pipelines in Power Platform with native Dataverse Git integration (environment vs solution binding), pipeline extensions to Azure DevOps/GitHub, branching strategy, and approval model.</p>
     </div>
     <div class="card card-accent">
       <div class="card-icon">🤖</div>
@@ -1989,7 +1989,7 @@ LookUp(EnvironmentVariableValues, SchemaName = "acme_SharePointSiteURL").Value
   <ul>
     <li><a href="https://learn.microsoft.com/power-platform/alm/" target="_blank" rel="noopener">ALM overview for Power Platform — Microsoft Learn</a></li>
     <li><a href="https://learn.microsoft.com/power-platform/alm/pipelines" target="_blank" rel="noopener">Power Platform Pipelines — Microsoft Learn</a></li>
-    <li><a href="https://learn.microsoft.com/power-platform/guidance/alm-accelerator/overview" target="_blank" rel="noopener">ALM Accelerator overview — Microsoft Learn</a></li>
+    <li><a href="https://learn.microsoft.com/power-platform/guidance/alm-accelerator/overview" target="_blank" rel="noopener">ALM Accelerator overview (deprecated) — Microsoft Learn</a></li>
     <li><a href="https://learn.microsoft.com/power-platform/alm/environment-variables-alm" target="_blank" rel="noopener">Environment variables in ALM — Microsoft Learn</a></li>
     <li><a href="https://learn.microsoft.com/power-platform/alm/use-solution-explorer" target="_blank" rel="noopener">Connection references in solutions — Microsoft Learn</a></li>
   </ul>

@@ -292,7 +292,7 @@
     <div class="week-block">
       <h4>Week 2 — Security Model at Enterprise Scale</h4>
       <ul>
-        <li><strong>Topics:</strong> Business units (BU restructuring nightmares), security roles, teams (Owner/Access/AAD/AAD-Group), hierarchical security (manager vs position), field-level security, column-level encryption, row ownership</li>
+        <li><strong>Topics:</strong> Business units (BU restructuring nightmares), security roles, teams (Owner / Access / Microsoft Entra ID security group / Entra ID Office group), hierarchical security (manager vs position), field-level security, column-level encryption, row ownership</li>
         <li><strong>Build:</strong> Design security for a multi-country sales org: 5 BUs, regional sales managers, shared global pipeline, restricted commission data. Use Owner teams for shared records, Access teams for ad-hoc sharing</li>
         <li><strong>Real-world:</strong> India-EMEA sales org needs GDPR-compliant data residency on a single tenant</li>
         <li><strong>Deliverable:</strong> Security matrix (Excel) + ER diagram of BU hierarchy</li>
@@ -303,7 +303,7 @@
           <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/wp-security" target="_blank">Power Platform Security Whitepaper</a><span class="src">— MS Learn (canonical security doc)</span></li>
           <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/security-roles-privileges" target="_blank">Security roles &amp; privileges</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/create-edit-business-units" target="_blank">Business units &amp; hierarchy</a><span class="src">— MS Learn</span></li>
-          <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/manage-teams" target="_blank">Owner, Access &amp; AAD teams</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/manage-teams" target="_blank">Owner, Access &amp; Entra ID teams</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/hierarchy-security" target="_blank">Hierarchical security (manager / position)</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/field-level-security" target="_blank">Field-Level Security (FLS) profiles</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/customer-managed-key" target="_blank">Customer-Managed Key (BYOK) &amp; Lockbox</a><span class="src">— MS Learn</span></li>
@@ -364,7 +364,7 @@
     <div class="week-block">
       <h4>Week 5 — Azure Functions, Service Bus, Event Grid</h4>
       <ul>
-        <li><strong>Topics:</strong> Function triggers (HTTP, Service Bus, Event Grid, Timer), durable functions for orchestration, isolation modes (in-process vs isolated worker), Service Bus topics/subscriptions/dead-letter, Event Grid vs Event Hubs vs Service Bus</li>
+        <li><strong>Topics:</strong> Function triggers (HTTP, Service Bus, Event Grid, Timer), durable functions for orchestration, isolated worker model (the in-process model reached end of support 10 Nov 2026), Flex Consumption plan, Service Bus topics/subscriptions/dead-letter, Event Grid vs Event Hubs vs Service Bus</li>
         <li><strong>Build:</strong> Async export of 1M Dataverse records → Service Bus → Function → Azure Blob, with retry + DLQ handling. Use durable functions for chunking</li>
         <li><strong>Real-world:</strong> Plugin times out on bulk import — how do you re-architect with async messaging?</li>
         <li><strong>Deliverable:</strong> Diagram (draw.io) + working Function code on GitHub</li>
@@ -479,7 +479,7 @@
     <div class="week-block">
       <h4>Week 10 — Azure OpenAI: Models, Grounding, RAG</h4>
       <ul>
-        <li><strong>Topics:</strong> Current-gen GPT-5.x model family and the <code>reasoning_effort</code> parameter (GPT-4o/GPT-4.1/o-series retired from Azure OpenAI Feb–Apr 2026 — check <a href="https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/models" target="_blank">the live model catalog</a>, not this list, before quoting a name), embeddings (text-embedding-3-large), Azure AI Search as vector store, RAG patterns (basic, hybrid, agentic), prompt engineering for enterprise, content safety, PTU vs PAYGO, network isolation (private endpoints)</li>
+        <li><strong>Topics:</strong> Current-gen GPT-5.x model family and the <code>reasoning_effort</code> parameter (GPT-4o/GPT-4.1 deprecated — remaining offers retire Jan–Apr 2027; o-series retires 19 Nov 2026 — check <a href="https://learn.microsoft.com/azure/foundry/openai/concepts/model-retirement-schedule" target="_blank">the model retirement schedule</a>, not this list, before quoting a name), embeddings (text-embedding-3-large), Azure AI Search as vector store, RAG patterns (basic, hybrid, agentic), prompt engineering for enterprise, content safety, PTU vs PAYGO, network isolation (private endpoints)</li>
         <li><strong>Build:</strong> RAG over 500 policy PDFs: ingestion pipeline → AI Search index with vectors → chat API (Function) → consumed by Power App. Add citations</li>
         <li><strong>Real-world:</strong> Why "ChatGPT clone" demos fail in production — hallucinations, no source attribution, no governance</li>
         <li><strong>Deliverable:</strong> End-to-end RAG solution + cost-per-query analysis</li>
@@ -488,7 +488,7 @@
         <span class="learn-title">📚 Learning Resources</span>
         <ul>
           <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/" target="_blank">Azure OpenAI Service docs (canonical)</a><span class="src">— MS Learn</span></li>
-          <li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/models" target="_blank">Live Azure OpenAI model catalog (current GPT-5.x family)</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/azure/foundry/openai/concepts/models" target="_blank">Live Azure OpenAI model catalog (current GPT-5.x family)</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/use-your-data" target="_blank">Azure OpenAI on your data (RAG)</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/azure/search/vector-search-overview" target="_blank">Azure AI Search — vector search</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/azure/search/hybrid-search-overview" target="_blank">Hybrid search (vector + BM25)</a><span class="src">— MS Learn</span></li>
@@ -503,7 +503,7 @@
     <div class="week-block">
       <h4>Week 11 — AI Builder &amp; Document Intelligence</h4>
       <ul>
-        <li><strong>Topics:</strong> Prebuilt vs custom AI models, document processing (invoices, receipts, custom forms), prediction models, GPT prompt actions in Power Automate, AI Builder credits and capacity, Document Intelligence (formerly Form Recognizer) for complex layouts</li>
+        <li><strong>Topics:</strong> Prebuilt vs custom AI models, document processing (invoices, receipts, custom forms), prediction models, prompt actions in Power Automate, AI Builder licensing (AI Builder credits are being phased out: no new capacity add-ons and no seeded credits on licenses bought or renewed from 1 Nov 2026 — new consumption runs on Copilot Credits), Document Intelligence (formerly Form Recognizer) for complex layouts</li>
         <li><strong>Build:</strong> Invoice automation — email arrives → Power Automate → AI Builder/DI extracts fields → Dataverse → approval flow → SAP posting via APIM</li>
         <li><strong>Real-world:</strong> When to choose AI Builder vs raw Document Intelligence (cost, customizability, governance)</li>
         <li><strong>Deliverable:</strong> Solution package + accuracy benchmark on sample dataset</li>
@@ -516,7 +516,7 @@
           <li><a href="https://learn.microsoft.com/en-us/ai-builder/prebuilt-overview" target="_blank">Prebuilt vs custom AI Builder models</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/" target="_blank">Azure Document Intelligence (canonical)</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/train/custom-model" target="_blank">Train custom Document Intelligence models</a><span class="src">— MS Learn</span></li>
-          <li><a href="https://learn.microsoft.com/en-us/ai-builder/administer-licensing" target="_blank">AI Builder credits &amp; capacity model</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/ai-builder/administer-licensing" target="_blank">AI Builder licensing — Copilot Credits &amp; end of AI Builder credits</a><span class="src">— MS Learn</span></li>
           <li><a href="https://www.youtube.com/@LisaCrosbie" target="_blank">Lisa Crosbie — AI Builder tutorials</a><span class="src">— YouTube</span></li>
         </ul>
       </div>
@@ -594,7 +594,7 @@
     <div class="week-block">
       <h4>Weeks 17–18: AZ-305 prep (Azure Solutions Architect)</h4>
       <ul>
-        <li><strong>Topics:</strong> Identity (AAD/Entra), storage strategy, business continuity, infra design, monitoring/governance</li>
+        <li><strong>Topics:</strong> Identity (Microsoft Entra ID), storage strategy, business continuity, infra design, monitoring/governance</li>
         <li><strong>Build:</strong> Design "well-architected" landing zone diagrams. Read Microsoft's Cloud Adoption Framework end-to-end</li>
       </ul>
       <div class="learn-box">
@@ -622,7 +622,7 @@
           <li><a href="https://learn.microsoft.com/en-us/credentials/certifications/exams/ai-103/" target="_blank">Official AI-103 exam page</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-103" target="_blank">AI-103 study guide</a><span class="src">— MS Learn</span></li>
           <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/" target="_blank">Azure AI Services overview</a><span class="src">— MS Learn</span></li>
-          <li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/" target="_blank">Microsoft Foundry (Azure AI Foundry) docs</a><span class="src">— MS Learn</span></li>
+          <li><a href="https://learn.microsoft.com/azure/foundry/" target="_blank">Microsoft Foundry (Azure AI Foundry) docs</a><span class="src">— MS Learn</span></li>
           <li><a href="https://github.com/Azure-Samples/azure-search-openai-demo" target="_blank">Azure-Samples/azure-search-openai-demo</a><span class="src">— Clone-deploy-study RAG ref</span></li>
           <li><a href="https://github.com/MicrosoftLearning/mslearn-ai-services" target="_blank">MSLearn AI services official labs</a><span class="src">— GitHub</span></li>
           <li><a href="https://www.youtube.com/@NTFAQGuy" target="_blank">John Savill — Azure AI series</a><span class="src">— YouTube</span></li>
@@ -706,7 +706,7 @@
     <ul class="feature-list">
       <li>Business Units — flat is better than hierarchical (restructuring is painful, plan for it)</li>
       <li>Security roles: privileges × access levels (None/User/BU/Parent:Child BU/Org)</li>
-      <li>Teams: Owner (acts as record owner), Access (sharing only), AAD security group teams, AAD office group teams</li>
+      <li>Teams: Owner (acts as record owner), Access (sharing only), Entra ID security group teams, Entra ID office group teams</li>
       <li>Hierarchical security: Manager hierarchy vs Position hierarchy — when each wins</li>
       <li>Field-Level Security (FLS) profiles + column encryption for PII/PCI</li>
       <li>Bring-Your-Own-Key (BYOK), Customer Lockbox, data residency (India = Central + South India regions)</li>
@@ -874,7 +874,7 @@
   <div class="card">
     <h3>Azure OpenAI — Architect-Level Decisions</h3>
     <ul class="feature-list">
-      <li>Model choice: GPT-4o, GPT-4.1, and o-series retired from Azure OpenAI Feb–Apr 2026 — current generation is GPT-5.x, with a <code>reasoning_effort</code> parameter replacing the separate o-series for most reasoning/code use cases. Always check the live model catalog before an architecture review</li>
+      <li>Model choice: GPT-4o and GPT-4.1 are deprecated (remaining offers retire Jan–Apr 2027) and o1/o3/o4-mini retire 19 Nov 2026 — current generation is GPT-5.x, with a <code>reasoning_effort</code> parameter replacing the separate o-series for most reasoning/code use cases. Always check the live model catalog before an architecture review</li>
       <li>PTU (Provisioned Throughput Units) vs PAYGO: PTU only makes sense above ~$5k/month spend</li>
       <li>Embeddings: text-embedding-3-large (3072 dims) — downsize to 1536 for cost via API parameter</li>
       <li>Vector DB choice: Azure AI Search (managed, hybrid), Cosmos DB (multi-purpose), Postgres pgvector (lift-shift from OSS)</li>
@@ -885,7 +885,7 @@
     <div class="learn-box">
       <span class="learn-title">📚 Deep-Dive Resources — Azure OpenAI Architecture</span>
       <ul>
-        <li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/models" target="_blank">Live model catalog (current GPT-5.x family)</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/azure/foundry/openai/concepts/models" target="_blank">Live model catalog (current GPT-5.x family)</a><span class="src">— MS Learn</span></li>
         <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/provisioned-throughput" target="_blank">PTU vs PAYGO economics</a><span class="src">— MS Learn</span></li>
         <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/understand-embeddings" target="_blank">Embeddings — text-embedding-3-large/small</a><span class="src">— MS Learn</span></li>
         <li><a href="https://learn.microsoft.com/en-us/azure/architecture/ai-ml/architecture/baseline-azure-ai-foundry-chat" target="_blank">Baseline reference architecture — OpenAI chat</a><span class="src">— Architecture Center</span></li>
@@ -902,7 +902,7 @@
       <li>Choose Copilot Studio when: rapid build, citizen-developer extensibility, deep Microsoft 365/Teams integration, governed publishing</li>
       <li>Build custom GPT app when: fine-grained UX, non-MSFT channels, complex multi-agent orchestration, very low cost-per-message at scale</li>
       <li>Hybrid: Copilot Studio for the conversation UI, calling Azure Function tools that wrap your custom OpenAI orchestration</li>
-      <li>Pricing trap: Copilot Studio messages (~$0.01/msg with prepaid packs) add up — model your TCO</li>
+      <li>Pricing trap: Copilot Credits (1 credit = $0.01 pay-as-you-go; prepaid packs of 25,000/month) add up fast — generative answers and premium/reasoning models burn far more credits per turn than classic topics. Model your TCO</li>
     </ul>
     <div class="learn-box">
       <span class="learn-title">📚 Deep-Dive Resources — Copilot Studio Decisions</span>
@@ -911,7 +911,7 @@
         <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-licensing-subscriptions" target="_blank">Licensing &amp; message metering</a><span class="src">— MS Learn (TCO modeling)</span></li>
         <li><a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/" target="_blank">M365 Copilot extensibility (declarative vs custom-engine)</a><span class="src">— MS Learn</span></li>
         <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-generative-actions" target="_blank">Generative orchestration deep-dive</a><span class="src">— MS Learn</span></li>
-        <li><a href="https://devblogs.microsoft.com/semantic-kernel/" target="_blank">Semantic Kernel blog (custom engine alternative)</a><span class="src">— DevBlogs</span></li>
+        <li><a href="https://devblogs.microsoft.com/foundry/" target="_blank">Microsoft Foundry / Agent Framework blog (custom engine alternative)</a><span class="src">— DevBlogs</span></li>
       </ul>
     </div>
   </div>
@@ -951,7 +951,7 @@
       <ul>
         <li><a href="https://learn.microsoft.com/en-us/azure/architecture/ai-ml/" target="_blank">Azure AI/ML reference architectures</a><span class="src">— Architecture Center</span></li>
         <li><a href="https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview" target="_blank">RAG with Azure AI Search (production)</a><span class="src">— MS Learn</span></li>
-        <li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/evaluation-approach-gen-ai" target="_blank">Evals — LLM-as-judge approach</a><span class="src">— MS Learn</span></li>
+        <li><a href="https://learn.microsoft.com/azure/foundry/concepts/evaluation-approach-gen-ai" target="_blank">Evals — LLM-as-judge approach</a><span class="src">— MS Learn</span></li>
         <li><a href="https://hamel.dev/blog/posts/evals/" target="_blank">Hamel Husain — Evals Are Underrated</a><span class="src">— Blog (must-read)</span></li>
         <li><a href="https://eugeneyan.com/writing/llm-patterns/" target="_blank">Eugene Yan — production LLM patterns</a><span class="src">— Blog</span></li>
         <li><a href="https://martinfowler.com/articles/gen-ai-patterns/" target="_blank">Martin Fowler — GenAI Patterns</a><span class="src">— Thoughtworks</span></li>
@@ -1142,10 +1142,10 @@
   <div class="card">
     <h3><span class="tag lab">Labs</span> Free Hands-On Environments</h3>
     <ul class="resource-list">
-      <li><a href="https://make.powerapps.com/" target="_blank">Power Platform Developer Plan (free)</a><span class="reason">Free Dataverse environment for your own tenant — sign up with personal/work email.</span></li>
+      <li><a href="https://make.powerapps.com/" target="_blank">Power Platform Developer Plan (free)</a><span class="reason">Free learning plan — but from 15 Nov 2026 it no longer creates an (unmanaged) developer environment; use a managed developer environment or the Microsoft 365 Developer Program / a trial tenant instead.</span></li>
       <li><a href="https://azure.microsoft.com/en-us/free/" target="_blank">Azure Free Tier ($200 credit + always-free services)</a><span class="reason">Stand up Functions, Service Bus, APIM, OpenAI (when approved).</span></li>
       <li><a href="https://learn.microsoft.com/en-us/training/" target="_blank">Microsoft Learn Sandboxes</a><span class="reason">Time-limited Azure sandboxes embedded in MS Learn modules. No credit card needed.</span></li>
-      <li><a href="https://ai.azure.com/" target="_blank">Microsoft Foundry (free tier)</a><span class="reason">Build, deploy, and evaluate AI apps and agents. Renamed from Azure AI Foundry in Jan 2026; replaced the older Azure OpenAI Studio.</span></li>
+      <li><a href="https://ai.azure.com/" target="_blank">Microsoft Foundry (free tier)</a><span class="reason">Build, deploy, and evaluate AI apps and agents. Formerly Azure AI Foundry / Azure AI Studio; replaced the older Azure OpenAI Studio.</span></li>
       <li><a href="https://github.com/features/copilot" target="_blank">GitHub Copilot for Students/OSS (free)</a><span class="reason">Free if you're a student or maintain OSS — use Copilot agents in VS Code.</span></li>
     </ul>
   </div>
@@ -1167,7 +1167,7 @@
     <h3><span class="tag gh">GitHub</span> Agent-Building &amp; Copilot Resource Hubs (2026 essentials)</h3>
     <ul class="resource-list">
       <li><a href="https://awesome-copilot.github.com/" target="_blank">awesome-copilot.github.com</a><span class="reason">Curated agents, skills, hooks, MCP servers, prompts, and learning guides for GitHub Copilot. The fastest way to see what "good" looks like in 2026.</span></li>
-      <li><a href="https://github.com/microsoft/ai-agents-for-beginners" target="_blank">microsoft/ai-agents-for-beginners</a><span class="reason">Microsoft's official 11-lesson agent-building course (Semantic Kernel, AutoGen). Free, self-paced, with code.</span></li>
+      <li><a href="https://github.com/microsoft/ai-agents-for-beginners" target="_blank">microsoft/ai-agents-for-beginners</a><span class="reason">Microsoft's official agent-building course (now updated for Microsoft Agent Framework; earlier lessons used Semantic Kernel/AutoGen). Free, self-paced, with code.</span></li>
       <li><a href="https://github.com/microsoft/generative-ai-for-beginners" target="_blank">microsoft/generative-ai-for-beginners</a><span class="reason">21-lesson GenAI fundamentals course. Take this if you skipped the AI-103 path.</span></li>
       <li><a href="https://github.com/modelcontextprotocol/servers" target="_blank">modelcontextprotocol/servers</a><span class="reason">Reference MCP servers (filesystem, GitHub, Slack, Postgres, etc.). Read 3, write 1, you'll deeply understand MCP.</span></li>
       <li><a href="https://github.com/microsoft/autogen" target="_blank">microsoft/autogen</a><span class="reason">Microsoft's multi-agent conversation framework. Strong in enterprise/Azure scenarios.</span></li>
@@ -1185,11 +1185,11 @@
       <li><a href="https://eugeneyan.com/writing/llm-patterns/" target="_blank">Eugene Yan — Patterns for Building LLM-based Systems</a><span class="reason">Production LLM design patterns (evals, RAG, guardrails). Engineering-grade.</span></li>
       <li><a href="https://www.latent.space/" target="_blank">Latent Space (Newsletter + Podcast)</a><span class="reason">Best signal on what's actually shipping in AI engineering. Subscribe.</span></li>
       <li><a href="https://www.deeplearning.ai/the-batch/" target="_blank">DeepLearning.AI — The Batch</a><span class="reason">Andrew Ng's weekly AI digest. Architect-level signal, not hype.</span></li>
-      <li><a href="https://devblogs.microsoft.com/semantic-kernel/" target="_blank">Microsoft Semantic Kernel Blog</a><span class="reason">Official engineering posts on SK, agents, planners.</span></li>
+      <li><a href="https://devblogs.microsoft.com/foundry/" target="_blank">Microsoft Foundry Blog</a><span class="reason">Official engineering posts on Agent Framework, agents, planners.</span></li>
       <li><a href="https://openai.com/index/practices-for-governing-agentic-ai-systems/" target="_blank">OpenAI — Practices for Governing Agentic AI Systems</a><span class="reason">Use directly in your "AI Governance" interview answers.</span></li>
       <li><a href="https://martinfowler.com/articles/gen-ai-patterns/" target="_blank">Martin Fowler — GenAI Patterns</a><span class="reason">Architecture-pattern series for GenAI apps from Thoughtworks' chief scientist.</span></li>
       <li><a href="https://learn.microsoft.com/en-us/azure/architecture/ai-ml/" target="_blank">Azure Architecture Center — AI &amp; ML reference architectures</a><span class="reason">Reference diagrams for ChatOps, RAG, MLOps. Steal liberally.</span></li>
-      <li><a href="https://www.microsoft.com/en-us/research/blog/" target="_blank">Microsoft Research Blog</a><span class="reason">Source-of-truth for AutoGen, Phi, MCP-style research before it's productized.</span></li>
+      <li><a href="https://www.microsoft.com/en-us/research/blog/" target="_blank">Microsoft Research Blog</a><span class="reason">Source-of-truth for Phi, agent and MCP-style research before it's productized.</span></li>
       <li><a href="https://simonwillison.net/" target="_blank">Simon Willison's Weblog</a><span class="reason">Best running commentary on LLM developments. Daily-checkable.</span></li>
     </ul>
   </div>
@@ -1208,7 +1208,7 @@
 
 <section id="agents">
   <div class="section-head"><div class="section-num">5</div><h2>🤖 AI Agents &amp; Modern AI Tooling — The New Architect Stack</h2></div>
-  <p class="section-intro">Agents are the defining frontier for AI engineers in 2026. As of early 2026, specialized engineers with RAG + Agentic AI skills command 15–25% premium over generalists. Architects who can confidently pick between Copilot Studio, LangGraph, Semantic Kernel, AutoGen, CrewAI, OpenAI Agents SDK, and MCP-based stacks are the ones closing 35–50 LPA offers.</p>
+  <p class="section-intro">Agents are the defining frontier for AI engineers in 2026. As of early 2026, specialized engineers with RAG + Agentic AI skills command 15–25% premium over generalists. Architects who can confidently pick between Copilot Studio, Microsoft Agent Framework, Foundry Agent Service, LangGraph, CrewAI, OpenAI Agents SDK, and MCP/A2A-based stacks are the ones closing 35–50 LPA offers.</p>
 
   <div class="callout success">
     <strong>The 2026 fundamental shift:</strong> Model Context Protocol (MCP) — donated to the Linux Foundation in Dec 2025 — has become the de-facto agent-to-tool standard. OpenAI, Microsoft, Google, Anthropic, AWS all support it. There are 6,400+ MCP servers in the official registry. Master MCP and you skip the vendor wars.
@@ -1221,9 +1221,9 @@
       <thead><tr><th>Framework</th><th>Owner</th><th>Best For</th><th>When To Choose</th></tr></thead>
       <tbody>
         <tr><td class="cert-name">Copilot Studio</td><td>Microsoft</td><td>Citizen-dev agents inside MS 365 / Teams</td><td>Customer is M365-first, governance matters, citizen makers extend</td></tr>
-        <tr><td class="cert-name">Semantic Kernel</td><td>Microsoft</td><td>Embedding AI in existing .NET / Python / Java apps</td><td>You have an existing app you want to "Copilot-ize," not greenfield</td></tr>
-        <tr><td class="cert-name">AutoGen</td><td>Microsoft Research</td><td>Multi-agent conversations, enterprise Azure</td><td>Complex multi-agent orchestration, research-grade scenarios</td></tr>
-        <tr><td class="cert-name">Microsoft Foundry / Azure AI Foundry</td><td>Microsoft</td><td>End-to-end Azure-native agent + evaluation platform</td><td>Production agents on Azure with full eval/observability/governance</td></tr>
+        <tr><td class="cert-name">Microsoft Agent Framework</td><td>Microsoft</td><td>Pro-code agents + graph workflows in .NET / Python (successor to Semantic Kernel and AutoGen)</td><td>Custom agents or deterministic multi-agent workflows you host yourself; migrating existing SK/AutoGen code</td></tr>
+        <tr><td class="cert-name">Semantic Kernel / AutoGen (legacy)</td><td>Microsoft</td><td>Existing apps built before Agent Framework</td><td>Maintaining existing code only — new work starts on Agent Framework</td></tr>
+        <tr><td class="cert-name">Microsoft Foundry (Foundry Agent Service)</td><td>Microsoft</td><td>End-to-end Azure-native agent + evaluation platform</td><td>Production agents on Azure with full eval/observability/governance</td></tr>
         <tr><td class="cert-name">LangChain + LangGraph</td><td>LangChain Inc</td><td>Maximum flexibility, largest ecosystem (700+ integrations)</td><td>Cross-cloud, fast experimentation, OSS-friendly customers</td></tr>
         <tr><td class="cert-name">CrewAI</td><td>CrewAI Inc</td><td>Role-based multi-agent ("crew") collaboration</td><td>Multi-agent is the primary requirement; want intuitive API</td></tr>
         <tr><td class="cert-name">OpenAI Agents SDK</td><td>OpenAI</td><td>Lightweight, native OpenAI + MCP</td><td>OpenAI-first stack, simple production agents</td></tr>
@@ -1257,14 +1257,14 @@
       <li><a href="https://github.com/modelcontextprotocol" target="_blank">modelcontextprotocol (GitHub org)</a><span class="reason">Official SDKs (TypeScript, Python, C#, Java, Kotlin), reference servers, registry.</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio" target="_blank">Microsoft Copilot Studio — Agent Authoring Overview</a><span class="reason">Generative orchestration, topics, actions, channels. Read end-to-end.</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/" target="_blank">Microsoft 365 Copilot Extensibility</a><span class="reason">Declarative vs custom-engine agents, packaging, publishing.</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/semantic-kernel/" target="_blank">Semantic Kernel docs</a><span class="reason">Skills, planners, agents framework, function calling.</span></li>
-      <li><a href="https://github.com/microsoft/autogen" target="_blank">AutoGen docs</a><span class="reason">Multi-agent conversation patterns, GroupChat, code execution.</span></li>
+      <li><a href="https://learn.microsoft.com/agent-framework/" target="_blank">Microsoft Agent Framework docs</a><span class="reason">Agents, tools, middleware, graph workflows, checkpoints, plus migration guides from Semantic Kernel and AutoGen.</span></li>
+      <li><a href="https://learn.microsoft.com/agent-framework/migration-guide/from-autogen/" target="_blank">AutoGen → Agent Framework migration guide</a><span class="reason">How GroupChat, tools and agents map to the new framework.</span></li>
       <li><a href="https://python.langchain.com/" target="_blank">LangChain docs</a><span class="reason">Chains, agents, RAG. Massive ecosystem.</span></li>
       <li><a href="https://github.com/langchain-ai/langgraph" target="_blank">LangGraph docs</a><span class="reason">Stateful, controllable agent workflows on top of LangChain.</span></li>
       <li><a href="https://docs.crewai.com/" target="_blank">CrewAI docs</a><span class="reason">Role-based multi-agent orchestration.</span></li>
       <li><a href="https://platform.openai.com/docs/guides/agents" target="_blank">OpenAI Agents SDK</a><span class="reason">Lightweight Python SDK with native MCP + tracing.</span></li>
       <li><a href="https://docs.anthropic.com/en/docs/agents-and-tools" target="_blank">Claude Agent SDK (Anthropic)</a><span class="reason">Build agents that use Claude as the engine; MCP-first.</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/" target="_blank">Microsoft Foundry docs</a><span class="reason">Azure's unified AI platform (renamed from Azure AI Foundry, Jan 2026) — models, agents, evals, deployments.</span></li>
+      <li><a href="https://learn.microsoft.com/azure/foundry/" target="_blank">Microsoft Foundry docs</a><span class="reason">Azure's unified AI platform (formerly Azure AI Foundry) — models, agents, evals, deployments.</span></li>
     </ul>
   </div>
 
@@ -1284,7 +1284,7 @@
   <div class="card">
     <h3><span class="tag gh">GitHub</span> Production-Grade Agent Reference Repos</h3>
     <ul class="resource-list">
-      <li><a href="https://github.com/microsoft/ai-agents-for-beginners" target="_blank">microsoft/ai-agents-for-beginners</a><span class="reason">11 lessons, multiple frameworks (SK, AutoGen). Most comprehensive free agent course.</span></li>
+      <li><a href="https://github.com/microsoft/ai-agents-for-beginners" target="_blank">microsoft/ai-agents-for-beginners</a><span class="reason">Multi-lesson course, now on Microsoft Agent Framework. Most comprehensive free agent course.</span></li>
       <li><a href="https://github.com/microsoft/semantic-kernel" target="_blank">microsoft/semantic-kernel</a><span class="reason">Source + samples for SK in .NET / Python / Java.</span></li>
       <li><a href="https://github.com/microsoft/autogen" target="_blank">microsoft/autogen</a><span class="reason">Multi-agent reference + notebooks.</span></li>
       <li><a href="https://github.com/Azure-Samples/get-started-with-ai-agents" target="_blank">Azure-Samples/get-started-with-ai-agents</a><span class="reason">Microsoft Foundry agent quickstart with end-to-end code.</span></li>
@@ -1313,7 +1313,7 @@
   </div>
 
   <div class="callout warn">
-    <strong>Architect framework-pick heuristic:</strong> When customer is M365/Azure-heavy → Copilot Studio + Semantic Kernel + Microsoft Foundry. When customer is multi-cloud or OSS-friendly → LangGraph + MCP. When the requirement is multi-agent collaboration → CrewAI or AutoGen. <em>Never</em> lead with the framework — start with the requirement and pick last.
+    <strong>Architect framework-pick heuristic:</strong> When customer is M365/Azure-heavy → Copilot Studio + Microsoft Agent Framework + Microsoft Foundry. When customer is multi-cloud or OSS-friendly → LangGraph + MCP. When the requirement is multi-agent collaboration → Agent Framework workflows (Microsoft stack) or CrewAI/LangGraph (OSS). <em>Never</em> lead with the framework — start with the requirement and pick last.
   </div>
 </section>
 
@@ -1623,7 +1623,7 @@
           <tr><td>Power Platform + Dynamics F&amp;O integration</td><td>★★★★☆</td><td>Rare skillset; bridges CE and ERP teams</td></tr>
           <tr><td>Copilot Studio + Microsoft 365 Copilot extensibility</td><td>★★★★☆</td><td>Brand-new — premium for early experts</td></tr>
           <tr><td>Power Pages + B2C / external portals</td><td>★★★☆☆</td><td>Regulated industries (banking, insurance)</td></tr>
-          <tr><td>RPA-only (Power Automate Desktop)</td><td>★★☆☆☆</td><td>Commoditized — don't lead with this</td></tr>
+          <tr><td>RPA-only (Power Automate for desktop)</td><td>★★☆☆☆</td><td>Commoditized — don't lead with this</td></tr>
         </tbody>
       </table>
     </div>

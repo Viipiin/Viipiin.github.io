@@ -138,8 +138,9 @@
     <div class="sec-hdr"><span class="sec-num">Section 1</span><h2>Choosing Your ALM Toolchain</h2></div>
 
     <h3>Toolchain Comparison</h3>
+    <div class="callout warn" style="margin:8px 0 12px;"><strong>Update (2026):</strong> the <strong>ALM Accelerator is deprecated</strong> (no new features, issues no longer addressed), and the CoE Starter Kit it depended on is no longer actively maintained. Treat the ALM Accelerator column as a <em>legacy / migrate-away</em> option. Microsoft's direction is Pipelines in Power Platform plus native Dataverse Git integration (Azure DevOps or GitHub; both need Managed Environments), extended to ADO/GitHub where you need gates.</div>
     <div class="tw"><table>
-      <thead><tr><th>Dimension</th><th>PP Pipelines</th><th>ADO + PAC CLI</th><th>ALM Accelerator</th><th>Hybrid</th></tr></thead>
+      <thead><tr><th>Dimension</th><th>PP Pipelines</th><th>ADO + PAC CLI</th><th>ALM Accelerator (deprecated)</th><th>Hybrid</th></tr></thead>
       <tbody>
         <tr><td>Team type fit</td><td>Citizen-dev / low-code</td><td>Pro-dev, DevOps engineers</td><td>Pro-dev + CoE adoption</td><td>Mixed pro-dev + makers</td></tr>
         <tr><td>Governance maturity needed</td><td>Low — UI-driven approvals</td><td>High — pipeline-as-code, gate policies</td><td>High — CoE Starter Kit prereq</td><td>Medium</td></tr>
@@ -279,7 +280,7 @@ flowchart TD
       <strong>⚠️ Licensing is Subject to Microsoft Change</strong>
       Validate all licensing assumptions with your Microsoft account team before project start. Microsoft has changed licensing boundaries multiple times — assumptions made at proposal stage may not hold at go-live.
     </div>
-    <p><strong>Which environments should be Managed?</strong> Target stages for PP Pipelines (Test, Stage, Prod) must be Managed. Individual developer environments typically do not need to be Managed — this avoids per-developer overhead and allows unrestricted experimentation.</p>
+    <p><strong>Which environments should be Managed?</strong> Target stages for PP Pipelines (Test, Stage, Prod) must be Managed. Developer environments must now be Managed too: unmanaged developer environments are deprecated (no new ones from 15 Nov 2026, suspended from 15 Dec 2026, deleted from 15 Jan 2027), each user gets one managed developer environment, and native Git integration also requires Managed Environments.</p>
 
     <h3>2e — Component Merge Compatibility</h3>
     <div class="tw"><table>

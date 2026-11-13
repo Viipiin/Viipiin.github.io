@@ -1794,7 +1794,8 @@ PATCH /api/data/v9.2/accounts(accountnumber='ACC-1001')
         <div class="tags"><span class="tag practical">Practical</span></div></div>
         <span class="chevron">&#9660;</span></div>
       <div class="qa-answer"><div class="qa-answer-inner">
-        <pre><code>Connect-PnPOnline -Url "https://contoso.sharepoint.com/sites/legal" -Interactive
+        <pre><code># $clientId = your own Entra app (Register-PnPEntraIDAppForInteractiveLogin) — the shared PnP Management Shell app was removed in Sept 2024
+Connect-PnPOnline -Url "https://contoso.sharepoint.com/sites/legal" -Interactive -ClientId $clientId
 $report = @()
 Get-PnPList | Where-Object { $_.BaseTemplate -eq 101 } | ForEach-Object {
   $listTitle = $_.Title
@@ -1935,7 +1936,7 @@ Request-PnPReIndexSite                        # Force re-index entire site</code
         <div class="tags"><span class="tag practical">Practical</span></div></div>
         <span class="chevron">&#9660;</span></div>
       <div class="qa-answer"><div class="qa-answer-inner">
-        <pre><code>Connect-PnPOnline -Url $url -Interactive           # Connect to site
+        <pre><code>Connect-PnPOnline -Url $url -Interactive -ClientId $clientId           # Connect to site
 Get-PnPList                                        # All lists/libraries
 Get-PnPListItem -List "Docs" -PageSize 500         # Paginated items
 Set-PnPListItem -List "Tasks" -Identity 42 -Values @{"Status"="Done"}
@@ -1958,7 +1959,7 @@ New-PnPTenantSite -Title "HR" -Url "https://..." -Owner "admin@..." -Wait</code>
 $targetLists = @("Documents","Contracts","Policies")
 
 foreach ($site in $sites) {
-  Connect-PnPOnline -Url $site -Interactive
+  Connect-PnPOnline -Url $site -Interactive -ClientId $clientId
   foreach ($listName in $targetLists) {
     $list = Get-PnPList -Identity $listName -ErrorAction SilentlyContinue
     if (-not $list) { Write-Warning "Not found: $listName on $site"; continue }
@@ -3331,8 +3332,8 @@ If Global.UserDepartment is "Finance" → Redirect to: FinanceTopics</code></pre
         <div class="qa-answer"><div class="qa-answer-inner">
           <ol>
             <li>In the topic, click <strong>+</strong> → <strong>Call an action</strong> → <strong>Create a flow</strong> or select an existing flow</li>
-            <li>The flow must use the <strong>"When Copilot Studio calls a flow"</strong> trigger (Power Virtual Agents connector)</li>
-            <li>The flow must end with a <strong>"Return value(s) to Copilot Studio"</strong> action (also PVA connector)</li>
+            <li>The flow must use the <strong>"When Copilot Studio calls a flow"</strong> trigger (Microsoft Copilot Studio connector — formerly the Power Virtual Agents connector)</li>
+            <li>The flow must end with a <strong>"Return value(s) to Copilot Studio"</strong> action (same Copilot Studio connector)</li>
             <li>Input parameters defined in the trigger become available in the topic's Action node as input fields</li>
             <li>Output parameters defined in the Return action become topic variables after the action executes</li>
           </ol>

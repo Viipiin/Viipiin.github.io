@@ -337,7 +337,7 @@ tr:hover td { background: var(--primary-light); }
     <div class="env-card"><div class="env-card-header env-sandbox"><h3>Sandbox</h3><p>Dev, Test, UAT, training</p></div><div class="env-card-body"><span class="chip green">Permanent</span><span class="chip teal">Dataverse Supported</span><span class="chip green">Reset / Copy</span></div></div>
     <div class="env-card"><div class="env-card-header env-trial"><h3>Trial</h3><p>Short-lived exploration</p></div><div class="env-card-body"><span class="chip orange">Temporary 30 days</span><span class="chip teal">Dataverse Supported</span><span class="chip gray">Convertible</span></div></div>
     <div class="env-card"><div class="env-card-header env-developer"><h3>Developer</h3><p>Personal development env</p></div><div class="env-card-body"><span class="chip gray">Semi-permanent</span><span class="chip teal">Dataverse Included</span><span class="chip orange">Solo Use Only</span></div></div>
-    <div class="env-card"><div class="env-card-header env-teams"><h3>Dataverse for Teams</h3><p>Lightweight, Teams-native</p></div><div class="env-card-body"><span class="chip gray">Teams-lifecycle</span><span class="chip teal">Limited Dataverse</span><span class="chip orange">Teams Users Only</span></div></div>
+    <div class="env-card"><div class="env-card-header env-teams"><h3>Dataverse for Teams</h3><p>Lightweight, Teams-native — deprecated</p></div><div class="env-card-body"><span class="chip orange">Deprecated: no new from 15 Nov 2026</span><span class="chip gray">Teams-lifecycle</span><span class="chip teal">Limited Dataverse</span><span class="chip orange">Teams Users Only</span></div></div>
   </div>
 
   <div class="table-wrap">
@@ -553,14 +553,14 @@ tr:hover td { background: var(--primary-light); }
   <div class="env-deep" id="env-developer">
     <div class="env-deep-header env-developer">
       <span class="env-icon">&#128187;</span>
-      <div><h2>Developer Environment</h2><p>A personal, free Dataverse environment for individual developers. Not for production or shared workloads.</p></div>
+      <div><h2>Developer Environment</h2><p>A personal Dataverse environment for individual developers. Not for production or shared workloads. Unmanaged developer environments (including those created by the free Power Apps Developer Plan) are <strong>deprecated</strong>: no new ones from 15 Nov 2026, existing ones suspended from 15 Dec 2026 and deleted from 15 Jan 2027. Going forward the Developer type exists only as a <em>managed</em> developer environment — one per user — and running apps/flows in it needs a premium license.</p></div>
     </div>
     <div class="env-deep-body">
       <div class="deep-grid">
-        <div class="deep-box"><h4>Key Facts</h4><ul><li>Created via the Power Apps Developer Plan (free)</li><li>Each developer gets their own personal environment</li><li>Includes Dataverse with limited capacity (~1GB)</li><li>Supports premium connectors for development</li><li>Not intended for multi-user collaboration</li></ul></div>
+        <div class="deep-box"><h4>Key Facts</h4><ul><li>Now created as a <strong>managed</strong> developer environment (PPAC, or automatically via environment routing) — the Developer Plan no longer provisions one from 15 Nov 2026</li><li>Limit: one managed developer environment per user (it was up to three)</li><li>Includes Dataverse with limited capacity (~1GB)</li><li>Supports premium connectors for development</li><li>Not intended for multi-user collaboration</li></ul></div>
         <div class="deep-box"><h4>What It Unlocks</h4><ul><li>Full solution development and ALM tooling</li><li>Dataverse tables, model-driven apps</li><li>Power Automate with premium connectors</li><li>Copilot Studio (verify licensing)</li><li>Source control integration (Azure DevOps, GitHub)</li></ul></div>
         <div class="deep-box"><h4>Limitations</h4><ul><li>Cannot be shared as a collaboration space</li><li>Cannot be used for production workloads</li><li>May be reclaimed if inactive (Verify in current Microsoft documentation)</li><li>Limited Dataverse capacity</li></ul></div>
-        <div class="deep-box"><h4>Managed Env Eligibility</h4><p>Developer environments are <strong>not eligible</strong> for Managed Environments. This reinforces their purpose as personal development environments, not governed enterprise environments.</p></div>
+        <div class="deep-box"><h4>Managed Env Eligibility</h4><p>Developer environments <strong>must now be managed</strong>. Unmanaged ones are being suspended (15 Dec 2026) and deleted (15 Jan 2027) — convert them by enabling Managed Environments (premium licensing required) or move their solutions to a sandbox. Personal developer environments created by environment routing are managed by default and unaffected.</p></div>
       </div>
     </div>
   </div>
@@ -569,7 +569,7 @@ tr:hover td { background: var(--primary-light); }
   <div class="env-deep" id="env-teams">
     <div class="env-deep-header env-teams">
       <span class="env-icon">&#128101;</span>
-      <div><h2>Dataverse for Teams Environment</h2><p>Auto-created within Microsoft Teams. Lightweight Dataverse subset for Teams-native apps.</p></div>
+      <div><h2>Dataverse for Teams Environment (deprecated)</h2><p>Dataverse for Teams environments are <strong>deprecated</strong>: no new ones can be created from 15 Nov 2026; environments not upgraded to Dataverse are suspended on 15 Sep 2027 and decommissioned on 30 Oct 2027. Build new Teams apps, flows and agents in a regular Dataverse environment and add them to Teams.</p></div>
     </div>
     <div class="env-deep-body">
       <div class="deep-grid">
@@ -580,7 +580,7 @@ tr:hover td { background: var(--primary-light); }
       </div>
       <div class="callout callout-purple" style="margin-top:14px;">
         <span class="callout-icon">&#128161;</span>
-        <p><strong>Upgrade Path:</strong> When a Dataverse for Teams environment outgrows its limits, it can be upgraded to a full Dataverse (Production) environment. This unlocks premium connectors, Model-driven apps, ALM, and the full Dataverse security model — but requires appropriate licensing.</p>
+        <p><strong>Upgrade Path (now mandatory to keep anything):</strong> Upgrade every Dataverse for Teams environment you still need to full Dataverse before 30 Oct 2027 (PPAC → Environments, filter Type = Microsoft Teams). The tenant needs free Dataverse capacity at least equal to the environment size, and users then need Power Apps / Power Automate / Copilot Studio licenses. This unlocks premium connectors, Model-driven apps, ALM, and the full Dataverse security model — but requires appropriate licensing.</p>
       </div>
     </div>
   </div>
@@ -751,7 +751,7 @@ tr:hover td { background: var(--primary-light); }
   <div class="card-grid">
     <div class="card">
       <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">&#127381; Why It Exists</h4>
-      <p style="font-size:0.83rem;">The Developer Plan provides a free, personal development environment that allows professional developers to build, test, and learn with Power Platform — including premium connectors and Dataverse — without consuming corporate environment capacity or requiring paid licenses for the development phase.</p>
+      <p style="font-size:0.83rem;"><strong>Change (Nov 2026):</strong> Unmanaged developer environments (including those created by the free Power Apps Developer Plan) are <strong>deprecated</strong>: no new ones from 15 Nov 2026, existing ones suspended from 15 Dec 2026 and deleted from 15 Jan 2027. Going forward the Developer type exists only as a <em>managed</em> developer environment — one per user — and running apps/flows in it needs a premium license. Historically, the Developer Plan provided a free, personal development environment that allowed professional developers to build, test, and learn with Power Platform — including premium connectors and Dataverse — without consuming corporate environment capacity or requiring paid licenses for the development phase.</p>
     </div>
     <div class="card">
       <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">&#128101; Collaboration Implications</h4>
@@ -776,7 +776,7 @@ tr:hover td { background: var(--primary-light); }
 
   <div class="card" style="margin-bottom:16px;">
     <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:12px;">Lifecycle Tied to the Team</h3>
-    <p style="font-size:0.85rem;margin-bottom:10px;">A Dataverse for Teams environment is created when the first Power App or flow is built inside a Microsoft Teams team. Its lifecycle is directly tied to the Team — if the Team is deleted, the associated environment and all its data are also deleted after a retention period.</p>
+    <p style="font-size:0.85rem;margin-bottom:10px;"><strong>Dataverse for Teams environments are <strong>deprecated</strong>: no new ones can be created from 15 Nov 2026; environments not upgraded to Dataverse are suspended on 15 Sep 2027 and decommissioned on 30 Oct 2027.</strong> Historically, a Dataverse for Teams environment was created when the first Power App or flow was built inside a Microsoft Teams team. Its lifecycle is directly tied to the Team — if the Team is deleted, the associated environment and all its data are also deleted after a retention period.</p>
     <div class="deep-grid">
       <div class="deep-box"><h4>Ideal Use Cases</h4><ul><li>Simple team productivity apps</li><li>Departmental data collection (non-critical)</li><li>Small-scale automation for Teams workflows</li><li>Rapid prototyping by business users</li><li>Apps used exclusively within one Microsoft Team</li></ul></div>
       <div class="deep-box"><h4>Warning Signs — Time to Upgrade</h4><ul><li>App needs to be used outside the Teams context</li><li>Data volume approaching capacity limits</li><li>Need for model-driven apps or Dynamics 365</li><li>Need for premium connectors</li><li>Need for advanced security roles</li><li>Need for full ALM pipeline</li></ul></div>
@@ -835,7 +835,7 @@ tr:hover td { background: var(--primary-light); }
     </div>
     <div class="strategy-card">
       <h3><span>&#128101;</span> Teams-First Lightweight Solution</h3>
-      <p style="font-size:0.82rem;margin-bottom:8px;">Start in Dataverse for Teams. Plan upgrade path to full Production if usage grows. No premium connectors initially.</p>
+      <p style="font-size:0.82rem;margin-bottom:8px;">Don't start in Dataverse for Teams any more — creation ends 15 Nov 2026. Use a Developer or Production Dataverse environment and surface the app in Teams; upgrade any existing Teams environments before 30 Oct 2027.</p>
       <span class="chip teal">Teams Env</span><span class="chip gray">Upgrade Path Planned</span>
     </div>
     <div class="strategy-card">
@@ -898,7 +898,7 @@ tr:hover td { background: var(--primary-light); }
     <div class="ap-item"><h4>Developing Directly in Production</h4><p>Changes made directly in Production are untested, unversioned, and risky. Even small changes can break live apps for all users. Always use a Sandbox.</p></div>
     <div class="ap-item"><h4>Relying on Trial for Real Workloads</h4><p>When a trial expires, the environment and all data are permanently deleted. This has caused real data loss incidents. Never use Trial for anything users depend on.</p></div>
     <div class="ap-item"><h4>Ignoring Dataverse Security Role Differences</h4><p>Assigning "Environment Admin" without a Dataverse security role leaves users unable to access Dataverse data. These are two separate security systems.</p></div>
-    <div class="ap-item"><h4>Overusing Dataverse for Teams</h4><p>Dataverse for Teams is great for simple, Teams-embedded apps. When requirements grow, organizations that didn't plan an upgrade path face a painful migration.</p></div>
+    <div class="ap-item"><h4>Leaving Dataverse for Teams environments un-upgraded</h4><p>Dataverse for Teams is deprecated — environments that aren't upgraded are suspended on 15 Sep 2027 and decommissioned on 30 Oct 2027, taking their apps, flows, agents and data with them. Inventory, classify and upgrade the ones you need now.</p></div>
     <div class="ap-item"><h4>Not Planning ALM from Day One</h4><p>Retrofitting ALM into a mature Power Platform deployment is extremely difficult. Design your environment strategy before the first app goes live.</p></div>
   </div>
 </section>
@@ -954,10 +954,10 @@ tr:hover td { background: var(--primary-light); }
   </div>
 
   <div class="accordion">
-    <div class="accordion-header" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAccordion(this)">CoE Starter Kit — Why Every Enterprise Needs It <span class="chevron">&#9660;</span></div>
+    <div class="accordion-header" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAccordion(this)">Tenant Visibility — PPAC Inventory (and the legacy CoE Starter Kit) <span class="chevron">&#9660;</span></div>
     <div class="accordion-body">
-      <p style="margin-bottom:8px;">The <strong>Power Platform Center of Excellence (CoE) Starter Kit</strong> is a set of apps, flows, and dashboards that provide visibility and governance across your entire tenant. It shows which apps and flows exist in which environments, who created them, when they were last modified, and what connectors they use.</p>
-      <p>Without the CoE Starter Kit, Power Platform admins are essentially blind to what's happening across environments. It should be deployed into a dedicated CoE Governance environment (typically a Sandbox) and is a foundational governance investment for any organization with more than a handful of Power Platform users.</p>
+      <p style="margin-bottom:8px;"><strong>Update (2026):</strong> the CoE Starter Kit is no longer actively maintained. Its core capabilities are now native in the Power Platform admin center — <strong>Inventory (all apps, flows and agents across the tenant), Usage, Monitor and Actions</strong> — so start there. The <strong>Power Platform Center of Excellence (CoE) Starter Kit</strong> is a set of apps, flows, and dashboards that provide visibility and governance across your entire tenant. It shows which apps and flows exist in which environments, who created them, when they were last modified, and what connectors they use.</p>
+      <p>Historically, without the kit admins were essentially blind to what was happening across environments. Today PPAC Inventory covers that natively. Only deploy the kit — into a dedicated CoE Governance environment (typically a Sandbox) — for gaps PPAC doesn't fill yet (maker surveys, bulk permission updates, abandoned-resource cleanup, ROI tracking), and treat it as unsupported code you own.</p>
     </div>
   </div>
 </section>
@@ -1123,7 +1123,7 @@ tr:hover td { background: var(--primary-light); }
           <tr><td>Dataverse audit logging</td><td>PPAC → Environment Settings → Auditing → Start Auditing</td><td>Records every create/update/delete on Dataverse records — required for compliance and investigation</td></tr>
           <tr><td>User access auditing</td><td>PPAC → Environment Settings → Auditing → Log access</td><td>Records who accessed what data and when</td></tr>
           <tr><td>Microsoft Purview / M365 Unified Audit Log</td><td>M365 Admin Centre → Compliance → Audit</td><td>Cross-platform audit trail including Power Apps activity, flow runs, and data access</td></tr>
-          <tr><td>CoE Starter Kit usage monitoring</td><td>CoE environment — App &amp; Flow Analytics</td><td>Visibility into which apps are active, unused, or high-risk</td></tr>
+          <tr><td>PPAC Inventory / Usage monitoring (CoE Starter Kit only for gaps)</td><td>CoE environment — App &amp; Flow Analytics</td><td>Visibility into which apps are active, unused, or high-risk</td></tr>
           <tr><td>PPAC Analytics</td><td>PPAC → Analytics → Capacity / Usage</td><td>Environment capacity, storage, and usage trends</td></tr>
         </tbody>
       </table>
@@ -1260,7 +1260,7 @@ tr:hover td { background: var(--primary-light); }
         <tbody>
           <tr><td>Connection name</td><td><code>PP-Dev-Connection</code>, <code>PP-Test-Connection</code>, <code>PP-Prod-Connection</code></td></tr>
           <tr><td>Server URL</td><td><code>https://yourorg.crm11.dynamics.com</code> (environment URL)</td></tr>
-          <tr><td>Tenant ID</td><td>Your Azure AD / Entra ID tenant ID (from Azure portal)</td></tr>
+          <tr><td>Tenant ID</td><td>Your Microsoft Entra ID tenant ID (from Azure portal)</td></tr>
           <tr><td>Application (client) ID</td><td>App registration client ID (service principal)</td></tr>
           <tr><td>Client secret</td><td>Secret from App Registration — store in Variable Group, reference as <code>$(ClientSecret)</code></td></tr>
         </tbody>
@@ -1420,12 +1420,12 @@ stages:
   <div class="section-title"><div class="icon">&#9733;</div> Summary: Which Environment Should I Choose?</div>
 
   <div class="scenario-grid" style="margin-bottom:28px;">
-    <div class="scenario-card"><div class="rec-badge">Learning</div><h4>I want to explore Power Platform</h4><p>Use your <strong>Developer environment</strong> (free Developer Plan) or the <strong>Default environment</strong> for simple experiments.</p></div>
+    <div class="scenario-card"><div class="rec-badge">Learning</div><h4>I want to explore Power Platform</h4><p>Use your <strong>managed Developer environment</strong> (one per user — the free Developer Plan no longer creates environments from 15 Nov 2026) or the <strong>Default environment</strong> for simple experiments.</p></div>
     <div class="scenario-card"><div class="rec-badge" style="background:var(--accent);">PoC</div><h4>I need a time-limited proof of concept</h4><p>Use a <strong>Subscription-based Trial</strong> environment. Plan a conversion path if the PoC succeeds.</p></div>
     <div class="scenario-card"><div class="rec-badge" style="background:#008272;">Dev/Test</div><h4>I need to build and test a solution</h4><p>Use a <strong>Sandbox</strong> environment. Separate Dev and Test environments for mature ALM.</p></div>
     <div class="scenario-card"><div class="rec-badge" style="background:var(--primary-dark);">Production</div><h4>I need to deploy for real users</h4><p>Use a <strong>Production</strong> environment. Enable Managed Environments. Restrict via security group.</p></div>
-    <div class="scenario-card"><div class="rec-badge" style="background:#464eb8;">Teams</div><h4>My app only needs to work in Teams</h4><p>Use <strong>Dataverse for Teams</strong>. Plan upgrade path if requirements grow beyond Teams boundaries.</p></div>
-    <div class="scenario-card"><div class="rec-badge" style="background:var(--accent2);">Personal Dev</div><h4>I'm a developer building solutions solo</h4><p>Use a <strong>Developer environment</strong>. Includes full Dataverse and premium connectors at no extra cost.</p></div>
+    <div class="scenario-card"><div class="rec-badge" style="background:#464eb8;">Teams</div><h4>My app only needs to work in Teams</h4><p>Build it in a regular <strong>Dataverse</strong> environment and embed it in Teams — Dataverse for Teams is deprecated and can't be created from 15 Nov 2026.</p></div>
+    <div class="scenario-card"><div class="rec-badge" style="background:var(--accent2);">Personal Dev</div><h4>I'm a developer building solutions solo</h4><p>Use your <strong>managed Developer environment</strong> (one per user, governed by Managed Environments; you need a premium license to run what you build there).</p></div>
     <div class="scenario-card"><div class="rec-badge" style="background:var(--success);">Enterprise</div><h4>I need full ALM and enterprise governance</h4><p>Dev Sandbox &#8594; Test Sandbox &#8594; Production, with Managed Environments, DLP policies, and CI/CD via Deployment Pipelines.</p></div>
     <div class="scenario-card"><div class="rec-badge" style="background:#d83b01;">Training</div><h4>I need a training environment</h4><p>Use a <strong>Sandbox</strong> that can be <em>reset</em> after each training cohort — delivering a clean state every time.</p></div>
   </div>
@@ -1442,10 +1442,10 @@ stages:
       <li>ALM pipelines exist for all production-bound workloads</li>
       <li>Trial environments have a defined expiry and conversion plan</li>
       <li>Developer environments are not used for shared or production workloads</li>
-      <li>Dataverse for Teams environments have an upgrade path documented</li>
+      <li>Every Dataverse for Teams environment is either upgraded to Dataverse or signed off for decommission before 30 Oct 2027</li>
       <li>Environment Admin and System Administrator roles are assigned separately</li>
       <li>Region is correctly set for data residency compliance</li>
-      <li>Environment sprawl is monitored via CoE Starter Kit or admin analytics</li>
+      <li>Environment sprawl is monitored via PPAC Inventory / Usage (or the legacy CoE Starter Kit)</li>
     </ul>
   </div>
 </section>
@@ -1464,7 +1464,7 @@ stages:
     <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: Create and manage environments — learn.microsoft.com/power-platform/admin/create-environment</li>
     <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: Dataverse security model — learn.microsoft.com/power-platform/admin/wp-security</li>
     <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: Managed Environments overview — learn.microsoft.com/power-platform/admin/managed-environment-overview</li>
-    <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: Power Apps Developer Plan — learn.microsoft.com/power-apps/maker/developer-plan</li>
+    <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: Deprecation of unmanaged developer environments — learn.microsoft.com/power-platform/important-changes-coming</li>
     <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: Dataverse for Teams — learn.microsoft.com/power-apps/teams/overview-data-platform</li>
     <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: DLP policies — learn.microsoft.com/power-platform/admin/wp-data-loss-prevention</li>
     <li style="padding:5px 0;border-bottom:1px solid var(--border);">&#128279; Microsoft Learn: ALM with Power Platform — learn.microsoft.com/power-platform/alm/overview-alm</li>
@@ -1518,11 +1518,11 @@ function doSearch(q) {
 }
 
 const dtData = {
-  learning: { rec: 'Recommended: Developer Environment or Default Environment', body: 'The Developer Plan (free) gives you a personal Dataverse environment with premium connectors for learning and building skills. For quick experiments without setup, use the Default environment.', caution: 'Caution: Default environment is accessible to all tenant users. Do not store sensitive data there.' },
+  learning: { rec: 'Recommended: Developer Environment or Default Environment', body: 'Use your managed Developer environment (one per user) for learning and building skills — unmanaged Developer Plan environments are deprecated (no new ones from 15 Nov 2026, deleted from 15 Jan 2027). For quick experiments without setup, use the Default environment.', caution: 'Caution: Default environment is accessible to all tenant users. Do not store sensitive data there.' },
   poc: { rec: 'Recommended: Subscription-Based Trial Environment', body: 'A subscription-based trial gives 30 days with full feature access and can be converted to Production if the PoC succeeds. Plan the conversion path before the trial expires.', caution: 'Caution: All data and apps are permanently deleted when a trial expires. Set a reminder 2 weeks before expiry.' },
   dev: { rec: 'Recommended: Sandbox Environment', body: 'Sandbox is purpose-built for development and testing. It supports reset (clean state), copy from Production, full ALM, and conversion to Production. Use separate Sandbox environments for Dev and Test/UAT stages.', caution: 'Tip: Never develop directly in Production. Always use Sandbox with Solutions for ALM.' },
   prod: { rec: 'Recommended: Production Environment', body: 'Create a dedicated Production environment. Enable Managed Environments. Assign a security group to restrict access. Apply appropriate DLP policies. Promote solutions from Sandbox via Deployment Pipelines.', caution: 'Caution: Production environments require proper licensing for all users. Plan Dataverse storage capacity.' },
-  teams: { rec: 'Recommended: Dataverse for Teams Environment', body: 'If your app only needs to work within a specific Microsoft Team, Dataverse for Teams is the right starting point. It requires no additional licensing and is created automatically from Teams.', caution: 'Caution: Plan an upgrade path to full Production/Dataverse if requirements grow — premium connectors, model-driven apps, or users outside the Team.' }
+  teams: { rec: 'Recommended: Dataverse environment surfaced in Teams', body: 'Dataverse for Teams is deprecated — new Dataverse for Teams environments can\'t be created from 15 Nov 2026. Build the app in a Developer/Production Dataverse environment and embed it in Microsoft Teams.', caution: 'Caution: existing Dataverse for Teams environments must be upgraded to Dataverse before 30 Oct 2027 (suspended 15 Sep 2027) or their apps, flows, agents and data are lost.' }
 };
 
 function dt_select(val, btn) {

@@ -391,7 +391,7 @@
 
   <div class="hbox hbox-purple">
     <h4>Teams Environment Governance</h4>
-    <p>When a Dataverse for Teams environment is created, an adaptive card is sent to the team owner requesting a business justification. No justification within 7 days → environment deleted. No apps/flows after 90 days → deleted. (This process is also now available natively in PPAC.)</p>
+    <p><strong>Note:</strong> Dataverse for Teams environments are <strong>deprecated</strong>: no new ones can be created from 15 Nov 2026; environments not upgraded to Dataverse are suspended on 15 Sep 2027 and decommissioned on 30 Oct 2027, so this process now matters only for existing environments. When a Dataverse for Teams environment was created, an adaptive card was sent to the team owner requesting a business justification. No justification within 7 days → environment deleted. No apps/flows after 90 days → deleted. (This process is also now available natively in PPAC.)</p>
   </div>
 
   <h2>Orphaned Resource Management</h2>
@@ -492,10 +492,10 @@
       <thead><tr><th>Type</th><th>Purpose</th><th>Dataverse?</th><th>Key Note</th></tr></thead>
       <tbody>
         <tr><td><strong>Default</strong></td><td>Personal productivity, shared tenant space</td><td>Yes (shared)</td><td>Every licensed user is Maker by default — high governance risk</td></tr>
-        <tr><td><strong>Developer</strong></td><td>Personal sandbox per maker</td><td>Yes</td><td>Free with Developer Plan; not for production use</td></tr>
+        <tr><td><strong>Developer</strong></td><td>Personal sandbox per maker</td><td>Yes</td><td>Must be managed now (one per user); unmanaged Developer Plan envs deleted from 15 Jan 2027; not for production use</td></tr>
         <tr><td><strong>Sandbox</strong></td><td>Test/UAT; can be reset and copied</td><td>Optional</td><td>Use for testing, training, POCs</td></tr>
         <tr><td><strong>Production</strong></td><td>Live business applications</td><td>Yes</td><td>Enable Managed Environments; full ALM required</td></tr>
-        <tr><td><strong>Teams (D4T)</strong></td><td>Teams-embedded apps/chatbots</td><td>Dataverse for Teams</td><td>Lightweight; limited capabilities vs. full Dataverse</td></tr>
+        <tr><td><strong>Teams (D4T)</strong></td><td>Teams-embedded apps/chatbots</td><td>Dataverse for Teams</td><td>Deprecated — no new from 15 Nov 2026; upgrade before 30 Oct 2027</td></tr>
         <tr><td><strong>Trial</strong></td><td>30-day exploration</td><td>Optional</td><td>Not for production; convert or delete after trial</td></tr>
       </tbody>
     </table>
@@ -514,7 +514,7 @@
   ├── Business Unit: Finance
   │   ├── FIN-DEV / FIN-UAT / FIN-PROD  (same pattern)
   │
-  └── Developer Environments (one per maker, isolated, Developer Plan)
+  └── Developer Environments (one managed env per maker, via environment routing)
 
   Naming: [ORG]-[BU]-[STAGE]-[REGION]
   Example: CONTOSO-HR-PROD-UAEN  |  CONTOSO-FIN-DEV-WE</div>
@@ -547,8 +547,8 @@
   <div class="hbox hbox-orange">
     <h4>Capacity Types to Know</h4>
     <ul>
-      <li><strong>Dataverse Database:</strong> 10 GB tenant base + 5 GB per qualifying D365/PP license</li>
-      <li><strong>Dataverse File:</strong> 20 GB tenant base + 2 GB per qualifying license</li>
+      <li><strong>Dataverse Database:</strong> 10 GB tenant base + 250 MB per Power Apps Premium / Power Automate Premium user (50 MB per Power Apps per-app license)</li>
+      <li><strong>Dataverse File:</strong> 20 GB tenant base + 2 GB per Premium user license (400 MB per per-app license)</li>
       <li><strong>Dataverse Log:</strong> 2 GB tenant base</li>
       <li><strong>Power Automate:</strong> Cloud flow run limits based on license type (per user per day)</li>
       <li><strong>AI Builder Credits:</strong> Pooled at tenant level; shared across all environments</li>
@@ -559,7 +559,7 @@
   <h2>Interview Q&amp;A — Chapter 3</h2>
   <div class="qa-block">
     <div class="qa-q" onclick="toggleQA(this)">Q: How would you design an environment strategy for a 5,000-user enterprise? <span class="arrow">▼</span></div>
-    <div class="qa-a">I'd propose a <strong>hub-and-spoke</strong> model: <ul><li><strong>COE Hub environment</strong> — hosts Starter Kit, shared connectors, reusable components library</li><li><strong>Business Unit spokes</strong> — each BU gets DEV/UAT/PROD trio; Managed Environments on PROD</li><li><strong>Default environment</strong> — locked to personal productivity, strict DLP, Default Env Routing enabled</li><li><strong>Developer environments</strong> — one per maker via Developer Plan; completely isolated</li><li>All new environments provisioned via automated request workflow, not ad hoc</li><li>Naming convention enforced at creation; tagging by BU, region, lifecycle stage</li></ul></div>
+    <div class="qa-a">I'd propose a <strong>hub-and-spoke</strong> model: <ul><li><strong>COE Hub environment</strong> — hosts Starter Kit, shared connectors, reusable components library</li><li><strong>Business Unit spokes</strong> — each BU gets DEV/UAT/PROD trio; Managed Environments on PROD</li><li><strong>Default environment</strong> — locked to personal productivity, strict DLP, Default Env Routing enabled</li><li><strong>Developer environments</strong> — one managed developer environment per maker (environment routing); unmanaged Developer Plan environments are being retired</li><li>All new environments provisioned via automated request workflow, not ad hoc</li><li>Naming convention enforced at creation; tagging by BU, region, lifecycle stage</li></ul></div>
   </div>
   <div class="qa-block">
     <div class="qa-q" onclick="toggleQA(this)">Q: What is Default Environment Routing and why is it important? <span class="arrow">▼</span></div>
@@ -885,7 +885,7 @@
   </div>
   <div class="qa-block">
     <div class="qa-q" onclick="toggleQA(this)">Q: How do you set up an end-to-end DevOps pipeline for Power Platform? <span class="arrow">▼</span></div>
-    <div class="qa-a"><ol><li>Install <strong>Power Platform Build Tools</strong> extension in Azure DevOps</li><li>Create a service connection using a service principal (SPN) with Power Platform Admin permissions</li><li><strong>Build pipeline (CI):</strong> Export solution from DEV → Unpack with pac CLI → Commit unpacked YAML to repo → PR triggers solution checker</li><li><strong>Release pipeline (CD):</strong> Pack solution from YAML → Deploy managed to UAT → Run Solution Checker → Approval gate → Deploy managed to PROD</li><li>Use pipeline variables / variable groups for env-specific connection reference mappings</li><li>Optionally: Run Power Apps Test Engine tests between UAT and PROD stages</li><li>Notify stakeholders on deployment completion via Teams / email action</li></ol></div>
+    <div class="qa-a"><ol><li>Install <strong>Power Platform Build Tools</strong> extension in Azure DevOps</li><li>Create a service connection using a service principal (SPN) with Power Platform Admin permissions</li><li><strong>Build pipeline (CI):</strong> Export solution from DEV → Unpack with pac CLI → Commit unpacked YAML to repo → PR triggers solution checker</li><li><strong>Release pipeline (CD):</strong> Pack solution from YAML → Deploy managed to UAT → Run Solution Checker → Approval gate → Deploy managed to PROD</li><li>Use pipeline variables / variable groups for env-specific connection reference mappings</li><li>Optionally: run Playwright UI tests (Power Platform Playwright samples — Test Engine was deprecated in Apr 2026) between UAT and PROD stages</li><li>Notify stakeholders on deployment completion via Teams / email action</li></ol></div>
   </div>
 </section>
 
@@ -1017,8 +1017,8 @@
       <div class="cheat-row"><span class="cheat-key">DLP</span><span class="cheat-val">Data Loss Prevention — connector grouping policies</span></div>
       <div class="cheat-row"><span class="cheat-key">COE</span><span class="cheat-val">Center of Excellence — org governance team and kit</span></div>
       <div class="cheat-row"><span class="cheat-key">PPBT</span><span class="cheat-val">Power Platform Build Tools — Azure DevOps extension</span></div>
-      <div class="cheat-row"><span class="cheat-key">Dataverse / CDS</span><span class="cheat-val">Cloud data platform underpinning Power Platform</span></div>
-      <div class="cheat-row"><span class="cheat-key">D4T</span><span class="cheat-val">Dataverse for Teams — lightweight Teams environment</span></div>
+      <div class="cheat-row"><span class="cheat-key">Dataverse (formerly CDS)</span><span class="cheat-val">Cloud data platform underpinning Power Platform</span></div>
+      <div class="cheat-row"><span class="cheat-key">D4T</span><span class="cheat-val">Dataverse for Teams — deprecated (creation ends 15 Nov 2026, decommission 30 Oct 2027)</span></div>
       <div class="cheat-row"><span class="cheat-key">BPF</span><span class="cheat-val">Business Process Flow — guided stage navigation in MDA</span></div>
       <div class="cheat-row"><span class="cheat-key">SR</span><span class="cheat-val">Security Role — collection of Dataverse privileges</span></div>
       <div class="cheat-row"><span class="cheat-key">BU</span><span class="cheat-val">Business Unit — org hierarchy unit in Dataverse</span></div>
@@ -1043,7 +1043,7 @@
       <thead><tr><th>Connector</th><th>Typical Tier</th><th>Notes</th></tr></thead>
       <tbody>
         <tr><td>SharePoint Online</td><td><span class="pill pill-std">Business</span></td><td>Core M365 corporate data</td></tr>
-        <tr><td>Dataverse / CDS</td><td><span class="pill pill-std">Business</span></td><td>Core PP data platform</td></tr>
+        <tr><td>Dataverse (formerly CDS)</td><td><span class="pill pill-std">Business</span></td><td>Core PP data platform</td></tr>
         <tr><td>Microsoft Teams</td><td><span class="pill pill-std">Business</span></td><td>Corporate communications</td></tr>
         <tr><td>Azure services (Blob, SB, SQL)</td><td><span class="pill pill-std">Business</span></td><td>Org-owned cloud resources</td></tr>
         <tr><td>Outlook / Exchange</td><td><span class="pill pill-std">Business</span></td><td>Corporate email</td></tr>
@@ -1060,8 +1060,8 @@
   <div class="two-col">
     <div class="cheat-card">
       <h4>Environment Decisions</h4>
-      <div class="cheat-row"><span class="cheat-key">Personal development?</span><span class="cheat-val">Developer environment (isolated, free)</span></div>
-      <div class="cheat-row"><span class="cheat-key">Teams lightweight app?</span><span class="cheat-val">Dataverse for Teams environment</span></div>
+      <div class="cheat-row"><span class="cheat-key">Personal development?</span><span class="cheat-val">Managed developer environment (one per user)</span></div>
+      <div class="cheat-row"><span class="cheat-key">Teams lightweight app?</span><span class="cheat-val">Dataverse environment + embed in Teams (Dataverse for Teams is deprecated)</span></div>
       <div class="cheat-row"><span class="cheat-key">Departmental app?</span><span class="cheat-val">BU DEV → UAT → PROD (Managed Env on PROD)</span></div>
       <div class="cheat-row"><span class="cheat-key">Enterprise / cross-org?</span><span class="cheat-val">Dedicated PROD + full ALM + DevOps pipeline</span></div>
       <div class="cheat-row"><span class="cheat-key">COE tooling?</span><span class="cheat-val">Dedicated COE host env (never Default)</span></div>
@@ -1369,7 +1369,7 @@
       <tbody>
         <tr><td><strong>Owner Team</strong></td><td>A team that can be assigned as the OWNER of records</td><td>Team members inherit the team's security roles; records owned by team visible to all members</td><td>Shared record ownership — e.g. a case owned by "Support Team" not a specific person</td></tr>
         <tr><td><strong>Access Team</strong></td><td>Dynamic team — records don't have a permanent owner team</td><td>Members get temporary access to specific records via Access Team template; no security role inheritance</td><td>Scenario where specific people need short-term access to specific records (e.g. a deal team for one opportunity)</td></tr>
-        <tr><td><strong>Microsoft Entra ID Group Team</strong></td><td>Team backed by an Microsoft Entra ID security group or M365 group</td><td>Membership auto-syncs with Microsoft Entra ID group; assign security roles to team, all group members inherit them</td><td>Large orgs managing access via Microsoft Entra ID — best for scale (add user to AD group → automatically gets Dataverse access)</td></tr>
+        <tr><td><strong>Microsoft Entra ID Group Team</strong></td><td>Team backed by a Microsoft Entra ID security group or M365 group</td><td>Membership auto-syncs with Microsoft Entra ID group; assign security roles to team, all group members inherit them</td><td>Large orgs managing access via Microsoft Entra ID — best for scale (add user to AD group → automatically gets Dataverse access)</td></tr>
       </tbody>
     </table>
   </div>
@@ -1429,7 +1429,7 @@
   </div>
   <div class="qa-block">
     <div class="qa-q" onclick="toggleQA(this)">Q: A Power Platform Admin says they can't see any data in a Dataverse environment. Why? <span class="arrow">▼</span></div>
-    <div class="qa-a">This is a very common confusion. A <strong>Power Platform Admin</strong> (tenant-level role) grants the ability to manage environments, set DLP policies, and view environment settings — but it does <em>NOT</em> grant Dataverse data access. To access data in a specific Dataverse environment, the admin must also be assigned the <strong>System Administrator security role</strong> within that specific environment. These are two completely independent permission layers: one is an Microsoft Entra ID admin role, the other is a Dataverse table-level security role.</div>
+    <div class="qa-a">This is a very common confusion. A <strong>Power Platform Admin</strong> (tenant-level role) grants the ability to manage environments, set DLP policies, and view environment settings — but it does <em>NOT</em> grant Dataverse data access. To access data in a specific Dataverse environment, the admin must also be assigned the <strong>System Administrator security role</strong> within that specific environment. These are two completely independent permission layers: one is a Microsoft Entra ID admin role, the other is a Dataverse table-level security role.</div>
   </div>
 </section>
 
@@ -1581,7 +1581,7 @@
   └──► Power Automate Process (per bot/machine/month)
 
   Build / test only — not for production use?
-  └──► Power Apps Developer Plan (FREE — personal env only)
+  └──► Power Apps Developer Plan (FREE — but no longer creates environments from 15 Nov 2026)
 
   Pay per use without committing upfront?
   └──► Pay-as-you-go via Azure subscription</div>
@@ -1597,7 +1597,7 @@
         <tr><td><strong>Power Automate Premium</strong></td><td>✅</td><td>✅</td><td>✅ (entitlement)</td><td>Medium — cloud flows</td></tr>
         <tr><td><strong>Power Automate Process</strong></td><td>✅</td><td>✅</td><td>✅ (entitlement)</td><td>Per machine — RPA bots</td></tr>
         <tr><td><strong>D365 (seeded PP)</strong></td><td>✅ (in context)</td><td>✅ (same D365 env)</td><td>✅ (entitlement)</td><td>Included in D365 license</td></tr>
-        <tr><td><strong>Developer Plan</strong></td><td>✅</td><td>✅</td><td>❌ (prod use)</td><td>FREE — personal dev only</td></tr>
+        <tr><td><strong>Developer Plan</strong></td><td>✅</td><td>✅</td><td>❌ (prod use)</td><td>FREE — personal dev only; its unmanaged environments are deprecated (deleted from 15 Jan 2027)</td></tr>
         <tr><td><strong>Pay-as-you-go</strong></td><td>✅</td><td>✅</td><td>✅</td><td>Metered — Azure subscription</td></tr>
       </tbody>
     </table>
@@ -1622,7 +1622,7 @@
         <li>For power users who use many apps: <strong>per-user Premium</strong> is more economical</li>
         <li>RPA bots running unattended overnight? <strong>Process license per machine</strong>, NOT per user</li>
         <li>Always add a <strong>10-15% buffer</strong> on license count estimates for joiners/movers</li>
-        <li>AI Builder credits: scoped to tenant, not per user — design AI features to be frugal</li>
+        <li>AI Builder credits: scoped to tenant, not per user — design AI features to be frugal. Seeded AI Builder credits end with licenses bought or renewed from 1 Nov 2026; new consumption falls back to Copilot Credits</li>
       </ul>
     </div>
   </div>
@@ -1632,8 +1632,8 @@
     <table>
       <thead><tr><th>Storage Type</th><th>Base Allocation (Tenant)</th><th>Add-on per License</th><th>What Eats It</th></tr></thead>
       <tbody>
-        <tr><td><strong>Database</strong></td><td>10 GB</td><td>+5 GB / qualifying D365 or PP license</td><td>Table data, audit logs, plug-in trace logs</td></tr>
-        <tr><td><strong>File</strong></td><td>20 GB</td><td>+2 GB / qualifying license</td><td>Attachments, email attachments, document management</td></tr>
+        <tr><td><strong>Database</strong></td><td>10 GB</td><td>+250 MB / Power Apps or Power Automate Premium user (+50 MB per-app)</td><td>Table data, audit logs, plug-in trace logs</td></tr>
+        <tr><td><strong>File</strong></td><td>20 GB</td><td>+2 GB / Premium user license (+400 MB per-app)</td><td>Attachments, email attachments, document management</td></tr>
         <tr><td><strong>Log</strong></td><td>2 GB</td><td>No per-license add-on</td><td>Audit logs only</td></tr>
       </tbody>
     </table>
@@ -2025,7 +2025,7 @@
         <tr><td><strong>Pipelines in PP</strong></td><td>Native built-in CI/CD for PP solutions</td><td>✅ Active — Microsoft product feature</td><td>First choice for ALL new ALM automation</td></tr>
         <tr><td><strong>Power Platform Build Tools</strong></td><td>Azure DevOps extension for solution ops</td><td>✅ Active</td><td>Complex ADO pipelines extending native Pipelines</td></tr>
         <tr><td><strong>pac CLI</strong></td><td>Command-line tool for all PP dev operations</td><td>✅ Active</td><td>Automation scripts, CI/CD, solution pack/unpack</td></tr>
-        <tr><td><strong>Power Apps Test Engine</strong></td><td>Automated testing framework for Canvas Apps</td><td>✅ Active (preview)</td><td>Automated regression testing in CI/CD pipelines</td></tr>
+        <tr><td><strong>Power Apps Test Engine</strong></td><td>Automated testing framework for Canvas Apps</td><td>⚠️ Deprecated (Apr 2026) — use Power Platform Playwright samples</td><td>Automated regression testing in CI/CD pipelines</td></tr>
       </tbody>
     </table>
   </div>
@@ -2098,7 +2098,7 @@
       <h3>How it works</h3>
       <ul>
         <li><strong>Host environment:</strong> PROD env where pipeline config lives; stores deployment history and artefacts</li>
-        <li><strong>Development environments:</strong> Where makers build; can be Developer plan envs (no Managed Env needed)</li>
+        <li><strong>Development environments:</strong> Where makers build; managed developer environments (Git integration and the developer type both now require Managed Environments)</li>
         <li><strong>Target environments:</strong> QA, UAT, PROD — <strong>must be Managed Environments</strong></li>
         <li>Sequential stages — cannot skip QA to go to PROD</li>
         <li>Same solution artefact passes through all stages — no re-export in between</li>

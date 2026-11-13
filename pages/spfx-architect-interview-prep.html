@@ -641,7 +641,7 @@ Get-PnPFeature -Scope Web | Select-Object DisplayName, DefinitionId</pre>
         <li><strong>Microsoft 365 Admin Center</strong> &rarr; Reports &rarr; SharePoint activity — for access activity, not just assignments</li>
       </ul>
       <pre><span class="cmt"># PnP PowerShell — export all lists with unique permissions</span>
-Connect-PnPOnline -Url "https://contoso.sharepoint.com/sites/hr" -Interactive
+Connect-PnPOnline -Url "https://contoso.sharepoint.com/sites/hr" -Interactive -ClientId $clientId
 $lists = Get-PnPList
 foreach ($list in $lists) {
   $items = Get-PnPListItem -List $list -Fields "Id","Title"
@@ -804,13 +804,13 @@ foreach ($list in $lists) {
     <div class="q">What does the SPFx build chain look like — what do Gulp and Webpack each do?</div>
     <div class="a">
       <ul>
-        <li><strong>Yeoman (@microsoft/generator-sharepoint)</strong> — scaffolds the project structure, creating all config files, package.json, tsconfig, gulpfile, and the initial web part class.</li>
+        <li><strong>Yeoman (@microsoft/generator-sharepoint)</strong> — scaffolds the project structure, creating all config files, package.json, tsconfig, Heft config (<code class="inline">config/heft.json</code>, <code class="inline">config/rig.json</code>; a <code class="inline">gulpfile.js</code> only on legacy ≤1.21.1 projects), and the initial web part class.</li>
         <li><strong>npm</strong> — installs all node modules declared in package.json including the SPFx build toolchain (<code class="inline">@microsoft/sp-build-web</code>, <code class="inline">@microsoft/sp-webpart-workbench</code>).</li>
-        <li><strong>Gulp</strong> — the task runner. Key tasks:
+        <li><strong>Heft</strong> (SPFx 1.22+, the only toolchain supported on 1.24) — the task orchestrator, called through npm scripts. Key commands:
           <ul>
-            <li><code class="inline">gulp serve</code> — local development server with hot reload on the SPFx workbench</li>
-            <li><code class="inline">gulp bundle --ship</code> — production bundle (minified, no source maps)</li>
-            <li><code class="inline">gulp package-solution --ship</code> — creates the <code class="inline">.sppkg</code> file for App Catalog upload</li>
+            <li><code class="inline">npm start</code> (<code class="inline">heft start</code>) — local dev server; load the manifests on a real SharePoint page with the developer toolbar</li>
+            <li><code class="inline">npm run build</code> (<code class="inline">heft test --clean --production</code> + <code class="inline">heft package-solution --production</code>) — production bundle and <code class="inline">.sppkg</code> for App Catalog upload</li>
+            <li>Legacy gulp equivalents (≤1.21.1): <code class="inline">gulp serve</code>, <code class="inline">gulp bundle --ship</code>, <code class="inline">gulp package-solution --ship</code> — note <code class="inline">--ship</code> became <code class="inline">--production</code> in Heft</li>
           </ul>
         </li>
         <li><strong>Webpack</strong> — bundler called internally by Gulp. Combines all TypeScript/React code + imports into a single JS bundle per web part. Handles tree-shaking, code splitting, and externals (libraries loaded from CDN instead of bundled).</li>
@@ -1023,11 +1023,9 @@ steps:
   - script: npm test -- --watchAll=false
     displayName: 'Jest unit tests'
 
-  - script: gulp bundle --ship
-    displayName: 'Gulp bundle'
-
-  - script: gulp package-solution --ship
-    displayName: 'Gulp package'
+  - script: npm run build   # Heft: heft test --clean --production &amp;&amp; heft package-solution --production
+    displayName: 'Heft build + package'
+    # Legacy gulp projects (&lt;=1.21.1): gulp bundle --ship &amp;&amp; gulp package-solution --ship
 
   - task: PublishBuildArtifacts@1
     inputs:
@@ -1091,24 +1089,24 @@ yo @microsoft/sharepoint
 yo @microsoft/sharepoint --component-type webpart
 yo @microsoft/sharepoint --component-type extension
 
-<span class="cmt"># Local workbench (no SharePoint connection)</span>
-gulp serve
+<span class="cmt"># ── Heft toolchain (SPFx 1.22+; required on 1.24) ──</span>
+<span class="cmt"># Dev server — debug on a real SharePoint page via the developer toolbar</span>
+<span class="cmt"># (the hosted _layouts/workbench.aspx retires Dec 1, 2026)</span>
+npm start                      <span class="cmt"># = heft start</span>
 
-<span class="cmt"># Hosted workbench (against real tenant)</span>
-<span class="cmt"># Edit config/serve.json: "pageUrl": "https://tenant.sharepoint.com/_layouts/workbench.aspx"</span>
+<span class="cmt"># Production build + .sppkg (minified)</span>
+npm run build                  <span class="cmt"># = heft test --clean --production &amp;&amp; heft package-solution --production</span>
+
+<span class="cmt"># Clean / trust dev cert / test-CDN deploy</span>
+heft clean
+heft trust-dev-cert
+heft dev-deploy                <span class="cmt"># new in Heft: push built assets to a test CDN</span>
+
+<span class="cmt"># ── Legacy gulp toolchain (SPFx ≤1.21.1, incl. SharePoint Server) ──</span>
 gulp serve --nobrowser
-
-<span class="cmt"># Production build (minified, no source maps)</span>
 gulp bundle --ship
-
-<span class="cmt"># Package for App Catalog (.sppkg)</span>
 gulp package-solution --ship
-
-<span class="cmt"># Clean build artifacts</span>
-gulp clean
-
-<span class="cmt"># TypeScript compile check only</span>
-gulp build --production</pre>
+gulp clean</pre>
 
     <h3>CLI Commands — Deployment (CLI for Microsoft 365)</h3>
     <pre><span class="cmt"># Login</span>
@@ -1160,17 +1158,19 @@ m365 spo componentinstance list --webUrl https://tenant.sharepoint.com/sites/mys
 ├─ sharepoint/solution/    <span class="cmt"># output: .sppkg file goes here</span>
 └─ gulpfile.js             <span class="cmt"># task registration, custom tasks — LEGACY toolchain only (SPFx ≤1.21.1)</span></pre>
 
-    <div class="callout tip"><strong>SPFx 1.22+ toolchain change (Dec 2025):</strong> New projects scaffolded on SPFx 1.22 or later use <strong>Heft</strong> (a config-driven orchestrator over TypeScript, ESLint, Jest, webpack, API Extractor) instead of <code>gulpfile.js</code> — there's no gulp file at all in a fresh 1.22+ project. Webpack still does the actual bundling underneath; only the orchestration layer changed. Existing gulp-based projects (SPFx ≤1.21.1) keep working — Microsoft didn't force a migration, just changed the default for new scaffolds. Also as of SPFx 1.23: the hosted online workbench is deprecated and retires December 1, 2026 — local workbench / real page testing is the forward path.</div>
+    <div class="callout tip"><strong>SPFx 1.22+ toolchain change:</strong> New projects scaffolded on SPFx 1.22 or later use <strong>Heft</strong> (a config-driven orchestrator over TypeScript, ESLint, Jest, webpack, API Extractor) instead of <code>gulpfile.js</code> — there's no gulp file at all in a fresh 1.22+ project. Webpack still does the actual bundling underneath; only the orchestration layer changed. Existing gulp-based projects (SPFx ≤1.21.1) keep building, but <strong>SPFx 1.24 doesn't support the gulp toolchain</strong>, so moving to 1.24 means a Gulp → Heft migration first (Microsoft documents one targeting 1.22.2; the CLI for Microsoft 365 <code>m365 spfx project upgrade</code> generates an upgrade report). <code>--ship</code> is now <code>--production</code>, and <code>gulp serve</code> is <code>heft start</code>. The hosted online workbench is deprecated and retires December 1, 2026 — debug on real pages with the developer toolbar instead.</div>
     <div class="callout tip"><strong>Interview signal:</strong> A candidate who says "gulpfile.js" without qualifying "on older/pre-1.22 projects" hasn't touched a fresh SPFx scaffold since 2025.</div>
 
-    <h3>SPFx Version → SharePoint Compatibility (current as of Sept 2026)</h3>
-    <pre>SPFx 1.23.x → SharePoint Online only (current GA release)
+    <h3>SPFx Version → SharePoint Compatibility (current as of Nov 2026)</h3>
+    <pre>SPFx 1.24.x → SharePoint Online only (current GA: 1.24.0 on 28 Oct 2026, 1.24.1 on 2 Nov 2026)
+SPFx 1.23.x → SharePoint Online only
 SPFx 1.22.x → SharePoint Online only (Heft toolchain introduced here)
 SPFx 1.18.x → SharePoint Online (last version usable against on-prem SPS SE builds)
 SPFx 1.4.1  → SharePoint Server 2019 (on-prem baseline)
 SPFx 1.1.0  → SharePoint Server 2016 (Feature Pack 2)
 
 Node.js / TypeScript / React compatibility:
+  SPFx 1.24      → Node 22 / 24 / 26 (26 LTS recommended) · React 18.3.1
   SPFx 1.22–1.23 → Node 22 (LTS) · TypeScript 5.8 · React 17.0.1
   SPFx 1.21      → Node 22 (LTS) · TypeScript 5.3  · React 17.0.1
   SPFx 1.19–1.20 → Node 18       · TypeScript 4.5/4.7 · React 17.0.1
@@ -1302,7 +1302,7 @@ Pre-migration checklist:
   □ Run Modernization Scanner → identify Classic pages, features, custom actions
   □ Audit custom WSPs → identify AngularJS / jQuery dependencies to replace
   □ Map content types → ensure term store / managed metadata aligns
-  □ Test permissions model → SPO Groups vs AAD Groups strategy
+  □ Test permissions model → SPO Groups vs Entra ID Groups strategy
   □ Run SPMT in "assessment mode" first (no data moved)</pre>
 
     <h3>High-Frequency Interview Soundbites</h3>
@@ -1333,7 +1333,9 @@ Pre-migration checklist:
     <div class="q">How do you connect to SharePoint Online with PnP PowerShell and what authentication options exist?</div>
     <div class="a">
       <pre><span class="cmt"># Interactive browser login (development/ad-hoc use)</span>
-Connect-PnPOnline -Url "https://contoso.sharepoint.com/sites/hr" -Interactive
+<span class="cmt"># Since Sept 2024 the shared "PnP Management Shell" app is gone: register your own Entra app once</span>
+<span class="cmt"># with Register-PnPEntraIDAppForInteractiveLogin (PowerShell 7.4+) and always pass -ClientId</span>
+Connect-PnPOnline -Url "https://contoso.sharepoint.com/sites/hr" -Interactive -ClientId $clientId
 
 <span class="cmt"># App-only with certificate (CI/CD pipelines, unattended scripts)</span>
 Connect-PnPOnline -Url "https://contoso.sharepoint.com/sites/hr" `
@@ -1395,7 +1397,7 @@ Publish-PnPApp -Identity "solution-id" -Scope Tenant</pre>
       <pre><span class="cmt"># sites.csv format: Title,Url,Owner,Template</span>
 <span class="cmt"># "HR Portal","hr","hr-admin@contoso.com","STS#3"</span>
 
-Connect-PnPOnline -Url "https://contoso.sharepoint.com" -Interactive
+Connect-PnPOnline -Url "https://contoso.sharepoint.com" -Interactive -ClientId $clientId
 
 $sites = Import-Csv -Path "C:\scripts\sites.csv"
 
@@ -1465,11 +1467,11 @@ Copy-Site -Site $src -DestinationSite $dst `
     <div class="q">What PowerShell scripts do you use to validate a migration was successful?</div>
     <div class="a">
       <pre><span class="cmt"># 1. Count items in source vs destination</span>
-Connect-PnPOnline -Url $srcUrl -Interactive
+Connect-PnPOnline -Url $srcUrl -Interactive -ClientId $clientId
 $srcCount = (Get-PnPListItem -List "Documents" -PageSize 500).Count
 Write-Host "Source: $srcCount items"
 
-Connect-PnPOnline -Url $dstUrl -Interactive
+Connect-PnPOnline -Url $dstUrl -Interactive -ClientId $clientId
 $dstCount = (Get-PnPListItem -List "Documents" -PageSize 500).Count
 Write-Host "Destination: $dstCount items"
 
@@ -1618,7 +1620,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
     <div class="a">
       <p>Standard connectors (SharePoint, Outlook, Teams, OneDrive, Approvals) are included with Microsoft 365 licenses. Premium connectors (HTTP, SQL, Dataverse, custom connectors, on-premises data gateway, all third-party SaaS like Salesforce, ServiceNow, SAP) require a Power Automate Premium license per user OR a per-flow license.</p>
       <p>Cost reality at enterprise scale: a flow that uses an HTTP action is Premium. If 10,000 users are licensed for Power Automate Premium at ~$15/user/month, that's $1.8M/year. The architecture decision "do we use HTTP or build a custom Standard wrapper" can be a million-dollar conversation.</p>
-      <p>Mitigation: use <strong>per-flow plans</strong> (flat fee per flow, unlimited users) for tenant-wide automation that's used by everyone &mdash; usually much cheaper.</p>
+      <p>Mitigation: use the <strong>Power Automate Process plan</strong> (formerly "per flow" — a flat fee per flow/bot, unlimited users) for tenant-wide automation that's used by everyone &mdash; usually much cheaper.</p>
     </div>
   </div>
 
@@ -1665,7 +1667,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
     </ol>
     <div class="callout tip">
       <span class="tag">Architectural note</span>
-      Approvals data lives in Dataverse (CDS). Audit reporting needs Power BI on Dataverse approval tables &mdash; not on SharePoint. Plan licensing accordingly.
+      Approvals data lives in Dataverse. Audit reporting needs Power BI on Dataverse approval tables &mdash; not on SharePoint. Plan licensing accordingly.
     </div>
   </div>
 
@@ -1765,7 +1767,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
       <ol>
         <li><strong>Content inventory</strong> &mdash; total GB, file count, max item per list, max files per folder, file types (especially .aspx, .htm with embedded JS).</li>
         <li><strong>Customization scan</strong> &mdash; SharePoint Modernization Scanner (free, PnP), gives you a CSV of every web part, master page, workflow, web template, info path form.</li>
-        <li><strong>Workflow scan</strong> &mdash; count SP Designer 2010/2013 workflows; each is a rebuild task.</li>
+        <li><strong>Workflow scan</strong> &mdash; count SP Designer 2010/2013 workflows; each is a rebuild task (both engines are retired in SPO — 2013 workflows stopped on April 2, 2026).</li>
         <li><strong>Permission map</strong> &mdash; broken inheritance, security groups, fine-grained item-level permissions (a red flag for large lists).</li>
         <li><strong>Branding inventory</strong> &mdash; master pages, custom page layouts, theme files.</li>
         <li><strong>External dependencies</strong> &mdash; BCS connections, SQL ODBC sources, external lists.</li>
@@ -1778,7 +1780,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
     <div class="q-num">9.4</div>
     <div class="q">How do you handle SharePoint 2010/2013 workflows during migration?</div>
     <div class="a">
-      <p>Both are deprecated in SPO. The path:</p>
+      <p>Both are <strong>retired</strong> in SPO — 2010 workflows were removed in November 2020, and 2013 workflows were removed from all existing tenants on April 2, 2026 (SharePoint Designer 2013 itself was deprecated on July 14, 2026). Nothing migrates and keeps running, so every one is a rebuild. The path:</p>
       <ul>
         <li><strong>Inventory</strong> &mdash; <code class="inline">Get-PnPWorkflowDefinition</code>, classify by complexity.</li>
         <li><strong>Simple workflows (notify on item change)</strong> &mdash; convert to Power Automate using the SharePoint connector. Low effort.</li>
@@ -1796,10 +1798,10 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
       <p>On-prem typically uses Windows Auth (NTLM, Kerberos, or claims-based with ADFS). SPO uses Microsoft Entra ID with Modern Authentication (OAuth2 / OpenID Connect).</p>
       <p>What breaks during/after migration:</p>
       <ul>
-        <li><strong>Hardcoded AD group SIDs</strong> in custom code &mdash; must remap to AAD groups (different identifier).</li>
+        <li><strong>Hardcoded AD group SIDs</strong> in custom code &mdash; must remap to Entra ID groups (different identifier).</li>
         <li><strong>Trusted login providers</strong> &mdash; federation with on-prem ADFS must be replaced by Microsoft Entra Connect or Entra B2B.</li>
         <li><strong>App-only authentication</strong> &mdash; old SharePoint App Model with client_id/client_secret is deprecated in favour of Microsoft Entra app registrations with certificates.</li>
-        <li><strong>External users</strong> &mdash; partner users were often added directly to AD; in SPO they need to be guests in AAD via B2B invitation.</li>
+        <li><strong>External users</strong> &mdash; partner users were often added directly to AD; in SPO they need to be guests in Entra ID via B2B invitation.</li>
         <li><strong>CSOM/REST scripts</strong> using <code class="inline">SharePointOnlineCredentials</code> (basic auth) &mdash; basic auth is disabled in SPO since 2022. Must migrate to MSAL or PnP PowerShell with cert auth.</li>
       </ul>
     </div>
@@ -1887,7 +1889,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
     <div class="a">
       <p>SPMT and ShareGate both preserve unique permissions <em>if the source identity maps to a destination identity</em>. The gotchas:</p>
       <ul>
-        <li>Run Microsoft Entra Connect <strong>before</strong> migration so on-prem AD identities resolve to AAD users.</li>
+        <li>Run Microsoft Entra Connect <strong>before</strong> migration so on-prem AD identities resolve to Entra ID users.</li>
         <li>Map orphaned users to a "Migration Cleanup" group &mdash; items with deleted source users will fail otherwise.</li>
         <li>Lists with thousands of items having unique permissions are slow &mdash; consider whether the permission model can be re-architected during migration.</li>
         <li>Audit the result: <code class="inline">Get-PnPListItem -List X | ForEach { Get-PnPListItemPermission ... }</code> on a sample.</li>
@@ -2049,7 +2051,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
     <div class="a">
       <ul>
         <li><strong>Source control:</strong> Azure DevOps Git or GitHub. Branch policy: PR required, 1+ reviewers, build must pass.</li>
-        <li><strong>Pipelines:</strong> <code class="inline">gulp bundle --ship + gulp package-solution --ship</code> produces the .sppkg.</li>
+        <li><strong>Pipelines:</strong> <code class="inline">npm run build</code> (Heft: <code class="inline">heft package-solution --production</code>) produces the .sppkg; legacy repos run <code class="inline">gulp bundle --ship + gulp package-solution --ship</code>.</li>
         <li><strong>Multi-environment deployment:</strong> separate App Catalogs for Dev, UAT, Prod (or separate tenants entirely for high-stakes work).</li>
         <li><strong>Deployment via CLI for M365:</strong> <code class="inline">m365 spo app add</code> + <code class="inline">m365 spo app deploy</code> in pipeline.</li>
         <li><strong>Versioning:</strong> auto-increment <code class="inline">version</code> in <code class="inline">package-solution.json</code> from build number.</li>
@@ -2063,7 +2065,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
     <div class="q">How do you onboard a new developer to your SPFx project?</div>
     <div class="a">
       <ol>
-        <li><strong>Day 1:</strong> Environment setup script (Node via nvm, gulp, tenant access, dev cert). README has it scripted &mdash; should take &lt;2 hours.</li>
+        <li><strong>Day 1:</strong> Environment setup script (Node 26 LTS via nvm, Heft via npm scripts — no global gulp needed on 1.22+, tenant access, dev cert). README has it scripted &mdash; should take &lt;2 hours.</li>
         <li><strong>Day 2:</strong> Architecture walkthrough &mdash; 1 hour with me on a whiteboard. Folder structure, service layer, deployment pipeline.</li>
         <li><strong>Days 3&ndash;5:</strong> Pair with a senior on a small bug fix end-to-end &mdash; PR through deployment.</li>
         <li><strong>Week 2:</strong> First independent ticket, scoped small. Daily 15-min check-in.</li>
@@ -2395,7 +2397,7 @@ Headers: { <span class="str">"Accept"</span>: <span class="str">"application/jso
         <li><strong>Fluent UI v8</strong> (<code>@fluentui/react</code> v8): Class-based internals, uses the older <code>mergeStyles</code> CSS-in-JS engine, ships with React 16/17, stateful components like <code>Dropdown</code>, <code>DetailsList</code>, <code>Dialog</code>. This is what SPFx ships with.</li>
         <li><strong>Fluent UI v9</strong> (<code>@fluentui/react-components</code>): Complete rewrite, requires React 18, uses Griffel (CSS-in-JS at build time), fully headless/composable, much smaller bundle per component. Not compatible with SPFx through 1.23.x because every SPFx release up to and including 1.23 pins React 17.0.1.</li>
       </ul>
-      <div class="callout tip"><strong>Current state (Sept 2026):</strong> Still use <code>@fluentui/react</code> v8 on SPFx 1.23 and earlier — installing v9 pulls React 18 into your bundle and creates version conflicts. This is finally changing: React 18 support is confirmed for <strong>SPFx 1.24</strong>, targeted for GA around October 2026, which unlocks Fluent UI v9 and the <code>createRoot</code> rendering API. Until you're on 1.24+, stay on v8.</div>
+      <div class="callout tip"><strong>Current state (Nov 2026):</strong> <strong>SPFx 1.24 (GA 28 Oct 2026) ships React 18.3.1</strong>, which unlocks Fluent UI v9 and the <code>createRoot</code> rendering API. Upgrade SPFx and React together: replace <code>ReactDom.render</code> / <code>unmountComponentAtNode</code> with one <code>createRoot</code> per container plus <code>root.unmount()</code> in <code>onDispose</code>. Leaving <code>ReactDom.render</code> in place still builds, but it runs in React 17-compatible mode with a deprecation warning. On SPFx 1.23 and earlier, stay on <code>@fluentui/react</code> v8 — installing v9 there pulls React 18 into your bundle and creates version conflicts.</div>
       <div class="callout tip"><strong>Interview signal:</strong> A candidate who knows this distinction — and knows 1.24 is the version that finally changes it — has actually tried to use v9 and hit the wall, or has been tracking the SPFx roadmap. That's experience, not just reading the docs.</div>
     </div>
   </div>
@@ -2842,7 +2844,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
       <ul>
         <li><strong>Farm solutions (.wsp, full trust):</strong> Run in the SharePoint server process with full CLR trust. Could do anything — custom HTTP modules, timer jobs, event receivers, custom web services. Require farm admin deployment. SharePoint Online: not supported.</li>
         <li><strong>Sandboxed solutions:</strong> Run in an isolated process with limited API surface. Attempted to allow site collection–level deployment without farm admin. Deprecated in 2014 — the security model was complex and the API was too limited to be useful.</li>
-        <li><strong>SharePoint Add-ins (Apps):</strong> Ran either in SharePoint (SharePoint-hosted, client-side in an iframe) or on a remote server (Provider-hosted). Isolated from the host site via iFrame. OAuth for permissions. Successor to farm solutions for SharePoint Online. The iFrame isolation hurt UX and performance — widely disliked.</li>
+        <li><strong>SharePoint Add-ins (Apps):</strong> Ran either in SharePoint (SharePoint-hosted, client-side in an iframe) or on a remote server (Provider-hosted). Isolated from the host site via iFrame. OAuth for permissions. Successor to farm solutions for SharePoint Online. The iFrame isolation hurt UX and performance — widely disliked. <strong>Reached end of life in SharePoint Online on April 2, 2026</strong> (along with Azure ACS auth) — they no longer run in SPO; SharePoint Server on-prem add-ins are unaffected.</li>
         <li><strong>SPFx:</strong> Client-side, runs in the SharePoint page context (no iFrame), full React/TypeScript, same security as the hosting user, peer-reviewed and deployed via App Catalog. The current and future-proof model.</li>
       </ul>
     </div>
@@ -3053,7 +3055,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
     <div class="q">How do you analyze and reduce the bundle size of an SPFx web part?</div>
     <div class="a">
       <ol>
-        <li><strong>Analyze:</strong> Run <code>gulp bundle --ship</code>, then open <code>temp/stats/stats.json</code> in <a href="https://webpack.github.io/analyse/">webpack.github.io/analyse</a> or use the <code>webpack-bundle-analyzer</code> plugin in <code>gulpfile.js</code>.</li>
+        <li><strong>Analyze:</strong> Run a production build (<code>npm run build</code> on Heft; <code>gulp bundle --ship</code> on legacy), then open the webpack stats output in <a href="https://webpack.github.io/analyse/">webpack.github.io/analyse</a> or use <code>webpack-bundle-analyzer</code> via the Heft Webpack Patch plugin (or <code>gulpfile.js</code> on legacy projects).</li>
         <li><strong>Mark shared libs as externals</strong> in <code>config/config.json</code> to avoid bundling React, ReactDOM, and Fluent UI (SharePoint loads them globally):
 <pre>{
   <span class="str">"externals"</span>: {
@@ -3210,7 +3212,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
       <p><strong>Correct approaches (in order of preference):</strong></p>
       <ul>
         <li><strong>Azure Key Vault + Azure Function proxy:</strong> The web part calls an Azure Function (authenticated via AadHttpClient). The Function reads the secret from Key Vault using its managed identity. The web part never sees the secret.</li>
-        <li><strong>Microsoft Entra ID app + OAuth delegated flow:</strong> For API keys that are "per user", use AadHttpClient — the token is obtained silently via the user's existing AAD session. The key lives in the AAD app registration, not in SPFx.</li>
+        <li><strong>Microsoft Entra ID app + OAuth delegated flow:</strong> For API keys that are "per user", use AadHttpClient — the token is obtained silently via the user's existing Entra ID session. The key lives in the Entra ID app registration, not in SPFx.</li>
         <li><strong>SharePoint property bag (site property):</strong> Acceptable for non-sensitive configuration (list names, feature flags) that admins set. Not appropriate for secrets — property bags are readable by users with API access.</li>
         <li><strong>Web part properties:</strong> Only for non-sensitive UI configuration (display labels, count limits). Never for keys.</li>
       </ul>
@@ -3358,7 +3360,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
 
   <div class="qa">
     <div class="q-num">16.2</div>
-    <div class="q">What is the difference between <code class="inline">gulp serve</code> and <code class="inline">gulp bundle --ship + gulp package-solution --ship</code>?</div>
+    <div class="q">What is the difference between a dev serve (<code class="inline">heft start</code> / legacy <code class="inline">gulp serve</code>) and a production build (<code class="inline">heft package-solution --production</code> / legacy <code class="inline">gulp bundle --ship + gulp package-solution --ship</code>)?</div>
     <div class="a">
       <ul>
         <li><code class="inline">gulp serve</code> — starts a local HTTPS dev server at <code class="inline">localhost:4321</code>, serves un-minified JS, hot-reloads on save. <strong>Never deploy this output.</strong></li>
@@ -3367,7 +3369,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
       </ul>
       <div class="callout dont">
         <span class="tag">Classic mistake</span>
-        Running <code class="inline">gulp package-solution</code> without <code class="inline">--ship</code> and uploading to production. The web part loads fine on the developer's machine (dev server running) and fails for every other user. Always verify the manifest's <code class="inline">loaderConfig.internalModuleBaseUrls</code> doesn't contain <code class="inline">localhost</code>.
+        Running the package step without <code class="inline">--production</code> (Heft) / <code class="inline">--ship</code> (gulp) and uploading to production. The web part loads fine on the developer's machine (dev server running) and fails for every other user. Always verify the manifest's <code class="inline">loaderConfig.internalModuleBaseUrls</code> doesn't contain <code class="inline">localhost</code>.
       </div>
     </div>
   </div>
@@ -3383,7 +3385,7 @@ npm install @pnp/spfx-property-controls --save --save-exact</pre>
         <li><code class="inline">context.pageContext.list.id</code> — list GUID (only when hosted on a list/library page)</li>
         <li><code class="inline">context.spHttpClient</code> / <code class="inline">context.httpClient</code> — authenticated HTTP clients</li>
         <li><code class="inline">context.msGraphClientFactory</code> — Graph client factory</li>
-        <li><code class="inline">context.aadHttpClientFactory</code> — AAD-secured custom API client factory</li>
+        <li><code class="inline">context.aadHttpClientFactory</code> — Entra ID-secured custom API client factory</li>
         <li><code class="inline">context.propertyPane</code> — programmatic property pane control</li>
         <li><code class="inline">context.serviceScope</code> — DI container for shared services</li>
       </ul>
@@ -4171,7 +4173,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
       <p>The core lifecycle methods are <code class="inline">onInit()</code>, <code class="inline">render()</code>, <code class="inline">onDispose()</code>, plus the property-pane hooks <code class="inline">onPropertyPaneFieldChanged()</code>, <code class="inline">getPropertyPaneConfiguration()</code>, and <code class="inline">onPropertyPaneConfigurationComplete()</code>.</p>
       <p>In practice:</p>
       <ul>
-        <li><strong>onInit()</strong> &mdash; fetch the service-context-bound dependencies (PnP setup, MSAL client, AAD token providers, current user context). Return a <code class="inline">Promise</code> &mdash; SPFx waits for it before <code class="inline">render()</code>. <em>This is the one place teams misuse most</em> &mdash; they fetch list data here, which blocks first paint.</li>
+        <li><strong>onInit()</strong> &mdash; fetch the service-context-bound dependencies (PnP setup, MSAL client, Entra ID token providers, current user context). Return a <code class="inline">Promise</code> &mdash; SPFx waits for it before <code class="inline">render()</code>. <em>This is the one place teams misuse most</em> &mdash; they fetch list data here, which blocks first paint.</li>
         <li><strong>render()</strong> &mdash; mount React via <code class="inline">ReactDom.render()</code> (legacy) or <code class="inline">createRoot()</code> in newer SPFx versions. Keep it idempotent &mdash; SPFx calls it on every property-pane change.</li>
         <li><strong>onDispose()</strong> &mdash; <code class="inline">ReactDom.unmountComponentAtNode()</code> to prevent memory leaks. <strong>People forget this</strong> on extensions and SPAs.</li>
       </ul>
@@ -4208,7 +4210,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
 
   <div class="qa">
     <div class="q-num">17.4</div>
-    <div class="q">How do you call a custom AAD-protected Web API from SPFx without exposing client secrets?</div>
+    <div class="q">How do you call a custom Entra ID-protected Web API from SPFx without exposing client secrets?</div>
     <div class="a">
       <p>Use <code class="inline">AadHttpClient</code> from <code class="inline">@microsoft/sp-http</code> with a pre-approved API permission in <code class="inline">package-solution.json</code>:</p>
       <pre><span class="cmt">// package-solution.json</span>
@@ -4292,7 +4294,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
         <li><strong>Externalize known libraries</strong> via <code class="inline">config/config.json</code> &mdash; Fluent UI Fabric, React, MS Graph SDK can be pulled from CDN instead of bundled.</li>
         <li><strong>Tree-shake Fluent UI</strong> &mdash; never <code class="inline">import * from "@fluentui/react"</code>; always named imports (<code class="inline">import { DefaultButton } from "@fluentui/react/lib/Button"</code>).</li>
         <li><strong>Dynamic imports</strong> for heavy routes: <code class="inline">const Chart = React.lazy(() =&gt; import("./Chart"))</code></li>
-        <li><strong>Analyze the bundle</strong> with <code class="inline">gulp bundle --ship --debug</code> + <code class="inline">webpack-bundle-analyzer</code>.</li>
+        <li><strong>Analyze the bundle</strong> with a production build + <code class="inline">webpack-bundle-analyzer</code> (Heft Webpack Patch plugin; <code class="inline">gulp bundle --ship</code> on legacy projects).</li>
         <li><strong>Move icons</strong> from sprite SVGs to dynamic registration (<code class="inline">registerIcons</code>) for only the ones used.</li>
         <li><strong>Disable source maps</strong> in ship builds if leaking matters more than size.</li>
       </ol>
@@ -4398,7 +4400,7 @@ Set-PnPContentType -List <span class="str">"Projects"</span> -Identity <span cla
     <div class="q-num">17.15</div>
     <div class="q">How do you handle SPFx version upgrades without breaking existing solutions in production?</div>
     <div class="a">
-      <p>Upgrades &mdash; say SPFx 1.15 &rarr; 1.18 &mdash; break in three ways: Node version, gulp/webpack, and React/Fluent versions. Approach:</p>
+      <p>Upgrades &mdash; say SPFx 1.15 &rarr; 1.18 &mdash; break in three ways: Node version, toolchain (gulp → Heft from 1.22; gulp is unsupported on 1.24), and React/Fluent versions (React 18 from 1.24). Approach:</p>
       <ol>
         <li><strong>Read the upgrade matrix</strong> on <em>pnp.github.io/cli-microsoft365</em> or the Microsoft docs.</li>
         <li><strong>Use <code class="inline">CLI for Microsoft 365</code></strong>: <code class="inline">m365 spfx project upgrade --output md &gt; report.md</code>. This generates an exact upgrade script.</li>
@@ -4828,9 +4830,9 @@ ReactDOM.<span class="fn">render</span>(
 
   <div class="rapid"><div class="rq">Difference between <code class="inline">useState</code> and <code class="inline">useRef</code> in terms of re-renders?</div><div class="ra">useState triggers a re-render on update. useRef does not &mdash; it persists a value across renders without triggering one. Use refs for DOM nodes, timers, instance values.</div></div>
 
-  <div class="rapid"><div class="rq">SPFx hosted workbench URL?</div><div class="ra"><code class="inline">https://&lt;tenant&gt;.sharepoint.com/_layouts/15/workbench.aspx</code> for hosted; <code class="inline">https://localhost:4321/temp/workbench.html</code> for local.</div></div>
+  <div class="rapid"><div class="rq">SPFx hosted workbench URL?</div><div class="ra"><code class="inline">https://&lt;tenant&gt;.sharepoint.com/_layouts/15/workbench.aspx</code> — but the hosted workbench is deprecated and <strong>retires December 1, 2026</strong>; use a real page with the developer toolbar. (The local <code class="inline">localhost:4321/temp/workbench.html</code> was removed back in SPFx 1.13.)</div></div>
 
-  <div class="rapid"><div class="rq">Why doesn't local workbench support API permissions?</div><div class="ra">Local workbench has no SharePoint context, so it can't issue AAD-mediated tokens. Test API calls in hosted workbench or a real page.</div></div>
+  <div class="rapid"><div class="rq">Why doesn't local workbench support API permissions?</div><div class="ra">Local workbench had no SharePoint context, so it couldn't issue Entra ID-mediated tokens (and it's been removed since 1.13). Test API calls on a real page via the developer toolbar.</div></div>
 
   <div class="rapid"><div class="rq">Throttling: what HTTP status does SharePoint return?</div><div class="ra">429 (Too Many Requests) and sometimes 503. Always check the <code class="inline">Retry-After</code> header value and honor it.</div></div>
 
@@ -4846,7 +4848,7 @@ ReactDOM.<span class="fn">render</span>(
 
   <div class="rapid"><div class="rq">SPFx solution-level <code class="inline">isInvokableByOuterApp</code> &mdash; what is it?</div><div class="ra">Allows the web part to be invoked from another web part / framework (Teams, Viva). Used for the SharePoint-as-service-provider pattern.</div></div>
 
-  <div class="rapid"><div class="rq">Default React version in SPFx 1.18+?</div><div class="ra">React 17.0.1, unchanged all the way through SPFx 1.23 (current GA as of Sept 2026) — TypeScript climbs from 4.7 to 5.8 across those releases, but React stays pinned. SPFx 1.24 (targeted GA ~Oct 2026) is the first release moving to React 18.</div></div>
+  <div class="rapid"><div class="rq">Default React version in SPFx 1.18+?</div><div class="ra">React 17.0.1 from 1.18 through SPFx 1.23 — TypeScript climbs from 4.7 to 5.8 across those releases, but React stays pinned. <strong>SPFx 1.24 (GA 28 Oct 2026) moves to React 18.3.1.</strong></div></div>
 
   <div class="rapid"><div class="rq">Difference between <code class="inline">SPFI</code> and <code class="inline">spfi()</code> in PnP JS v3?</div><div class="ra">PnP v3 dropped the global <code class="inline">sp</code> instance. You now create a factory per context: <code class="inline">const sp = spfi().using(SPFx(this.context))</code>. Allows multi-context apps without singleton pollution.</div></div>
 
@@ -4854,7 +4856,7 @@ ReactDOM.<span class="fn">render</span>(
 
   <div class="rapid"><div class="rq">What is <code class="inline">@microsoft/teams-js</code> for in SPFx?</div><div class="ra">Lets an SPFx web part also run as a Teams tab. The Teams context provides theme, locale, user info via that SDK.</div></div>
 
-  <div class="rapid"><div class="rq">How do you call a Power Automate flow from SPFx?</div><div class="ra">Two options: HTTP-triggered flow with AAD-protected endpoint (call via <code class="inline">AadHttpClient</code>), or a Power Automate "Manually triggered" flow + button click that posts to its public URL with a shared secret in body.</div></div>
+  <div class="rapid"><div class="rq">How do you call a Power Automate flow from SPFx?</div><div class="ra">Two options: HTTP-triggered flow with Entra ID-protected endpoint (call via <code class="inline">AadHttpClient</code>), or a Power Automate "Manually triggered" flow + button click that posts to its public URL with a shared secret in body.</div></div>
 
   <div class="rapid"><div class="rq">SharePoint webhook expiration?</div><div class="ra">Max 6 months from creation. Must be renewed programmatically before expiry, ideally on a daily Azure Function timer.</div></div>
 
@@ -4948,7 +4950,7 @@ ReactDOM.<span class="fn">render</span>(
     <ol>
       <li>Store feature flags in the <strong>Tenant Property Bag</strong> using PnP PowerShell: <code class="inline">Set-PnPStorageEntity -Key "AiAssistantEnabled" -Value "10pct"</code>.</li>
       <li>In <code class="inline">onInit()</code>, read the flag: <code class="inline">await sp.web.getStorageEntity("AiAssistantEnabled")</code>.</li>
-      <li>Map the value to a percentage: if the user's AAD ObjectId hash modulo 100 is below the threshold, enable the feature. This gives deterministic, reproducible assignment without a database.</li>
+      <li>Map the value to a percentage: if the user's Entra ID ObjectId hash modulo 100 is below the threshold, enable the feature. This gives deterministic, reproducible assignment without a database.</li>
       <li>Pass the flag as a React context value so any component in the tree can read it without prop drilling.</li>
       <li>To advance the rollout: update the tenant property bag value via PowerShell — no redeployment needed.</li>
     </ol>
@@ -5057,7 +5059,7 @@ ReactDOM.<span class="fn">render</span>(
       <li><code class="inline">config/config.json</code> — lists every web part and extension, their entry points, and any externalized libraries.</li>
       <li>Manifest files — tell you component IDs (needed for understanding App Catalog registrations).</li>
       <li><code class="inline">src/</code> folder structure — identifies the component tree. Look at <code class="inline">onInit()</code> for what initializes, <code class="inline">render()</code> for entry point, and the shared services folder.</li>
-      <li>Run <code class="inline">npm install</code>, <code class="inline">gulp serve</code>, open hosted workbench — see it working.</li>
+      <li>Run <code class="inline">npm install</code>, <code class="inline">npm start</code> (Heft; <code class="inline">gulp serve</code> on legacy repos), load it on a real dev-site page with the developer toolbar — see it working.</li>
       <li>Check <code class="inline">git log --oneline -20</code> — commit history reveals recent changes and intent.</li>
     </ol>
   </div>
@@ -5114,7 +5116,7 @@ define([], <span class="kw">function</span>() {
     <ol>
       <li><strong>Unit tests (Jest)</strong> — test service methods, utility functions, and pure React components with mocked SharePoint context. No network calls.</li>
       <li><strong>Component tests (React Testing Library)</strong> — render components with mock data, assert DOM output and user interactions.</li>
-      <li><strong>Integration tests (hosted workbench)</strong> — load the web part against a real Dev tenant, verify it reads/writes list data correctly.</li>
+      <li><strong>Integration tests (real dev-site page + developer toolbar; hosted workbench retires Dec 1, 2026)</strong> — load the web part against a real Dev tenant, verify it reads/writes list data correctly.</li>
       <li><strong>Accessibility audit (axe-core)</strong> — automated scan for WCAG violations.</li>
       <li><strong>UAT on a staging tenant</strong> — real users, real data, real permissions.</li>
       <li><strong>Performance audit (Lighthouse)</strong> — bundle size, load time, render blocking.</li>
@@ -6456,12 +6458,12 @@ m365 spo app deploy --name solution.sppkg --appCatalogUrl $url</pre>
       <strong>SCENARIO — ShareGate Migration Gone Wrong:</strong> Halfway through a ShareGate migration from SP 2013 to SPO, you notice all migrated documents have the migration service account as the Author and Created By — not the original authors. The client is furious. The original authors need to show on the documents for legal compliance. How do you fix this, and how do you prevent it in the future?
     </div>
     <div class="a">
-      <p><strong>Why this happens:</strong> ShareGate requires the <strong>User Mapping</strong> to be configured before migration starts. If the source domain users (e.g., <code class="inline">CONTOSO\jdoe</code>) have not been mapped to destination AAD users (<code class="inline">jdoe@contoso.com</code>), ShareGate falls back to stamping the migration account as the author.</p>
+      <p><strong>Why this happens:</strong> ShareGate requires the <strong>User Mapping</strong> to be configured before migration starts. If the source domain users (e.g., <code class="inline">CONTOSO\jdoe</code>) have not been mapped to destination Entra ID users (<code class="inline">jdoe@contoso.com</code>), ShareGate falls back to stamping the migration account as the author.</p>
       <p><strong>Fix for already-migrated items (retroactive):</strong></p>
       <ol>
         <li>Export the source metadata from ShareGate's pre-migration report or from the source SP 2013 using PnP PowerShell: get item ID, original author, created date, modified date, modified by.</li>
         <li>Use PnP PowerShell against SPO to retroactively set the Author/Editor fields:
-          <pre>Connect-PnPOnline -Url $siteUrl -Interactive
+          <pre>Connect-PnPOnline -Url $siteUrl -Interactive -ClientId $clientId
 $items = Import-Csv "C:\source-metadata.csv"
 
 foreach ($row in $items) {
@@ -6478,7 +6480,7 @@ foreach ($row in $items) {
       </ol>
       <p><strong>Prevention for future migrations:</strong></p>
       <ul>
-        <li>Run Microsoft Entra Connect before migration — on-prem AD accounts must sync to AAD first</li>
+        <li>Run Microsoft Entra Connect before migration — on-prem AD accounts must sync to Entra ID first</li>
         <li>Configure ShareGate User Mapping from a CSV or LDAP before any data moves</li>
         <li><strong>Always run ShareGate in WhatIf/Preview mode first</strong> and check the Mapping Report — it shows which accounts matched and which will fall back to the migration account</li>
         <li>Migrate 5 documents as a pilot. Open them in SPO. Verify Author before running the full migration.</li>
@@ -6493,11 +6495,11 @@ foreach ($row in $items) {
       <strong>DEEP CONCEPT — SPFx Graph Permissions:</strong> Your SPFx web part calls Microsoft Graph to read users' profiles using <code>User.Read.All</code> delegated permission. It works for you (Global Admin) but exactly 40% of users get a 403 Forbidden response. The permission is approved in SharePoint Admin &rarr; API Access. What are the possible causes and how do you diagnose each?
     </div>
     <div class="a">
-      <p><strong>Cause 1 — Delegated vs Application permission confusion.</strong> <code class="inline">User.Read.All</code> delegated means the signed-in user's own permissions must include the ability to read other users. Users without at least <code class="inline">User.Read</code> on their own AAD account, or guest users in the tenant, may lack this. <em>Diagnose:</em> Reproduce with a guest account vs a member account.</p>
+      <p><strong>Cause 1 — Delegated vs Application permission confusion.</strong> <code class="inline">User.Read.All</code> delegated means the signed-in user's own permissions must include the ability to read other users. Users without at least <code class="inline">User.Read</code> on their own Entra ID account, or guest users in the tenant, may lack this. <em>Diagnose:</em> Reproduce with a guest account vs a member account.</p>
       <p><strong>Cause 2 — Conditional Access policy blocking the token.</strong> Some users may be on networks/devices that trigger a Conditional Access policy requiring MFA or a compliant device before Graph tokens are issued. The 403 comes not from SharePoint but from AAD's token issuance. <em>Diagnose:</em> Check Microsoft Entra ID &rarr; Sign-in logs for the failing users — look for CA policy failures.</p>
       <p><strong>Cause 3 — SPFx domain isolation.</strong> If <code class="inline">isDomainIsolated: true</code> is set in your solution, the web part runs in an iFrame with a different origin. The token is scoped to the isolated domain. Some tenants have policies that block cross-domain token issuance. <em>Diagnose:</em> Check <code class="inline">package-solution.json</code> for <code class="inline">isDomainIsolated</code>.</p>
-      <p><strong>Cause 4 — The 40% are in a different AAD directory (guest B2B users).</strong> <code class="inline">User.Read.All</code> delegated does not cross tenant boundaries for B2B guests. <em>Diagnose:</em> Correlate the failing 40% against the AAD users list — are they external guests?</p>
-      <p><strong>Cause 5 — Token scope not requested correctly.</strong> SPFx AadHttpClient must request the scope explicitly. If the scope string is wrong or missing, AAD issues a token without the right claims. <em>Diagnose:</em> Decode the JWT token (jwt.ms) for a failing user — check the <code class="inline">scp</code> claim.</p>
+      <p><strong>Cause 4 — The 40% are in a different Entra ID directory (guest B2B users).</strong> <code class="inline">User.Read.All</code> delegated does not cross tenant boundaries for B2B guests. <em>Diagnose:</em> Correlate the failing 40% against the Entra ID users list — are they external guests?</p>
+      <p><strong>Cause 5 — Token scope not requested correctly.</strong> SPFx AadHttpClient must request the scope explicitly. If the scope string is wrong or missing, Entra ID issues a token without the right claims. <em>Diagnose:</em> Decode the JWT token (jwt.ms) for a failing user — check the <code class="inline">scp</code> claim.</p>
       <pre><span class="cmt">// Correct scope request in SPFx</span>
 <span class="kw">const</span> client = <span class="kw">await</span> context.msGraphClientFactory.<span class="fn">getClient</span>(<span class="str">"3"</span>);
 <span class="kw">const</span> result = <span class="kw">await</span> client
@@ -6935,11 +6937,11 @@ gulp build</pre>
       <p><strong>Investigation steps:</strong></p>
       <ol>
         <li><strong>Check if permissions actually migrated:</strong>
-          <pre>Connect-PnPOnline -Url $siteUrl -Interactive
+          <pre>Connect-PnPOnline -Url $siteUrl -Interactive -ClientId $clientId
 Get-PnPListItemPermission -List "Documents" -Identity 42
 <span class="cmt"># Does this show the correct restricted users only?</span></pre>
         </li>
-        <li><strong>Check if the document's permissions show the right groups</strong> — if ShareGate mapped AD groups to AAD groups, verify those AAD groups have the correct members in Microsoft Entra ID &rarr; Groups.</li>
+        <li><strong>Check if the document's permissions show the right groups</strong> — if ShareGate mapped AD groups to Entra ID groups, verify those Entra ID groups have the correct members in Microsoft Entra ID &rarr; Groups.</li>
         <li><strong>Search indexing delay</strong> — if permissions were changed post-migration (e.g., via a script that ran after ShareGate), the search index may not have updated yet. Search security trimming uses the index, not live permissions. A re-crawl is needed:
           <pre>Request-PnPReIndexList -Identity "Documents"</pre>
           And wait for the search index to refresh (typically 15–60 minutes for SPO).

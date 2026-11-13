@@ -292,9 +292,9 @@ tr:nth-child(even) td{background:rgba(255,255,255,.015)}
       <li><strong>Copilot Studio</strong> — the low-code AI agent builder on top of Azure OpenAI + Microsoft data</li>
       <li><strong>Microsoft Graph</strong> — the API for all M365 data (emails, Teams, SharePoint, users, calendar)</li>
       <li><strong>Power Automate</strong> — the orchestration glue between AI actions and business systems</li>
-      <li><strong>Microsoft Foundry</strong> — the enterprise AI development platform (formerly Azure AI Foundry / Azure AI Studio; renamed Jan 2026 — Azure OpenAI now sits inside it as "Microsoft Foundry Models")</li>
+      <li><strong>Microsoft Foundry</strong> — the enterprise AI development platform (formerly Azure AI Foundry / Azure AI Studio — Azure OpenAI now sits inside it as "Microsoft Foundry Models", Azure AI Services are now "Foundry Tools", and agents run on Foundry Agent Service)</li>
     </ul>
-    <div class="callout-note" style="font-size:0.85rem;color:var(--muted);margin-top:8px;">Model names date fast in this space — GPT-4o/GPT-4.1/o1/o3 retired from Azure OpenAI between Feb–Apr 2026, replaced by the GPT-5.x family. Confirm current model availability at <strong>learn.microsoft.com/azure/ai-foundry/openai/concepts/models</strong> before quoting a specific model name to a client.</div>
+    <div class="callout-note" style="font-size:0.85rem;color:var(--muted);margin-top:8px;">Model names date fast in this space — GPT-4o, GPT-4o-mini and GPT-4.1 are <em>deprecated</em> in Azure OpenAI — Regional Standard gpt-4o deployments retired 31 Mar 2026 and every remaining offer retires between 14 Jan and 14 Apr 2027; o1/o3/o4-mini retire 19 Nov 2026. Current generation is the GPT-5.x family (gpt-5.1 is the auto-upgrade target for gpt-4o; gpt-5.5 and gpt-5.6 are the newest GA releases). Confirm current model availability at <strong>learn.microsoft.com/azure/foundry/openai/concepts/model-retirement-schedule</strong> before quoting a specific model name to a client.</div>
   </div>
 
   <!-- 1.1 Copilot Studio -->
@@ -330,8 +330,8 @@ tr:nth-child(even) td{background:rgba(255,255,255,.015)}
         <span class="cl-lbl">&#9888; When NOT to use Copilot Studio</span>
         <ul>
           <li>You need custom embeddings, fine-tuning, or model version pinning — use Azure OpenAI SDK directly</li>
-          <li>High-throughput, programmatic agent calls at scale — use Microsoft Foundry + LangChain/Semantic Kernel</li>
-          <li>Complex multi-step agentic workflows with custom tool orchestration — Semantic Kernel provides better control</li>
+          <li>High-throughput, programmatic agent calls at scale — use Microsoft Foundry + Microsoft Agent Framework (successor to Semantic Kernel/AutoGen) or LangChain</li>
+          <li>Complex multi-step agentic workflows with custom tool orchestration — Microsoft Agent Framework workflows (typed graph, checkpoints) provide better control</li>
         </ul>
       </div>
     </div>
@@ -368,7 +368,7 @@ User (Teams / Web / Mobile)
     +------------+-----------+
     v                        v
 Azure OpenAI           Azure AI Search
-(GPT-4o / GPT-4)      (Vector + Semantic)
+(GPT-5.x)            (Vector + Semantic)
     |                        |
     +----------- RAG --------+
                  |
@@ -412,7 +412,7 @@ SharePoint              Dataverse / SQL
   </div>
   <div class="callout cl-arch">
     <span class="cl-lbl">&#127959; Architect Note — Model Selection</span>
-    <p><strong>GPT-4o, GPT-4.1, and o1/o3 retired from Azure OpenAI between Feb–Apr 2026</strong> — if you inherit a project referencing them, plan a migration. Current generation: <strong>GPT-5.1 / GPT-5.x</strong> covers the balanced chat-and-RAG use case (multimodal, replaces GPT-4o) with a <code>reasoning_effort</code> parameter (including a fast "minimal" setting) that replaces the separate o-series reasoning models for most scenarios. <strong>text-embedding-3-large</strong>: still the standard for high-quality embeddings. For high-volume classification or intent routing, use the smallest/cheapest current-gen variant available in your region. Always check <strong>learn.microsoft.com/azure/ai-foundry/openai/concepts/models</strong> for what's actually deployable today, and benchmark on your specific data before committing to a model in production.</p>
+    <p><strong>GPT-4o, GPT-4o-mini and GPT-4.1 are <em>deprecated</em> in Azure OpenAI — Regional Standard gpt-4o deployments retired 31 Mar 2026 and every remaining offer retires between 14 Jan and 14 Apr 2027; o1/o3/o4-mini retire 19 Nov 2026. Current generation is the GPT-5.x family (gpt-5.1 is the auto-upgrade target for gpt-4o; gpt-5.5 and gpt-5.6 are the newest GA releases)</strong> — if you inherit a project referencing them, plan a migration now. Current generation: <strong>GPT-5.1 / GPT-5.x</strong> covers the balanced chat-and-RAG use case (multimodal, replaces GPT-5.1) with a <code>reasoning_effort</code> parameter (including a fast "minimal" setting) that replaces the separate o-series reasoning models for most scenarios. <strong>text-embedding-3-large</strong>: still the standard for high-quality embeddings. For high-volume classification or intent routing, use the smallest/cheapest current-gen variant available in your region. Always check <strong>learn.microsoft.com/azure/foundry/openai/concepts/model-retirement-schedule</strong> for what's actually deployable today, and benchmark on your specific data before committing to a model in production.</p>
   </div>
   <div class="acc">
     <button class="acc-btn">Hands-on Exercise: Call Azure OpenAI via REST <span class="ai">&#9660;</span></button>
@@ -480,7 +480,7 @@ Content-Type: application/json
   <span class="lv lv-b">Beginner Friendly</span>
   <ul style="font-size:.88rem;color:var(--text2);margin-bottom:12px">
     <li><strong>AI Builder actions:</strong> Document processing (form recogniser), sentiment analysis, object detection, text classification — no-code ML in flows</li>
-    <li><strong>Azure OpenAI connector:</strong> Call GPT-4 directly in a flow — summarise, classify, extract entities from any trigger</li>
+    <li><strong>Azure OpenAI connector:</strong> Call a GPT-5.x deployment directly in a flow — summarise, classify, extract entities from any trigger</li>
     <li><strong>HTTP connector:</strong> Call any Azure AI service REST API with full control — AI Search, Custom Vision, Speech, Translator</li>
     <li><strong>Human-in-the-loop:</strong> Approval flows that pause AI-generated output for human review — essential for regulated processes</li>
   </ul>
@@ -640,7 +640,7 @@ At Query Time:
 [Prompt Construction]
     | System prompt + retrieved chunks + user query
     v
-[Azure OpenAI GPT-4o]
+[Azure OpenAI GPT-5.1]
     | Generate answer grounded in retrieved context
     v
 [Response + Citations]</div>
@@ -1062,7 +1062,7 @@ User Goal: "Prepare the quarterly supplier report"
   <div class="arch-box"><span class="arch-title">Planner–Executor Architecture</span>
 User Goal: "Onboard new employee John Smith starting Monday"
 
-PLANNER (GPT-4o with tools visibility)
+PLANNER (GPT-5.1 with tools visibility)
     Input: goal + available tools
     Output: ordered plan
     [
@@ -1089,7 +1089,7 @@ EXECUTOR (stepwise execution loop)
   <h3 style="margin-top:28px">4.4 Copilot Studio vs Custom Agent Architectures</h3>
   <div class="tw">
     <table>
-      <thead><tr><th>Dimension</th><th>Copilot Studio</th><th>Custom (Semantic Kernel / LangChain)</th></tr></thead>
+      <thead><tr><th>Dimension</th><th>Copilot Studio</th><th>Custom (Microsoft Agent Framework / LangChain)</th></tr></thead>
       <tbody>
         <tr><td>Build time</td><td>Days</td><td>Weeks–months</td></tr>
         <tr><td>Model control</td><td>Limited (Microsoft manages)</td><td>Full — version, temperature, system prompt per call</td></tr>
@@ -1456,7 +1456,7 @@ Azure Function  -->  Azure OpenAI (token auth)
     |  Generative Answers enabled
     |  Knowledge source: SharePoint HR site
     v
-[Azure OpenAI - GPT-4o]  &lt;---&gt;  [Azure AI Search]
+[Azure OpenAI - GPT-5.1]  &lt;---&gt;  [Azure AI Search]
                                       ^
                                       | (SharePoint indexer, scheduled)
                                [SharePoint Document Library]
@@ -1473,8 +1473,8 @@ Azure Function  -->  Azure OpenAI (token auth)
         <div class="ib">
           <h4>Cost Estimate</h4>
           <ul style="font-size:.83rem;color:var(--text2)">
-            <li>Copilot Studio: ~$200/month (per-message licensing)</li>
-            <li>Azure OpenAI: ~$50–150/month (GPT-4o standard, 50k queries)</li>
+            <li>Copilot Studio: ~$200/month (one prepaid pack = 25,000 Copilot Credits/month)</li>
+            <li>Azure OpenAI: ~$50–150/month (GPT-5.1 standard, 50k queries)</li>
             <li>Azure AI Search: ~$75/month (S1 tier, 1 replica)</li>
             <li><strong>Total: ~$325–425/month</strong></li>
           </ul>
@@ -1517,7 +1517,7 @@ Azure Function  -->  Azure OpenAI (token auth)
     |          | SharePoint indexer + Blob indexer
     |          | Security trimming via user identity
     |
-    +----> [Azure OpenAI GPT-4o]
+    +----> [Azure OpenAI GPT-5.1]
     |          | Structured output (JSON schema)
     |          | System prompt v2.1 (versioned in Git)
     |
@@ -1545,7 +1545,7 @@ Azure Function  -->  Azure OpenAI (token auth)
           <h4>Cost Estimate</h4>
           <ul style="font-size:.83rem;color:var(--text2)">
             <li>Azure Functions: ~$30/month (consumption plan)</li>
-            <li>Azure OpenAI GPT-4o standard: ~$200–400/month</li>
+            <li>Azure OpenAI GPT-5.1 standard: ~$200–400/month</li>
             <li>Azure AI Search S2: ~$250/month (3 replicas)</li>
             <li>APIM: ~$150/month (developer tier)</li>
             <li>Monitoring, Key Vault, Storage: ~$50/month</li>
@@ -1579,7 +1579,7 @@ Azure Function  -->  Azure OpenAI (token auth)
 [AI Gateway / Orchestration Layer - Azure Container Apps]
     |
     +---> [Intent Router]
-    |     | Lightweight GPT-4o-mini classifier
+    |     | Lightweight GPT-5.4-mini classifier
     |     | Routes to specialist agent by department
     |
     +---> [HR Agent]          [Finance Agent]      [IT Agent]
@@ -1595,7 +1595,7 @@ Azure Function  -->  Azure OpenAI (token auth)
     +---> [Azure AI Search (3 indexes: HR, Finance, IT)]
     |          | 5 replicas, 3 partitions, PTU-backed
     +---> [Azure OpenAI - PTU deployment]
-    |          | GPT-4o + text-embedding-3-large
+    |          | GPT-5.1 + text-embedding-3-large
     |          | Private endpoint only
     +---> [Azure AI Content Safety]
     |          | All inputs + outputs filtered
@@ -1680,7 +1680,7 @@ Azure Function  -->  Azure OpenAI (token auth)
     <p><strong>1. USER CHANNEL</strong> → Teams, Web App, API<br>
     <strong>2. AI AGENT / ORCHESTRATION</strong> → Copilot Studio or Custom API (with APIM)<br>
     <strong>3. RETRIEVAL</strong> → Azure AI Search (with knowledge source below it: SharePoint / Blob / Dataverse)<br>
-    <strong>4. REASONING</strong> → Azure OpenAI (GPT-4o)<br>
+    <strong>4. REASONING</strong> → Azure OpenAI (GPT-5.1)<br>
     <strong>5. ACTION</strong> → Power Automate / API calls / Dataverse writes</p>
     <p>Then add two horizontal bars: <strong>IDENTITY (Entra ID / OBO flow)</strong> spanning boxes 1–5 and <strong>OBSERVABILITY (Azure Monitor)</strong> spanning boxes 2–5. This five-box framework shows you understand every layer — retrieval, reasoning, action, identity, and observability — without over-complicating.</p>
   </div>
@@ -1714,7 +1714,7 @@ Azure Function  -->  Azure OpenAI (token auth)
   <div class="acc">
     <button class="acc-btn">Q5: Design a multi-agent architecture for a supplier contract review workflow. <span class="ai">&#9660;</span></button>
     <div class="acc-body"><div class="acc-inner">
-      <p>Use planner-executor: Planner (GPT-4o) reads the contract and produces a step plan: [1] Extract parties/dates/obligations, [2] Check against standard Contoso terms, [3] Identify deviations, [4] Draft executive summary. Executor runs steps sequentially, each as a focused LLM call with structured output. After step 4, insert a human-in-the-loop gate: Legal approval team reviews the summary in a Power Automate approval flow. On approval, the Document Agent generates the formal review PDF. All decisions logged to Dataverse with agent reasoning and timestamps for audit. Maximum iteration limit: 15 steps. On failure, escalate to Legal with full execution context.</p>
+      <p>Use planner-executor: Planner (GPT-5.1) reads the contract and produces a step plan: [1] Extract parties/dates/obligations, [2] Check against standard Contoso terms, [3] Identify deviations, [4] Draft executive summary. Executor runs steps sequentially, each as a focused LLM call with structured output. After step 4, insert a human-in-the-loop gate: Legal approval team reviews the summary in a Power Automate approval flow. On approval, the Document Agent generates the formal review PDF. All decisions logged to Dataverse with agent reasoning and timestamps for audit. Maximum iteration limit: 15 steps. On failure, escalate to Legal with full execution context.</p>
     </div></div>
   </div>
   <div class="acc">
@@ -1726,7 +1726,7 @@ Azure Function  -->  Azure OpenAI (token auth)
   <div class="acc">
     <button class="acc-btn">Q7: Copilot Studio vs building directly on Azure OpenAI SDK — how do you choose? <span class="ai">&#9660;</span></button>
     <div class="acc-body"><div class="acc-inner">
-      <p>Copilot Studio: choose when speed to value matters, the team includes non-developers, the channel is Teams, and governance via Power Platform DLP is acceptable. Azure OpenAI SDK: choose when you need model version pinning, custom system prompt per call, temperature control, streaming, high-throughput (1000+ queries/hour where PTU makes more economic sense than Copilot Studio per-message), or complex multi-agent orchestration with Semantic Kernel. The hybrid answer: Copilot Studio for the user-facing agent, Azure OpenAI + AI Search custom API for the RAG retrieval backend — Copilot Studio calls your custom connector which calls your AI Search + OpenAI API. Best of both.</p>
+      <p>Copilot Studio: choose when speed to value matters, the team includes non-developers, the channel is Teams, and governance via Power Platform DLP is acceptable. Azure OpenAI SDK: choose when you need model version pinning, custom system prompt per call, temperature control, streaming, high-throughput (1000+ queries/hour where PTU makes more economic sense than Copilot Studio Copilot Credits), or complex multi-agent orchestration with Semantic Kernel. The hybrid answer: Copilot Studio for the user-facing agent, Azure OpenAI + AI Search custom API for the RAG retrieval backend — Copilot Studio calls your custom connector which calls your AI Search + OpenAI API. Best of both.</p>
     </div></div>
   </div>
   <div class="acc">
@@ -1800,11 +1800,11 @@ Azure Function  -->  Azure OpenAI (token auth)
     <li><strong>Graph API permissions:</strong> learn.microsoft.com/graph/permissions-reference</li>
   </ul>
 
-  <h3>Agentic AI &amp; Semantic Kernel</h3>
+  <h3>Agentic AI &amp; Microsoft Agent Framework</h3>
   <ul style="font-size:.87rem;color:var(--text2);margin-bottom:16px">
-    <li><strong>Semantic Kernel overview:</strong> learn.microsoft.com/semantic-kernel/overview</li>
-    <li><strong>Agent framework:</strong> learn.microsoft.com/semantic-kernel/frameworks/agent</li>
-    <li><strong>AutoGen (Microsoft Research):</strong> microsoft.github.io/autogen</li>
+    <li><strong>Microsoft Agent Framework overview</strong> (successor to Semantic Kernel + AutoGen): learn.microsoft.com/agent-framework/overview</li>
+    <li><strong>Migration from Semantic Kernel:</strong> learn.microsoft.com/agent-framework/migration-guide/from-semantic-kernel</li>
+    <li><strong>Migration from AutoGen:</strong> learn.microsoft.com/agent-framework/migration-guide/from-autogen</li>
   </ul>
 
   <h3>Azure Architecture Center — AI Reference Architectures</h3>
@@ -1812,14 +1812,15 @@ Azure Function  -->  Azure OpenAI (token auth)
     <li><strong>Baseline OpenAI end-to-end chat reference architecture:</strong> learn.microsoft.com/azure/architecture/ai-ml/architecture/baseline-openai-e2e-chat</li>
     <li><strong>Azure AI Search + OpenAI solution accelerator:</strong> github.com/Azure-Samples/azure-search-openai-demo</li>
     <li><strong>Multi-agent custom automation engine:</strong> learn.microsoft.com/azure/architecture/ai-ml/idea/custom-ai-engine</li>
-    <li><strong>Content Safety:</strong> learn.microsoft.com/azure/ai-services/content-safety/overview</li>
+    <li><strong>Content Safety:</strong> learn.microsoft.com/azure/ai-services/content-safety/overview (now part of Foundry Tools)</li>
   </ul>
 
   <h3>Microsoft Foundry &amp; MLOps</h3>
   <ul style="font-size:.87rem;color:var(--text2);margin-bottom:16px">
-    <li><strong>Microsoft Foundry overview</strong> (formerly Azure AI Foundry): learn.microsoft.com/azure/ai-foundry/overview</li>
-    <li><strong>Prompt flow:</strong> learn.microsoft.com/azure/machine-learning/prompt-flow/overview-what-is-prompt-flow</li>
-    <li><strong>Evaluating LLM outputs:</strong> learn.microsoft.com/azure/ai-foundry/how-to/evaluate-generative-ai-app</li>
+    <li><strong>Microsoft Foundry overview</strong> (formerly Azure AI Foundry): learn.microsoft.com/azure/foundry/what-is-foundry</li>
+    <li><strong>Foundry Agent Service:</strong> learn.microsoft.com/azure/foundry/agents/overview</li>
+    <li><strong>Prompt flow (retiring 20 Apr 2027 — migrate to Agent Framework):</strong> learn.microsoft.com/azure/machine-learning/prompt-flow/migrate-prompt-flow-to-agent-framework</li>
+    <li><strong>Evaluating LLM outputs:</strong> learn.microsoft.com/azure/foundry/how-to/evaluate-generative-ai-app</li>
   </ul>
 
   <div class="callout cl-ok">

@@ -297,6 +297,7 @@
       <div class="hero-badge">◆ Governance Deep Dive · Beginner to Architect</div>
       <h1>Microsoft Power Platform DLP Policies Deep Dive:<br/>Beginner to Architect Guide</h1>
       <p>Data Policies (including DLP policies) are among the most important guardrails in Power Platform. They reduce the risk of accidental data exposure, shape which connectors can be used together, influence maker experience, and support — but do not replace — your broader environment, security, and compliance architecture.</p>
+      <p style="margin-top:10px;font-size:.9rem;"><strong>What's new (2026):</strong> PPAC now calls these <em>data policies</em> ("DLP" remains common shorthand). Microsoft has added <strong>Advanced connector policies (ACP)</strong> — a default-deny allowlist that drops the Business / Non-Business / Blocked model, is set per environment or environment group, sees triggers and deprecated actions, can block MCP servers, and enforces at design time as well as runtime. ACP runs in <em>mixed mode</em> (most restrictive of classic + ACP wins) or <em>ACP-only mode</em>. It covers certified connectors only — keep classic data policies for custom and HTTP connectors (plus endpoint filtering). Copilot Studio virtual connectors are moving to dedicated rules such as <em>Skills in Copilot Studio</em>.</p>
       <div class="tag-row" aria-label="Audience badges">
         <span class="tag">🟦 Beginner</span>
         <span class="tag">🛠 Admin</span>
@@ -1209,9 +1210,9 @@ IF policy changes arrive after asset creation THEN runtime may fail even if the 
 
       <section class="section sticky-anchor" id="coe">
         <div class="section-title"><span class="icon">🏛</span> CoE Starter Kit: DLP Investigation &amp; Governance</div>
-        <p class="section-subtitle">The Center of Excellence (CoE) Starter Kit is Microsoft's free, open-source governance toolkit for Power Platform. It gives admins the visibility and investigation tools to make informed DLP decisions — and to understand the real-world impact of any policy change <em>before</em> it happens.</p>
+        <p class="section-subtitle"><strong>Status (2026): the CoE Starter Kit is no longer actively maintained</strong> — issues aren't reviewed, and its core capabilities now live natively in the Power Platform admin center (Inventory (all apps, flows and agents across the tenant), Usage, Monitor and Actions). It's still downloadable and works as a reference implementation for gaps such as maker surveys, bulk permission changes and ROI tracking. The Center of Excellence (CoE) Starter Kit was Microsoft's free, open-source governance toolkit for Power Platform. It gives admins the visibility and investigation tools to make informed DLP decisions — and to understand the real-world impact of any policy change <em>before</em> it happens.</p>
 
-        <div class="callout info"><span class="ico">💡</span><p><strong>Key insight:</strong> DLP without CoE is governance without visibility. The CoE Starter Kit transforms DLP from reactive crisis management into proactive, risk-based governance. They are designed to work together.</p></div>
+        <div class="callout info"><span class="ico">💡</span><p><strong>Key insight:</strong> Data policies (DLP) without visibility is governance in the dark. Today that visibility comes first from PPAC Inventory, Usage and Actions plus Managed Environments (which show which data policies apply to an environment). Use the CoE Starter Kit's DLP Editor / impact analysis only where PPAC still has gaps.</p></div>
 
         <!-- What is CoE -->
         <div class="card" style="margin-top:18px;">
@@ -1234,7 +1235,7 @@ IF policy changes arrive after asset creation THEN runtime may fail even if the 
                 </div>
                 <div class="coe-tool-card" style="border-top-color:#d83b01;">
                   <h4>⚙ Establish</h4>
-                  <p>ALM Accelerator, environment strategy, solution lifecycle management, and automated onboarding.</p>
+                  <p>ALM Accelerator (now deprecated — use Pipelines in Power Platform + Git integration), environment strategy, solution lifecycle management, and automated onboarding.</p>
                 </div>
               </div>
               <div class="callout success" style="margin-top:12px;"><span class="ico">📦</span><p>Free &amp; open-source at <strong>github.com/microsoft/coe-starter-kit</strong> — deployed as managed solutions in a dedicated admin environment.</p></div>
@@ -1438,7 +1439,7 @@ IF policy changes arrive after asset creation THEN runtime may fail even if the 
               <li>Dedicated admin environment (no solutions, not shared)</li>
               <li>Power Platform or tenant admin permissions</li>
               <li>Service account for the sync engine (no MFA prompts)</li>
-              <li>Azure AD / Entra ID app registration for API access</li>
+              <li>Microsoft Entra ID app registration for API access</li>
               <li>Azure storage account (some components)</li>
               <li>Power BI Pro licence for dashboard access</li>
               <li>Approval to create environments and install solutions</li>
@@ -1447,7 +1448,7 @@ IF policy changes arrive after asset creation THEN runtime may fail even if the 
           <div class="card">
             <h3>Quick Setup Path for DLP Focus</h3>
             <ol style="padding-left:18px;font-size:.86rem;line-height:2.1;">
-              <li>Download CoE Starter Kit from GitHub</li>
+              <li>Check PPAC Inventory / Usage first; only then download the (unmaintained) CoE Starter Kit from GitHub for remaining gaps</li>
               <li>Deploy <strong>Core Components</strong> to admin environment</li>
               <li>Run first full sync (allow several hours for large tenants)</li>
               <li>Import <strong>Power BI template</strong> and connect to Dataverse</li>
@@ -1477,7 +1478,7 @@ IF policy changes arrive after asset creation THEN runtime may fail even if the 
         </div>
 
         <!-- CoE References -->
-        <div class="callout warn" style="margin-top:18px;"><span class="ico">⚠</span><p>CoE Starter Kit evolves rapidly. Always check the latest release notes at <strong>github.com/microsoft/coe-starter-kit/releases</strong> before deployment. Some features require specific Power Platform licence tiers.</p></div>
+        <div class="callout warn" style="margin-top:18px;"><span class="ico">⚠</span><p>The CoE Starter Kit no longer receives feature updates or issue fixes — prefer the native PPAC Inventory, Usage, Monitor and Actions experiences, the Power Platform inventory API and the Power Platform for Admins V2 connector. If you still deploy the kit, pin and test a release from <strong>github.com/microsoft/coe-starter-kit/releases</strong>. Some features require specific Power Platform licence tiers.</p></div>
         <div class="card" style="margin-top:14px;">
           <h3 style="margin-bottom:12px;">CoE Official References</h3>
           <div class="ref-link"><span>📘</span><a href="https://learn.microsoft.com/en-us/power-platform/guidance/coe/starter-kit" target="_blank" rel="noopener">CoE Starter Kit overview — Microsoft Learn</a></div>

@@ -216,7 +216,7 @@
       <tbody>
         <tr><td>Nintex Workflow for SharePoint (on-prem)</td><td>Sequential and state-machine workflow automation on SharePoint lists and libraries</td><td>End-of-support aligned with SharePoint Server lifecycle</td><td>🔴 High</td></tr>
         <tr><td>Nintex Forms for SharePoint (on-prem)</td><td>Custom form design for SharePoint lists, replacing default SharePoint forms</td><td>Deprecated; no modern SharePoint equivalent support</td><td>🔴 High</td></tr>
-        <tr><td>Nintex Workflow Cloud (NWC)</td><td>Cloud-hosted workflows with connectors; SaaS model</td><td>Ongoing but requires separate licensing and vendor dependency</td><td>🟡 Medium</td></tr>
+        <tr><td>Nintex Automation Cloud (formerly Nintex Workflow Cloud, NWC)</td><td>Cloud-hosted workflows with connectors; SaaS model</td><td>Ongoing but requires separate licensing and vendor dependency</td><td>🟡 Medium</td></tr>
         <tr><td>Nintex Drawloop / Document Generation</td><td>Automated document generation and assembly</td><td>Still available as Nintex DocGen but not Microsoft-native</td><td>🟡 Medium</td></tr>
         <tr><td>Nintex Promapp (process mapping)</td><td>Process documentation and mapping</td><td>Active but outside Microsoft ecosystem</td><td>🟢 Low</td></tr>
       </tbody>
@@ -348,7 +348,7 @@
           <li>Desktop flows (RPA) for automating legacy desktop applications with no API</li>
         </ul>
         <p><strong>Best for:</strong> Multi-step approvals, notification routing, SharePoint list automation, cross-system data synchronisation, scheduled batch operations.</p>
-        <p><strong>Licensing:</strong> Included in Microsoft 365 E1/E3/E5 with standard connectors. Premium connectors (Dataverse, HTTP, SAP) require Power Automate Premium (£12.30/user/month or per-flow plan).</p>
+        <p><strong>Licensing:</strong> Included in Microsoft 365 E1/E3/E5 with standard connectors. Premium connectors (Dataverse, HTTP, SAP) require Power Automate Premium (US list $15/user/month) or the Power Automate Process plan ($150/bot or flow/month, formerly "per flow").</p>
       </div>
     </details>
 
@@ -367,7 +367,7 @@
           <li>Web application firewall (WAF), DDoS protection, and enterprise security controls</li>
         </ul>
         <p><strong>Best for:</strong> Vendor document intake, complaint/incident submission, public-facing service requests, anonymous feedback portals, external onboarding forms.</p>
-        <p><strong>Licensing:</strong> Power Pages Authenticated users: £3.20/user/month (pay-per-user) or £100/site/month (anonymous capacity). See Section 7 for full licensing detail.</p>
+        <p><strong>Licensing:</strong> Power Pages is licensed per website per month by unique users: authenticated capacity packs of 100 users ($200/pack, tiering down to $75 and $50 at volume) and anonymous packs of 500 users ($75/pack), or pay-as-you-go meters. US list prices — check your local price list. See Section 7 for full licensing detail.</p>
       </div>
     </details>
 
@@ -384,7 +384,7 @@
           <li>Power Apps for Teams: lightweight apps embedded directly in Teams channels</li>
         </ul>
         <p><strong>Best for:</strong> Complex internal forms with multi-step logic, mobile field apps, SharePoint list form replacements, Dataverse-backed business applications.</p>
-        <p><strong>Licensing:</strong> Power Apps Premium: £16.10/user/month. SharePoint form customisation via Power Apps: included in M365 at no extra cost.</p>
+        <p><strong>Licensing:</strong> Power Apps Premium: US list $20/user/month ($12 at 2,000+ seats); Power Apps per app $5/user/app/month. SharePoint form customisation via Power Apps: included in M365 at no extra cost.</p>
       </div>
     </details>
 
@@ -574,8 +574,8 @@
     <div class="tw"><table>
       <thead><tr><th>Licence Type</th><th>Use Case</th><th>Approx. Cost</th><th>Notes</th></tr></thead>
       <tbody>
-        <tr><td>Authenticated users (per user/month)</td><td>External users who log in with a registered identity (B2C, local account)</td><td>~£3.20/user/month</td><td>Best for vendor portals, partner onboarding, where submitters return and check status</td></tr>
-        <tr><td>Anonymous capacity (per site/month)</td><td>Fully anonymous public submissions with no login</td><td>~£100/site/month</td><td>Unlimited anonymous page views; best for public complaint/feedback portals</td></tr>
+        <tr><td>Authenticated users (per user/month)</td><td>External users who log in with a registered identity (B2C, local account)</td><td>$200 per 100 unique users/site/month (≈$2/user; volume tiers $75 and $50 per pack)</td><td>Best for vendor portals, partner onboarding, where submitters return and check status</td></tr>
+        <tr><td>Anonymous capacity (per user/site/month)</td><td>Fully anonymous public submissions with no login</td><td>$75 per 500 unique anonymous users/site/month (volume tiers $37.50 and $25)</td><td>Counted by unique anonymous users (cookie-based), not page views — the sign-in page doesn't count; best for public complaint/feedback portals</td></tr>
         <tr><td>Power Pages included licences</td><td>Bundled with Power Apps Premium, Dynamics 365, and some M365 E5 SKUs</td><td>Check entitlements</td><td>Verify your current Power Platform entitlements before purchasing add-ons</td></tr>
       </tbody>
     </table></div>
@@ -657,7 +657,7 @@
         <tr><td>Environment strategy</td><td>Separate environments for Dev, Test, and Production. No production resources in default environment.</td><td>Power Platform Admin Center — environment management</td></tr>
         <tr><td>Data Loss Prevention (DLP) policies</td><td>Define connector tiers (Business / Non-business / Blocked). Prevent data exfiltration via unapproved connectors.</td><td>Power Platform DLP policies — enforced at environment level</td></tr>
         <tr><td>Solution-based ALM</td><td>All apps, flows, and pages packaged as solutions and deployed via pipelines. No manual export/import to production.</td><td>Power Platform Pipelines or Azure DevOps + PAC CLI</td></tr>
-        <tr><td>Maker governance</td><td>Restrict who can create Power Pages sites, environments, and connectors. Use Power Platform Centre of Excellence Starter Kit for visibility.</td><td>CoE Starter Kit — inventory, compliance, and maker management</td></tr>
+        <tr><td>Maker governance</td><td>Restrict who can create Power Pages sites, environments, and connectors. Use PPAC Inventory, Usage and Actions plus Managed Environments for visibility.</td><td>PPAC Inventory / Managed Environments — inventory, compliance, and maker management (the CoE Starter Kit is no longer maintained)</td></tr>
         <tr><td>Dataverse security roles</td><td>Design security roles based on least-privilege. Separate roles for internal staff, portal users, and administrators.</td><td>Dataverse security role editor in Power Platform Admin Center</td></tr>
         <tr><td>Attachment virus scanning</td><td>Configure Azure Defender for Storage to scan files uploaded via Power Pages before they are processed by internal staff.</td><td>Microsoft Defender for Cloud — storage malware scanning</td></tr>
         <tr><td>Compliance and retention</td><td>Apply Microsoft Purview sensitivity labels to Dataverse environments. Configure retention policies for submission records.</td><td>Microsoft Purview — Dataverse connector for compliance</td></tr>
@@ -694,7 +694,7 @@
 
     <h3>Phased Migration Roadmap</h3>
     <ol class="timeline">
-      <li><strong>Wave 0 — Foundation (Weeks 1–6)</strong> — Complete Nintex inventory. Establish Power Platform environments (Dev/Test/Prod). Configure DLP policies. Set up CoE Starter Kit. Identify pilot processes for Wave 1. Train core team on Power Automate and Power Apps fundamentals. <em>Output: Governance baseline, complete inventory, Wave 1 candidates identified.</em></li>
+      <li><strong>Wave 0 — Foundation (Weeks 1–6)</strong> — Complete Nintex inventory. Establish Power Platform environments (Dev/Test/Prod). Configure data (DLP) policies. Enable Managed Environments and PPAC Inventory/Usage for governance visibility. Identify pilot processes for Wave 1. Train core team on Power Automate and Power Apps fundamentals. <em>Output: Governance baseline, complete inventory, Wave 1 candidates identified.</em></li>
       <li><strong>Wave 1 — Quick Wins: Low-complexity Internal Flows (Weeks 6–12)</strong> — Migrate 3–5 simple sequential approval workflows with no external access and no attachments to Power Automate. Replace 2–3 basic SharePoint list forms with Power Apps SharePoint form customisations. Validate deployment pipeline and ALM process. <em>Output: Proof-of-concept in production; team builds confidence; pipeline validated.</em></li>
       <li><strong>Wave 2 — Medium-Complexity Internal Processes (Weeks 12–20)</strong> — Migrate multi-stage approval workflows with escalation, parallel branching, and Teams notifications. Replace complex internal Nintex Forms with Power Apps Canvas or Model-driven apps backed by Dataverse. Migrate document approval workflows to SharePoint + Power Automate pattern. <em>Output: Core internal process portfolio migrated; Dataverse adoption established.</em></li>
       <li><strong>Wave 3 — External-Facing Processes: Power Pages (Weeks 18–28)</strong> — Assess all external-facing Nintex Forms. Design and build Power Pages sites for each external scenario (vendor intake, complaint submission, onboarding portals). Configure Microsoft Entra External ID for authenticated external users where needed (Entra External ID is Microsoft's current recommendation — Azure AD B2C stopped taking new customers May 2025 and its P2 tier retired March 2026; existing B2C tenants stay supported in maintenance mode until at least May 2030, but any new build should start on External ID). Test WAF, CAPTCHA, anonymous access, and attachment upload end-to-end. <em>Output: External process portfolio migrated; Power Pages in production with security controls validated.</em></li>

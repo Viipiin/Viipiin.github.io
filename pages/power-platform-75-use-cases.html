@@ -140,7 +140,7 @@
     <li><a href="#uc39">Compliance Document Expiry Notifier</a></li>
     <li><a href="#uc40">Sales Quote Approval Engine</a></li>
     <li><a href="#uc41">Contract Renewal Reminder</a></li>
-    <li><a href="#uc42">Power Platform CoE Kit Deployment</a></li>
+    <li><a href="#uc42">Power Platform Governance Visibility (PPAC Inventory / CoE Kit)</a></li>
     <li><a href="#uc43">Solution ALM Pipeline (Dev→Test→Prod)</a></li>
     <li><a href="#uc44">DLP Policy Auditor &amp; Drift Detection</a></li>
     <li><a href="#uc45">Citizen Developer Onboarding Automation</a></li>
@@ -1396,12 +1396,12 @@ div(sub(listPrice, quotedPrice), listPrice)</pre>
 </section>
 
 <section class="usecase" id="uc42">
-  <h2>42. Power Platform CoE Kit Deployment <a href="#top" class="top">&uarr; top</a></h2>
+  <h2>42. Power Platform Governance Visibility (PPAC Inventory / CoE Kit) <a href="#top" class="top">&uarr; top</a></h2>
   <div class="badges"><span class="badge b-adv">Advanced</span><span class="badge b-flow">Governance / ALM</span><span class="badge b-domain">IT / CoE</span></div>
   <h3>Business Problem</h3>
   <p>Organization needs visibility &amp; control over citizen-developed apps, flows, makers, environments.</p>
   <h3>Automation Design</h3>
-  <ul><li>Deploy CoE Starter Kit core components</li><li>Sync flows pull inventory daily into <code>admin_*</code> tables</li><li>Maker onboarding flow when new maker detected</li><li>Inactive app flow archives unused apps</li></ul>
+  <ul><li><strong>Start with native PPAC</strong>: Inventory (apps, flows, agents), Usage, Monitor and Actions, plus Managed Environments — the CoE Starter Kit is no longer actively maintained</li><li>For remaining gaps only: CoE Starter Kit core components, whose sync flows pull inventory daily into <code>admin_*</code> tables (or build your own on the Power Platform inventory API / Power Platform for Admins V2 connector)</li><li>Maker onboarding flow when new maker detected</li><li>Inactive app flow archives unused apps</li></ul>
   <h3>Integrations</h3><ul><li>Power Platform admin connectors, Microsoft Entra ID, Office 365, Teams, Power BI</li></ul>
   <h3>Key Expressions</h3>
 <pre>// Service principal for admin connector
@@ -2476,7 +2476,7 @@ User: "Are there any salespeople with no closed deals this quarter?"
   <h3>Tag</h3><p><strong>Power Automate Flow + AI Builder (different from UC 31 — UC 31 is approval routing; this one is the OCR/extraction step that feeds it)</strong></p>
   <h3>Complexity</h3><p>M — 1 week (most effort is in mapping extracted fields and tuning confidence thresholds)</p>
   <h3>Pitfalls &amp; Best Practices</h3>
-  <ul><li>Always have a human-in-the-loop for low-confidence extractions — don't auto-pay a hallucinated number</li><li>Test with a sample of 50 real invoices before going live — formats vary wildly between suppliers</li><li>Track AI Builder credit consumption — each call costs credits</li></ul>
+  <ul><li>Always have a human-in-the-loop for low-confidence extractions — don't auto-pay a hallucinated number</li><li>Test with a sample of 50 real invoices before going live — formats vary wildly between suppliers</li><li>Track AI Builder / Copilot Credit consumption — each call costs credits (AI Builder credits are being phased out in favour of Copilot Credits from Nov 2026)</li></ul>
 </section>
 
 <section class="usecase" id="uc75">

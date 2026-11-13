@@ -580,7 +580,7 @@
       <ol class="steps">
         <li>Define onboarding contract and per-tenant config schema.</li>
         <li>Provision: Function App, APIM, Cosmos DB, Key Vault (per-tenant secrets).</li>
-        <li>Runtime: TypeScript on Node 20 (aligned with existing platform stack).</li>
+        <li>Runtime: TypeScript on Node 22 or 24 LTS (Node 20 reached end of life on 30 Apr 2026).</li>
         <li>HTTP trigger + Durable orchestrator + activities.</li>
         <li>Logic with exponential retries and compensations for partial failures.</li>
         <li>Integrate: Auth0 Management API, Stripe, SendGrid via Key Vault secrets.</li>
@@ -670,8 +670,8 @@ df.app.<span class="f">orchestration</span>(<span class="s">"OnboardTenantFlow"<
     <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
       <ol class="steps">
         <li>Define canonical shipment event schema (carrier-agnostic).</li>
-        <li>Provision: APIM, Function App (Consumption is sufficient here), Service Bus, Cosmos DB, SignalR.</li>
-        <li>Runtime: Node.js 20.</li>
+        <li>Provision: APIM, Function App (Flex Consumption is sufficient here — the recommended serverless plan; classic Linux Consumption is legacy), Service Bus, Cosmos DB, SignalR.</li>
+        <li>Runtime: Node.js 22/24 LTS (Node 20 is end of life).</li>
         <li>HTTP trigger (anonymous + per-carrier HMAC validation), Service Bus output binding.</li>
         <li>Validation + dedupe by <code>(carrier, eventId)</code>.</li>
         <li>Integrate: SignalR negotiate function for client subscriptions; Power BI streaming dataset.</li>
@@ -865,7 +865,7 @@ app.<span class="f">http</span>(<span class="s">'AcceptWebhook'</span>, {
     <div class="uc-section"><h3>4. Step-by-Step Implementation</h3>
       <ol class="steps">
         <li>Define abandonment criteria, nudge ladder, opt-out logic.</li>
-        <li>Provision: Function App (Consumption), Cosmos DB, Communication Services / SendGrid, Dynamics 365 Marketing.</li>
+        <li>Provision: Function App (Flex Consumption), Cosmos DB, Communication Services / SendGrid, Dynamics 365 Marketing.</li>
         <li>Runtime: C# isolated worker.</li>
         <li>Cosmos change feed trigger -> start orchestration; durable timers between nudges.</li>
         <li>Logic: check cart status before each nudge; terminate if checked out / opted out.</li>
@@ -1233,7 +1233,7 @@ app.<span class="f">http</span>(<span class="s">'AcceptWebhook'</span>, {
     <div class="uc-section"><h3>2. Why Azure Functions?</h3>
       <ul>
         <li>Exposed as <b>Custom Connector</b> to Power Automate / Power Apps</li>
-        <li>Bridges Dataverse, Azure OpenAI, and Cognitive Search securely</li>
+        <li>Bridges Dataverse, Azure OpenAI, and Azure AI Search securely</li>
         <li>One Function powers cloud flows, model-driven app ribbon, custom pages</li>
       </ul>
     </div>
@@ -1251,11 +1251,11 @@ app.<span class="f">http</span>(<span class="s">'AcceptWebhook'</span>, {
       <ol class="steps">
         <li>Inventory the prompts, data sources, response schema.</li>
         <li>Provision: Function App, Azure AI Search, Azure OpenAI, Key Vault.</li>
-        <li>Runtime: C# isolated (Semantic Kernel) or Python (LangChain).</li>
+        <li>Runtime: C# isolated worker (Microsoft Agent Framework — successor to Semantic Kernel, which the snippet below still uses) or Python (Agent Framework / LangChain).</li>
         <li>HTTP trigger with OpenAPI annotations -> Custom Connector definition.</li>
         <li>Logic: search -> enrich with case context -> call OpenAI with structured output schema.</li>
         <li>Integrate via Custom Connector (Power Platform); secure with Microsoft Entra ID.</li>
-        <li>Deploy connector via Solution; CI/CD with ALM Accelerator.</li>
+        <li>Deploy connector via Solution; CI/CD with Pipelines in Power Platform + Git integration (the ALM Accelerator is deprecated).</li>
         <li>Monitor: token usage, latency, citation coverage.</li>
         <li>Optimize: prompt caching (semantic cache in Cosmos), embedding caching.</li>
       </ol>

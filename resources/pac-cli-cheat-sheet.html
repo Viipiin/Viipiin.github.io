@@ -529,10 +529,10 @@
       <span class="cmd-label">pac copilot</span> Copilot / Bot Management
     </div>
     <table>
-      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-list" target="_blank">list</a></td><td>List copilots in the current or target environment</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-list" target="_blank">list</a></td><td>List Copilot Studio agents in the current or target environment</td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-status" target="_blank">status</a></td><td>Poll deployment status of a specified copilot</td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-create" target="_blank">create</a></td><td>Create a new copilot using an existing template file</td></tr>
-      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-publish" target="_blank">publish</a></td><td>Publish a custom copilot</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-publish" target="_blank">publish</a></td><td>Publish a Copilot Studio agent</td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-extract-template" target="_blank">extract-template</a></td><td>Extract a template file from an existing copilot</td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-extract-translation" target="_blank">extract-translation</a></td><td>Extract file containing localized content for bots</td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot#pac-copilot-merge-translation" target="_blank">merge-translation</a></td><td>Merge files containing localized content for bots</td></tr>
@@ -721,7 +721,7 @@
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-tables" target="_blank">list-tables</a></td><td>List tables accessible by connector/dataset <span class="badge badge-preview">Preview</span></td></tr>
       <tr><td><a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/code#pac-code-list-sql-stored-procedures" target="_blank">list-sql-stored-procedures</a></td><td>List stored procedures for SQL connection/dataset <span class="badge badge-preview">Preview</span></td></tr>
     </table>
-    <div class="note">⚠ Will be deprecated — the npm CLI (<code>power-apps</code>, from <code>@microsoft/power-apps</code> SDK v1.2.2+) is the replacement and is npm-CLI-only for flows (<code>add-flow</code>), Dataverse actions (<code>add-dataverse-api</code>) &amp; <code>create-connection</code>. <code>add-data-source</code> gained <code>-cr</code>/<code>-s</code> connection-reference flags in v1.51.1 (Dec 2025). See <a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/npm-quickstart" target="_blank">npm quickstart</a></div>
+    <div class="note">⚠ Will be deprecated — the npm-based <strong>Power Apps CLI</strong> (<code>pa</code>, package <code>@microsoft/power-apps-cli</code>; the older <code>power-apps</code> binary was removed at GA) is the replacement: <code>pa app init / run / push</code>, <code>pa app add data-source</code>, and <code>pa</code>-only features such as <code>pa app add flow</code>, <code>pa app add dataverse-api</code>, <code>pa connection create</code> and <code>pa app share</code>. See the Code Apps cheat sheet. <code>add-data-source</code> gained <code>-cr</code>/<code>-s</code> connection-reference flags in v1.51.1 (Dec 2025). See <a href="https://learn.microsoft.com/en-us/power-apps/developer/code-apps/how-to/npm-quickstart" target="_blank">npm quickstart</a></div>
   </div>
 
   <!-- ══ MANAGED IDENTITY ══ -->
