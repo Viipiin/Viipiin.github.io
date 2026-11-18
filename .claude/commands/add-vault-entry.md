@@ -21,4 +21,4 @@ Steps:
 4. Insert AFTER the last card in the matching group, BEFORE the group's closing `</div>`
 5. Confirm the entry was added and show the surrounding 5 lines for verification
 
-Available colours: vk-blue · vk-purple · vk-green · vk-orange · vk-teal
+Available colours: vk-blue · vk-purple · vk-green · vk-orange · vk-teal · vk-amber

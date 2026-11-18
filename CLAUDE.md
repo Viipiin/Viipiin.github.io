@@ -75,7 +75,7 @@ The private vault list lives in `vault.html` (root, noindex). `index.html` only 
   <span class="vk-arr">→</span>
 </a>
 ```
-Card colour classes: `vk-blue` `vk-purple` `vk-green` `vk-orange` `vk-teal`
+Card colour classes: `vk-blue` `vk-purple` `vk-green` `vk-orange` `vk-teal` `vk-amber`
 
 ---
 
